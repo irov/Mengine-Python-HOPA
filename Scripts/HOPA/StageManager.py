@@ -93,7 +93,9 @@ class StageManager(Manager):
 
         stage = StageManager.getCurrentStage()
 
-        stage.runScenarioChapter()
+        if stage.runScenarioChapter() is False:
+            return False
+            pass
 
         Notification.notify(Notificator.onStageInit, stage.Name)
 

@@ -1,351 +1,996 @@
 def onInitialize():
     from Foundation.TaskManager import TaskManager
 
-    tasks = ["TaskItemPick", "TaskItemClick", "TaskMovieItemClick", "TaskMovieItemClickOBS", "TaskMovieItemPick", "TaskItemPlaceInventoryItem", "TaskItemPlaceInventoryAccumulateItem", "TaskItemPopUp", "TaskItemPlaceItem", "TaskItemAutoClick", "TaskItemEnable", "TaskItemInvalidUse", "TaskEnableBonusItem"
+    tasks = [
+        "TaskItemPick"
+        , "TaskItemClick"
+        , "TaskMovieItemClick"
+        , "TaskMovieItemClickOBS"
+        , "TaskMovieItemPick"
+        , "TaskItemPlaceInventoryItem"
+        , "TaskItemPlaceInventoryAccumulateItem"
+        , "TaskItemPopUp"
+        , "TaskItemPlaceItem"
+        , "TaskItemAutoClick"
+        , "TaskItemEnable"
+        , "TaskItemInvalidUse"
+        , "TaskEnableBonusItem"
 
-        , "TaskHOGFoundItem", "TaskHOGComplete", "TaskHOGRollingComplete", "TaskHOGItemTakeEffect", "TaskHOGInventoryCrossOut", "TaskHOGInventoryFoundItem"
+        , "TaskZoomOpen"
+        , "TaskZoomInit"
+        , "TaskZoomEnter"
+        , "TaskZoomLeave"
+        , "TaskZoomEmpty"
+        , "TaskZoomLeave"
+        , "TaskZoomClose"
+        , "TaskZoomClick"
+        , "TaskZoomInterrupt"
 
-        , "TaskInventoryScrolling", "TaskInventoryAddItem", "TaskInventoryAddInventoryItem", "TaskInventorySlotSetItem", "TaskInventorySlotReturnItem", "TaskInventorySlotRemoveItem", "TaskArrowAttachInventoryItem"  # , "TaskInventoryChangeInventoryItem"
-        , "TaskInventoryCombineInventoryItem", "TaskInventoryItemDontDrop", "TaskInventoryCurrentSlotIndex", "TaskInventoryCarriageChange", "TaskInventorySlotAddInventoryItem", "TaskInventorySlotsHideInventoryItem", "TaskInventorySlotsShowInventoryItem", "TaskInventorySetupSlots", "TaskInventorySlotAttachMovie", "TaskInventoryDetachItem", 'TaskInventoryRise'
+        , "TaskScenePlusInit"
+        , "TaskScenePlusEnter"
+
+        , "TaskStageInit"
+        , "TaskStageSave"
+        , "TaskStageResume"
+        , "TaskStageRun"
+
+        , "TaskHOGFoundItem"
+        , "TaskHOGComplete"
+        , "TaskHOGRollingComplete"
+        , "TaskHOGItemTakeEffect"
+        , "TaskHOGInventoryCrossOut"
+        , "TaskHOGInventoryFoundItem"
+
+        , "TaskInventoryScrolling"
+        , "TaskInventoryAddItem"
+        , "TaskInventoryAddInventoryItem"
+        , "TaskInventorySlotSetItem"
+        , "TaskInventorySlotReturnItem"
+        , "TaskInventorySlotRemoveItem"
+        , "TaskArrowAttachInventoryItem"
+        #    , "TaskInventoryChangeInventoryItem"
+        , "TaskInventoryCombineInventoryItem"
+        , "TaskInventoryItemDontDrop"
+        , "TaskInventoryCurrentSlotIndex"
+        , "TaskInventoryCarriageChange"
+        , "TaskInventorySlotAddInventoryItem"
+        , "TaskInventorySlotsHideInventoryItem"
+        , "TaskInventorySlotsShowInventoryItem"
+        , "TaskInventorySetupSlots"
+        , "TaskInventorySlotAttachMovie"
+        , "TaskInventoryDetachItem"
+        , 'TaskInventoryRise'
 
         , "TaskArrowAttach"
 
-        , "TaskEnigmaPlay", "TaskEnigmaComplete"
+        , "TaskEnigmaPlay"
+        , "TaskEnigmaComplete"
 
-        , "TaskScenarioRun", "TaskScenarioSkip", "TaskScenarioEnd", "TaskScenarioCancel", "TaskScenarioInjectionCreate", "TaskScenarioInit", "TaskScenarioEnter", "TaskScenarioLeave"
+        , "TaskScenarioRun"
+        , "TaskScenarioSkip"
+        , "TaskScenarioEnd"
+        , "TaskScenarioCancel"
+        , "TaskScenarioInjectionCreate"
+        , "TaskScenarioInit"
+        , "TaskScenarioEnter"
+        , "TaskScenarioLeave"
 
         , "TaskQuestRun"
 
-        , "TaskEffectInventoryPickInventoryItem", "TaskEffectInventoryAddInventoryItem", "TaskEffectInventoryAddInventoryItemFromPoint", "TaskEffectInventoryGetInventoryItem"
+        , "TaskEffectInventoryPickInventoryItem"
+        , "TaskEffectInventoryAddInventoryItem"
+        , "TaskEffectInventoryAddInventoryItemFromPoint"
+        , "TaskEffectInventoryGetInventoryItem"
 
         #    , "TaskChapter"
 
-        , "TaskTipPlay", "TaskTipFinish"
+        , "TaskTipPlay"
+        , "TaskTipFinish"
 
         , "TaskSocketPlaceInventoryItem"  # click socket with identified inventoryItem, can remove attach
         , "TaskSocketPlaceInventoryAccumulateItem"  # click socket with identified inventoryItem, can remove attach
         , "TaskSocketUseItem"  # click socket with identified item, can remove attach
-        , "TaskZoomGiveInventoryItem", "TaskTransitionGiveInventoryItem"
+        , "TaskZoomGiveInventoryItem"
+        , "TaskTransitionGiveInventoryItem"
 
-        , "TaskHintSetMask", "TaskHintClearMask", "TaskHintClick"
+        , "TaskHintSetMask"
+        , "TaskHintClearMask"
+        , "TaskHintClick"
 
         , "TaskSetCursorMode"
 
-        , "TaskFanClick", "TaskFanComplete", "TaskFanFoundItem", "TaskFanItemInHand", "TaskFanItemInNone", "TaskFanItemInFan", "TaskFanItemInvalidUse", "TaskFanPlay", "TaskFanUse", "TaskFanOpen", "TaskFanClose"
+        , "TaskFanClick"
+        , "TaskFanComplete"
+        , "TaskFanFoundItem"
+        , "TaskFanItemInHand"
+        , "TaskFanItemInNone"
+        , "TaskFanItemInFan"
+        , "TaskFanItemInvalidUse"
+        , "TaskFanPlay"
+        , "TaskFanUse"
+        , "TaskFanOpen"
+        , "TaskFanClose"
 
-        , "TaskTipItemFinish", "TaskTipItemPlay"
+        , "TaskTipItemFinish"
+        , "TaskTipItemPlay"
 
-        , "TaskFoundBonusItem", "TaskBonusItemCollect"
+        , "TaskFoundBonusItem"
+        , "TaskBonusItemCollect"
 
-        , "TaskFittingInventoryAddInventoryItem", "TaskFittingInventoryRemoveInventoryItem", "TaskFittingInventoryAddFitting", "TaskFittingInventoryRemoveFitting", "TaskFittingInventorySlotSetItem", "TaskFittingInventorySlotReturnItem", "TaskEffectFittingInventoryReturnInventoryItem", "TaskEffectFittingInventoryAddInventoryItem", "TaskEffectFittingInventoryGetInventoryItem"
+        , "TaskFittingInventoryAddInventoryItem"
+        , "TaskFittingInventoryRemoveInventoryItem"
+        , "TaskFittingInventoryAddFitting"
+        , "TaskFittingInventoryRemoveFitting"
+        , "TaskFittingInventorySlotSetItem"
+        , "TaskFittingInventorySlotReturnItem"
+        , "TaskEffectFittingInventoryReturnInventoryItem"
+        , "TaskEffectFittingInventoryAddInventoryItem"
+        , "TaskEffectFittingInventoryGetInventoryItem"
 
-        , "TaskJournal", "TaskSplashScreenPlay", "TaskCutScenePlay", "TaskDialogPlay", "TaskDialogSkip"
+        , "TaskJournal"
+        , "TaskSplashScreenPlay"
+        , "TaskCutScenePlay"
+        , "TaskDialogPlay"
+        , "TaskDialogSkip"
 
-        , "TaskObjective", "TaskObjectiveFinish", "TaskObjectiveStart", "TaskMindPlay", "TaskDialogBoxPlay", "TaskMousePull", "TaskActiveLayerEsc", "TaskSpellOnItem", "TaskSpellOnZoom", "TaskSpellOnSocket", "TaskSpellOnTransition", "TaskSpellUse", "TaskPlaceRespectSlot", "TaskHOGRollingInventoryCrossOut", "TaskHOGFittingItemUse", "TaskHOGFittingItemUseSocket", "TaskFunctionResult", 'TaskDelayPointer', "TaskAnimatableButtonClick", "TaskAnimatableButtonClickEndUp", "TaskAnimatableButtonEnter",
-        "TaskAnimatableButtonLeave"
+        , "TaskObjective"
+        , "TaskObjectiveFinish"
+        , "TaskObjectiveStart"
+        , "TaskMindPlay"
+        , "TaskDialogBoxPlay"
+        , "TaskMousePull"
+        , "TaskActiveLayerEsc"
+        , "TaskSpellOnItem"
+        , "TaskSpellOnZoom"
+        , "TaskSpellOnSocket"
+        , "TaskSpellOnTransition"
+        , "TaskSpellUse"
+        , "TaskPlaceRespectSlot"
+        , "TaskHOGRollingInventoryCrossOut"
+        , "TaskHOGFittingItemUse"
+        , "TaskHOGFittingItemUseSocket"
+        , "TaskFunctionResult"
+        , 'TaskDelayPointer'
+        , "TaskAnimatableButtonClick"
+        , "TaskAnimatableButtonClickEndUp"
+        , "TaskAnimatableButtonEnter"
+        , "TaskAnimatableButtonLeave"
 
-        , "TaskInventorySlotReturnItemFX", "TaskEffectInventoryGetInventoryItemFX"
+        , "TaskInventorySlotReturnItemFX"
+        , "TaskEffectInventoryGetInventoryItemFX"
 
-        , "TaskMusicFadeIn", "TaskMusicFadeOut"
+        , "TaskMusicFadeIn"
+        , "TaskMusicFadeOut"
 
-        , "TaskMacroCommandRun"]
+        , "TaskMacroCommandRun"
+    ]
 
     TaskManager.importTasks("HOPA.Task", tasks)
 
-    aliases = ["AliasStageRun", "AliasTransition"
+    aliases = [
+        "AliasStageRun"
+        , "AliasTransition"
 
-        , "AliasFadeIn", "AliasFadeOut", "AliasFadeInBefore"
+        , "AliasFadeIn"
+        , "AliasFadeOut"
+        , "AliasFadeInBefore"
 
-        , "AliasMessageShow", "AliasMessageOKShow", "AliasMessageOKClick", "AliasMessageHide", "AliasMessageYes", "AliasMessageNo", "AliasMessageYesUp", "AliasMessageNoUp"
+        , "AliasMessageShow"
+        , "AliasMessageOKShow"
+        , "AliasMessageOKClick"
+        , "AliasMessageHide"
+        , "AliasMessageYes"
+        , "AliasMessageNo"
+        , "AliasMessageYesUp"
+        , "AliasMessageNoUp"
 
-        , "AliasEnigmaPlay", "AliasHOGFindItem", "AliasHOGFoundItem", "AliasHOGRollingFindItem", "AliasHOGRollingFoundItem", "AliasHOGFXPartsGatheringFindItem", "AliasHOGFXPartsGatheringFoundItem", "AliasHOGSilhouetteFindItem", "AliasHOGSilhouetteFoundItem"
+        , "AliasEnigmaPlay"
+        , "AliasHOGFindItem"
+        , "AliasHOGFoundItem"
+        , "AliasHOGRollingFindItem"
+        , "AliasHOGRollingFoundItem"
+        , "AliasHOGFXPartsGatheringFindItem"
+        , "AliasHOGFXPartsGatheringFoundItem"
+        , "AliasHOGSilhouetteFindItem"
+        , "AliasHOGSilhouetteFoundItem"
 
-        , "AliasTipPlay", "AliasMindPlay", "AliasDialogBoxPlay"
+        , "AliasTipPlay"
+        , "AliasMindPlay"
+        , "AliasDialogBoxPlay"
 
-        , "AliasInventoryScrolling", "AliasInventorySlotsShiftLeft", "AliasInventorySlotsShiftRight", "AliasInventoryGetInventoryItem", "AliasInventoryReturnInventoryItem", "AliasInventoryPickInventoryItem", "AliasInventoryAddInventoryItem", "AliasInventoryAddInventoryItemFromPoint", "AliasInventoryRemoveAttachInventoryItem", "AliasInventoryCombineInventoryItem", "AliasInventoryInvalidUseInventoryItem", "AliasInventoryInvalidCombineInventoryItem", "AliasInventoryRemoveInventoryItem",
-        "AliasInventoryShowCurrentSlots", "AliasInventoryFindItem", "AliasInventorySlotsScrollingRight", "AliasInventorySlotsScrollingLeft", "AliasInventorySlotsScrolling", "AliasEffectInventoryReturnInventoryItem", "AliasInventoryChangeCurrentSlotIndex", "AliasItemAttach", "AliasRemoveItemAttach", "AliasInventorySlotsMoveAddItem", "AliasInventorySlotsMoveLeft", "AliasInventorySlotsMoveRight", "AliasInventoryItemAttach"  # , "AliasEffectBeforeInventoryAddItem"
+        , "AliasInventoryScrolling"
+        , "AliasInventorySlotsShiftLeft"
+        , "AliasInventorySlotsShiftRight"
+        , "AliasInventoryGetInventoryItem"
+        , "AliasInventoryReturnInventoryItem"
+        , "AliasInventoryPickInventoryItem"
+        , "AliasInventoryAddInventoryItem"
+        , "AliasInventoryAddInventoryItemFromPoint"
+        , "AliasInventoryRemoveAttachInventoryItem"
+        , "AliasInventoryCombineInventoryItem"
+        , "AliasInventoryInvalidUseInventoryItem"
+        , "AliasInventoryInvalidCombineInventoryItem"
+        , "AliasInventoryRemoveInventoryItem"
+        , "AliasInventoryShowCurrentSlots"
+        , "AliasInventoryFindItem"
+        , "AliasInventorySlotsScrollingRight"
+        , "AliasInventorySlotsScrollingLeft"
+        , "AliasInventorySlotsScrolling"
+        , "AliasEffectInventoryReturnInventoryItem"
+        , "AliasInventoryChangeCurrentSlotIndex"
+        , "AliasItemAttach"
+        , "AliasRemoveItemAttach"
+        , "AliasInventorySlotsMoveAddItem"
+        , "AliasInventorySlotsMoveLeft"
+        , "AliasInventorySlotsMoveRight"
+        , "AliasInventoryItemAttach"
+        #    , "AliasEffectBeforeInventoryAddItem"
 
         , "AliasInventoryItemPopUp"
 
-        , "AliasInventorySlotsMoveLeft", "AliasInventorySlotsMoveRight", "AliasInventorySlotsMoveAddItem"
+        , "AliasInventorySlotsMoveLeft"
+        , "AliasInventorySlotsMoveRight"
+        , "AliasInventorySlotsMoveAddItem"
 
-        , "AliasFittingInventoryAddInventoryItem", "AliasFittingInventoryReturnInventoryItem", "AliasFittingInventoryInvalidUseInventoryItem", "AliasFittingInventoryRemoveInventoryItem", "AliasFittingInventoryGetInventoryItem", "AliasFittingInventoryInvalidCombineInventoryItem", "AliasFittingFindItem"
+        , "AliasFittingInventoryAddInventoryItem"
+        , "AliasFittingInventoryReturnInventoryItem"
+        , "AliasFittingInventoryInvalidUseInventoryItem"
+        , "AliasFittingInventoryRemoveInventoryItem"
+        , "AliasFittingInventoryGetInventoryItem"
+        , "AliasFittingInventoryInvalidCombineInventoryItem"
+        , "AliasFittingFindItem"
 
-        , "AliasDialogPlay", "AliasDialogSwitchAvatar"
+        , "AliasDialogPlay"
+        , "AliasDialogSwitchAvatar"
 
-        , "AliasFanFindItem", "AliasFanBezier2To"
+        , "AliasFanFindItem"
+        , "AliasFanBezier2To"
 
-        , "AliasTransition", "AliasObjectClick", "AliasObjectEnter", "AliasObjectLeave"
+        , "AliasTransition"
+        , "AliasObjectClick"
+        , "AliasObjectEnter"
+        , "AliasObjectLeave"
 
         #    , "AliasChapter"
-        , "AliasObjective", "AliasObjectives"
+        , "AliasObjective"
+        , "AliasObjectives"
 
-        , "AliasFindItem", "AliasDragDropItem", "AliasDragDropPuzzle", "AliasGetBonusItem", "AliasJournalAddItemPage"
+        , "AliasFindItem"
+        , "AliasDragDropItem"
+        , "AliasDragDropPuzzle"
+        , "AliasGetBonusItem"
+        , "AliasJournalAddItemPage"
 
-        , "AliasSystemMessage", "AliasGiveItem", "AliasSpinCircles", "AliasOverViewPlay", "AliasMousePull", "AliasPetItem", "AliasBoneUsage", "AliasHOGRollingItemFoundEffect", "AliasHOGSilhouetteItemFoundEffect", "AliasHOGFXPartsGatheringItemFoundEffect", "AliasItemDetach", "AliasSpellUsage", "AliasEnableMagicVision"
+        , "AliasSystemMessage"
+        , "AliasGiveItem"
+        , "AliasSpinCircles"
+        , "AliasOverViewPlay"
+        , "AliasMousePull"
+        , "AliasPetItem"
+        , "AliasBoneUsage"
+        , "AliasHOGRollingItemFoundEffect"
+        , "AliasHOGSilhouetteItemFoundEffect"
+        , "AliasHOGFXPartsGatheringItemFoundEffect"
+        , "AliasItemDetach"
+        , "AliasSpellUsage"
+        , "AliasEnableMagicVision"
 
-        , "AliasHOGFittingMoveItemToSlot", "AliasHOGInventoryFittingAddItem", "AliasHOGFittingUseItem", "AliasHOGFittingReturnItemToSlot", "AliasCombatSpellAiTurn", "AliasCombatSpellPlayerTurn", "AliasMultyplMovePlay", "AliasBombGamePlayerClickProcces", "AliasBombGameBombRotate"
+        , "AliasHOGFittingMoveItemToSlot"
+        , "AliasHOGInventoryFittingAddItem"
+        , "AliasHOGFittingUseItem"
+        , "AliasHOGFittingReturnItemToSlot"
+        , "AliasCombatSpellAiTurn"
+        , "AliasCombatSpellPlayerTurn"
+        , "AliasMultyplMovePlay"
+        , "AliasBombGamePlayerClickProcces"
+        , "AliasBombGameBombRotate"
 
         , "AliasCruiseControlAction"
 
-        , "AliasInventoryAddInventoryItemFX", "AliasInventoryAddInventoryAccumulateItemFX", "AliasInventoryRemoveInventoryItemFX", "AliasInventoryReturnInventoryItemFX", "AliasItemDetachFX", "AliasInventoryInvalidUseInventoryItemFX", "AliasInventorySlotsMoveRemoveItem"
+        , "AliasInventoryAddInventoryItemFX"
+        , "AliasInventoryAddInventoryAccumulateItemFX"
+        , "AliasInventoryRemoveInventoryItemFX"
+        , "AliasInventoryReturnInventoryItemFX"
+        , "AliasItemDetachFX"
+        , "AliasInventoryInvalidUseInventoryItemFX"
+        , "AliasInventorySlotsMoveRemoveItem"
 
-        , "AliasCollectedAmuletAddEffect", "AliasPickSpellTokenEffect", "AliasPickLabItemEffect"
+        , "AliasCollectedAmuletAddEffect"
+        , "AliasPickSpellTokenEffect"
+        , "AliasPickLabItemEffect"
 
-        , "AliasScenarioInit", "AliasScenarioEnter"
+        , "AliasScenarioInit"
+        , "AliasScenarioEnter"
 
-        , "AliasCurrentProductsCall", "AliasPurchase", "AliasNotEnoughGold", "AliasNotEnoughEnergy"
+        , "AliasCurrentProductsCall"
+        , "AliasPurchase"
+        , "AliasNotEnoughGold"
+        , "AliasNotEnoughEnergy"
 
-        , "AliasEnergyConsume"]
+        , "AliasEnergyConsume"
+    ]
 
     TaskManager.importTasks("HOPA.Alias", aliases)
 
-    policies = ["PolicyHintWayEffect", "PolicyHintActivateWayEffect", "PolicyHintNotFoundMind"
+    policies = [
+        "PolicyHintWayEffect"
+        , "PolicyHintActivateWayEffect"
+        , "PolicyHintNotFoundMind"
 
-        , "PolicyHintWayTargetLoopEffect", "PolicyHintWayEffectInterrupt"
+        , "PolicyHintWayTargetLoopEffect"
+        , "PolicyHintWayEffectInterrupt"
 
-        , "PolicyHintTargetEffect", "PolicyHintTargetEffectWait", "PolicyHintTargetInterruptEffect", "PolicyHintTargetLoopEffect", "PolicyHintTargetLoopInterruptEffect"
+        , "PolicyHintTargetEffect"
+        , "PolicyHintTargetEffectWait"
+        , "PolicyHintTargetInterruptEffect"
+        , "PolicyHintTargetLoopEffect"
+        , "PolicyHintTargetLoopInterruptEffect"
 
-        , "PolicyHintTargetStop", "PolicyHintTargetInventoryStop", "PolicyHintWayStop"
+        , "PolicyHintTargetStop"
+        , "PolicyHintTargetInventoryStop"
+        , "PolicyHintWayStop"
 
-        , "PolicyHintInventoryTargetEffect", "PolicyHintInventoryTargetEffectWait", "PolicyHintInventoryTargetInterruptEffect", "PolicyHintInventoryTargetLoopEffect", "PolicyHintInventoryTargetLoopInterruptEffect"
+        , "PolicyHintInventoryTargetEffect"
+        , "PolicyHintInventoryTargetEffectWait"
+        , "PolicyHintInventoryTargetInterruptEffect"
+        , "PolicyHintInventoryTargetLoopEffect"
+        , "PolicyHintInventoryTargetLoopInterruptEffect"
 
-        , "PolicyHintReloadMovie", "PolicyHintReadyEffect", "PolicyHintReadyEffectMovie", "PolicyHintReadyInterruptEffect", "PolicyHintReadyInterruptEffectMovie", "PolicyHintReadyMovie", "PolicyHintReadyMovieFade", "PolicyHintReadyMovieStop", "PolicyHintActivateMovie", "PolicyHintEmptyDefault", "PolicyHintCharged"
+        , "PolicyHintReloadMovie"
+        , "PolicyHintReadyEffect"
+        , "PolicyHintReadyEffectMovie"
+        , "PolicyHintReadyInterruptEffect"
+        , "PolicyHintReadyInterruptEffectMovie"
+        , "PolicyHintReadyMovie"
+        , "PolicyHintReadyMovieFade"
+        , "PolicyHintReadyMovieStop"
+        , "PolicyHintActivateMovie"
+        , "PolicyHintEmptyDefault"
+        , "PolicyHintCharged"
 
-        , "PolicyHintPlayDefault", "PolicyHintPlayPaid"
+        , "PolicyHintPlayDefault"
+        , "PolicyHintPlayPaid"
 
-        , "PolicyBlackBarPlayStatic", "PolicyBlackBarPlayStaticWithMovie", "PolicyBlackBarMovieClick", "PolicyBlackBarPlayText"
+        , "PolicyBlackBarPlayStatic"
+        , "PolicyBlackBarPlayStaticWithMovie"
+        , "PolicyBlackBarMovieClick"
+        , "PolicyBlackBarPlayText"
 
-        , "PolicyInventoryScrollingDefault", "PolicyInventoryFXScrolling"
+        , "PolicyInventoryScrollingDefault"
+        , "PolicyInventoryFXScrolling"
 
-        , "PolicyDialogStaticText", "PolicyDialogDynamicTextPlay", "PolicyDialogAvatar", "PolicyDialogAvatarMovie", "PolicyDialogAvatarMovie2", "PolicyDialogVoiceAvatar", "PolicyMonologue"
+        , "PolicyDialogStaticText"
+        , "PolicyDialogDynamicTextPlay"
+        , "PolicyDialogAvatar"
+        , "PolicyDialogAvatarMovie"
+        , "PolicyDialogAvatarMovie2"
+        , "PolicyDialogVoiceAvatar"
+        , "PolicyMonologue"
 
-        , "PolicyDummy", "PolicyHintTargetDummy"
+        , "PolicyDummy"
+        , "PolicyHintTargetDummy"
 
-        , "PolicyEffectInventoryAddInventoryItemParticles", "PolicyEffectInventoryAddInventoryItemParticles2", "PolicyEffectInventoryAddInventoryItemWithItemPopup", "PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX", "PolicyEffectFXInventoryAddInventoryItemParticles", "PolicyPickInventoryItemEffect", "PolicyPickInventoryItemEffectEnd", "PolicyPickInventoryItemEffectStop", "PolicyPickInventoryItemEffectDummy"
+        , "PolicyEffectInventoryAddInventoryItemParticles"
+        , "PolicyEffectInventoryAddInventoryItemParticles2"
+        , "PolicyEffectInventoryAddInventoryItemWithItemPopup"
+        , "PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX"
+        , "PolicyEffectFXInventoryAddInventoryItemParticles"
+        , "PolicyPickInventoryItemEffect"
+        , "PolicyPickInventoryItemEffectEnd"
+        , "PolicyPickInventoryItemEffectStop"
+        , "PolicyPickInventoryItemEffectDummy"
 
-        , "PolicyCloseProfileOk", "PolicyCloseProfileOkClose"
+        , "PolicyCloseProfileOk"
+        , "PolicyCloseProfileOkClose"
 
         , "PolicyCloseProfileMovieOk"
 
-        , "PolicyMenuHelpDefault", "PolicyCutSceneSkip", "PolicyCutSceneNext"
+        , "PolicyMenuHelpDefault"
+        , "PolicyCutSceneSkip"
+        , "PolicyCutSceneNext"
 
-        , "PolicyHintClickButton", "PolicyHintClickMovieButton", "PolicyHintClickButtonEndUp", "PolicyHintClickSocket"
+        , "PolicyHintClickButton"
+        , "PolicyHintClickMovieButton"
+        , "PolicyHintClickButtonEndUp"
+        , "PolicyHintClickSocket"
 
-        , "PolicyCreditsDefault", "PolicyHOGFindItemFly", "PolicyBlackBarPlayWithMovie", "PolicyBlackBarTipPlayWithMovie"  # , "PolicyHOGRollingItemFoundEffectCrossOut" # Deprecated
+        , "PolicyCreditsDefault"
+        , "PolicyHOGFindItemFly"
+        , "PolicyBlackBarPlayWithMovie"
+        , "PolicyBlackBarTipPlayWithMovie"
+        # , "PolicyHOGRollingItemFoundEffectCrossOut" # Deprecated
 
-        , "PolicyEffectInventoryGetInventoryItemFXMovie", "PolicySkipPuzzleClickButton", "PolicySkipPuzzleClickMovie2Button", "PolicySkipPuzzleReadyEffect", "PolicySkipPuzzleReadyMovie", "PolicySkipPuzzlePlayPaid", "PolicySkipPuzzlePlayDefault", "PolicyHOGDisappearanceItemFoundEffect", "PolicyDeleteItemFromInventory", "PolicyCheckMarkNearItem", "PolicyHOGRollingMovieItemFoundEffect", "PolicyHOGRollingMovie2ItemFoundEffect", "PolicyCheckMarkNearMovieItem", "PolicyTransitionBack", "PolicyTransitionBackWay"
+        , "PolicyEffectInventoryGetInventoryItemFXMovie"
+        , "PolicySkipPuzzleClickButton"
+        , "PolicySkipPuzzleClickMovie2Button"
+        , "PolicySkipPuzzleReadyEffect"
+        , "PolicySkipPuzzleReadyMovie"
+        , "PolicySkipPuzzlePlayPaid"
+        , "PolicySkipPuzzlePlayDefault"
+        , "PolicyHOGDisappearanceItemFoundEffect"
+        , "PolicyDeleteItemFromInventory"
+        , "PolicyCheckMarkNearItem"
+        , "PolicyHOGRollingMovieItemFoundEffect"
+        , "PolicyHOGRollingMovie2ItemFoundEffect"
+        , "PolicyCheckMarkNearMovieItem"
+        , "PolicyTransitionBack"
+        , "PolicyTransitionBackWay"
 
-        , "PolicyInteractionShiftCollect", "PolicySocketShiftCollect"
+        , "PolicyInteractionShiftCollect"
+        , "PolicySocketShiftCollect"
 
-        , "PolicyGuideOpenPaid", "PolicyGuideOpenDefault"
+        , "PolicyGuideOpenPaid"
+        , "PolicyGuideOpenDefault"
 
-        , "PolicyNotEnoughGoldStoreWithPack", "PolicyNotEnoughEnergyStoreWithPack", "PolicyNotEnoughGoldWithLimitedOffer", "PolicyNotEnoughEnergyWithLimitedOffer"
+        , "PolicyNotEnoughGoldStoreWithPack"
+        , "PolicyNotEnoughEnergyStoreWithPack"
+        , "PolicyNotEnoughGoldWithLimitedOffer"
+        , "PolicyNotEnoughEnergyWithLimitedOffer"
 
         , "PolicyAuthGoogleService"
 
-        , "PolicyNotEnoughGoldDialog", "PolicyNotEnoughGoldMessage", "PolicyNotEnoughEnergyDialog", "PolicyNotEnoughEnergyMessage"
+        , "PolicyNotEnoughGoldDialog"
+        , "PolicyNotEnoughGoldMessage"
+        , "PolicyNotEnoughEnergyDialog"
+        , "PolicyNotEnoughEnergyMessage"
 
-        , "PolicyEnergyClickItem"]
+        , "PolicyEnergyClickItem"
+    ]
 
     TaskManager.importTasks("HOPA.Policy", policies)
 
     from Notification import Notification
 
-    notifiers = ["onChapters", "onTutorialComplete", "onTutorialSkip", "onTutorialSkipEnd", "onTutorialSkipRequest", "onNewspaperOpen", "onNewspaperShow", "onMessage", "onTutorialRunScenarios", "onScenarioInjectionEnd", "onTabDiaryOpen", "onJournalOpen", "onJournalClose", "onJournalLeft", "onJournalRight", "onJournalAppendPage", "onJournalAddPage", "onJournalSetPage", "onJournalStart", "onJournalAllPagesFound", "onGuidebookAddPage"
+    notifiers = [
+        "onChapters"
+        , "onTutorialComplete"
+        , "onTutorialSkip"
+        , "onTutorialSkipEnd"
+        , "onTutorialSkipRequest"
+        , "onNewspaperOpen"
+        , "onNewspaperShow"
+        , "onMessage"
+        , "onTutorialRunScenarios"
+        , "onScenarioInjectionEnd"
+        , "onTabDiaryOpen"
+        , "onJournalOpen"
+        , "onJournalClose"
+        , "onJournalLeft"
+        , "onJournalRight"
+        , "onJournalAppendPage"
+        , "onJournalAddPage"
+        , "onJournalSetPage"
+        , "onJournalStart"
+        , "onJournalAllPagesFound"
+        , "onGuidebookAddPage"
 
-        , "onSurveyPhotoOpen", "onSurveyPhotoClose"
+        , "onSurveyPhotoOpen"
+        , "onSurveyPhotoClose"
 
         , "onShiftNext"
 
-        , "onTipShow", "onTipPlayComplete", "onTipActivate"
+        , "onTipShow"
+        , "onTipPlayComplete"
+        , "onTipActivate"
 
-        , "onTipActivateWithoutParagraphs", "onTipRemoveWithoutParagraphs"
+        , "onTipActivateWithoutParagraphs"
+        , "onTipRemoveWithoutParagraphs"
 
-        , "onObjectiveActivate", "onObjectiveShow", "onObjectiveHide"
+        , "onObjectiveActivate"
+        , "onObjectiveShow"
+        , "onObjectiveHide"
 
-        , "onDialogBoxShow", "onDialogBoxShowRelease", "onDialogBoxPlayComplete"
+        , "onDialogBoxShow"
+        , "onDialogBoxShowRelease"
+        , "onDialogBoxPlayComplete"
 
-        , "onMindShow", "onMindPlayComplete"
+        , "onMindShow"
+        , "onMindPlayComplete"
 
-        , "onDialogShow", "onDialogHide", "onDialogMessageComplete", "onDialogSkip"
+        , "onDialogShow"
+        , "onDialogHide"
+        , "onDialogMessageComplete"
+        , "onDialogSkip"
 
         , "onBlackBarRelease"
 
-        , "onNavigationButtonPressed", "onButtonBackPressed"
+        , "onNavigationButtonPressed"
+        , "onButtonBackPressed"
 
-        , "onItemPopUp", "onItemPopUpClose", "onItemPopUpOpen"
+        , "onItemPopUp"
+        , "onItemPopUpClose"
+        , "onItemPopUpOpen"
 
-        , "onMovieItemClick", "onMovieItemPick", "onMovieItemEnter", "onMovieItemLeave"
+        , "onMovieItemClick"
+        , "onMovieItemPick"
+        , "onMovieItemEnter"
+        , "onMovieItemLeave"
 
         , "onSoundEffectOnObject"
 
-        , "onChangeGameMusic", "onChangeMenuMusic"
+        , "onChangeGameMusic"
+        , "onChangeMenuMusic"
 
-        , "onItemInvalidUse", "onSocketUseItemInvalidUse", "onItemPicked", "onItemClickToInventory", "onItemChangeEnable", "onItemEffectEnd", "onInventoryFXAction", "onInventoryFXActionEnd"
+        , "onItemInvalidUse"
+        , "onSocketUseItemInvalidUse"
+        , "onItemPicked"
+        , "onItemClickToInventory"
+        , "onItemChangeEnable"
+        , "onItemEffectEnd"
+        , "onInventoryFXAction"
+        , "onInventoryFXActionEnd"
 
-        , "onInventoryAttachMovies", "onInventoryActivate", "onInventoryDeactivate", "onInventoryClickReturnItem", "onInventoryClickRemoveItem", "onInventoryActionEnd", "onInventoryCombineInventoryItem", "onInventoryRemoveInventoryItem", "onInventoryRemoveItem", "onInventoryReturnInventoryItem", "onInventoryPickInventoryItem", "onInventoryItemMouseEnter", "onInventoryItemMouseLeave", "onInventoryUpdateItem", "onInventoryAddItem", "onInventoryAppendInventoryItem", "onInventoryReady",
-        "onInventoryItemCountComplete", "onInventoryItemTake", "onInventoryItemInvalidUse", "onInventoryPrepareToItem", "onInventoryScrolling", "onInventoryCurrentSlotIndex", "onInventoryAttachInvItemToArrow", "onInventoryHide", "onInventoryShow", "onInventoryUp", "onInventorySlotItemEnter", "onInventorySlotItemLeave", "onInventorySlotSetItem", "onInventorySlotsShiftEnd", "onInventoryRise_Complete", "onInventoryFold_Complete", "onInventoryItemDetach", "onInventoryItemPick"
+        , "onInventoryAttachMovies"
+        , "onInventoryActivate"
+        , "onInventoryDeactivate"
+        , "onInventoryClickReturnItem"
+        , "onInventoryClickRemoveItem"
+        , "onInventoryActionEnd"
+        , "onInventoryCombineInventoryItem"
+        , "onInventoryRemoveInventoryItem"
+        , "onInventoryRemoveItem"
+        , "onInventoryReturnInventoryItem"
+        , "onInventoryPickInventoryItem"
+        , "onInventoryItemMouseEnter"
+        , "onInventoryItemMouseLeave"
+        , "onInventoryUpdateItem"
+        , "onInventoryAddItem"
+        , "onInventoryAppendInventoryItem"
+        , "onInventoryReady"
+        , "onInventoryItemCountComplete"
+        , "onInventoryItemTake"
+        , "onInventoryItemInvalidUse"
+        , "onInventoryPrepareToItem"
+        , "onInventoryScrolling"
+        , "onInventoryCurrentSlotIndex"
+        , "onInventoryAttachInvItemToArrow"
+        , "onInventoryHide"
+        , "onInventoryShow"
+        , "onInventoryUp"
+        , "onInventorySlotItemEnter"
+        , "onInventorySlotItemLeave"
+        , "onInventorySlotSetItem"
+        , "onInventorySlotsShiftEnd"
+        , "onInventoryRise_Complete"
+        , "onInventoryFold_Complete"
+        , "onInventoryItemDetach"
+        , "onInventoryItemPick"
 
-        , "onEnigmaPlay", "onEnigmaStart", "onEnigmaComplete", "onEnigmaStop", "onEnigmaPause", "onEnigmaRestore", "onEnigmaSkip", "onEnigmaUndoStep", 'onEnigmaActivate', 'onEnigmaDeactivate'
+        , "onEnigmaPlay"
+        , "onEnigmaStart"
+        , "onEnigmaComplete"
+        , "onEnigmaStop"
+        , "onEnigmaPause"
+        , "onEnigmaRestore"
+        , "onEnigmaSkip"
+        , "onEnigmaUndoStep"
+        , 'onEnigmaActivate'
+        , 'onEnigmaDeactivate'
 
         , "onShiftCollectSkip"
 
-        , "onPazzleFoundElement", "onBeginMovingChip", "onPlaceChip", "onColumnPlaced", "onChipTransporterPlay", "onChessTurn", "onHintClick", "onHintActivate", "onHintActionStart", "onHintActionEnd", "onHintUIActionEnd", "onCurrentHintEnd"
+        , "onPazzleFoundElement"
+        , "onBeginMovingChip"
+        , "onPlaceChip"
+        , "onColumnPlaced"
+        , "onChipTransporterPlay"
+        , "onChessTurn"
+        , "onHintClick"
+        , "onHintActivate"
+        , "onHintActionStart"
+        , "onHintActionEnd"
+        , "onHintUIActionEnd"
+        , "onCurrentHintEnd"
 
-        , "onFanClick", "onFanItemInvalidUse", "onFanComplete", "onFanClose", "onFanCloseDone", "onFanOpen"
+        , "onFanClick"
+        , "onFanItemInvalidUse"
+        , "onFanComplete"
+        , "onFanClose"
+        , "onFanCloseDone"
+        , "onFanOpen"
 
-        , "onHOGInventoryFoundItem", "onHOGCloseClick", "onHOGItemPicked"
+        , "onHOGInventoryFoundItem"
+        , "onHOGCloseClick"
+        , "onHOGItemPicked"
 
-        , "onBonusItemCollect", "onOverclickHook", "onOverClick"
+        , "onBonusItemCollect"
+        , "onOverclickHook"
+        , "onOverClick"
 
         , "onChangeDifficulty"
 
-        , "onPlaySplashScreens", "onCutScenePlay"
+        , "onPlaySplashScreens"
+        , "onCutScenePlay"
 
         , "onStageAutoSave"
 
-        , "onSliderMusic", "onSliderSound", "onSliderUpDing"
+        , "onSliderMusic"
+        , "onSliderSound"
+        , "onSliderUpDing"
 
-        , "onTabClick", "TaskNotify", "onTasksShow"
+        , "onTabClick"
+        , "TaskNotify"
+        , "onTasksShow"
 
-        , "onHOGFoundItem", "onHOGInventoryAppendItem"
+        , "onHOGFoundItem"
+        , "onHOGInventoryAppendItem"
 
-        , "onHOGComplete", "onHOGStart", "onHOGStop", "onHOGSkip"
+        , "onHOGComplete"
+        , "onHOGStart"
+        , "onHOGStop"
+        , "onHOGSkip"
 
-        , "onMusicPlay", "onMusicStop", "onMusicContinue"
+        , "onMusicPlay"
+        , "onMusicStop"
+        , "onMusicContinue"
 
-        , "onMusicPlatlistPlay", "onMusicMenu", "onMusicMenuReturn"
+        , "onMusicPlatlistPlay"
+        , "onMusicMenu"
+        , "onMusicMenuReturn"
 
-        , "onPuzzleDragDropWin", "onPuzzleOutPlaced", "onAttachTrade", "onOverView", "onOverViewLeave", "onMousePull", "onPuzzleDragWrongPlaced", "onInGameMenuCalled", "onInGameMenuShow"
+        , "onPuzzleDragDropWin"
+        , "onPuzzleOutPlaced"
+        , "onAttachTrade"
+        , "onOverView"
+        , "onOverViewLeave"
+        , "onMousePull"
+        , "onPuzzleDragWrongPlaced"
+        , "onInGameMenuCalled"
+        , "onInGameMenuShow"
 
-        , "onSpotHide", "onSpotActivate", "onSpotDeactivate", "onSpinWin", "onSpin", "onSpinMove", "onMapMarked", "onEnigmaReset", "onPetPush", "onPetComplete", "onPetSwitch", "onPetLeave", "onInstructionPullIn", "onEnigmaAction", "onAwardsOpen", "onBoneAdd", "onTrafficJamClick", "onBoneUse", "onEscPressed", "onChipsMoving", "onPullArrowAttach", "onPullArrowDetach", "onPullWrong", "onMousePullComplete", "onChase", "onChased", "onBonusItemFound", "onGetItem", "onHintSceneException", "onTutorialShow",
-        "onTutorialHide", "onTasksOpen", "onTasksClose", "onNoteClick", "onMagicVisionDone", "onMagicVisionStart", "onMagicVisionBlockScene", "onMagicVisionUnblockScene"
+        , "onSpotHide"
+        , "onSpotActivate"
+        , "onSpotDeactivate"
+        , "onSpinWin"
+        , "onSpin"
+        , "onSpinMove"
+        , "onMapMarked"
+        , "onEnigmaReset"
+        , "onPetPush"
+        , "onPetComplete"
+        , "onPetSwitch"
+        , "onPetLeave"
+        , "onInstructionPullIn"
+        , "onEnigmaAction"
+        , "onAwardsOpen"
+        , "onBoneAdd"
+        , "onTrafficJamClick"
+        , "onBoneUse"
+        , "onEscPressed"
+        , "onChipsMoving"
+        , "onPullArrowAttach"
+        , "onPullArrowDetach"
+        , "onPullWrong"
+        , "onMousePullComplete"
+        , "onChase"
+        , "onChased"
+        , "onBonusItemFound"
+        , "onGetItem"
+        , "onHintSceneException"
+        , "onTutorialShow"
+        , "onTutorialHide"
+        , "onTasksOpen"
+        , "onTasksClose"
+        , "onNoteClick"
+        , "onMagicVisionDone"
+        , "onMagicVisionStart"
+        , "onMagicVisionBlockScene"
+        , "onMagicVisionUnblockScene"
 
-        , "onSelectedDifficulty", "OptionsClose", "onCreateNewProfile", "onNewProfile", "onProfileCreated"
+        , "onSelectedDifficulty"
+        , "OptionsClose"
+        , "onCreateNewProfile"
+        , "onNewProfile"
+        , "onProfileCreated"
 
         , "OnOverViewShowed"
 
-        , "onEditProfile", "onHOGFittinItemReturn", "onCombatSpellSlotClick", "onRemoveAccount", "onReloadAccount", "onUserEvent"
+        , "onEditProfile"
+        , "onHOGFittinItemReturn"
+        , "onCombatSpellSlotClick"
+        , "onRemoveAccount"
+        , "onReloadAccount"
+        , "onUserEvent"
 
         , "onLightCircleGameCircleClick"
 
-        , "onPlumberItemWinPos", "onPlumberCollision"
+        , "onPlumberItemWinPos"
+        , "onPlumberCollision"
 
-        , "onCruiseActionEnd", "onBombEndMov", "onBombGameEnd", "onBombGameMoveDir"
+        , "onCruiseActionEnd"
+        , "onBombEndMov"
+        , "onBombGameEnd"
+        , "onBombGameMoveDir"
 
-        , "onExtraEnigmaPlay", "onExtraHOGPlay"
+        , "onExtraEnigmaPlay"
+        , "onExtraHOGPlay"
 
-        , "onAnimatableButtonClick", "onAnimatableButtonClickEndUp", "onAnimatableButtonMouseLeave", "onAnimatableButtonMouseEnter"
+        , "onAnimatableButtonClick"
+        , "onAnimatableButtonClickEndUp"
+        , "onAnimatableButtonMouseLeave"
+        , "onAnimatableButtonMouseEnter"
 
-        , "onSpellPrepared", "onSpellReady", "onSpellLock", "onSpellBeginUse", "onSpellEndUse", "onSpellUseMacroBegin", "onSpellUseMacroEnd"
+        , "onSpellPrepared"
+        , "onSpellReady"
+        , "onSpellLock"
+        , "onSpellBeginUse"
+        , "onSpellEndUse"
+        , "onSpellUseMacroBegin"
+        , "onSpellUseMacroEnd"
 
-        , "onSpellOneMouseEnter", "onSpellOneMouseLeave", "onSpellTwoMouseEnter", "onSpellTwoMouseLeave", "onSpellThreeMouseEnter", "onSpellThreeMouseLeave", "onSpellFourMouseEnter", "onSpellFourMouseLeave"
+        , "onSpellOneMouseEnter"
+        , "onSpellOneMouseLeave"
+        , "onSpellTwoMouseEnter"
+        , "onSpellTwoMouseLeave"
+        , "onSpellThreeMouseEnter"
+        , "onSpellThreeMouseLeave"
+        , "onSpellFourMouseEnter"
+        , "onSpellFourMouseLeave"
 
-        , "onManaIncrease", "onManaDecrease", "onManaSearchBegin", "onManaFind"
+        , "onManaIncrease"
+        , "onManaDecrease"
+        , "onManaSearchBegin"
+        , "onManaFind"
 
         , "onSurveyComplete"
 
-        , "onZoomEnigmaChangeFrameGroup", "onZoomEnigmaChangeBackFrameGroup"
+        , "onZoomEnigmaChangeFrameGroup"
+        , "onZoomEnigmaChangeBackFrameGroup"
 
-        , "onZoomAttachToFrame", "onZoomDeAttachToFrame", "onItemZoomEnter", "onItemZoomLeaveOpenZoom"
+        , "onZoomAttachToFrame"
+        , "onZoomDeAttachToFrame"
+        , "onItemZoomEnter"
+        , "onItemZoomLeaveOpenZoom"
 
-        , "onAchievementUnlocked", "onAchievementExternalUnlocked", "onAchievementProgress", "onCloseAchievementPlate"
+        , "onAchievementUnlocked"
+        , "onAchievementExternalUnlocked"
+        , "onAchievementProgress"
+        , "onCloseAchievementPlate"
 
-        , "onCollectedAmuletAdd", "onCollectedAmuletUse", "onGlobeGameRotate", "onHanoisTowerClick"
+        , "onCollectedAmuletAdd"
+        , "onCollectedAmuletUse"
+        , "onGlobeGameRotate"
+        , "onHanoisTowerClick"
 
-        , "onMapPointBlock", "onMapPointUnblock", "onMapTransition", "onMapOpen", "onMapClose"  # , "onTaskListShow"
+        , "onMapPointBlock"
+        , "onMapPointUnblock"
+        , "onMapTransition"
+        , "onMapOpen"
+        , "onMapClose"
+        # , "onTaskListShow"
         # , "onTaskListShowOpen"
         # , "onTaskListShowIdle"
         # , "onTaskListShowHide"
-        , "onMapHogUnblock", "onCollectedMapAddPart"
+        , "onMapHogUnblock"
+        , "onCollectedMapAddPart"
 
         , "onDiaryClose"
 
-        , "onAddReagent", "onCheckReagentReaction", "onCheckReagentsButton", "onReagentsCleanData"
+        , "onAddReagent"
+        , "onCheckReagentReaction"
+        , "onCheckReagentsButton"
+        , "onReagentsCleanData"
 
-        , "onPetnaSwap", "onRailRoadGameMove", "onSandGlassMouseEnterSocket", "onSandGlassMouseLeaveSocket", "onSandGlassMouseClickSocket"
+        , "onPetnaSwap"
+        , "onRailRoadGameMove"
+        , "onSandGlassMouseEnterSocket"
+        , "onSandGlassMouseLeaveSocket"
+        , "onSandGlassMouseClickSocket"
 
-        , "onLetItSlideWin", "onPickLabItem"
+        , "onLetItSlideWin"
+        , "onPickLabItem"
 
-        , "onCommandMusicFadeIn", "onCommandMusicFadeOut"
+        , "onCommandMusicFadeIn"
+        , "onCommandMusicFadeOut"
 
-        , "onShootGameRestart", "onAccountChangeName", "onInventoryItemPlace", "onInventoryChage"
+        , "onShootGameRestart"
+        , "onAccountChangeName"
+        , "onInventoryItemPlace"
+        , "onInventoryChage"
 
         , "onAssociationElementActive"
 
-        , "onGameComplete", "onBonusGameComplete", "onStrategyGuideZoomOpen"
+        , "onGameComplete"
+        , "onBonusGameComplete"
+        , "onStrategyGuideZoomOpen"
 
-        , "onProfileDelete", "onProfileChange"
+        , "onProfileDelete"
+        , "onProfileChange"
 
-        , "onReloaderBegin", "onReloaderEnd"
+        , "onReloaderBegin"
+        , "onReloaderEnd"
 
-        , "onSessionInvalidLoad", "onUseRune", "onStartUseRune", "onRuneReady", "onMahjongFoundPair"
+        , "onSessionInvalidLoad"
+        , "onUseRune"
+        , "onStartUseRune"
+        , "onRuneReady"
+        , "onMahjongFoundPair"
 
-        , "onEnigmaSlotClick", "onEnigmaChipMove", "onGroupEnable", "onGroupDisable", "onMindGroupDisable", "onGroupEnableMacro"
+        , "onEnigmaSlotClick"
+        , "onEnigmaChipMove"
+        , "onGroupEnable"
+        , "onGroupDisable"
+        , "onMindGroupDisable"
+        , "onGroupEnableMacro"
 
-        , "onMagicGloveClick", "onSetReloading", "onTutorialFadeShow", "onTutorialFadeHide"
+        , "onMagicGloveClick"
+        , "onSetReloading"
+        , "onTutorialFadeShow"
+        , "onTutorialFadeHide"
 
-        , "onItemCollectInit", "onFinishItemCollect", "onItemCollectComplete", "onCheatTest", "onTutorial_Start", "onTutorialProgres", "onTutorialFinalSkip", "onTutorialBlockScreen", "onChapterDone"
+        , "onItemCollectInit"
+        , "onFinishItemCollect"
+        , "onItemCollectComplete"
+        , "onCheatTest"
+        , "onTutorial_Start"
+        , "onTutorialProgres"
+        , "onTutorialFinalSkip"
+        , "onTutorialBlockScreen"
+        , "onChapterDone"
 
-        , "onClickItemCollectHintSocket", 'onItemCollectSetItem', 'onCloseCurrentItemCollect', 'onCloseItemCollect', 'onItemPopUpEnd', 'onMindEndlessEnd', 'onCheatAutoSave', 'onBlockInput', 'onAppendFoundItemsHOG2', 'onDebugTweenLeft', 'onDebugTweenRight', 'onShowMindByID', 'onRuneListChanges'
+        , "onClickItemCollectHintSocket"
+        , 'onItemCollectSetItem'
+        , 'onCloseCurrentItemCollect'
+        , 'onCloseItemCollect'
+        , 'onItemPopUpEnd'
+        , 'onMindEndlessEnd'
+        , 'onCheatAutoSave'
+        , 'onBlockInput'
+        , 'onAppendFoundItemsHOG2'
+        , 'onDebugTweenLeft'
+        , 'onDebugTweenRight'
+        , 'onShowMindByID'
+        , 'onRuneListChanges'
 
-        , 'onBonusSceneChangeState', 'onBonusSceneTransition', 'onBonusCutScenePlay', 'onBonusMusicPlaylistPlay', 'onBonusVideoOpenCutScene'
+        , 'onBonusSceneChangeState'
+        , 'onBonusSceneTransition'
+        , 'onBonusCutScenePlay'
+        , 'onBonusMusicPlaylistPlay'
+        , 'onBonusVideoOpenCutScene'
 
-        , 'onCollectiblesComplete', 'onCollectiblesPart', 'onSwitchCollectible', 'onHintStartReloading', 'onHintReloadEnter', 'onHintReloadLeave'
+        , 'onCollectiblesComplete'
+        , 'onCollectiblesPart'
+        , 'onSwitchCollectible'
+        , 'onHintStartReloading'
+        , 'onHintReloadEnter'
+        , 'onHintReloadLeave'
 
-        , 'onAddAchievementPlateToQueue', 'onLocationComplete', 'onSceneCompleteCollectibles', 'onParagraphCompleteForReal'
+        , 'onAddAchievementPlateToQueue'
+        , 'onLocationComplete'
+        , 'onSceneCompleteCollectibles'
+        , 'onParagraphCompleteForReal'
 
-        , 'onChapterSelectionChoseChapter', 'onChapterSelectionClose', 'onChapterOpen', 'onChapterSelectionBlock', 'onChapterSelectionResetProfile'
+        , 'onChapterSelectionChoseChapter'
+        , 'onChapterSelectionClose'
+        , 'onChapterOpen'
+        , 'onChapterSelectionBlock'
+        , 'onChapterSelectionResetProfile'
 
-        , 'onMapEntityInit', 'onMapEntityDeactivate'
+        , 'onMapEntityInit'
+        , 'onMapEntityDeactivate'
 
-        , 'onDragDropItemCreate', 'onDragDropItemComplete', 'onHOGDragDropMGInit', 'onHOGDragDropCounterFrameSwitch', 'onHOGDragDropComplete', 'onHOGDragDropUpdateText'
+        , 'onDragDropItemCreate'
+        , 'onDragDropItemComplete'
+        , 'onHOGDragDropMGInit'
+        , 'onHOGDragDropCounterFrameSwitch'
+        , 'onHOGDragDropComplete'
+        , 'onHOGDragDropUpdateText'
 
         , 'onHunt2dPreyHit'
 
-        , 'onSpellUISpellButtonClick', 'onSpellUISpellUnlock', 'onSpellUISpellLock', 'onSpellUISpellUpdate'
+        , 'onSpellUISpellButtonClick'
+        , 'onSpellUISpellUnlock'
+        , 'onSpellUISpellLock'
+        , 'onSpellUISpellUpdate'
 
-        , 'onSpellAmuletButtonClick', 'onSpellAmuletAddPower', 'onSpellAmuletRemovePower', 'onSpellAmuletUsePower', 'onSpellAmuletBlockPower', 'onSpellAmuletUnblockPower', 'onSpellAmuletOpenClose', 'onSpellAmuletStateChange', 'onSpellAmuletPowerButtonStateChange', 'onSpellAmuletSpellButtonStateChange'
+        , 'onSpellAmuletButtonClick'
+        , 'onSpellAmuletAddPower'
+        , 'onSpellAmuletRemovePower'
+        , 'onSpellAmuletUsePower'
+        , 'onSpellAmuletBlockPower'
+        , 'onSpellAmuletUnblockPower'
+        , 'onSpellAmuletOpenClose'
+        , 'onSpellAmuletStateChange'
+        , 'onSpellAmuletPowerButtonStateChange'
+        , 'onSpellAmuletSpellButtonStateChange'
 
         , 'onSpellMacroComplete'
 
-        , 'onPopupMessageShow', 'onMacroClick'
+        , 'onPopupMessageShow'
+        , 'onMacroClick'
 
-        , 'onHOGFittingItemUsed', 'onHOGFittingItemPicked', 'onHOGFittingItemDetached'
+        , 'onHOGFittingItemUsed'
+        , 'onHOGFittingItemPicked'
+        , 'onHOGFittingItemDetached'
 
-        , 'onLoadingFinishedSuccess', 'onAchievementMovieVisible'
+        , 'onLoadingFinishedSuccess'
+        , 'onAchievementMovieVisible'
 
-        , "onScenarioInjectionCreate", "onScenarioRun", "onScenarioComplete", "onScenarioInit", "onScenarioEnter", "onScenarioLeave"
+        , "onScenarioInjectionCreate"
+        , "onScenarioRun"
+        , "onScenarioComplete"
+        , "onScenarioInit"
+        , "onScenarioEnter"
+        , "onScenarioLeave"
 
-        , "onQuestRun", "onQuestEnd"
+        , "onQuestRun"
+        , "onQuestEnd"
 
         , "onParagraph"
 
-        , "onMacroArrowAttach", "onMacroCommandParams", "onMacroCommandRun", "onMacroCommandEnd", 'onMacroAttachItemRemoveObserver'
+        , "onMacroArrowAttach"
+        , "onMacroCommandParams"
+        , "onMacroCommandRun"
+        , "onMacroCommandEnd"
+        , 'onMacroAttachItemRemoveObserver'
 
         , "onGiftExchangeRedeemResult"
 
-        , "onProductGroupReset", "onProductGroupStartProgress", "onProductGroupProgress"
+        , "onProductGroupReset"
+        , "onProductGroupStartProgress"
+        , "onProductGroupProgress"
 
-        , "onMorphPicked", "onMorphsSceneComplete", "onAllMorphsPicked", "onMorphsCheatSceneReset"
+        , "onMorphPicked"
+        , "onMorphsSceneComplete"
+        , "onAllMorphsPicked"
+        , "onMorphsCheatSceneReset"
 
         , "onAppRated"
 
-        , "onDialogWindowConfirm", "onDialogWindowCancel"
+        , "onDialogWindowConfirm"
+        , "onDialogWindowCancel"
 
-        , "onEnergyConsumed", "onEnergyNotEnough", "onEnergyRecharge", "onEnergyCharged", "onEnergyIncrease", "onEnergyDecrease", "onEnergySet", "onIndicatorClicked"
+        , "onEnergyConsumed"
+        , "onEnergyNotEnough"
+        , "onEnergyRecharge"
+        , "onEnergyCharged"
+        , "onEnergyIncrease"
+        , "onEnergyDecrease"
+        , "onEnergySet"
+        , "onIndicatorClicked"
 
-        , "onStoreTabSwitched", "onStorePageNewActions", "onStorePageNewActionsEnd", "onStoreTabSectionClickedBack", "onStoreTabSectionClickedTab"
+        , "onStoreTabSwitched"
+        , "onStorePageNewActions"
+        , "onStorePageNewActionsEnd"
+        , "onStoreTabSectionClickedBack"
+        , "onStoreTabSectionClickedTab"
 
-        , "onGetRemoteConfig"]
+        , "onGetRemoteConfig"
+    ]
 
     from Foundation.Notificator import Notificator
     Notificator.addIdentities(notifiers)
 
     from TraceManager import TraceManager
 
-    traceList = ["HOGManager", "MindManager", "TipManager", "ItemManager", "MacroCommand", "TaskInventoryReturnItem", "ShootingRangeManager", "SparksAction", "NotebookManager", "NotebookInventoryManager", "NotebookInventoryListManager", "NotebookDescription", "TasksShowManager", "Notebook", "SpinCirclesMastermindManager", "LightLockManager", "SpellManager", "ManaManager", "MagicVisionManager", "SpinCirclesDependsPluginManager", "BonusManager", "BonusVideoManager", "AchievementManager", "Scenario", "Macro"]
+    traceList = [
+        "HOGManager"
+        , "Transition"
+        , "MindManager"
+        , "TipManager"
+        , "ItemManager"
+        , "MacroCommand"
+        , "TaskInventoryReturnItem"
+        , "ShootingRangeManager"
+        , "SparksAction"
+        , "NotebookManager"
+        , "NotebookInventoryManager"
+        , "NotebookInventoryListManager"
+        , "NotebookDescription"
+        , "TasksShowManager"
+        , "Notebook"
+        , "SpinCirclesMastermindManager"
+        , "LightLockManager"
+        , "SpellManager"
+        , "ManaManager"
+        , "MagicVisionManager"
+        , "SpinCirclesDependsPluginManager"
+        , "BonusManager"
+        , "BonusVideoManager"
+        , "AchievementManager"
+        , "Scenario"
+        , "Macro"
+    ]
 
     TraceManager.addTraces(traceList)
 
@@ -388,81 +1033,328 @@ def onInitialize():
 
     from HOPA.HintManager import HintManager
 
-    hintActions = ["HintActionDummy", "HintActionCombine", "HintActionHOGItem", "HintActionItem", "HintActionUseInventoryItem", "HintActionUseHOGFittingItem", "HintActionItemUseFittingInventoryItem", "HintActionSocketUseFittingInventoryItem", "HintActionClick", "HintActionHOG", "HintActionFan", "HintActionTransition", "HintActionTransitionBack", "HintActionTransitionBackMobile", "HintActionZoom", "HintActionZoomOut", "HintActionPull", "HintActionDragDropItem", "HintActionBoneUse", "HintActionBoneAdd",
-        "HintActionSpellUse", "HintActionEnvSpellUse", "HintActionGiveItemOr", "HintActionFindHiddenItem", "HintActionFindMana", "HintActionMagicVisionUse", "HintActionUsePet", "HintActionShiftCollect", "HintActionMahjong", "HintActionMagicGlove", 'HintActionItemCollect', 'HintActionItemCollectOpen', 'HintActionCollectibleItem', 'HintActionSpellAmuletUsePower']
+    hintActions = [
+        "HintActionDummy"
+        , "HintActionCombine"
+        , "HintActionHOGItem"
+        , "HintActionItem"
+        , "HintActionUseInventoryItem"
+        , "HintActionUseHOGFittingItem"
+        , "HintActionItemUseFittingInventoryItem"
+        , "HintActionSocketUseFittingInventoryItem"
+        , "HintActionClick"
+        , "HintActionHOG"
+        , "HintActionFan"
+        , "HintActionTransition"
+        , "HintActionTransitionBack"
+        , "HintActionTransitionBackMobile"
+        , "HintActionZoom"
+        , "HintActionZoomOut"
+        , "HintActionPull"
+        , "HintActionDragDropItem"
+        , "HintActionBoneUse"
+        , "HintActionBoneAdd"
+        , "HintActionSpellUse"
+        , "HintActionEnvSpellUse"
+        , "HintActionGiveItemOr"
+        , "HintActionFindHiddenItem"
+        , "HintActionFindMana"
+        , "HintActionMagicVisionUse"
+        , "HintActionUsePet"
+        , "HintActionShiftCollect"
+        , "HintActionMahjong"
+        , "HintActionMagicGlove"
+        , 'HintActionItemCollect'
+        , 'HintActionItemCollectOpen'
+        , 'HintActionCollectibleItem'
+        , 'HintActionSpellAmuletUsePower'
+    ]
 
     HintManager.importHintActions("HOPA.HintActions", hintActions)
 
     from HOPA.CruiseControlManager import CruiseControlManager
 
-    cruiseActions = ["CruiseActionDummy", "CruiseActionCombine", "CruiseActionHOGItem", "CruiseActionItem", "CruiseActionItemWithItemPopup", "CruiseActionUseInventoryItem", "CruiseActionItemUseFittingInventoryItem", "CruiseActionUseHOGFittingItem", "CruiseActionClick", "CruiseActionHOG", "CruiseActionFan", "CruiseActionTransition", "CruiseActionTransitionBack", "CruiseActionTransitionBackMobile", "CruiseActionZoom", "CruiseActionZoomOut", "CruiseActionPull", "CruiseActionDragDropItem",
-        "CruiseActionBoneUse", "CruiseActionBoneAdd", "CruiseActionSpellUse", "CruiseActionGetItem", "CruiseActionCutScene", "CruiseActionDialog", "CruiseActionEnigma", "CruiseActionNewspaper", "CruiseActionMessage", "CruiseActionWait", "CruiseActionGiveItemOr", "CruiseActionPlusScene", "CruiseActionPlusSceneOut", "CruiseActionShiftCollect", "CruiseActionItemCollect", "CruiseActionHint", "CruiseActionSpellAmuletUseRune"]
+    cruiseActions = [
+        "CruiseActionDummy"
+        , "CruiseActionCombine"
+        , "CruiseActionHOGItem"
+        , "CruiseActionItem"
+        , "CruiseActionItemWithItemPopup"
+        , "CruiseActionUseInventoryItem"
+        , "CruiseActionItemUseFittingInventoryItem"
+        , "CruiseActionUseHOGFittingItem"
+        , "CruiseActionClick"
+        , "CruiseActionHOG"
+        , "CruiseActionFan"
+        , "CruiseActionTransition"
+        , "CruiseActionTransitionBack"
+        , "CruiseActionTransitionBackMobile"
+        , "CruiseActionZoom"
+        , "CruiseActionZoomOut"
+        , "CruiseActionPull"
+        , "CruiseActionDragDropItem"
+        , "CruiseActionBoneUse"
+        , "CruiseActionBoneAdd"
+        , "CruiseActionSpellUse"
+        , "CruiseActionGetItem"
+        , "CruiseActionCutScene"
+        , "CruiseActionDialog"
+        , "CruiseActionEnigma"
+        , "CruiseActionNewspaper"
+        , "CruiseActionMessage"
+        , "CruiseActionWait"
+        , "CruiseActionGiveItemOr"
+        , "CruiseActionPlusScene"
+        , "CruiseActionPlusSceneOut"
+        , "CruiseActionShiftCollect"
+        , "CruiseActionItemCollect"
+        , "CruiseActionHint"
+        , "CruiseActionSpellAmuletUseRune"
+    ]
 
     CruiseControlManager.importCruiseActions("HOPA.CruiseActions", cruiseActions)
 
     from HOPA.QuestIconManager import QuestIconManager
 
-    questIconActions = ["QuestIconActionDefault", "QuestIconActionObject", "QuestIconActionSocket", "QuestIconActionTransition", "QuestIconActionZoom", "QuestIconActionInteraction"]
+    questIconActions = [
+        "QuestIconActionDefault"
+        , "QuestIconActionObject"
+        , "QuestIconActionSocket"
+        , "QuestIconActionTransition"
+        , "QuestIconActionZoom"
+        , "QuestIconActionInteraction"
+    ]
 
     QuestIconManager.importQuestIconActions("HOPA.QuestIconActions", questIconActions)
 
     from HOPA.SparksManager import SparksManager
 
-    sparksActions = ["SparksActionClick", "SparksActionItem", "SparksActionUseInventoryItem", "SparksActionItemUseInventoryItem", "SparksActionTransition", "SparksActionZoom", "SparksActionHint"]
+    sparksActions = [
+        "SparksActionClick"
+        , "SparksActionItem"
+        , "SparksActionUseInventoryItem"
+        , "SparksActionItemUseInventoryItem"
+        , "SparksActionTransition"
+        , "SparksActionZoom"
+        , "SparksActionHint"
+    ]
 
     SparksManager.importSparksActions("HOPA.SparksActions", sparksActions)
 
     from HOPA.Entities.InventoryFX.InventoryFXManager import InventoryFXManager
 
-    hintActions = ["ActionGetItem", "ActionPickItem", "ActionAddItem", "ActionHintUse", "ActionRemoveItem"]
+    hintActions = [
+        "ActionGetItem"
+        , "ActionPickItem"
+        , "ActionAddItem"
+        , "ActionHintUse"
+        , "ActionRemoveItem"
+    ]
 
     InventoryFXManager.importActions("HOPA.Entities.InventoryFX", hintActions)
 
     from Foundation.EntityManager import EntityManager
     from Foundation.ObjectManager import ObjectManager
+    Types = [
+        "Item"
+        , "MovieItem"
+        , "Movie2Item"
+        , "Zoom"
+        , "Transition"
+        , "TransitionBack"
+        , "Enigma"
+        , "EnigmaUndo"
+        , "HOG"
+        , "HOG2"
+        , "HOGRolling"
+        , "LampOnCursor"
+        , "HOGFXPartsGathering"
+        , "HOGSilhouette"
+        , "Inventory"
+        , "HOGInventory"
+        , "HOGInventoryRolling"
+        , "HOGInventorySilhouette"
+        , "HOGInventoryFXPartsGathering"
+        , "HOGInventoryImage"
+        , "FittingInventory"
+        , "InventoryItem"
+        , "InventoryCountItem"
+        , "InventoryCountItemFX"
+        , "HOGInventoryCount"
 
-    Types = ["Item", "MovieItem", "Movie2Item", "Enigma", "EnigmaUndo", "HOG", "HOG2", "HOGRolling", "LampOnCursor", "HOGFXPartsGathering", "HOGSilhouette", "Inventory", "HOGInventory", "HOGInventoryRolling", "HOGInventorySilhouette", "HOGInventoryFXPartsGathering", "HOGInventoryImage", "FittingInventory", "InventoryItem", "InventoryCountItem", "InventoryCountItemFX", "HOGInventoryCount"
-
-        , "Objective", "Objectives", "Dialog", "ItemPopUp", "StaticPopUp", "Mind", "DialogBox", "Hint", "SurveyPhotoGallery"
+        , "Objective"
+        , "Objectives"
+        , "Dialog"
+        , "ItemPopUp"
+        , "StaticPopUp"
+        , "Mind"
+        , "DialogBox"
+        , "Hint"
+        , "SurveyPhotoGallery"
 
         , "MagicGlove"
 
-        , "RollingBalls", "Chip", "ColumnChain", "PathChipsCrypt", "ChessPuzzle", "OrderMatches", "PathChipsTransporter", "ChainClick", "Connectors", "ColoringPuzzle", "RotateAndSwapChips", "FragmentsRoll", "SwapDifferent"
+        , "RollingBalls"
+        , "Chip"
+        , "ColumnChain"
+        , "PathChipsCrypt"
+        , "ChessPuzzle"
+        , "OrderMatches"
+        , "PathChipsTransporter"
+        , "ChainClick"
+        , "Connectors"
+        , "ColoringPuzzle"
+        , "RotateAndSwapChips"
+        , "FragmentsRoll"
+        , "SwapDifferent"
 
-        , "TrafficJam", "NFS", "Tip", "TipItem", "Fan", "FanItem", "BonusItem", "CloseZoom", "Map", "Journal", "Tab", "LocationComplete", "OverclickHook", "SplashScreen", "CutScene", "WalktrhoughText", "AssociationElements", "Sparks", "PuzzleInventory", "SkipPuzzle", "ResetPuzzle", "Geks", "PuzzleDragDrop", "PuzzleRules", "HOGClose", "QuestIcon", "SwitchChains", "Newspaper", "MenuGreeting", "State", "MenuHelp", "Spot", "Zuma", "HogPenalty", "SpinCircles", "JoinBlocks", "CirclePairElements", "ThimbleGame",
-        "ColorCollect", "PlanetGame", "ZoomFrame", "MetalDetector", "ZenElements", "PuzzleButtons", "PuzzleInstructions", "Pet", "InstructionPullOut", "FeedStates", "BoneBoard", "ShootingRange", "MagicVision", "Tutorial", "ButtonConjunction", "MagneticLabyrinth", "CircularReflection", "Programmator"
+        , "TrafficJam"
+        , "NFS"
+        , "Tip"
+        , "TipItem"
+        , "Fan"
+        , "FanItem"
+        , "BonusItem"
+        , "CloseZoom"
+        , "Map"
+        , "Journal"
+        , "Tab"
+        , "LocationComplete"
+        , "OverclickHook"
+        , "SplashScreen"
+        , "CutScene"
+        , "WalktrhoughText"
+        , "AssociationElements"
+        , "Sparks"
+        , "PuzzleInventory"
+        , "SkipPuzzle"
+        , "ResetPuzzle"
+        , "Geks"
+        , "PuzzleDragDrop"
+        , "PuzzleRules"
+        , "HOGClose"
+        , "QuestIcon"
+        , "SwitchChains"
+        , "Newspaper"
+        , "MenuGreeting"
+        , "State"
+        , "MenuHelp"
+        , "Spot"
+        , "Zuma"
+        , "HogPenalty"
+        , "SpinCircles"
+        , "JoinBlocks"
+        , "CirclePairElements"
+        , "ThimbleGame"
+        , "ColorCollect"
+        , "PlanetGame"
+        , "ZoomFrame"
+        , "MetalDetector"
+        , "ZenElements"
+        , "PuzzleButtons"
+        , "PuzzleInstructions"
+        , "Pet"
+        , "InstructionPullOut"
+        , "FeedStates"
+        , "BoneBoard"
+        , "ShootingRange"
+        , "MagicVision"
+        , "Tutorial"
+        , "ButtonConjunction"
+        , "MagneticLabyrinth"
+        , "CircularReflection"
+        , "Programmator"
 
-        , "DrawMagicSymbols", "DrawMagicSymbolsFight", "ClickOnTarget"  # todo: rename to ClickOnTargetWithFloatingCursor
-        , "MoveChipsOnGraphNodes", "AmazingMaze", "Counterbalance", "StonePyramids", "FindSymbolsSetsMatchingCenter", "CursorMaskFindInvisibleChip", "RotateTilesWhichRotateEachOther"
+        , "DrawMagicSymbols"
+        , "DrawMagicSymbolsFight"
+        , "ClickOnTarget"  # todo: rename to ClickOnTargetWithFloatingCursor
+        , "MoveChipsOnGraphNodes"
+        , "AmazingMaze"
+        , "Counterbalance"
+        , "StonePyramids"
+        , "FindSymbolsSetsMatchingCenter"
+        , "CursorMaskFindInvisibleChip"
+        , "RotateTilesWhichRotateEachOther"
 
-        , "RubiksPuzzle", "SwapChipsWithDifferentSlotTypes", "SwapAndRotateMovieChips", "ChainClickMovie", "LeversPuzzle", "MoviePathChipTransporter", "SwitchWayDirectionPuzzle", "ChipDragDropConnectPuzzle", "RotateCirclesWithChips", "SwapChipsSwitchEnableAndDisable", "ClickOnChipsInTheRightOrder", "MoveChipsToRightPlaces", "SwapChipsInPlace", "MoveCursorToRightPlaces", "ClickOnChipsAndRotateArrow", 'MoveChipToCells', 'DragTheChainToTheRightPlace', 'MoveChipsToKeyPoints',
-        'ClickOnChipAndPlacesForActionOverPlace', 'RotateRingsAndSetInRightOrder', 'ChipDragDropOnRightPlace', 'FindSimilarChipsForActivate', 'ChipMoveCount', 'ChipMoveAtom', 'ProgrammatorForFindWayMG', 'ChipsMoveOnMouseMove', 'ChipsInNet', 'MouseMagnet', 'ItemCollect', 'SwapAndRotateSegments', 'ChipGravitySlider', 'ChangeScreenOnClick', "Credits", "InventoryBase"
+        , "RubiksPuzzle"
+        , "SwapChipsWithDifferentSlotTypes"
+        , "SwapAndRotateMovieChips"
+        , "ChainClickMovie"
+        , "LeversPuzzle"
+        , "MoviePathChipTransporter"
+        , "SwitchWayDirectionPuzzle"
+        , "ChipDragDropConnectPuzzle"
+        , "RotateCirclesWithChips"
+        , "SwapChipsSwitchEnableAndDisable"
+        , "ClickOnChipsInTheRightOrder"
+        , "MoveChipsToRightPlaces"
+        , "SwapChipsInPlace"
+        , "MoveCursorToRightPlaces"
+        , "ClickOnChipsAndRotateArrow"
+        , 'MoveChipToCells'
+        , 'DragTheChainToTheRightPlace'
+        , 'MoveChipsToKeyPoints'
+        , 'ClickOnChipAndPlacesForActionOverPlace'
+        , 'RotateRingsAndSetInRightOrder'
+        , 'ChipDragDropOnRightPlace'
+        , 'FindSimilarChipsForActivate'
+        , 'ChipMoveCount'
+        , 'ChipMoveAtom'
+        , 'ProgrammatorForFindWayMG'
+        , 'ChipsMoveOnMouseMove'
+        , 'ChipsInNet'
+        , 'MouseMagnet'
+        , 'ItemCollect'
+        , 'SwapAndRotateSegments'
+        , 'ChipGravitySlider'
+        , 'ChangeScreenOnClick'
+        , "Credits"
+        , "InventoryBase"
 
-        , "BonusVideo", "BonusPapers", "BonusMusic"
+        , "BonusVideo"
+        , "BonusPapers"
+        , "BonusMusic"
 
-        , "Collectibles", "Achievements", "AchievementsInGameMenu", "ChapterSelection", "MapBonusChapter"
+        , "Collectibles"
+        , "Achievements"
+        , "AchievementsInGameMenu"
+        , "ChapterSelection"
+        , "MapBonusChapter"
 
-        , "MahjongInventory", "Hunt2d", "FindingAndPlacingChipsOnMovie"
+        , "MahjongInventory"
+        , "Hunt2d"
+        , "FindingAndPlacingChipsOnMovie"
 
         , "TurnBasedStrategyGo"
 
-        , "Guide", "GuideOpen"
+        , "Guide"
+        , "GuideOpen"
 
-        , "SpellsUI", "SpellAmulet"
+        , "SpellsUI"
+        , "SpellAmulet"
 
-        , "ForestMaze", "AssemblyDesigner"
+        , "ForestMaze"
+        , "AssemblyDesigner"
 
-        , "SurveyBigFish", "FreezeHOG"
+        , "SurveyBigFish"
+        , "FreezeHOG"
 
-        , "LanguageSelect", "LoadingScene", "TrialMobile"
+        , "LanguageSelect"
+        , "LoadingScene"
+        , "TrialMobile"
 
-        , "GiftExchange", "GameStore", "DialogWindow", "SpecialPromotion", "LimitedPromo"
+        , "GiftExchange"
+        , "GameStore"
+        , "DialogWindow"
+        , "SpecialPromotion"
+        , "LimitedPromo"
 
         , "BalanceIndicator"
 
-        , "Store", "StorePage"
-
+        , "Store"
+        , "StorePage"
     ]
+
     if Mengine.getGameParamBool("NotUseDefaultEntitiesList", False) is True:
         Types = []
         from Foundation.DatabaseManager import DatabaseManager
@@ -475,10 +1367,28 @@ def onInitialize():
     ObjectManager.importObjects("HOPA.Object", Types)
 
     from HOPA.HOGManager import HOGManager
-    Types = ["HOGParamDefault", "HOGParamRolling", "HOGParamRollingLikeDefault", "HOGParamFXPartsGathering", "HOGParamSilhouette", "HOGParamDragDrop"]
+    Types = [
+        "HOGParamDefault"
+        , "HOGParamRolling"
+        , "HOGParamRollingLikeDefault"
+        , "HOGParamFXPartsGathering"
+        , "HOGParamSilhouette"
+        , "HOGParamDragDrop"
+    ]
 
     from Foundation.MonetizationManager import MonetizationManager
-    Components = ["Hint", "SkipPuzzle", "Guides", "SpecialPackage", "DisableAds", "PaidBonusChapter", "LimitedOffer", "PromoPackageNotEnoughMoney"]
+
+    Components = [
+        "Hint"
+        , "SkipPuzzle"
+        , "Guides"
+        , "SpecialPackage"
+        , "DisableAds"
+        , "PaidBonusChapter"
+        , "LimitedOffer"
+        , "PromoPackageNotEnoughMoney"
+    ]
+
     MonetizationManager.importComponents("HOPA.Entities.Monetization", Components)
 
     from Foundation.AccountManager import AccountManager

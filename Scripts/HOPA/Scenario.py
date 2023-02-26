@@ -1,5 +1,6 @@
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
+from Foundation.Task.TaskGenerator import TaskGeneratorException
 
 from HOPA.Macro.MacroCommandFactory import MacroCommandFactory
 
@@ -718,14 +719,26 @@ class Scenario(object):
 
         paragraphs_source.addNotify(Notificator.onScenarioRun, self.ScenarioID)
 
-        self.__onGeneratorParagraphs(paragraphs_source, ScenarioRunner, ScenarioChapter)
+        try:
+            self.__onGeneratorParagraphs(paragraphs_source, ScenarioRunner, ScenarioChapter)
+        except TaskGeneratorException as ex:
+            Trace.log("Manager", 0, "Scenario invalid generate paragraphs: %s", ex)
+
+            return False
+            pass
 
         paragraphs_source.addNotify(Notificator.onScenarioComplete, self.ScenarioID)
 
         repeats_taskChain = TaskManager.createTaskChain(GroupName=self.GroupName)
         repeats_source = repeats_taskChain.createTaskSource()
 
-        self.__onGeneratorRepeats(repeats_source, ScenarioRunner, ScenarioChapter)
+        try:
+            self.__onGeneratorRepeats(repeats_source, ScenarioRunner, ScenarioChapter)
+        except TaskGeneratorException as ex:
+            Trace.log("Manager", 0, "Scenario invalid generate repeats paragraphs: %s", ex)
+
+            return False
+            pass
 
         tcs = [paragraphs_taskChain, repeats_taskChain]
 

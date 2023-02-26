@@ -31,10 +31,14 @@ class MacroManager(object):
     @staticmethod
     def loadParams(module, param):
         if param == "MacroCommands":
-            MacroManager.loadMacroCommands(module, "MacroCommands")
+            if MacroManager.loadMacroCommands(module, "MacroCommands") is False:
+                return False
+                pass
             pass
         if param == "CommandsQuestFilter":
-            MacroManager.loadCommandsQuestFilter(module, "SceneSlots")
+            if MacroManager.loadCommandsQuestFilter(module, "SceneSlots") is False:
+                return False
+                pass
             pass
 
         return True
@@ -49,13 +53,21 @@ class MacroManager(object):
             Module = record.get("Module")
             Type = record.get("Type")
 
-            MacroManager.importMacroCommand(Module, CommandName, Type)
+            if MacroManager.importMacroCommand(Module, CommandName, Type) is False:
+                return False
+                pass
             pass
+
+        return True
         pass
 
     @staticmethod
     def loadCommandsQuestFilter(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
+
+        if records is None:
+            return False
+            pass
 
         for record in records:
             CommandType = record.get("CommandType")
@@ -63,6 +75,8 @@ class MacroManager(object):
 
             MacroManager.s_commandsQuestFilter[CommandType] = FilterObjectTypes
             pass
+
+        return True
         pass
 
     @staticmethod
@@ -81,12 +95,20 @@ class MacroManager(object):
 
     @staticmethod
     def importMacroCommand(module, commandName, commandType):
-        FromName = module
-        ModuleName = "%s.%s" % (FromName, commandType)
-        Module = __import__(ModuleName, fromlist=[FromName])
-        Type = getattr(Module, commandType)
+        try:
+            FromName = module
+            ModuleName = "%s.%s" % (FromName, commandType)
+            Module = __import__(ModuleName, fromlist=[FromName])
+            Type = getattr(Module, commandType)
+        except ImportError as ex:
+            Trace.log("Manager", 0, "invalid import macro command %s command name %s type %s except error: %s", module, commandName, commandType, ex)
+
+            return False
+            pass
 
         MacroCommandFactory.addCommandType(commandName, Type)
+
+        return True
         pass
 
     @staticmethod

@@ -107,7 +107,11 @@ class ScenarioChapter(Initializer):
             pass
 
         for scenario in self.scenarios.itervalues():
-            scenario.generateScenario(self)
+            if scenario.generateScenario(self) is False:
+                Trace.log("Manager", 0, "ScenarioChapter.run scenario invalid generate")
+
+                return False
+                pass
             pass
 
         if _DEVELOPMENT is True:

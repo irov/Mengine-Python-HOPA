@@ -362,41 +362,68 @@ class AliasCruiseControlAction(TaskAlias):
 """ Pos detection functions mapping to object type 
     This is used when Alias received Object and not Click Position
 """
-AliasCruiseControlAction.getObjectPos = {'ObjectMovie2Button': AliasCruiseControlAction.getPosMovieButtonObj, 'ObjectMovieButton': AliasCruiseControlAction.getPosMovieButtonObj, 'ObjectMovie2CheckBox': AliasCruiseControlAction.getPosMovieButtonObj, 'ObjectMovieCheckBox': AliasCruiseControlAction.getPosMovieButtonObj,
-
-    'ObjectMovie2': AliasCruiseControlAction.getPosMovieObj, 'ObjectMovie': AliasCruiseControlAction.getPosMovieObj,
-
-    'ObjectZoom': AliasCruiseControlAction.getPosInteractionObj, 'ObjectSocket': AliasCruiseControlAction.getPosInteractionObj, 'ObjectInteraction': AliasCruiseControlAction.getPosInteractionObj, 'ObjectTransition': AliasCruiseControlAction.getPosInteractionObj, 'ObjectButton': AliasCruiseControlAction.getPosInteractionObj, 'ObjectItem': AliasCruiseControlAction.getPosInteractionObj,
-
-    'ObjectMovieItem': AliasCruiseControlAction.getPosMovieItemObj, 'ObjectMovie2Item': AliasCruiseControlAction.getPosMovieItemObj,
-
-    'ObjectSprite': AliasCruiseControlAction.getPosSpriteObj, 'ObjectInventoryItem': AliasCruiseControlAction.getPosSpriteObj, 'ObjectInventoryCountItem': AliasCruiseControlAction.getPosSpriteObj,
-
-    'ObjectFan': AliasCruiseControlAction.getPosZero, }
+AliasCruiseControlAction.getObjectPos = {
+    'ObjectMovie2Button': AliasCruiseControlAction.getPosMovieButtonObj,
+    'ObjectMovieButton': AliasCruiseControlAction.getPosMovieButtonObj,
+    'ObjectMovie2CheckBox': AliasCruiseControlAction.getPosMovieButtonObj,
+    'ObjectMovieCheckBox': AliasCruiseControlAction.getPosMovieButtonObj,
+    'ObjectMovie2': AliasCruiseControlAction.getPosMovieObj,
+    'ObjectMovie': AliasCruiseControlAction.getPosMovieObj,
+    'ObjectZoom': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectSocket': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectInteraction': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectTransition': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectButton': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectItem': AliasCruiseControlAction.getPosInteractionObj,
+    'ObjectMovieItem': AliasCruiseControlAction.getPosMovieItemObj,
+    'ObjectMovie2Item': AliasCruiseControlAction.getPosMovieItemObj,
+    'ObjectSprite': AliasCruiseControlAction.getPosSpriteObj,
+    'ObjectInventoryItem': AliasCruiseControlAction.getPosSpriteObj,
+    'ObjectInventoryCountItem': AliasCruiseControlAction.getPosSpriteObj,
+    'ObjectFan': AliasCruiseControlAction.getPosZero,
+}
 
 """ Clicked object observer mapping to object type """
-AliasCruiseControlAction.checkClickSuccessObservers = {'ObjectMovie2Button': AliasCruiseControlAction.checkClickSuccessMovie2ButtonObj, 'ObjectMovieButton': AliasCruiseControlAction.checkClickSuccessMovieButtonObj, 'ObjectMovie2CheckBox': AliasCruiseControlAction.checkClickSuccessNone, 'ObjectMovieCheckBox': AliasCruiseControlAction.checkClickSuccessNone,
-
-    'ObjectMovie2': AliasCruiseControlAction.checkClickSuccessMovie2Obj, 'ObjectMovie': AliasCruiseControlAction.checkClickSuccessNone,
-
-    'ObjectZoom': AliasCruiseControlAction.checkClickSuccessZoomObj, 'ObjectSocket': AliasCruiseControlAction.checkClickSuccessSocketObj, 'ObjectInteraction': AliasCruiseControlAction.checkClickSuccessInteractionObj, 'ObjectTransition': AliasCruiseControlAction.checkClickSuccessTransitionObj, 'ObjectButton': AliasCruiseControlAction.checkClickSuccessButtonObj, 'ObjectItem': AliasCruiseControlAction.checkClickSuccessItemObj,
-
-    'ObjectMovieItem': AliasCruiseControlAction.checkClickSuccessMovieItemObj, 'ObjectMovie2Item': AliasCruiseControlAction.checkClickSuccessMovieItemObj,
-
-    'ObjectSprite': AliasCruiseControlAction.checkClickSuccessNone, 'ObjectInventoryItem': AliasCruiseControlAction.checkClickSuccessNone, 'ObjectInventoryCountItem': AliasCruiseControlAction.checkClickSuccessNone,
-
-    'ObjectFan': AliasCruiseControlAction.checkClickSuccessNone, }
+AliasCruiseControlAction.checkClickSuccessObservers = {
+    'ObjectMovie2Button': AliasCruiseControlAction.checkClickSuccessMovie2ButtonObj,
+    'ObjectMovieButton': AliasCruiseControlAction.checkClickSuccessMovieButtonObj,
+    'ObjectMovie2CheckBox': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectMovieCheckBox': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectMovie2': AliasCruiseControlAction.checkClickSuccessMovie2Obj,
+    'ObjectMovie': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectZoom': AliasCruiseControlAction.checkClickSuccessZoomObj,
+    'ObjectSocket': AliasCruiseControlAction.checkClickSuccessSocketObj,
+    'ObjectInteraction': AliasCruiseControlAction.checkClickSuccessInteractionObj,
+    'ObjectTransition': AliasCruiseControlAction.checkClickSuccessTransitionObj,
+    'ObjectButton': AliasCruiseControlAction.checkClickSuccessButtonObj,
+    'ObjectItem': AliasCruiseControlAction.checkClickSuccessItemObj,
+    'ObjectMovieItem': AliasCruiseControlAction.checkClickSuccessMovieItemObj,
+    'ObjectMovie2Item': AliasCruiseControlAction.checkClickSuccessMovieItemObj,
+    'ObjectSprite': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectInventoryItem': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectInventoryCountItem': AliasCruiseControlAction.checkClickSuccessNone,
+    'ObjectFan': AliasCruiseControlAction.checkClickSuccessNone,
+}
 
 """ Handle click fake scopes mapping """
 
-AliasCruiseControlAction.handleClickFakeScopes = {'ObjectMovie2Button': AliasCruiseControlAction.handleClickFakeMovie2ButtonObj, 'ObjectMovieButton': AliasCruiseControlAction.handleClickFakeMovieButtonObj, 'ObjectMovie2CheckBox': AliasCruiseControlAction.handleClickFakeNone, 'ObjectMovieCheckBox': AliasCruiseControlAction.handleClickFakeNone,
-
-    'ObjectMovie2': AliasCruiseControlAction.handleClickFakeMovie2Obj, 'ObjectMovie': AliasCruiseControlAction.handleClickFakeNone,
-
-    'ObjectZoom': AliasCruiseControlAction.handleClickFakeZoomObj, 'ObjectSocket': AliasCruiseControlAction.handleClickFakeSocketObj, 'ObjectInteraction': AliasCruiseControlAction.handleClickFakeInteractionObj, 'ObjectTransition': AliasCruiseControlAction.handleClickFakeTransitionObj, 'ObjectButton': AliasCruiseControlAction.handleClickFakeButtonObj, 'ObjectItem': AliasCruiseControlAction.handleClickFakeItemObj,
-
-    'ObjectMovieItem': AliasCruiseControlAction.handleClickFakeMovieItemObj, 'ObjectMovie2Item': AliasCruiseControlAction.handleClickFakeMovieItemObj,
-
-    'ObjectSprite': AliasCruiseControlAction.handleClickFakeNone, 'ObjectInventoryItem': AliasCruiseControlAction.handleClickFakeNone, 'ObjectInventoryCountItem': AliasCruiseControlAction.handleClickFakeNone,
-
-    'ObjectFan': AliasCruiseControlAction.handleClickFakeNone, }
+AliasCruiseControlAction.handleClickFakeScopes = {
+    'ObjectMovie2Button': AliasCruiseControlAction.handleClickFakeMovie2ButtonObj,
+    'ObjectMovieButton': AliasCruiseControlAction.handleClickFakeMovieButtonObj,
+    'ObjectMovie2CheckBox': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectMovieCheckBox': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectMovie2': AliasCruiseControlAction.handleClickFakeMovie2Obj,
+    'ObjectMovie': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectZoom': AliasCruiseControlAction.handleClickFakeZoomObj,
+    'ObjectSocket': AliasCruiseControlAction.handleClickFakeSocketObj,
+    'ObjectInteraction': AliasCruiseControlAction.handleClickFakeInteractionObj,
+    'ObjectTransition': AliasCruiseControlAction.handleClickFakeTransitionObj,
+    'ObjectButton': AliasCruiseControlAction.handleClickFakeButtonObj,
+    'ObjectItem': AliasCruiseControlAction.handleClickFakeItemObj,
+    'ObjectMovieItem': AliasCruiseControlAction.handleClickFakeMovieItemObj,
+    'ObjectMovie2Item': AliasCruiseControlAction.handleClickFakeMovieItemObj,
+    'ObjectSprite': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectInventoryItem': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectInventoryCountItem': AliasCruiseControlAction.handleClickFakeNone,
+    'ObjectFan': AliasCruiseControlAction.handleClickFakeNone,
+}

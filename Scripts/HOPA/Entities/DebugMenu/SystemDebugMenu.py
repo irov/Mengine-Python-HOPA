@@ -371,6 +371,10 @@ class SystemDebugMenu(System):
         cur_stage = StageManager.getCurrentStage()
         scenario_chapter = cur_stage.getScenarioChapter()
 
+        if scenario_chapter.scenarios is None:
+            Trace.log("System", 0, "scenartio chapter None scenarios")
+            return
+
         macro_widgets = {}  # "scenario": {"title": widget, "buttons": [widget, ...] }
         ph_widgets = {}  # "ph_id": [widget, ...]
 

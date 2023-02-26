@@ -100,7 +100,15 @@ class ScenarioRunner(Initializer):
         pass
 
     def generateScenario(self, ScenarioChapter):
-        self.tcs = self.Scenario.onGenerator(self, ScenarioChapter)
+        tcs = self.Scenario.onGenerator(self, ScenarioChapter)
+
+        if tcs is None:
+            return False
+            pass
+
+        self.tcs = tcs
+
+        return True
         pass
 
     def createMacroCommand(self, Command):

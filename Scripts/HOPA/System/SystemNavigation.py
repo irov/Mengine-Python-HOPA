@@ -1,14 +1,15 @@
-from Foundation.DefaultManager import DefaultManager
-from Foundation.GroupManager import GroupManager
-from Foundation.Notificator import Notificator
-from Foundation.Object.ObjectTransition import ObjectTransition
-from Foundation.Object.ObjectZoom import ObjectZoom
-from Foundation.SceneManager import SceneManager
-from Foundation.System import System
-from Foundation.SystemManager import SystemManager
+from HOPA.Object.ObjectZoom import ObjectZoom
+from HOPA.Object.ObjectTransition import ObjectTransition
 from HOPA.TransitionHighlightManager import TransitionHighlightManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
+
+from Foundation.DefaultManager import DefaultManager
+from Foundation.GroupManager import GroupManager
+from Foundation.Notificator import Notificator
+from Foundation.SceneManager import SceneManager
+from Foundation.System import System
+from Foundation.SystemManager import SystemManager
 
 class SystemNavigation(System):
     __use_movie2buttons__ = False  # check if we using old buttons or new movie2buttons

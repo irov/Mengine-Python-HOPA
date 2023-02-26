@@ -7,7 +7,11 @@ from HOPA.OverViewManager import OverViewManager
 from Notification import Notification
 
 class SystemOverView(System):
-    noficators = {'ObjectSocket': (Notificator.onSocketMouseEnter, Notificator.onSocketMouseLeave), 'ObjectTransition': (Notificator.onTransitionMouseEnter, Notificator.onTransitionMouseLeave), 'ObjectZoom': (Notificator.onZoomMouseEnter, Notificator.onZoomMouseLeave)}
+    noficators = {
+        'ObjectSocket': (Notificator.onSocketMouseEnter, Notificator.onSocketMouseLeave),
+        'ObjectTransition': (Notificator.onTransitionMouseEnter, Notificator.onTransitionMouseLeave),
+        'ObjectZoom': (Notificator.onZoomMouseEnter, Notificator.onZoomMouseLeave)
+    }
 
     def __init__(self):
         super(SystemOverView, self).__init__()

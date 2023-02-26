@@ -10,7 +10,12 @@ class __SystemSpell(System):
     deprecated
     """
     s_currentSpell = None
-    noficators = {'ObjectSocket': (Notificator.onSocketMouseEnter, Notificator.onSocketMouseLeave), 'ObjectTransition': (Notificator.onTransitionMouseEnter, Notificator.onTransitionMouseLeave), 'ObjectZoom': (Notificator.onZoomMouseEnter, Notificator.onZoomMouseLeave), 'ObjectItem': (Notificator.onItemMouseEnter, Notificator.onItemMouseLeave)}
+    noficators = {
+        'ObjectSocket': (Notificator.onSocketMouseEnter, Notificator.onSocketMouseLeave),
+        'ObjectTransition': (Notificator.onTransitionMouseEnter, Notificator.onTransitionMouseLeave),
+        'ObjectZoom': (Notificator.onZoomMouseEnter, Notificator.onZoomMouseLeave),
+        'ObjectItem': (Notificator.onItemMouseEnter, Notificator.onItemMouseLeave)
+    }
 
     # onQuestObjectsNotificators = {
     #        'SpellOne': (Notificator.onSpellOneMouseEnter,	Notificator.onSpellOneMouseLeave)
