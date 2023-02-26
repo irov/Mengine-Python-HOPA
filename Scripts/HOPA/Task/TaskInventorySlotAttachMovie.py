@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Task.Task import Task
 
 class TaskInventorySlotAttachMovie(Task):

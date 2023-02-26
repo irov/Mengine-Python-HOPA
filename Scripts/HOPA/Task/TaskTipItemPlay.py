@@ -1,8 +1,3 @@
-"""
-Created on 07.10.2011
-@author: Me
-"""
-
 from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.Task import Task
 

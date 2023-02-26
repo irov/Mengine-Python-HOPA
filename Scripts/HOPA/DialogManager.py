@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Bootstrapper import checkBuildMode
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager

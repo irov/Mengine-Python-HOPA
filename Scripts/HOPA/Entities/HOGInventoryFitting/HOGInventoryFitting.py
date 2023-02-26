@@ -1,4 +1,3 @@
-import Trace
 from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase

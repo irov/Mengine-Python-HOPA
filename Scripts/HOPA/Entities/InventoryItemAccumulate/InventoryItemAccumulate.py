@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Entity.BaseEntity import BaseEntity
 from Notification import Notification
 

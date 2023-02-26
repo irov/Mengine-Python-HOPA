@@ -1,4 +1,3 @@
-import Trace
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import isCollectorEdition

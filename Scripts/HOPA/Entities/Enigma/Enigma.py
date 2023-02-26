@@ -1,4 +1,3 @@
-import Trace
 from Foundation.DemonManager import DemonManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GuardBlockInput import GuardBlockInput

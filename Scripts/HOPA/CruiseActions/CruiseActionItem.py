@@ -1,5 +1,3 @@
-import Trace
-
 from Foundation.Task.MixinObjectTemplate import MixinItem
 
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault

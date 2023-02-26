@@ -1,8 +1,3 @@
-"""
-Created on 15.09.2011
-
-@author: Me
-"""
 from Foundation.Task.MixinObjectTemplate import MixinFanItem
 from Foundation.Task.Task import Task
 

@@ -1,4 +1,3 @@
-import Trace
 from Foundation.GroupManager import GroupManager
 from Foundation.Initializer import Initializer
 from Foundation.Params import Params

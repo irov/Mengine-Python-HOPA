@@ -1,4 +1,3 @@
-import Trace
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager

@@ -1,4 +1,3 @@
-import Trace
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DemonManager import DemonManager
 from Foundation.Entity.BaseEntity import BaseEntity

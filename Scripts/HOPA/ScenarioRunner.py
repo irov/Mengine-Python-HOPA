@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Initializer import Initializer
 from Notification import Notification
 

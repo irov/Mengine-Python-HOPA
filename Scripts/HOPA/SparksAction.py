@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Initializer import Initializer
 from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene

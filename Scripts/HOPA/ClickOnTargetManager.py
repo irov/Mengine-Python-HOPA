@@ -3,7 +3,6 @@ Documentation:
 https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/170754049/ClickOnTarget
 """
 
-import Trace
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 

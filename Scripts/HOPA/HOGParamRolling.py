@@ -1,4 +1,3 @@
-import Trace
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager

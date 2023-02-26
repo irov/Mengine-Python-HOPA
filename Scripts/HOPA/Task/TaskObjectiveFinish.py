@@ -1,7 +1,3 @@
-"""
-Upadet on 20.09.2011
-@author: Me
-"""
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.Task import Task
 

@@ -1,4 +1,3 @@
-import Trace
 from Foundation.DatabaseManager import DatabaseManager
 from TraceManager import TraceManager
 

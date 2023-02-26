@@ -161,10 +161,7 @@ class MultiFinalTwist(Twist):
         return mustPlay
 
     def inFinalState(self):
-        # return number of branch  in final state or False
         if self.CurentState in self.FinalStateList:
-            # branch = self.FinalStateList.index(self.CurentState)
-            # return branch+1 # coz author sasha = UEBOK
             return True
             pass
         else:

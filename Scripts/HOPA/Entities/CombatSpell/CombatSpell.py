@@ -1,5 +1,3 @@
-import Trace
-
 from Foundation.TaskManager import TaskManager
 
 Enigma = Mengine.importEntity("Enigma")

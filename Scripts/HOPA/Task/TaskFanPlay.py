@@ -1,9 +1,3 @@
-"""
-Created on 14.09.2011
-
-@author: Me
-"""
-
 from Foundation.Task.Task import Task
 
 from HOPA.FanManager import FanManager

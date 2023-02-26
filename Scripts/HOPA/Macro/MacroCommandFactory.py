@@ -1,5 +1,3 @@
-import Trace
-
 class MacroCommandFactory(object):
     s_commandType = {}
     s_commandEnumerator = 0

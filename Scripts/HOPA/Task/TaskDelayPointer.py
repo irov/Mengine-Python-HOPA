@@ -1,9 +1,3 @@
-"""
-Created on 14.08.2014 Up
-
-@author: Me
-"""
-import Trace
 from Foundation.Task.MixinTime import MixinTime
 from Foundation.Task.Task import Task
 

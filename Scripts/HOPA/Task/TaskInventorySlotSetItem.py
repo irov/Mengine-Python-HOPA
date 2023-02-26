@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Task.MixinObjectTemplate import MixinInventoryItem
 from Foundation.Task.Task import Task
 

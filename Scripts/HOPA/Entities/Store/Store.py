@@ -32,7 +32,6 @@ class Store(BaseEntity):
         if SystemManager.hasSystem("SystemStore") is False:
             Trace.log("Entity", 0, "Store requires SystemStore for work!!!!!")
 
-        # if player not authorized - try auth
         PolicyAuth = PolicyManager.getPolicy("Authorize", "PolicyDummy")
         TaskManager.runAlias(PolicyAuth, None)
 

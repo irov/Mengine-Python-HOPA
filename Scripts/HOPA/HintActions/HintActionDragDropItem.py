@@ -1,5 +1,3 @@
-import Trace
-
 from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObjectTemplate import MixinItem
 

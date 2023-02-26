@@ -1,4 +1,3 @@
-import Trace
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager

@@ -1,5 +1,3 @@
-import Trace
-
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 

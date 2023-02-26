@@ -1,5 +1,3 @@
-import Trace
-
 from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget

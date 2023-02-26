@@ -1,4 +1,3 @@
-import Trace
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 

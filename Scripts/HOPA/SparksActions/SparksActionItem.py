@@ -1,4 +1,3 @@
-import Trace
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 

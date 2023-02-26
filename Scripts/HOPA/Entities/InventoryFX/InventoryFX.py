@@ -1,4 +1,3 @@
-import Trace
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
