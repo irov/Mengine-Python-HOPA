@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Texts>
+    <Text Key="__ID_TEXT_CONSOLE" Value="%s"/>
+    <Text Key="__ID_TIMING" Value="%s"/>
+
+    <Text Key="ID_DebugMenuScenes" Value="Scenes"/>
+    <Text Key="ID_DebugMenuItems" Value="Items"/>
+    <Text Key="ID_DebugMenuParagraphs" Value="Paragraphs"/>
+    <Text Key="ID_DebugMenuScene" Value="%s"/>
+    <Text Key="ID_DebugMenuStages" Value="Stages"/>
+    <Text Key="ID_DebugMenuItem" Value="%s"/>
+
+    <Text Key="ID_DebugMenuNextPage" Value="Next"/>
+    <Text Key="ID_DebugMenuBackPage" Value="Back"/>
+
+    <Text Key="ID_InventoryCountItem" Value="%s\%s"/>
+    <Text Key="ID_MenuGreeting" Value="Welcome, %s!"/>
+    <Text Key="ID_HOGImageCount" Value="%s\%s"/>
+    <Text Key="ID_Mana" Value="%s\%s"/>
+    <Text Key="ID_EMPTY_TEXT" Value=" "/>
+    <Text Key="ID_EMPTY" Value=" "/>
+
+    <!--  Currency symbols  -->
+    <Text Key="ID_CURRENCY_DOLLAR" Value="$"/>
+    <Text Key="ID_CURRENCY_YEN" Value="¥"/>
+    <Text Key="ID_CURRENCY_POUND" Value="£"/>
+    <Text Key="ID_CURRENCY_EURO" Value="€"/>
+    <Text Key="ID_CURRENCY_HRYVNIA" Value="₴"/>
+</Texts>

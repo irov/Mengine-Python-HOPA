@@ -2,4 +2,8 @@
     <Scripts>
         <Script Path="Scripts/" Module="HOPA" Initializer="onInitialize" Finalizer="onFinalize"/>
     </Scripts>
+    
+    <Texts>
+        <Text Path="Texts.xml"/>
+    </Texts>
 </Pak>
