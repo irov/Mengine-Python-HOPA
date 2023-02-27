@@ -6,4 +6,8 @@
     <Texts>
         <Text Path="Texts.xml"/>
     </Texts>
+    
+    <Fonts>
+        <Font Path = "Fonts.json"/>
+    </Fonts>
 </Pak>
