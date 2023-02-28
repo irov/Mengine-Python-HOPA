@@ -22,7 +22,8 @@
 
     <!--  Currency symbols  -->
     <Text Key="ID_CURRENCY_DOLLAR" Value="$"/>
-    <Text Key="ID_CURRENCY_YEN" Value="¥"/>
+    <Text Key="ID_CURRENCY_YUAN" Value="¥"/>
+    <Text Key="ID_CURRENCY_YUAN_CHAR" Value="元"/>
     <Text Key="ID_CURRENCY_POUND" Value="£"/>
     <Text Key="ID_CURRENCY_EURO" Value="€"/>
     <Text Key="ID_CURRENCY_HRYVNIA" Value="₴"/>
