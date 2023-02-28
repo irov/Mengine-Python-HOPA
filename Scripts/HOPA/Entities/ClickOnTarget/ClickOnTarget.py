@@ -2,7 +2,6 @@
 Documentation:
 https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/170754049/ClickOnTarget
 """
-
 from Event import Event
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
@@ -17,6 +16,7 @@ Enigma = Mengine.importEntity("Enigma")
 
 SCENE_MG_INVENTORY_GROUP = "MahjongInventory"
 SCENE_COUNTER_DEMON_OBJECT = "Demon_MahjongInventory"
+
 
 class Target(object):
     def __init__(self, movie_idle, movie_down, hit_movies, miss_movies, group_movie_with_target_slot, group_movie_with_target_slot_name, enigma_owner):
@@ -114,6 +114,7 @@ class Target(object):
         for movie in self.hit_movies:
             movie.returnToParent()
 
+
 class ClickOnTarget(Enigma):
     def __init__(self):
         super(ClickOnTarget, self).__init__()
@@ -123,6 +124,7 @@ class ClickOnTarget(Enigma):
         # target filling
         self.filler = None
         self.target_fill = None
+        self.event_target_fill_charged = Event("onTargetFillCharged")
 
         self.target_fill_charged_anim = None
         self.target_fill_appear_anim = None
@@ -152,13 +154,13 @@ class ClickOnTarget(Enigma):
         self.rand_acceleration_min = 650.0  # param
         self.rand_acceleration_max = 1000.0  # param
         self.max_speed = 120.0  # param
-
         self.velocity = Mengine.vec2f(0.0, 0.0)
-        #
-        self.SemaphoreBlockClick = Semaphore(False, "ButtonClickBlock")
 
+        self.semaphore_block_click = Semaphore(False, "ButtonClickBlock")
+
+        # first click socket
         self.socket_click = None
-        self.socket_click_event = Event("onSocketClick")
+        self.event_socket_click = Event("onSocketClick")
 
         # visual target
         self.target = None
@@ -173,11 +175,13 @@ class ClickOnTarget(Enigma):
             Trace.log("Entity", 0, msg)
 
     def setup(self):
-        # cteate socket click
+        # create socket click
         scene = SceneManager.getCurrentScene()
         layer = scene.getMainLayer()
+        click_polygon = Utils.createPolygonScene(layer, 0, 0)
+
         self.socket_click = layer.createChild("HotSpotPolygon")
-        self.socket_click.setPolygon([(0, 0), (1280, 0), (1280, 768), (0, 768)])
+        self.socket_click.setPolygon(click_polygon)
         self.socket_click.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
         self.socket_click.enable()
 
@@ -241,10 +245,16 @@ class ClickOnTarget(Enigma):
         filler_en.setLocalPosition(target_fill_local_center)
 
         # initialize target fill radius with slots
-        self.f_target_fill_radius = Mengine.length_v2_v2(self.target_fill_slot_center.getWorldPosition(), self.target_fill_slot_fill_radius.getWorldPosition())
+        self.f_target_fill_radius = Mengine.length_v2_v2(
+            self.target_fill_slot_center.getWorldPosition(),
+            self.target_fill_slot_fill_radius.getWorldPosition()
+        )
 
         # initialize target border radius with slots
-        self.f_target_fill_border_radius = Mengine.length_v2_v2(self.target_fill_slot_center.getWorldPosition(), self.target_fill_slot_border_radius.getWorldPosition())
+        self.f_target_fill_border_radius = Mengine.length_v2_v2(
+            self.target_fill_slot_center.getWorldPosition(),
+            self.target_fill_slot_border_radius.getWorldPosition()
+        )
 
         # set target appear anim on start
         self.target_fill_appear_anim.setLastFrame(False)
@@ -303,7 +313,6 @@ class ClickOnTarget(Enigma):
             self.last_cursor_pos = pos
             return
 
-        # update filler pos
         delta_pos = pos - self.last_cursor_pos
 
         filler_pos = self.filler.entity.node.getWorldPosition()
@@ -445,6 +454,7 @@ class ClickOnTarget(Enigma):
             self.target_fill_charged_anim.setEnable(True)
             self.target_fill_charged_anim.setPlay(True)
             self.target_fill_charged_anim.setLoop(True)
+            self.event_target_fill_charged()
 
         else:
             target_appear_slot = self.target_fill_appear_anim.getMovieSlot("target")
@@ -497,7 +507,7 @@ class ClickOnTarget(Enigma):
                 parallel_1.addPlay(self.target_fill_appear_anim, Wait=True)
 
             tc.addFunction(self.setTargetFillActive, True)
-            tc.addSemaphore(self.SemaphoreBlockClick, To=False)
+            tc.addSemaphore(self.semaphore_block_click, To=False)
 
     def playTargetFillDisappearAnim(self):
         if self.tc_play_target_fill_anim is not None and self.tc_play_target_fill_anim.state is self.tc_play_target_fill_anim.RUN:
@@ -523,6 +533,7 @@ class ClickOnTarget(Enigma):
 
         arrow_node = Mengine.getArrow().node
         arrow_alpha_time = self.target_fill_disappear_anim.entity.getDuration() / 1000
+
         # tc
         if self.tc_play_target_fill_anim is not None:
             self.tc_play_target_fill_anim.cancel()
@@ -538,7 +549,7 @@ class ClickOnTarget(Enigma):
             else:
                 tc.addScope(self.target.scopeMiss)
 
-            tc.addSemaphore(self.SemaphoreBlockClick, To=False)
+            tc.addSemaphore(self.semaphore_block_click, To=False)
 
             with tc.addIfTask(lambda: self.target.hp == 0) as (true, _):
                 true.addFunction(self.enigmaComplete)
@@ -552,14 +563,14 @@ class ClickOnTarget(Enigma):
     def onMouseClick(self):
         if self.b_target_fill_is_active:
             self.playTargetFillDisappearAnim()
+            self.toolbarButtonsBlock(False)
         else:
+            self.toolbarButtonsBlock(True)
             self.playTargetFillAppearAnim()
 
     def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button != 0:
-            return False
-
-        self.socket_click_event()
+        if button == 0:
+            self.event_socket_click()
         return False
 
     def toolbarButtonsBlock(self, state):
@@ -596,8 +607,7 @@ class ClickOnTarget(Enigma):
                 movie2_button_hide_inventory_entity.setBlock(state)
 
     def __filterClick(self, value):
-        self.SemaphoreBlockClick.setValue(value)
-
+        self.semaphore_block_click.setValue(value)
         return True
 
     def runTaskChains(self):
@@ -605,18 +615,20 @@ class ClickOnTarget(Enigma):
             self.tc_main.cancel()
 
         self.tc_main = TaskManager.createTaskChain(Repeat=True)
-        with self.tc_main as tc_click:
-            tc_click.addSemaphore(self.SemaphoreBlockClick, From=False)
-            tc_click.addSemaphore(self.SemaphoreBlockClick, To=True)
-            tc_click.addEvent(self.socket_click_event)
-            tc_click.addFunction(self.toolbarButtonsBlock, True)
-            tc_click.addFunction(self.onMouseClick)
+        with self.tc_main as tc:
+            # first click - to show target
+            tc.addSemaphore(self.semaphore_block_click, From=False, To=True)
+            tc.addEvent(self.event_socket_click)
+            tc.addFunction(self.onMouseClick)
 
-            tc_click.addSemaphore(self.SemaphoreBlockClick, From=False)
-            tc_click.addSemaphore(self.SemaphoreBlockClick, To=True)
-            tc_click.addTask("TaskMouseButtonClick", isDown=True)
-            tc_click.addFunction(self.onMouseClick)
-            tc_click.addFunction(self.toolbarButtonsBlock, False)
+            # second click - to throw and remove target
+            tc.addSemaphore(self.semaphore_block_click, From=False, To=True)
+            if Mengine.hasTouchpad() is True:
+                tc.addEvent(self.event_target_fill_charged)
+                tc.addDelay(1000.0)     # wait 1s
+            else:
+                tc.addTask("TaskMouseButtonClick")
+            tc.addFunction(self.onMouseClick)
 
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):
@@ -639,6 +651,7 @@ class ClickOnTarget(Enigma):
     def _stopEnigma(self):
         if self.tc_main is not None:
             self.tc_main.cancel()
+            self.tc_main = None
 
     def _restoreEnigma(self):
         self.runTaskChains()
