@@ -456,7 +456,12 @@ class SystemAchievements(System):
         if isinstance(trash, dict) is False:
             return
 
-        rune_use_achieves = {"Lamplighter": "light_rune_use", "Firestarter": "fire_rune_use", "Artisan": "reduction_rune_use", "Freeze master": "ice_rune_use"}
+        rune_use_achieves = {
+            "Lamplighter": "light_rune_use",
+            "Firestarter": "fire_rune_use",
+            "Artisan": "reduction_rune_use",
+            "Freeze master": "ice_rune_use"
+        }
         for achieve_name, value in trash.items():
             stat = rune_use_achieves[achieve_name]
             self.__dict__[stat] = value
@@ -467,7 +472,12 @@ class SystemAchievements(System):
             return
 
         # old stats, DO NOT change order - DON'T DO SAVES WITH LIST !!!!
-        self.item_collect_complete_count, self.minigames_complete_count, self.scenes_hog_hint_used, self.hogs_complete_no_hint_count, self.scenes_hint_used, self.scene_complete_no_hint_count = save_data['system_params']
+        self.item_collect_complete_count, \
+            self.minigames_complete_count, \
+            self.scenes_hog_hint_used, \
+            self.hogs_complete_no_hint_count, \
+            self.scenes_hint_used, \
+            self.scene_complete_no_hint_count = save_data['system_params']
 
         new_params = save_data.get("new_params", {})
         for stat, value in new_params.items():
@@ -522,7 +532,8 @@ class SystemAchievements(System):
                 tc_true.addFunction(self.__cheatCompleteRandomAchievement)
 
     def _addAnalytics(self):
-        SystemAnalytics.addSpecificAnalytic("unlock_achievement", "unlock_external_achievement", Notificator.onAchievementExternalUnlocked, None, lambda achieve_id: {'achievement_id': achieve_id})
+        SystemAnalytics.addSpecificAnalytic("unlock_achievement", "unlock_external_achievement",
+            Notificator.onAchievementExternalUnlocked, None, lambda achieve_id: {'achievement_id': achieve_id})
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:
@@ -555,7 +566,10 @@ class SystemAchievements(System):
 
         # Achievements
 
-        details = {"internal": SystemAchievements.s_achievements.values(), "external": SystemAchievements.s_external_achievements.values(), }
+        details = {
+            "internal": SystemAchievements.s_achievements.values(),
+            "external": SystemAchievements.s_external_achievements.values(),
+        }
 
         def _title(achievement):
             name = achievement.name

@@ -31,12 +31,19 @@ class DebugHUD(object):
     # utils
 
     def __createDevHUD(self):
-        self.dev_hud = {  # "mouse_pos_0": None,
+        self.dev_hud = {
+            # "mouse_pos_0": None,
             # "mouse_pos_1": None,
             # "mouse_move_0": None,
             # "mouse_move_1": None,
             # "mouse_wheel": None,
-            "on_drag": None, "drag_status": None, "on_drag_move": None, "on_scale": None, "block": None, "global_block": None, }
+            "on_drag": None,
+            "drag_status": None,
+            "on_drag_move": None,
+            "on_scale": None,
+            "block": None,
+            "global_block": None,
+        }
 
         font_name = "IUWindowText" if Mengine.hasFont("IUWindowText") else "__CONSOLE_FONT__"
 
@@ -197,7 +204,11 @@ class DebugCameraGizmo(object):
                 return _min
             return val
 
-        this_pos = Mengine.vec2f((screen_pos.x - half_res.x) / next_scale, (screen_pos.y - half_res.y) / next_scale)  # our new position
+        # our new position
+        this_pos = Mengine.vec2f(
+            (screen_pos.x - half_res.x) / next_scale,
+            (screen_pos.y - half_res.y) / next_scale
+        )
 
         # check distance. If > max_step, then move from last point to new by max_step units
         step = self.MAX_STEP / next_scale  # step decrease proportionally scale param
@@ -214,7 +225,10 @@ class DebugCameraGizmo(object):
             print("DIRECTION VECTOR:    ", direction, "   ", dist)
 
         # adjust new position by our borders
-        new_pos = Mengine.vec2f(adjust(this_pos.x, -half_res.x, half_res.x), adjust(this_pos.y, -half_res.y, half_res.y))
+        new_pos = Mengine.vec2f(
+            adjust(this_pos.x, -half_res.x, half_res.x),
+            adjust(this_pos.y, -half_res.y, half_res.y)
+        )
 
         # change pos
         self.set_position(new_pos)
@@ -297,7 +311,11 @@ class SystemCameraManipulation(System):
         self.debug_camera_gizmo = DebugCameraGizmo()
 
     def _onSave(self):
-        save = {"blocked_hotspot": self._blocked_hotspot, "global_blocked_hotspot": self._global_blocked_hotspot, "blocked_enigmas": self._blocked_enigmas, }
+        save = {
+            "blocked_hotspot": self._blocked_hotspot,
+            "global_blocked_hotspot": self._global_blocked_hotspot,
+            "blocked_enigmas": self._blocked_enigmas,
+        }
         return save
 
     def _onLoad(self, save):
@@ -398,7 +416,14 @@ class SystemCameraManipulation(System):
             scale_factor = DefaultManager.getDefaultFloat("TouchpadScaleFactor", 0.005)
 
         self.virtual_area = VirtualArea()
-        self.virtual_area.onInitialize(dragging_mode='free', disable_drag_if_invalid=False, enable_scale=DefaultManager.getDefaultBool("TouchpadEnableScale", True), max_scale=DefaultManager.getDefaultFloat("TouchpadMaxScale", 2.0), scale_factor=scale_factor, allow_out_of_bounds=False)
+        self.virtual_area.onInitialize(
+            dragging_mode='free',
+            disable_drag_if_invalid=False,
+            enable_scale=DefaultManager.getDefaultBool("TouchpadEnableScale", True),
+            max_scale=DefaultManager.getDefaultFloat("TouchpadMaxScale", 2.0),
+            scale_factor=scale_factor,
+            allow_out_of_bounds=False
+        )
 
         hotspot = self.hotspot
 
@@ -448,7 +473,12 @@ class SystemCameraManipulation(System):
         hotspot = Mengine.createNode("HotSpotPolygon")
 
         hotspot.setName("VirtualAreaSocket")
-        polygon = [(self.bounds["begin"].x, self.bounds["begin"].y), (self.bounds["end"].x, self.bounds["begin"].y), (self.bounds["end"].x, self.bounds["end"].y), (self.bounds["begin"].x, self.bounds["end"].y)]
+        polygon = [
+            (self.bounds["begin"].x, self.bounds["begin"].y),
+            (self.bounds["end"].x, self.bounds["begin"].y),
+            (self.bounds["end"].x, self.bounds["end"].y),
+            (self.bounds["begin"].x, self.bounds["end"].y)
+        ]
         hotspot.setPolygon(polygon)
         hotspot.setDefaultHandle(False)
         layer.addChild(hotspot)
@@ -612,4 +642,6 @@ class SystemCameraManipulation(System):
         # print "MOVE --- <{}> ({}, {}) [{}, {}]".format(touchId, x, y, dx, dy)
 
     def _onMouseButton(self, event):
-        print("BUTTON --- <{}> ({}, {}) btn={} | [down={}, press={}]".format(event.touchId, event.x, event.y, event.button, event.isDown, event.isPressed))
+        print("BUTTON --- <{}> ({}, {}) btn={} | [down={}, press={}]".format(
+            event.touchId, event.x, event.y, event.button, event.isDown, event.isPressed)
+        )

@@ -18,7 +18,11 @@ class SystemAnalytics(SystemAnalyticsBase):
         super(SystemAnalytics, self)._onInitialize()
 
         def _getExtraParams():
-            params = {"current_scene": str(SceneManager.getCurrentSceneName()), "previous_scene": str(SceneManager.getPrevSceneName()), "current_zoom": str(ZoomManager.getZoomOpenGroupName())}
+            params = {
+                "current_scene": str(SceneManager.getCurrentSceneName()),
+                "previous_scene": str(SceneManager.getPrevSceneName()),
+                "current_zoom": str(ZoomManager.getZoomOpenGroupName())
+            }
             return params
 
         self.addExtraAnalyticParams(_getExtraParams)
@@ -42,7 +46,13 @@ class SystemAnalytics(SystemAnalyticsBase):
         if self.start_game_timestamp is None:
             self.start_game_timestamp = Mengine.getTime()
 
-        save = {"unlocked_enigmas": self.unlocked_enigmas, "unlocked_scenes": self.unlocked_scenes, "unlocked_zooms": self.unlocked_zooms, "used_paragraphs": self.used_paragraphs, "start_game_timestamp": self.start_game_timestamp, }
+        save = {
+            "unlocked_enigmas": self.unlocked_enigmas,
+            "unlocked_scenes": self.unlocked_scenes,
+            "unlocked_zooms": self.unlocked_zooms,
+            "used_paragraphs": self.used_paragraphs,
+            "start_game_timestamp": self.start_game_timestamp,
+        }
         return save
 
     def _onLoad(self, save):
@@ -69,18 +79,81 @@ class SystemAnalytics(SystemAnalyticsBase):
         super(SystemAnalytics, self).addDefaultAnalytics()
 
         # key: [identity, check_method, params_method]
-        default_analytics = {  # mini-games ---------
-            "enigma_start": [Notificator.onEnigmaPlay, lambda enigma: enigma.getParam("EnigmaName") not in self.unlocked_enigmas, lambda enigma: {"name": enigma.getParam("EnigmaName")}], "enigma_reset": [Notificator.onEnigmaReset, None, lambda: {"name": self.__getCurrentEnigmaName()}], "enigma_skip": [Notificator.onEnigmaSkip, None, lambda: {"name": self.__getCurrentEnigmaName()}], "enigma_complete": [Notificator.onEnigmaComplete, None, lambda enigma: {"name": enigma.getParam("EnigmaName")}],
-            "complete_HO": [Notificator.onHOGDragDropComplete, None, lambda: {"name": str(SceneManager.getCurrentSceneName())}],  # items --------------
-            "item_pick": [Notificator.onInventoryAppendInventoryItem, None, lambda item: {"name": item.getName()}], "item_use": [Notificator.onInventoryItemTake, None, lambda item: {"name": item.getName()}], "item_invalid_use": [Notificator.onInventoryItemInvalidUse, None, lambda item, obj: {"name": item.getName(), "invalid_object": obj.getName()}],  # paragraphs ---------
-            "paragraph_start": [Notificator.onParagraphRun, lambda paragraph_id: paragraph_id not in self.used_paragraphs, lambda paragraph_id: {"name": paragraph_id}], "paragraph_complete": [Notificator.onParagraphComplete, lambda paragraph_id: paragraph_id not in self.used_paragraphs, lambda paragraph_id: {"name": paragraph_id}],  # other -------------
-            "store_first_visit": [Notificator.onSceneEnter, lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes, lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}], "scene_first_visit": [Notificator.onSceneEnter, lambda scene_name: scene_name is not None and scene_name not in self.unlocked_scenes, lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
-            "zoom_first_visit": [Notificator.onZoomOpen, lambda group_name: group_name is not None and group_name not in self.unlocked_zooms, lambda group_name: {"name": group_name, "played_minutes": self.__getPlayedMinutes()}], "open_store": [Notificator.onSceneEnter, lambda scene_name: scene_name == "Store", lambda *_, **__: {}], "complete_game": [Notificator.onGameComplete, None, lambda *_, **__: {"played_minutes": self.__getPlayedMinutes()}],
-            "complete_location": [Notificator.onLocationComplete, None, lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}], "seen_cutscene": [Notificator.onCutScenePlay, None, lambda cut_scene_name, _: {"name": cut_scene_name}], }
+        default_analytics = {
+            # mini-games ---------
+            "enigma_start":
+                [Notificator.onEnigmaPlay,
+                    lambda enigma: enigma.getParam("EnigmaName") not in self.unlocked_enigmas,
+                    lambda enigma: {"name": enigma.getParam("EnigmaName")}],
+            "enigma_reset":
+                [Notificator.onEnigmaReset, None,
+                    lambda: {"name": self.__getCurrentEnigmaName()}],
+            "enigma_skip":
+                [Notificator.onEnigmaSkip, None,
+                    lambda: {"name": self.__getCurrentEnigmaName()}],
+            "enigma_complete":
+                [Notificator.onEnigmaComplete, None,
+                    lambda enigma: {"name": enigma.getParam("EnigmaName")}],
+            "complete_HO":
+                [Notificator.onHOGDragDropComplete, None,
+                    lambda: {"name": str(SceneManager.getCurrentSceneName())}],
+            # items --------------
+            "item_pick":
+                [Notificator.onInventoryAppendInventoryItem, None,
+                    lambda item: {"name": item.getName()}],
+            "item_use":
+                [Notificator.onInventoryItemTake, None,
+                    lambda item: {"name": item.getName()}],
+            "item_invalid_use":
+                [Notificator.onInventoryItemInvalidUse, None,
+                    lambda item, obj: {"name": item.getName(), "invalid_object": obj.getName()}],
+            # paragraphs ---------
+            "paragraph_start":
+                [Notificator.onParagraphRun,
+                    lambda paragraph_id: paragraph_id not in self.used_paragraphs,
+                    lambda paragraph_id: {"name": paragraph_id}],
+            "paragraph_complete":
+                [Notificator.onParagraphComplete,
+                    lambda paragraph_id: paragraph_id not in self.used_paragraphs,
+                    lambda paragraph_id: {"name": paragraph_id}],
+            # other -------------
+            "store_first_visit":
+                [Notificator.onSceneEnter,
+                    lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes,
+                    lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
+            "scene_first_visit":
+                [Notificator.onSceneEnter,
+                    lambda scene_name: scene_name is not None and scene_name not in self.unlocked_scenes,
+                    lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
+            "zoom_first_visit":
+                [Notificator.onZoomOpen,
+                    lambda group_name: group_name is not None and group_name not in self.unlocked_zooms,
+                    lambda group_name: {"name": group_name, "played_minutes": self.__getPlayedMinutes()}],
+            "open_store":
+                [Notificator.onSceneEnter,
+                    lambda scene_name: scene_name == "Store", lambda *_, **__: {}],
+            "complete_game":
+                [Notificator.onGameComplete, None,
+                    lambda *_, **__: {"played_minutes": self.__getPlayedMinutes()}],
+            "complete_location":
+                [Notificator.onLocationComplete, None,
+                    lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
+            "seen_cutscene":
+                [Notificator.onCutScenePlay, None,
+                    lambda cut_scene_name, _: {"name": cut_scene_name}], }
+
         if DemonManager.hasDemon("Hint"):
             hint = DemonManager.getDemon("Hint")
-            hint_human_actions = {hint.ACTION_EMPTY_USE: "EMPTY_USE", hint.ACTION_REGULAR_USE: "REGULAR_USE", hint.ACTION_MIND_USE: "MIND_USE", hint.ACTION_NO_RELOAD_USE: "NO_RELOAD_USE", }
-            default_analytics["hint_click"] = [Notificator.onHintClick, None, lambda _, valid, action_id: {"valid": valid, "action": hint_human_actions.get(action_id, action_id)}]
+            hint_human_actions = {
+                hint.ACTION_EMPTY_USE: "EMPTY_USE",
+                hint.ACTION_REGULAR_USE: "REGULAR_USE",
+                hint.ACTION_MIND_USE: "MIND_USE",
+                hint.ACTION_NO_RELOAD_USE: "NO_RELOAD_USE",
+            }
+            default_analytics["hint_click"] = [
+                Notificator.onHintClick, None, lambda _, valid, action_id: {
+                    "valid": valid, "action": hint_human_actions.get(action_id, action_id)
+                }]
 
         for event_key, (identity, check_method, params_method) in default_analytics.items():
             self.addAnalytic(event_key, identity, check_method=check_method, params_method=params_method)
