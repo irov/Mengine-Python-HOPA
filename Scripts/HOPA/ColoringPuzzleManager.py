@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ColoringPuzzleManager(object):
     s_games = {}
 
@@ -12,8 +13,6 @@ class ColoringPuzzleManager(object):
             self.colors = colors
             self.brushesToColor = brushesToColor
             self.startColorId = startColorId
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -29,14 +28,16 @@ class ColoringPuzzleManager(object):
             Palette = record.get("Palette")
             StartColorId = record.get("StartColorId")
 
-            ColoringPuzzleManager.loadGame(module, Name, StartColorId, Brushes, ColoringRules, Fragments, Palette, Colors, BrushesToColor)
+            ColoringPuzzleManager.loadGame(module, Name, StartColorId, Brushes, ColoringRules, Fragments, Palette,
+                                           Colors, BrushesToColor)
             pass
 
         return True
         pass
 
     @staticmethod
-    def loadGame(module, name, StartColorId, BrushesParam, ColoringRulesParam, FragmentsParam, PaletteParam, ColorsParam, BrushesToColorParam):
+    def loadGame(module, name, StartColorId, BrushesParam, ColoringRulesParam, FragmentsParam, PaletteParam,
+                 ColorsParam, BrushesToColorParam):
         brushes = ColoringPuzzleManager.loadGameBrushes(module, BrushesParam)
         fragments = ColoringPuzzleManager.loadGameFragments(module, FragmentsParam)
         coloringRules = ColoringPuzzleManager.loadGameColoringRules(module, ColoringRulesParam)
@@ -44,7 +45,8 @@ class ColoringPuzzleManager(object):
         colors = ColoringPuzzleManager.loadGameColors(module, ColorsParam)
         brushesToColor = ColoringPuzzleManager.loadGameBrushesToColor(module, BrushesToColorParam)
 
-        game = ColoringPuzzleManager.ColoringPuzzleGame(brushes, fragments, coloringRules, palette, colors, brushesToColor, StartColorId)
+        game = ColoringPuzzleManager.ColoringPuzzleGame(brushes, fragments, coloringRules, palette, colors,
+                                                        brushesToColor, StartColorId)
 
         ColoringPuzzleManager.s_games[name] = game
         return game
@@ -88,9 +90,7 @@ class ColoringPuzzleManager(object):
             objectName = record.get("ObjectName")
             socketObjectName = record.get("SocketObjectName")
             fragments[fragmentId] = dict(ObjectName=objectName, SocketObjectName=socketObjectName, DefaultColorId=defaultColorId)
-            pass
         return fragments
-        pass
 
     @staticmethod
     def loadGameColoringRules(module, param):
@@ -144,6 +144,3 @@ class ColoringPuzzleManager(object):
     @staticmethod
     def hasGame(name):
         return name in ColoringPuzzleManager.s_games
-        pass
-
-    pass

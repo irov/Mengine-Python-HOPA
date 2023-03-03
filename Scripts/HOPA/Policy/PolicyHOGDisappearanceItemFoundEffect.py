@@ -4,6 +4,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class PolicyHOGDisappearanceItemFoundEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHOGDisappearanceItemFoundEffect, self)._onParams(params)

@@ -3,7 +3,9 @@ from Notification import Notification
 from CircularReflectionManager import CircularReflectionManager
 from Connections import Connectable
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class CircularReflection(Enigma):
     Movies = ["Movie_Circle1", "Movie_Circle2", "Movie_Circle3", "Movie_Circle4", "Movie_Receiver"]
@@ -94,9 +96,6 @@ class CircularReflection(Enigma):
                 if movie_name == "Movie_Receiver":  # next hard style
                     cnInstance.setAsReceiver()
                     self.receivers.append(cnInstance)
-                    pass
-                pass
-        pass
 
     def subMovieMapping(self):
         subMap = CircularReflectionManager.subMap
@@ -109,18 +108,12 @@ class CircularReflection(Enigma):
                 movieNode = movieEn.getSubMovie(subMovieName)
                 movieNode.disable()
                 self.slotToSubMovie[slotNode] = movieNode
-                pass
-            pass
-        pass
 
     def onSocketEntered(self, socket):
         if socket in self.socketToCircle:
             movie_object = self.socketToCircle[socket]
-
             self.current_rotatable = movie_object
-            pass
         return False
-        pass
 
     def onSocketLeaved(self, socket):
         if socket in self.socketToCircle:
@@ -128,10 +121,7 @@ class CircularReflection(Enigma):
             if movie is self.current_rotatable:
                 self.current_rotatable = None
                 self.current_socket = socket
-                pass
-            pass
         return False
-        pass
 
     def rotate(self, event):
         if event.isDown is True:
@@ -144,17 +134,14 @@ class CircularReflection(Enigma):
             self.allow_rotate = False
             self.suppressInteraction(True)
             self.reconnect()
-            pass
         return False
 
     def _onMouseMove(self, event):
         if self.allow_rotate is False:
             return False
-            pass
 
         if self.current_rotatable is None:
             return False
-            pass
 
         if self.mouseTouchVec is None:
             return False
@@ -172,19 +159,19 @@ class CircularReflection(Enigma):
         if sq_length == 0:
             # zero assertion
             return False
-            pass
         Angle = Mengine.signed_angle(dr)
         self.current_rotatable.setRotate(-Angle)
         return False
-        pass
 
     def suppressInteraction(self, boolVal):
         defaultInteractive = int(not boolVal)
-        [socket.setInteractive(boolVal) for socket in self.socketToCircle.keys() if socket.getInteractive() == defaultInteractive]
+
+        for socket in self.socketToCircle.keys():
+            if socket.getInteractive() == defaultInteractive:
+                socket.setInteractive(boolVal)
+
         if boolVal is False and self.current_socket is not None:
             self.current_socket.setInteractive(not boolVal)
-            pass
-        pass
 
     def reconnect(self):
         """
@@ -193,15 +180,11 @@ class CircularReflection(Enigma):
         for i in range(5):  # for sure
             for conn in self.AtomicConnectables:
                 [conn.rebound(_conn) for _conn in self.AtomicConnectables]
-                pass
-            pass
         connected = [conn.markAsSource() for conn in self.AtomicConnectables if conn.is_emitting()]
         for connectable in self.receivers:
             if connectable.is_emitting() is False:
                 return
-                pass
         self._complete(True)
-        pass
 
     def higlight(self, inputNode):
         """
@@ -209,11 +192,9 @@ class CircularReflection(Enigma):
         """
         if inputNode not in self.slotToSubMovie:
             return
-            pass
         subMovieNode = self.slotToSubMovie[inputNode]
         subMovieNode.enable()
         subMovieNode.play()
-        pass
 
     def clearence(self):
         """
@@ -222,8 +203,6 @@ class CircularReflection(Enigma):
         [con.removeEmitter() for con in self.AtomicConnectables]
         for animatable in self.slotToSubMovie.values():
             animatable.disable()
-            pass
-        pass
 
     def validateManagement(self, collections):
         """
@@ -238,12 +217,7 @@ class CircularReflection(Enigma):
             for slotName in slotNames:
                 if movieEntity.hasMovieSlot(slotName) is False:
                     Trace.log("Entity", 0, "Slot %s doesnt exist in %s" % (slotName, movieName))
-                    pass
-                pass
-            pass
-        pass
 
     def _complete(self, isSkip):
         self.object.setParam("Play", False)
         self.enigmaComplete()
-        pass

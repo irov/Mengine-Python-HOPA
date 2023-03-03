@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.FanManager import FanManager
 
+
 class TaskFanPlay(Task):
     def _onParams(self, params):
         super(TaskFanPlay, self)._onParams(params)
@@ -27,4 +28,5 @@ class TaskFanPlay(Task):
 
         return True
         pass
+
     pass

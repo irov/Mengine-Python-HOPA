@@ -1,6 +1,7 @@
 from HOPA.Entities.Spell.SpellManager import SpellManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSpellPrepared(MacroCommand):
     def _onValues(self, values):
         self.SpellID = values[0]
@@ -17,4 +18,5 @@ class MacroSpellPrepared(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onSpellPrepared, Args=(self.SpellID,))
         pass
+
     pass

@@ -6,6 +6,7 @@ from HOPA.System.SystemGuide import SystemGuide
 from HOPA.TransitionManager import TransitionManager
 from Holder import Holder
 
+
 DEFAULT_ALIAS_ENV = ''
 TEXT_ID_GUIDE_PAGE_COUNT = 'ID_GUIDE_PAGE_COUNT'
 
@@ -36,6 +37,7 @@ PAGE_PROTOTYPE_MOVIE_PIC_SLOT_PREFIX = 'pic_'
 
 ID_EMPTY_TEXT = "ID_EMPTY_TEXT"
 ID_TEXT_PAGE_PROTOTYPE_404 = "ID_GUIDE_CHAPTER_404"
+
 
 class Navigation(object):
     def __init__(self, demon_object, button_back, button_menu, button_left, button_right, page_counter):
@@ -75,7 +77,8 @@ class Navigation(object):
     def updatePageCounter(self):
         current_page_number = self.getFocusObj().getFocusPageNumber()
         pages_number = self.getFocusObj().getPagesNumber()
-        Mengine.setTextAliasArguments(DEFAULT_ALIAS_ENV, TEXT_ID_GUIDE_PAGE_COUNT, str(current_page_number), str(pages_number))
+        Mengine.setTextAliasArguments(DEFAULT_ALIAS_ENV, TEXT_ID_GUIDE_PAGE_COUNT,
+                                      str(current_page_number), str(pages_number))
 
         self.button_right.setBlock(current_page_number == pages_number)
         self.button_left.setBlock(current_page_number == 1)
@@ -147,6 +150,7 @@ class Navigation(object):
         self.tc_send_event_next_page.cancel()
         self.tc_send_event_switch_focus.cancel()
 
+
 class ChapterPagePicture(object):
     def __init__(self, page_movie, pic_movie, pic_slot):
         self.pic_movie = pic_movie
@@ -188,6 +192,7 @@ class ChapterPagePicture(object):
             parallel_2.addTask("TaskNodeScaleTo", Node=self.pic_movie_en, To=ZOOM_OUT_SCALE_TO, Time=ZOOM_IN_OUT_TIME)
             parallel_3.addPlay(self.pic_movie, Wait=False)
 
+
 class ChapterPage(object):
     ENTITY_OBJECT = None
     ERROR_COUNT = 0
@@ -208,7 +213,8 @@ class ChapterPage(object):
         self.movie = self.ENTITY_OBJECT.tryGenerateObjectUnique(proto_name_unique, page_movie_proto_name, Enable=True)
         if self.movie is None:
             ChapterPage.ERROR_COUNT += 1
-            print('[ERROR_{}]: CANT CREATE MOVIE CHAPTER PAGE {} FROM PROTOTYPE {}'.format(ChapterPage.ERROR_COUNT, proto_name_unique, page_movie_proto_name))
+            Trace.msg_err('[ERROR_{}]: CANT CREATE MOVIE CHAPTER PAGE {} FROM PROTOTYPE {}'.format(
+                ChapterPage.ERROR_COUNT, proto_name_unique, page_movie_proto_name))
             return False
 
         self.ENTITY_OBJECT.entity.addChild(self.movie.getEntityNode())
@@ -235,12 +241,14 @@ class ChapterPage(object):
 
             if not self.movie.entity.hasMovieText(text_alias):
                 ChapterPage.ERROR_COUNT += 1
-                print('[ERROR_{}]: MOVIE {} CANT FIND TEXT ALIAS {} FOR TEXT {}'.format(ChapterPage.ERROR_COUNT, self.movie.getName(), text_alias, text_id))
+                Trace.msg_err('[ERROR_{}]: MOVIE {} CANT FIND TEXT ALIAS {} FOR TEXT {}'.format(
+                    ChapterPage.ERROR_COUNT, self.movie.getName(), text_alias, text_id))
                 continue
 
             if not Mengine.existText(text_id):
                 ChapterPage.ERROR_COUNT += 1
-                print('[ERROR_{}]: CANT FIND TEXT ID {} IN Texts.xml FOR MOVIE {}'.format(ChapterPage.ERROR_COUNT, text_id, self.movie.getName()))
+                Trace.msg_err('[ERROR_{}]: CANT FIND TEXT ID {} IN Texts.xml FOR MOVIE {}'.format(
+                    ChapterPage.ERROR_COUNT, text_id, self.movie.getName()))
 
                 if Mengine.existText(ID_TEXT_PAGE_PROTOTYPE_404):
                     Mengine.setTextAlias(text_env, text_alias, ID_TEXT_PAGE_PROTOTYPE_404)
@@ -265,14 +273,16 @@ class ChapterPage(object):
             movie_pic = generate_unique_movie(proto_name_unique, pic_movie_proto_name, Enable=True)
             if movie_pic is None:
                 ChapterPage.ERROR_COUNT += 1
-                print('[ERROR_{}]: CANT CREATE MOVIE PIC {} FROM PROTOTYPE {}'.format(ChapterPage.ERROR_COUNT, proto_name_unique, pic_movie_proto_name))
+                Trace.msg_err('[ERROR_{}]: CANT CREATE MOVIE PIC {} FROM PROTOTYPE {}'.format(
+                    ChapterPage.ERROR_COUNT, proto_name_unique, pic_movie_proto_name))
                 continue
 
             slot = self.movie.getMovieSlot(PAGE_PROTOTYPE_MOVIE_PIC_SLOT_PREFIX + str(list_index))
             if slot is None:
                 ChapterPage.ERROR_COUNT += 1
                 slot_name = PAGE_PROTOTYPE_MOVIE_PIC_SLOT_PREFIX + str(list_index)
-                print('[ERROR_{}]: NOT FOUND MOVIE SLOT {} in {} TO ATTACH MOVIE PIC {}'.format(ChapterPage.ERROR_COUNT, slot_name, self.movie.getName(), proto_name_unique))
+                Trace.msg_err('[ERROR_{}]: NOT FOUND MOVIE SLOT {} in {} TO ATTACH MOVIE PIC {}'.format(
+                    ChapterPage.ERROR_COUNT, slot_name, self.movie.getName(), proto_name_unique))
                 continue
 
             slot.addChild(movie_pic.getEntityNode())
@@ -353,6 +363,7 @@ class ChapterPage(object):
         if self.movie is not None:
             self.movie.setEnable(focus)
         self.focus = focus
+
 
 class Chapter(object):
     def __init__(self, chapter_id, button_chapter):
@@ -465,6 +476,7 @@ class Chapter(object):
         self.tc_receive_event_next_page.cancel()
         self.tc_receive_event_switch_focus.cancel()
 
+
 class MenuPage(object):
     def __init__(self, menu_page_id):
         self.menu_page_id = menu_page_id
@@ -481,6 +493,7 @@ class MenuPage(object):
 
     def addChapter(self, chapter):
         self.chapters.append(chapter)
+
 
 class Menu(object):
     def __init__(self):
@@ -564,6 +577,7 @@ class Menu(object):
         self.tc_receive_event_next_page.cancel()
         self.tc_receive_event_switch_focus.cancel()
 
+
 class Guide(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -639,7 +653,10 @@ class Guide(BaseEntity):
         button_menu.setBlock(nav_focus)
 
     def _onDeactivate(self):
-        SystemGuide.cacheData(navigation_focus_param=self.navigation.focus, menu_page_obj_index=self.navigation.menu_obj.menu_page_in_focus_index, chapter_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_id, chapter_page_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_page_in_focus_index)
+        SystemGuide.cacheData(navigation_focus_param=self.navigation.focus,
+                              menu_page_obj_index=self.navigation.menu_obj.menu_page_in_focus_index,
+                              chapter_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_id,
+                              chapter_page_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_page_in_focus_index)
 
         self.navigation.disableTC()
 

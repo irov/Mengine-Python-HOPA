@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from HOPA.Entities.Spell.SpellManager import SpellManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSpellUse(MacroCommand):
     def _onValues(self, values):
         self.SpellID = values[0]
@@ -28,7 +29,8 @@ class MacroSpellUse(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "SpellUse", SceneName=self.SceneName, GroupName=self.GroupName, Object=self.Object, Spell=self.Spell)
+        Quest = self.addQuest(source, "SpellUse", SceneName=self.SceneName, GroupName=self.GroupName,
+                              Object=self.Object, Spell=self.Spell)
         with Quest as tc_q:
             tc_q.addTask("AliasSpellUsage", Object=self.Object, Spell=self.Spell, SpellCost=self.SpellCost)
             pass

@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.Task import Task
 
+
 class TaskObjectiveStart(Task):
     Skiped = True
 
@@ -20,4 +21,5 @@ class TaskObjectiveStart(Task):
         Demon_Objectives.appendParam("ObjectivesList", self.objectiveID)
         return True
         pass
+
     pass

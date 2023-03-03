@@ -3,6 +3,7 @@ from Foundation.Notificator import Notificator
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroGiveItem(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -34,7 +35,8 @@ class MacroGiveItem(MacroCommand):
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
         Inventory = DemonManager.getDemon("Inventory")
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
             tc_quest.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=self.ItemName)

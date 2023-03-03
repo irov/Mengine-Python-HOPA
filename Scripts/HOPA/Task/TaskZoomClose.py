@@ -4,6 +4,7 @@ from HOPA.ZoomManager import ZoomManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskZoomClose(MixinZoomGroup, MixinObserver, Task):
     Skiped = True
 
@@ -37,6 +38,7 @@ class TaskZoomClose(MixinZoomGroup, MixinObserver, Task):
 
         return False
         pass
+
     pass
 
     def _onZoomEnterFilter(self, zoomGroupName):

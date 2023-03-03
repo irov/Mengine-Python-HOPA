@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class BoneBoardManager(object):
     s_objects = {}
     macro_names = {}
@@ -60,7 +61,8 @@ class BoneBoardManager(object):
 
     @staticmethod
     def loadCollection(items, prev, inv, movie_add, movie_use, movie_wrong, movies_over, group):
-        BoneBoardManager.data = dict(Group=group, MoviesOver=movies_over, MoviesAdd=movie_add, MoviesUse=movie_use, MoviesWrong=movie_wrong, Items=items, Preview=prev, InventoryItems=inv)
+        BoneBoardManager.data = dict(Group=group, MoviesOver=movies_over, MoviesAdd=movie_add, MoviesUse=movie_use,
+                                     MoviesWrong=movie_wrong, Items=items, Preview=prev, InventoryItems=inv)
         pass
 
     @staticmethod
@@ -140,4 +142,5 @@ class BoneBoardManager(object):
         socket_name = previews[index][0]
         return socket_name
         pass
+
     pass

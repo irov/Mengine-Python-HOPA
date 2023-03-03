@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 from HOPA.TransitionManager import TransitionManager
 
+
 class SystemDisableTransitionMovies(System):
     def _onParams(self, params):
         super(SystemDisableTransitionMovies, self)._onParams(params)
@@ -25,4 +26,5 @@ class SystemDisableTransitionMovies(System):
 
     def _onStop(self):
         pass
+
     pass

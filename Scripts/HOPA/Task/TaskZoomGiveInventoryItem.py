@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinZoom
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskZoomGiveInventoryItem(MixinZoom, MixinObserver, Task):
     Skiped = False
 
@@ -50,4 +51,5 @@ class TaskZoomGiveInventoryItem(MixinZoom, MixinObserver, Task):
 
         return True
         pass
+
     pass

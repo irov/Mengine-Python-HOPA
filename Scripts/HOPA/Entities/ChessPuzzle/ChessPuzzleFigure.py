@@ -1,5 +1,6 @@
 from ChessPuzzleElement import ChessPuzzleElement
 
+
 class ChessPuzzleFigure(ChessPuzzleElement):
     def __init__(self, type):
         super(ChessPuzzleFigure, self).__init__()
@@ -58,4 +59,5 @@ class ChessPuzzleFigure(ChessPuzzleElement):
     def __repr__(self):
         return "F->" + str(self.figureType)
         pass
+
     pass

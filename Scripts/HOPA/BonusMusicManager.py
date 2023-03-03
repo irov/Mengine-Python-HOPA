@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Utils import isCollectorEdition
 
+
 class BonusMusicManager(object):
     s_bonus_music = {}
 
@@ -24,7 +25,8 @@ class BonusMusicManager(object):
             slot_id = record.get("SlotID")
             resource_name = record.get("ResourceName")
             track_name_id = record.get("TrackNameID")
-            BonusMusicManager.s_bonus_music[music_id] = BonusMusicManager.MusicBonus(music_id, playlist_id, slot_id, resource_name, track_name_id)
+            BonusMusicManager.s_bonus_music[music_id] = BonusMusicManager.MusicBonus(music_id, playlist_id, slot_id,
+                                                                                     resource_name, track_name_id)
 
         return True
 

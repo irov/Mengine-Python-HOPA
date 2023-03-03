@@ -2,6 +2,7 @@ from Foundation.Initializer import Initializer
 
 from Path import Path
 
+
 class ChipElement(Initializer):
     def __init__(self):
         super(ChipElement, self).__init__()
@@ -120,4 +121,5 @@ class ChipElement(Initializer):
         self.setHomeSlot(self.destinationSlot)
         self.setDestinationSlot(None)
         pass
+
     pass

@@ -3,6 +3,7 @@ from Notification import Notification
 
 from StrategyGuideZoomManager import StrategyGuideZoomManager
 
+
 class SystemStrategyGuideZoomsDisable(System):
     def __init__(self):
         super(SystemStrategyGuideZoomsDisable, self).__init__()

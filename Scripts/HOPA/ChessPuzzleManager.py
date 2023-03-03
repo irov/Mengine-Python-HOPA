@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ChessPuzzleManager(object):
     s_games = {}
 
@@ -14,6 +15,7 @@ class ChessPuzzleManager(object):
         def appendCells(self, cell):
             self.cells.append(cell)
             pass
+
         pass
 
     class ChessPuzzleGame(object):
@@ -23,6 +25,7 @@ class ChessPuzzleManager(object):
             self.figures = figures
             self.targets = targets
             pass
+
         pass
 
     @staticmethod

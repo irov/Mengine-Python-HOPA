@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroInteractiveFalse(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -31,4 +32,5 @@ class MacroInteractiveFalse(MacroCommand):
             tc_quest.addTask("TaskInteractive", Object=Object, Value=False)
             pass
         pass
+
     pass

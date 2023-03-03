@@ -6,11 +6,13 @@ from HOPA.SpellsManager import SpellsManager
 from HOPA.System.SystemSpells import SystemSpells
 from Notification import Notification
 
+
 def OBJECTS_IS_ACTIVE(object_list):
     for obj in object_list:
         if not obj.isActive():
             return False
     return True
+
 
 class SpellRune(object):
     READY = 'ready'
@@ -24,7 +26,11 @@ class SpellRune(object):
 
         self.rune_type = spell_ui_rune_param.rune_type
 
-        self.movies = {SpellRune.READY: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_ready), SpellRune.IDLE: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_idle), SpellRune.APPEAR: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_appear)}
+        self.movies = {
+            SpellRune.READY: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_ready),
+            SpellRune.IDLE: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_idle),
+            SpellRune.APPEAR: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_appear)
+        }
 
         for obj_movie in self.movies.values():
             obj_movie.setEnable(False)
@@ -32,6 +38,7 @@ class SpellRune(object):
 
     def getRuneType(self):
         return self.rune_type
+
 
 class SpellButton(object):
     SPELLS_UI_SLOTS_MOVIE = None
@@ -65,8 +72,13 @@ class SpellButton(object):
 
         self.spell_type = spell_ui_button_param.spell_type
 
-        self.movies = {SpellButton.READY: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_ready), SpellButton.IDLE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_idle), SpellButton.USE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_use), SpellButton.LOCKED: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_locked),
-            SpellButton.UPDATE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_update)}
+        self.movies = {
+            SpellButton.READY: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_ready),
+            SpellButton.IDLE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_idle),
+            SpellButton.USE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_use),
+            SpellButton.LOCKED: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_locked),
+            SpellButton.UPDATE: self.SPELLS_UI_OBJECT.getObject(spell_ui_button_param.movie2_spell_button_update)
+        }
 
         sys_spells_ui_runes = SystemSpells.getSpellUIRunes()
 
@@ -217,6 +229,7 @@ class SpellButton(object):
     def cleanUp(self):
         for obj_movie in self.movies.values():
             self.SPELLS_UI_OBJECT.getEntityNode().addChild(obj_movie.getEntityNode())
+
 
 class SpellsUI(BaseEntity):
     @staticmethod

@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectMoveChipsOnGraphNodes(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

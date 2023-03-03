@@ -1,12 +1,12 @@
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskMacroCommandRun(Task):
     Skiped = True
 
     def __init__(self):
         super(TaskMacroCommandRun, self).__init__()
-        pass
 
     def _onParams(self, params):
         super(TaskMacroCommandRun, self)._onParams(params)
@@ -15,15 +15,11 @@ class TaskMacroCommandRun(Task):
         self.CommandType = params.get("CommandType")
         self.SceneName = params.get("SceneName")
         self.GroupName = params.get("GroupName")
-        pass
 
     def _onRun(self):
         Notification.notify(Notificator.onMacroCommandRun, self.ID, self.CommandType, self.SceneName, self.GroupName)
 
         return False
-        pass
 
     def _onSkip(self):
         Notification.notify(Notificator.onMacroCommandEnd, self.ID, self.CommandType, self.SceneName, self.GroupName)
-        pass
-    pass

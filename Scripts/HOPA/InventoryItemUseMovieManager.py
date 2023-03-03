@@ -1,5 +1,6 @@
 from HOPA.ItemManager import ItemManager
 
+
 class InventoryItemUseMovieManager(object):
     s_inventoryItems = {}
 
@@ -7,8 +8,6 @@ class InventoryItemUseMovieManager(object):
         def __init__(self, group, movieName):
             self.group = group
             self.movieName = movieName
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -53,9 +52,7 @@ class InventoryItemUseMovieManager(object):
         ObjectInventoryItem = ItemManager.findItemInventoryItem(inventoryItemName)
 
         if ObjectInventoryItem is None:
-            Trace.log("Manager", 0, "InventoryItemUseMovieManager addInventoryItem: Cann't get item '%s'" % (itemName))
-            pass
-        pass
+            Trace.log("Manager", 0, "InventoryItemUseMovieManager addInventoryItem: Can't get item '%s'" % (itemName))
 
     @staticmethod
     def getMovie(inventoryItemName):
@@ -66,4 +63,3 @@ class InventoryItemUseMovieManager(object):
         InventoryItem = InventoryItemUseMovieManager.s_inventoryItems[inventoryItemName]
 
         return [InventoryItem.group, InventoryItem.movieName]
-        pass

@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Utils import getCurrentPublisher
 
+
 class Coin(object):
 
     def __init__(self, parent):

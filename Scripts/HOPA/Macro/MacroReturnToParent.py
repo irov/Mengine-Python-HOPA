@@ -1,6 +1,7 @@
 from Foundation.Notificator import Notificator
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroReturnToParent(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]

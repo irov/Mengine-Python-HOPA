@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectAwards(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -13,6 +14,3 @@ class ObjectAwards(DemonObject):
         super(ObjectAwards, self)._onParams(params)
         self.initParam("Open", params, False)
         self.initParam("Count", params, 0)
-        pass
-
-    pass

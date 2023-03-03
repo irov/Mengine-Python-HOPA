@@ -6,8 +6,10 @@ from HOPA.System.SystemItemCollect import SystemItemCollect
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class MapData(object):
-    def __init__(self, locked, open, all_done, complete, special, here, here_with_quest, here_complete, blocked, collection, hog_collection, locations):
+    def __init__(self, locked, open, all_done, complete, special, here, here_with_quest, here_complete, blocked,
+                 collection, hog_collection, locations):
         self.locked = locked
         self.open = open
         self.all_done = all_done
@@ -57,6 +59,7 @@ class MapData(object):
     def getLocations(self):
         return self.locations
 
+
 class MapPointData(object):
     def __init__(self, slot_id, has_special, overview, minigames):
         self.slot_id = str(slot_id)
@@ -75,6 +78,7 @@ class MapPointData(object):
 
     def getMinigames(self):
         return self.minigames
+
 
 class Map2Manager(object):
     s_objects = {}
@@ -159,7 +163,9 @@ class Map2Manager(object):
             locations = Map2Manager.loadMapLocation(module, map_location)
             s_collection = Map2Manager.loadMapCollection(module, collection_name, map_object)
 
-            data = MapData(locked_prototype, open_prototype, all_done_prototype, complete_prototype, special_prototype, here_prototype, here_with_quest_prototype, here_complete_prototype, blocked_prototype, s_collection, hog_collection, locations)
+            data = MapData(locked_prototype, open_prototype, all_done_prototype, complete_prototype, special_prototype,
+                           here_prototype, here_with_quest_prototype, here_complete_prototype, blocked_prototype,
+                           s_collection, hog_collection, locations)
 
             Map2Manager.s_map_objects[demon_name] = map_object
 

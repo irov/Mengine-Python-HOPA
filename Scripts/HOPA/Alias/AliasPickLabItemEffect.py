@@ -2,11 +2,11 @@ from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasPickLabItemEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasPickLabItemEffect, self)._onParams(params)
         self.Item = params.get("Item")
-        pass
 
     def _onGenerate(self, source):
         Camera = Mengine.getRenderCamera2D()
@@ -43,9 +43,6 @@ class AliasPickLabItemEffect(TaskAlias):
             tc_2.addTask("TaskNodeAlphaTo", Node=sprite, From=1.0, To=0.0, Time=time)
 
             tc_3.addTask("TaskNodeScaleTo", Node=sprite, To=(scaleTo, scaleTo, 1.0), Time=time)
-            pass
+
         source.addTask("TaskNodeRemoveFromParent", Node=sprite)
         source.addTask("TaskNodeDestroy", Node=sprite)
-        pass
-
-    pass

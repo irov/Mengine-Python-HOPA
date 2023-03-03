@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskInventorySetupSlots(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskInventorySetupSlots, self)._onParams(params)
@@ -17,4 +18,5 @@ class TaskInventorySetupSlots(MixinObserver, Task):
     def _onInventoryCurrentSlotIndex(self, Inventory, Value):
         return True
         pass
+
     pass

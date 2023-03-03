@@ -3,6 +3,7 @@ from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Task.TaskAlias import TaskAlias
 from Foundation.Utils import getCurrentPublisher
 
+
 class PolicyNotEnoughGoldDialog(TaskAlias):
 
     def _onParams(self, params):
@@ -23,7 +24,8 @@ class PolicyNotEnoughGoldDialog(TaskAlias):
         text_args = {"icon_value": [self.Gold]}
 
         with source.addParallelTask(3) as (window, shopping, cleanup):
-            window.addFunction(DialogWindow.runPreset, "NotEnoughMoney", content_style="icon", icon_obj=icon, text_args=text_args)
+            window.addFunction(DialogWindow.runPreset, "NotEnoughMoney",
+                               content_style="icon", icon_obj=icon, text_args=text_args)
 
             with shopping.addRaceTask(2) as (confirm, cancel):
                 confirm.addListener(Notificator.onDialogWindowConfirm)

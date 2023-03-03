@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class InstructionPullOut(BaseEntity):
 
     def __init__(self):

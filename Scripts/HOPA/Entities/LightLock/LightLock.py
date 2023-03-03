@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from Element import Element
 from LightLockManager import LightLockManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class LightLock(Enigma):
 
@@ -23,6 +25,7 @@ class LightLock(Enigma):
     def _stopEnigma(self):
         super(LightLock, self)._stopEnigma()
         pass
+
     def _resetEnigma(self):
         pass
 

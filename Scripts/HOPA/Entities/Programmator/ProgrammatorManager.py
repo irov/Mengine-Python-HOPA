@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ProgrammatorManager(object):
     # Temporary storage
     carrier_slot = "Carrier"
@@ -52,7 +53,20 @@ class ProgrammatorManager(object):
         tap_slots = [values.get("TapSlots") for values in records if values.get("TapSlots") is not None]
         moves_r = [values.get("MovesRight") for values in records if values.get("MovesRight") is not None]
         moves_l = [values.get("MovesLeft") for values in records if values.get("MovesLeft") is not None]
-        pretty_dict = dict(monkey_movies=monkey_movies, buttons=buttons, task_movies=task_movies, hands=hands, win_order=win_order, container_slots=container_slots, final_container=final_container, wheel_up=wheel_up, wheel_down=wheel_down, tap_slots=tap_slots, moves_r=moves_r, moves_l=moves_l)
+        pretty_dict = dict(
+            monkey_movies=monkey_movies,
+            buttons=buttons,
+            task_movies=task_movies,
+            hands=hands,
+            win_order=win_order,
+            container_slots=container_slots,
+            final_container=final_container,
+            wheel_up=wheel_up,
+            wheel_down=wheel_down,
+            tap_slots=tap_slots,
+            moves_r=moves_r,
+            moves_l=moves_l
+        )
         data = ProgrammatorManager.Data()
         ProgrammatorManager.s_objects[EnigmaName] = data
         data.set(pretty_dict)

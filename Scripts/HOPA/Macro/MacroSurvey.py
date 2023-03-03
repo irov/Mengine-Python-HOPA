@@ -1,6 +1,7 @@
 from Foundation.Utils import isSurvey
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSurvey(MacroCommand):
 
     def _onGenerate(self, source):

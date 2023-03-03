@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasMessageYes(TaskAlias):
     def __init__(self):
         super(AliasMessageYes, self).__init__()

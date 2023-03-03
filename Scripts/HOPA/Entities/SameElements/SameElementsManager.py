@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class SameElementsManager(object):
     s_collections = {}
     s_buttonsChange = {}
@@ -22,6 +23,7 @@ class SameElementsManager(object):
         def getSlots(self):
             return self.slots
             pass
+
         pass
 
     class ButtonChange(object):
@@ -47,6 +49,7 @@ class SameElementsManager(object):
         def getSlot2ID(self):
             return self.slot2ID
             pass
+
         pass
 
     @staticmethod

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class TooltipsManager(Manager):
     s_data = {}
     s_data_by_id = {}

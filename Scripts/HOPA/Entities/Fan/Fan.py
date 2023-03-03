@@ -7,7 +7,9 @@ from HOPA.FanItemManager import FanItemManager
 from HOPA.FanManager import FanManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Fan(Enigma):
     STATE_MOVIEOPEN = 1
@@ -182,21 +184,18 @@ class Fan(Enigma):
         FindItems = self.object.getFindItems()
         self.toFindItems = [objName for objName in FindItems if objName not in self.FoundItems]
 
-        with TaskManager.createTaskChain(Name="FanFindItem_%s" % (self.object.getName()), Group=self.object, Cb=self._onFanComplete) as tc:
+        tc_name = "FanFindItem_%s" % (self.object.getName())
+        with TaskManager.createTaskChain(Name=tc_name, Group=self.object, Cb=self._onFanComplete) as tc:
             SceneName = SceneManager.getCurrentSceneName()
-
             itemCount = len(self.toFindItems)
+
             with tc.addParallelTask(itemCount) as tcho:
                 Group = self.object.getGroup()
 
                 for tchog, ItemName in zip(tcho, self.toFindItems):
                     tchog.addTask("AliasFanFindItem", Fan=self.object, SceneName=SceneName, Group=Group, ItemName=ItemName)
-                    pass
-                pass
 
             tc.addTask("TaskNotify", ID=Notificator.onFanComplete, Args=(self.object,))
-            pass
-        pass
 
     def _stopEnigma(self):
         self.object.setInteractive(False)

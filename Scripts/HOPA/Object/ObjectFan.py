@@ -1,11 +1,12 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectFan(ObjectEnigma):
     PARAMS_Interactive = 0
 
     @staticmethod
     def declareORM(Type):
-        DemonObject.declareORM(Type)
+        ObjectEnigma.declareORM(Type)
 
         Type.addParam(Type, "FoundItems")
         Type.addParam(Type, "FindItems")

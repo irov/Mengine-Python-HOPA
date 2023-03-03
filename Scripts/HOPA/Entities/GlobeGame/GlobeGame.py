@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.GlobeGameManager import GlobeGameManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class GlobeGame(Enigma):
 
@@ -45,8 +47,10 @@ class GlobeGame(Enigma):
         self.Lvl_1 = None
         self.Lvl_Win = None
 
-        self.Lvl_Movies = [[None, None, None], [None, None, None, None], [None, None, None, None, None], [None, None, None, None], [None, None, None]]
-        self.Rotateble = [[False, False, False], [False, True, True, False], [False, True, True, True, False], [False, True, True, False], [False, False, False]]
+        self.Lvl_Movies = [[None, None, None], [None, None, None, None], [None, None, None, None, None],
+            [None, None, None, None], [None, None, None]]
+        self.Rotateble = [[False, False, False], [False, True, True, False], [False, True, True, True, False],
+            [False, True, True, False], [False, False, False]]
 
         self.Click = None
         self.AfterRotate = []
@@ -309,4 +313,5 @@ class GlobeGame(Enigma):
 
         self.ReInitParamentrs()
         pass
+
     pass

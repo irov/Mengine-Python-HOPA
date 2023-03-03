@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockMusicVolumeFade import GuardBlockMusicVolumeFade
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCutScene(MacroCommand):
     def _onValues(self, values):
         self.CutSceneID = values[0]
@@ -51,6 +52,3 @@ class MacroCutScene(MacroCommand):
                 pass
 
             source.addTask("TaskSceneLayerGroupEnable", LayerName="CutSceneBlinds", Value=False)
-            pass
-        pass
-    pass

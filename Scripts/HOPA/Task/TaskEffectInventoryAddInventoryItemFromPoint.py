@@ -3,6 +3,7 @@ from Foundation.Object.ObjectPoint import ObjectPoint
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
     def _onParams(self, params):
         super(TaskEffectInventoryAddInventoryItemFromPoint, self)._onParams(params)

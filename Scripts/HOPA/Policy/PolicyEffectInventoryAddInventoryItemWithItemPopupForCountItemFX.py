@@ -5,6 +5,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias):
     def _onParams(self, params):
         super(PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX, self)._onParams(params)
@@ -42,7 +43,8 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         slot = InventoryEntity.findSlot(InventoryItem)
 
         if slot is None:
-            msg = "{ClassName}: invalid find slot for inventory item {Name}:{Object}".format(ClassName=self.__name__, Name=self.ItemName, Object=InventoryItem)
+            msg = "{ClassName}: invalid find slot for inventory item {Name}:{Object}".format(
+                ClassName=self.__name__, Name=self.ItemName, Object=InventoryItem)
             Trace.log("Policy", 0, msg)
             return False
             pass
@@ -152,7 +154,8 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         # task chain
         with source.addParallelTask(2) as (tcp0, tcp1):
             tcp0.addNotify(Notificator.onSoundEffectOnObject, Item, "MoveItemToInventory")
-            tcp0.addTask("TaskNodeBezier2To", Node=self.node, Point1=self.start_pos, To=self.end_pos, Speed=SpeedEffectInventoryAddInventoryItem)
+            tcp0.addTask("TaskNodeBezier2To", Node=self.node, Point1=self.start_pos, To=self.end_pos,
+                         Speed=SpeedEffectInventoryAddInventoryItem)
 
             tcp1.addTask("TaskNodeScaleTo", Node=self.node, To=(scaleTo, scaleTo, 1.0), Time=time)
             pass
@@ -192,10 +195,11 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
             pass
 
         with scope.addParallelTask(2) as (scope_fade_out, scope_get_item):
-            scope_fade_out.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.3, Time=0.2 * 1000, Unblock=True)  # speed fix
+            scope_fade_out.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.3, Time=0.2 * 1000, Unblock=True)
 
             scope_get_item.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=itemName)
-            scope_get_item.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
+            scope_get_item.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory,
+                                   InventoryItem=InventoryItem)
 
             # todo: implement this as task
             scope_get_item.addScope(self._get_to_inventory)
@@ -278,7 +282,8 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         Time = length / SpeedEffectInventoryGetInventoryItem
 
         with source.addParallelTask(2) as (source_move, source_scale):
-            source_move.addTask("TaskNodeBezier2To", Node=node, Point1=P1, To=P2, Speed=SpeedEffectInventoryGetInventoryItem)
+            source_move.addTask("TaskNodeBezier2To", Node=node, Point1=P1, To=P2,
+                                Speed=SpeedEffectInventoryGetInventoryItem)
 
             source_scale.addTask("TaskNodeScaleTo", Node=self.sprite, To=(0.5, 0.5, 1.0), Time=Time)
 
@@ -327,4 +332,5 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
 
         source.addScope(self._clean_scope)
         pass
+
     pass

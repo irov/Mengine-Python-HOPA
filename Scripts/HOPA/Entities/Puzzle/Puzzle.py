@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from PuzzleManager import PuzzleManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Puzzle(Enigma):
 
@@ -103,4 +105,5 @@ class Puzzle(Enigma):
     def autowin(self):
         self.enigmaComplete()
         pass
+
     pass

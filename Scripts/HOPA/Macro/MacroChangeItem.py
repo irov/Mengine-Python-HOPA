@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroChangeItem(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -50,10 +51,12 @@ class MacroChangeItem(MacroCommand):
         outInventoryItem = ItemManager.getItemInventoryItem(self.outItemName)
         Inventory = DemonManager.getDemon("Inventory")
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=inInventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=inInventoryItem, Object=Object)
 
         with Quest as tc_quest:
-            tc_quest.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=self.inItemName, SceneName=self.SceneName, Group_Name=self.GroupName)
+            tc_quest.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=self.inItemName,
+                             SceneName=self.SceneName, Group_Name=self.GroupName)
             pass
 
         source.addListener(Notificator.onInventoryUpdateItem)

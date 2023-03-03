@@ -6,6 +6,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemDebugPlayMovie(System):
 
     def __init__(self):

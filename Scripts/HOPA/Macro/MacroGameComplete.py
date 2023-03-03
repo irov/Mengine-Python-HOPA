@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroGameComplete(MacroCommand):
     def _onValues(self, values):
         pass
@@ -12,4 +13,5 @@ class MacroGameComplete(MacroCommand):
         source.addTask("TaskFunction", Fn=Mengine.changeCurrentAccountSetting, Args=("GameComplete", u"True"))
         source.addTask("TaskNotify", ID=Notificator.onGameComplete)
         pass
+
     pass

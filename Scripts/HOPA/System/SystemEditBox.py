@@ -1,5 +1,6 @@
 from Foundation.System import System
 
+
 class SystemEditBox(System):
     s_active_edit_boxes = []
 

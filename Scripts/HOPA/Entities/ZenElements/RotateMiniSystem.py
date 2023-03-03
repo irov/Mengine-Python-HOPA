@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 
+
 class RotateMiniSystem(object):
     TaskName = "RotateMiniSystem_Rotate"
 

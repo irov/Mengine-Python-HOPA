@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectFindSimilarChipsForActivate(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

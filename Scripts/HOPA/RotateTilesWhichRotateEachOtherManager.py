@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class TileParam(object):
     def __init__(self, id_, movie_proto, pos, rot_time, start_rot, finish_rot, rot_step, tiles_to_rotate):
         self.id = id_
@@ -12,9 +13,11 @@ class TileParam(object):
         self.rot_step = rot_step
         self.tiles_to_rotate = tiles_to_rotate
 
+
 class RotateTilesWhichRotateEachOtherParam(object):
     def __init__(self, tiles):
         self.tiles = tiles
+
 
 class RotateTilesWhichRotateEachOtherManager(Manager):
     s_params = {}
@@ -81,7 +84,10 @@ class RotateTilesWhichRotateEachOtherManager(Manager):
 
             tiles_to_rotate = temp
 
-            tiles.append(TileParam(tile_id, tile_movie2_prototype, position, rotate_time, start_rotation, finish_rotation, rotator, tiles_to_rotate))
+            tiles.append(
+                TileParam(tile_id, tile_movie2_prototype, position, rotate_time,
+                          start_rotation, finish_rotation, rotator, tiles_to_rotate)
+            )
 
         param = RotateTilesWhichRotateEachOtherParam(tiles)
 

@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipMoveCountManager import ChipMoveCountManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipMoveCount(Enigma):
     def _setupPos(self):
@@ -24,7 +26,8 @@ class ChipMoveCount(Enigma):
         self.Player = None
 
     def _Create_Players(self, MovieSlots):
-        Slot_First_Player = MovieSlots.getMovieSlot('slot_' + str(self.Player_Pos[self.Player * 2]) + '_' + str(self.Player_Pos[self.Player * 2 + 1]))
+        Slot_First_Player = MovieSlots.getMovieSlot(
+            'slot_' + str(self.Player_Pos[self.Player * 2]) + '_' + str(self.Player_Pos[self.Player * 2 + 1]))
         if self.Player == 0:
             self.SlotNumbers.append(MovieSlots.getMovieSlot('slot_2_6'))
         elif self.Player == 1:
@@ -116,16 +119,20 @@ class ChipMoveCount(Enigma):
 
     def _scopeArrow_Move(self, source):
         with source.addRaceTask(5) as (tc_up, tc_down, tc_left, tc_right, tc_change):
-            tc_up.addTask("TaskMovie2ButtonClick", Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 1])
+            tc_up.addTask("TaskMovie2ButtonClick",
+                          Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 1])
             tc_up.addFunction(self._Ar_Up)
 
-            tc_down.addTask("TaskMovie2ButtonClick", Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 2])
+            tc_down.addTask("TaskMovie2ButtonClick",
+                            Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 2])
             tc_down.addFunction(self._Ar_Down)
 
-            tc_left.addTask("TaskMovie2ButtonClick", Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 3])
+            tc_left.addTask("TaskMovie2ButtonClick",
+                            Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 3])
             tc_left.addFunction(self._Ar_Left)
 
-            tc_right.addTask("TaskMovie2ButtonClick", Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 4])
+            tc_right.addTask("TaskMovie2ButtonClick",
+                             Movie2Button=self.player_movie_pack[self.Movie_Count * self.Player + 4])
             tc_right.addFunction(self._Ar_Right)
 
             tc_change.addScope(self._scopeChange_Player)
@@ -138,10 +145,13 @@ class ChipMoveCount(Enigma):
 
     def _Ar_Up(self, ):
         self.Arrow_Pressed = "Up"
+
     def _Ar_Down(self):
         self.Arrow_Pressed = "Down"
+
     def _Ar_Left(self):
         self.Arrow_Pressed = "Left"
+
     def _Ar_Right(self):
         self.Arrow_Pressed = "Right"
 
@@ -189,8 +199,10 @@ class ChipMoveCount(Enigma):
             source.addFunction(self._Change_Pos)
 
         pass
+
     def _Is_We_Stay(self, source):
-        if (self.Player_Pos[2 * self.Player] == self.Move_To[-2]) and (self.Player_Pos[2 * self.Player + 1] == self.Move_To[-1]):
+        if (self.Player_Pos[2 * self.Player] == self.Move_To[-2]) and (
+            self.Player_Pos[2 * self.Player + 1] == self.Move_To[-1]):
             self.Arrow_Pressed = None
             source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipMoveCount_Stay')
             return
@@ -206,7 +218,8 @@ class ChipMoveCount(Enigma):
             source.addDelay(3000000.0)
         if self.Finish[0] or self.Finish[1]:
             self.Stop_Changing = True
-        source.addTask("TaskMovie2SocketEnter", Movie2=self.player_movie_pack[self.Movie_Count * self._Other_Player()], SocketName="socket")
+        source.addTask("TaskMovie2SocketEnter", Movie2=self.player_movie_pack[self.Movie_Count * self._Other_Player()],
+                       SocketName="socket")
         source.addFunction(self._Change_Arrows, False)
         source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipMoveCount_Change_Player')
         source.addFunction(self._Change_Player)
@@ -236,11 +249,13 @@ class ChipMoveCount(Enigma):
                 tc_Player0.addFunction(self._Change_Player, 0)
                 tc_Player0.addFunction(self._Change_Arrows, True)
 
-                tc_Player1.addTask("TaskMovie2SocketEnter", Movie2=self.player_movie_pack[self.Movie_Count], SocketName="socket")
+                tc_Player1.addTask("TaskMovie2SocketEnter", Movie2=self.player_movie_pack[self.Movie_Count],
+                                   SocketName="socket")
 
                 tc_Player1.addFunction(self._Change_Player, 1)
                 tc_Player1.addFunction(self._Change_Arrows, True)
         pass
+
     # def _Player_Finished(self):
     #     self.Finish[self.Player] = True
     def _IsGameEnd(self, source):
@@ -256,7 +271,8 @@ class ChipMoveCount(Enigma):
 
                 return
         else:
-            if (self.Player_Pos[2 * self.Player] == self.Finish_pos[2 * self.Player]) and (self.Player_Pos[2 * self.Player + 1] == self.Finish_pos[2 * self.Player + 1]):
+            if (self.Player_Pos[2 * self.Player] == self.Finish_pos[2 * self.Player]) and (
+                self.Player_Pos[2 * self.Player + 1] == self.Finish_pos[2 * self.Player + 1]):
                 source.addScope(self._Chip_Return)
 
         for i in range(len(self.Finish)):
@@ -264,6 +280,7 @@ class ChipMoveCount(Enigma):
                 finished_players += 1
         if self.Player_Count == finished_players:
             source.addScope(self._Complete)
+
     def _Complete(self, source):
         self._Clean_Full()
         self.enigmaComplete()
@@ -326,7 +343,6 @@ class ChipMoveCount(Enigma):
     def _load_param(self):
         self.param = ChipMoveCountManager.getParam(self.EnigmaName)
 
-        pass
     def _playEnigma(self):
         self._load_param()
         self._setup()

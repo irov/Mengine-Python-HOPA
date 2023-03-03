@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class AssociationElementsManager(object):
     TraceName = "AssociationElementsManager"
     s_objects = {}
@@ -52,7 +53,8 @@ class AssociationElementsManager(object):
     @staticmethod
     def getCollection(name):
         if name not in AssociationElementsManager.s_objects.keys():
-            Trace.log(AssociationElementsManager.TraceName, 0, "%s.getCollection: cant find %s" % (AssociationElementsManager.TraceName, name))
+            Trace.log(AssociationElementsManager.TraceName, 0,
+                      "%s.getCollection: cant find %s" % (AssociationElementsManager.TraceName, name))
             return None
             pass
         collection = AssociationElementsManager.s_objects[name]

@@ -3,12 +3,14 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 
+
 class SystemMusic2(System):
     class MusicDesc(object):
         def __init__(self):
             self.play = False
             self.pos = 0.0
             pass
+
         pass
 
     def __init__(self):
@@ -309,4 +311,5 @@ class SystemMusic2(System):
 
         return False
         pass
+
     pass

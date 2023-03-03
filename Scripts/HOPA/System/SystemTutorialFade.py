@@ -5,7 +5,9 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.TutorialFadesManager import TutorialFadesManager
 
+
 _debug = False
+
 
 class SystemTutorialFade(System):
     is_working = False

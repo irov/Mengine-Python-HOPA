@@ -6,6 +6,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardEnigmaNoReset(System):
     def _onParams(self, params):
         super(SystemAwardEnigmaNoReset, self)._onParams(params)

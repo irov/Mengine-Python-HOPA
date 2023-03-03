@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 
+
 class SystemCommandLayerGroupEnableSave(System):
     def __init__(self):
         super(SystemCommandLayerGroupEnableSave, self).__init__()
@@ -85,4 +86,5 @@ class SystemCommandLayerGroupEnableSave(System):
     def _onStop(self):
         # print "SystemCommandLayerGroupEnableSave _onStop"
         pass
+
     pass

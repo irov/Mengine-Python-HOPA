@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinTransition
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionTransition(SparksActionDefault, MixinTransition):
     def _onParams(self, params):
         super(SparksActionTransition, self)._onParams(params)

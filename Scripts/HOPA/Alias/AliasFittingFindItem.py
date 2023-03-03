@@ -3,6 +3,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.FittingInventoryManager import FittingInventoryManager
 from HOPA.ItemManager import ItemManager
 
+
 class AliasFittingFindItem(TaskAlias):
     def _onParams(self, params):
         super(AliasFittingFindItem, self)._onParams(params)
@@ -22,8 +23,8 @@ class AliasFittingFindItem(TaskAlias):
         if FittingInventory.hasFitting(InventoryItem) == False:
             Slot = FittingInventoryManager.s_slots[self.ItemName]
             SlotIndex = Slot.getIndex()
-            source.addTask("TaskFittingInventoryAddFitting", FittingInventory=FittingInventory, SlotIndex=SlotIndex, InventoryItem=InventoryItem)
-            pass
+            source.addTask("TaskFittingInventoryAddFitting", FittingInventory=FittingInventory,
+                           SlotIndex=SlotIndex, InventoryItem=InventoryItem)
 
         ObjectItem = ItemManager.getItemObject(self.ItemName)
 
@@ -38,7 +39,5 @@ class AliasFittingFindItem(TaskAlias):
         if ItemManager.hasItemInventoryItem(self.ItemName) is True:
             FittingInventory = DemonManager.getDemon("FittingInventory")
 
-            source.addTask("AliasFittingInventoryAddInventoryItem", FittingInventory=FittingInventory, ItemName=self.ItemName)
-            pass
-        pass
-    pass
+            source.addTask("AliasFittingInventoryAddInventoryItem", FittingInventory=FittingInventory,
+                           ItemName=self.ItemName)

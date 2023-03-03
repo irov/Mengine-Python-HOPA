@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPlay(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -66,7 +67,8 @@ class MacroPlay(MacroCommand):
 
                 pass
             else:
-                Trace.log("Macro", 0, "MacroPlay._onGenerate type %s not support Group %s Index %d" % (ObjectType, self.GroupName, self.Index))
+                Trace.log("Macro", 0, "MacroPlay._onGenerate type %s not support Group %s Index %d" % (
+                ObjectType, self.GroupName, self.Index))
 
                 tc_quest.addTask("TaskDummy")
                 pass
@@ -93,4 +95,5 @@ class MacroPlay(MacroCommand):
         #     pass
 
         pass
+
     pass

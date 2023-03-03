@@ -1,6 +1,7 @@
 from HOPA.Entities.Spell.SpellManager import SpellManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSpellLock(MacroCommand):
     def _onValues(self, values):
         self.SpellID = values[0]
@@ -15,10 +16,12 @@ class MacroSpellLock(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "SpellReady", SceneName=self.SceneName, GroupName=self.GroupName, SpellID=self.SpellID)
+        Quest = self.addQuest(source, "SpellReady", SceneName=self.SceneName, GroupName=self.GroupName,
+                              SpellID=self.SpellID)
 
         with Quest as tc_quest:
             tc_quest.addTask("TaskNotify", ID=Notificator.onSpellLock, Args=(self.SpellID,))
             pass
         pass
+
     pass

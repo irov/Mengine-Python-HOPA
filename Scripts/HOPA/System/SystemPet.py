@@ -1,6 +1,7 @@
 from Foundation.System import System
 from Notification import Notification
 
+
 class SystemPet(System):
     def __init__(self):
         super(SystemPet, self).__init__()

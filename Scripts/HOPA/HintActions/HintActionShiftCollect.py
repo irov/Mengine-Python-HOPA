@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionShiftCollect(HintActionDefault, MixinObject):
     def _onParams(self, params):
         super(HintActionShiftCollect, self)._onParams(params)

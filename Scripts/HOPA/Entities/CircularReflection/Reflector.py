@@ -1,6 +1,7 @@
 class Reflector(object):
     pass
 
+
 class Reflexible(object):
 
     def __init__(self, node, pointer_left=None, pointer_right=None, point_forward=False):
@@ -25,6 +26,7 @@ class Reflexible(object):
 
         return "(L:%s,R:%s,F:%s)" % (self.pointer_left or 0, self.pointer_right or 0, self.point_forward or 0)
         pass
+
 
 class Tape(object):
 
@@ -62,6 +64,7 @@ class Tape(object):
             pass
         pass
 
+
 class TapeMachine(object):
     # aggregation
     def __init__(self, tapes):
@@ -74,6 +77,7 @@ class TapeMachine(object):
     def __repr__(self):
         return repr(self.tapes)
         pass
+
     #
     def mapIt(self):
         #        print type(self.tapes),self.tapes[0]
@@ -94,10 +98,12 @@ class TapeMachine(object):
         #            pass
         pass
 
+
 class Connection(object):
 
     def __init__(self):
         pass
+
     pass
 
 # if __name__ == "__main__":

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ConnectLampManager(object):
     Games = {}
 
@@ -13,12 +14,9 @@ class ConnectLampManager(object):
 
         def __str__(self):
             return "%s %s" % (self.Id_From, self.Id_To)
-            pass
 
         def __repr__(self):
             return "%s %s" % (self.Id_From, self.Id_To)
-            pass
-        pass
 
     class Point_Data(object):
         def __init__(self, Id, Connect_Number, Movie_Idle_Active, Movie_Idle_Passive):
@@ -27,24 +25,17 @@ class ConnectLampManager(object):
             self.Movie_Idle_Active = Movie_Idle_Active
             self.Movie_Idle_Passive = Movie_Idle_Passive
 
-            def __str__(self):
-                return "%s" % (self.Id)
-                pass
+        def __str__(self):
+            return "%s" % (self.Id)
 
-            def __repr__(self):
-                return "%s" % (self.Id)
-            pass
-
-        pass
+        def __repr__(self):
+            return "%s" % (self.Id)
 
     class Game_Data(object):
         def __init__(self, Name):
             self.Name = Name
             self.Points = []
             self.Connects = []
-            pass
-
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -54,12 +45,10 @@ class ConnectLampManager(object):
             Name = record.get("Name")
             if Name is None or Name[0] == "#":
                 continue
-                pass
 
             if (ConnectLampManager.hasGame(Name) is True):
                 Trace.log("Manager", 0, "ConnectLampManager.loadGames game wtih name Already Loadet : %s" % (Name))
                 continue
-                pass
             ##################################
             Point_Data = record.get("Point_Data")
             Connect_Data = record.get("Connect_Data")
@@ -69,10 +58,8 @@ class ConnectLampManager(object):
 
             ConnectLampManager.loadGamesPoint(module, Game, Point_Data)
             ConnectLampManager.loadGamesConnect(module, Game, Connect_Data)
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadGamesPoint(module, Game, param):
@@ -122,6 +109,3 @@ class ConnectLampManager(object):
             return None
             pass
         return ConnectLampManager.Games[name]
-        pass
-
-    pass

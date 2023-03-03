@@ -1,6 +1,7 @@
 from Segment import Segment
 from SegmentsRoll import SegmentsRoll
 
+
 class RollManager:
     segments = []
     rolls = []
@@ -78,7 +79,9 @@ class RollManager:
             pass
         return elements
         pass
+
     pass
+
 
 """
 segment1 = RollManager.createSegment([SegmentSlot(0,0) ,SegmentSlot(1,1), SegmentSlot(2,2), SegmentSlot(3,3),SegmentSlot(4,4)])

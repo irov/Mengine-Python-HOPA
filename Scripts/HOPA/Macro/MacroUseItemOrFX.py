@@ -1,6 +1,7 @@
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroUseItemOrFX(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -33,7 +34,8 @@ class MacroUseItemOrFX(MacroCommand):
         with source.addRaceTask(ItemsCount) as tc_races:
             for tc_race, ItemName in zip(tc_races, self.ItemsName):
                 InventoryItem = ItemManager.getItemInventoryItem(ItemName)
-                tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem, ItemName=ItemName, Taken=False, Pick=False)
+                tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
+                                ItemName=ItemName, Taken=False, Pick=False)
                 pass
             pass
 

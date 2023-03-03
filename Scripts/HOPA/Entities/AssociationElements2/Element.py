@@ -1,6 +1,7 @@
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 
+
 class Element(object):
     def __init__(self, name, movie_open, movie_active, movie_close):
         # movieObject instance
@@ -93,6 +94,3 @@ class Element(object):
             tc.addTask("TaskNotify", ID=Notificator.onAssociationElementActive)
             pass
         return
-        pass
-
-    pass

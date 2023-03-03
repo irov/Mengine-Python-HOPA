@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.Task import Task
 
+
 class TaskItemEnable(MixinItem, Task):
     def _onParams(self, params):
         super(TaskItemEnable, self)._onParams(params)
@@ -10,4 +11,5 @@ class TaskItemEnable(MixinItem, Task):
         self.Item.setEnable(True)
         return True
         pass
+
     pass

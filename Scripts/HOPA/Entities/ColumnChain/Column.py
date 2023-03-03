@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class Column(object):
     def __init__(self, data, enigma):
         self.data = data
@@ -79,5 +80,3 @@ class Column(object):
             return True
             pass
         return False
-        pass
-    pass

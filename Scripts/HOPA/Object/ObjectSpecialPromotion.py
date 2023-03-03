@@ -2,6 +2,7 @@ from Foundation.Object.DemonObject import DemonObject
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.SpecialPromotion.SpecialPromotion import EVENT_WINDOW_CLOSE, EVENT_GET_PURCHASED
 
+
 class ObjectSpecialPromotion(DemonObject):
     EVENT_WINDOW_CLOSE = EVENT_WINDOW_CLOSE
     EVENT_GET_PURCHASED = EVENT_GET_PURCHASED
@@ -49,8 +50,8 @@ class ObjectSpecialPromotion(DemonObject):
         if self.isActive():
             self.entity.run(special_prod_id)
             return
-
-        elif _DEVELOPMENT is True:
+        if _DEVELOPMENT is True:
             Trace.msg_err("SpecialPromotion is not active for run({}), add to queue = {}".format(special_prod_id, self.show_queue))
+
         self._addToShowQueue(special_prod_id)
         self._waitMoment()

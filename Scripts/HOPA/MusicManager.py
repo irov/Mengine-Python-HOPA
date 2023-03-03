@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Manager import Manager
 
+
 class MusicManager(Manager):
     s_scenes = {}
     s_tags = {}
@@ -106,6 +107,5 @@ class MusicManager(Manager):
     @staticmethod
     def getMusicPlaylists():
         return MusicManager.s_music_playlists
-    # -------------------------------------------------------------------------------------------------
 
-    pass
+    # -------------------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasFindItem(TaskAlias):
     def __init__(self):
         super(AliasFindItem, self).__init__()
@@ -60,4 +61,5 @@ class AliasFindItem(TaskAlias):
             PolicyInventoryChangeCurrentSlotIndex = PolicyManager.getPolicy("InventoryChangeCurrentSlotIndex", "AliasInventoryChangeCurrentSlotIndex")
             if BlockScrolling:
                 source.addListener(Notificator.onInventoryUpdateItem)
-            source.addTask(PolicyInventoryChangeCurrentSlotIndex, Inventory=self.Inventory, ItemName=self.ItemName, NewSlotIndex=NewSlotIndex)
+            source.addTask(PolicyInventoryChangeCurrentSlotIndex, Inventory=self.Inventory,
+                           ItemName=self.ItemName, NewSlotIndex=NewSlotIndex)

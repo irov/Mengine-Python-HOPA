@@ -6,6 +6,7 @@ class Road(object):
         self.allSlotList = []
         self.endBlock = None
         pass
+
     def setBeginBlock(self, beginBlock):
         self.beginBlock = beginBlock
         pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ChainClickManager(object):
     s_games = {}
 
@@ -7,19 +8,14 @@ class ChainClickManager(object):
         def __init__(self, elements, chains):
             self.elements = elements
             self.chains = chains
-            pass
-        pass
 
     class Chain(object):
         def __init__(self, toWin):
             self.needToWin = toWin
             self.elements = []
-            pass
 
         def appendElements(self, element):
             self.elements.append(element)
-            pass
-        pass
 
     @staticmethod
     def loadGames(module, param):
@@ -32,8 +28,6 @@ class ChainClickManager(object):
             ElementToChainParam = record.get("ElementToChain")
 
             ChainClickManager.loadGame(Name, module, ElementsParam, ChainsParam, ElementToChainParam)
-            pass
-        pass
 
     @staticmethod
     def loadGame(name, module, elementsParam, chainsParam, elementToChainParam):
@@ -44,7 +38,6 @@ class ChainClickManager(object):
         game = ChainClickManager.ChainClickGame(elements, gameChains)
         ChainClickManager.s_games[name] = game
         return game
-        pass
 
     @staticmethod
     def loadGameElements(module, param):
@@ -58,10 +51,9 @@ class ChainClickManager(object):
             completeObjectName = record.get("CompleteObjectName")
             groupName = record.get("GroupName")
 
-            elements[elementId] = dict(ObjectName=objectName, ClickedObjectName=clickedObjectName, CompleteObjectName=completeObjectName, GroupName=groupName)
-            pass
+            elements[elementId] = dict(ObjectName=objectName, ClickedObjectName=clickedObjectName,
+                                       CompleteObjectName=completeObjectName, GroupName=groupName)
         return elements
-        pass
 
     @staticmethod
     def loadGameChains(module, param):
@@ -72,9 +64,7 @@ class ChainClickManager(object):
             ChainId = record.get("ChainId")
             NeedToWin = record.get("NeedToWin")
             chains[ChainId] = ChainClickManager.Chain(NeedToWin)
-            pass
         return chains
-        pass
 
     @staticmethod
     def loadGameElementToChain(module, param, chains):
@@ -84,25 +74,17 @@ class ChainClickManager(object):
             ElementId = record.get("ElementId")
             if ChainId not in chains:
                 Trace.log("Manager", 0, "ChainClickManager.loadGameElementToChain: invalid chain ID %i" % (ChainId))
-                pass
             chain = chains[ChainId]
             chain.appendElements(ElementId)
-            pass
-        pass
 
     @staticmethod
     def getGame(name):
         if name not in ChainClickManager.s_games:
             Trace.log("Manager", 0, "ChainClickManager.getGame: not found game %s" % (name))
             return None
-            pass
         game = ChainClickManager.s_games[name]
         return game
-        pass
 
     @staticmethod
     def hasGame(name):
         return name in ChainClickManager.s_games
-        pass
-
-    pass

@@ -3,6 +3,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from HOPA.QuestManager import QuestManager
 
+
 class AliasHOGFindItem(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGFindItem, self)._onParams(params)
@@ -20,7 +21,8 @@ class AliasHOGFindItem(TaskAlias):
 
         HOGInventory = HOGManager.getInventory(self.EnigmaName)
 
-        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName, HogGroupName=self.GroupName, ItemName=ItemName)
+        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName,
+                                              HogGroupName=self.GroupName, ItemName=ItemName)
 
         with QuestManager.runQuest(source, Quest) as tc_quest:
             tc_quest.addTask("TaskItemClick", ItemName=ItemName)
@@ -37,8 +39,3 @@ class AliasHOGFindItem(TaskAlias):
             tc_inventory.addTask("TaskHOGInventoryFoundItem", HOGInventory=HOGInventory, HOGItemName=self.HOGItemName)
             if self.CrossOut is True:
                 tc_inventory.addTask("TaskHOGInventoryCrossOut", HOGItemName=self.HOGItemName, Immediately=False)
-                pass
-            pass
-        pass
-
-    pass

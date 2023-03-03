@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class OpenJournalManager(object):
     s_objects = {}
 
@@ -54,4 +55,5 @@ class OpenJournalManager(object):
             pass
         return True
         pass
+
     pass

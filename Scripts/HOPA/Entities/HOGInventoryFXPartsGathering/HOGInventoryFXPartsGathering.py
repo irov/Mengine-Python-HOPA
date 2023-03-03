@@ -2,7 +2,9 @@ from Foundation.Task.Semaphore import Semaphore
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
+
 
 class HOGInventorySlot(object):
     HOG = None
@@ -12,7 +14,8 @@ class HOGInventorySlot(object):
     def setGroups(groups):
         HOGInventorySlot.Groups = {}
         for group in groups:
-            HOGInventorySlot.Groups[group] = dict(items_count=0, parts=[], movie=None, semaphore=Semaphore(0, group.name))
+            HOGInventorySlot.Groups[group] = dict(items_count=0, parts=[], movie=None,
+                                                  semaphore=Semaphore(0, group.name))
 
     def __init__(self, item):
         self.item = item
@@ -77,14 +80,19 @@ class HOGInventorySlot(object):
         for elem in movies:
             elem.setEnable(False)
 
+
 class HOGInventoryFXPartsGathering(InventoryBase):
     @staticmethod
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
         Type.addAction(Type, "HOG", Update=HOGInventoryFXPartsGathering._updateHOG)
-        Type.addActionActivate(Type, "FindItems", Append=HOGInventoryFXPartsGathering._appendFindItems, Update=HOGInventoryFXPartsGathering._updateFindItems)
-        Type.addActionActivate(Type, "FoundItems", Append=HOGInventoryFXPartsGathering._appendFoundItems, Update=HOGInventoryFXPartsGathering._updateFoundItems)
+        Type.addActionActivate(Type, "FindItems",
+                               Append=HOGInventoryFXPartsGathering._appendFindItems,
+                               Update=HOGInventoryFXPartsGathering._updateFindItems)
+        Type.addActionActivate(Type, "FoundItems",
+                               Append=HOGInventoryFXPartsGathering._appendFoundItems,
+                               Update=HOGInventoryFXPartsGathering._updateFoundItems)
 
     def __init__(self):
         super(HOGInventoryFXPartsGathering, self).__init__()

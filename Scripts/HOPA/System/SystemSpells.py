@@ -11,6 +11,7 @@ from HOPA.SpellsManager import SpellsManager, SPELLS_UI_DEMON_NAME, SPELL_AMULET
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 ERROR_MSG_PARAM_DEMON_404 = 'SpellsManager Not founded Demon param for Spell UI button: {}'
 ERROR_MSG_SPELL_AMULET_NO_ACTIVE_USE_POWER_QUEST = 'SystemSpell has not found any quest "SpellAmuletUsePower" but amulet somehow is opened'
 
@@ -55,6 +56,7 @@ NOTIFICATOR_onShowMindByID = Notificator.onShowMindByID
 NOTIFICATOR_onZoomEnter = Notificator.onZoomEnter
 NOTIFICATOR_onZoomLeave = Notificator.onZoomLeave
 
+
 class SpellAmuletDefaultMinds(object):
     def __init__(self, param):
         self.param = param
@@ -73,6 +75,7 @@ class SpellAmuletDefaultMinds(object):
 
     def getMindAddStone(self):
         return self.param.mind_add_stone
+
 
 class SpellAmuletPower(object):
     def __init__(self, param):
@@ -123,6 +126,7 @@ class SpellAmuletPower(object):
     def getQuest(self):
         return self.quest
 
+
 class SpellAmuletStone(object):
     def __init__(self, param):
         self.param = param
@@ -140,6 +144,7 @@ class SpellAmuletStone(object):
         if mind is not None:
             Notification.notify(NOTIFICATOR_onShowMindByID, mind)
 
+
 class SpellUIRune(object):
     def __init__(self, is_locked, params):
         self.is_locked = is_locked
@@ -147,6 +152,7 @@ class SpellUIRune(object):
 
     def getParams(self):
         return self.params
+
 
 class SpellUIRunesSettings(object):
     def __init__(self, ready_for_add):
@@ -181,6 +187,7 @@ class SpellUIRunesSettings(object):
         elif rune_type not in self.found_runes:
             self.found_runes.append(rune_type)
             self.setReady(True)
+
 
 class SpellUIComponent(object):
     SPELLS_UI_DEMON = DemonManager.getDemon(SPELLS_UI_DEMON_NAME)
@@ -273,6 +280,7 @@ class SpellUIComponent(object):
 
         return spell_use_quests
 
+
 class SystemSpells(System):
     s_dev_to_debug = False
 
@@ -317,7 +325,8 @@ class SystemSpells(System):
                         with tc.addSwitchTask(3, __amuletCurState) as (tc_IDLE, tc_HIDE, tc_OPEN):
                             tc_IDLE.addScope(spell_amulet_demon.scopeCloseAmulet)
 
-                            tc_OPEN.addListener(Amulet.NOTIFICATOR_AmuletStateChange, lambda state: state is Amulet.OPEN)
+                            tc_OPEN.addListener(Amulet.NOTIFICATOR_AmuletStateChange,
+                                                lambda state: state is Amulet.OPEN)
                             tc_OPEN.addScope(spell_amulet_demon.scopeCloseAmulet)
 
                             tc_HIDE.addDummy()
@@ -344,7 +353,8 @@ class SystemSpells(System):
             with self.createTaskChain(Name=self.__cbSpellUISpellButtonClick.__name__ + str(Mengine.getTimeMs())) as tc:
                 with tc.addParallelTask(2) as (parallel_0, parallel_1):
                     if spell_ui_button is not None:  # check
-                        with parallel_0.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None, spell_ui_component) as (true, _):
+                        with parallel_0.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None,
+                                                  spell_ui_component) as (true, _):
                             true.addFunction(spell_ui_button.changeState, spell_ui_button.USE)
                             true.addScope(spell_ui_button.scopePlayCurState)
                             true.addFunction(spell_ui_button.changeState, spell_ui_button.READY, play=True, loop=True)
@@ -370,7 +380,8 @@ class SystemSpells(System):
             with self.createTaskChain(Name=self.__cbSpellUISpellButtonClick.__name__ + str(Mengine.getTimeMs())) as tc:
                 with tc.addParallelTask(2) as (parallel_0, parallel_1):
                     if spell_ui_button is not None:  # check
-                        with parallel_0.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None, spell_ui_component) as (true, _):
+                        with parallel_0.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None,
+                                                  spell_ui_component) as (true, _):
                             true.addFunction(spell_ui_button.changeState, spell_ui_button.USE)
                             true.addScope(spell_ui_button.scopePlayCurState)
                             true.addFunction(spell_ui_button.changeState, spell_ui_button.IDLE, play=True, loop=True)
@@ -398,7 +409,8 @@ class SystemSpells(System):
         with self.createTaskChain(Name=self.__cbSpellUISpellUnlock.__name__ + str(Mengine.getTimeMs()), Cb=cb) as tc:
             # visual
             if spell_ui_button is not None:  # check
-                with tc.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None, spell_ui_component) as (true, _):
+                with tc.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None,
+                                  spell_ui_component) as (true, _):
                     true.addFunction(spell_ui_button.changeState, spell_ui_button.LOCKED)
                     true.addScope(spell_ui_button.scopePlayCurState)
                     true.addFunction(spell_ui_button.changeState, spell_ui_button.IDLE)
@@ -421,7 +433,8 @@ class SystemSpells(System):
         with self.createTaskChain(Name=self.__cbSpellUISpellLock.__name__ + str(Mengine.getTimeMs()), Cb=cb) as tc:
             # visual
             if spell_ui_button is not None:  # check
-                with tc.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None, spell_ui_component) as (true, _):
+                with tc.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None,
+                                  spell_ui_component) as (true, _):
                     true.addFunction(spell_ui_button.changeState, spell_ui_button.LOCKED, play=False, last_frame=False)
             #
             tc.addDummy()
@@ -448,7 +461,8 @@ class SystemSpells(System):
                 # update anim if spell is unlocked
                 if spell_ui_component.getLocked() is False:
                     if spell_ui_button is not None:  # check
-                        with source.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None, spell_ui_component) as (true, _):
+                        with source.addIfTask(lambda spell_ui_comp_: spell_ui_comp_.getSpellUIButton() is not None,
+                                              spell_ui_component) as (true, _):
                             if spell_ui_component.hasSceneActiveQuest():
                                 if spell_amulet.isOpen() is False:
                                     # change state only if amulet is close
@@ -468,7 +482,8 @@ class SystemSpells(System):
                                     true.addFunction(spell_ui_button.changeState, spell_ui_button.UPDATE)
                                     true.addScope(spell_ui_button.scopePlayCurState)
                                 if spell_ui_button.cur_movie.getName() != "Movie2_SpellAmulet_idle":
-                                    true.addFunction(spell_ui_button.changeState, spell_ui_button.IDLE, play=True, loop=True)  # ----------------------IDLE socket click
+                                    true.addFunction(spell_ui_button.changeState, spell_ui_button.IDLE, play=True, loop=True)
+                                    # ----------------------IDLE socket click
             tc.addDummy()
         return False
 
@@ -481,9 +496,13 @@ class SystemSpells(System):
         item_plus_name = ItemManager.getCurrentItemPlusName()
 
         if item_plus_name is None:
-            spell_amulet_power = SystemSpells.getSpellAmuletPowerWithActiveQuest(power_type_filter=button_power_type, scene_filter=SceneManager.getCurrentSceneName(), group_filter=ZoomManager.getZoomOpenGroupName())
+            spell_amulet_power = SystemSpells.getSpellAmuletPowerWithActiveQuest(power_type_filter=button_power_type,
+                                                                                 scene_filter=SceneManager.getCurrentSceneName(),
+                                                                                 group_filter=ZoomManager.getZoomOpenGroupName())
         else:
-            spell_amulet_power = SystemSpells.getSpellAmuletPowerWithActiveQuest(power_type_filter=button_power_type, scene_filter=item_plus_name, group_filter=item_plus_name)
+            spell_amulet_power = SystemSpells.getSpellAmuletPowerWithActiveQuest(power_type_filter=button_power_type,
+                                                                                 scene_filter=item_plus_name,
+                                                                                 group_filter=item_plus_name)
 
         spell_ui_component = SystemSpells.getSpellUIComponent(SPELL_AMULET_TYPE)
         spell_amulet_demon = spell_ui_component.getSpellDemon()
@@ -559,16 +578,19 @@ class SystemSpells(System):
                 return False
             elif spell_amulet_button.cur_button_state in ['aim', 'select']:
                 return False
+
             with self.createTaskChain(Name=self.__cbSpellAmuletButtonClick.__name__ + str(Mengine.getTimeMs())) as tc:
                 with GuardBlockInput(tc) as guard_source:
-                    with guard_source.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None, spell_amulet_demon, button_power_type) as (true, _):
+                    with guard_source.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None,
+                                                spell_amulet_demon, button_power_type) as (true, _):
                         true.addFunction(spell_amulet_button.changeState, spell_amulet_button.SELECT)
                         true.addScope(spell_amulet_button.scopePlayCurState)
                         true.addFunction(spell_amulet_button.changeState, spell_amulet_button.IDLE, play=True, loop=True)
 
                         # play stone use
                         if power_use_movie_type is not None:
-                            true.addScope(spell_amulet_button.scopePlayAmuletUse, power_use_movie_type, play_hide_amulet_after_use=play_hide_amulet_after_use)
+                            true.addScope(spell_amulet_button.scopePlayAmuletUse, power_use_movie_type,
+                                          play_hide_amulet_after_use=play_hide_amulet_after_use)
 
                         if spell_amulet_power.getBlocked() is True:
                             true.addFunction(spell_amulet_power.giveMindBlocked)
@@ -578,7 +600,8 @@ class SystemSpells(System):
 
                             # main action
                             # COMPLETE MACRO COMMAND MacroSpellAmuletUsePower
-                            true.addNotify(NOTIFICATOR_onSpellMacroComplete, NOTIFICATOR_onSpellAmuletUsePower, spell_amulet_power.param.power_name)
+                            true.addNotify(NOTIFICATOR_onSpellMacroComplete, NOTIFICATOR_onSpellAmuletUsePower,
+                                           spell_amulet_power.param.power_name)
 
                             # for achievements
                             stat_name = "{}_rune_use".format(button_power_type)
@@ -610,7 +633,8 @@ class SystemSpells(System):
         with self.createTaskChain(Name=self.__cbSpellAmuletAddPower.__name__ + str(Mengine.getTimeMs()), Cb=cb) as tc:
             # visual
             if amulet is not None and spell_amulet_button is not None:
-                with tc.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None, spell_amulet_demon, power_type) as (true, _):
+                with tc.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None,
+                                  spell_amulet_demon, power_type) as (true, _):
                     true.addFunction(spell_amulet_stone.giveMindAdd)
 
                     if open_amulet is True:
@@ -620,7 +644,8 @@ class SystemSpells(System):
 
                             # update stone after amulet open
 
-                            guard_tc.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR, play=False, loop=False, last_frame=False)
+                            guard_tc.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR,
+                                                 play=False, loop=False, last_frame=False)
 
                             guard_tc.addScope(spell_amulet_button.scopePlayCurState)
 
@@ -632,14 +657,17 @@ class SystemSpells(System):
 
                     else:
                         if amulet.getCurState() != amulet.HIDE:
-                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR, play=False, loop=False, last_frame=False)
+                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR,
+                                             play=False, loop=False, last_frame=False)
 
                             true.addScope(spell_amulet_button.scopePlayCurState)
 
-                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.IDLE, play=True, loop=True)
+                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.IDLE,
+                                             play=True, loop=True)
 
                         else:
-                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.IDLE, play=True, loop=True)
+                            true.addFunction(spell_amulet_button.changeState, spell_amulet_button.IDLE,
+                                             play=True, loop=True)
 
             #
             tc.addDummy()
@@ -663,8 +691,10 @@ class SystemSpells(System):
         with self.createTaskChain(Name=self.__cbSpellAmuletRemovePower.__name__ + str(Mengine.getTimeMs()), Cb=cb) as tc:
             # visual
             if spell_amulet_button is not None:
-                with tc.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None, spell_amulet_demon, power_type) as (true, _):
-                    true.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR, play=False, last_frame=False)
+                with tc.addIfTask(lambda amulet_demon_, power_: amulet_demon_.getSpellAmuletButton(power_) is not None,
+                                  spell_amulet_demon, power_type) as (true, _):
+                    true.addFunction(spell_amulet_button.changeState, spell_amulet_button.APPEAR,
+                                     play=False, last_frame=False)
             #
             tc.addDummy()
         return False
@@ -809,9 +839,11 @@ class SystemSpells(System):
             ui_runes[rune_type] = SpellUIRune(SystemSpells.s_spell_amulet_stones[rune_type].locked, params_ui_rune)
 
         return ui_runes
+
     '''
     Getters ____________________________________________________________________________________________________________
     '''
+
     @staticmethod
     def getSpellUIRunes():
         return SystemSpells.s_spell_ui_runes
@@ -901,6 +933,7 @@ class SystemSpells(System):
     '''
     System _____________________________________________________________________________________________________________
     '''
+
     def __init__(self):
         super(SystemSpells, self).__init__()
 
@@ -1009,11 +1042,21 @@ class SystemSpells(System):
         return False
 
     def _onSave(self):
-        spells_data = {'spell_amulet': {'amulet_powers_used_save': [], 'amulet_powers_blocked_save': [], 'amulet_stones_save': []},
-
-            'spell_ui_component': {'spell_ui_button_save': []},
-
-            's_spell_ui_runes_settings': {'ready_for_add_save': [], 'found_runes_save': [], 'rune_to_use': []}}
+        spells_data = {
+            'spell_amulet': {
+                'amulet_powers_used_save': [],
+                'amulet_powers_blocked_save': [],
+                'amulet_stones_save': []
+            },
+            'spell_ui_component': {
+                'spell_ui_button_save': []
+            },
+            's_spell_ui_runes_settings': {
+                'ready_for_add_save': [],
+                'found_runes_save': [],
+                'rune_to_use': []
+            }
+        }
 
         amulet_powers_used_save = spells_data['spell_amulet']['amulet_powers_used_save']
         amulet_powers_blocked_save = spells_data['spell_amulet']['amulet_powers_blocked_save']

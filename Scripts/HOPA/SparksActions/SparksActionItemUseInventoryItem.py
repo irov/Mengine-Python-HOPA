@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionItemUseInventoryItem(SparksActionDefault, MixinItem):
     def __init__(self):
         super(SparksActionItemUseInventoryItem, self).__init__()
@@ -64,4 +65,5 @@ class SparksActionItemUseInventoryItem(SparksActionDefault, MixinItem):
 
         return True
         pass
+
     pass

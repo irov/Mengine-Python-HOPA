@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 
 from HOPA.ObjectiveManager import ObjectiveManager
 
+
 class Objective(BaseEntity):
 
     @staticmethod
@@ -30,4 +31,5 @@ class Objective(BaseEntity):
             Text_Message.setParams(Enable=False)
             pass
         pass
+
     pass

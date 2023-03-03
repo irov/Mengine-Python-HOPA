@@ -6,6 +6,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from HOPA.QuestManager import QuestManager
 
+
 class PolicyHOGFindItemFly(TaskAlias):
     def _onParams(self, params):
         super(PolicyHOGFindItemFly, self)._onParams(params)
@@ -70,7 +71,8 @@ class PolicyHOGFindItemFly(TaskAlias):
         time = length / HOGItemHideEffectSpeed
         # time *= 1000  # speed fix
 
-        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName, HogGroupName=self.GroupName, ItemName=self.ItemName, HogItem=hogItem)
+        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName,
+                                              HogGroupName=self.GroupName, ItemName=self.ItemName, HogItem=hogItem)
 
         with QuestManager.runQuest(source, Quest) as tc_quest:
             tc_quest.addTask("TaskItemClick", ItemName=self.ItemName)

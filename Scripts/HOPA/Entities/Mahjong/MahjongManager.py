@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 
+
 class MahjongManager(object):
     s_games = {}
     s_inventories = {}
@@ -75,11 +76,13 @@ class MahjongManager(object):
     def getInventory(enigmaName):
         inventoryName = MahjongManager.s_inventories.get(enigmaName)
         if inventoryName is None:
-            Trace.log("MahjongManager", 0, "MahjongManager.getInventory: not found inventory demon name for enigma '%s'" % enigmaName)
+            Trace.log("MahjongManager", 0,
+                      "MahjongManager.getInventory: not found inventory demon name for enigma '%s'" % enigmaName)
             return None
 
         if DemonManager.hasDemon(inventoryName) is False:
-            Trace.log("MahjongManager", 0, "MahjongManager.getInventory: not found inventory demon '%s'" % inventoryName)
+            Trace.log("MahjongManager", 0,
+                      "MahjongManager.getInventory: not found inventory demon '%s'" % inventoryName)
             return None
 
         return DemonManager.getDemon(inventoryName)

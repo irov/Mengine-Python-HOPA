@@ -1,6 +1,7 @@
 from HOPA.HintManager import HintManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHintMind(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -23,6 +24,8 @@ class MacroHintMind(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onHintSceneException, Args=(self.ExceptionId, self.SceneName, self.GroupName, self.Notifies))
+        source.addTask("TaskNotify", ID=Notificator.onHintSceneException,
+                       Args=(self.ExceptionId, self.SceneName, self.GroupName, self.Notifies))
         pass
+
     pass

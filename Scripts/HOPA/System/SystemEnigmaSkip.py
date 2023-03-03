@@ -4,6 +4,7 @@ from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Notification import Notification
 
+
 class SystemEnigmaSkip(System):
     def _onParams(self, params):
         super(SystemEnigmaSkip, self)._onParams(params)

@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Notification import Notification
 
+
 class SystemMenuGreeting(System):
     def __init__(self):
         super(SystemMenuGreeting, self).__init__()
@@ -15,13 +16,10 @@ class SystemMenuGreeting(System):
         if _DEVELOPMENT is True:
             if DemonManager.hasDemon("MenuGreeting") is False:
                 self.initializeFailed("SystemMenuGreeting not found MenuGreeting demon!")
-                pass
-            pass
 
         self.Greeting = DemonManager.getDemon("MenuGreeting")
 
         return True
-        pass
 
     def _onRun(self):
         if Mengine.hasCurrentAccount() is True:
@@ -51,5 +49,3 @@ class SystemMenuGreeting(System):
 
     def _onStop(self):
         Notification.removeObserver(self.onAccountChangeNameObserver)
-        pass
-    pass

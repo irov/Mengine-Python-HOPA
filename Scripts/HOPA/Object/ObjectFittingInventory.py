@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectFittingInventory(Object):
     @staticmethod
     def declareORM(Type):
@@ -114,7 +115,8 @@ class ObjectFittingInventory(Object):
 
     def removeFitting(self, removeIndex):
         if self.hasFittingIndex(removeIndex) is False:
-            Trace.log("Object", 0, "FittingInventory.removeFitting: %s not found fitting index %s" % (self.name, removeIndex))
+            Trace.log("Object", 0,
+                      "FittingInventory.removeFitting: %s not found fitting index %s" % (self.name, removeIndex))
             return
             pass
 
@@ -191,4 +193,5 @@ class ObjectFittingInventory(Object):
         self.setParam("InventoryItems", [])
         self.setParam("Fittings", [])
         pass
+
     pass

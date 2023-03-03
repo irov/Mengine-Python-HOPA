@@ -6,6 +6,7 @@ from Notification import Notification
 
 from StrategyGuideMenuManager import StrategyGuideMenuManager
 
+
 class StrategyGuideMenu(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -76,4 +77,5 @@ class StrategyGuideMenu(BaseEntity):
         Notification.removeObserver(self.ButtonClickObserver)
         self.ButtonClickObserver = None
         pass
+
     pass

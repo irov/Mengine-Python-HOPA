@@ -5,6 +5,7 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
 
+
 class TransitionBack(BaseEntity):
     def __init__(self):
         super(TransitionBack, self).__init__()

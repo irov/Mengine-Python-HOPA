@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroZoomClose(MacroCommand):
     #    def _onValues(self, values):
     #        self.ZoomName = values[0]
@@ -14,4 +15,5 @@ class MacroZoomClose(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskZoomClose", ZoomName=self.GroupName, SceneName=self.SceneName, Value=True)
         pass
+
     pass

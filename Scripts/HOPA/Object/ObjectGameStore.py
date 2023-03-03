@@ -1,6 +1,7 @@
 from Foundation.Object.DemonObject import DemonObject
 from HOPA.Entities.GameStore.GameStore import GameStore
 
+
 class ObjectGameStore(DemonObject):
 
     @staticmethod

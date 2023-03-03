@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 
+
 class ReagentsManager(object):
     s_reagentItems = {}
     s_reagentMixes = {}
@@ -24,8 +25,6 @@ class ReagentsManager(object):
 
         def getItems(self):
             return self.items
-            pass
-        pass
 
     @staticmethod
     def onFinalize():

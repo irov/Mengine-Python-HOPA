@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.MindBranchManager import MindBranchManager
 from Notification import Notification
 
+
 class SystemItemInvalidUseMind(System):
     def __init__(self):
         super(SystemItemInvalidUseMind, self).__init__()
@@ -59,6 +60,7 @@ class SystemItemInvalidUseMind(System):
 
         with TaskManager.createTaskChain(Name="ItemInvalidUseMind") as tc:
             tc.addTask("AliasMindPlay", MindID=mind)
+
     def __onItemHOInvalidUse(self, item=0, socket='0'):
         ItemName = item.getName()
         self.Item_Socket[0] = ItemName
@@ -102,7 +104,9 @@ class SystemItemInvalidUseMind(System):
             if Item is self.Item_Socket[0]:
                 mind = data.getMind()
                 # print "mind", mind
-                Notification.notify(Notificator.onTipShow, mind)  # Notification.notify(Notificator.onGroupEnable, data.getGroupName(), True)  # self.Item_Socket = [None, None]
+                Notification.notify(Notificator.onTipShow, mind)
+                # Notification.notify(Notificator.onGroupEnable, data.getGroupName(), True)
+                # self.Item_Socket = [None, None]
             else:
                 self.Invalid_Use()
 

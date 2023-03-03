@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectOrderMatches(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectOrderMatches, self)._onParams(params)
@@ -20,4 +21,5 @@ class ObjectOrderMatches(ObjectEnigma):
 
     def _onLoad(self, load_obj):
         pass
+
     pass

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class GeksManager(object):
     s_objects = {}
 
@@ -10,8 +11,6 @@ class GeksManager(object):
             self.listButtons = listButtons
             self.listAllButtons = listAllButtons
             self.sceneName = sceneName
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -30,8 +29,6 @@ class GeksManager(object):
             sceneName = EnigmaManager.getEnigmaSceneName(collectionName)
 
             GeksManager.loadGeksCollection(enigmaName, sceneName, module, collectionName, levelsName)
-            pass
-        pass
 
     @staticmethod
     def loadGeksCollection(enigmaName, sceneName, module, collectionName, levelsName):
@@ -67,8 +64,6 @@ class GeksManager(object):
 
         GeksManager.s_objects[enigmaName] = Object
 
-        pass
-
     @staticmethod
     def getGeks(name):
         if name not in GeksManager.s_objects.keys():
@@ -94,8 +89,3 @@ class GeksManager(object):
             pass
 
         return True
-        pass
-
-    pass
-
-pass

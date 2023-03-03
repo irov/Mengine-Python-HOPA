@@ -3,7 +3,9 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.MoveChipsOnGraphNodesManager import MoveChipsOnGraphNodesManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Graph(object):
     def __init__(self, nodes):
@@ -71,6 +73,7 @@ class Graph(object):
             source_false.addFunction(node_to.changeChipState, 'idle')
         source.addFunction(self.__setComplete)
 
+
 class Node(object):
     def __init__(self, id_, socket, slot, win_chip_id, edges_to, saved_slots_chip):
         self.id = id_
@@ -128,12 +131,16 @@ class Node(object):
         if self.chip is not None:
             self.chip.destroy()
 
+
 class Chip(object):
     def __init__(self, id_, cb_make_movie):
         self.id = id_
         self.state = None
 
-        self.movies = dict(idle=cb_make_movie(id_ + '_idle', Enable=False), selected=cb_make_movie(id_ + '_selected', Enable=False), placed=cb_make_movie(id_ + '_placed', Enable=False), move_fx=cb_make_movie('move_fx', Enable=False, Name='move_fx_' + id_))
+        self.movies = dict(idle=cb_make_movie(id_ + '_idle', Enable=False),
+                           selected=cb_make_movie(id_ + '_selected', Enable=False),
+                           placed=cb_make_movie(id_ + '_placed', Enable=False),
+                           move_fx=cb_make_movie('move_fx', Enable=False, Name='move_fx_' + id_))
 
         self.node = Mengine.createNode('Interender')
 
@@ -180,6 +187,7 @@ class Chip(object):
 
         Mengine.destroyNode(self.node)
         self.node = None
+
 
 class MoveChipsOnGraphNodes(Enigma):
     def __init__(self):
@@ -312,5 +320,6 @@ class MoveChipsOnGraphNodes(Enigma):
 
             self.addChild(node_from.chip.node)
             parallel.addFunction(node_from.changeChipState, 'selected')
-            parallel.addTask("TaskNodeMoveTo", Node=node_from.chip.node, From=node_from.slot.getWorldPosition(), To=node_to.slot.getWorldPosition(), Time=self.param.move_time * 2)
+            parallel.addTask("TaskNodeMoveTo", Node=node_from.chip.node, From=node_from.slot.getWorldPosition(),
+                             To=node_to.slot.getWorldPosition(), Time=self.param.move_time * 2)
             parallel.addFunction(node_from.changeChipState, 'placed')

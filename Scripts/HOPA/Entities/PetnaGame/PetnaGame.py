@@ -2,9 +2,11 @@ from Foundation.TaskManager import TaskManager
 from HOPA.PetnaGameManager import PetnaGameManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 import math
+
 
 class PetnaGame(Enigma):
 
@@ -223,7 +225,8 @@ class PetnaGame(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="PetnaGame_%d_%d" % (y, x), Repeat=True) as tc:
-            tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points, isDown=True, Filter=filter1)
+            tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points, isDown=True,
+                       Filter=filter1)
             tc.addTask("TaskFunction", Fn=funClick)
             pass
 
@@ -373,9 +376,11 @@ class PetnaGame(Enigma):
 
         self.__canTT("PetnaGamePlayMove")
         pass
+
     def __canTT(self, Name):
         if TaskManager.existTaskChain(Name) is True:
             TaskManager.cancelTaskChain(Name)
             pass
         pass
+
     pass

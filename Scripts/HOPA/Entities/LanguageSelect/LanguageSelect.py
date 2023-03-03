@@ -10,6 +10,7 @@ from HOPA.Entities.Options.Options import Options
 from HOPA.LanguageSelectManager import LanguageSelectManager, LanguageSelectParam
 from HOPA.ZoomManager import ZoomManager
 
+
 class LanguageSelect(BaseEntity):
     EVENT_CHANGE_LANG = Event('ButtonLangSelected')
 
@@ -94,7 +95,8 @@ class LanguageSelect(BaseEntity):
                 scene_name = SceneManager.getCurrentSceneName()
 
                 guard_tc.addFunction(self.__setLanguage, scene_name, lang)
-                guard_tc.addTask("AliasTransition", SceneName=scene_name, CheckToScene=False, Fade=False)  # Need to proper scene restart
+                # Need to proper scene restart
+                guard_tc.addTask("AliasTransition", SceneName=scene_name, CheckToScene=False, Fade=False)
                 guard_tc.addTask("AliasFadeIn", FadeGroupName='FadeUI', To=0.5, Time=250.0)
                 guard_tc.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=True)
                 guard_tc.addScope(self.scopeOpen, "LanguageSelect")
@@ -126,7 +128,6 @@ class LanguageSelect(BaseEntity):
         self.tc_change_lang = TaskManager.createTaskChain(Repeat=True, Name='LanguageSelect_LangButtonClick_Listener')
         with self.tc_change_lang as tc:
             tc.addEvent(self.EVENT_CHANGE_LANG, self.__onLangButtonClicked)  # handle lang button click
-        #
 
         # TC Lang Button Click Notify
         for (lang, button) in self.buttons.iteritems():
@@ -136,7 +137,6 @@ class LanguageSelect(BaseEntity):
             with tc_button as tc:
                 tc.addTask("TaskMovie2ButtonClick", Movie2Button=button)
                 tc.addFunction(self.EVENT_CHANGE_LANG, lang)
-        #
 
         self.tc_ok = TaskManager.createTaskChain(Name='LanguageSelect_Ok')
         self.tc_cancel = TaskManager.createTaskChain(Name='LanguageSelect_Cancel')
@@ -158,44 +158,39 @@ class LanguageSelect(BaseEntity):
             tc.addScope(self.scopeOpen, "Options")
             tc.addFunction(self.setOptionsStarVolumeValues, volume_values)
             tc.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=False)
-        #
 
         # TC Cancel Button click
         with self.tc_cancel as tc:
             tc.addTask('TaskMovie2ButtonClick', GroupName='LanguageSelect', Movie2ButtonName='Movie2Button_Cancel')
             tc.addFunction(self.tc_ok.cancel)
 
-            with tc.addIfTask(lambda: self.object.getParam("bPrevLangSetted") and self.object.getParam("PrevLanguage") != Mengine.getLocale()) as (tc_true, tc_false):
-                # handle cancel click
-                tc_true.addFunction(self.__onCancelButtonClicked)
-
-                # close ui
-                tc_false.addScope(self.scopeClose, "LanguageSelect")
-                tc_false.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
-                volume_values = Options.getStartVolumeValues()
-                tc_false.addScope(self.scopeOpen, "Options")
-                tc_false.addFunction(self.setOptionsStarVolumeValues, volume_values)
-                tc_false.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=False)
-        #
+            tc.addScope(self._scopeHandleCancelClick)
 
         # TC Cancel Socket click
         if GroupManager.hasObject('LanguageSelect', 'Movie2_SocketClose') is True:
             with self.tc_click_out as tc:
-                tc.addTask('TaskMovie2SocketClick', GroupName='LanguageSelect', Movie2Name='Movie2_SocketClose', SocketName="close")
+                tc.addTask('TaskMovie2SocketClick', GroupName='LanguageSelect',
+                           Movie2Name='Movie2_SocketClose', SocketName="close")
                 tc.addFunction(self.tc_ok.cancel)
                 tc.addFunction(self.tc_cancel.cancel)
 
-                with tc.addIfTask(lambda: self.object.getParam("bPrevLangSetted") and self.object.getParam("PrevLanguage") != Mengine.getLocale()) as (tc_true, tc_false):
-                    # handle cancel click
-                    tc_true.addFunction(self.__onCancelButtonClicked)
+                tc.addScope(self._scopeHandleCancelClick)
 
-                    # close ui
-                    tc_false.addScope(self.scopeClose, "LanguageSelect")
-                    tc_false.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
-                    volume_values = Options.getStartVolumeValues()
-                    tc_false.addScope(self.scopeOpen, "Options")
-                    tc_false.addFunction(self.setOptionsStarVolumeValues, volume_values)
-                    tc_false.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=False)  #
+    def _scopeHandleCancelClick(self, source):
+        def _filter():
+            return self.object.getParam("bPrevLangSetted") and self.object.getParam("PrevLanguage") != Mengine.getLocale()
+
+        with source.addIfTask(_filter) as (tc_true, tc_false):
+            # handle cancel click
+            tc_true.addFunction(self.__onCancelButtonClicked)
+
+            # close ui
+            tc_false.addScope(self.scopeClose, "LanguageSelect")
+            tc_false.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
+            volume_values = Options.getStartVolumeValues()
+            tc_false.addScope(self.scopeOpen, "Options")
+            tc_false.addFunction(self.setOptionsStarVolumeValues, volume_values)
+            tc_false.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=False)
 
     def _onDeactivate(self):
         if self.tc_ok is not None:

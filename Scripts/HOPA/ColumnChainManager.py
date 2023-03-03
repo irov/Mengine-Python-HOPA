@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ColumnChainManager(object):
     s_objects = {}
 
@@ -10,8 +11,6 @@ class ColumnChainManager(object):
 
         def getColumnBySocket(self):
             return self.columnBySocket
-            pass
-        pass
 
     class Column(object):
         def __init__(self, columnName, startState, statesLength, winState, movieObjectNameList):
@@ -40,8 +39,6 @@ class ColumnChainManager(object):
 
         def getMovieObjectNameList(self):
             return self.movieObjectNameList
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -55,9 +52,7 @@ class ColumnChainManager(object):
         for values in records:
             enigmaName = values.get("Name")
             collectionParam = values.get("Collection")
-            ColumnChainManager.loadColumnChainCollection(enigmaName, collectionParam)
-            pass
-        pass
+            ColumnChainManager.loadColumnChainCollection(module,enigmaName, collectionParam)
 
     @staticmethod
     def loadColumnChainCollection(module, enigmaName, collectionParam):
@@ -72,7 +67,8 @@ class ColumnChainManager(object):
             ColumnWinState = values.get("WinState")
             ColumnMovieObjectNameList = values.get("MovieObjectNames")
 
-            column = ColumnChainManager.Column(ColumnName, ColumnStartState, ColumnStatesLength, ColumnWinState, ColumnMovieObjectNameList)
+            column = ColumnChainManager.Column(ColumnName, ColumnStartState, ColumnStatesLength, ColumnWinState,
+                                               ColumnMovieObjectNameList)
             ColumnsBySocket[ColumnSocketObjectName] = column
             pass
 
@@ -96,8 +92,3 @@ class ColumnChainManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

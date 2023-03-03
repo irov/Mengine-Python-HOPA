@@ -10,6 +10,7 @@ from HOPA.TransitionManager import TransitionManager
 from HOPA.WallPaperManager import WallPaperManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemBonus(System):
     def _onParams(self, params):
         super(SystemBonus, self)._onParams(params)
@@ -186,7 +187,11 @@ class SystemBonus(System):
         bonus_video_data = dict()
         bonus_manager_data = dict()
 
-        save_data = {'WallpaperManagerData': wallpaper_manager_data, 'BonusVideoManagerData': bonus_video_data, 'BonusManagerData': bonus_manager_data}
+        save_data = {
+            'WallpaperManagerData': wallpaper_manager_data,
+            'BonusVideoManagerData': bonus_video_data,
+            'BonusManagerData': bonus_manager_data
+        }
 
         # wallpaper_manager_data:
         wallpapers = WallPaperManager.getWallpapers()

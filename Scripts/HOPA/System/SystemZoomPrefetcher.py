@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemZoomPrefetcher(System):
     def __init__(self):
         super(SystemZoomPrefetcher, self).__init__()
@@ -98,4 +99,5 @@ class SystemZoomPrefetcher(System):
 
         Mengine.unfetchResources(groupName)
         pass
+
     pass

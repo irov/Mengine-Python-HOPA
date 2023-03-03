@@ -3,6 +3,7 @@ from Foundation.SystemManager import SystemManager
 from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
 from HOPA.System.SystemProductGroups import SystemProductGroups
 
+
 class StorePageGroupComponent(StorePageBaseComponent):
 
     def __init__(self, page, group_id):
@@ -120,7 +121,9 @@ class StorePageGroupComponent(StorePageBaseComponent):
 
     def _getProductButton(self, product_id):
         if product_id not in self.prod_buttons:
-            Trace.log("Entity", 0, "StorePageGroupComponent [{}] not found button for product id '{}'".format(self.group_id, product_id))
+            Trace.log("Entity", 0,
+                      "StorePageGroupComponent [{}] not found button for product id '{}'".format(self.group_id,
+                                                                                                 product_id))
             return
         button = self.prod_buttons[product_id]
         return button

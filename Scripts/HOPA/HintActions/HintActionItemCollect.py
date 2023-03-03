@@ -7,6 +7,7 @@ from HOPA.System.SystemItemCollect import SystemItemCollect
 
 from Notification import Notification
 
+
 class HintActionItemCollect(MixinObject, HintActionMultiTarget):
 
     def _onParams(self, params):

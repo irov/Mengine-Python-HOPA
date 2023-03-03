@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroNotify(MacroCommand):
     def _onValues(self, values):
         self.notifyID = Notificator.getIdentity(values[0])
@@ -13,4 +14,5 @@ class MacroNotify(MacroCommand):
         args = tuple(self.Arguments)
         source.addTask("TaskNotify", ID=self.notifyID, Args=args)
         pass
+
     pass

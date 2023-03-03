@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinFan
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskFanClick(MixinFan, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskFanClick, self)._onParams(params)
@@ -35,4 +36,5 @@ class TaskFanClick(MixinFan, MixinObserver, Task):
 
         return True
         pass
+
     pass

@@ -1,6 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventoryReturnInventoryItemFX(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryReturnInventoryItemFX, self)._onParams(params)
@@ -8,7 +9,6 @@ class AliasInventoryReturnInventoryItemFX(TaskAlias):
         self.Inventory = params.get("Inventory")
         self.UnblockInventory = params.get("UnblockInventory", False)
         self.Return = params.get("Return", True)
-        pass
 
     def _onInitialize(self):
         super(AliasInventoryReturnInventoryItemFX, self)._onInitialize()
@@ -16,9 +16,6 @@ class AliasInventoryReturnInventoryItemFX(TaskAlias):
         if _DEVELOPMENT is True:
             if ArrowManager.emptyArrowAttach() is True:
                 self.initializeFailed("AliasInventoryReturnInventoryItemFX Attach not found")
-                pass
-            pass
-        pass
 
     def _onGenerate(self, source):
         InventoryItem = ArrowManager.getArrowAttach()
@@ -49,20 +46,17 @@ class AliasInventoryReturnInventoryItemFX(TaskAlias):
 
             SetSlotIndex = InventoryItemReturnIndex - CurrentSlotIndex
 
-            source.addTask("TaskSceneLayerAddEntity", LayerName="InventoryItemEffect", Object=InventoryItem, AdaptScreen=True)
+            source.addTask("TaskSceneLayerAddEntity", LayerName="InventoryItemEffect",
+                           Object=InventoryItem, AdaptScreen=True)
             source.addTask("TaskNodeSetPosition", Node=InventoryItemEntityNode, Value=pos)
 
-            source.addTask("AliasEffectInventoryReturnInventoryItem", Inventory=self.Inventory, SlotID=SetSlotIndex, InventoryItem=InventoryItem)
+            source.addTask("AliasEffectInventoryReturnInventoryItem", Inventory=self.Inventory,
+                           SlotID=SetSlotIndex, InventoryItem=InventoryItem)
 
             # source.addTask("TaskObjectReturn", Object = InventoryItem)
 
-            source.addTask("TaskNotify", ID=Notificator.onInventoryReturnInventoryItem, Args=(self.Inventory, InventoryItem))
+            source.addNotify(Notificator.onInventoryReturnInventoryItem, self.Inventory, InventoryItem)
             source.addTask("TaskInventorySlotReturnItemFX", Inventory=self.Inventory, InventoryItem=InventoryItem)
-            pass
 
         if self.UnblockInventory is True:
             source.addTask("TaskInventoryDetachItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
-            pass
-        pass
-
-    pass

@@ -4,6 +4,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsHogClickCount(System):
     def _onParams(self, params):
         super(SystemAwardsHogClickCount, self)._onParams(params)

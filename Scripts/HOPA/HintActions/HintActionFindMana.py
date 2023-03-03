@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionFindMana(HintActionDefault, MixinObject):
     def _onParams(self, params):
         super(HintActionFindMana, self)._onParams(params)

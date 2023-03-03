@@ -6,6 +6,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class PuzzleButtons(BaseEntity):
 
     @staticmethod
@@ -195,4 +196,5 @@ class PuzzleButtons(BaseEntity):
             self.ButtonSkip.setInteractive(value)
             pass
         pass
+
     pass

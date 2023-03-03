@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class LocationCompleteManager(object):
     s_questTypeFilter = []
 

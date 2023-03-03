@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionPlusScene(CruiseAction):
     def _onParams(self, params):
         super(CruiseActionPlusScene, self)._onParams(params)
@@ -35,7 +36,8 @@ class CruiseActionPlusScene(CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionScenePlus_Scrolling") as tc:
             with tc.addRepeatTask() as (tc_repeat, tc_until):
                 with tc_repeat.addSwitchTask(2, __isDoneScroll) as (tc_scroll, tc_done):
-                    tc_scroll.addTask("AliasCruiseControlAction", Position=InventoryButtonPosition, Object=self.getInvButton())
+                    tc_scroll.addTask("AliasCruiseControlAction",
+                                      Position=InventoryButtonPosition, Object=self.getInvButton())
                     tc_scroll.addTask("TaskListener", ID=Notificator.onInventorySlotsShiftEnd)
 
                     tc_done.addSemaphore(self.sem_done_scroll, From=0, To=1)

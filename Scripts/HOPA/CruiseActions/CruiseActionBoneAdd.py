@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.CruiseActions.CruiseActionUseInventoryItem import CruiseActionUseInventoryItem
 
+
 class CruiseActionBoneAdd(CruiseActionUseInventoryItem):
     def __init__(self):
         super(CruiseActionBoneAdd, self).__init__()

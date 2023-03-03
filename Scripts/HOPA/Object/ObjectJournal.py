@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectJournal(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -17,4 +18,5 @@ class ObjectJournal(DemonObject):
 
     def hasPage(self, page_id):
         return page_id in self.getPages()
+
     pass

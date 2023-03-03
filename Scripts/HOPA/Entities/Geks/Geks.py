@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.GeksManager import GeksManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Geks(Enigma):
     def __init__(self):

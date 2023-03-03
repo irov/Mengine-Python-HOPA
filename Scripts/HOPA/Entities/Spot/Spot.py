@@ -3,6 +3,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class Spot(BaseEntity):
 
     @staticmethod

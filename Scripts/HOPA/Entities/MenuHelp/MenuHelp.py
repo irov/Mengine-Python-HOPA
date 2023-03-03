@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.MenuHelpManager import MenuHelpManager
 from Notification import Notification
 
+
 class MenuHelp(BaseEntity):
     def __init__(self):
         super(MenuHelp, self).__init__()

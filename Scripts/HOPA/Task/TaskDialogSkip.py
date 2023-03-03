@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskDialogSkip(MixinObserver, Task):
     Skiped = False
 
@@ -19,4 +20,5 @@ class TaskDialogSkip(MixinObserver, Task):
 
         return False
         pass
+
     pass

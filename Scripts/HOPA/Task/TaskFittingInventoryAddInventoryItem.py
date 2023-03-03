@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFittingInventoryAddInventoryItem(Task):
     Skiped = True
 
@@ -19,4 +20,5 @@ class TaskFittingInventoryAddInventoryItem(Task):
 
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from FragmentsRollElement import FragmentsRollElement
 
+
 class FragmentsRollElementDragDrop(FragmentsRollElement):
     def __init__(self, type, item):
         super(FragmentsRollElementDragDrop, self).__init__(type)
@@ -257,4 +258,5 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
         Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
         return False
         pass
+
     pass

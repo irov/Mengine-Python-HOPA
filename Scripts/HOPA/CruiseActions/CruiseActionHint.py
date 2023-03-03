@@ -5,6 +5,7 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.HintManager import HintManager
 
+
 class CruiseActionHint(CruiseAction):
     def __init__(self):
         super(CruiseActionHint, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class ZumaTurret(object):
     FreeLength = 1000
     ShootSpeed = 500 * 0.001  # speed fix
@@ -21,6 +22,7 @@ class ZumaTurret(object):
 
         arrow = Mengine.getArrow()
         arrowPosition = arrow.getLocalPosition()
+
         #        arrowPosition= (arrowPosition[0],arrowPosition[1]-20)
         def findSolution(v2, v3):
             norma = ((v3[0] - v2[0]) ** 2 + (v3[1] - v2[1]) ** 2) ** 0.5
@@ -74,6 +76,7 @@ class ZumaTurret(object):
 
     pass
 
+
 class ZumaWatcher(object):
 
     def __init__(self, GunObject=None):
@@ -85,6 +88,7 @@ class ZumaWatcher(object):
 
     def __preparation(self):
         ZumaTurret.setCentreAtach(self.GunObject)
+
     #        self.GunObject.setRotate(-1)
 
     def __MakeRotate(self, *args):

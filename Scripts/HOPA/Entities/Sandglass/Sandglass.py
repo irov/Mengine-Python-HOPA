@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.SandGlassManager import SandGlassManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Sandglass(Enigma):
 
@@ -187,7 +189,8 @@ class Sandglass(Enigma):
 
         with TaskManager.createTaskChain(Name=name_A2, Repeat=True) as tc:
             with tc.addRaceTask(3) as (tc_L1, tc_L2, tc_Click):
-                tc_L1.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=Points, Filter=filter, isMouseEnter=False)
+                tc_L1.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=Points, Filter=filter,
+                              isMouseEnter=False)
                 # tc_L1.addTask("TaskPrint", Value = "select %s"%name_A2)
                 tc_L1.addTask("TaskFunction", Fn=select)
                 tc_L1.addTask("TaskNotify", ID=Notificator.onSandGlassMouseEnterSocket)
@@ -287,7 +290,7 @@ class Sandglass(Enigma):
                     pass
                 pass
             else:
-                if ((self.Selected == from_C and self.Click == to_C) or (self.Click == from_C and self.Selected == to_C)):
+                if (self.Selected == from_C and self.Click == to_C) or (self.Click == from_C and self.Selected == to_C):
                     Movie_Idle.setEnable(False)
                     Movie_Select.setEnable(True)
                     mov_Play[0] = [(Movie_Select, True)]
@@ -310,7 +313,7 @@ class Sandglass(Enigma):
             pass
 
         def skip_Current(click):
-            if ((from_C == self.Click_Prev and to_C == self.Click) or (from_C == self.Click and to_C == self.Click_Prev)):
+            if (from_C == self.Click_Prev and to_C == self.Click) or (from_C == self.Click and to_C == self.Click_Prev):
                 paly_end[0] = 1
                 for idd, movee in enumerate(self.Play_Movies_Connects.itervalues()):
                     if (self.Connects_End[idd] == 0):
@@ -437,4 +440,5 @@ class Sandglass(Enigma):
             TaskManager.cancelTaskChain(Name)
             pass
         pass
+
     pass

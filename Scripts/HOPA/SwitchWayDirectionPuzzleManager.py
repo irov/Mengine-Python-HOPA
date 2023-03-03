@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class SwitchWayDirectionPuzzleManager(Manager):
     s_puzzles = {}
 

@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinSocket
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasApplyInventoryItem(MixinSocket, TaskAlias):
     def _onParams(self, params):
         super(AliasApplyInventoryItem, self)._onParams(params)
@@ -11,7 +12,8 @@ class AliasApplyInventoryItem(MixinSocket, TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=self.InventoryItem, Taken=self.taken, Pick=self.pick)
+        source.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=self.InventoryItem,
+                       Taken=self.taken, Pick=self.pick)
 
         if self.pick is True:
             source.addTask("TaskStateMutex", ID="StateAddItem", From=False, To=True)

@@ -1,6 +1,7 @@
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 
+
 class SwapDifferentElement(object):
     def __init__(self, states):
         super(SwapDifferentElement, self).__init__()

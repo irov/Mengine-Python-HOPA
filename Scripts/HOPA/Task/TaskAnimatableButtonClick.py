@@ -3,6 +3,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from Foundation.Task.c import MixinObject
 
+
 class TaskAnimatableButtonClick(MixinObject, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskAnimatableButtonClick, self)._onParams(params)

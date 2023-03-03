@@ -2,6 +2,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryChangeCurrentSlotIndex(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryChangeCurrentSlotIndex, self)._onParams(params)
@@ -19,10 +20,3 @@ class AliasInventoryChangeCurrentSlotIndex(TaskAlias):
             guard_source.addTask("TaskInventorySlotsHideInventoryItem", Inventory=self.Inventory)
             guard_source.addTask("TaskInventoryCurrentSlotIndex", Inventory=self.Inventory, Value=self.NewSlotIndex)
             guard_source.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory)
-            if ItemObject is not None:
-                pass  # guard_source.addDisable(ItemObject)
-
-            pass
-        pass
-
-    pass

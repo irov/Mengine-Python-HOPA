@@ -2,6 +2,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionDialog(MixinGroup, CruiseAction):
 
     def _onInitialize(self):
@@ -45,6 +46,3 @@ class CruiseActionDialog(MixinGroup, CruiseAction):
 
     def _onEnd(self):
         super(CruiseActionDialog, self)._onEnd()
-        pass
-
-    pass

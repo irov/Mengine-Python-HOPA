@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 
 from AwardsManager import AwardsManager
 
+
 class Awards(BaseEntity):
 
     @staticmethod
@@ -83,6 +84,3 @@ class Awards(BaseEntity):
         Text_Count = self.object.getObject("Text_Count")
         Text_Count.setTextID("ID_AWARDS")
         Text_Count.setTextArgs((value, self.MaxCount))
-        pass
-
-    pass

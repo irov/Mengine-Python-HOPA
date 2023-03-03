@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemDebugSceneInfo(System):
     SCHEDULE_NOT_INIT = -1
 

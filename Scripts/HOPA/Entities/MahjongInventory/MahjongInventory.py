@@ -1,5 +1,6 @@
 InventoryBase = Mengine.importEntity("InventoryBase")
 
+
 class MahjongInventory(InventoryBase):
     @staticmethod
     def declareORM(Type):
@@ -9,7 +10,9 @@ class MahjongInventory(InventoryBase):
         Type.addAction(Type, "TextID", Update=MahjongInventory._updateTextMessage)
 
         Type.addActionActivate(Type, "ItemsCount", Update=MahjongInventory._updateItemsAllCount)
-        Type.addActionActivate(Type, "FoundItems", Append=MahjongInventory._appendFoundItems, Update=MahjongInventory._updateFoundItems)
+        Type.addActionActivate(Type, "FoundItems",
+                               Append=MahjongInventory._appendFoundItems,
+                               Update=MahjongInventory._updateFoundItems)
 
     def __init__(self):
         super(MahjongInventory, self).__init__()

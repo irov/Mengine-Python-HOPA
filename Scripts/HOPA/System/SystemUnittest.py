@@ -8,7 +8,9 @@ from HOPA.ItemManager import ItemManager
 from HOPA.UnittestManager import UnittestManager
 from Holder import Holder
 
+
 MENGINE_OPTION_UNITTEST_ENABLE = 'unittest'
+
 
 class TestActionInterface(object):
     def __init__(self, index, param):
@@ -27,11 +29,14 @@ class TestActionInterface(object):
 
         def dbgPrint():
             if rc:
-                print('\t [SystemUnittest] [success] --{} ms test action id {} type {} first_param {}\n'.format(Mengine.getTimeMs() - time, self.index, self.param.test_action, self.param.test_action_params[0]))
+                print('\t [SystemUnittest] [success] --{} ms test action id {} type {} first_param {}\n'.format(
+                    Mengine.getTimeMs() - time, self.index, self.param.test_action, self.param.test_action_params[0]))
             else:
-                print('\t [SystemUnittest] [fail] --{} test action id {} type {} first_param {}\n'.format(Mengine.getTimeMs() - time, self.index, self.param.test_action, self.param.test_action_params[0]))
+                print('\t [SystemUnittest] [fail] --{} test action id {} type {} first_param {}\n'.format(
+                    Mengine.getTimeMs() - time, self.index, self.param.test_action, self.param.test_action_params[0]))
 
         source.addFunction(dbgPrint)
+
 
 # class TestActionKey(TestActionInterface):
 #     def __init__(self, index, param):
@@ -51,6 +56,7 @@ class TestActionListener(TestActionInterface):
     def _scopeAction(self, source):
         source.addTask("TaskListener", ID=self.notificator_id)
 
+
 class TestActionNotify(TestActionInterface):
     def __init__(self, index, param):
         super(TestActionNotify, self).__init__(index, param)
@@ -60,6 +66,7 @@ class TestActionNotify(TestActionInterface):
 
     def _scopeAction(self, source):
         source.addTask("TaskNotify", ID=self.notificator_id, Args=self.args)
+
 
 class TestActionWait(TestActionInterface):
     def __init__(self, index, param):
@@ -71,6 +78,7 @@ class TestActionWait(TestActionInterface):
         source.addDelay(self.delay)
         return True
 
+
 class TestActionPrint(TestActionInterface):
     def __init__(self, index, param):
         super(TestActionPrint, self).__init__(index, param)
@@ -80,6 +88,7 @@ class TestActionPrint(TestActionInterface):
     def _scopeAction(self, source):
         source.addPrint(self.msg)
         return True
+
 
 class TestActionTransition(TestActionInterface):
     def __init__(self, index, param):
@@ -96,6 +105,7 @@ class TestActionTransition(TestActionInterface):
     def _scopeAction(self, source):
         source.addTask("AliasTransition", SceneName=self.scene_name, ZoomGroupName=self.zoom_name)  # second method
         return True
+
 
 class TestActionClick(TestActionInterface):
     def __init__(self, index, param):
@@ -199,10 +209,13 @@ class TestActionClick(TestActionInterface):
     def _scopeAction(self, source):
         def scopeCruiseControlActionObj(source_):
             with source_.addIfTask(lambda: self.obj is not None) as (true, _):
-                true.addTask("AliasCruiseControlAction", Object=self.obj, ObjectParams=[self.obj_param, self.wait_enable], Speed=self.click_speed)
+                true.addTask("AliasCruiseControlAction", Object=self.obj,
+                             ObjectParams=[self.obj_param, self.wait_enable], Speed=self.click_speed)
 
         def scopeCruiseControlActionPos(source_):
-            source_.addTask("AliasCruiseControlAction", Position=(self.param.test_action_params[1], self.param.test_action_params[2]), Speed=self.click_speed, )
+            source_.addTask("AliasCruiseControlAction",
+                            Position=(self.param.test_action_params[1], self.param.test_action_params[2]),
+                            Speed=self.click_speed, )
 
         if SceneManager.getCurrentScene() is None:
             source.addListener(Notificator.onSceneEnter, Filter=lambda scene_name: scene_name is not None)
@@ -217,6 +230,7 @@ class TestActionClick(TestActionInterface):
         source.addScope(scope_cruise_control_action)
 
         return True
+
 
 class TestActionAddInventoryItems(TestActionInterface):
     def __init__(self, index, param):
@@ -237,8 +251,17 @@ class TestActionAddInventoryItems(TestActionInterface):
 
         return True
 
-TEST_ACTION_MAP = {'TestActionClick': TestActionClick,  # 'TestActionKey': TestActionKey,
-    'TestActionWait': TestActionWait, 'TestActionPrint': TestActionPrint, 'TestActionTransition': TestActionTransition, 'TestActionListener': TestActionListener, 'TestActionNotify': TestActionNotify, 'TestActionAddInventoryItems': TestActionAddInventoryItems}
+
+TEST_ACTION_MAP = {
+    'TestActionClick': TestActionClick,  # 'TestActionKey': TestActionKey,
+    'TestActionWait': TestActionWait,
+    'TestActionPrint': TestActionPrint,
+    'TestActionTransition': TestActionTransition,
+    'TestActionListener': TestActionListener,
+    'TestActionNotify': TestActionNotify,
+    'TestActionAddInventoryItems': TestActionAddInventoryItems
+}
+
 
 class SystemUnittest(System):
     s_test_action_units = {}
@@ -298,7 +321,8 @@ class SystemUnittest(System):
 
     @staticmethod
     def __scopePressKey(source, key_code):
-        source.addListener(Notificator.onKeyEvent, lambda key, x, y, isDown, isRepeating: isRepeating is False and isDown is False and key == key_code)
+        source.addListener(Notificator.onKeyEvent,
+                           lambda key, x, y, isDown, isRepeating: isRepeating is False and isDown is False and key == key_code)
 
     @staticmethod
     def __printTimestamp(msg, time_getter, *args):
@@ -384,7 +408,8 @@ class SystemUnittest(System):
                             if skip_test_key_code is not None:
                                 skip_test.addDelay(1000)
                                 skip_test.addScope(self.__scopePressKey, skip_test_key_code)
-                                skip_test.addPrint('[SystemUnittest] "{}" PRESSED, TEST {} {} SKIPPED'.format(skip_test_key_name, test.param.test_action, test.param.test_action_params[0]))
+                                skip_test.addPrint('[SystemUnittest] "{}" PRESSED, TEST {} {} SKIPPED'.format(
+                                    skip_test_key_name, test.param.test_action, test.param.test_action_params[0]))
                             else:
                                 skip_test.addBlock()
 

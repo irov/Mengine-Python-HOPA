@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicySkipPuzzleReadyMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicySkipPuzzleReadyMovie, self)._onParams(params)
@@ -14,4 +15,5 @@ class PolicySkipPuzzleReadyMovie(TaskAlias):
             pass
         source.addTask("TaskMovieStop", MovieName="Movie_Ready")
         pass
+
     pass

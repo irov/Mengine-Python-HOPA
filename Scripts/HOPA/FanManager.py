@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from Notification import Notification
 
+
 class FanManager(object):
     onTransition = None
     s_fans = {}
@@ -12,10 +13,6 @@ class FanManager(object):
         def __init__(self, FanItems, FanObject):
             self.FanItems = FanItems
             self.FanObject = FanObject
-            pass
-        pass
-
-    pass
 
     @staticmethod
     def onInitialize():

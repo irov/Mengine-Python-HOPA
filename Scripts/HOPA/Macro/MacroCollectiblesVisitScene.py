@@ -1,6 +1,7 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.System.SystemCollectibles import SystemCollectibles
 
+
 class MacroCollectiblesVisitScene(MacroCommand):
     """
         Macro for manual set current scene_visited to True

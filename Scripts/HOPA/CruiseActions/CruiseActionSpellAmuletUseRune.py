@@ -5,6 +5,7 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.SpellsManager import SpellsManager, SPELLS_UI_DEMON_NAME, SPELL_AMULET_TYPE
 
+
 class CruiseActionSpellAmuletUseRune(CruiseAction):
     def __init__(self):
         super(CruiseActionSpellAmuletUseRune, self).__init__()

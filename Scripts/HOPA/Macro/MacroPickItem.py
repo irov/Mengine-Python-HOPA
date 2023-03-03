@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPickItem(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -26,7 +27,8 @@ class MacroPickItem(MacroCommand):
         ItemObject = ItemManager.getItemObject(self.ItemName)
         ItemObjectName = ItemObject.getName()
 
-        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName, ItemName=ItemObjectName)
+        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ItemName=ItemObjectName)
         if ItemManager.hasItemInventoryItem(self.ItemName) is True:
             Inventory = DemonManager.getDemon("Inventory")
 

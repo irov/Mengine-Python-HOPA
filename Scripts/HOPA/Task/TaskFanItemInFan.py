@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinFanItem
 from Foundation.Task.Task import Task
 
+
 class TaskFanItemInFan(MixinFanItem, Task):
     def _onParams(self, params):
         super(TaskFanItemInFan, self)._onParams(params)
@@ -11,4 +12,5 @@ class TaskFanItemInFan(MixinFanItem, Task):
         FanItemEntity.inFan()
         return True
         pass
+
     pass

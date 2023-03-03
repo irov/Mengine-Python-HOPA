@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectZoom(Object):
     PARAMS_Interactive = 1
 
@@ -39,7 +40,8 @@ class ObjectZoom(Object):
 
                 Polygon = self.getPolygon()
                 if Mengine.isPointInsidePolygon(HintPoint, Polygon) is False:
-                    self.initializeFailed("'%s' invalid initialize, HintPoint %s must be inside polygon %s" % (self.getName(), HintPoint, Polygon))
+                    self.initializeFailed("'%s' invalid initialize, HintPoint %s must be inside polygon %s" % (
+                    self.getName(), HintPoint, Polygon))
 
     def calcWorldHintPoint(self):
         hintPoint = self.getHintPoint()

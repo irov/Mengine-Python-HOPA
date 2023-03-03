@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Notification import Notification
 
+
 class SystemGuidebook(System):
 
     def __init__(self):

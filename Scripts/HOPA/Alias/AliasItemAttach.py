@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasItemAttach(MixinItem, TaskAlias):
     def _onParams(self, params):
         super(AliasItemAttach, self)._onParams(params)
@@ -25,4 +26,5 @@ class AliasItemAttach(MixinItem, TaskAlias):
             source.addTask("TaskItemClick", Item=self.Item)
 
         source.addTask("TaskFanItemInHand", FanItem=self.Item)
-        source.addTask("TaskArrowAttach", Offset=self.Offset, OffsetValue=self.OffsetValue, Origin=self.Origin, Object=self.Item, MovieAttach=self.MovieAttach, AddArrowChild=self.AddArrowChild)
+        source.addTask("TaskArrowAttach", Offset=self.Offset, OffsetValue=self.OffsetValue, Origin=self.Origin,
+                       Object=self.Item, MovieAttach=self.MovieAttach, AddArrowChild=self.AddArrowChild)

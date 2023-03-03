@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyCutSceneSkip(TaskAlias):
     def _onParams(self, params):
         super(PolicyCutSceneSkip, self)._onParams(params)

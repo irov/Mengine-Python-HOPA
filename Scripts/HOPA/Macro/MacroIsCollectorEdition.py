@@ -1,6 +1,7 @@
 from Foundation.Utils import isCollectorEdition
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroIsCollectorEdition(MacroCommand):
 
     def _onValues(self, values):
@@ -22,7 +23,8 @@ class MacroIsCollectorEdition(MacroCommand):
             Trace.log("Command", 0, "MacroIsCollectorEdition paragraphID is invalid '%s'" % paragraphID)
             return
 
-        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName, ParagraphsID=self.ParagraphsID)
+        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onParagraphRun, paragraphID)

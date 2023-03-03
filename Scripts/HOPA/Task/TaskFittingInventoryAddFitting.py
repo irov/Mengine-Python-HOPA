@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFittingInventoryAddFitting(Task):
     def _onParams(self, params):
         super(TaskFittingInventoryAddFitting, self)._onParams(params)
@@ -18,4 +19,5 @@ class TaskFittingInventoryAddFitting(Task):
 
         return True
         pass
+
     pass

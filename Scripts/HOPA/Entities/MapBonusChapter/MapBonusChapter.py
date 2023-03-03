@@ -8,8 +8,10 @@ from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 EVENT_SHOW_OVERVIEW = Event("onShowOverview")
 EVENT_HIDE_OVERVIEW = Event("onHideOverview")
+
 
 class MapBonusChapter(BaseEntity):
     quest_check_types = ["UseInventoryItem", "GiveItemOr", "CompleteItemCount"]
@@ -18,7 +20,9 @@ class MapBonusChapter(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "OpenScenes", Append=MapBonusChapter.__appendOpenScenes, Update=MapBonusChapter.__updateOpenScenes)
+        Type.addActionActivate(Type, "OpenScenes",
+                               Append=MapBonusChapter.__appendOpenScenes,
+                               Update=MapBonusChapter.__updateOpenScenes)
         Type.addActionActivate(Type, "BlockedScenes")
         Type.addActionActivate(Type, "OpenHog")
         Type.addActionActivate(Type, "PlayedOpenHog")
@@ -219,7 +223,11 @@ class MapBonusChapter(BaseEntity):
 
         cur_scale = main_layer.getScale()
 
-        scale_to = (cur_scale[0] * self.zoom_effect_zoom_factor, cur_scale[1] * self.zoom_effect_zoom_factor, cur_scale[2] * self.zoom_effect_zoom_factor,)
+        scale_to = (
+            cur_scale[0] * self.zoom_effect_zoom_factor,
+            cur_scale[1] * self.zoom_effect_zoom_factor,
+            cur_scale[2] * self.zoom_effect_zoom_factor,
+        )
 
         movie_entity = movie.getEntity()
         socket = movie_entity.getSocket("socket")

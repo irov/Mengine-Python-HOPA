@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class BoneHelpChainManager(object):
     s_chain = []
 

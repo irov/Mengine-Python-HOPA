@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroUseRune(MacroCommand):
     def _onValues(self, values):
         self.Rune_ID = values[0]
@@ -15,7 +16,8 @@ class MacroUseRune(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "UseRune", SceneName=self.SceneName, GroupName=self.GroupName, Rune_ID=self.Rune_ID, Object=self.Object)
+        Quest = self.addQuest(source, "UseRune", SceneName=self.SceneName, GroupName=self.GroupName,
+                              Rune_ID=self.Rune_ID, Object=self.Object)
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onRuneReady)

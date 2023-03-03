@@ -4,6 +4,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.Entities.Spell.SystemSpell import SystemSpell
 
+
 class TaskSpellOnZoom(MixinZoom, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSpellOnZoom, self)._onParams(params)
@@ -51,4 +52,5 @@ class TaskSpellOnZoom(MixinZoom, MixinObserver, Task):
             pass
         return False
         pass
+
     pass

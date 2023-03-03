@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectObjective(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectObjective(DemonObject):
 
         self.initParam("ObjectiveID", params, None)
         pass
+
     pass

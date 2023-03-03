@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.PuzzleRulesManager import PuzzleRulesManager
 
+
 class PuzzleRules(BaseEntity):
 
     @staticmethod

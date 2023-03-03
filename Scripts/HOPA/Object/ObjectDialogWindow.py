@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectDialogWindow(DemonObject):
 
     def run(self, content_style=None, text_ids=None, urls=None, text_args=None, icon_obj=None):

@@ -4,7 +4,9 @@ from Notification import Notification
 
 from SpinCirclesMastermindManager import SpinCirclesMastermindManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SpinCirclesMastermind(Enigma):
     @staticmethod

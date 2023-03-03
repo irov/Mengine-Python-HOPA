@@ -2,6 +2,7 @@ from Foundation.TaskManager import TaskManager
 
 from Target import Target
 
+
 class ChasingSystem(object):
     queue = []  # fifo
     current = None

@@ -4,6 +4,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from Foundation.Utils import getCurrentPublisher
 from HOPA.System.SystemEnergy import SystemEnergy
 
+
 class PolicyNotEnoughEnergyDialog(TaskAlias):
 
     def _onParams(self, params):
@@ -18,7 +19,8 @@ class PolicyNotEnoughEnergyDialog(TaskAlias):
         text_args = {"icon_value": [SystemEnergy.getActionEnergy(self.Action)]}
 
         with source.addParallelTask(3) as (window, shopping, cleanup):
-            window.addFunction(DialogWindow.runPreset, "NotEnoughEnergy", content_style="icon", icon_obj=icon, text_args=text_args)
+            window.addFunction(DialogWindow.runPreset, "NotEnoughEnergy", content_style="icon", icon_obj=icon,
+                               text_args=text_args)
 
             with shopping.addRaceTask(2) as (confirm, cancel):
                 confirm.addListener(Notificator.onDialogWindowConfirm)

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectInventoryBase(DemonObject):
     @staticmethod
     def declareORM(Type):

@@ -3,6 +3,7 @@ from Notification import Notification
 from ChipElement import ChipElement
 from Path import Path
 
+
 class ChipElementDragDrop(ChipElement):
     def __init__(self):
         super(ChipElementDragDrop, self).__init__()
@@ -182,4 +183,5 @@ class ChipElementDragDrop(ChipElement):
         self.destinationSlot = connection[0]
         return True
         pass
+
     pass

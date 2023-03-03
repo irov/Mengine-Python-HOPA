@@ -4,6 +4,7 @@ from HOPA.ItemManager import ItemManager
 from HOPA.MetalDetectorManager import MetalDetectorManager
 from Notification import Notification
 
+
 class MetalDetector(BaseEntity):
 
     @staticmethod

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class TrafficJamManager(object):
     s_trafficjams = {}
 
@@ -10,8 +11,6 @@ class TrafficJamManager(object):
             self.sceneName = sceneName
             self.group = group
             self.obj = obj
-            pass
-        pass
 
     class TrafficElement(object):
         def __init__(self, sprite, horizontal, size, pos, main):
@@ -20,8 +19,6 @@ class TrafficJamManager(object):
             self.size = size
             self.pos = pos
             self.main = main
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -36,11 +33,8 @@ class TrafficJamManager(object):
             if hog is None:
                 Trace.log("HOGManager", 0, "TrafficJamManager.loadPuzzles: invalid load puzzle %s" % (Name))
                 return False
-                pass
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadTrafficJam(name, module, param):
@@ -107,5 +101,3 @@ class TrafficJamManager(object):
             pass
 
         return desc.elements
-        pass
-    pass

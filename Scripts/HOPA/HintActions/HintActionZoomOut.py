@@ -2,6 +2,7 @@ from HOPA.HintActions.HintActionDefault import HintActionDefault
 
 from HOPA.ZoomManager import ZoomManager
 
+
 class HintActionZoomOut(HintActionDefault):
     def _getHintObject(self):
         return None
@@ -20,5 +21,3 @@ class HintActionZoomOut(HintActionDefault):
         Position = buttonCloseEntity.getSprite().getWorldImageCenter()
 
         return Position
-        pass
-    pass

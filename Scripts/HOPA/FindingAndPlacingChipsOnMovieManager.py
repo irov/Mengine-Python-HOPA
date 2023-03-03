@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class FindingAndPlacingChipsOnMovieManager(Manager):
     s_puzzles = {}
 
@@ -52,7 +53,8 @@ class FindingAndPlacingChipsOnMovieManager(Manager):
             place_movie_name = record.get('PlaceMovieName')
             place_slot = record.get('PlaceSlot')
 
-            params_dict[chip_id] = FindingAndPlacingChipsOnMovieManager.ChipParam(chip_id, chip_movie_name, place_movie_name, place_slot)
+            params_dict[chip_id] = FindingAndPlacingChipsOnMovieManager.ChipParam(chip_id, chip_movie_name,
+                                                                                  place_movie_name, place_slot)
 
         FindingAndPlacingChipsOnMovieManager.s_puzzles[enigma_name] = params_dict
 

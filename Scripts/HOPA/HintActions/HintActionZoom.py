@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinZoom
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 from HOPA.ZoomManager import ZoomManager
 
+
 class HintActionZoom(MixinZoom, HintActionDefault):
     def _onParams(self, params):
         super(HintActionZoom, self)._onParams(params)
@@ -41,5 +42,3 @@ class HintActionZoom(MixinZoom, HintActionDefault):
         Position = HotSpot.getWorldPolygonCenter()
 
         return Position
-        pass
-    pass

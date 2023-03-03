@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class DragMiniSystem(object):
 
     def __init__(self):

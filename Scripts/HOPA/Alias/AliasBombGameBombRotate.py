@@ -1,6 +1,7 @@
 from Foundation.Task.TaskAlias import TaskAlias
 from Notification import Notification
 
+
 class AliasBombGameBombRotate(TaskAlias):
     def __init__(self):
         super(AliasBombGameBombRotate, self).__init__()
@@ -53,6 +54,7 @@ class AliasBombGameBombRotate(TaskAlias):
             if (Bomb == self.Bomb):
                 return True
             return False
+
         pass
 
         with source.addRepeatTask() as (tc_do, tc_until):
@@ -67,4 +69,5 @@ class AliasBombGameBombRotate(TaskAlias):
 
             tc_until.addTask("TaskListener", ID=Notificator.onBombEndMov, Filter=Filter)
         pass
+
     pass

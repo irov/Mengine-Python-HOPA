@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 
+
 class ReagentsButton(BaseEntity):
     @staticmethod
     def declareORM(Type):

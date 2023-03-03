@@ -138,6 +138,7 @@ class Twist(object):
 
     pass
 
+
 class MultiFinalTwist(Twist):
     # for multiply final state finite state machine
 

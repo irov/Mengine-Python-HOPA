@@ -4,7 +4,9 @@ from Notification import Notification
 
 from Twist import Twist, MultiFinalTwist
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SpinCircles(Enigma):
     MainTask = "Spin_Change_State"
@@ -52,7 +54,8 @@ class SpinCircles(Enigma):
         pass
 
     def disableAll(self):
-        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()
+        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, \
+            Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()
         for movieNames in MovieNames:
             for movieName in movieNames:
                 movie = self.object.getObject(movieName)
@@ -185,7 +188,8 @@ class SpinCircles(Enigma):
         pass
 
     def __DataPreparation(self):
-        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()  # unpacked
+        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, \
+            MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()  # unpacked
         self.EnigmaObject = EnigmaObject
         # Design Data
         for it, key in enumerate(RotateItem):
@@ -366,11 +370,6 @@ class SpinCircles(Enigma):
                         Previous = eachMovie
                         tc_p.addTask("TaskEnable", Object=eachMovie)
                         tc_p.addTask("TaskMoviePlay", Movie=eachMovie, Wait=True)
-                        pass
-                    pass
-                pass
-            pass
-        pass
 
     def _skipEnigma(self):
         if self.object.getPlay() is False:
@@ -442,11 +441,6 @@ class SpinCircles(Enigma):
                 with tc.addParallelTask(len(Movies)) as tci:
                     for tc_p, movie in zip(tci, Movies):
                         tc_p.addTask("TaskMoviePlay", Movie=movie)
-                        pass
-                    pass
-                pass
-            pass
-        pass
 
     def _restoreEnigma(self):
         self._playEnigma()

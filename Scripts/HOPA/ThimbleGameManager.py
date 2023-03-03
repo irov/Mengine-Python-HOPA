@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from TraceManager import TraceManager
 
+
 class ThimbleGameManager(object):
     s_objects = {}
 
@@ -11,8 +12,6 @@ class ThimbleGameManager(object):
             self.shows = {}
             self.thimbles = {}
             self.sockets = {}
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -35,9 +34,8 @@ class ThimbleGameManager(object):
             shows = values.get("Shows")
             thimbles = values.get("Thimbles")
             sockets = values.get("Sockets")
-            ThimbleGameManager.loadThimbleGameCollection(objectName, sceneName, groupName, module, moves, shows, thimbles, sockets)
-            pass
-        pass
+            ThimbleGameManager.loadThimbleGameCollection(objectName, sceneName, groupName, module, moves, shows,
+                                                         thimbles, sockets)
 
     @staticmethod
     def loadThimbleGameCollection(objectName, sceneName, groupName, module, moves, shows, thimbles, sockets):
@@ -120,8 +118,3 @@ class ThimbleGameManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

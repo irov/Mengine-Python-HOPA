@@ -6,7 +6,9 @@ from ChessPuzzleFigure import ChessPuzzleFigure
 from ChessPuzzleMovieGrid import ChessPuzzleMovieGrid
 from ChessPuzzleShift import ChessPuzzleShift
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChessPuzzle(Enigma):
     def __init__(self):
@@ -234,6 +236,3 @@ class ChessPuzzle(Enigma):
             entity.setLocalPosition((-size.x / 2, -size.y / 2))
             self.boardView.setNode(targetData['x'], targetData['y'], entity)
             self.targets.append(dict(Data=targetData, Node=entity))
-            pass
-        pass
-    pass

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMind(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectMind(DemonObject):
         super(ObjectMind, self)._onParams(params)
         self.initParam("PlayPolicy", params, None)
         pass
+
     pass

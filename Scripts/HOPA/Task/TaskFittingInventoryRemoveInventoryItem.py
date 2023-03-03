@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFittingInventoryRemoveInventoryItem(Task):
     Skiped = True
 
@@ -25,4 +26,5 @@ class TaskFittingInventoryRemoveInventoryItem(Task):
         slot.removeItem()
         return True
         pass
+
     pass

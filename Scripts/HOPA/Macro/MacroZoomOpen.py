@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroZoomOpen(MacroCommand):
     def _onValues(self, values):
         self.ZoomName = values[0]
@@ -17,4 +18,5 @@ class MacroZoomOpen(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskZoomOpen", ZoomName=self.ZoomName, SceneName=self.SceneName)
         pass
+
     pass

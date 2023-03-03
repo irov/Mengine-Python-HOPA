@@ -2,6 +2,7 @@ from Foundation.TaskManager import TaskManager
 
 from Notification import Notification
 
+
 class RotateAndSwapChipsSlotController(object):
     def __init__(self, slot, deltaAngle, buttonObject):
         self.slot = slot
@@ -104,4 +105,5 @@ class RotateAndSwapChipsSlotController(object):
         Notification.removeObserver(self.observerClick)
         Notification.removeObserver(self.observerClickEnd)
         pass
+
     pass

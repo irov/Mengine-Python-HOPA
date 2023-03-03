@@ -7,6 +7,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CutSceneManager import CutSceneManager
 from Notification import Notification
 
+
 class CutScene(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -49,7 +50,7 @@ class CutScene(BaseEntity):
 
                 with tc.addRaceTask(2) as (tc_ok, tc_skip):
                     if self.isFade is True:
-                        slot = SceneManager.getSceneDescription(current_scene_name)  # Take Fade group from default slots % by Sasha
+                        slot = SceneManager.getSceneDescription(current_scene_name)
                         if slot.hasSlotsGroup("Fade") is True:
                             fade_group_name = slot.getSlotsGroup("Fade")
 
@@ -67,7 +68,8 @@ class CutScene(BaseEntity):
 
                             if movie_text is not None:
                                 tc_text.addTask("TaskEnable", Object=movie_text)
-                                tc_text.addTask("TaskFunction", Fn=self.__addToLayer, Args=(movie_text, "CutScene_Movie_Text",))
+                                tc_text.addTask("TaskFunction", Fn=self.__addToLayer,
+                                                Args=(movie_text, "CutScene_Movie_Text",))
                                 tc_text.addTask("TaskMoviePlay", Movie=movie_text, Wait=True, ValidationGroupEnable=False)
                             else:
                                 tc_text.addBlock()
@@ -79,23 +81,26 @@ class CutScene(BaseEntity):
                             # tc_next.addTask("TaskFunction", Fn = self.__DisableNext, Args =(index,))
                             if index + 1 != count:
                                 if self.isFade is True:
-                                    slot = SceneManager.getSceneDescription(current_scene_name)  # Take Fade group from default slots % by Sasha
+                                    slot = SceneManager.getSceneDescription(current_scene_name)
                                     if slot.hasSlotsGroup("Fade") is True:
                                         fade_group_name = slot.getSlotsGroup("Fade")
-                                        tc_next.addTask("AliasFadeIn", FadeGroupName=fade_group_name, Time=0.25 * 1000)  # speed fix
+                                        tc_next.addTask("AliasFadeIn", FadeGroupName=fade_group_name,
+                                                        Time=0.25 * 1000)  # speed fix
 
                                 tc_next.addTask("TaskEnable", Object=movie_obj, Value=False)
 
                                 if self.isFade is True:
-                                    slot = SceneManager.getSceneDescription(current_scene_name)  # Take Fade group from default slots % by Sasha
+                                    slot = SceneManager.getSceneDescription(current_scene_name)
                                     if slot.hasSlotsGroup("Fade") is True:
                                         fade_group_name = slot.getSlotsGroup("Fade")
-                                        tc_next.addTask("AliasFadeOut", FadeGroupName=fade_group_name, Time=0.25 * 1000)  # speed fix
+                                        tc_next.addTask("AliasFadeOut", FadeGroupName=fade_group_name,
+                                                        Time=0.25 * 1000)  # speed fix
 
                     tc_skip.addTask(cut_scene_skip, CutSceneName=self.CutSceneName)
 
                     if self.isFade is True:
-                        slot = SceneManager.getSceneDescription(current_scene_name)  # Take Fade group from default slots % by Sasha
+                        slot = SceneManager.getSceneDescription(
+                            current_scene_name)  # Take Fade group from default slots % by Sasha
                         if slot.hasSlotsGroup("Fade") is True:
                             fade_group_name = slot.getSlotsGroup("Fade")
 

@@ -4,6 +4,7 @@ from Foundation.Object.ObjectPoint import ObjectPoint
 from Foundation.SystemManager import SystemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCloseItemPlus(MacroCommand):
     def _onValues(self, values):
         self.point = None
@@ -77,9 +78,11 @@ class MacroCloseItemPlus(MacroCommand):
         item_plus_scene_name = SystemItemPlusScene.Open_Zoom[1]
 
         with source.addParallelTask(2) as (source_notify, source_observe):
-            source_observe.addTask("TaskListener", ID=Notificator.onSceneLeave, Filter=lambda scene_name: scene_name == item_plus_scene_name)
+            source_observe.addTask("TaskListener", ID=Notificator.onSceneLeave,
+                                   Filter=lambda scene_name: scene_name == item_plus_scene_name)
 
-            source_notify.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom, Args=(self.point, self.b_remove_from_inv, self.b_point_bezier_to, self.override_close_time))
+            Args = (self.point, self.b_remove_from_inv, self.b_point_bezier_to, self.override_close_time)
+            source_notify.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom, Args=Args)
 
     def _onGenerate(self, source):
         Quest = self.addQuest(source, "CloseZoom", SceneName=self.SceneName, GroupName=self.GroupName)

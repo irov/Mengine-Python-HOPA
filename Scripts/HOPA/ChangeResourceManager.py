@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class ChangeResourceManager(object):
 
     @staticmethod
@@ -14,6 +15,3 @@ class ChangeResourceManager(object):
 
             object = GroupManager.getObject(GroupName, ObjectName)
             object.setParam("ExtraResource", NewImageResource)
-            pass
-        pass
-    pass

@@ -1,6 +1,7 @@
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnigma(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -11,7 +12,8 @@ class MacroEnigma(MacroCommand):
                 self.initializeFailed("Enigma %s not found!!!!!!!!" % self.EnigmaName)
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "Enigma", SceneName=self.SceneName, GroupName=self.GroupName, EnigmaName=self.EnigmaName)
+        Quest = self.addQuest(source, "Enigma", SceneName=self.SceneName, GroupName=self.GroupName,
+                              EnigmaName=self.EnigmaName)
 
         with Quest as tc_quest:
             tc_quest.addTask("AliasEnigmaPlay", EnigmaName=self.EnigmaName)

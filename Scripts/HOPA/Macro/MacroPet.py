@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPet(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -33,10 +34,12 @@ class MacroPet(MacroCommand):
 
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
         Inventory = DemonManager.getDemon("Inventory")
-        Quest = self.addQuest(source, "UsePet", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=SocketPet)
+        Quest = self.addQuest(source, "UsePet", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName,
+                              InventoryItem=InventoryItem, Object=SocketPet)
 
         with Quest as tc_quest:
-            tc_quest.addTask("AliasPetItem", Socket=SocketPet, ItemName=self.ItemName, SceneName=self.SceneName, Group_Name=self.GroupName, MovieName=self.MovieName)
+            tc_quest.addTask("AliasPetItem", Socket=SocketPet, ItemName=self.ItemName, SceneName=self.SceneName,
+                             Group_Name=self.GroupName, MovieName=self.MovieName)
             pass
         pass
 

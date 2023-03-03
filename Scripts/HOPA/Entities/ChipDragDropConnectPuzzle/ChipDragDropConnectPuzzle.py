@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChipDragDropConnectPuzzleManager import ChipDragDropConnectPuzzleManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipDragDropConnectPuzzle(Enigma):
     class Chip(object):
@@ -247,7 +249,8 @@ class ChipDragDropConnectPuzzle(Enigma):
         with self.tc as tc:
             for chip, tc_race in tc.addRaceTaskList(self.chips):
                 tc_race.addScope(chip.scopeClickDown)
-                tc_race.addNotify(Notificator.onSoundEffectOnObject, self.object, "ChipDragDropConnectPuzzle_AttachChipToArrow")
+                tc_race.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                                  "ChipDragDropConnectPuzzle_AttachChipToArrow")
                 tc_race.addFunction(ClickHolder.set, chip)
 
             tc.addScope(self._resolveClickScope, ClickHolder)

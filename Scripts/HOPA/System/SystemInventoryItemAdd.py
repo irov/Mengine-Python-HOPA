@@ -5,6 +5,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 
+
 class SystemInventoryItemAdd(System):
     def _onParams(self, params):
         super(SystemInventoryItemAdd, self)._onParams(params)
@@ -182,4 +183,5 @@ class SystemInventoryItemAdd(System):
         slot.setItem(InventoryItem)
         return
         pass
+
     pass

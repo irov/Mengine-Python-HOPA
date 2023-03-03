@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class PlumberManager(object):
     s_objects = {}
 
@@ -133,6 +134,7 @@ class PlumberManager(object):
         def getDirectionMovie(self):
             return self.directionMovie
             pass
+
         pass
 
     @staticmethod
@@ -311,5 +313,3 @@ class PlumberManager(object):
             return False
             pass
         return True
-        pass
-    pass

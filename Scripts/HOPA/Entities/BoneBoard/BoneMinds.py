@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class BoneMinds(object):
     @staticmethod
     def play(mindId):

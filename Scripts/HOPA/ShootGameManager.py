@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ShootGameManager(object):
     Games = {}
 
@@ -8,9 +9,6 @@ class ShootGameManager(object):
             self.Movie = Movie
             self.TimeShotDec = TimeShotDec
             self.PathLen = PathLen
-            pass
-
-        pass
 
     class Game_Data(object):
         def __init__(self, Name, ShootCount, ShootWin):
@@ -18,9 +16,6 @@ class ShootGameManager(object):
             self.ShootCount = int(ShootCount)
             self.ShootWin = int(ShootWin)
             self.Pathes = []
-            pass
-
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -81,6 +76,3 @@ class ShootGameManager(object):
             return None
             pass
         return ShootGameManager.Games[name]
-        pass
-
-    pass

@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.System import System
 from HOPA.MusicManager import MusicManager
 
+
 class Track(object):
 
     def __init__(self, resource_sound_name, loop=False):
@@ -25,6 +26,7 @@ class Track(object):
         self.play = False
         self.pos = Mengine.musicGetPosMs()
         Mengine.musicFadeIn(fade_time, self.easing, None)
+
 
 class Playlist(object):
     def __init__(self):
@@ -102,7 +104,21 @@ class Playlist(object):
             return
         self.track.fadeIn()
 
-        # Mengine.musicStop()  # if self.track is None:  #     Mengine.musicStop()  #     self.cur_track_id = self.tracks_list[0]  #     if self.EventMusicPlaySchedulerId != 0:  #         Mengine.scheduleGlobalRemove(self.EventMusicPlaySchedulerId)  #     self.EventMusicPlaySchedulerId = 0  #     return  #  # self.track.fadeIn()  # self.track.pos=0.0  # self.cur_track_id = self.tracks_list[0]  # if self.EventMusicPlaySchedulerId != 0:  #     Mengine.scheduleGlobalRemove(self.EventMusicPlaySchedulerId)  # self.EventMusicPlaySchedulerId = 0
+        # Mengine.musicStop()
+        # if self.track is None:
+        #     Mengine.musicStop()
+        #     self.cur_track_id = self.tracks_list[0]
+        #     if self.EventMusicPlaySchedulerId != 0:
+        #         Mengine.scheduleGlobalRemove(self.EventMusicPlaySchedulerId)
+        #     self.EventMusicPlaySchedulerId = 0
+        #     return
+        #
+        # self.track.fadeIn()
+        # self.track.pos = 0.0
+        # self.cur_track_id = self.tracks_list[0]
+        # if self.EventMusicPlaySchedulerId != 0:
+        #     Mengine.scheduleGlobalRemove(self.EventMusicPlaySchedulerId)
+        # self.EventMusicPlaySchedulerId = 0
 
     def next_track(self):
         # #print "!!! playlist next_track"
@@ -132,6 +148,7 @@ class Playlist(object):
 
     def get_track(self):
         return self.cur_track_id
+
 
 class SystemMusicPlaylists(System):
     def __init__(self):
@@ -255,7 +272,8 @@ class SystemMusicPlaylists(System):
             if self.playlists is None or self.cur_playlist_id is None:
                 return
             if self.cur_playlist_id not in self.playlists:
-                Trace.log("System", 0, "SystemMusicPlaylists: playlist {} not in playlists".format(self.cur_playlist_id))
+                Trace.log("System", 0,
+                          "SystemMusicPlaylists: playlist {} not in playlists".format(self.cur_playlist_id))
                 return
 
             track = self.playlists[self.cur_playlist_id].get_track()

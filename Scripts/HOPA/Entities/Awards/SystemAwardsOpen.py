@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsOpen(System):
     def _onParams(self, params):
         super(SystemAwardsOpen, self)._onParams(params)

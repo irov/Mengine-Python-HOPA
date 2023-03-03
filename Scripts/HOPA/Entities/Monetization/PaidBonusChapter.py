@@ -4,11 +4,26 @@ from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 TC_NAME = "PaidBonusChapter"
 
+
 class PaidBonusChapter(BaseComponent):
-    _settings = {"is_enable": "EnablePaidBonusChapter", "product_id": "BonusChapterProductID", "movie": "PaidBonusChapterMovie", "alias_id": "PaidBonusChapterAliasID", "text_id": "PaidBonusChapterTextID", "extra_text_id": "ExtraPaidBonusChapterTextID", }
-    _defaults = {"product_id": "tech_chapter", "movie": "Movie2Button_BuyChapter", "group": "ChapterSelection", "alias_id": "$AliasBuyChapter", "text_id": "ID_TEXT_BUY_CHAPTER_0", }
+    _settings = {
+        "is_enable": "EnablePaidBonusChapter",
+        "product_id": "BonusChapterProductID",
+        "movie": "PaidBonusChapterMovie",
+        "alias_id": "PaidBonusChapterAliasID",
+        "text_id": "PaidBonusChapterTextID",
+        "extra_text_id": "ExtraPaidBonusChapterTextID",
+    }
+    _defaults = {
+        "product_id": "tech_chapter",
+        "movie": "Movie2Button_BuyChapter",
+        "group": "ChapterSelection",
+        "alias_id": "$AliasBuyChapter",
+        "text_id": "ID_TEXT_BUY_CHAPTER_0",
+    }
 
     def _createParams(self):
         self.demon_name = self.group_name

@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 
 from CollectedAmuletManager import CollectedAmuletManager
 
+
 class CollectedAmulet(BaseEntity):
     LOCKED = "Locked"
     READY = "Ready"
@@ -225,4 +226,5 @@ class CollectedAmulet(BaseEntity):
             TaskManager.cancelTaskChain("Count_" + self.object.getName())
             pass
         pass
+
     pass

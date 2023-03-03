@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCutScene(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -15,4 +16,5 @@ class ObjectCutScene(DemonObject):
         self.initParam("Play", params, False)
         self.initParam("isFade", params, True)
         pass
+
     pass

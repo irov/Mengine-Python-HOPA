@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from Notification import Notification
 
+
 class InventorySlot(object):
     def __init__(self, slotId, point, hotspot):
         #        self.inventoryObject = inventoryObject
@@ -30,14 +31,18 @@ class InventorySlot(object):
         itemEntity = self.item.getEntity()
         itemEntity.inInventory()
 
-        self.hotspot.setEventListener(onHandleMouseButtonEvent=self.__onMouseButtonEvent, onHandleMouseEnter=self.__onMouseEnter, onHandleMouseLeave=self.__onMouseLeave)
+        self.hotspot.setEventListener(onHandleMouseButtonEvent=self.__onMouseButtonEvent,
+                                      onHandleMouseEnter=self.__onMouseEnter,
+                                      onHandleMouseLeave=self.__onMouseLeave)
         self.hotspot.enable()
 
         self.nodeBack.enable()
         pass
 
     def removeItem(self):
-        self.hotspot.setEventListener(onHandleMouseButtonEvent=None, onHandleMouseEnter=None, onHandleMouseLeave=None)
+        self.hotspot.setEventListener(onHandleMouseButtonEvent=None,
+                                      onHandleMouseEnter=None,
+                                      onHandleMouseLeave=None)
         self.hotspot.disable()
         self.nodeBack.disable()
 
@@ -154,7 +159,9 @@ class InventorySlot(object):
             self.point = None
             pass
         pass
+
     pass
+
 
 class FittingInventory(BaseEntity):
 
@@ -162,9 +169,15 @@ class FittingInventory(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "InventoryItems", Append=FittingInventory.__appendInventoryItems, Remove=FittingInventory.__removeInventoryItems, Change=FittingInventory.__changeInventoryItems)
+        Type.addAction(Type, "InventoryItems",
+                       Append=FittingInventory.__appendInventoryItems,
+                       Remove=FittingInventory.__removeInventoryItems,
+                       Change=FittingInventory.__changeInventoryItems)
 
-        Type.addAction(Type, "Fittings", Append=FittingInventory.__appendFittings, Remove=FittingInventory.__removeFittings, Change=FittingInventory.__changeFittings)
+        Type.addAction(Type, "Fittings",
+                       Append=FittingInventory.__appendFittings,
+                       Remove=FittingInventory.__removeFittings,
+                       Change=FittingInventory.__changeFittings)
 
         Type.addAction(Type, "SlotCount")
 
@@ -439,4 +452,5 @@ class FittingInventory(BaseEntity):
 
     def __removeFittings(self, id, fitting, Fittings):
         pass
+
     pass

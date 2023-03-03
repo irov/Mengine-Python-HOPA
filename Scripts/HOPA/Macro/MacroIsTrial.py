@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroIsTrial(MacroCommand):
     def _onValues(self, values):
         self.ParagraphsID = values
@@ -25,12 +26,9 @@ class MacroIsTrial(MacroCommand):
             return
             pass
 
-        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName, ParagraphsID=self.ParagraphsID)
+        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
             # tc_quest.addTask("TaskPrint", Value = "RunParagraph %s:%s"%(paragraphID, self.GroupName))
             tc_quest.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
-            pass
-
-        pass
-    pass

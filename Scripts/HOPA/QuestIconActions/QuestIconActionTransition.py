@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinTransition
 from HOPA.QuestIconActions.QuestIconActionDefault import QuestIconActionDefault
 
+
 class QuestIconActionTransition(MixinTransition, QuestIconActionDefault):
     def _onParams(self, params):
         super(QuestIconActionTransition, self)._onParams(params)

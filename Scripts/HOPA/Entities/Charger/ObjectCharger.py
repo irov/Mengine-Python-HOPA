@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCharger(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -35,6 +36,3 @@ class ObjectCharger(DemonObject):
         self.initParam("WaitCharge", params, False)
         self.initParam("NoCharge", params, False)
         self.initParam("State", params, "Idle")
-        pass
-
-    pass

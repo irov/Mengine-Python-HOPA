@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class SwapAndRotateSegmentsManager(Manager):
     s_segments = {}
 

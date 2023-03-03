@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectProfileNew(Object):
     @staticmethod
     def declareORM(Type):

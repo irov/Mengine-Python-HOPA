@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskMousePull(MixinObserver, Task):
     s_directions = ["Up", 'UpRight', 'Right', "DownRight", "Down", "DownLeft", "Left", "UpLeft"]
     s_angle = [i * 360 / len(s_directions) for i in range(len(s_directions))]
@@ -81,8 +82,4 @@ class TaskMousePull(MixinObserver, Task):
         rotX = baseX * Mengine.cosf(Angle) - baseY * Mengine.sinf(Angle)
         rotY = baseX * Mengine.sinf(Angle) + baseY * Mengine.cosf(Angle)
         return rotX, rotY
-        pass
 
-    pass
-
-pass

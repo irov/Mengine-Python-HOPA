@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMusicFadeIn(MacroCommand):
     def _onValues(self, values):
         self.FadeTime = float(values[0])
@@ -16,4 +17,5 @@ class MacroMusicFadeIn(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskMusicFadeIn", FadeTime=self.FadeTime)
         pass
+
     pass

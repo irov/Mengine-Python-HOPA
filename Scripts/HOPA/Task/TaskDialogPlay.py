@@ -3,6 +3,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.DialogManager import DialogManager
 
+
 class TaskDialogPlay(MixinObserver, Task):
     Skiped = False
 
@@ -51,4 +52,5 @@ class TaskDialogPlay(MixinObserver, Task):
 
         return False
         pass
+
     pass

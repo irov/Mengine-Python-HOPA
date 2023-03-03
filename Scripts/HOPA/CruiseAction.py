@@ -3,6 +3,7 @@ from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(CruiseAction, self).__init__()

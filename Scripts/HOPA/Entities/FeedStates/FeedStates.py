@@ -3,7 +3,9 @@ from HOPA.FeedStatesManager import FeedStatesManager
 
 from StatesControl import StatesControl
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class FeedStates(Enigma):
 
@@ -119,6 +121,7 @@ class FeedStates(Enigma):
             sprite_obj.setEnable(False)
             pass
         pass
+
     pass
 
     def suppressInteractive(self, flag=True):

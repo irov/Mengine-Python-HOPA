@@ -1,6 +1,8 @@
 from Foundation.TaskManager import TaskManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChekersCR(Enigma):
     Cell_None = 0
@@ -276,6 +278,7 @@ class ChekersCR(Enigma):
             tc.addTask("TaskFunction", Fn=self.__Restart)
             pass
         pass
+
     #
     def __tryAddMoveClick(self):
         x = self.Click[0]
@@ -447,4 +450,5 @@ class ChekersCR(Enigma):
             TaskManager.cancelTaskChain(Name)
             pass
         pass
+
     pass

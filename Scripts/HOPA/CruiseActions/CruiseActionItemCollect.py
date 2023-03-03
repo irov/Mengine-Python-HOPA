@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.System.SystemItemCollect import SystemItemCollect
 
+
 class CruiseActionItemCollect(MixinObject, CruiseAction):
     def _onParams(self, params):
         super(CruiseActionItemCollect, self)._onParams(params)
@@ -35,7 +36,8 @@ class CruiseActionItemCollect(MixinObject, CruiseAction):
                 IC_Param = SystemItemCollect.getItemCollect(itemName)
 
                 with TaskManager.createTaskChain(Name="CruiseActionItemCollect") as tc:
-                    tc.addTask("AliasCruiseControlAction", Position=IC_Param.Item.calcWorldHintPoint(), Object=IC_Param.Item)
+                    tc.addTask("AliasCruiseControlAction",
+                               Position=IC_Param.Item.calcWorldHintPoint(), Object=IC_Param.Item)
                     tc.addTask("AliasCruiseControlAction", Position=IC_Param.ItemPosition, Object=IC_Param.Silhouette)
                     tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
 

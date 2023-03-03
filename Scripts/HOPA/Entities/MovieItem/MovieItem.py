@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
 
+
 class MovieItem(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -212,7 +213,14 @@ class MovieItem(BaseEntity):
         self.tc = TaskManager.createTaskChain(Repeat=True, NoCheckAntiStackCycle=True)
 
         with self.tc as source_repeat:
-            Scopes = dict(Idle=Functor(self.__stateIdle, MovieIdle), Pick=Functor(self.__statePick, MoviePick), Enter=Functor(self.__stateEnter, MovieIdle), Leave=Functor(self.__stateLeave, MovieIdle), UnInteractive=Functor(self.__stateUnInteractive, MovieIdle), Interactive=Functor(self.__stateInteractive, MovieIdle), )
+            Scopes = dict(
+                Idle=Functor(self.__stateIdle, MovieIdle),
+                Pick=Functor(self.__statePick, MoviePick),
+                Enter=Functor(self.__stateEnter, MovieIdle),
+                Leave=Functor(self.__stateLeave, MovieIdle),
+                UnInteractive=Functor(self.__stateUnInteractive, MovieIdle),
+                Interactive=Functor(self.__stateInteractive, MovieIdle),
+            )
 
             def __states(isSkip, cb):
                 cb(isSkip, self.state)
@@ -220,10 +228,10 @@ class MovieItem(BaseEntity):
 
             with source_repeat.addRaceTask(2) as (source_scopes, source_semaphore):
                 source_semaphore.addSemaphore(self.SemaphoreInteractive, Change=True)
-                with source_semaphore.addIfSemaphore(self.SemaphoreInteractive, True) as (source_sem_true, source_sem_false):
-                    source_sem_true.addFunction(self.__setState, "Interactive")
+                with source_semaphore.addIfSemaphore(self.SemaphoreInteractive, True) as (sem_true, sem_false):
+                    sem_true.addFunction(self.__setState, "Interactive")
 
-                    source_sem_false.addFunction(self.__setState, "UnInteractive")
+                    sem_false.addFunction(self.__setState, "UnInteractive")
 
                 source_scopes.addScopeSwitch(Scopes, __states)
 
@@ -255,4 +263,5 @@ class MovieItem(BaseEntity):
         self.Movies = {}
         self.SemaphoreInteractive = None
         pass
+
     pass

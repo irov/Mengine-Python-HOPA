@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectHOGInventoryFXPartsGathering(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -25,4 +26,5 @@ class ObjectHOGInventoryFXPartsGathering(DemonObject):
         # self.initParam("SlotCount", params)
         # self.initParam("Slots", params, {})
         pass
+
     pass

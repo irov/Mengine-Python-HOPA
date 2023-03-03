@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectTrafficJam(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -31,4 +32,5 @@ class ObjectTrafficJam(ObjectEnigma):
     def _onLoad(self, load_obj):
         return None
         pass
+
     pass

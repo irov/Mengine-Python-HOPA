@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPickItemFX(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -33,7 +34,8 @@ class MacroPickItemFX(MacroCommand):
         ItemObject = ItemManager.getItemObject(self.ItemName)
         ItemObjectName = ItemObject.getName()
 
-        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName, ItemName=ItemObjectName)
+        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ItemName=ItemObjectName)
 
         with Quest as tc_quest:
             tc_quest.addTask("AliasFindItem", SceneName=self.SceneName, ItemName=self.ItemName)
@@ -41,7 +43,8 @@ class MacroPickItemFX(MacroCommand):
             if ItemManager.hasItemInventoryItem(self.ItemName) is True:
                 Inventory = DemonManager.getDemon("Inventory")
 
-                tc_quest.addTask("AliasInventoryAddInventoryItemFX", Inventory=Inventory, ItemName=self.ItemName, EffectPolicy="ActionPickItem")
+                tc_quest.addTask("AliasInventoryAddInventoryItemFX", Inventory=Inventory, ItemName=self.ItemName,
+                                 EffectPolicy="ActionPickItem")
                 pass
             pass
         pass

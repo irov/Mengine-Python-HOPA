@@ -4,6 +4,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class HOGParamSilhouette(object):
     s_items = {}
     s_inventories = {}
@@ -31,8 +32,6 @@ class HOGParamSilhouette(object):
 
         def getActivate(self):
             return self.activate
-            pass
-        pass
 
     @staticmethod
     def loadHOGItems(module, param, name):
@@ -51,11 +50,7 @@ class HOGParamSilhouette(object):
                 for item in items:
                     if item.itemName == HOGItemName:
                         Trace.log("HOGManager", 0, "HOGManager.loadHOG: HOG '%s' element '%s' dublicate" % (param, HOGItemName))
-
                         return False
-                        pass
-                    pass
-                pass
 
             HOGItemsInDemon = DefaultManager.getDefaultBool("HOGItemsInDemon", True)
             EnigmaObject = EnigmaManager.getEnigmaObject(name)
@@ -103,7 +98,6 @@ class HOGParamSilhouette(object):
     def getHOGItems(name):
         if name not in HOGParamSilhouette.s_items:
             Trace.log("HOGManager", 0, "HOGParamSilhouette.getHOGItems: no current items for HOG: %s" % name)
-
             return None
             pass
 
@@ -167,5 +161,3 @@ class HOGParamSilhouette(object):
     @staticmethod
     def setInventory(name, inventory):
         HOGParamSilhouette.s_inventories[name] = inventory
-        pass
-    pass

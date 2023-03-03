@@ -5,6 +5,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.System.SystemCruiseControl import CRUISE_LOG, CruiseControlCursorSpeed
 from HOPA.ZoomManager import ZoomManager
 
+
 class AliasCruiseControlAction(TaskAlias):
     pos_zero = Mengine.vec3f(0.0, 0.0, 0.0)
     __clickEmulatedEvent = Event("AliasCruiseControlClickEmulated")  # this is will trigger checkClickSuccess logic
@@ -49,7 +50,8 @@ class AliasCruiseControlAction(TaskAlias):
 
     def __setClickSuccessObserver(self, source):
         obj_type = self.Object.getType() if self.Object else None
-        scopeCheckClickSuccess = AliasCruiseControlAction.checkClickSuccessObservers.get(obj_type, AliasCruiseControlAction.checkClickSuccessNone)
+        scopeCheckClickSuccess = AliasCruiseControlAction.checkClickSuccessObservers.get(
+            obj_type, AliasCruiseControlAction.checkClickSuccessNone)
 
         with source.addFork() as (fork_source):
             fork_source.addEvent(self.__clickEmulatedEvent)
@@ -69,7 +71,8 @@ class AliasCruiseControlAction(TaskAlias):
 
     def __handleClickFake(self, source):
         obj_type = self.Object.getType() if self.Object else None
-        handleClickFakeScope = AliasCruiseControlAction.handleClickFakeScopes.get(obj_type, AliasCruiseControlAction.handleClickFakeNone)
+        handleClickFakeScope = AliasCruiseControlAction.handleClickFakeScopes.get(
+            obj_type, AliasCruiseControlAction.handleClickFakeNone)
 
         source.addFunction(self.__fakeClickLog)
         source.addScope(handleClickFakeScope, self)
@@ -121,6 +124,7 @@ class AliasCruiseControlAction(TaskAlias):
         source.addSemaphore(self.__semaphoreClickSuccess, From=True, To=False)
 
     """ Object click position detection START """
+
     @staticmethod
     def getPosMovieButtonObj(self):
         return self.Object.getCurrentMovieSocketCenter()
@@ -271,64 +275,110 @@ class AliasCruiseControlAction(TaskAlias):
 
         source.addNotify(Notificator.onZoomClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addFunction(ZoomManager.openZoom, {})".format(zoomEntry.zoomGroupName)  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addFunction(ZoomManager.openZoom, {})".format(zoomEntry.zoomGroupName)
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeMovie2ButtonObj(source, self):
         source.addNotify(Notificator.onMovie2ButtonClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onMovie2ButtonClick, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onMovie2ButtonClick, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeMovieButtonObj(source, self):
         source.addNotify(Notificator.onMovieButtonClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onMovieButtonClick, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onMovieButtonClick, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeMovieItemObj(source, self):
         source.addNotify(Notificator.onMovieItemClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onMovieItemClick, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onMovieItemClick, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeItemObj(source, self):
         # source.addNotify(Notificator.onItemClickBegin, self.Object)
         source.addNotify(Notificator.onItemClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onItemClickBegin, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onItemClickBegin, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeSocketObj(source, self):
         # source.addNotify(Notificator.onSocketClickBegin, self.Object)
         source.addNotify(Notificator.onSocketClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onSocketClickBegin, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onSocketClickBegin, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeInteractionObj(source, self):
         # source.addNotify(Notificator.onInteractionClickBegin, self.Object)
         source.addNotify(Notificator.onInteractionClick, self.Object)
 
-        # def lambdaMsg():  #     msg = " source.addNotify(Notificator.onInteractionClickBegin, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = " source.addNotify(Notificator.onInteractionClickBegin, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeTransitionObj(source, self):
         # source.addNotify(Notificator.onTransitionClickBegin, self.Object)
         source.addNotify(Notificator.onTransitionClick, self.Object)
 
-        # def lambdaMsg():  #     msg = "source.addNotify(Notificator.onTransitionClickBegin, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = "source.addNotify(Notificator.onTransitionClickBegin, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     @staticmethod
     def handleClickFakeButtonObj(source, self):
         # source.addNotify(Notificator.onButtonClickBegin, self.Object)
         source.addNotify(Notificator.onButtonClick, self.Object)
 
-        # def lambdaMsg():  #     msg = " source.addNotify(Notificator.onButtonClickBegin, {})".format(self.Object.getName())  #     print msg  #     CRUISE_LOG(msg)  #  # source.addFunction(lambdaMsg)
+        # def lambdaMsg():
+        #     msg = " source.addNotify(Notificator.onButtonClickBegin, {})".format(self.Object.getName())
+        #     print msg
+        #     CRUISE_LOG(msg)
+        #
+        # source.addFunction(lambdaMsg)
 
     """ Object handle fake click END """
 
     """ for SystemUnittest """
+
     @staticmethod
     def __cb_obj_parent_visitor_check_enable(parent):
         if not parent.getEnable():
@@ -357,7 +407,9 @@ class AliasCruiseControlAction(TaskAlias):
             source.addScope(scopeEventObjEnable)
             source.addSemaphore(semaphore_obj_enabled, From=True)
             source.addDelay(2000)
+
     """ """
+
 
 """ Pos detection functions mapping to object type 
     This is used when Alias received Object and not Click Position

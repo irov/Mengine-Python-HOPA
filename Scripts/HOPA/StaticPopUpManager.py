@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from TraceManager import TraceManager
 
+
 class StaticPopUpManager(object):
     s_objects = {}
 
@@ -9,13 +10,9 @@ class StaticPopUpManager(object):
         def __init__(self, textID, ForeignKey):
             self.textID = textID
             self.ForeignKey = ForeignKey  # foreign key -> relation to another table StaticPopUpTransitionManager
-            pass
 
         def hasForeignKey(self):
             return self.ForeignKey
-            pass
-
-        pass
 
     @staticmethod
     def onFinalize():
@@ -51,7 +48,8 @@ class StaticPopUpManager(object):
             Object = GroupManager.getObject(groupName, objectName)
             pass
         if Object in StaticPopUpManager.s_objects:
-            Trace.log("Manager", 0, "StaticPopUpManager.addPopUpObject: object %s:%s already exist" % (groupName, objectName))
+            Trace.log("Manager", 0,
+                      "StaticPopUpManager.addPopUpObject: object %s:%s already exist" % (groupName, objectName))
             return
             pass
 
@@ -67,8 +65,6 @@ class StaticPopUpManager(object):
             pass
 
         return StaticPopUpManager.s_objects[object].textID
-        pass
-    pass
 
     @staticmethod
     def hasForeignKey(object):
@@ -78,4 +74,3 @@ class StaticPopUpManager(object):
         data = StaticPopUpManager.s_objects[object]
         foreign_key = data.hasForeignKey()
         return foreign_key
-        pass

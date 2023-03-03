@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroUseItem(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -32,14 +33,17 @@ class MacroUseItem(MacroCommand):
         ObjectName = Object.getName()
         ObjectType = Object.getType()
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
             if ObjectType == "ObjectSocket":
-                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem, ItemName=self.ItemName, Taken=False, Pick=False)
+                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
+                                 ItemName=self.ItemName, Taken=False, Pick=False)
                 pass
             elif ObjectType == "ObjectItem":
-                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem, Taken=False, Pick=False)
+                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem,
+                                 Taken=False, Pick=False)
                 pass
             pass
 

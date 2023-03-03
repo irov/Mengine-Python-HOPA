@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class OpenMap(BaseEntity):
     # def _onActivate(self):
     #     super(OpenMap, self)._onActivate()

@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class StaticPopUp(BaseEntity):
     def __init__(self):
         super(StaticPopUp, self).__init__()

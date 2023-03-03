@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.RubiksPuzzleManager import RubiksPuzzleManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class RubiksPuzzle(Enigma):
     class PuzzleSlot(object):
@@ -165,7 +167,8 @@ class RubiksPuzzle(Enigma):
         puzzle_slot_click_name = puzzle_slot_click.getSlotName()
         puzzle_slot_move_to_name = puzzle_slot_move_to.getSlotName()
 
-        self.slots_state[puzzle_slot_move_to_name], self.slots_state[puzzle_slot_click_name] = self.slots_state[puzzle_slot_click_name], self.slots_state[puzzle_slot_move_to_name]
+        self.slots_state[puzzle_slot_move_to_name], self.slots_state[puzzle_slot_click_name] = \
+            self.slots_state[puzzle_slot_click_name], self.slots_state[puzzle_slot_move_to_name]
 
         source.addScope(puzzle_slot_click.scopeMoveMovieToSlotUsingEntity, puzzle_slot_move_to, self)
 

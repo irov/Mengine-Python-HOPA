@@ -4,6 +4,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryAddInventoryItemFromPoint(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryAddInventoryItemFromPoint, self)._onParams(params)
@@ -66,16 +67,19 @@ class AliasInventoryAddInventoryItemFromPoint(TaskAlias):
             pass
         # --------------------------------------------------
 
-        EffectInventoryAddInventoryItem = PolicyManager.getPolicy("EffectInventoryAddInventoryItemFromPoint", "TaskEffectInventoryAddInventoryItem")
+        EffectInventoryAddInventoryItem = PolicyManager.getPolicy("EffectInventoryAddInventoryItemFromPoint",
+                                                                  "TaskEffectInventoryAddInventoryItem")
 
         # - effect for InventoryCountItem ------------------
         # - dummy count item check
         # --------------------------------------------------
         if InventoryItem.hasParam("FontName") is True:
-            EffectInventoryAddInventoryItem = PolicyManager.getPolicy("EffectInventoryAddInventoryCountItemFromPoint", "TaskEffectInventoryAddInventoryItem")
+            EffectInventoryAddInventoryItem = PolicyManager.getPolicy("EffectInventoryAddInventoryCountItemFromPoint",
+                                                                      "TaskEffectInventoryAddInventoryItem")
         # --------------------------------------------------
 
-        source.addTask(EffectInventoryAddInventoryItem, Inventory=self.Inventory, InventoryItem=InventoryItem, FromPoint=self.FromPoint)
+        source.addTask(EffectInventoryAddInventoryItem, Inventory=self.Inventory, InventoryItem=InventoryItem,
+                       FromPoint=self.FromPoint)
 
         # - fix for CountItem ------------------------------
         # - old code that was before EffectInventoryAddInventoryItem
@@ -94,6 +98,3 @@ class AliasInventoryAddInventoryItemFromPoint(TaskAlias):
 
         source.addTask("TaskNotify", ID=Notificator.onInventoryAddItem, Args=(self.Inventory, InventoryItem))
         source.addFunction(self.Inventory.UnBlockButtons)
-        pass
-
-    pass

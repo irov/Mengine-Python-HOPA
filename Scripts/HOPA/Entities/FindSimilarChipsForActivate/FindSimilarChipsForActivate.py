@@ -5,7 +5,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.FindSimilarChipsForActivateManager import FindSimilarChipsForActivateManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Chip(object):
     def __init__(self, chip_id, movie):
@@ -23,6 +25,7 @@ class Chip(object):
 
         self.movie.onFinalize()
         self.movie.onDestroy()
+
 
 class Place(object):
     def __init__(self, place_id, movie_idle, movie_fight, movie_death, movie_use, progress_bar, num_of_uses, chip_for_use_id):
@@ -83,6 +86,7 @@ class Place(object):
         self.movie_death.getEntityNode().removeFromParent()
         self.progress_bar.getEntityNode().removeFromParent()
         self.progress_bar.onDestroy()
+
 
 class FindSimilarChipsForActivate(Enigma):
     def __init__(self):
@@ -191,7 +195,8 @@ class FindSimilarChipsForActivate(Enigma):
     def __scopeDisableChips(self, source):
         for chip_list, parallel_chip_list in source.addParallelTaskList(self.chips.values()):
             for chip, parallel_chip in parallel_chip_list.addParallelTaskList(chip_list):
-                parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=0.0, From=1.0, Time=self.param.chips_prototypes_alpha)
+                parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=0.0, From=1.0,
+                                      Time=self.param.chips_prototypes_alpha)
                 parallel_chip.addFunction(chip.movie.appendParam, 'DisableLayers', 'Selected')
                 parallel_chip.addDisable(chip.movie)
 
@@ -201,19 +206,23 @@ class FindSimilarChipsForActivate(Enigma):
         source.addDisable(place.movie_idle)
         source.addEnable(place.movie_fight)
 
-        source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0, Time=self.param.hand_charged_alpha_disable)
+        source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0,
+                       Time=self.param.hand_charged_alpha_disable)
         source.addDisable(self.hand_charged_movie)
 
         source.addEnable(place.movie_use)
-        source.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=0.0, To=1.0, Time=self.param.movie_use_alpha_enable)
+        source.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=0.0, To=1.0,
+                       Time=self.param.movie_use_alpha_enable)
 
         with source.addParallelTask(2) as (parallel_1, parallel_2):
             parallel_1.addTask('TaskMovie2Play', Movie2=place.movie_use, Wait=True)
-            parallel_1.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=1.0, To=0.0, Time=self.param.movie_use_alpha_disable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=1.0, To=0.0,
+                               Time=self.param.movie_use_alpha_disable)
             parallel_1.addDisable(place.movie_use)
 
             parallel_1.addEnable(self.hand_setup_movie)
-            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=0.0, To=1.0, Time=self.param.hand_setup_alpha_enable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=0.0, To=1.0,
+                               Time=self.param.hand_setup_alpha_enable)
 
             parallel_2.addScope(place.causingDamage, True)
 
@@ -264,11 +273,13 @@ class FindSimilarChipsForActivate(Enigma):
             return
 
         with source.addParallelTask(2) as (parallel_1, parallel_2):
-            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0, Time=self.param.hand_charged_alpha_disable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0,
+                               Time=self.param.hand_charged_alpha_disable)
             parallel_1.addDisable(self.hand_charged_movie)
 
             parallel_1.addEnable(self.hand_setup_movie)
-            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=0.0, To=1.0, Time=self.param.hand_setup_alpha_enable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=0.0, To=1.0,
+                               Time=self.param.hand_setup_alpha_enable)
 
             parallel_2.addScope(self.__scopeDisableChips)
             parallel_2.addFunction(self.__disableSelectedLayer)
@@ -313,7 +324,8 @@ class FindSimilarChipsForActivate(Enigma):
         for chip_list, parallel in source.addParallelTaskList(self.chips.values()):
             for chip, parallel_chip in parallel.addParallelTaskList(chip_list):
                 parallel_chip.addEnable(chip.movie)
-                parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=1.0, From=0.0, Time=self.param.chips_prototypes_alpha)
+                parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=1.0, From=0.0,
+                                      Time=self.param.chips_prototypes_alpha)
 
     def __checkComplete(self):
         if self.finish_counter_current >= self.finish_counter_total and self.selected_place is None:
@@ -324,17 +336,20 @@ class FindSimilarChipsForActivate(Enigma):
         with source.addParallelTask(2) as (parallel_1, parallel_2):
             parallel_1.addFunction(self.__setSelectedPlace, place)
 
-            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=1.0, To=0.0, Time=self.param.hand_setup_alpha_disable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=1.0, To=0.0,
+                               Time=self.param.hand_setup_alpha_disable)
             parallel_1.addDisable(self.hand_setup_movie)
 
             parallel_1.addEnable(self.hand_charged_movie)
-            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0, Time=self.param.hand_charged_alpha_enable)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0,
+                               Time=self.param.hand_charged_alpha_enable)
 
             parallel_2.addEnable(place.movie_idle)
             parallel_2.addDisable(place.movie_fight)
             with parallel_2.addParallelTask(2) as (set_chips, sound):
                 set_chips.addScope(self.__scopeSetChipsOnSlots)
-                sound.addNotify(Notificator.onSoundEffectOnObject, self.object, 'FindSimilarChipsForActivate_ChipsAppearance')
+                sound.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                                'FindSimilarChipsForActivate_ChipsAppearance')
 
             parallel_2.addSemaphore(self.semaphore, To=False)
 
@@ -358,7 +373,8 @@ class FindSimilarChipsForActivate(Enigma):
             race.addScope(place.scopeClickDown)
             race.addFunction(place_holder.set, place)
 
-        source.addScope(self.__scopeHolderClick, place_holder, self.__scopeResolveClickOnPlace, "FindSimilarChipsForActivate_ClickOnSkeleton")
+        source.addScope(self.__scopeHolderClick, place_holder, self.__scopeResolveClickOnPlace,
+                        "FindSimilarChipsForActivate_ClickOnSkeleton")
         source.addFunction(self.__checkComplete)
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
@@ -409,28 +425,34 @@ class FindSimilarChipsForActivate(Enigma):
         source.addFunction(self.tc.cancel)
         source.addScope(self.__scopeFailChipClick)
 
-        source.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=1.0, To=0.0, Time=self.param.hand_setup_alpha_disable)
+        source.addTask("TaskNodeAlphaTo", Node=self.hand_setup_movie.getEntityNode(), From=1.0, To=0.0,
+                       Time=self.param.hand_setup_alpha_disable)
         source.addDisable(self.hand_setup_movie)
 
         source.addEnable(self.hand_charged_movie)
-        source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0, Time=self.param.hand_charged_alpha_enable)
+        source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0,
+                       Time=self.param.hand_charged_alpha_enable)
 
         for place in set(self.places.values()):
             for _ in range(place.num_of_uses):
                 source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'FindSimilarChipsForActivate_ChipLoss')
 
-                source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0, Time=self.param.hand_charged_alpha_disable)
+                source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=1.0, To=0.0,
+                               Time=self.param.hand_charged_alpha_disable)
                 source.addDisable(self.hand_charged_movie)
 
                 source.addEnable(place.movie_use)
-                source.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=0.0, To=1.0, Time=self.param.movie_use_alpha_enable)
+                source.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=0.0, To=1.0,
+                               Time=self.param.movie_use_alpha_enable)
 
                 with source.addParallelTask(2) as (parallel_1, parallel_2):
                     parallel_1.addTask("TaskMovie2Play", Movie2=place.movie_use, Wait=True)
-                    parallel_1.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=1.0, To=0.0, Time=self.param.movie_use_alpha_disable)
+                    parallel_1.addTask("TaskNodeAlphaTo", Node=place.movie_use.getEntityNode(), From=1.0, To=0.0,
+                                       Time=self.param.movie_use_alpha_disable)
                     parallel_1.addDisable(place.movie_use)
 
                     parallel_1.addEnable(self.hand_charged_movie)
-                    parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0, Time=self.param.hand_charged_alpha_enable)
+                    parallel_1.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0,
+                                       To=1.0, Time=self.param.hand_charged_alpha_enable)
 
                     parallel_2.addScope(place.causingDamage, True)

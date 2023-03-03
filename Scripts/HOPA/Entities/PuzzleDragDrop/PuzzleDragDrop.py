@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.PuzzleDragDropManager import PuzzleDragDropManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class PuzzleDragDrop(Enigma):
 
@@ -197,4 +199,5 @@ class PuzzleDragDrop(Enigma):
             pickObj.setEnable(False)
             pass
         pass
+
     pass

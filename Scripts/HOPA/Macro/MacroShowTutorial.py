@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroShowTutorial(MacroCommand):
     def _onValues(self, values):
         self.TutorialName = values[0]
@@ -25,4 +26,5 @@ class MacroShowTutorial(MacroCommand):
                 self.initializeFailed("Tutorial:Demon_Tutorial not found Text_%s" % (self.TutorialName))
 
     def _onGenerate(self, source):
-        source.addTask("TaskTutorialShow", Tutorial=self.Demon_Tutorial, TutorialName=self.TutorialName, TutorialSceneName=self.SceneName)
+        source.addTask("TaskTutorialShow", Tutorial=self.Demon_Tutorial, TutorialName=self.TutorialName,
+                       TutorialSceneName=self.SceneName)

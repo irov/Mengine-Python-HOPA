@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCloseZoom(DemonObject):
     def _onParams(self, params):
         super(ObjectCloseZoom, self)._onParams(params)
@@ -9,4 +10,5 @@ class ObjectCloseZoom(DemonObject):
         buttonClose = self.getObject("Button_CloseZoom")
         return buttonClose
         pass
+
     pass

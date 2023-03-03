@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.Task import Task
 from HOPA.BonusItemManager import BonusItemManager
 
+
 class TaskFoundBonusItem(MixinItem, Task):
     def _onParams(self, params):
         super(TaskFoundBonusItem, self)._onParams(params)
@@ -28,4 +29,5 @@ class TaskFoundBonusItem(MixinItem, Task):
 
         return True
         pass
+
     pass

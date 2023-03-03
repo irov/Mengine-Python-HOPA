@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectReagents(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectReagents(DemonObject):
 
         self.initParam("OpenReagents", params, [])
         pass
+
     pass

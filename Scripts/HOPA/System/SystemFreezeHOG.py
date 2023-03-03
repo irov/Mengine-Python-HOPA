@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from HOPA.SemaphoreManager import SemaphoreManager
 
+
 class SystemFreezeHOG(System):
     def _onParams(self, _params):
         self.semaphore = Semaphore("False", "SkipFreezeHOGCounter")

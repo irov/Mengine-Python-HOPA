@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class TurnBasedStrategyGoManager(Manager):
     s_params = {}
 
@@ -56,7 +57,9 @@ class TurnBasedStrategyGoManager(Manager):
             start_enemy_chips_slots = record.get('StartEnemyChipsSlots')
             start_player_chips_slots = record.get('StartPlayerChipsSlots')
 
-            levels_dict[level_id] = TurnBasedStrategyGoManager.TurnBasedStrategyGoManagerLevelParam(level_id, content_name, place_number, start_enemy_chips_slots, start_player_chips_slots)
+            param = TurnBasedStrategyGoManager.TurnBasedStrategyGoManagerLevelParam(
+                level_id, content_name, place_number, start_enemy_chips_slots, start_player_chips_slots)
+            levels_dict[level_id] = param
 
         TurnBasedStrategyGoManager.s_params[enigma_name] = levels_dict
         return True

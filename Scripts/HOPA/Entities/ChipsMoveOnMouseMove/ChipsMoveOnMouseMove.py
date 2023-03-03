@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipsMoveOnMouseMoveManager import ChipsMoveOnMouseMoveManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipsMoveOnMouseMove(Enigma):
     def __init__(self):
@@ -125,6 +127,7 @@ class ChipsMoveOnMouseMove(Enigma):
         self.Sockets.append(self.Movie2_Sockets.getSocket('BoundingBox'))
         self.Sockets.append(self.Movie2_Sockets.getSocket('Finish1'))
         self.Sockets.append(self.Movie2_Sockets.getSocket('Finish2'))
+
     pass
 
     def _attachMovieToNode(self, movie, node):
@@ -250,6 +253,7 @@ class ChipsMoveOnMouseMove(Enigma):
         else:
             return False
         pass
+
     def _Bounding(self):
         if self.Bound:
             for i in range(len(self.Sockets)):
@@ -257,26 +261,35 @@ class ChipsMoveOnMouseMove(Enigma):
                 self.Sockets[i] = Mengine.getHotSpotPolygonBoundingBox(self.Sockets[i])
             self.Bound = False
         pass
+
     def _Next_rot(self):
         self.Rotator += 1
+
     def _BG_fix(self):
         for elem in self.param.Layers:
             if elem in self.Movie_BG.getParam("DisableLayers"):
                 self.Movie_BG.delParam("DisableLayers", elem)
         self._Clean_Full()
+
     def _load_param(self):
         self.param = ChipsMoveOnMouseMoveManager.getParam(self.EnigmaName)
+
     def _skipEnigma(self):
         self._BG_fix()
+
     def _restoreEnigma(self):
         self._playEnigma()
+
     def _resetEnigma(self):
         self._Clean_Full()
         self._playEnigma()
+
     def _pauseEnigma(self):
         self._Clean_Full()
+
     def _stopEnigma(self):
         self._Clean_Full()
+
     def _Clean_Full(self):
         self.Bug_Number_Left = 100
 

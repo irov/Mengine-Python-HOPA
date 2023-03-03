@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from HOPA.LampOnCursorManager import LampOnCursorManager
 
+
 class LampOnCursor(BaseEntity):
     def __init__(self):
         super(LampOnCursor, self).__init__()

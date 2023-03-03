@@ -1,6 +1,7 @@
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasCurrentProductsCall(TaskAlias):
 
     def _onParams(self, params):

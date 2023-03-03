@@ -4,6 +4,7 @@ from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Utils import calcTime
 from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
 
+
 class StorePageAdvertComponent(StorePageBaseComponent):
 
     def __init__(self, page, button):
@@ -24,7 +25,8 @@ class StorePageAdvertComponent(StorePageBaseComponent):
     def _check(self):
         advert_buttons = filter(lambda btn: btn.action == "advert", self.page.buttons)
         if len(advert_buttons) != 1:
-            Trace.log("Entity", 0, "StorePage [{}] should have one advert button (1 != {})".format(self.page.PageID, len(advert_buttons)))
+            Trace.log("Entity", 0, "StorePage [{}] should have one advert button (1 != {})".format(self.page.PageID,
+                                                                                                   len(advert_buttons)))
             return False
         return True
 

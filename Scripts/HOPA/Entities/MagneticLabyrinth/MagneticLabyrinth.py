@@ -5,7 +5,9 @@ from Notification import Notification
 from Field import Field
 from MagneticLabyrinthManager import MagneticLabyrinthManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MagneticLabyrinth(Enigma):
     TaskName = "MagneticLabyrinth_Move"
@@ -89,7 +91,8 @@ class MagneticLabyrinth(Enigma):
             BallEn = self.Ball.getEntity()
             escapedBool = self.Field.isEscaped()
             fallDown = self.Field.isFallDown()
-            with TaskManager.createTaskChain(Name=MagneticLabyrinth.TaskName, Cb=Functor(self._complete, escapedBool)) as tc:
+            with TaskManager.createTaskChain(Name=MagneticLabyrinth.TaskName,
+                                             Cb=Functor(self._complete, escapedBool)) as tc:
                 tc.addTask("TaskMoviePlay", Movie=self.Ball, Wait=False)
                 tc.addTask("TaskNodeMoveTo", Node=BallEn, Time=time, To=new_position, Speed=self.speed)
                 tc.addTask("TaskFunction", Fn=self.Ball.setPosition, Args=(new_position,))

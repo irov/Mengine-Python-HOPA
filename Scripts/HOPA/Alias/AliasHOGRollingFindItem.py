@@ -3,6 +3,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from HOPA.QuestManager import QuestManager
 
+
 class AliasHOGRollingFindItem(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGRollingFindItem, self)._onParams(params)
@@ -19,7 +20,8 @@ class AliasHOGRollingFindItem(TaskAlias):
         ItemObject = self.Group.getObject(ItemName)
         ObjectType = ItemObject.getType()
 
-        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName, HogGroupName=self.GroupName, ItemName=ItemName, HogItem=hogItem)
+        Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName,
+                                              HogGroupName=self.GroupName, ItemName=ItemName, HogItem=hogItem)
         with QuestManager.runQuest(source, Quest) as tc_quest:
             if ObjectType is "ObjectMovieItem" or ObjectType is "ObjectMovie2Item":
                 tc_quest.addTask("TaskMovieItemClick", MovieItem=ItemObject)
@@ -32,4 +34,5 @@ class AliasHOGRollingFindItem(TaskAlias):
         source.addTask("TaskItemPick", ItemName=ItemName)
         source.addTask("TaskNotify", ID=Notificator.onHOGItemPicked)
         source.addNotify(Notificator.onSoundEffectOnObject, ItemObject, "HOGRolling_PressOnItem")
-        source.addTask("AliasHOGRollingFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName, EnigmaName=self.EnigmaName)
+        source.addTask("AliasHOGRollingFoundItem", HOG=self.HOG,
+                       HOGItemName=self.HOGItemName,  EnigmaName=self.EnigmaName)

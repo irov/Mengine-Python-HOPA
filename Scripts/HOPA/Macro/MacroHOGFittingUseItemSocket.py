@@ -3,6 +3,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingUseItemSocket(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -35,7 +36,8 @@ class MacroHOGFittingUseItemSocket(MacroCommand):
             # Inventory = DemonManager.getDemon("HOGInventoryFitting")
             Socket = GroupManager.getObject(self.GroupName, self.SocketName)
 
-            Quest = self.addQuest(scope, "UseHOGFittingItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=ItemUseObject, Object=Socket)
+            Quest = self.addQuest(scope, "UseHOGFittingItem", SceneName=self.SceneName, Inventory=Inventory,
+                                  GroupName=self.GroupName, InventoryItem=ItemUseObject, Object=Socket)
             with Quest as tc_quest:
                 tc_quest.addTask("TaskHOGFittingItemUseSocket", SocketName=self.SocketName, ItemUseObject=ItemUseObject)
                 pass

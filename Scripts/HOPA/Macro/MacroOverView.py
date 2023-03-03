@@ -1,6 +1,7 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.OverViewManager import OverViewManager
 
+
 class MacroOverView(MacroCommand):
     def _onValues(self, values):
         self.ViewID = values[0]
@@ -22,6 +23,8 @@ class MacroOverView(MacroCommand):
         if self.HasID is False:
             source.addTask("TaskPrint", Value="Missed %s" % (self.ViewID,))  # for Andromeda
         else:
-            source.addTask("AliasOverViewPlay", ObjectName=self.ViewID, ViewID=self.ViewID, FinalParagraph=self.FinalParagraphIDs)
+            source.addTask("AliasOverViewPlay", ObjectName=self.ViewID, ViewID=self.ViewID,
+                           FinalParagraph=self.FinalParagraphIDs)
         pass
+
     pass

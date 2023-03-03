@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinInventoryItem
 from Foundation.Task.Task import Task
 
+
 class TaskInventorySlotReturnItem(MixinInventoryItem, Task):
     Skiped = True
 

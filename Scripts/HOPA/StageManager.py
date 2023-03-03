@@ -3,6 +3,7 @@ from Foundation.Manager import Manager
 from Foundation.SceneManager import SceneManager
 from Notification import Notification
 
+
 class StageManager(Manager):
     s_stages = {}
     s_stageLabels = {}
@@ -284,5 +285,3 @@ class StageManager(Manager):
             pass
 
         return True
-        pass
-    pass

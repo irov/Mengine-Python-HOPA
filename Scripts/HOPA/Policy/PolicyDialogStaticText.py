@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyDialogStaticText(TaskAlias):
     def _onParams(self, params):
         super(PolicyDialogStaticText, self)._onParams(params)
@@ -12,4 +13,5 @@ class PolicyDialogStaticText(TaskAlias):
         source.addTask("TaskSetParam", Object=self.ObjectText, Param="TextID", Value=self.TextID)
         source.addTask("TaskEnable", Object=self.ObjectText, Value=True)
         pass
+
     pass

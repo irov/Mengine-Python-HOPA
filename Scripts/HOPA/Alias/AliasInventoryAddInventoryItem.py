@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryAddInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryAddInventoryItem, self)._onParams(params)
@@ -28,8 +29,10 @@ class AliasInventoryAddInventoryItem(TaskAlias):
 
         NewSlotIndex = int(InventoryItemIndex / SlotCount) * SlotCount
         if CurrentSlotIndex != NewSlotIndex:
-            PolicyInventoryChangeCurrentSlotIndex = PolicyManager.getPolicy("InventoryChangeCurrentSlotIndex", "AliasInventoryChangeCurrentSlotIndex")
-            source.addTask(PolicyInventoryChangeCurrentSlotIndex, Inventory=self.Inventory, ItemName=self.ItemName, NewSlotIndex=NewSlotIndex)
+            PolicyInventoryChangeCurrentSlotIndex = PolicyManager.getPolicy("InventoryChangeCurrentSlotIndex",
+                                                                            "AliasInventoryChangeCurrentSlotIndex")
+            source.addTask(PolicyInventoryChangeCurrentSlotIndex, Inventory=self.Inventory, ItemName=self.ItemName,
+                           NewSlotIndex=NewSlotIndex)
 
         hasInventoryItem = self.Inventory.hasInventoryItem(InventoryItem)
 
@@ -46,7 +49,8 @@ class AliasInventoryAddInventoryItem(TaskAlias):
         if InventoryItem.hasParam("FontName") is True:
             EffectInventoryAddInventoryItem = PolicyManager.getPolicy("EffectInventoryAddInventoryCountItem", "TaskEffectInventoryAddInventoryItem")
 
-        source.addTask(EffectInventoryAddInventoryItem, Inventory=self.Inventory, ItemName=self.ItemName, hasInventoryItem=hasInventoryItem)
+        source.addTask(EffectInventoryAddInventoryItem, Inventory=self.Inventory,
+                       ItemName=self.ItemName, hasInventoryItem=hasInventoryItem)
 
         if hasInventoryItem is False:
             source.addTask("TaskEnable", Object=InventoryItem, Value=True)

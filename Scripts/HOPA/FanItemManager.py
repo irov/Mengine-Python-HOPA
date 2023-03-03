@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class FanItemManager(object):
     s_items = {}
 
@@ -8,8 +9,6 @@ class FanItemManager(object):
         def __init__(self, FanItem, ObjectItem):
             self.FanItem = FanItem
             self.ObjectItem = ObjectItem
-            pass
-        pass
 
     @staticmethod
     def loadFanItem(module, param):
@@ -24,8 +23,6 @@ class FanItemManager(object):
             FanItemName = record.get("FanItemName")
 
             FanItemManager.addItem(name, FanItemGroupName, FanItemName, ObjectGroupName, ObjectItemName)
-            pass
-        pass
 
     @staticmethod
     def addItem(name, FanItemGroupName, FanItemName, ObjectGroupName, ObjectItemName):
@@ -38,7 +35,6 @@ class FanItemManager(object):
         item = FanItemManager.FanItem(FanItem, ObjectItem)
 
         FanItemManager.s_items[name] = item
-        pass
 
     ##Item
     @staticmethod
@@ -106,5 +102,3 @@ class FanItemManager(object):
             pass
 
         return item.ObjectItem
-        pass
-    pass

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ChipsInNetManager(Manager):
     s_puzzles = {}
 

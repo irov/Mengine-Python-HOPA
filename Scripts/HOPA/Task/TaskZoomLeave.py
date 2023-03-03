@@ -37,4 +37,5 @@ class TaskZoomLeave(MixinZoomGroup, MixinObserver, Task):
         self.addObserver(Notificator.onZoomLeave, self._onZoomAny)
         return False
         pass
+
     pass

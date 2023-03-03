@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.HintManager import HintManager
 
+
 class TaskHintSetMask(Task):
     def __init__(self):
         super(TaskHintSetMask, self).__init__()

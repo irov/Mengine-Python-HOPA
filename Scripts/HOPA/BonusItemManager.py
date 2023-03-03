@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class BonusItemManager(object):
     s_items = {}
     s_bonusItems = []
@@ -8,8 +9,6 @@ class BonusItemManager(object):
     class BonusItem(object):
         def __init__(self, params):
             self.params = params
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -181,5 +180,3 @@ class BonusItemManager(object):
             pass
 
         return position
-        pass
-    pass

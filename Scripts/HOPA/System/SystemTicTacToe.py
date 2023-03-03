@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from HOPA.TransitionManager import TransitionManager
 
+
 class SystemTicTacToe(System):
     def _onParams(self, params):
         super(SystemTicTacToe, self)._onParams(params)

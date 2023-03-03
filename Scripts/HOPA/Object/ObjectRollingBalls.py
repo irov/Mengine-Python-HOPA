@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectRollingBalls(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectRollingBalls, self)._onParams(params)
@@ -20,4 +21,5 @@ class ObjectRollingBalls(ObjectEnigma):
 
     def _onLoad(self, load_obj):
         pass
+
     pass

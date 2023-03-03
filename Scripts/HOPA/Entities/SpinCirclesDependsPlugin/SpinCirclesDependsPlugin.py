@@ -3,6 +3,7 @@ from Notification import Notification
 
 from SpinCirclesDependsPluginManager import SpinCirclesDependsPluginManager
 
+
 class Depend(object):
     def __init__(self, Depend, Direction, Movie, L, R, InitValues):
         self.Depend = Depend
@@ -66,12 +67,14 @@ class Depend(object):
 
     pass
 
+
 class SpinCirclesDependsPlugin(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
         Type.addAction(Type, "StoreData")
         pass
+
     def __init__(self):
         super(SpinCirclesDependsPlugin, self).__init__()
         self.SpinMoveObserver = None
@@ -116,6 +119,7 @@ class SpinCirclesDependsPlugin(BaseEntity):
             depend.Check(checkDepend)
             pass
         pass
+
     def _onDeactivate(self):
         super(SpinCirclesDependsPlugin, self)._onDeactivate()
         Notification.removeObserver(self.SpinMoveObserver)

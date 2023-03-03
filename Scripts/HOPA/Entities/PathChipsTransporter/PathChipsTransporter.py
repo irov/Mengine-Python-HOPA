@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from Notification import Notification
 
+
 class PathChipsTransporter(BaseEntity):
     def __init__(self):
         super(PathChipsTransporter, self).__init__()
@@ -80,7 +81,8 @@ class PathChipsTransporter(BaseEntity):
         if self.observerFn != None:
             Notification.removeObserver(self.observerFn)
             pass
-        self.observerFn = Notification.addObserver(Notificator.onSocketClick, Functor(self.__onSocketClick, self.socket, callback))
+        self.observerFn = Notification.addObserver(Notificator.onSocketClick,
+                                                   Functor(self.__onSocketClick, self.socket, callback))
         pass
 
     def __onSocketClick(self, socket, wait, callback):
@@ -96,6 +98,7 @@ class PathChipsTransporter(BaseEntity):
         callback()
         return False
         pass
+
     #
     #    def getMovieSlotAngle(self):
     #        angle =  self.movieSlot.getAngle()
@@ -177,4 +180,5 @@ class PathChipsTransporter(BaseEntity):
         self.attachNode.removeChildren()
         self.attachNode.addChild(node.node)
         pass
+
     pass

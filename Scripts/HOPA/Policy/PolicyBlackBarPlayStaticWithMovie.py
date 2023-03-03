@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyBlackBarPlayStaticWithMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyBlackBarPlayStaticWithMovie, self)._onParams(params)

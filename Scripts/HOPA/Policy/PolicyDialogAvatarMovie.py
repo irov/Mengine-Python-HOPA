@@ -4,6 +4,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.DialogManager import DialogManager
 
+
 class PolicyDialogAvatarMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyDialogAvatarMovie, self)._onParams(params)
@@ -39,7 +40,9 @@ class PolicyDialogAvatarMovie(TaskAlias):
                 for dialog in dialogs:
                     with tc_play.addRaceTask(2) as (tc_dialog, tc_next):
                         with tc_dialog.addParallelTask(3) as (tc_dialog1, tc_dialog2, tc_dialog3):
-                            tc_dialog1.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog, CharacterID=dialog.characterID, DialogPersGroup=DialogPersGroup, Wait=False)
+                            tc_dialog1.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog,
+                                               CharacterID=dialog.characterID, DialogPersGroup=DialogPersGroup,
+                                               Wait=False)
 
                             DialogTextPlay = PolicyManager.getPolicy("DialogTextPlay", "PolicyDialogStaticText")
                             tc_dialog2.addTask(DialogTextPlay, ObjectText=Text_Message, TextID=dialog.textID)
@@ -71,7 +74,7 @@ class PolicyDialogAvatarMovie(TaskAlias):
                 tc_skip.addTask("TaskButtonClick", ButtonName="Button_Skip", AutoEnable=True)
                 pass
 
-        source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)  # speed fix
+        source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)
         source.addTask("TaskSetParam", Object=Socket_Next, Param="Interactive", Value=False)
         source.addTask("TaskEnable", Object=Text_Message, Value=False)
         if DialogPersGroupName is not None:
@@ -79,4 +82,5 @@ class PolicyDialogAvatarMovie(TaskAlias):
             pass
         # source.addTask("TaskTransitionBlock", Value = False)
         pass
+
     pass

@@ -4,6 +4,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsNoHint(System):
     def _onParams(self, params):
         super(SystemAwardsNoHint, self)._onParams(params)

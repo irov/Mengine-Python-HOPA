@@ -1,8 +1,10 @@
 from Foundation.TaskManager import TaskManager
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 import math
+
 
 class SwapGame(Enigma):
     class Slot(object):
@@ -16,6 +18,7 @@ class SwapGame(Enigma):
             self.Movie = mov
             self.Movie.setPosition(self.Pos)
             pass
+
         pass
 
     @staticmethod
@@ -90,6 +93,7 @@ class SwapGame(Enigma):
 
     def _InitAlias_Item(self, id):
         sockName = "C_%d" % (id + 1)
+
         def click_():
             if (self.Click == id):
                 return
@@ -134,6 +138,7 @@ class SwapGame(Enigma):
             self.__Finita()
             self.enigmaComplete()
             pass
+
         name_Al = "SwapGame_%s" % (id)
         self.AliaseNames.append(name_Al)
 
@@ -172,4 +177,5 @@ class SwapGame(Enigma):
         super(SwapGame, self)._onDeactivate()
         self.__Finita()
         pass
+
     pass

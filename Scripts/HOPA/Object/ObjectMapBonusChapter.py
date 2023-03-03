@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMapBonusChapter(DemonObject):
     @staticmethod
     def declareORM(Type):

@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskTipPlay(MixinObject, Task):
     Skiped = True
 
@@ -17,4 +18,5 @@ class TaskTipPlay(MixinObject, Task):
 
         return True
         pass
+
     pass

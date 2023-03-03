@@ -2,6 +2,7 @@ from Foundation.Object.DemonObject import DemonObject
 from Foundation.SceneManager import SceneManager
 from HOPA.TransitionManager import TransitionManager
 
+
 class ObjectStore(DemonObject):
 
     @staticmethod

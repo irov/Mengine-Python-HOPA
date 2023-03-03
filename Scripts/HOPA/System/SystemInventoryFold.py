@@ -9,9 +9,10 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.SemaphoreManager import SemaphoreManager
 
-SYSTEM_INVENTORY_PANEL_NAME = 'SystemInventoryPanel'
 
+SYSTEM_INVENTORY_PANEL_NAME = 'SystemInventoryPanel'
 DEFAULT_INVENTORY_NAME = 'Inventory'
+
 
 class SystemInventoryFold(System):
     def __init__(self):

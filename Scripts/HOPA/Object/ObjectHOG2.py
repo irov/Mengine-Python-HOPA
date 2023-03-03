@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectHOG2(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

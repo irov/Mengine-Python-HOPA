@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskCutScenePlay(MixinObserver, TaskAlias):
     def __init__(self):
         super(TaskCutScenePlay, self).__init__()

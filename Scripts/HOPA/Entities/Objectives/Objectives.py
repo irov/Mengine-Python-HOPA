@@ -4,13 +4,16 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ObjectiveManager import ObjectiveManager
 from Notification import Notification
 
+
 class Objectives(BaseEntity):
 
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "ObjectivesList", Append=Objectives._appendObjectives, Remove=Objectives._removeObjectives)
+        Type.addAction(Type, "ObjectivesList",
+                       Append=Objectives._appendObjectives,
+                       Remove=Objectives._removeObjectives)
         pass
 
     def __init__(self):

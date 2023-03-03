@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryCurrentSlotIndex(Task):
     Skiped = True
 
@@ -27,4 +28,5 @@ class TaskInventoryCurrentSlotIndex(Task):
 
         return True
         pass
+
     pass

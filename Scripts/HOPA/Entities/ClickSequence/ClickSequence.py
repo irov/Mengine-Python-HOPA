@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.ClickSequenceManager import ClickSequenceManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ClickSequence(Enigma):
 

@@ -3,7 +3,9 @@ from HOPA.Prefetcher.PrefetchScope import PrefetchScope
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 DEBUG_MODE = True
+
 
 # debug
 
@@ -14,6 +16,7 @@ def dumpPrefetch(prefetch):
         print(group)
         pass
     pass
+
 
 class Prefetcher(Initializer):
     def __init__(self):

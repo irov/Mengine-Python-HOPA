@@ -3,8 +3,10 @@ from Notification import Notification
 
 from ZumaTurret import ZumaTurret
 
+
 # from HOPA.Enities.Zuma.ZumaTurret import ZumaTurret
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Zuma(Enigma):
     ChainDelay = 0.2 * 1000  # speed fix
@@ -103,6 +105,7 @@ class Zuma(Enigma):
                 iEn = i.getEntity()
                 self.timing[i] = iEn.getTiming()
             pass
+
         if len(self.flow) < BallIndex:
             return
         flow = self.active_flow[BallIndex:]
@@ -124,6 +127,7 @@ class Zuma(Enigma):
 
     def GetProgress(self, MovieObj):
         Movie = MovieObj  # self.flow[0] # first
+
     #        print "Progress :", self.timing
 
     def PushBall(self, BallIndex):

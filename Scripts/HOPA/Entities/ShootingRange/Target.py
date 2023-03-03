@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class Target(object):
     def __init__(self, movie_obj, movie_carrier, enigmaObject):
         self.movie = movie_obj

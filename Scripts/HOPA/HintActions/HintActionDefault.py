@@ -3,6 +3,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
+
 class HintActionDefault(MixinGroup, HintAction):
     def _onInitialize(self):
         super(HintActionDefault, self)._onInitialize()

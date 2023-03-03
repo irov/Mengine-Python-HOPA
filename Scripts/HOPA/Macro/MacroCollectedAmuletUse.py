@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCollectedAmuletUse(MacroCommand):
     def _onGenerate(self, source):
         Demon = DemonManager.getDemon("CollectedAmulet")
@@ -15,7 +16,3 @@ class MacroCollectedAmuletUse(MacroCommand):
         with Quest as tc_quest:
             tc_quest.addTask("TaskFunction", Fn=setValid)
             tc_quest.addTask("TaskListener", ID=Notificator.onCollectedAmuletUse)
-            pass
-        pass
-
-    pass

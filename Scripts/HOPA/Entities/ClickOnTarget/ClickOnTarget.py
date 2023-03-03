@@ -12,6 +12,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnTargetManager import ClickOnTargetManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 SCENE_MG_INVENTORY_GROUP = "MahjongInventory"
@@ -19,7 +20,8 @@ SCENE_COUNTER_DEMON_OBJECT = "Demon_MahjongInventory"
 
 
 class Target(object):
-    def __init__(self, movie_idle, movie_down, hit_movies, miss_movies, group_movie_with_target_slot, group_movie_with_target_slot_name, enigma_owner):
+    def __init__(self, movie_idle, movie_down, hit_movies, miss_movies, group_movie_with_target_slot,
+                 group_movie_with_target_slot_name, enigma_owner):
         self.group_movie_with_target_slot = group_movie_with_target_slot
         self.group_movie_with_target_slot_name = group_movie_with_target_slot_name
 
@@ -233,7 +235,8 @@ class ClickOnTarget(Enigma):
         target_hit_list = [self.object.getObject(hit_movie) for hit_movie in self.params.target_hit_list]
         target_miss_list = [self.object.getObject(miss_movie) for miss_movie in self.params.target_miss_list]
 
-        self.target = Target(target_idle, target_down, target_hit_list, target_miss_list, group_movie_with_target_slot, "target_mg", self)
+        self.target = Target(target_idle, target_down, target_hit_list,
+                             target_miss_list, group_movie_with_target_slot, "target_mg", self)
 
     def activate(self):
         # add filler as target fill child
@@ -392,7 +395,8 @@ class ClickOnTarget(Enigma):
 
         if self.isFillerInBorderRadius(pos):
             # random acceleration:
-            accel_size = Mengine.randf(self.rand_acceleration_max - self.rand_acceleration_min) + self.rand_acceleration_min
+            accel_size = Mengine.randf(self.rand_acceleration_max - self.rand_acceleration_min)
+            accel_size += self.rand_acceleration_min
             rand_x = (Mengine.randf(1.0) * 2.0 - 1.0) * accel_size  # range: [-accel_size; accel_size]
 
             accel_size = Mengine.sqrtf(accel_size * accel_size - rand_x * rand_x)
@@ -625,7 +629,7 @@ class ClickOnTarget(Enigma):
             tc.addSemaphore(self.semaphore_block_click, From=False, To=True)
             if Mengine.hasTouchpad() is True:
                 tc.addEvent(self.event_target_fill_charged)
-                tc.addDelay(1000.0)     # wait 1s
+                tc.addDelay(1000.0)  # wait 1s
             else:
                 tc.addTask("TaskMouseButtonClick")
             tc.addFunction(self.onMouseClick)

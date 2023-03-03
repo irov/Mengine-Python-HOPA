@@ -1,8 +1,10 @@
 from Foundation.Task.MixinObjectTemplate import MixinFanItem
 from Foundation.Task.Task import Task
 
+
 class TaskFanItemInNone(MixinFanItem, Task):
     Skiped = True
+
     def _onParams(self, params):
         super(TaskFanItemInNone, self)._onParams(params)
         pass
@@ -12,4 +14,5 @@ class TaskFanItemInNone(MixinFanItem, Task):
         FanItemEntity.inNone()
         return True
         pass
+
     pass

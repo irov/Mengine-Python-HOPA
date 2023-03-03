@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroShootGameRestart(MacroCommand):
     def _onValues(self, values):
         pass
@@ -7,4 +8,5 @@ class MacroShootGameRestart(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskListener", ID=Notificator.onShootGameRestart)
         pass
+
     pass

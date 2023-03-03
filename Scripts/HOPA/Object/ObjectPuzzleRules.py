@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectPuzzleRules(Object):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectPuzzleRules(Object):
         super(ObjectPuzzleRules, self)._onParams(params)
         self.initParam("PuzzleName", params, None)
         pass
+
     pass

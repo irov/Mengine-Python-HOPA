@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class TutorialFadesManager(Manager):
     s_data = {}
     s_is_active_tutorial = True

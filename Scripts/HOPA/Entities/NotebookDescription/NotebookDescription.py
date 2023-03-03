@@ -1,6 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
-
 from NotebookDescriptionManager import NotebookDescriptionManager
+
 
 class NotebookDescription(BaseEntity):
 
@@ -70,6 +70,3 @@ class NotebookDescription(BaseEntity):
             self.Text.removeFromParent()
             # Mengine.destroyNode(self.Text)
             self.Text = None
-            pass
-        pass
-    pass

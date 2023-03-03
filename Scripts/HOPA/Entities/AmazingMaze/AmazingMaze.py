@@ -4,7 +4,9 @@ from Event import Event
 from Foundation.TaskManager import TaskManager
 from HOPA.AmazingMazeManager import AmazingMazeManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class DirectionMovie(object):
     """
@@ -24,7 +26,9 @@ class DirectionMovie(object):
 
     @staticmethod
     def __setupSubMovies(movie, sub_suffix):
-        return movie.entity.getSubMovie(sub_suffix + 'Up'), movie.entity.getSubMovie(sub_suffix + 'Down'), movie.entity.getSubMovie(sub_suffix + 'Left'), movie.entity.getSubMovie(sub_suffix + 'Right')
+        suffixes = ['Up', 'Down', 'Left', 'Right']
+        movies = [movie.entity.getSubMovie(sub_suffix + suffix) for suffix in suffixes]
+        return movies
 
     def setEnable(self, value):
         self.main.setEnable(value)
@@ -67,6 +71,7 @@ class DirectionMovie(object):
                 self.__changeSubMovie(self.left)
             else:
                 self.__changeSubMovie(self.down)
+
 
 class HeroAnimHandler(object):
     """
@@ -164,7 +169,8 @@ class HeroAnimHandler(object):
         if self.__lerpRotationAffectorRef is not None:
             Mengine.removeAffector(self.__lerpRotationAffectorRef)
 
-        self.__lerpRotationAffectorRef = Mengine.addAffector(self.__lerpRotationAffector, node, rotate_from, smaller_angle, self.rotation_speed)
+        self.__lerpRotationAffectorRef = Mengine.addAffector(self.__lerpRotationAffector, node, rotate_from,
+                                                             smaller_angle, self.rotation_speed)
 
     def getStateMovie(self, state_name):
         return self.stateMovies[state_name]
@@ -203,6 +209,7 @@ class HeroAnimHandler(object):
         if self.__lerpRotationAffectorRef is not None:
             Mengine.removeAffector(self.__lerpRotationAffectorRef)
 
+
 class CursorMoviesHandler(object):
     POINTER_PLACED = 0
     POINTER_ACTIVE = 1
@@ -217,7 +224,11 @@ class CursorMoviesHandler(object):
         self.pointer_node.enable()
         maze_entity.addChildFront(self.pointer_node)
 
-        self.movies = {self.POINTER_PLACED: movie_pointer_placed, self.POINTER_ACTIVE: movie_pointer_active, self.POINTER_REACHED: movie_pointer_reached}
+        self.movies = {
+            self.POINTER_PLACED: movie_pointer_placed,
+            self.POINTER_ACTIVE: movie_pointer_active,
+            self.POINTER_REACHED: movie_pointer_reached
+        }
 
         for movie in self.movies.values():
             movie.setEnable(False)
@@ -279,6 +290,7 @@ class CursorMoviesHandler(object):
         Mengine.destroyNode(self.pointer_node)
         self.pointer_node = None
 
+
 class AmazingMaze(Enigma):
     def __init__(self):
         super(AmazingMaze, self).__init__()
@@ -339,12 +351,14 @@ class AmazingMaze(Enigma):
         self._hero_node_collider.setLocalPosition(self.param.HeroSpawnPoint)
 
         self.movie_maze = self.object.getObject(self.param.Maze)
-        self._wall_colliders = [socket for (movie, socket_name, socket) in self.movie_maze.getEntity().movie.getSockets()]
+        self._wall_colliders = [socket for (movie, socket_name, socket) in
+            self.movie_maze.getEntity().movie.getSockets()]
 
         movie_hero_move = self.object.getObject(self.param.HeroMove)
         movie_hero_idle = self.object.getObject(self.param.HeroIdle)
         movie_hero_finish = self.object.getObject(self.param.HeroFinish)
-        self._hero_anim_handler = HeroAnimHandler(self.movie_hero, movie_hero_move, movie_hero_idle, movie_hero_finish, self.param.MoveMode, self.param.RotationSpeed)
+        self._hero_anim_handler = HeroAnimHandler(self.movie_hero, movie_hero_move, movie_hero_idle, movie_hero_finish,
+                                                  self.param.MoveMode, self.param.RotationSpeed)
 
         self.movie_finish = self.object.getObject(self.param.FinishIdle)
         self.movie_finish.setPlay(True)
@@ -362,7 +376,10 @@ class AmazingMaze(Enigma):
         self.zero_velocity_threshold = self.param.ZeroVelocityThreshold
 
         if self.param.bUseCursorPointer:
-            self._cursor_movies_handler = CursorMoviesHandler(self.object.getObject(self.param.PointerPlaced), self.object.getObject(self.param.PointerReached), self.object.getObject(self.param.PointerActive), self.movie_maze.getEntityNode())
+            self._cursor_movies_handler = CursorMoviesHandler(self.object.getObject(self.param.PointerPlaced),
+                                                              self.object.getObject(self.param.PointerReached),
+                                                              self.object.getObject(self.param.PointerActive),
+                                                              self.movie_maze.getEntityNode())
 
     def __activate(self):
         self._tick_affector = Mengine.addAffector(self.__tickAffector)
@@ -418,7 +435,8 @@ class AmazingMaze(Enigma):
             accelerated_velocity = direction * (self.acceleration * delta_sec * 0.5)  # accelerate in direction
 
         else:
-            accelerated_velocity = self._velocity * (- delta_sec * 0.5 * self.breaking_mult)  # braking: add counter force
+            # braking: add counter force
+            accelerated_velocity = self._velocity * (- delta_sec * 0.5 * self.breaking_mult)
             self.__onTargetReached()  # target reach handle
 
         if self._b_should_launch:  # first launch
@@ -548,7 +566,8 @@ class AmazingMaze(Enigma):
         source.addFunction(self.__updateTargetPosition)
 
     def _scopeUpdateTargetPositionMobile(self, source):
-        source.addTask("TaskMovie2SocketClick", isDown=True, SocketName="click_area", Movie2Name="Movie2_maze", Group=self.object)
+        source.addTask("TaskMovie2SocketClick", isDown=True, SocketName="click_area",
+                       Movie2Name="Movie2_maze", Group=self.object)
         source.addFunction(self.__updateTargetPosition)
 
         with source.addRepeatTask() as (repeat, until):

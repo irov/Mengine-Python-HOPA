@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseActionMessage(CruiseAction, MixinObject):
 
     def _onParams(self, params):

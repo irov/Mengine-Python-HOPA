@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.CursorManager import CursorManager
 
+
 class PolicyPickInventoryItemEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyPickInventoryItemEffect, self)._onParams(params)

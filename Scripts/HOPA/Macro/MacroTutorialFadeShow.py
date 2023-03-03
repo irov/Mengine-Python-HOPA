@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroTutorialFadeShow(MacroCommand):
 
     def _onValues(self, values):

@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemMapSave(System):
     def __init__(self):
         super(SystemMapSave, self).__init__()

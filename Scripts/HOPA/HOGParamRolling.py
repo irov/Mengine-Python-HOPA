@@ -3,6 +3,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class HOGParamRolling(object):
     s_items = {}
     s_inventories = {}
@@ -54,7 +55,6 @@ class HOGParamRolling(object):
 
         def getSlotBind(self):
             return self.slot_bind
-            pass  # def Printerer(self):  #     print self.itemName ,            self.objectName,            self.textID ,            self.difficulty ,             self.score ,            self.slot ,            self.Slot_Bind,            self.activate  # pass
 
     @staticmethod
     def loadHOGItems(module, param, name):
@@ -80,11 +80,7 @@ class HOGParamRolling(object):
                 for item in items:
                     if item.itemName == HOGItemName:
                         Trace.log("HOGManager", 0, "HOGManager.loadHOG: HOG '%s' element '%s' dublicate" % (param, HOGItemName))
-
                         return False
-                        pass
-                    pass
-                pass
 
             HOGItemsInDemon = DefaultManager.getDefaultBool("HOGItemsInDemon", True)
             EnigmaObject = EnigmaManager.getEnigmaObject(name)
@@ -95,37 +91,29 @@ class HOGParamRolling(object):
 
             if HOGItemsInDemon is True:
                 ItemsGroup = EnigmaObject
-                pass
             else:
                 ItemsGroup = EnigmaObject.getGroup()
-                pass
 
             if ObjectName is not None:
                 if ItemsGroup.hasObject(ObjectName) is False:
-                    Trace.log("Manager", 0, "HOGManager.loadHOGItems: group '%s'not found item %s" % (ItemsGroup.getName(), ObjectName))
+                    Trace.log("Manager", 0, "HOGManager.loadHOGItems: group '%s'not found item %s" % (
+                    ItemsGroup.getName(), ObjectName))
                     return False
-                    pass
-                pass
 
             HOGItem = HOGParamRolling.HOGItem(HOGItemName, ObjectName, TextID, Difficulty, Score, Slot, SlotBind)
             items.append(HOGItem)
-            pass
 
         HOGParamRolling.s_items[name] = items
-
         return True
-        pass
 
     @staticmethod
     def getHOGItems(name):
         if name not in HOGParamRolling.s_items:
             Trace.log("HOGManager", 0, "HOGParamRolling.getHOGItems: no current items for HOG: %s" % name)
-
             return None
             pass
 
         return HOGParamRolling.s_items[name]
-        pass
 
     @staticmethod
     def getSceneHOGItems(sceneName):
@@ -200,5 +188,3 @@ class HOGParamRolling(object):
         item = HOGParamRolling.getHOGItem(name, identity)
 
         return item.textID
-        pass
-    pass

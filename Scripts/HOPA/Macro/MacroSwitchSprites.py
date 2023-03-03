@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSwitchSprites(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -38,7 +39,8 @@ class MacroSwitchSprites(MacroCommand):
                 Sprite2_FinderType, Sprite2_Object = self.findObject(elem)
 
                 if Sprite2_Object is None:
-                    msg = "Macro {mc.CommandType} not found Object {mc2}, type={mc3} in group {mc.GroupName}".format(mc=self, mc2=elem.getName(), mc3=Sprite2_FinderType)
+                    msg = "Macro {mc.CommandType} not found Object {mc2}, type={mc3} in group {mc.GroupName}".format(
+                        mc=self, mc2=elem.getName(), mc3=Sprite2_FinderType)
                     self.initializeFailed(msg)
                 pass
             pass

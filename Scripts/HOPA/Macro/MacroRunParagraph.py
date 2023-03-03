@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.StageManager import StageManager
 
+
 class MacroRunParagraph(MacroCommand):
     def _onValues(self, values):
         self.ParagraphsID = values
@@ -33,10 +34,12 @@ class MacroRunParagraph(MacroCommand):
             return
             pass
 
-        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName, ParagraphsID=self.ParagraphsID)
+        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
             tc_quest.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
             pass
         pass
+
     pass

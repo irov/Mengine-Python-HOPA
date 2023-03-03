@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class SkipPuzzle(BaseEntity):
     def __init__(self):
         super(SkipPuzzle, self).__init__()

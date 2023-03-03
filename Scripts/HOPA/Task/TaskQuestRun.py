@@ -1,6 +1,7 @@
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskQuestRun(Task):
     Skiped = False
 
@@ -16,17 +17,11 @@ class TaskQuestRun(Task):
         if _DEVELOPMENT is True:
             if self.Quest is None:
                 self.initializeFailed("Quest is None")
-                pass
-            pass
-        pass
 
     def _onRun(self):
         Notification.notify(Notificator.onQuestRun, self.Quest)
 
         return False
-        pass
 
     def _onSkip(self):
         Notification.notify(Notificator.onQuestEnd, self.Quest)
-        pass
-    pass

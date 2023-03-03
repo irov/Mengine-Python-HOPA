@@ -3,6 +3,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
+
 class HintActionMultiTarget(MixinGroup, HintAction):
     def _onInitialize(self):
         super(HintActionMultiTarget, self)._onInitialize()
@@ -61,7 +62,8 @@ class HintActionMultiTarget(MixinGroup, HintAction):
         if node is None:
             source.addTask("AliasObjectBezier2To", Object=self.Movie2_HintWay, Point1=P1_5, To=P1, Speed=speed)
         else:
-            source.addTask("TaskNodeBezier2Follow", Follow=node, Node=self.Movie2_HintWay.getEntityNode(), Speed=speed, Offset=Offset)
+            source.addTask("TaskNodeBezier2Follow", Follow=node,
+                           Node=self.Movie2_HintWay.getEntityNode(), Speed=speed, Offset=Offset)
             source.addScope(self.scopeSetTargetPos, node, P1)
 
         with source.addParallelTask(2) as (tc_way, tc_target):

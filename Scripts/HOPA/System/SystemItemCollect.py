@@ -6,6 +6,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemCollectManager import ItemCollectManager
 
+
 class ItemParams(object):
     def __init__(self, params):
         self.Item = params.Item
@@ -23,6 +24,7 @@ class ItemParams(object):
         self.Idle.setEnable(value)
         self.Item.setEnable(not value)
         self.Silhouette.setEnable(not value)
+
 
 class SystemItemCollect(System):
     s_item_collects = {}
@@ -234,7 +236,8 @@ class SystemItemCollect(System):
         source.addTask('TaskSceneLayerGroupEnable', LayerName='ItemCollect', Value=True)
         source.addFunction(Demon.playItemSelectEffect, item)
         source.addTask("TaskFanItemInHand", FanItem=item)
-        source.addTask("TaskArrowAttach", OffsetValue=OffsetValue, Origin=True, Object=item, MovieAttach=True, AddArrowChild=Mengine.hasTouchpad() is False)
+        source.addTask("TaskArrowAttach", OffsetValue=OffsetValue, Origin=True, Object=item, MovieAttach=True,
+                       AddArrowChild=Mengine.hasTouchpad() is False)
         source.addFunction(Demon.setParam, 'PreAttach', item)
 
     @staticmethod

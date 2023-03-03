@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionClick(HintActionDefault, MixinObject):
 
     def _getHintObject(self):
@@ -23,6 +24,7 @@ class HintActionClick(HintActionDefault, MixinObject):
             if pos is not None:
                 return pos
 
-        Trace.log("HintAction", 0, "HintActionClick ItemName %s ItemType %s cant calculate position" % (Object.getName(), Object.getType()))
+        Trace.log("HintAction", 0, "HintActionClick ItemName %s ItemType %s cant calculate position" % (
+            Object.getName(), Object.getType()))
 
         return 0.0, 0.0, 0.0

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class SwapChipsInPlaceManager(Manager):
     s_puzzles = {}
 
@@ -27,7 +28,8 @@ class SwapChipsInPlaceManager(Manager):
             start_comb = record.get('StartComb')
             wins_comb = record.get('WinsComb')
 
-            result = SwapChipsInPlaceManager.addParam(enigma_name, module, param_chips, param_slots, param_rotates, start_comb, wins_comb)
+            result = SwapChipsInPlaceManager.addParam(enigma_name, module, param_chips, param_slots, param_rotates,
+                                                      start_comb, wins_comb)
 
             if result is False:
                 error_message = "SwapChipsInPlaceManager invalid addParam {}".format(enigma_name)

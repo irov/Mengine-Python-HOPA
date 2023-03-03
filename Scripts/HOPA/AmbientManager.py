@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 
 from Foundation.GroupManager import GroupManager
 
+
 class AmbientManager(object):
     s_ambients = {}
 
@@ -25,12 +26,14 @@ class AmbientManager(object):
     def addAmbient(sceneName, demonSwitch, ambientName):
         AmbientManager.s_ambients[sceneName] = (demonSwitch, ambientName)
         pass
+
     pass
 
     @staticmethod
     def hasAmbient(sceneName):
         return sceneName in AmbientManager.s_ambients
         pass
+
     pass
 
     @staticmethod

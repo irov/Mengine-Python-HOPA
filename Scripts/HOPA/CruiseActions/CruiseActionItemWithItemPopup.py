@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.ItemManager import ItemManager
 
+
 class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
     def _onParams(self, params):
         super(CruiseActionItemWithItemPopup, self)._onParams(params)
@@ -54,7 +55,8 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
 
     def _onAction(self):
         if self.hintObject is not None:
-            print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), self.hintObject.getName(), self.hintObject.getGroupName() or " [not cruise!! object]")
+            print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), self.hintObject.getName(),
+            self.hintObject.getGroupName() or " [not cruise!! object]")
             pass
         else:
             print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), " [not cruise!!!! object]")

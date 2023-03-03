@@ -1,6 +1,7 @@
 from HOPA.Entities.Options.OptionsManager import OptionsManager, XlsxOptionsSoundVolumeCheck
 from Notification import Notification
 
+
 class CheckSoundController(object):
     def __init__(self, optionsObject):
         self.soundCheckButtonList = self.createCheckAudioButtons(optionsObject)
@@ -19,7 +20,8 @@ class CheckSoundController(object):
                 Trace.log("Entity", 0, msg)
 
             if barMovie.hasSlot(param.sliderMovieSlotName):
-                args = [optionsObject.Group, scrollbar, param.sliderMovieSlotName, param.playButtonPrototype, param.stopButtonPrototype, param.checkSoundTracklist, self]
+                args = [optionsObject.Group, scrollbar, param.sliderMovieSlotName, param.playButtonPrototype,
+                    param.stopButtonPrototype, param.checkSoundTracklist, self]
 
                 if param.soundType == "Sound":
                     checkAudioButton = CheckSoundButton(*args)
@@ -54,13 +56,17 @@ class CheckSoundController(object):
         for button in self.soundCheckButtonList:
             button.cleanUp()
 
+
 class CheckAudioButton(object):
-    def __init__(self, groupObject, parentScrollbar, parentSlotName, playButtonProtName, stopButtonProtName, checkAudioList, soundController):
+    def __init__(self, groupObject, parentScrollbar, parentSlotName, playButtonProtName, stopButtonProtName,
+                 checkAudioList, soundController):
         self.parentScrollbar = parentScrollbar
         self.checkAudio = checkAudioList
 
-        self.playButton = groupObject.tryGenerateObjectUnique(playButtonProtName + parentScrollbar.name, playButtonProtName, Enable=True)
-        self.stopButton = groupObject.tryGenerateObjectUnique(stopButtonProtName + parentScrollbar.name, stopButtonProtName, Enable=True)
+        self.playButton = groupObject.tryGenerateObjectUnique(playButtonProtName + parentScrollbar.name,
+                                                              playButtonProtName, Enable=True)
+        self.stopButton = groupObject.tryGenerateObjectUnique(stopButtonProtName + parentScrollbar.name,
+                                                              stopButtonProtName, Enable=True)
 
         barMovie = parentScrollbar.entity.getBarMovie()
         slot = barMovie.getMovieSlot(parentSlotName)
@@ -151,8 +157,10 @@ class CheckAudioButton(object):
         self.playButton.onDestroy()
         self.stopButton.onDestroy()
 
+
 class CheckSoundButton(CheckAudioButton):
     pass
+
 
 class CheckVoiceButton(CheckAudioButton):
     def _playAudioImplementation(self):
@@ -168,6 +176,7 @@ class CheckVoiceButton(CheckAudioButton):
         if self.currentAudioId is not None:
             Mengine.voiceStop(self.currentAudioId)
             self.currentAudioId = None
+
 
 class CheckMusicButton(CheckAudioButton):
     def _playAudioImplementation(self):

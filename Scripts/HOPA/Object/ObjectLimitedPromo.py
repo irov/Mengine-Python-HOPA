@@ -2,6 +2,7 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.Object.DemonObject import DemonObject
 from HOPA.Entities.LimitedPromo.LimitedPromo import EVENT_TIMEOUT
 
+
 class ObjectLimitedPromo(DemonObject):
     EVENT_TIMEOUT = EVENT_TIMEOUT
 

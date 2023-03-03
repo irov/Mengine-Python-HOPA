@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget
 
+
 class HintActionUseHOGFittingItem(MixinObject, HintActionMultiTarget):
     def _onParams(self, params):
         super(HintActionUseHOGFittingItem, self)._onParams(params)

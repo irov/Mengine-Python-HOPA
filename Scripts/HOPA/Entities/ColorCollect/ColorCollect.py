@@ -3,7 +3,9 @@ from HOPA.ColorCollectManager import ColorCollectManager
 
 from Bulb import Bulb
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ColorCollect(Enigma):
 
@@ -142,26 +144,23 @@ class ColorCollect(Enigma):
         scope.addTask("TaskArrowAttach", Offset=False, Origin=True, Object=self.arrowAttachItem)
 
         with scope.addRaceTask(3) as (tc_end, tc_begin, tc_wrong):
+
             with tc_end.addRaceTask(len(self.endBySocket.keys())) as tcs:
                 for tci, socket, bulb in zip(tcs, self.endBySocket.iterkeys(), self.endBySocket.itervalues()):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
                     tci.addTask("TaskFunction", Fn=returnToBulb, Args=(socket,))
-                    pass
-                pass
+
             with tc_begin.addRaceTask(len(self.beginBySocket.keys())) as tcs:
                 for tci, socket, bulb in zip(tcs, self.beginBySocket.iterkeys(), self.beginBySocket.itervalues()):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
                     tci.addTask("TaskFunction", Fn=attachToBulb, Args=(socket,))
-                    pass
-                pass
+
             tc_wrong.addTask("TaskListener", ID=Notificator.onButtonClick)
             tc_wrong.addTask("TaskRemoveArrowAttach")
             tc_wrong.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
             tc_wrong.addTask("TaskFunction", Fn=returnToBulb, Args=(self.socket,))
-            pass
-        pass
     pass

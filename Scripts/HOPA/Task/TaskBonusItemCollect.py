@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskBonusItemCollect(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskBonusItemCollect, self)._onParams(params)
@@ -21,4 +22,5 @@ class TaskBonusItemCollect(MixinObserver, Task):
 
         return True
         pass
+
     pass

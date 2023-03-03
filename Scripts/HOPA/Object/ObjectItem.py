@@ -1,5 +1,6 @@
 from Foundation.Object.ObjectInteraction import ObjectInteraction
 
+
 class ObjectItem(ObjectInteraction):
     @staticmethod
     def declareORM(Type):

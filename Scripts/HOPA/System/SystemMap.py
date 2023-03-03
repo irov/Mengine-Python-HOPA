@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemMap(System):
     def _onParams(self, params):
         super(SystemMap, self)._onParams(params)
@@ -34,4 +35,5 @@ class SystemMap(System):
 
     def _onStop(self):
         pass
+
     pass

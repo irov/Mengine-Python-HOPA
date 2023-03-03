@@ -1,6 +1,7 @@
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasFadeIn(TaskAlias):
     def _onParams(self, params):
         super(AliasFadeIn, self)._onParams(params)
@@ -19,7 +20,5 @@ class AliasFadeIn(TaskAlias):
                 guard_source.addTask("AliasFadeInBefore")
                 pass
 
-            guard_source.addTask("TaskFadeIn", GroupName=self.FadeGroupName, To=self.To, Time=self.Time, DemonNameSuffix=self.DemonNameSuffix, Easing=self.easing)
-            pass
-        pass
-    pass
+            guard_source.addTask("TaskFadeIn", GroupName=self.FadeGroupName, To=self.To, Time=self.Time,
+                                 DemonNameSuffix=self.DemonNameSuffix, Easing=self.easing)

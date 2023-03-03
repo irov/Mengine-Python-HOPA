@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.QuestManager import QuestManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class ObjectMagicGlove(DemonObject):
     @staticmethod
     def declareORM(Type):

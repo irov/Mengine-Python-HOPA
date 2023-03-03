@@ -1,7 +1,9 @@
 from Foundation.ArrowManager import ArrowManager
 from Notification import Notification
 
+
 Interaction = Mengine.importEntity("Interaction")
+
 
 class Item(Interaction):
     ITEM_SCENE = 0

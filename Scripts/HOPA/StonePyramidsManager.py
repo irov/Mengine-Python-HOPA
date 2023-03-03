@@ -1,8 +1,10 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class StonePyramidsParam(object):
-    def __init__(self, pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones, stone_anchor_shift_on_magnet, mobile_positions_movie_name):
+    def __init__(self, pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones,
+                 stone_anchor_shift_on_magnet, mobile_positions_movie_name):
         self.pyramid_alpha_to = pyramid_alpha_to
         self.pyramid_alpha_from = pyramid_alpha_from
         self.pyramid_alpha_time = pyramid_alpha_time
@@ -12,6 +14,7 @@ class StonePyramidsParam(object):
 
         self.stone_anchor_shift_on_magnet = stone_anchor_shift_on_magnet
         self.mobile_positions_movie_name = mobile_positions_movie_name
+
 
 class StonePyramidsManager(Manager):
     s_params = {}
@@ -34,7 +37,9 @@ class StonePyramidsManager(Manager):
             stone_anchor_shift_on_magnet = tuple(record.get('StoneAnchorShiftOnMagnet', [0.0, 40.0]))
             mobile_positions_movie_name = record.get('MobilePositionsMovieName', "Movie2_MobilePositions")
 
-            result = StonePyramidsManager.addParam(enigma_name, module, pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones_param_xlsx, stone_anchor_shift_on_magnet, mobile_positions_movie_name)
+            result = StonePyramidsManager.addParam(enigma_name, module, pyramid_alpha_to, pyramid_alpha_from,
+                                                   pyramid_alpha_time, stones_plate, stones_param_xlsx,
+                                                   stone_anchor_shift_on_magnet, mobile_positions_movie_name)
 
             if result is False:
                 error_msg = "StonePyramidsManager invalid addParam {}".format(enigma_name)
@@ -43,7 +48,8 @@ class StonePyramidsManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones_param_xlsx, stone_anchor_shift_on_magnet, mobile_positions_movie_name):
+    def addParam(enigma_name, module, pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate,
+                 stones_param_xlsx, stone_anchor_shift_on_magnet, mobile_positions_movie_name):
         if enigma_name in StonePyramidsManager.s_params:
             error_msg = "StonePyramidsManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -72,7 +78,8 @@ class StonePyramidsManager(Manager):
 
                 stones[slot_to] = stone_param
 
-        param = StonePyramidsParam(pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones, stone_anchor_shift_on_magnet, mobile_positions_movie_name)
+        param = StonePyramidsParam(pyramid_alpha_to, pyramid_alpha_from, pyramid_alpha_time, stones_plate, stones,
+                                   stone_anchor_shift_on_magnet, mobile_positions_movie_name)
         StonePyramidsManager.s_params[enigma_name] = param
 
     @staticmethod

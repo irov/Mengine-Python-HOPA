@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.MapManager import MapManager
 from HOPA.StageManager import StageManager
 
+
 class Map(BaseEntity):
     @staticmethod
     def declareORM(Type):

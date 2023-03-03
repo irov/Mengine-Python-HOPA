@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class ZoomFrame(BaseEntity):
     def __init__(self):
         super(ZoomFrame, self).__init__()

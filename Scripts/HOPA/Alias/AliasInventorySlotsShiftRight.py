@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsShiftRight(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsShiftRight, self)._onParams(params)

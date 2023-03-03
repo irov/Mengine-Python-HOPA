@@ -3,6 +3,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsHogItemTime(System):
     def _onParams(self, params):
         super(SystemAwardsHogItemTime, self)._onParams(params)

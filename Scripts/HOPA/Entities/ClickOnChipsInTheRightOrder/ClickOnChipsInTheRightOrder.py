@@ -5,7 +5,9 @@ from HOPA.ClickOnChipsInTheRightOrderManager import ClickOnChipsInTheRightOrderM
 from HOPA.EnigmaManager import EnigmaManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ClickOnChipsInTheRightOrder(Enigma):
     class Chip(object):
@@ -47,6 +49,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
         Type.addAction(Type, 'finishFlag')
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -64,6 +67,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
 
     def _stopEnigma(self):
         pass
+
     # ==================================================================================================================
 
     # -------------- _onPreparation methods ----------------------------------------------------------------------------
@@ -114,7 +118,8 @@ class ClickOnChipsInTheRightOrder(Enigma):
         for id in self.winsComb[self.flagComb]:
             source.addScope(self.playMovie, self.chips[id])
 
-            DelayTime = DefaultManager.getDefaultFloat('ClickOnChipsInTheRightOrderDelayTime', 300)  # source.addDelay(DelayTime)
+            DelayTime = DefaultManager.getDefaultFloat('ClickOnChipsInTheRightOrderDelayTime', 300)
+            # source.addDelay(DelayTime)
 
     def scopeClick(self, source):
         clickOnSlot = Holder()
@@ -203,6 +208,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
     def disableSockets(self):
         for (_, slot) in self.slots.iteritems():
             slot.movie.getSocket('slot').disable()
+
     # ==================================================================================================================
 
     # -------------- _cleanUp ------------------------------------------------------------------------------------------

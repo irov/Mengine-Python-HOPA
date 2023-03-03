@@ -1,6 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventoryInvalidCombineInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryInvalidCombineInventoryItem, self)._onParams(params)
@@ -14,13 +15,7 @@ class AliasInventoryInvalidCombineInventoryItem(TaskAlias):
         if _DEVELOPMENT is True:
             if ArrowManager.emptyArrowAttach() is True:
                 self.initializeFailed("Attach not found")
-                pass
-            pass
-        pass
 
     def _onGenerate(self, source):
         #        source.addTask("TaskSoundEffect", SoundName = "CombineFailure", Wait = False)
         source.addTask("AliasInventoryReturnInventoryItem", Inventory=self.Inventory)
-        pass
-
-    pass

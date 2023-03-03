@@ -1,5 +1,6 @@
 ALIAS_PLATE_BONUS_MUSIC_TRACK_NAME = '$AliasPlateBonusMusicTrackName'
 
+
 class MusicPlate(object):
     def __init__(self, plate_id, music_param, movie_plate, button_on, button_off):
         self.plate_id = plate_id
@@ -14,7 +15,8 @@ class MusicPlate(object):
 
     def setText(self):
         self.movie_plate.setTextAliasEnvironment('{}'.format(self.plate_id))
-        Mengine.setTextAlias('{}'.format(self.plate_id), ALIAS_PLATE_BONUS_MUSIC_TRACK_NAME, self.music_param.track_name_id)
+        Mengine.setTextAlias('{}'.format(self.plate_id), ALIAS_PLATE_BONUS_MUSIC_TRACK_NAME,
+                             self.music_param.track_name_id)
 
     def setPlay(self, value):
         self.button_on.setEnable(not value)

@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinSocket
 from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
+
 class HintActionSocketUseFittingInventoryItem(HintAction, MixinSocket):
     def __init__(self):
         super(HintActionSocketUseFittingInventoryItem, self).__init__()
@@ -51,7 +52,8 @@ class HintActionSocketUseFittingInventoryItem(HintAction, MixinSocket):
 
             P1 = (p1x, p1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
+            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
+                       Speed=600 * 0.001)  # speed fix
 
             tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
             tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
@@ -68,7 +70,8 @@ class HintActionSocketUseFittingInventoryItem(HintAction, MixinSocket):
 
             NP1 = (np1x, np1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2, Speed=600 * 0.001)  # speed fix
+            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
+                       Speed=600 * 0.001)  # speed fix
             tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
 
             tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
@@ -88,4 +91,5 @@ class HintActionSocketUseFittingInventoryItem(HintAction, MixinSocket):
             TaskManager.cancelTaskChain("HintActionSocketUseFittingInventoryItem")
             pass
         pass
+
     pass

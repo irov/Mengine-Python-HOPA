@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectHOGSilhouette(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

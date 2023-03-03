@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectStorePage(DemonObject):
 
     @staticmethod

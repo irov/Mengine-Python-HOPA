@@ -1,7 +1,9 @@
 from Functor import Functor
 
+
 class RotateChipElement(object):
     RADIAN = 57.295779513
+
     def __init__(self, statesObject, needSlot, needAngle):
         self.slotId = None
         self.entity = statesObject.getEntity()
@@ -193,4 +195,5 @@ class RotateChipElement(object):
         angle *= RotateChipElement.RADIAN
         return angle
         pass
+
     pass

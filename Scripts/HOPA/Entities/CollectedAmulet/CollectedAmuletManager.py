@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class CollectedAmuletManager(object):
     s_objects = {}
 
@@ -29,8 +30,6 @@ class CollectedAmuletManager(object):
 
         def getSocket(self):
             return self.socket
-            pass
-        pass
 
     @staticmethod
     def _onFinalize():

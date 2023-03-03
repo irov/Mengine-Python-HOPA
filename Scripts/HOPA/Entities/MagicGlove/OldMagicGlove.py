@@ -4,6 +4,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.MagicGloveManager import MagicGloveManager
 
+
 class MagicGlove(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -11,7 +12,10 @@ class MagicGlove(BaseEntity):
 
         Type.addAction(Type, "Point")
         # addActionActivate means that update of this param will be after onActivate
-        Type.addActionActivate(Type, "Runes", Update=Type.__updateRunes, Append=Type.__appendRunes, Remove=Type.__delParam)
+        Type.addActionActivate(Type, "Runes",
+                               Update=Type.__updateRunes,
+                               Append=Type.__appendRunes,
+                               Remove=Type.__delParam)
         Type.addAction(Type, "State", Update=Type.__updateState)
 
     def __init__(self):
@@ -84,7 +88,8 @@ class MagicGlove(BaseEntity):
 
         if Object.getType() is "ObjectSocket":
             source.addNotify(Notificator.onStartUseRune, RuneID, Object)
-            source.addScope(self.scopeUseRune, RuneID, Object)  # source.addNotify(Notificator.onUseRune, RuneID, Object)
+            source.addScope(self.scopeUseRune, RuneID, Object)
+            # source.addNotify(Notificator.onUseRune, RuneID, Object)
 
     def scopeUseRune(self, source, rune_id, socket):
         # rune_id="Idle"
@@ -118,7 +123,8 @@ class MagicGlove(BaseEntity):
                     tc_target.addScope(self._scopeMagicGloveTargetEffect, rune_id, socket)
                     # tc_target.addFunction(self._State_Idle)
                     # tc_target.addScope(self._scopeMagicGloveTargetEffectInterrupt, rune_id)
-                    tc_target.addNotify(Notificator.onUseRune, rune_id, socket)  # tc_target.addFunction(self._State_Idle)
+                    tc_target.addNotify(Notificator.onUseRune, rune_id, socket)
+                    # tc_target.addFunction(self._State_Idle)
 
             tc_Idle.addDelay(IdleDeley)
             tc_Idle.addFunction(self.FuncDelRune, rune_id)
@@ -187,7 +193,8 @@ class MagicGlove(BaseEntity):
         source.addTask("TaskObjectSetPosition", GroupName=GroupName, ObjectName=MovieWayEffectName, Value=P0)
         source.addTask("TaskMovie2Play", GroupName=GroupName, Movie2Name=MovieWayEffectName, Loop=True, Wait=False)
 
-        source.addTask("AliasObjectBezier2To", GroupName=GroupName, ObjectName=MovieWayEffectName, Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
+        source.addTask("AliasObjectBezier2To", GroupName=GroupName, ObjectName=MovieWayEffectName, Point1=P1, To=P2,
+                       Speed=600 * 0.001)  # speed fix
 
     def _scopeMagicGloveWayEffectInterrupt(self, source, rune_id=None):
         rune_id = MagicGloveManager.getFirstRune()
@@ -292,7 +299,8 @@ class MagicGlove(BaseEntity):
                     tc_light.addEnable(Object=self.MovieButtons[-1])
                     tc_light.addTask("AliasObjectAlphaTo", Object=self.MovieButtons[-1], From=0.0, To=1.0, Time=333.0)
 
-                    tc_light.addNotify(Notificator.onMagicGlowReady)  # Notification.notify(Notificator.onMagicGlowReady)
+                    tc_light.addNotify(Notificator.onMagicGlowReady)
+                    # Notification.notify(Notificator.onMagicGlowReady)
             return
 
     # def __updateState(self, value):

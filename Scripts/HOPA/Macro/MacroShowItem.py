@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroShowItem(MacroCommand):
     def _onValues(self, values, **params):
         self.SocketName = values[0]
@@ -43,11 +44,14 @@ class MacroShowItem(MacroCommand):
 
         FinderType, Object = self.findObject(self.SocketName)
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem, ItemName=self.ItemName, Taken=False, Pick=True)
+            tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
+                             ItemName=self.ItemName, Taken=False, Pick=True)
             tc_quest.addTask(policyPickInventoryItemEffectStop, InventoryItem=InventoryItem)
             pass
         pass
+
     pass

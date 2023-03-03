@@ -20,8 +20,7 @@ class PathPoint(object):
     def isConnect(self, slotName):
         state = slotName in self.connect
         return state
-        pass
-    pass
+
 
 class Path(object):
     slots = {}
@@ -76,6 +75,7 @@ class Path(object):
 
         return True
         pass
+
     pass
 
     @staticmethod
@@ -149,7 +149,9 @@ class Path(object):
 
         return True
         pass
+
     pass
+
 
 """
 Path.addSlot("slot0",0)

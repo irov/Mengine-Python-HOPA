@@ -1,8 +1,11 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class CursorMaskFindInvisibleChipParam(object):
-    def __init__(self, symbols, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode, symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time, hint_symbol_play_on_fail_mode, movie2_cursor):
+    def __init__(self, symbols, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode,
+                 symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time,
+                 hint_symbol_play_on_fail_mode, movie2_cursor):
         self.movie2_cursor = movie2_cursor
 
         self.symbols = symbols
@@ -16,6 +19,7 @@ class CursorMaskFindInvisibleChipParam(object):
 
         self.hint_state_change_alpha_time = hint_state_change_alpha_time
         self.symbol_state_change_alpha_time = symbol_state_change_alpha_time
+
 
 class CursorMaskFindInvisibleChipManager(Manager):
     s_params = {}
@@ -41,7 +45,12 @@ class CursorMaskFindInvisibleChipManager(Manager):
             movie2_cursor = record.get('Movie2_Cursor')
             symbol_param_xlsx = record.get('SymbolParamXlsx')
 
-            result = CursorMaskFindInvisibleChipManager.addParam(enigma_name, module, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode, symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time, hint_symbol_play_on_fail_mode, movie2_cursor, symbol_param_xlsx)
+            result = CursorMaskFindInvisibleChipManager.addParam(enigma_name, module, cursor_enable_bool,
+                                                                 cursor_movie_alpha_time, symbol_idle_anim_mode,
+                                                                 symbol_select_anim_mode, hint_state_change_alpha_time,
+                                                                 symbol_state_change_alpha_time,
+                                                                 hint_symbol_play_on_fail_mode, movie2_cursor,
+                                                                 symbol_param_xlsx)
 
             if result is False:
                 error_msg = "CursorMaskFindInvisibleChipManager invalid addParam {}".format(enigma_name)
@@ -50,7 +59,9 @@ class CursorMaskFindInvisibleChipManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode, symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time, hint_symbol_play_on_fail_mode, movie2_cursor, symbol_param_xlsx):
+    def addParam(enigma_name, module, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode,
+                 symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time,
+                 hint_symbol_play_on_fail_mode, movie2_cursor, symbol_param_xlsx):
         if enigma_name in CursorMaskFindInvisibleChipManager.s_params:
             error_msg = "CursorMaskFindInvisibleChipManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -58,7 +69,8 @@ class CursorMaskFindInvisibleChipManager(Manager):
 
         records = DatabaseManager.getDatabaseRecords(module, symbol_param_xlsx)
         if records is None:
-            error_msg = "CursorMaskFindInvisibleChipManager cant find symbol_param_xlsx database for {}".format(enigma_name)
+            error_msg = "CursorMaskFindInvisibleChipManager cant find symbol_param_xlsx database for {}".format(
+                enigma_name)
             Trace.log("Manager", 0, error_msg)
             return False
 
@@ -80,9 +92,13 @@ class CursorMaskFindInvisibleChipManager(Manager):
             if index not in symbols:
                 symbols[index] = []
 
-            symbols[index].append((movie2_hint_idle, movie2_hint_select, movie2_hint_fail, movie2_symbol_idle, movie2_symbol_select, movie2_symbol_fail))
+            symbols[index].append((movie2_hint_idle, movie2_hint_select, movie2_hint_fail, movie2_symbol_idle,
+            movie2_symbol_select, movie2_symbol_fail))
 
-        param = CursorMaskFindInvisibleChipParam(symbols, cursor_enable_bool, cursor_movie_alpha_time, symbol_idle_anim_mode, symbol_select_anim_mode, hint_state_change_alpha_time, symbol_state_change_alpha_time, hint_symbol_play_on_fail_mode, movie2_cursor)
+        param = CursorMaskFindInvisibleChipParam(symbols, cursor_enable_bool, cursor_movie_alpha_time,
+                                                 symbol_idle_anim_mode, symbol_select_anim_mode,
+                                                 hint_state_change_alpha_time, symbol_state_change_alpha_time,
+                                                 hint_symbol_play_on_fail_mode, movie2_cursor)
         CursorMaskFindInvisibleChipManager.s_params[enigma_name] = param
 
     @staticmethod

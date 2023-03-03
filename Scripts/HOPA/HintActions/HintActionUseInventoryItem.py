@@ -5,6 +5,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.TaskManager import TaskManager
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget
 
+
 class HintActionUseInventoryItem(MixinObject, HintActionMultiTarget):
     def _onParams(self, params):
         super(HintActionUseInventoryItem, self)._onParams(params)

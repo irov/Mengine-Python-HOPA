@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipsAndRotateArrowManager import ClickOnChipsAndRotateArrowManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ClickOnChipsAndRotateArrow(Enigma):
     class Chip(object):
@@ -58,6 +60,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
     def _onDeactivate(self):
         super(ClickOnChipsAndRotateArrow, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -71,6 +74,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
 
     def _stopEnigma(self):
         self._cleanUp()
+
     # ==================================================================================================================
 
     def _loadParam(self):
@@ -112,6 +116,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
         def holder_scopeClick(source, holder):
             clickOnChip = holder.get()
             source.addScope(self._scopeClick, clickOnChip)
+
         source.addScope(holder_scopeClick, clickOnChip)
 
     def _failClick(self, source, chip):
@@ -131,7 +136,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
         source.addFunction(chip.activate)
 
         with source.addParallelTask(2) as (rotateArrowEffect, soundEffect):
-            rotateArrowEffect.addScope(self.rotate, chip)  # soundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object,  #                       'ClickOnChipsAndRotateArrow_Rotate')
+            rotateArrowEffect.addScope(self.rotate, chip)
         source.addFunction(self._checkWin)
 
     def _falseChoice(self, source):

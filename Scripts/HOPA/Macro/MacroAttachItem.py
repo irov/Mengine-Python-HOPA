@@ -5,6 +5,7 @@ from HOPA.CursorManager import CursorManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from Notification import Notification
 
+
 class MacroAttachItem(MacroCommand):
     def __init__(self):
         super(MacroAttachItem, self).__init__()
@@ -53,7 +54,8 @@ class MacroAttachItem(MacroCommand):
     def _onGenerate(self, source):
         if self.ReattachOnSceneInit:
             with TaskManager.createTaskChain() as tc:
-                tc.addListener(Notificator.onMacroAttachItemRemoveObserver, Filter=lambda item_name: self.ItemName == item_name)
+                tc.addListener(Notificator.onMacroAttachItemRemoveObserver,
+                               Filter=lambda item_name: self.ItemName == item_name)
                 tc.addFunction(self.removeOnSceneEnterReattachObserver)
 
             source.addFunction(self.setOnSceneEnterReattachObserver)

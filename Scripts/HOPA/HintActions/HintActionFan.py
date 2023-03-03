@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionFan(HintActionDefault):
     def _onParams(self, Params):
         super(HintActionFan, self)._onParams(Params)

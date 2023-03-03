@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectOptions(DemonObject):
     def _onParams(self, params):
         super(ObjectOptions, self)._onParams(params)
@@ -16,4 +17,5 @@ class ObjectOptions(DemonObject):
         self.params["Widescreen"] = params.get("WideScreen", False)
         self.params["Cursor"] = params.get("Cursor", False)
         pass
+
     pass

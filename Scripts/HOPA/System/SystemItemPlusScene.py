@@ -10,6 +10,7 @@ from HOPA.ScenarioManager import ScenarioManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class SystemItemPlusScene(System):
     Open_Zoom = None
 
@@ -432,7 +433,8 @@ class SystemItemPlusScene(System):
 
         if Item is not None:
             Inventory = DemonManager.getDemon(self.InventoryName)
-            source.addTask("AliasInventoryRemoveInventoryItem", Inventory=Inventory, InventoryItem=Item.getInventoryItem())
+            InventoryItem = Item.getInventoryItem()
+            source.addTask("AliasInventoryRemoveInventoryItem", Inventory=Inventory, InventoryItem=InventoryItem)
         else:
             msg = 'SystemItemPlus::remove_from_inventory(), RemoveItemPlusOnClose=True ItemManager' \
                   ' can\'t find item with "%s" PlusScene name' % ScenePlus

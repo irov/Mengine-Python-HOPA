@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChainClickMovieManager import ChainClickMovieManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Slot(object):
     def __init__(self, SlotID, Socket, Node):
@@ -54,11 +56,14 @@ class Slot(object):
         self.node = None
         self.chip = None
 
+
 class Chip(object):
     def __init__(self, MovieIdle, MovieSelected, MovieFail, MakeMovieFunc):
         self.state = None
 
-        self.movies = dict(Idle=MakeMovieFunc(MovieIdle, Enable=False, Play=True, Loop=True), Selected=MakeMovieFunc(MovieSelected, Enable=False, Play=True, Loop=False), Fail=MakeMovieFunc(MovieFail, Enable=False, Play=True, Loop=False))
+        self.movies = dict(Idle=MakeMovieFunc(MovieIdle, Enable=False, Play=True, Loop=True),
+                           Selected=MakeMovieFunc(MovieSelected, Enable=False, Play=True, Loop=False),
+                           Fail=MakeMovieFunc(MovieFail, Enable=False, Play=True, Loop=False))
 
         self.node = Mengine.createNode('Interender')
 
@@ -125,6 +130,7 @@ class Chip(object):
         self.node = None
 
         self.state = None
+
 
 class ChainClickMovie(Enigma):
     def __init__(self):

@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.DialogBoxManager import DialogBoxManager
 
+
 class TaskDialogBoxPlay(MixinObserver, Task):
     Skiped = True
 

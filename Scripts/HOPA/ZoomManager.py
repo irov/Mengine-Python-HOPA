@@ -5,6 +5,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Notification import Notification
 
+
 class ZoomManager(object):
     s_activeZooms = {}
     s_zooms = {}
@@ -18,11 +19,17 @@ class ZoomManager(object):
     onZoomEnterObserver = None
     onZoomLeaveObserver = None
     onZoomClickObserver = None
+    onTransitionBeginObserver = None
+    onTransitionEndObserver = None
+    onSessionSaveObserver = None
+    onSessionLoadObserver = None
+    onSessionRemoveCompleteObserver = None
 
     blockOpen = False
 
     class Zoom(object):
-        def __init__(self, object, fromSceneName, frameGroupName, immediately, zoomGroupName, viewport, mask, overFrameGroupName, hasOverLayer):
+        def __init__(self, object, fromSceneName, frameGroupName, immediately, zoomGroupName,
+                     viewport, mask, overFrameGroupName, hasOverLayer):
             self.object = object
 
             self.fromSceneName = fromSceneName
@@ -142,7 +149,8 @@ class ZoomManager(object):
             OverFrameGroup = record.get("OverFrameGroup")
             HasOverLayer = bool(record.get("HasOverLayer", 0))
 
-            ZoomManager.setZoom(ZoomSceneName, SceneName, GroupName, ObjectName, FrameGroup, Immediately, Viewport, Mask, OverFrameGroup, HasOverLayer)
+            ZoomManager.setZoom(ZoomSceneName, SceneName, GroupName, ObjectName, FrameGroup, Immediately, Viewport,
+                                Mask, OverFrameGroup, HasOverLayer)
             pass
 
         return True
@@ -259,7 +267,8 @@ class ZoomManager(object):
         pass
 
     @staticmethod
-    def setZoom(zoomGroupName, fromSceneName, groupName, objectName, frameGroupName, immediately, Viewport, ZoomMask, overFrameGroupName, hasOverLayer):
+    def setZoom(zoomGroupName, fromSceneName, groupName, objectName, frameGroupName, immediately, Viewport, ZoomMask,
+                overFrameGroupName, hasOverLayer):
         object = None
         if groupName is not None:
             if isinstance(GroupManager.getGroup(zoomGroupName), GroupManager.EmptyGroup):
@@ -272,7 +281,8 @@ class ZoomManager(object):
             object = GroupManager.getObject(groupName, objectName)
             pass
 
-        Zoom = ZoomManager.Zoom(object, fromSceneName, frameGroupName, immediately, zoomGroupName, Viewport, ZoomMask, overFrameGroupName, hasOverLayer)
+        Zoom = ZoomManager.Zoom(object, fromSceneName, frameGroupName, immediately, zoomGroupName, Viewport, ZoomMask,
+                                overFrameGroupName, hasOverLayer)
 
         ZoomManager.s_zooms[zoomGroupName] = Zoom
         pass
@@ -563,8 +573,6 @@ class ZoomManager(object):
             pass
 
         return listZooms
-        pass
-    pass
 
     @staticmethod
     def getActiveSceneZoomObjects(sceneName):
@@ -615,10 +623,12 @@ class ZoomManager(object):
         zoomZoneWidth = contentWidth
         zoomZoneHeight = contentHeight - (InventorySizeY + GameViewport.begin.y)
 
-        zoomPoint = (zoomZoneWidth * 0.5 - zoomSize.x * 0.5, GameViewport.begin.y + (zoomZoneHeight * 0.5 - zoomSize.y * 0.5))
+        zoomPoint = (
+            zoomZoneWidth * 0.5 - zoomSize.x * 0.5,
+            GameViewport.begin.y + (zoomZoneHeight * 0.5 - zoomSize.y * 0.5)
+        )
 
         return zoomPoint
-        pass
 
     @staticmethod
     def setBlockOpen(value):

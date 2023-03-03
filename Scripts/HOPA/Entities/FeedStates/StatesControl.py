@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class StatesControl:
     predators = []
     foods = {}
@@ -146,8 +147,6 @@ class StatesControl:
 
         def reset_limit(self):
             self.rest = self.limit
-            pass
-        pass
 
     @staticmethod
     def loadControl(movieList, reference, sockets, limit):
@@ -188,8 +187,6 @@ class StatesControl:
             if predator.isactive():
                 return
         StatesControl.skip(True)
-        pass
-    pass
 
     @staticmethod
     def skipStates():
@@ -200,9 +197,6 @@ class StatesControl:
                 tc.addTask("TaskEnable", Object=movie, Value=True)
                 tc.addTask("TaskMoviePlay", Movie=movie, Wait=True)
                 tc.addTask("TaskEnable", Object=movie, Value=False)
-                pass
-            pass
-        pass
 
     @staticmethod
     def resetStates():
@@ -212,19 +206,15 @@ class StatesControl:
         for food in StatesControl.foods.values():
             food.reset_limit()
 
-        pass
-
     @staticmethod
     def skip(*isSkip):
         if StatesControl.play_object is None:
             Trace.log("Manager", 0, "StatesControl.play_object is None")
             return
         StatesControl.play_object.completion()
-        pass
 
     @staticmethod
     def clear_it():
         StatesControl.predators = []
         StatesControl.foods = {}
         StatesControl.bound = []
-        pass

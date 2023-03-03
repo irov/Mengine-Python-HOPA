@@ -71,4 +71,5 @@ class SegmentsRoll(object):
         segmentTo = self.segments[count - 1]
         self.swapSegmentsCCW(segmentFrom, segmentTo)
         pass
+
     pass

@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class PolicyEffectInventoryAddInventoryItemParticles2(TaskAlias):
     def _onParams(self, params):
         super(PolicyEffectInventoryAddInventoryItemParticles2, self)._onParams(params)
@@ -107,4 +108,5 @@ class PolicyEffectInventoryAddInventoryItemParticles2(TaskAlias):
             source_fork.addTask("TaskNodeDestroy", Node=node)
             pass
         pass
+
     pass

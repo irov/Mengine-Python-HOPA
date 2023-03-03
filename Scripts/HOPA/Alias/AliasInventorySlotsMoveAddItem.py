@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsMoveAddItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsMoveAddItem, self)._onParams(params)
@@ -7,8 +8,6 @@ class AliasInventorySlotsMoveAddItem(TaskAlias):
         self.Inventory = params.get("Inventory")
         self.InventoryItem = params.get("InventoryItem")
         self.CurrentSlotIndex = params.get("CurrentSlotIndex")
-
-        pass
 
     def _onGenerate(self, source):
         InventoryItem = self.InventoryItem
@@ -20,17 +19,11 @@ class AliasInventorySlotsMoveAddItem(TaskAlias):
             speedFactor = CountRight
             Exceptions = []
             for i in xrange(CountRight):
-                source.addTask("AliasInventorySlotsMoveRight", Inventory=self.Inventory, SpeedFactor=speedFactor, Exceptions=Exceptions)
-                pass
-            pass
+                source.addTask("AliasInventorySlotsMoveRight", Inventory=self.Inventory,
+                               SpeedFactor=speedFactor, Exceptions=Exceptions)
 
         elif CountLeft >= 1:
             speedFactor = CountLeft
             for i in xrange(CountLeft):
-                source.addTask("AliasInventorySlotsMoveLeft", Inventory=self.Inventory, SpeedFactor=speedFactor, Exceptions=(InventoryItem,))
-                pass
-            pass
-
-        pass
-
-    pass
+                source.addTask("AliasInventorySlotsMoveLeft", Inventory=self.Inventory, SpeedFactor=speedFactor,
+                               Exceptions=(InventoryItem,))

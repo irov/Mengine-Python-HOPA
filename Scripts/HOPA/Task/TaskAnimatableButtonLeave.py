@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskAnimatableButtonLeave(MixinObject, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskAnimatableButtonLeave, self)._onParams(params)
@@ -27,4 +28,5 @@ class TaskAnimatableButtonLeave(MixinObject, MixinObserver, Task):
     def _onButtonMouseLeaveFilter(self, Button):
         return True
         pass
+
     pass

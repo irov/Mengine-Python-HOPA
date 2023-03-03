@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PuzzleManager(object):
     s_puzzles = {}
 
@@ -21,6 +22,7 @@ class PuzzleManager(object):
         def getSprite(self):
             return self.spriteEnableName
             pass
+
         pass
 
     @staticmethod

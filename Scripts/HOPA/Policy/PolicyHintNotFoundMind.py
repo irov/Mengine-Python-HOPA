@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintNotFoundMind(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintNotFoundMind, self)._onParams(params)
@@ -8,4 +9,5 @@ class PolicyHintNotFoundMind(TaskAlias):
     def _onGenerate(self, source):
         source.addTask("AliasMindPlay", MindID="ID_HINTNOTFOUND")
         pass
+
     pass

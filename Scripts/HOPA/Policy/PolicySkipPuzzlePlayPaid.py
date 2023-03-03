@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicySkipPuzzlePlayPaid(TaskAlias):
 
     def _scopeSuccess(self, source):

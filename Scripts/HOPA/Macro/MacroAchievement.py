@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroAchievement(MacroCommand):
     def _onValues(self, values):
         self.AchievementName = values[0]
@@ -13,4 +14,5 @@ class MacroAchievement(MacroCommand):
 
         source.addNotify(Notificator.onAchievementUnlocked, self.AchievementName)
         pass
+
     pass

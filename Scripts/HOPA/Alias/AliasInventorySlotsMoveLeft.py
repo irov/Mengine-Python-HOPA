@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsMoveLeft(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsMoveLeft, self)._onParams(params)
@@ -195,7 +196,7 @@ class AliasInventorySlotsMoveLeft(TaskAlias):
                     pass
 
                 speedFactor = DefaultSpeedFactor * self.SpeedFactor
-                tc_movie.addTask("TaskMoviePlay", Movie=movie, SpeedFactor=speedFactor, DefaultSpeedFactor=1)  # speed fix
+                tc_movie.addTask("TaskMoviePlay", Movie=movie, SpeedFactor=speedFactor, DefaultSpeedFactor=1)
                 pass
             pass
 
@@ -235,6 +236,3 @@ class AliasInventorySlotsMoveLeft(TaskAlias):
         source.addTask("TaskFunction", Fn=InventoryEntity.updateSlots)
         source.addTask("TaskFunction", Fn=self.__destroyGenMovies)
         source.addNotify(Notificator.onInventorySlotsShiftEnd)
-        pass
-
-    pass

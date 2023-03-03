@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGRollingItemFoundEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGRollingItemFoundEffect, self)._onParams(params)
@@ -119,10 +120,5 @@ class AliasHOGRollingItemFoundEffect(TaskAlias):
             slot = InventoryEntity.getSlotByName(self.HOGItemName)
             if slot and slot.movie:
                 scope.addTask("TaskMoviePlay", Movie=slot.movie, Wait=True)
-                pass
-            pass
 
         source.addTask("TaskScope", Scope=__playMovie)
-        pass
-
-    pass

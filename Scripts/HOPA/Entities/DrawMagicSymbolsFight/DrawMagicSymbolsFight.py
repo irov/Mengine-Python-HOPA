@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.DrawMagicSymbolsFightManager import DrawMagicSymbolsFightManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 ENIGMA_NAME_HOLDER = Holder()
@@ -15,6 +16,7 @@ MSG_SYMBOL_MOVIE_SOCKET_404 = "Enigma DrawMagicSymbolsFight '{}' error in create
 # consts
 SHAKE_FX_SYMBOL_SLOT = "symbol"
 SYMBOL_SHAKE_FX_ANCHOR_SLOT = "shake_fx"
+
 
 class SoundHandler(object):
     def __init__(self, obj, delay, sound_notifier):
@@ -43,6 +45,7 @@ class SoundHandler(object):
         if self.tc is not None:
             self.tc.cancel()
             self.tc = None
+
 
 class Symbol(object):
     SYMBOL_ALPHA_TIME = 500.0
@@ -241,6 +244,7 @@ class Symbol(object):
 
     # -- -- --
 
+
 class HP(object):
 
     def __init__(self, movie, HP_ALPHA_TIME):
@@ -281,6 +285,7 @@ class HP(object):
         self.movie.returnToParent()
         self.movie.removeFromParent()
         self.movie.onDestroy()
+
 
 class DrawMagicSymbolsFight(Enigma):
     EVENT_INTERRUPT = Event("DrawMagicSymbolsInterrupt")
@@ -387,7 +392,8 @@ class DrawMagicSymbolsFight(Enigma):
             movie_shake_fx_name = symbol_shake_params[symbol_movie_name]
             movie_shake_fx = None
             if movie_shake_fx_name is not None:
-                movie_shake_fx = self.object.generateObjectUnique(movie_shake_fx_name + symbol_movie_name, movie_shake_fx_name, Enable=True)
+                movie_shake_fx = self.object.generateObjectUnique(movie_shake_fx_name + symbol_movie_name,
+                                                                  movie_shake_fx_name, Enable=True)
                 node_movie_shake_fx = movie_shake_fx.getEntityNode()
                 self.addChild(node_movie_shake_fx)
 
@@ -425,10 +431,12 @@ class DrawMagicSymbolsFight(Enigma):
             self.drawing_node.setLocalPosition((0.0, 0.0))
 
             ''' Setup Sprite_Pen generation callback on cursor position change '''
-            self.mouse_pos_provider = Mengine.addMousePositionProvider(None, None, None, self.onMouseChangeGeneratePenSprite)
+            self.mouse_pos_provider = Mengine.addMousePositionProvider(None, None, None,
+                                                                       self.onMouseChangeGeneratePenSprite)
 
             ''' Create Draw Sound Handler '''
-            self.draw_sound_handler = SoundHandler(self.object, self.params.draw_sound_delay, self.params.draw_sound_notifier)
+            self.draw_sound_handler = SoundHandler(self.object, self.params.draw_sound_delay,
+                                                   self.params.draw_sound_notifier)
 
             ''' Symbol shake fx restore add children after sibling resolve'''
             for symbol in self.symbols:
@@ -594,7 +602,8 @@ class DrawMagicSymbolsFight(Enigma):
         self.draw_sound_handler.setGateOpen(False)  # close gate to disallow play draw sound  #
 
     def __createPen(self, pos):
-        sprite_pen = self.object.generateObjectUnique("Sprite_Pen_%d" % len(self.pen_sprites), self.params.pen_sprite_prot, Enable=True)
+        sprite_pen = self.object.generateObjectUnique("Sprite_Pen_%d" % len(self.pen_sprites),
+                                                      self.params.pen_sprite_prot, Enable=True)
 
         sprite_pen.removeFromParent()
 
@@ -652,13 +661,15 @@ class DrawMagicSymbolsFight(Enigma):
                 if self.current_fight_movie_index < len(self.fight_movies):
                     # disable current idle movie
                     current_idle_movie = self.fight_movies[self.current_fight_movie_index][1]
-                    source_1.addTask("TaskNodeAlphaTo", Node=current_idle_movie.getEntityNode(), To=0.0, Time=self.params.fight_movies_alpha_time, IsTemp=True)
+                    source_1.addTask("TaskNodeAlphaTo", Node=current_idle_movie.getEntityNode(), To=0.0,
+                                     Time=self.params.fight_movies_alpha_time, IsTemp=True)
                     source_1.addDisable(current_idle_movie)
 
                     # enable current fight movie
                     self.current_fight_movie = self.fight_movies[self.current_fight_movie_index][0]
                     source_1.addEnable(self.current_fight_movie)
-                    source_1.addTask("TaskNodeAlphaTo", Node=self.current_fight_movie.getEntityNode(), From=0.0, To=1.0, Time=self.params.fight_movies_alpha_time, IsTemp=True)
+                    source_1.addTask("TaskNodeAlphaTo", Node=self.current_fight_movie.getEntityNode(), From=0.0, To=1.0,
+                                     Time=self.params.fight_movies_alpha_time, IsTemp=True)
 
                     self.current_fight_movie_index += 1
 
@@ -668,13 +679,15 @@ class DrawMagicSymbolsFight(Enigma):
 
                         if self.current_fight_movie_index < len(self.fight_movies):  # enable next idle only if not last
                             # disable current fight movie
-                            parallel_0.addTask("TaskNodeAlphaTo", Node=self.current_fight_movie.getEntityNode(), To=0.0, Time=self.params.fight_movies_alpha_time, IsTemp=True)
+                            parallel_0.addTask("TaskNodeAlphaTo", Node=self.current_fight_movie.getEntityNode(), To=0.0,
+                                               Time=self.params.fight_movies_alpha_time, IsTemp=True)
                             parallel_0.addDisable(self.current_fight_movie)
 
                             # loop-play next idle movie
                             next_idle = self.fight_movies[self.current_fight_movie_index][1]
                             parallel_0.addEnable(next_idle)
-                            parallel_0.addTask("TaskNodeAlphaTo", Node=next_idle.getEntityNode(), From=0.0, To=1.0, Time=self.params.fight_movies_alpha_time, IsTemp=True)
+                            parallel_0.addTask("TaskNodeAlphaTo", Node=next_idle.getEntityNode(), From=0.0, To=1.0,
+                                               Time=self.params.fight_movies_alpha_time, IsTemp=True)
                             parallel_0.addPlay(next_idle, Wait=False, Loop=True)
 
                         parallel_1.addScope(self.scopeDecreaseHP)

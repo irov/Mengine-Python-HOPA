@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Notification import Notification
 
+
 class MindManager(object):
     s_minds = {}
 
@@ -27,7 +28,6 @@ class MindManager(object):
 
         def getVoiceID(self):
             return self.voiceID
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -114,6 +114,3 @@ class MindManager(object):
         VoiceID = mind.getVoiceID()
 
         return VoiceID
-        pass
-
-    pass

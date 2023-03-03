@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class GlobeGameManager(object):
     Games = {}
 
@@ -8,8 +9,6 @@ class GlobeGameManager(object):
             self.Name = Name
             self.LvlStart = LvlStart
             self.LvlWin = LvlWin
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -66,6 +65,3 @@ class GlobeGameManager(object):
             return None
             pass
         return GlobeGameManager.Games[name]
-        pass
-
-    pass

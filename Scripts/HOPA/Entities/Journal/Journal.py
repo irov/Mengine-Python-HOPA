@@ -6,6 +6,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.JournalManager import JournalManager
 
+
 TEXT_ID_PAGE_NUMBER = "ID_JOURNAL_PAGE_NUMBER"
 
 TEXT_ALIAS_ENV = ""
@@ -18,6 +19,7 @@ TEXT_ALIAS_OLD_RIGHT_PAGE_NUMBER = "$OldJournalRightPageNumber"
 
 TEXT_ALIAS_NEW_LEFT_PAGE_NUMBER = "$NewJournalLeftPageNumber"
 TEXT_ALIAS_NEW_RIGHT_PAGE_NUMBER = "$NewJournalRightPageNumber"
+
 
 class Journal(BaseEntity):
     @staticmethod
@@ -124,19 +126,23 @@ class Journal(BaseEntity):
             if current_index > 0:
                 if self.button_left.getEnable() is False:
                     source_btn_left.addEnable(self.button_left)
-                    source_btn_left.addTask("AliasObjectAlphaTo", Object=self.button_left, Time=self.time_effect, From=0.0, To=1.0)
+                    source_btn_left.addTask("AliasObjectAlphaTo", Object=self.button_left,
+                                            Time=self.time_effect, From=0.0, To=1.0)
             else:
                 if self.button_left.getEnable() is True:
-                    source_btn_left.addTask("AliasObjectAlphaTo", Object=self.button_left, Time=self.time_effect, From=1.0, To=0.0)
+                    source_btn_left.addTask("AliasObjectAlphaTo", Object=self.button_left,
+                                            Time=self.time_effect, From=1.0, To=0.0)
                     source_btn_left.addDisable(self.button_left)
 
             if current_index + 1 < len(self.Pages):
                 if self.button_right.getEnable() is False:
                     source_btn_right.addEnable(self.button_right)
-                    source_btn_right.addTask("AliasObjectAlphaTo", Object=self.button_right, Time=self.time_effect, From=0.0, To=1.0)
+                    source_btn_right.addTask("AliasObjectAlphaTo", Object=self.button_right,
+                                             Time=self.time_effect, From=0.0, To=1.0)
             else:
                 if self.button_right.getEnable() is True:
-                    source_btn_right.addTask("AliasObjectAlphaTo", Object=self.button_right, Time=self.time_effect, From=1.0, To=0.0)
+                    source_btn_right.addTask("AliasObjectAlphaTo", Object=self.button_right,
+                                             Time=self.time_effect, From=1.0, To=0.0)
                     source_btn_right.addDisable(self.button_right)
 
     def __updateButtonsMove(self):
@@ -298,13 +304,15 @@ class Journal(BaseEntity):
                 if self.button_play:
                     if page_old.cutScene is not None and page_new.cutScene is None:
                         if self.button_play.getEnable() is True:
-                            tc_btn.addTask("AliasObjectAlphaTo", Object=self.button_play, Time=self.time_effect, From=1.0, To=0.0)
+                            tc_btn.addTask("AliasObjectAlphaTo", Object=self.button_play,
+                                           Time=self.time_effect, From=1.0, To=0.0)
 
                             tc_btn.addDisable(self.button_play)
                     elif page_old.cutScene is None and page_new.cutScene is not None:
                         if self.button_play.getEnable() is False:
                             tc_btn.addEnable(self.button_play)
-                            tc_btn.addTask("AliasObjectAlphaTo", Object=self.button_play, Time=self.time_effect, From=0.0, To=1.0)
+                            tc_btn.addTask("AliasObjectAlphaTo", Object=self.button_play,
+                                           Time=self.time_effect, From=0.0, To=1.0)
 
         source.addFunction(self.node.removeChild, layer_group_old)
 
@@ -412,12 +420,16 @@ class Journal(BaseEntity):
             composition_name = self.button_play.getCompositionNameIdle()
 
             if page_old.cutScene:
-                old_movie_button_play = ObjectManager.createObjectUnique("Movie2", "Movie2_Button_Play_Old", None, ResourceMovie=resource_movie, CompositionName=composition_name)
+                old_movie_button_play = ObjectManager.createObjectUnique("Movie2", "Movie2_Button_Play_Old", None,
+                                                                         ResourceMovie=resource_movie,
+                                                                         CompositionName=composition_name)
                 old_movie_button_play_node = old_movie_button_play.getEntityNode()
                 slot_old_right_page.addChild(old_movie_button_play_node)
 
             if page_new.cutScene:
-                new_movie_button_play = ObjectManager.createObjectUnique("Movie2", "Movie2_Button_Play_New", None, ResourceMovie=resource_movie, CompositionName=composition_name)
+                new_movie_button_play = ObjectManager.createObjectUnique("Movie2", "Movie2_Button_Play_New", None,
+                                                                         ResourceMovie=resource_movie,
+                                                                         CompositionName=composition_name)
 
                 new_movie_button_play_node = new_movie_button_play.getEntityNode()
                 slot_new_right_page.addChild(new_movie_button_play_node)
@@ -491,7 +503,10 @@ class Journal(BaseEntity):
 
         object_type_ = object_.getType()
 
-        click_policies = dict(ObjectSocket=self.__policyScopeClickSocket, HotSpotPolygon=self.__policyScopeClickHotSpotPolygon, ObjectButton=self.__policyScopeClickButton, ObjectMovie2Button=self.__policyScopeClickMovie2Button, )
+        click_policies = dict(ObjectSocket=self.__policyScopeClickSocket,
+                              HotSpotPolygon=self.__policyScopeClickHotSpotPolygon,
+                              ObjectButton=self.__policyScopeClickButton,
+                              ObjectMovie2Button=self.__policyScopeClickMovie2Button)
 
         return click_policies.get(object_type_)
 

@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.MagicGloveManager import MagicGloveManager
 
+
 class MagicGlove(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -35,8 +36,17 @@ class MagicGlove(BaseEntity):
         super(MagicGlove, self).__init__()
         self.movie_buttons = {}
         self.current_state_button = None
-        self.callbacks = {"Idle": self.__cb_scope_idle, "Ready": self.__cb_scope_ready, "Light": self.__cb_scope_light, }
-        self.minds = {"noRunes": "ID_MIND_GloveEmpty", "hasRunes": "ID_MIND_GloveWithSpells", "wrongRune": "ID_MIND_GloveWrongSpell", "chargedRune": "ID_MIND_MagicGlove_IsReady"}
+        self.callbacks = {
+            "Idle": self.__cb_scope_idle,
+            "Ready": self.__cb_scope_ready,
+            "Light": self.__cb_scope_light,
+        }
+        self.minds = {
+            "noRunes": "ID_MIND_GloveEmpty",
+            "hasRunes": "ID_MIND_GloveWithSpells",
+            "wrongRune": "ID_MIND_GloveWrongSpell",
+            "chargedRune": "ID_MIND_MagicGlove_IsReady"
+        }
 
     def __cb_scope_idle(self, source):
         # source.addPrint('__cb_scope_idle')

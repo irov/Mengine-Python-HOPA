@@ -2,6 +2,7 @@ from Foundation.Notificator import Notificator
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.SpellsManager import SpellsManager
 
+
 class MacroSpellsUnlockSpell(MacroCommand):
     def _onValues(self, values):
         self.spell_type = values[0]

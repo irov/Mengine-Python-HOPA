@@ -2,6 +2,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingPrepareItem(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]

@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemBoneBoard(System):
 
     def __init__(self):

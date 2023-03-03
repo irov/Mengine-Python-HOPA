@@ -8,6 +8,7 @@ from HOPA.Entities.StorePage.Components.StorePageScrollComponent import StorePag
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
 
+
 class StorePage(BaseEntity):
 
     @staticmethod

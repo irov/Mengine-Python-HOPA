@@ -6,11 +6,13 @@ from HOPA.DrawMagicSymbolsManager import DrawMagicSymbolsManager
 from Holder import Holder
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 ENIGMA_NAME_HOLDER = Holder()
 
 MSG_SYMBOL_MOVIE_SOCKET_404 = "Enigma DrawMagicSymbols '{}' error in create Symbol instance: not found socket {} in movie {}"
+
 
 class BackgroundTimer(object):
     " Implement live background with timer == (background_animation_duration * f_timer_scale) for timer chalange in mg"
@@ -76,9 +78,11 @@ class BackgroundTimer(object):
             movie.setEnable(True)
 
             with source.addParallelTask(2) as (parallel_0, parallel_1):
-                source.addTask("TaskNodeAlphaTo", Node=movie.entity.node, From=0.0, To=1.0, Time=self.f_background_change_alpha_time)
+                source.addTask("TaskNodeAlphaTo", Node=movie.entity.node, From=0.0, To=1.0,
+                               Time=self.f_background_change_alpha_time)
 
-                source.addTask("TaskNodeAlphaTo", Node=self.cur_movie.entity.node, To=0.0, IsTemp=True, Time=self.f_background_change_alpha_time)
+                source.addTask("TaskNodeAlphaTo", Node=self.cur_movie.entity.node, To=0.0, IsTemp=True,
+                               Time=self.f_background_change_alpha_time)
 
             source.addDisable(self.cur_movie)
             source.addFunction(self.setCurMovie, movie)
@@ -98,6 +102,7 @@ class BackgroundTimer(object):
             movie.setPlay(True)
 
             self.cur_movie = movie
+
 
 class Symbol(object):
     SYMBOL_ALPHA_TIME = 500.0
@@ -201,12 +206,15 @@ class Symbol(object):
     def scopeAlphaEnable(self, source):
         source.addEnable(self.movie)
 
-        source.addTask("TaskNodeAlphaTo", Node=self.movie.getEntityNode(), From=0.0, To=1.0, Time=Symbol.SYMBOL_ALPHA_TIME)
+        source.addTask("TaskNodeAlphaTo", Node=self.movie.getEntityNode(), From=0.0, To=1.0,
+                       Time=Symbol.SYMBOL_ALPHA_TIME)
 
     def scopeAlphaDisable(self, source):
-        source.addTask("TaskNodeAlphaTo", Node=self.movie.getEntityNode(), From=1.0, To=0.0, Time=Symbol.SYMBOL_ALPHA_TIME)
+        source.addTask("TaskNodeAlphaTo", Node=self.movie.getEntityNode(), From=1.0, To=0.0,
+                       Time=Symbol.SYMBOL_ALPHA_TIME)
 
         source.addDisable(self.movie)
+
 
 class DrawMagicSymbols(Enigma):
 
@@ -300,7 +308,8 @@ class DrawMagicSymbols(Enigma):
             else:
                 symbol_fail_movie = None
 
-            symbol = Symbol(symbol_movie_name, symbol_movie, symbol_complete_movie, symbol_fail_movie, socket_names_path_queue)
+            symbol = Symbol(symbol_movie_name, symbol_movie, symbol_complete_movie, symbol_fail_movie,
+                            socket_names_path_queue)
 
             symbols.append(symbol)
 
@@ -326,7 +335,11 @@ class DrawMagicSymbols(Enigma):
 
         ''' create background timer '''
         if self.params.use_background_timer_game_rule:
-            self.background_timer = BackgroundTimer(self_object_get_object(self.params.background_timer_movie_name), self_object_get_object(self.params.background_win_movie_name), self_object_get_object(self.params.background_fail_movie_name), self.params.background_timer_scale, self.params.background_movie_change_alpha_time)
+            self.background_timer = BackgroundTimer(self_object_get_object(self.params.background_timer_movie_name),
+                                                    self_object_get_object(self.params.background_win_movie_name),
+                                                    self_object_get_object(self.params.background_fail_movie_name),
+                                                    self.params.background_timer_scale,
+                                                    self.params.background_movie_change_alpha_time)
 
     def __disableTCs(self):
         if self.__tc_main is not None:

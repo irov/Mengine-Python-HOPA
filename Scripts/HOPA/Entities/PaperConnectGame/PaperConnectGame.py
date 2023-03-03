@@ -2,7 +2,9 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
 from HOPA.PaperConnectGameManager import PaperConnectGameManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class PaperConnectGame(Enigma):
     Click_Pos = None
@@ -148,6 +150,7 @@ class PaperConnectGame(Enigma):
             # self.Movie.setPosition((x, y))
             self.Movie.setPosition(self.Pos)
             pass
+
         pass
 
     @staticmethod

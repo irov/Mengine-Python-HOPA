@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.StageManager import StageManager
 
+
 class MacroRunRepeat(MacroCommand):
     def _onValues(self, values):
         self.ParagraphsID = values
@@ -35,4 +36,5 @@ class MacroRunRepeat(MacroCommand):
 
         source.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
         pass
+
     pass

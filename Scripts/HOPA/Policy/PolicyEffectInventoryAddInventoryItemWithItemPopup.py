@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
     def _onParams(self, params):
         super(PolicyEffectInventoryAddInventoryItemWithItemPopup, self)._onParams(params)
@@ -151,7 +152,8 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
         # task chain
         with source.addParallelTask(2) as (tcp0, tcp1):
             tcp0.addNotify(Notificator.onSoundEffectOnObject, Item, "MoveItemToInventory")
-            tcp0.addTask("TaskNodeBezier2To", Node=self.node, Point1=self.start_pos, To=self.end_pos, Speed=SpeedEffectInventoryAddInventoryItem)
+            tcp0.addTask("TaskNodeBezier2To", Node=self.node, Point1=self.start_pos, To=self.end_pos,
+                         Speed=SpeedEffectInventoryAddInventoryItem)
 
             tcp1.addTask("TaskNodeScaleTo", Node=self.node, To=(scaleTo, scaleTo, 1.0), Time=time)
             pass
@@ -193,4 +195,5 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
 
         source.addScope(self._clean_scope)
         pass
+
     pass

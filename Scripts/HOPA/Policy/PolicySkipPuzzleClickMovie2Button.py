@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicySkipPuzzleClickMovie2Button(TaskAlias):
     def _onParams(self, params):
         super(PolicySkipPuzzleClickMovie2Button, self)._onParams(params)

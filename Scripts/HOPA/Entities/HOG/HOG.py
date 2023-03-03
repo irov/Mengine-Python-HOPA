@@ -5,7 +5,9 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HOG(Enigma):
 
@@ -14,7 +16,6 @@ class HOG(Enigma):
         Enigma.declareORM(Type)
 
         Type.addAction(Type, "FoundItems")
-        pass
 
     def __init__(self):
         super(HOG, self).__init__()
@@ -22,17 +23,14 @@ class HOG(Enigma):
         self.ItemsGroup = None
         self.isHOG = True
         self.isMiniHOG = True
-        pass
 
     def _skipEnigma(self):
         if TaskManager.existTaskChain("HOGFindItem") is True:
             TaskManager.cancelTaskChain("HOGFindItem")
-            pass
 
         Notification.notify(Notificator.onHOGSkip, self.object)
 
         self._onHOGComplete()
-        pass
 
     def _enableSceneHogItems(self):
         HOGItemsEnableAfterComplete = DefaultManager.getDefaultBool("HOGItemsEnableAfterComplete", False)
@@ -45,64 +43,52 @@ class HOG(Enigma):
 
                 if itemObjectName is None:
                     continue
-                    pass
 
                 item = self.ItemsGroup.getObject(itemObjectName)
                 item.setEnable(True)
-                pass
-            pass
-        pass
 
     def _playEnigma(self):
         HOGItemsInDemon = DefaultManager.getDefaultBool("HOGItemsInDemon", True)
 
         if HOGItemsInDemon is True:
             self.ItemsGroup = self.object
-            pass
         else:
             self.ItemsGroup = self.object.getGroup()
-            pass
 
         HOGItems = HOGManager.getHOGItems(self.EnigmaName)
 
         if self.checkComplete(False) is True:
             return
-            pass
 
         for hogItem in HOGItems:
             if hogItem.itemName not in self.FoundItems:
                 continue
-                pass
 
             if hogItem.objectName is None:
                 continue
-                pass
 
             item = self.ItemsGroup.getObject(hogItem.objectName)
 
             if item.getEnable() is False:
                 continue
-                pass
 
             item.setEnable(False)
-            pass
 
         FindItems = []
         for hogItem in HOGItems:
             if hogItem.itemName in self.FoundItems:
                 continue
-                pass
 
             FindItems.append(hogItem.itemName)
-            pass
 
         if len(FindItems) == 0:
             Trace.log("Entity", 0, "HOG %s find items empty" % (self.object.name))
             return
-            pass
 
         self.HOGInventory = HOGManager.getInventory(self.EnigmaName)
-        self.HOGInventory.setParams(HOGName=self.EnigmaName, HOGItems=[hogItem.itemName for hogItem in HOGItems[:]], FoundItems=self.FoundItems[:])
+        self.HOGInventory.setParams(HOGName=self.EnigmaName,
+                                    HOGItems=[hogItem.itemName for hogItem in HOGItems[:]],
+                                    FoundItems=self.FoundItems[:])
 
         policy = PolicyManager.getPolicy("HOGFindItem", "AliasHOGFindItem")
 
@@ -113,32 +99,24 @@ class HOG(Enigma):
                     hogItem = HOGManager.getHOGItem(self.EnigmaName, name)
                     if hogItem.objectName is None:
                         continue
-                        pass
 
                     tc_hog.addTask(policy, HOG=self.object, HOGItemName=name, EnigmaName=self.EnigmaName)
-                    pass
-                pass
-            pass
 
         Notification.notify(Notificator.onHOGStart, self.object)
-        pass
 
     def _stopEnigma(self):
         self.HOGInventory.setParams(HOGName=None, HOGItems=None, FoundItems=[])
 
         if TaskManager.existTaskChain("HOGFindItem") is True:
             TaskManager.cancelTaskChain("HOGFindItem")
-            pass
 
         Notification.notify(Notificator.onHOGStop, self.object)
-        pass
 
     def checkComplete(self, isSkip):
         HOGItems = HOGManager.getHOGItems(self.EnigmaName)
 
         if len(HOGItems) != len(self.FoundItems):
             return False
-            pass
 
         self._onHOGComplete()
 
@@ -146,7 +124,6 @@ class HOG(Enigma):
         self._enableSceneHogItems()
 
         return True
-        pass
 
     def _onHOGComplete(self):
         self.object.setParam("Play", False)
@@ -172,6 +149,3 @@ class HOG(Enigma):
         Notification.notify(Notificator.onHOGComplete, self.object)
 
         self.enigmaComplete()
-        pass
-
-    pass

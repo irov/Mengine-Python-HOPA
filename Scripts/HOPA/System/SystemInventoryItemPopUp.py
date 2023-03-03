@@ -2,6 +2,7 @@ from Foundation.System import System
 
 from HOPA.ItemManager import ItemManager
 
+
 class SystemInventoryItemPopUp(System):
     def __init__(self):
         super(SystemInventoryItemPopUp, self).__init__()
@@ -46,4 +47,5 @@ class SystemInventoryItemPopUp(System):
 
         Mengine.soundPlay("ButtonClicked", False, None)
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyNotEnoughEnergyWithLimitedOffer(TaskAlias):
 
     def _onParams(self, params):

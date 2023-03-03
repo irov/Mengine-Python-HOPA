@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class ZenElementsManager(object):
     s_objects = {}
 
@@ -14,7 +15,6 @@ class ZenElementsManager(object):
             self.SocketEx = SocketEx
             self.InSlots = InSlots
             self.ExSlots = ExSlots
-            pass
 
         def getItems(self):
             return self.ItemList
@@ -30,8 +30,6 @@ class ZenElementsManager(object):
 
         def getWinPlacement(self):
             return self.PlacementList
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -47,9 +45,7 @@ class ZenElementsManager(object):
             if objectName == "":
                 continue
             groupName = values.get("GroupName")
-            ZenElementsManager.loadZenCollection(objectName, groupName)
-            pass
-        pass
+            ZenElementsManager.loadZenCollection(objectName, groupName, module, param)
 
     @staticmethod
     def loadZenCollection(objectName, groupName, module, param):
@@ -76,7 +72,8 @@ class ZenElementsManager(object):
                 item_name = val.get("Name")
                 placement.append(item_name)
 
-            Object = ZenElementsManager.SingleZen(ExternalMovie, InternalMovie, ItemList, placement, SocketIn, SocketEx, InSlots, ExSlots)
+            Object = ZenElementsManager.SingleZen(ExternalMovie, InternalMovie, ItemList, placement,
+                                                  SocketIn, SocketEx,InSlots, ExSlots)
             ZenElementsManager.s_objects[objectName] = Object
         pass
 

@@ -14,6 +14,7 @@ from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 QUEST_TYPE = 'CollectibleItem'
 HINT_ACTION_TYPE = 'HintActionCollectibleItem'
 
@@ -25,6 +26,7 @@ COLLECTIBLES_SCENE_NAME = 'Collectibles'
 BONUS_SCENE_NAME = 'Bonus'
 
 TEXT_ID_TRANSITION_BACK = 'ID_TransitionCollectibles'
+
 
 class CollectibleGroup(object):
     def __init__(self, params):
@@ -55,6 +57,7 @@ class CollectibleGroup(object):
     def setTransitionPadlock(self, transition_padlock):
         self.transition_padlock = transition_padlock
 
+
 class Collectible(object):
     def __init__(self, params):
         self.collectible_id = params.item_id
@@ -66,6 +69,7 @@ class Collectible(object):
 
     def isComplete(self):
         return self.complete
+
 
 class SystemCollectibles(System):
     s_dev_to_debug = False
@@ -198,7 +202,8 @@ class SystemCollectibles(System):
         return False
 
     @staticmethod
-    def __cbCollectibleTransition(scene_name, transition_back_to_scene_name, transition_back_to_text_id, scene_before_collectibles_scene):
+    def __cbCollectibleTransition(scene_name, transition_back_to_scene_name,
+                                  transition_back_to_text_id, scene_before_collectibles_scene):
         group_name = SceneManager.getSceneMainGroupName(scene_name)
 
         """
@@ -289,8 +294,10 @@ class SystemCollectibles(System):
                 continue
 
             tc = TaskManager.createTaskChain()
-            quest = QuestManager.createLocalQuest(QUEST_TYPE, SceneName=scene_name, GroupName=group_name, Object=collectible_movie)
-            HintManager.createHintAction(HINT_ACTION_TYPE, quest, SceneName=scene_name, GroupName=group_name, Object=collectible_movie)
+            quest = QuestManager.createLocalQuest(QUEST_TYPE, SceneName=scene_name, GroupName=group_name,
+                                                  Object=collectible_movie)
+            HintManager.createHintAction(HINT_ACTION_TYPE, quest, SceneName=scene_name, GroupName=group_name,
+                                         Object=collectible_movie)
 
             with tc as tc:
                 with QuestManager.runQuest(tc, quest) as tc_quest:
@@ -305,7 +312,7 @@ class SystemCollectibles(System):
             with tc.addRaceTask(2) as (race_1, race_2):
                 race_1.addListener(Notificator.onSceneDeactivate)  # when player activate transition
                 race_2.addListener(Notificator.onCollectiblesPart,  # force transition when all collectibles founded:
-                    Filter=lambda scene_name_: SystemCollectibles.__checkCompleteCollectibles(scene_name_))
+                                   Filter=lambda scene_name_: SystemCollectibles.__checkCompleteCollectibles(scene_name_))
                 race_2.addFunction(TransitionManager.changeScene, COLLECTIBLES_SCENE_NAME)
                 race_2.addListener(Notificator.onSceneDeactivate)
 
@@ -546,7 +553,8 @@ class SystemCollectibles(System):
 
         movie_idle = None
         if GroupManager.hasObject(collectible.params.group_name, collectible.params.movie_collect_idle_state):
-            movie_idle = GroupManager.getObject(collectible.params.group_name, collectible.params.movie_collect_idle_state)
+            movie_idle = GroupManager.getObject(collectible.params.group_name,
+                                                collectible.params.movie_collect_idle_state)
 
         movie_collect = GroupManager.getObject(collectible.params.group_name, collectible.params.movie_collect)
 
@@ -628,7 +636,15 @@ class SystemCollectibles(System):
 
     @classmethod
     def _onSave(cls):
-        save_collectibles = {'Collectibles': [], 'CollectibleGroups': {'Completed': [], 'Progress': [], 'FoundCollectibles': {}, 'SceneVisited': []}}
+        save_collectibles = {
+            'Collectibles': [],
+            'CollectibleGroups': {
+                'Completed': [],
+                'Progress': [],
+                'FoundCollectibles': {},
+                'SceneVisited': []
+            }
+        }
 
         collectibles_data = save_collectibles['Collectibles']
         for collectible in cls.getCollectibles().values():

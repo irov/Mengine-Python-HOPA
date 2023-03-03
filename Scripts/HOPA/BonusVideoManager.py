@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import isCollectorEdition
 
+
 class BonusVideoManager(Manager):
     s_videos = {}
     s_counter_received_videos = 0

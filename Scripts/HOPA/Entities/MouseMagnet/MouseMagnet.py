@@ -2,7 +2,9 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 from HOPA.MouseMagnetManager import MouseMagnetManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MouseMagnet(Enigma):
     def __init__(self):
@@ -47,7 +49,12 @@ class MouseMagnet(Enigma):
 
     def _Node_In_Box(self, pos, box):
         ball_size = 6.0
-        if pos.x > (box.minimum.x - ball_size) and pos.x < (box.maximum.x + ball_size) and pos.y > (box.minimum.y - ball_size) and pos.y < (box.maximum.y + ball_size):
+        if all([
+            pos.x > (box.minimum.x - ball_size),
+            pos.x < (box.maximum.x + ball_size),
+            pos.y > (box.minimum.y - ball_size),
+            pos.y < (box.maximum.y + ball_size)
+        ]):
             return True
         else:
             return False

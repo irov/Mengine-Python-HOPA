@@ -4,10 +4,12 @@ from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from Notification import Notification
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
 
 ALPHA_TIME = 200.0
 TC_ZOOM_ALPHA_NAME = "HOGFittingZoomAlpha"
+
 
 class InventoryFittingSlot(object):
     def __init__(self, slotID, SocketName, hotspot, MovieSlot, inventoryObject):
@@ -165,19 +167,16 @@ class InventoryFittingSlot(object):
 
     def EnableSocket(self):
         self.SocketHotSpot.enable()
-        self.SocketHotSpot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave)
-        pass
+        self.SocketHotSpot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
+                                            onHandleMouseLeave=self._onMouseLeave)
 
     def DisableSocket(self):
         self.SocketHotSpot.disable()
         self.SocketHotSpot.setEventListener(onHandleMouseEnter=None, onHandleMouseLeave=None)
-        pass
 
     def getPoint(self):
         return self.MovieSlot.getWorldPosition()
-        pass
 
-    pass
 
 class HOGInventoryFitting(InventoryBase):
 
@@ -187,9 +186,15 @@ class HOGInventoryFitting(InventoryBase):
         Type.addAction(Type, "SlotCount")
         Type.addAction(Type, "SlotItems")
         Type.addAction(Type, "SlotIsFitting")
-        Type.addActionActivate(Type, "SlotFittingItemList", Append=HOGInventoryFitting._AppendSlotFittingItemList, Update=HOGInventoryFitting._updateSlotFittingItemList)
-        Type.addActionActivate(Type, "ItemList", Append=HOGInventoryFitting._AppendItemList, Update=HOGInventoryFitting._updateItemList)
-        Type.addActionActivate(Type, "SlotFittingItemListUsed", Append=HOGInventoryFitting._AppendSlotFittingItemListUsed, Update=HOGInventoryFitting._updateSlotFittingItemListUsed)
+        Type.addActionActivate(Type, "SlotFittingItemList",
+                               Append=HOGInventoryFitting._AppendSlotFittingItemList,
+                               Update=HOGInventoryFitting._updateSlotFittingItemList)
+        Type.addActionActivate(Type, "ItemList",
+                               Append=HOGInventoryFitting._AppendItemList,
+                               Update=HOGInventoryFitting._updateItemList)
+        Type.addActionActivate(Type, "SlotFittingItemListUsed",
+                               Append=HOGInventoryFitting._AppendSlotFittingItemListUsed,
+                               Update=HOGInventoryFitting._updateSlotFittingItemListUsed)
         pass
 
     def __init__(self):
@@ -576,6 +581,7 @@ class HOGInventoryFitting(InventoryBase):
             pass
         return False
         pass
+
     pass
 
     def hasFreeSlot(self):
@@ -630,12 +636,15 @@ class HOGInventoryFitting(InventoryBase):
         Mengine.getArrow().addChild(node)
 
         offset_vec2 = self.CurrentItemZoomStore.entity.sprite.getSurfaceSize()
-        node.setWorldPosition(Mengine.getArrow().node.getWorldPosition() - (offset_vec2.x * 0.5, offset_vec2.y * 0.5, 0.0))
+        node.setWorldPosition(
+            Mengine.getArrow().node.getWorldPosition() - (offset_vec2.x * 0.5, offset_vec2.y * 0.5, 0.0))
 
         if TaskManager.existTaskChain(TC_ZOOM_ALPHA_NAME):
             TaskManager.cancelTaskChain(TC_ZOOM_ALPHA_NAME)
 
         with TaskManager.createTaskChain(Name=TC_ZOOM_ALPHA_NAME) as tc:
             with tc.addParallelTask(2) as (parallel_1, parallel_2):
-                parallel_1.addTask("TaskNodeAlphaTo", Node=self.CurrentItemZoomStore.getEntityNode(), To=1.0, Time=ALPHA_TIME)
-                parallel_2.addTask("TaskNodeAlphaTo", Node=self.CurrentItemStore.getEntityNode(), To=0.0, Time=ALPHA_TIME)
+                parallel_1.addTask("TaskNodeAlphaTo", Node=self.CurrentItemZoomStore.getEntityNode(),
+                                   To=1.0, Time=ALPHA_TIME)
+                parallel_2.addTask("TaskNodeAlphaTo", Node=self.CurrentItemStore.getEntityNode(),
+                                   To=0.0, Time=ALPHA_TIME)

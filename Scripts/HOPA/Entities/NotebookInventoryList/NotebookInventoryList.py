@@ -6,9 +6,11 @@ from Foundation.TaskManager import TaskManager
 
 from NotebookInventoryListManager import NotebookInventoryListManager
 
+
 SLOT_NAME = "text0"
 TEXT_ALIAS_NAME = "$text0"
 ID_EMPTY_TEXT = "ID_EMPTY_TEXT"
+
 
 class NotebookInventoryList(BaseEntity):
     @staticmethod

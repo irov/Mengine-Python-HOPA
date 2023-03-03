@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.MoveChipToCellsManager import MoveChipToCellsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoveChipToCells(Enigma):
     class Chip(object):
@@ -101,7 +103,8 @@ class MoveChipToCells(Enigma):
             slot = BG.getMovieSlot('cell_{}'.format(i))
             movieCellUp = None
             if i not in self.param.CellParams['CellsWithDeep']:
-                movieCellUp = Group.tryGenerateObjectUnique(self.param.CellParams['CellUp'] + '_{}'.format(i), self.param.CellParams['CellUp'], Enable=True)
+                movieCellUp = Group.tryGenerateObjectUnique(self.param.CellParams['CellUp'] + '_{}'.format(i),
+                                                            self.param.CellParams['CellUp'], Enable=True)
 
                 slot.addChild(movieCellUp.getEntityNode())
                 movieCellUp.setEnable(False)
@@ -134,7 +137,8 @@ class MoveChipToCells(Enigma):
             angle = 0
             for socket in sockets:
                 slot = BG.getMovieSlot(socket)
-                movieMove = Group.tryGenerateObjectUnique("MobileMove_" + "{}".format(socket), "Movie2Button_MoveMobile", Enable=True)
+                movieMove = Group.tryGenerateObjectUnique("MobileMove_" + "{}".format(socket),
+                                                          "Movie2Button_MoveMobile", Enable=True)
                 movieMoveNode = movieMove.getEntityNode()
                 slot.addChild(movieMoveNode)
                 movieMoveNode.setAngle(angle)

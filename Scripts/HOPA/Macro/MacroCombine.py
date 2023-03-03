@@ -3,6 +3,7 @@ from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.PopUpItemManager import PopUpItemManager
 
+
 class MacroCombine(MacroCommand):
     def _onValues(self, values):
         self.FirstItemName = values[0]
@@ -48,10 +49,6 @@ class MacroCombine(MacroCommand):
 
                 if PopUpItemManager.hasItem(self.GetItemName) is False:
                     self.initializeFailed("ItemPopUp %s not found" % (self.GetItemName))
-                    pass
-                pass
-            pass
-        pass
 
     def _onGenerate(self, source):
         Inventory = DemonManager.getDemon("Inventory")
@@ -59,7 +56,8 @@ class MacroCombine(MacroCommand):
         AttachInventoryItem = ItemManager.getItemInventoryItem(self.FirstItemName)
         SlotInventoryItem = ItemManager.getItemInventoryItem(self.SecondItemName)
 
-        Quest = self.addQuest(source, "Combine", GroupName=self.GroupName, Inventory=Inventory, AttachInventoryItem=AttachInventoryItem, SlotInventoryItem=SlotInventoryItem)
+        Quest = self.addQuest(source, "Combine", GroupName=self.GroupName, Inventory=Inventory,
+                              AttachInventoryItem=AttachInventoryItem, SlotInventoryItem=SlotInventoryItem)
 
         with Quest as tc_quest:
             with tc_quest.addRaceTask(CombineItemNamesCount) as tcs:
@@ -67,13 +65,8 @@ class MacroCombine(MacroCommand):
                     AttachInventoryItem = ItemManager.getItemInventoryItem(CombineNames[0])
                     SlotInventoryItem = ItemManager.getItemInventoryItem(CombineNames[1])
 
-                    tci.addTask("AliasInventoryCombineInventoryItem", Inventory=Inventory, AttachInventoryItem=AttachInventoryItem, SlotInventoryItem=SlotInventoryItem)
-                    pass
-                pass
-            pass
+                    tci.addTask("AliasInventoryCombineInventoryItem", Inventory=Inventory,
+                                AttachInventoryItem=AttachInventoryItem, SlotInventoryItem=SlotInventoryItem)
 
         if self.GetItemName is not None:
             source.addTask("AliasInventoryGetInventoryItem", ItemName=self.GetItemName)
-            pass
-        pass
-    pass

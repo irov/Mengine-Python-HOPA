@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyBlackBarPlayWithMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyBlackBarPlayWithMovie, self)._onParams(params)
@@ -22,6 +23,7 @@ class PolicyBlackBarPlayWithMovie(TaskAlias):
         source.addTask("TaskEnable", ObjectName="Movie2_Mind", Value=False)
         source.addTask("TaskObjectSetPosition", Object=self.MovieMind, Value=moviePos)
         pass
+
     pass
 
     def attachText(self):

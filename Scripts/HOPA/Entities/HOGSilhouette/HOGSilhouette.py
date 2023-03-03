@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HOGSilhouette(Enigma):
     @staticmethod
@@ -89,7 +91,8 @@ class HOGSilhouette(Enigma):
         if hogItem.objectName is None:
             return
 
-        with TaskManager.createTaskChain(Name="HOGFindItem{}".format(itemName), Group=self.ItemsGroup, Cb=self._changeSlotItem, CbArgs=(itemName, id)) as tc:
+        with TaskManager.createTaskChain(Name="HOGFindItem{}".format(itemName), Group=self.ItemsGroup,
+                                         Cb=self._changeSlotItem, CbArgs=(itemName, id)) as tc:
             tc.addTask("AliasHOGSilhouetteFindItem", HOG=self.object, HOGItemName=itemName, EnigmaName=self.EnigmaName)
 
     def _changeSlotItem(self, isSkip, itemName, id):

@@ -7,9 +7,11 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChapterSelectionManager import ChapterSelectionManager
 
+
 TEXT_ALIAS_TEXT_CURSOR = '$AliasTextOnCursorChapterSelection'
 TEXT_ID_TEXT_CURSOR_EMPTY = 'ID_CHAPTER_SELECTION_EMPTY'
 ID_POPUP_RESTART_CHAPTER = 'ID_POPUP_RESTART_CHAPTER'
+
 
 class ChapterPlate(object):
     def __init__(self, button_plate, button_plate_block, open_chapter_animation, param):
@@ -58,6 +60,7 @@ class ChapterPlate(object):
 
         source.addListener(Notificator.onMovie2ButtonMouseLeave, Filter=lambda obj: obj is current_plate_obj)
         source.addFunction(self.setTextCursor, True)
+
 
 class ChapterSelection(BaseEntity):
     """
@@ -171,7 +174,13 @@ class ChapterSelection(BaseEntity):
 
     def scopeOpenAnimation(self, source, chapter_plate):
         chapter_data = chapter_plate.chapter_data
-        if not all([chapter_data.param.is_main_chapter is False, chapter_data.is_open is True, chapter_data.is_blocked is False, chapter_data.is_play_open_animation is False, chapter_plate.open_chapter_animation is not None]):
+        if not all([
+            chapter_data.param.is_main_chapter is False,
+            chapter_data.is_open is True,
+            chapter_data.is_blocked is False,
+            chapter_data.is_play_open_animation is False,
+            chapter_plate.open_chapter_animation is not None
+        ]):
             source.addDummy()
             return
 

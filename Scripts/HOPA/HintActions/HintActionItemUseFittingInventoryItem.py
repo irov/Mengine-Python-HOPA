@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 from HOPA.ItemManager import ItemManager
 
+
 class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
     def __init__(self):
         super(HintActionItemUseFittingInventoryItem, self).__init__()
@@ -72,7 +73,8 @@ class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
 
             P1 = (p1x, p1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
+            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
+                       Speed=600 * 0.001)  # speed fix
 
             tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
             tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
@@ -89,7 +91,8 @@ class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
 
             NP1 = (np1x, np1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2, Speed=600 * 0.001)  # speed fix
+            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
+                       Speed=600 * 0.001)  # speed fix
             tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
 
             tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
@@ -106,4 +109,5 @@ class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
             tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintTarget")
             pass
         pass
+
     pass

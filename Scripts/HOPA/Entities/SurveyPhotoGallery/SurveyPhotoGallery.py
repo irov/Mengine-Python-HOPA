@@ -3,8 +3,10 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.SurveyPhotoGalleryManager import SurveyPhotoGalleryManager
 
+
 BUTTON_CLOSE_NAME = "Movie2Button_Frame"
 SOCKET_BACK_NAME = "back"
+
 
 class SurveyPhotoGallery(BaseEntity):
     def __init__(self):
@@ -141,35 +143,22 @@ class SurveyPhotoGallery(BaseEntity):
         source.addEnable(photo)
         source.addScope(self.scopeZoomOutObjectFromButton, photo, button)
 
-        # source.addTask("AliasObjectAlphaTo",  #                Object=photo, From=self.alpha_off, To=self.alpha_on, Time=self.show_time)
-
     def scopeHidePhoto(self, source, button):
         photo = SurveyPhotoGalleryManager.getPhoto(button)
-
-        # source.addTask("AliasObjectAlphaTo",
-        #                Object=photo, From=self.alpha_on, To=self.alpha_off, Time=self.hide_time)
 
         source.addScope(self.scopeZoomInObjectToButton, photo, button)
         source.addDisable(photo)
 
     def scopeShowButtonClose(self, source, button):
         source.addEnable(self.btn_close_photo)
-
         source.addScope(self.scopeZoomOutObjectFromButton, self.btn_close_photo, button)
-
-        # source.addTask("AliasObjectAlphaTo",  #                Object=self.btn_close_photo, From=self.alpha_off, To=self.alpha_on, Time=self.show_time)
 
     def scopeHideButtonClose(self, source, button):
         source.addScope(self.scopeZoomInObjectToButton, self.btn_close_photo, button)
-
-        # source.addTask("AliasObjectAlphaTo",
-        #                Object=self.btn_close_photo, From=self.alpha_on, To=self.alpha_off, Time=self.hide_time)
-
         source.addDisable(self.btn_close_photo)
 
     def _onDeactivate(self):
         super(SurveyPhotoGallery, self)._onDeactivate()
-        # print "SurveyPhotoGallery._onDeactivate"
 
         if self.tc is not None:
             self.tc.cancel()

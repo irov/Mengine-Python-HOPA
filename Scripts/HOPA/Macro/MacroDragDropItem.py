@@ -1,6 +1,7 @@
 from Foundation.Notificator import Notificator
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDragDropItem(MacroCommand):
     def _onValues(self, values):
         self.ItemsQueue = values[1::2]
@@ -24,9 +25,11 @@ class MacroDragDropItem(MacroCommand):
 
                 source.addNotify(Notificator.onDragDropItemCreate, self.GroupName, item_name, False)
 
-                quest = self.addQuest(source, "DragDropItem", SceneName=self.SceneName, GroupName=self.GroupName, Object=socket_object, ItemName=item_name)
+                quest = self.addQuest(source, "DragDropItem", SceneName=self.SceneName, GroupName=self.GroupName,
+                                      Object=socket_object, ItemName=item_name)
                 with quest as tc_quest:
                     finder_type, object_ = self.findObject(item_name)
-                    tc_quest.addTask("AliasDragDropItem", Item=object_, SocketObject=socket_object, AutoAttach=auto_attach)
+                    tc_quest.addTask("AliasDragDropItem", Item=object_, SocketObject=socket_object,
+                                     AutoAttach=auto_attach)
 
                 source.addNotify(Notificator.onDragDropItemComplete, self.GroupName, item_name, False)

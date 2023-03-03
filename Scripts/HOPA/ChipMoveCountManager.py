@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ChipMoveCountManager(Manager):
     s_puzzles = {}
 
@@ -18,7 +19,8 @@ class ChipMoveCountManager(Manager):
             self.counter = counter
 
     class Param(object):
-        def __init__(self, movie_slots, grid_size, prototype_arrow_up, prototype_arrow_down, prototype_arrow_left, prototype_arrow_right, chips):
+        def __init__(self, movie_slots, grid_size, prototype_arrow_up, prototype_arrow_down, prototype_arrow_left,
+                     prototype_arrow_right, chips):
             self.movie_slots = movie_slots
             self.grid_size = grid_size
             self.prototype_arrow_up = prototype_arrow_up
@@ -46,7 +48,9 @@ class ChipMoveCountManager(Manager):
             PrototypeArrowLeft = record.get("PrototypeArrowLeft")
             PrototypeArrowRight = record.get("PrototypeArrowRight")
 
-            result = ChipMoveCountManager.addParam(EnigmaName, module, Param, MovieSlots, GridWidth, GridHeight, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight)
+            result = ChipMoveCountManager.addParam(EnigmaName, module, Param, MovieSlots, GridWidth, GridHeight,
+                                                   PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
+                                                   PrototypeArrowRight)
 
             if result is False:
                 error_msg = "ChipMoveCountManager invalid addParam {}".format(EnigmaName)
@@ -56,7 +60,8 @@ class ChipMoveCountManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, Param, MovieSlots, GridWidth, GridHeight, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight):
+    def addParam(EnigmaName, Module, Param, MovieSlots, GridWidth, GridHeight, PrototypeArrowUp, PrototypeArrowDown,
+                 PrototypeArrowLeft, PrototypeArrowRight):
         if EnigmaName in ChipMoveCountManager.s_puzzles:
             error_msg = "ChipMoveCountManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -102,7 +107,8 @@ class ChipMoveCountManager(Manager):
 
         grid_size = (GridWidth, GridHeight)
 
-        NewParam = ChipMoveCountManager.Param(MovieSlots, grid_size, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight, chips)
+        NewParam = ChipMoveCountManager.Param(MovieSlots, grid_size, PrototypeArrowUp, PrototypeArrowDown,
+                                              PrototypeArrowLeft, PrototypeArrowRight, chips)
 
         ChipMoveCountManager.s_puzzles[EnigmaName] = NewParam
         return True

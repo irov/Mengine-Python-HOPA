@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectMetalDetector(Object):
     @staticmethod
     def declareORM(Type):

@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryGetInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryGetInventoryItem, self)._onParams(params)
@@ -14,11 +15,8 @@ class AliasInventoryGetInventoryItem(TaskAlias):
         if self.Inventory.hasInventoryItem(InventoryItem) is True:
             if self.ItemName in InventoryItem.getFoundItems():
                 return False
-                pass
             return True
-            pass
         return True
-        pass
 
     def _onSkip(self):
         super(AliasInventoryGetInventoryItem, self)._onSkip()
@@ -34,8 +32,5 @@ class AliasInventoryGetInventoryItem(TaskAlias):
                 return False
 
             return True
-            pass
 
         source.addTask("TaskListener", ID=Notificator.onGetItem, Filter=__isItem)
-        pass
-    pass

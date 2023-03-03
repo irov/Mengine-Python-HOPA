@@ -13,6 +13,7 @@ from BoneHelper import HelpChain, CasualHelper
 from BoneItem import BoneItem
 from BoneMinds import BoneMinds
 
+
 class BoneBoard(BaseEntity):
     CASUAL_HELP = "Movie_CasualHelper"
 

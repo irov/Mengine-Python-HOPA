@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemObjectiveShow(System):
     def __init__(self):
         super(SystemObjectiveShow, self).__init__()

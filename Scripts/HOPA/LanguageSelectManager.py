@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class LanguageSelectParam(object):
     slot_format = "slot_{}"
 
@@ -21,6 +22,7 @@ class LanguageSelectParam(object):
 
     def get(self):
         return self.movie_with_slot, self.button_proto, self.alias, self.alias_over, self.text, self.text_over, self.lang
+
 
 class LanguageSelectManager(Manager):
     s_params = []
@@ -45,7 +47,9 @@ class LanguageSelectManager(Manager):
             LanguageSelectManager.validateText(TextId)
             LanguageSelectManager.validateText(TextId_Over)
 
-            LanguageSelectManager.s_params.append(LanguageSelectParam(MovieWithSlot, ButtonPrototype, PrototypeTextAlias, PrototypeTextAlias_Over, TextId, TextId_Over, Language))
+            param = LanguageSelectParam(MovieWithSlot, ButtonPrototype, PrototypeTextAlias,
+                                        PrototypeTextAlias_Over, TextId, TextId_Over, Language)
+            LanguageSelectManager.s_params.append(param)
 
         return True
 

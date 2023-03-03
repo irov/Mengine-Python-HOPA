@@ -1,5 +1,6 @@
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionMagicVisionUse(HintActionDefault):
     def _onParams(self, params):
         super(HintActionMagicVisionUse, self)._onParams(params)

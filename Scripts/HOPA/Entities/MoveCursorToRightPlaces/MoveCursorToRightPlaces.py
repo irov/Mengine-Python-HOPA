@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.MoveCursorToRightPlacesManager import MoveCursorToRightPlacesManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoveCursorToRightPlaces(Enigma):
     class Place(object):
@@ -38,6 +40,7 @@ class MoveCursorToRightPlaces(Enigma):
     def _onDeactivate(self):
         super(MoveCursorToRightPlaces, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------

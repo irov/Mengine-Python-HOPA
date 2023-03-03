@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionCombine(CruiseAction):
     def __init__(self):
         super(CruiseActionCombine, self).__init__()
@@ -78,7 +79,3 @@ class CruiseActionCombine(CruiseAction):
     def _onEnd(self):
         if TaskManager.existTaskChain("CruiseActionCombinePlay") is True:
             TaskManager.cancelTaskChain("CruiseActionCombinePlay")
-            pass
-
-        pass
-    pass

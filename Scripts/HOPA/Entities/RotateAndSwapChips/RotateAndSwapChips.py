@@ -6,7 +6,9 @@ from RotateAndSwapChipsSlot import RotateAndSwapChipsSlot
 from RotateAndSwapChipsSlotController import RotateAndSwapChipsSlotController
 from RotateChipElement import RotateChipElement
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class RotateAndSwapChips(Enigma):
     def __init__(self):
@@ -191,6 +193,7 @@ class RotateAndSwapChips(Enigma):
         connection.attachToSlot(slot1Id, chip1)
         # chip1.setAngleInDegree(angle1)
         connection.attachToSlot(slot2Id, chip2)
+
         # chip2.setAngleInDegree(angle2)
 
         def after():
@@ -203,6 +206,7 @@ class RotateAndSwapChips(Enigma):
             self._checkComplete()
             self.unblockChips()
             pass
+
         connection.move(after)
         pass
 
@@ -245,4 +249,5 @@ class RotateAndSwapChips(Enigma):
 
         self.observer = Notification.addObserver(Notificator.onPlaceChip, self._onPlaceChip)
         pass
+
     pass

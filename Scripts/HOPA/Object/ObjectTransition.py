@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectTransition(DemonObject):
     PARAMS_Interactive = 1
 
@@ -31,7 +32,8 @@ class ObjectTransition(DemonObject):
 
                 Polygon = self.getPolygon()
                 if Mengine.isPointInsidePolygon(HintPoint, Polygon) is False:
-                    self.initializeFailed("[%s] '%s' invalid initialize, HintPoint %s must be inside polygon %s" % (self.getParent().getName(), self.getName(), HintPoint, Polygon))
+                    self.initializeFailed("[%s] '%s' invalid initialize, HintPoint %s must be inside polygon %s" % (
+                        self.getParent().getName(), self.getName(), HintPoint, Polygon))
 
     def calcWorldHintPoint(self):
         hintPoint = self.getHintPoint()

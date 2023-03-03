@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMovieItem(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectMovieItem(DemonObject):
         self.initConst("ResourceMovieIdle", params)
         self.initConst("ResourceMoviePick", params, None)
         pass
+
     pass

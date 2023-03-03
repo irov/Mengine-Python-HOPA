@@ -7,6 +7,7 @@ from HOPA.TransitionManager import TransitionManager
 
 from MagicVisionManager import MagicVisionManager
 
+
 class MagicVision(BaseEntity):
     Socket_Name = "Socket_MagicVision"
     Movie_ReadyName = "Movie_Ready"
@@ -73,7 +74,8 @@ class MagicVision(BaseEntity):
 
     def stateUpdate(self, value):
         currentSceneName = SceneManager.getCurrentGameSceneName()
-        if MagicVisionManager.isMagicVisionScene(currentSceneName) is True:  # for case if from MV open Map, Diary, Journal etc
+        if MagicVisionManager.isMagicVisionScene(
+            currentSceneName) is True:  # for case if from MV open Map, Diary, Journal etc
             self.deactivateFlag = False
             pass
 
@@ -374,4 +376,5 @@ class MagicVision(BaseEntity):
             TaskManager.cancelTaskChain("MagicVisionPreReady")
             pass
         pass
+
     pass

@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDemonDisable(MacroCommand):
     def _onValues(self, values):
         self.DemonName = values[0]
@@ -10,4 +11,5 @@ class MacroDemonDisable(MacroCommand):
         Demon = DemonManager.getDemon(self.DemonName)
         source.addTask("TaskEnable", Object=Demon, Value=False)
         pass
+
     pass

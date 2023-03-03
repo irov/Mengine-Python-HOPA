@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroShift(MacroCommand):
     def __init__(self):
         super(MacroShift, self).__init__()
@@ -39,4 +40,5 @@ class MacroShift(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskShift", Shift=self.Shift, Value=self.Value)
         pass
+
     pass

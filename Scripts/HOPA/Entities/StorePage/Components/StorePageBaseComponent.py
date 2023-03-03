@@ -1,6 +1,7 @@
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class StorePageBaseComponent(object):
 
     def __init__(self, page):

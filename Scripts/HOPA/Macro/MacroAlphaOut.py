@@ -1,6 +1,7 @@
 from Foundation.Object.ObjectMovie2 import ObjectMovie2
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroAlphaOut(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -22,7 +23,8 @@ class MacroAlphaOut(MacroCommand):
         finderType, Object_ = self.findObject(self.ObjectName)
 
         if isinstance(Object_, ObjectMovie2):
-            source.addTask("AliasMovie2AlphaTo", Movie2=Object_, To=self.To, From=self.From, Time=self.Time, LayersAlphaToList=self.composition_list)
+            source.addTask("AliasMovie2AlphaTo", Movie2=Object_, To=self.To, From=self.From, Time=self.Time,
+                           LayersAlphaToList=self.composition_list)
 
         else:
             source.addTask("AliasObjectAlphaTo", ObjectName=self.ObjectName, To=self.To, From=self.From, Time=self.Time)

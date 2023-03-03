@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.PopUpItemManager import PopUpItemManager
 from Notification import Notification
 
+
 class ItemPopUp(BaseEntity):
 
     @staticmethod

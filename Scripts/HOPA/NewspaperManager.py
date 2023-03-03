@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class NewspaperManager(Manager):
     s_newspapers = {}
     s_newspaperIds = {}
@@ -16,8 +17,6 @@ class NewspaperManager(Manager):
             self.movie_Close = movie_Close
             self.attachGroupName = attachGroupName
             self.repeat = repeat
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -33,22 +32,17 @@ class NewspaperManager(Manager):
             Repeat = bool(record.get("Repeat", 0))
 
             NewspaperManager.addNewspaper(NewspaperID, SocketOpen, DemonName, GroupName, AttachGroupName, DefaultGroup, Repeat)
-            pass
 
         return True
-        pass
 
     @classmethod
     def _onInitialize(cls, *args):
         cls.addObserver(Notificator.onSessionNew, NewspaperManager.__onSessionNew)
-        pass
 
     @staticmethod
     def __onSessionNew(accountID):
         NewspaperManager.s_newspapersOpens = []
-
         return False
-        pass
 
     @classmethod
     def _onSave(cls):
@@ -64,10 +58,7 @@ class NewspaperManager(Manager):
     def openNewspaper(newspaperID):
         if newspaperID in NewspaperManager.s_newspapersOpens:
             return
-            pass
-
         NewspaperManager.s_newspapersOpens.append(newspaperID)
-        pass
 
     @staticmethod
     def isOpenNewspaper(newspaperID):
@@ -98,8 +89,9 @@ class NewspaperManager(Manager):
 
         NewspaperManager.s_newspaperIds[(groupName, demonName)] = newspaperID
 
-        NewspaperManager.s_newspapers[newspaperID] = NewspaperManager.Newspaper(Socket_Open, Socket_Close, Socket_BlockClose, Movie_Open, Movie_Close, attachGroupName, repeat)
-        pass
+        NewspaperManager.s_newspapers[newspaperID] = NewspaperManager.Newspaper(Socket_Open, Socket_Close,
+                                                                                Socket_BlockClose, Movie_Open,
+                                                                                Movie_Close, attachGroupName, repeat)
 
     @staticmethod
     def hasNewspaperID(groupName, demonName):
@@ -121,18 +113,13 @@ class NewspaperManager(Manager):
         if name not in NewspaperManager.s_newspapers:
             Trace.log("Manager", 0, "NewspaperManager.getNewspaper: not found  %s" % (name))
             return None
-            pass
 
         return NewspaperManager.s_newspapers[name]
-        pass
 
     @staticmethod
     def getNewspapers():
         return NewspaperManager.s_newspapers
-        pass
 
     @staticmethod
     def getNewspapersCount():
         return len(NewspaperManager.getNewspapers())
-        pass
-    pass

@@ -3,6 +3,7 @@ from Foundation.SystemManager import SystemManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionTransitionBackMobile(HintActionDefault):
 
     def _getHintObject(self):

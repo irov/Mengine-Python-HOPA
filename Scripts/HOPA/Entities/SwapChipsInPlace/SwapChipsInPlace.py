@@ -6,7 +6,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapChipsInPlaceManager import SwapChipsInPlaceManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SwapChipsInPlace(Enigma):
     class Chip(object):
@@ -53,6 +55,7 @@ class SwapChipsInPlace(Enigma):
     def _onDeactivate(self):
         super(SwapChipsInPlace, self)._onDeactivate()
         self.__cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -75,6 +78,7 @@ class SwapChipsInPlace(Enigma):
 
     def _stopEnigma(self):
         self.__cleanUp()
+
     # ==================================================================================================================
 
     def __loadParam(self):
@@ -238,7 +242,8 @@ class SwapChipsInPlace(Enigma):
 
                 parallel_1_2.addScope(self.__scopeRotateChip, chip_1, chip_1.node, time=1, angle=chip_1_old_angle)
 
-                parallel_1_2.addScope(self.__scopeRotateChip, chip_1, chip_1.node, time=time, angle=self.rotates.get((chip_1.id, chip_2.place.id)))
+                parallel_1_2.addScope(self.__scopeRotateChip, chip_1, chip_1.node, time=time,
+                                      angle=self.rotates.get((chip_1.id, chip_2.place.id)))
 
                 parallel_1_2.addScope(self.__scopeRotateChip, chip_1, chip_1.node, time=1, angle=chip_1_old_angle)
 
@@ -247,7 +252,8 @@ class SwapChipsInPlace(Enigma):
 
                 parallel_2_2.addScope(self.__scopeRotateChip, chip_2, chip_2.node, time=1, angle=chip_2_old_angle)
 
-                parallel_2_2.addScope(self.__scopeRotateChip, chip_2, chip_2.node, time=time, angle=self.rotates.get((chip_2.id, chip_1.place.id)))
+                parallel_2_2.addScope(self.__scopeRotateChip, chip_2, chip_2.node, time=time,
+                                      angle=self.rotates.get((chip_2.id, chip_1.place.id)))
 
                 parallel_2_2.addScope(self.__scopeRotateChip, chip_2, chip_2.node, time=1, angle=chip_2_old_angle)
 

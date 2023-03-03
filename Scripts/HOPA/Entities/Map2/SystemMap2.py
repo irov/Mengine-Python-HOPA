@@ -11,6 +11,7 @@ from HOPA.TransitionManager import TransitionManager
 
 from Map2Manager import Map2Manager
 
+
 class SystemMap2(System):
     s_dev_to_debug = False
 
@@ -128,7 +129,8 @@ class SystemMap2(System):
             race_thread_2.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
 
             if Mengine.hasTouchpad() is False:
-                race_thread_3.addTask("TaskMovie2ButtonClick", GroupName=current_map_group_name, Movie2ButtonName="Movie2Button_TransitionBack")
+                race_thread_3.addTask("TaskMovie2ButtonClick", GroupName=current_map_group_name,
+                                      Movie2ButtonName="Movie2Button_TransitionBack")
                 race_thread_3.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
             else:
                 race_thread_3.addBlock()
@@ -153,7 +155,8 @@ class SystemMap2(System):
                 tc_map2.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
 
                 if Mengine.hasTouchpad() is False:
-                    tc_map3.addTask("TaskMovie2ButtonClick", GroupName="Map", Movie2ButtonName="Movie2Button_TransitionBack")
+                    tc_map3.addTask("TaskMovie2ButtonClick", GroupName="Map",
+                                    Movie2ButtonName="Movie2Button_TransitionBack")
                     tc_map3.addTask("TaskNotify", ID=Notificator.onMapClose)
                     tc_map3.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
                 else:

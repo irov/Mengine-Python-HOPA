@@ -2,6 +2,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingRemoveItem(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -22,6 +23,7 @@ class MacroHOGFittingRemoveItem(MacroCommand):
 
     def _onGenerate(self, source):
         Enigma = EnigmaManager.getEnigmaObject(self.EnigmaName)
+
         def RemoveItem():
             Enigma.delParam("Items", self.ItemName)
             pass

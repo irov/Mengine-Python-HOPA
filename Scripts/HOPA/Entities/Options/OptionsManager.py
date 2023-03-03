@@ -2,16 +2,20 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 
+
 XlsxOptionsSoundVolumeCheck = "OptionsSoundVolumeCheck"
 
+
 class SoundCheckParam(object):
-    def __init__(self, soundType, sliderMovieName, sliderMovieSlotName, playButtonPrototype, stopButtonPrototype, checkSoundTracklist):
+    def __init__(self, soundType, sliderMovieName, sliderMovieSlotName, playButtonPrototype, stopButtonPrototype,
+                 checkSoundTracklist):
         self.soundType = soundType
         self.sliderMovieName = sliderMovieName
         self.sliderMovieSlotName = sliderMovieSlotName
         self.playButtonPrototype = playButtonPrototype
         self.stopButtonPrototype = stopButtonPrototype
         self.checkSoundTracklist = checkSoundTracklist
+
 
 class OptionsManager(object):
     s_options = {}

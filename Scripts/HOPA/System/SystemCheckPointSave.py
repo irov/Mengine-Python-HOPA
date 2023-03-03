@@ -8,6 +8,7 @@ from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 # todo: add keyboard shortcut feature
 
 
@@ -56,6 +57,7 @@ class SystemCheckPointSave(System):
                     Trace.log("System", 0, "SystemCheckPointSave invalid save {!r}".format(checkpoint_name))
                 else:
                     Trace.msg("<SystemCheckPointSave> checkpoint successfully created as {!r}".format(checkpoint_name))
+
             Mengine.restartCurrentScene(True, __onSceneRestart)
 
         elif key == DefaultManager.getDefaultKey("DevDebugLoadCheckpoint", "VK_X"):
@@ -72,7 +74,7 @@ class SystemCheckPointSave(System):
                 try:
                     load_checkpoint = Mengine.loadGlobalPickleFile(checkpoint_name, pickle_types)
                 except Exception as e:
-                    Trace.log("System", 0, "<SystemCheckPointSave> can't load checkpoint {!r}: {}".format(checkpoint_name, e))
+                    Trace.log("System", 0, "can't load checkpoint {!r}: {}".format(checkpoint_name, e))
                     # todo: return last scene
                     return False
 

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectSplashScreen(DemonObject):
     def __init__(self):
         super(ObjectSplashScreen, self).__init__()
@@ -20,4 +21,5 @@ class ObjectSplashScreen(DemonObject):
             object.superParam("Enable", False)
             pass
         pass
+
     pass

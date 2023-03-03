@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.CutSceneManager import CutSceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPlayCutScene(MacroCommand):
     def _onValues(self, values):
         self.CutSceneName = values[0]
@@ -47,4 +48,5 @@ class MacroPlayCutScene(MacroCommand):
         if CutSceneGroup is None or isinstance(CutSceneGroup, GroupManager.EmptyGroup):
             source.addDummy()
             return
-        source.addTask("TaskCutScenePlay", CutSceneName=self.CutSceneName, CutSceneDemonName=self.CutSceneDemonName, CutSceneSceneName=self.CutSceneSceneName, Transition=self.Transition, isFade=self.isFade)
+        source.addTask("TaskCutScenePlay", CutSceneName=self.CutSceneName, CutSceneDemonName=self.CutSceneDemonName,
+                       CutSceneSceneName=self.CutSceneSceneName, Transition=self.Transition, isFade=self.isFade)

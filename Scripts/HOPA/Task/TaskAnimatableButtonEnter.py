@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskAnimatableButtonEnter(MixinObject, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskAnimatableButtonEnter, self)._onParams(params)
@@ -27,4 +28,5 @@ class TaskAnimatableButtonEnter(MixinObject, MixinObserver, Task):
     def _onButtonMouseEnterFilter(self, Button):
         return True
         pass
+
     pass

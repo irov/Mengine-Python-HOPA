@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.Task import Task
 
+
 class TaskObjective(Task):
     Skiped = True
 
@@ -22,4 +23,5 @@ class TaskObjective(Task):
 
         return True
         pass
+
     pass

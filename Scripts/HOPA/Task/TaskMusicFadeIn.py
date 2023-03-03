@@ -2,8 +2,10 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskMusicFadeIn(Task):
     Skiped = True
+
     def _onParams(self, params):
         super(TaskMusicFadeIn, self)._onParams(params)
         self.FadeTime = params.get("FadeTime", 2.0)
@@ -31,4 +33,5 @@ class TaskMusicFadeIn(Task):
 
         # Mengine.scheduleRemove(remove_id)
         pass
+
     pass

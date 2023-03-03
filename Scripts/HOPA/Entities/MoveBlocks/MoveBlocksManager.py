@@ -2,6 +2,7 @@ import copy
 
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class MoveBlocksManager(object):
     s_objects = {}
 
@@ -28,8 +29,6 @@ class MoveBlocksManager(object):
 
         def getBlocks(self):
             return self.blocks
-            pass
-        pass
 
     class Button(object):
         def __init__(self, mode, value, change):
@@ -48,8 +47,6 @@ class MoveBlocksManager(object):
 
         def getChange(self):
             return self.change
-            pass
-        pass
 
     class Block(object):
         def __init__(self, idle, off, on):
@@ -68,8 +65,6 @@ class MoveBlocksManager(object):
 
         def getOnName(self):
             return self.on
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -156,6 +151,3 @@ class MoveBlocksManager(object):
     @staticmethod
     def getData(name):
         return MoveBlocksManager.s_objects[name]
-        pass
-
-    pass

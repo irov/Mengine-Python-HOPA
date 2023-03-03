@@ -2,6 +2,7 @@ from Foundation.Params import Params
 from Foundation.SceneManager import SceneManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class MixinZoomGroup(Params):
     def __init__(self):
         super(MixinZoomGroup, self).__init__()
@@ -51,4 +52,5 @@ class MixinZoomGroup(Params):
     def isZoomLeave(self):
         return ZoomManager.isZoomLeave(self.ZoomGroupName)
         pass
+
     pass

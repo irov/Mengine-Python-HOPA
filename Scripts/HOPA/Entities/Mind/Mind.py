@@ -7,6 +7,7 @@ from Functor import Functor
 from HOPA.MindManager import MindManager
 from Notification import Notification
 
+
 class Mind(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -77,7 +78,8 @@ class Mind(BaseEntity):
         VoiceID = MindManager.getVoiceID(mindId)
         MusicFadeDialog = DefaultManager.getDefault("MusicFadeDialog", 0.25)
 
-        with TaskManager.createTaskChain(Name="MindPlay", Group=self.object, Cb=Functor(self.__onMindShowComplete, mindId)) as tc:
+        with TaskManager.createTaskChain(Name="MindPlay", Group=self.object,
+                                         Cb=Functor(self.__onMindShowComplete, mindId)) as tc:
             with tc.addRaceTask(2) as (tc_mind, tc_voice):
                 tc_mind.addTask(self.policy, TextID=TextID, Time=DelayTime, Static=static)
                 if VoiceID is None:
@@ -124,4 +126,5 @@ class Mind(BaseEntity):
 
         return False
         pass
+
     pass

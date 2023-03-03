@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from HOPA.ChapterManager import ChapterManager
 
+
 class SystemObjective(System):
     def __init__(self):
         super(SystemObjective, self).__init__()

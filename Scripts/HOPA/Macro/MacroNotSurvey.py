@@ -2,6 +2,7 @@
 from Foundation.Utils import isSurvey
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroNotSurvey(MacroCommand):
 
     def _onValues(self, values):
@@ -20,7 +21,8 @@ class MacroNotSurvey(MacroCommand):
             Trace.log("Command", 0, "MacroIsSurvey paragraphID is invalid '%s'" % (paragraphID))
             return
 
-        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName, ParagraphsID=self.ParagraphsID)
+        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
             # tc_quest.addTask("TaskPrint", Value = "RunParagraph %s:%s"%(paragraphID, self.GroupName))

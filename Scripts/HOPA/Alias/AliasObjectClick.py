@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.QuestManager import QuestManager
 
+
 class AliasObjectClick(MixinObject, TaskAlias):
     def _onParams(self, params):
         super(AliasObjectClick, self)._onParams(params)

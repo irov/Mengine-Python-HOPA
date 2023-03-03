@@ -4,6 +4,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class ProfileNew(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -34,11 +35,11 @@ class ProfileNew(BaseEntity):
             if len(accounts) <= 1:
                 tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Cancel", Value=False)
                 tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok", Value=False)
-                tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok2", Value=True)  # tc.addTask("TaskInteractive", GroupName = "Profile_New", ObjectName = "MovieButton_Cancel", Value = False)
+                tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok2", Value=True)
             else:
                 tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Cancel", Value=True)
                 tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok", Value=True)
-                tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok2", Value=False)  # tc.addTask("TaskInteractive", GroupName = "Profile_New", ObjectName = "MovieButton_Cancel", Value = True)
+                tc.addTask("TaskEnable", GroupName="Profile_New", ObjectName="Movie2Button_Ok2", Value=False)
 
         Name = u""
         if Mengine.existText("ID_NewPROFILE_DEFAULT_NAME") is True:
@@ -81,7 +82,8 @@ class ProfileNew(BaseEntity):
                         with tc_until_click.addRaceTask(4) as (tc_until_click_ok, tc_until_click_ok2, tc_until_click_ok3, tc_until_click_out):
                             tc_until_click_ok.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok", AutoEnable=False)
                             tc_until_click_ok2.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok2", AutoEnable=False)
-                            tc_until_click_out.addTask("TaskMovie2SocketClick", GroupName='Profile_New', Movie2Name='Movie2_Background', SocketName="close")
+                            tc_until_click_out.addTask("TaskMovie2SocketClick", GroupName='Profile_New',
+                                                       Movie2Name='Movie2_Background', SocketName="close")
 
                             tc_until_click_ok3.addTask("TaskKeyPress", Keys=[Mengine.KC_RETURN], isDown=True)
                         tc_until_click.addFunction(__check_not_empty_name)
@@ -105,7 +107,8 @@ class ProfileNew(BaseEntity):
                     with tc_edit.addRaceTask(4) as (tc_edit_click_ok, tc_edit_click_ok2, tc_edit_click_ok3, tc_edit_click_out):
                         tc_edit_click_ok.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok", AutoEnable=False)
                         tc_edit_click_ok2.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok2", AutoEnable=False)
-                        tc_edit_click_out.addTask("TaskMovie2SocketClick", GroupName='Profile_New', Movie2Name='Movie2_Background', SocketName="close")
+                        tc_edit_click_out.addTask("TaskMovie2SocketClick", GroupName='Profile_New',
+                                                  Movie2Name='Movie2_Background', SocketName="close")
                         tc_edit_click_ok3.addTask("TaskKeyPress", Keys=[Mengine.KC_RETURN], isDown=True)
 
                     tc_edit.addTask("TaskFunction", Fn=self.__selectClickSlotID)

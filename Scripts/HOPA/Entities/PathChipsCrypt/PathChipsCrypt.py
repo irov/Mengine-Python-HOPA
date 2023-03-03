@@ -9,7 +9,9 @@ from ChipsMoving import ChipsMoving
 from ChipsTransporter import ChipsTransporter
 from Path import Path
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class PathChipsCrypt(Enigma):
     def __init__(self):
@@ -285,4 +287,5 @@ class PathChipsCrypt(Enigma):
         self.observerPlaceChip = Notification.addObserver(Notificator.onPlaceChip, self._onPlaceChip)
         self.observerBeginMovingChip = Notification.addObserver(Notificator.onBeginMovingChip, self._onBeginMovingChip)
         pass
+
     pass

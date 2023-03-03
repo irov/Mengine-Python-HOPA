@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintPlayPaid(TaskAlias):
 
     def _onGenerate(self, source):

@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Notification import Notification
 
+
 class InventoryItem(BaseEntity):
     ITEM_STORE = 0
     ITEM_INVENTORY = 1
@@ -15,7 +16,10 @@ class InventoryItem(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems", Update=InventoryItem._restoreFoundItems, Append=InventoryItem._appendFoundItems, Remove=InventoryItem._removeFoundItems)
+        Type.addAction(Type, "FoundItems",
+                       Update=InventoryItem._restoreFoundItems,
+                       Append=InventoryItem._appendFoundItems,
+                       Remove=InventoryItem._removeFoundItems)
 
         Type.addAction(Type, "SpriteResourceName")
         Type.addAction(Type, "SlotPoint")

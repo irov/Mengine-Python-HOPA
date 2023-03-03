@@ -1752,6 +1752,7 @@ def onInitialize():
     return True
     pass
 
+
 def onFinalize():
     from HOPA.CursorManager import CursorManager
     CursorManager.onFinalize()

@@ -4,6 +4,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.Entities.Spell.SystemSpell import SystemSpell
 
+
 class TaskSpellOnSocket(MixinSocket, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSpellOnSocket, self)._onParams(params)
@@ -50,4 +51,5 @@ class TaskSpellOnSocket(MixinSocket, MixinObserver, Task):
             pass
         return False
         pass
+
     pass

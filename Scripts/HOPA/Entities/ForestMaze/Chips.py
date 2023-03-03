@@ -2,6 +2,7 @@
 import math
 from abc import ABCMeta, abstractmethod
 
+
 class Chip:
     __metaclass__ = ABCMeta
 
@@ -29,6 +30,7 @@ class Chip:
 
     def createSupportMovies(self, enigma_obj, params):
         pass
+
 
 class PlayerChip(Chip):
     def __init__(self, chip_id, place_id, movie_chip, move_time=1000):
@@ -106,6 +108,7 @@ class PlayerChip(Chip):
         source.addEnable(self.movie_chip)
         source.addFunction(self.__setOnNewPlace, new_place_id, new_place_slot)
 
+
 class BlockChip(Chip):
     def __init__(self, chip_id, place_id, movie_chip):
         super(BlockChip, self).__init__(chip_id, place_id, movie_chip)
@@ -115,6 +118,7 @@ class BlockChip(Chip):
 
     def cleanUp(self):
         super(BlockChip, self).cleanUp()
+
 
 class EnemyChip(Chip):
     def __init__(self, chip_id, place_id, movie_chip, rotate_time=500):
@@ -131,17 +135,21 @@ class EnemyChip(Chip):
         super(EnemyChip, self).runChipParamsUnittests()
 
         assert self.attack_movie is not None, "Error run_movie can not be {}".format(self.attack_movie)
-        assert isinstance(self.rotate_time, (int, float)), "Error move_time={}. Must be number, not {}".format(self.rotate_time, type(self.rotate_time))
+        assert isinstance(self.rotate_time, (int, float)), "Error move_time={}. Must be number, not {}".format(
+            self.rotate_time, type(self.rotate_time))
 
-        assert isinstance(self.rotate_angle, (int, float)), "Error move_time={}. Must be number, not {}".format(self.rotate_angle, type(self.rotate_angle))
+        assert isinstance(self.rotate_angle, (int, float)), "Error move_time={}. Must be number, not {}".format(
+            self.rotate_angle, type(self.rotate_angle))
 
     def createSupportMovies(self, enigma_obj, place):
         support_movie_id = "{}_SupportMovie_AttackMovie".format(self.chip_id)
 
         if place.other_params is not None and enigma_obj.object.hasPrototype(place.other_params[0]):
-            self.attack_movie = enigma_obj.object.tryGenerateObjectUnique(support_movie_id, place.other_params[0], Enable=False)
+            self.attack_movie = enigma_obj.object.tryGenerateObjectUnique(support_movie_id, place.other_params[0],
+                                                                          Enable=False)
         else:
-            self.attack_movie = enigma_obj.object.tryGenerateObjectUnique(support_movie_id, place.movie_prototype_name, Enable=False)
+            self.attack_movie = enigma_obj.object.tryGenerateObjectUnique(support_movie_id, place.movie_prototype_name,
+                                                                          Enable=False)
 
             if _DEVELOPMENT is True:
                 Trace.log("Object", 1, "Not found enemy_attack_movie name for enemy chip {}."
@@ -198,6 +206,7 @@ class EnemyChip(Chip):
         source.addDisable(self.attack_movie)
         source.addEnable(self.movie_chip)
 
+
 class EmptyChip(Chip):
     def __init__(self, chip_id, place_id, movie_chip):
         super(EmptyChip, self).__init__(chip_id, place_id, movie_chip)
@@ -219,6 +228,7 @@ class EmptyChip(Chip):
         self.movie_chip.removeFromParent()
         slot.addChild(self.movie_chip.getEntityNode())
 
+
 class NeutralChip(Chip):
     def __init__(self, chip_id, place_id, movie_chip, move_time=1000):
         super(NeutralChip, self).__init__(chip_id, place_id, movie_chip)
@@ -229,7 +239,8 @@ class NeutralChip(Chip):
     def runChipParamsUnittests(self):
         super(NeutralChip, self).runChipParamsUnittests()
         assert self.move_movie is not None, "Error run_movie can not be {}".format(self.move_movie)
-        assert isinstance(self.move_time, (int, float)), "Error move_time={}. Must be number, not {}".format(self.move_time, type(self.move_time))
+        assert isinstance(self.move_time, (int, float)), "Error move_time={}. Must be number, not {}".format(
+            self.move_time, type(self.move_time))
 
     def createSupportMovies(self, enigma_obj, place):
         support_movie_id = "{}_SupportMovie_MoveMovie".format(self.chip_id)

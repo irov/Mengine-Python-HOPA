@@ -11,8 +11,10 @@ from HOPA.SpellsManager import SpellsManager
 from HOPA.System.SystemSpells import SystemSpells
 from Notification import Notification
 
+
 ERROR_MSG_TEXT_ALIAS_404 = 'MOVIE FROM PROTO "{}" CANT FIND TEXT ALIAS "{}" FOR TEXT "{}"'
 ERROR_MSG_TEXT_ID_404 = 'CANT FIND TEXT ID "{}" IN Texts.xml FOR MOVIE "{}"'
+
 
 class AmuletPowerButton(object):
     SPELL_AMULET_OBJECT = None
@@ -65,13 +67,22 @@ class AmuletPowerButton(object):
         second_submovie_name = amulet_stone_param.movie2_power_aim_second_submovie
         third_submovie_name = amulet_stone_param.movie2_power_aim_third_submovie
 
-        self.movies_states_buttons = {AmuletPowerButton.APPEAR: object_generator(power_type + appear_proto_name, appear_proto_name), AmuletPowerButton.IDLE: object_generator(power_type + idle_proto_name, idle_proto_name), AmuletPowerButton.READY: object_generator(power_type + ready_proto_name, ready_proto_name), AmuletPowerButton.SELECT: object_generator(power_type + select_proto_name, select_proto_name)}
+        self.movies_states_buttons = {
+            AmuletPowerButton.APPEAR: object_generator(power_type + appear_proto_name, appear_proto_name),
+            AmuletPowerButton.IDLE: object_generator(power_type + idle_proto_name, idle_proto_name),
+            AmuletPowerButton.READY: object_generator(power_type + ready_proto_name, ready_proto_name),
+            AmuletPowerButton.SELECT: object_generator(power_type + select_proto_name, select_proto_name)
+        }
 
-        self.movies_info = {AmuletPowerButton.INFO: object_generator(power_type + info_proto_name, info_proto_name),
+        self.movies_info = {
+            AmuletPowerButton.INFO: object_generator(power_type + info_proto_name, info_proto_name),
+            AmuletPowerButton.LOCKED: object_generator(power_type + locked_proto_name, locked_proto_name)
+        }
 
-            AmuletPowerButton.LOCKED: object_generator(power_type + locked_proto_name, locked_proto_name)}
-
-        self.movies_use = {AmuletPowerButton.AIM: object_generator(power_type + aim_proto_name, aim_proto_name), AmuletPowerButton.FAIL: object_generator(power_type + fail_proto_name, fail_proto_name)}
+        self.movies_use = {
+            AmuletPowerButton.AIM: object_generator(power_type + aim_proto_name, aim_proto_name),
+            AmuletPowerButton.FAIL: object_generator(power_type + fail_proto_name, fail_proto_name)
+        }
 
         movie_aim = self.movies_use[AmuletPowerButton.AIM]
         movie_entity = movie_aim.getEntity()
@@ -79,7 +90,11 @@ class AmuletPowerButton(object):
         second_submovie = movie_entity.getSubMovie(second_submovie_name)
         third_submovie = movie_entity.getSubMovie(third_submovie_name)
 
-        self.rune_submovies = {re.findall('(?<=_).*$', first_submovie_name)[0].lower(): first_submovie, re.findall('(?<=_).*$', second_submovie_name)[0].lower(): second_submovie, re.findall('(?<=_).*$', third_submovie_name)[0].lower(): third_submovie}
+        self.rune_submovies = {
+            re.findall('(?<=_).*$', first_submovie_name)[0].lower(): first_submovie,
+            re.findall('(?<=_).*$', second_submovie_name)[0].lower(): second_submovie,
+            re.findall('(?<=_).*$', third_submovie_name)[0].lower(): third_submovie
+        }
 
         for value in self.rune_submovies.values():
             value.setEnable(False)
@@ -178,9 +193,15 @@ class AmuletPowerButton(object):
         stone_slot_name = param.amulet_stone_slot_name
         info_slot_name = param.amulet_info_slot_name
 
-        self.AMULET.addButtonToCurMovieStateSlot(stone_slot_name, self.movies_states_buttons[AmuletPowerButton.APPEAR], self.movies_states_buttons[AmuletPowerButton.IDLE], self.movies_states_buttons[AmuletPowerButton.READY], self.movies_states_buttons[AmuletPowerButton.SELECT])
+        self.AMULET.addButtonToCurMovieStateSlot(stone_slot_name,
+                                                 self.movies_states_buttons[AmuletPowerButton.APPEAR],
+                                                 self.movies_states_buttons[AmuletPowerButton.IDLE],
+                                                 self.movies_states_buttons[AmuletPowerButton.READY],
+                                                 self.movies_states_buttons[AmuletPowerButton.SELECT])
 
-        self.AMULET.addButtonToCurMovieStateSlot(info_slot_name, self.movies_info[AmuletPowerButton.INFO], self.movies_info[AmuletPowerButton.LOCKED])
+        self.AMULET.addButtonToCurMovieStateSlot(info_slot_name,
+                                                 self.movies_info[AmuletPowerButton.INFO],
+                                                 self.movies_info[AmuletPowerButton.LOCKED])
 
     # MOVIE STATES BLOCK ///////////////////////////////////////////////////////////////////////////////////////////////
     def changeState(self, state, play=None, loop=None, last_frame=None):
@@ -326,7 +347,8 @@ class AmuletPowerButton(object):
             return
 
         with source.addParallelTask(2) as (parallel_1, parallel_2):
-            parallel_1.addTask("TaskNodeAlphaTo", Node=en_movie_info, Interrupt=True, To=1.0, Time=AmuletPowerButton.HINT_TEXT_ALPHA_TIME)
+            parallel_1.addTask("TaskNodeAlphaTo", Node=en_movie_info,
+                               Interrupt=True, To=1.0, Time=AmuletPowerButton.HINT_TEXT_ALPHA_TIME)
             parallel_2.addPlay(movie_info, Loop=True, Wait=False)
 
     def __scopeShowInfoAlphaOut(self, source):
@@ -345,7 +367,8 @@ class AmuletPowerButton(object):
             Trace.log("Entity", 0, "AmuletPowerButton::scopeShowInfoAlphaOut(): self.getInfoMovie().getEnityNode() !isActivate()")
             return
 
-        source.addTask("TaskNodeAlphaTo", Node=en_movie_info, Interrupt=True, To=0.0, Time=AmuletPowerButton.HINT_TEXT_ALPHA_TIME)
+        source.addTask("TaskNodeAlphaTo", Node=en_movie_info, Interrupt=True, To=0.0,
+                       Time=AmuletPowerButton.HINT_TEXT_ALPHA_TIME)
         source.addTask("TaskMovie2Stop", Movie2=movie_info)
 
     def __runTCShowInfoAlphaIn(self):
@@ -452,6 +475,7 @@ class AmuletPowerButton(object):
         state = self.sys_spell_amulet_stone.getLocked()
         return state
 
+
 class Amulet(object):
     IDLE = 'idle'
     HIDE = 'hide'
@@ -463,7 +487,11 @@ class Amulet(object):
     SEMAPHORE_APPEAR_AMULET = Semaphore(False, 'SpellAmuletAppearAmulet')
 
     def __init__(self, movie_idle, movie_hide, movie_open, button_hint):
-        self.movies_amulet_states = {Amulet.IDLE: movie_idle, Amulet.HIDE: movie_hide, Amulet.OPEN: movie_open}
+        self.movies_amulet_states = {
+            Amulet.IDLE: movie_idle,
+            Amulet.HIDE: movie_hide,
+            Amulet.OPEN: movie_open
+        }
 
         self.button_hint = button_hint
         button_hint.setEnable(False)
@@ -617,11 +645,13 @@ class Amulet(object):
             tc.addSemaphore(self.SEMAPHORE_APPEAR_AMULET, From=False)
 
             with tc.addRaceTask(2) as (race_interrupt, race_enter):
-                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange, lambda state: state in [self.HIDE, AmuletPowerButton.AIM])
+                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange,
+                                           lambda state: state in [self.HIDE, AmuletPowerButton.AIM])
 
                 race_enter.addFunction(self.disableAmuletHintButton, False)
                 race_enter.addEnable(self.button_hint)
-                race_enter.addTask("TaskNodeAlphaTo", Node=en_button_hint, To=1.0, Time=self.button_hint_appear_time, Interrupt=True)
+                race_enter.addTask("TaskNodeAlphaTo", Node=en_button_hint, To=1.0, Time=self.button_hint_appear_time,
+                                   Interrupt=True)
 
             tc.addSemaphore(self.SEMAPHORE_APPEAR_AMULET, To=True)
 
@@ -634,11 +664,13 @@ class Amulet(object):
             tc.addSemaphore(self.SEMAPHORE_APPEAR_AMULET, From=True)
 
             with tc.addRaceTask(2) as (race_interrupt, race_leave):
-                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange, lambda state: state in [self.OPEN, AmuletPowerButton.AIM])
+                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange,
+                                           lambda state: state in [self.OPEN, AmuletPowerButton.AIM])
 
                 race_leave.addFunction(self.disableAmuletHintButton, True)
                 race_leave.addEnable(self.button_hint)
-                race_leave.addTask("TaskNodeAlphaTo", Node=en_button_hint, To=0.0, Time=self.button_hint_disappear_time, Interrupt=True)
+                race_leave.addTask("TaskNodeAlphaTo", Node=en_button_hint, To=0.0,
+                                   Time=self.button_hint_disappear_time, Interrupt=True)
 
                 race_leave.addDisable(self.button_hint)
                 race_leave.addFunction(self.disableAmuletHintButton, True)
@@ -677,6 +709,7 @@ class Amulet(object):
 
     def cleanUp(self):
         self.disableTCs()
+
 
 class SpellAmulet(BaseEntity):
     @staticmethod
@@ -730,13 +763,15 @@ class SpellAmulet(BaseEntity):
             with tc.addRaceTask(2) as (idle, interrupt):
                 with idle.addIfTask(self.amulet.isOpen, True) as (true, false):
                     true.addDummy()
-                    false.addListener(self.amulet.NOTIFICATOR_AmuletStateChange, lambda state: state == self.amulet.IDLE)
+                    false.addListener(self.amulet.NOTIFICATOR_AmuletStateChange,
+                                      lambda state: state == self.amulet.IDLE)
 
                 idle.addScope(self.amulet.scopeClick, "close")
                 with GuardBlockInput(idle) as guard_parallel_1:
                     guard_parallel_1.addScope(self.amulet.scopeCloseAmulet)
 
-                interrupt.addListener(self.amulet.NOTIFICATOR_AmuletStateChange, lambda state: state != self.amulet.HIDE)
+                interrupt.addListener(self.amulet.NOTIFICATOR_AmuletStateChange,
+                                      lambda state: state != self.amulet.HIDE)
 
     def __cleanUp(self):
         if self.__tc is not None:

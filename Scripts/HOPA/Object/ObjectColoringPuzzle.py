@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectColoringPuzzle(ObjectEnigma):
 
     @staticmethod
@@ -29,4 +30,5 @@ class ObjectColoringPuzzle(ObjectEnigma):
 
     def _onLoad(self, load_obj):
         pass
+
     pass

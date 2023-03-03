@@ -4,6 +4,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget
 from HOPA.HintManager import HintManager
 
+
 class HintActionDragDropItem(MixinItem, MixinObject, HintActionMultiTarget):
 
     def _getHintObject(self):

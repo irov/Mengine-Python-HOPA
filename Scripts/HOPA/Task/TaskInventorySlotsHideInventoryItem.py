@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskInventorySlotsHideInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(TaskInventorySlotsHideInventoryItem, self)._onParams(params)
@@ -69,7 +70,3 @@ class TaskInventorySlotsHideInventoryItem(TaskAlias):
                 tci.addTask("TaskNodeAlphaTo", Node=InventoryItemEntityNode, Time=time, To=0.0)
 
                 tci.addTask("TaskInventorySlotRemoveItem", Inventory=self.Inventory, SlotID=SlotID)
-                pass
-            pass
-        pass
-    pass

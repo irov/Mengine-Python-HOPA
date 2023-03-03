@@ -9,7 +9,9 @@ from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.ItemManager import ItemManager
 from Notification import Notification
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
+
 
 class InventorySlot(object):
     def __init__(self, inventoryObject, slotId, point, hotspot):
@@ -127,7 +129,10 @@ class InventorySlot(object):
         self.point.addChild(itemEntityNode)
         self.hotspot.enable()
 
-        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseOverDestroy=self._onHandleMouseOverDestroy, onHandleMouseButtonEvent=self._onMouseButtonEvent)
+        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
+                                      onHandleMouseLeave=self._onMouseLeave,
+                                      onHandleMouseOverDestroy=self._onHandleMouseOverDestroy,
+                                      onHandleMouseButtonEvent=self._onMouseButtonEvent)
 
     def removeItem(self):
         self.hotspot.disable()
@@ -193,12 +198,15 @@ class InventorySlot(object):
 
         self.inventoryObject = None
 
+
 class Inventory(InventoryBase):
     @staticmethod
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "InventoryItems", Append=Inventory.__appendInventoryItems, Remove=Inventory.__removeInventoryItems)
+        Type.addAction(Type, "InventoryItems",
+                       Append=Inventory.__appendInventoryItems,
+                       Remove=Inventory.__removeInventoryItems)
 
         Type.addAction(Type, "SlotPoints")
         Type.addAction(Type, "SlotCount")
@@ -267,8 +275,10 @@ class Inventory(InventoryBase):
 
             state = InventoryItemEntity.getState()
 
-            PolicyPickInventoryItemEnd = PolicyManager.getPolicy("PickInventoryItemEnd", "PolicyPickInventoryItemEffectDummy")
-            PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop", "PolicyPickInventoryItemEffectDummy")
+            PolicyPickInventoryItemEnd = PolicyManager.getPolicy("PickInventoryItemEnd",
+                                                                 "PolicyPickInventoryItemEffectDummy")
+            PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop",
+                                                                  "PolicyPickInventoryItemEffectDummy")
 
             tc_index = len(self.__detachItemTCs)
             tc = TaskManager.createTaskChain(Group=self.object, Cb=self.__cbUpdateInventoryOnDetach, CbArgs=(tc_index,))
@@ -291,7 +301,8 @@ class Inventory(InventoryBase):
                 elif state is InventoryItemEntity.ITEM_TAKE:  # state 5
                     tc.addTask(PolicyPickInventoryItemStop, InventoryItem=InventoryItem)
                     tc.addFunction(self.inventoryGlobalMouseEvent, False)
-                    tc.addTask("AliasInventoryRemoveAttachInventoryItem", Inventory=self.object, InventoryItem=InventoryItem)
+                    tc.addTask("AliasInventoryRemoveAttachInventoryItem", Inventory=self.object,
+                               InventoryItem=InventoryItem)
 
                 elif state is InventoryItemEntity.ITEM_PLACE:  # state 4
                     with tc.addRaceTask(2) as (run, interrupt):
@@ -322,7 +333,8 @@ class Inventory(InventoryBase):
 
             def __scopeRemoveItem(source):
                 source.addNotify(Notificator.onInventorySlotItemLeave, self.object, InventoryItem)
-                source.addTask("AliasInventoryRemoveAttachInventoryItem", Inventory=self.object, InventoryItem=InventoryItem)
+                source.addTask("AliasInventoryRemoveAttachInventoryItem", Inventory=self.object,
+                               InventoryItem=InventoryItem)
 
             InventoryItemEntity = InventoryItem.getEntity()
 
@@ -494,14 +506,18 @@ class Inventory(InventoryBase):
         with TaskManager.createTaskChain(Name="InventoryButtonInvRight", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_shift, tc_combine):
                 with tc_shift.addRaceTask(2) as (source_shift_InvRight, source_shift_InvRightTemp):
-                    source_shift_InvRight.addTask("TaskButtonClick", Group=self.object, ButtonName='Button_InvRight', AutoEnable=False)
+                    source_shift_InvRight.addTask("TaskButtonClick", Group=self.object,
+                                                  ButtonName='Button_InvRight', AutoEnable=False)
 
-                    source_shift_InvRightTemp.addTask("TaskButtonClick", Group=self.object, ButtonName='Button_InvRightTemp', AutoEnable=False)
+                    source_shift_InvRightTemp.addTask("TaskButtonClick", Group=self.object,
+                                                      ButtonName='Button_InvRightTemp', AutoEnable=False)
 
                 with tc_combine.addRaceTask(2) as (source_combine_InvRight, source_combine_InvRightTemp):
-                    source_combine_InvRight.addTask("TaskButtonUse", Group=self.object, ButtonName='Button_InvRight', AutoEnable=False)
+                    source_combine_InvRight.addTask("TaskButtonUse", Group=self.object,
+                                                    ButtonName='Button_InvRight', AutoEnable=False)
 
-                    source_combine_InvRightTemp.addTask("TaskButtonUse", Group=self.object, ButtonName='Button_InvRightTemp', AutoEnable=False)
+                    source_combine_InvRightTemp.addTask("TaskButtonUse", Group=self.object,
+                                                        ButtonName='Button_InvRightTemp', AutoEnable=False)
 
             tc.addTask("AliasInventorySlotsShiftRight", Inventory=self.object)
             tc.addTask("TaskNotify", ID=Notificator.onInventorySlotsShiftEnd)
@@ -512,21 +528,27 @@ class Inventory(InventoryBase):
         with TaskManager.createTaskChain(Name="InventoryButtonInvLeft", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_shift, tc_combine):
                 with tc_shift.addRaceTask(2) as (source_shift_InvLeft, source_shift_InvLeftTemp):
-                    source_shift_InvLeft.addTask("TaskButtonClick", Group=self.object, ButtonName='Button_InvLeft', AutoEnable=False)
+                    source_shift_InvLeft.addTask("TaskButtonClick", Group=self.object,
+                                                 ButtonName='Button_InvLeft', AutoEnable=False)
 
-                    source_shift_InvLeftTemp.addTask("TaskButtonClick", Group=self.object, ButtonName='Button_InvLeftTemp', AutoEnable=False)
+                    source_shift_InvLeftTemp.addTask("TaskButtonClick", Group=self.object,
+                                                     ButtonName='Button_InvLeftTemp', AutoEnable=False)
 
                 with tc_combine.addRaceTask(2) as (source_combine_InvLeft, source_combine_InvLeftTemp):
-                    source_combine_InvLeft.addTask("TaskButtonUse", Group=self.object, ButtonName='Button_InvLeft', AutoEnable=False)
+                    source_combine_InvLeft.addTask("TaskButtonUse", Group=self.object,
+                                                   ButtonName='Button_InvLeft', AutoEnable=False)
 
-                    source_combine_InvLeftTemp.addTask("TaskButtonUse", Group=self.object, ButtonName='Button_InvLeftTemp', AutoEnable=False)
+                    source_combine_InvLeftTemp.addTask("TaskButtonUse", Group=self.object,
+                                                       ButtonName='Button_InvLeftTemp', AutoEnable=False)
 
             tc.addTask("AliasInventorySlotsShiftLeft", Inventory=self.object)
             tc.addTask("TaskNotify", ID=Notificator.onInventorySlotsShiftEnd)
             tc.addTask("TaskFunction", Fn=self._updateButtonInteractive)
 
-        self.onInventoryAttachInvItemToArrowObserver = Notification.addObserver(Notificator.onInventoryAttachInvItemToArrow, self.__onAttachItemToArrow)
-        self.onAccountFinalizeObserver = Notification.addObserver(Notificator.onAccountFinalize, self.__onAccountFinalize)
+        self.onInventoryAttachInvItemToArrowObserver = Notification.addObserver(
+            Notificator.onInventoryAttachInvItemToArrow, self.__onAttachItemToArrow)
+        self.onAccountFinalizeObserver = Notification.addObserver(Notificator.onAccountFinalize,
+                                                                  self.__onAccountFinalize)
 
         Notification.notify(Notificator.onInventoryActivate, self.object)
 

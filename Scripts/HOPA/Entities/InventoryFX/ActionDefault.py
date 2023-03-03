@@ -2,6 +2,7 @@ from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 
+
 class ActionDefault(Initializer):
     def __init__(self):
         super(ActionDefault, self).__init__()
@@ -78,7 +79,8 @@ class ActionDefault(Initializer):
             if self.EndItem is False:
                 tc.addTask("TaskListener", ID=Notificator.onItemEffectEnd, Filter=__thisItem)
                 pass
-            tc.addTask("TaskNotify", ID=Notificator.onInventoryFXActionEnd, Args=(self, self.Inventory, self.InventoryItem, self.ItemName))
+            tc.addTask("TaskNotify", ID=Notificator.onInventoryFXActionEnd,
+                       Args=(self, self.Inventory, self.InventoryItem, self.ItemName))
             pass
 
         pass
@@ -100,7 +102,8 @@ class ActionDefault(Initializer):
 
     def _onAction(self):
         with TaskManager.createTaskChain(Name="InvFXActionDefault", Group=self.Inventory, Cb=self.checkEndItem) as tc:
-            tc.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=self.InventoryItem, CurrentSlotIndex=self.CurrentSlotIndex)
+            tc.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=self.InventoryItem,
+                       CurrentSlotIndex=self.CurrentSlotIndex)
             pass
         pass
 

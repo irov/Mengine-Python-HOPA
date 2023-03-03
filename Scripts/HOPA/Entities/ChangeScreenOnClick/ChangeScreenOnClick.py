@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ChangeScreenOnClickManager import ChangeScreenOnClickManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChangeScreenOnClick(Enigma):
     def __init__(self):
@@ -147,7 +149,8 @@ class ChangeScreenOnClick(Enigma):
         for Movie, source_1 in source.addParallelTaskList(array):
             with source_1.addParallelTask(3) as (parallel_1, parallel_2, parallel_3):
                 parallel_1.addTask("AliasObjectAlphaTo", Object=Movie, Time=self.Time, To=0.0)
-                parallel_2.addTask("TaskNodeScaleTo", Node=Movie.getEntityNode(), To=(self.SceneScale, self.SceneScale, self.SceneScale), Time=self.Time)
+                parallel_2.addTask("TaskNodeScaleTo", Node=Movie.getEntityNode(),
+                                   To=(self.SceneScale, self.SceneScale, self.SceneScale), Time=self.Time)
                 parallel_3.addTask("TaskNodeMoveTo", Node=Movie.getEntityNode(), To=self.ScalePosition, Time=self.Time)
 
     def scopeHide_Arrows(self, source, array):

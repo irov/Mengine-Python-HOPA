@@ -3,6 +3,7 @@ from Notification import Notification
 
 from StrategyGuideController.StrategyGuideControllerManager import StrategyGuideControllerManager
 
+
 class SystemStrategyGuidePagesDisable(System):
     def __init__(self):
         super(SystemStrategyGuidePagesDisable, self).__init__()
@@ -10,7 +11,8 @@ class SystemStrategyGuidePagesDisable(System):
         pass
 
     def _onRun(self):
-        self.onLayerGroupPreparationObserver = Notification.addObserver(Notificator.onLayerGroupEnableBegin, self._onLayerGroupPreparation)
+        self.onLayerGroupPreparationObserver = Notification.addObserver(Notificator.onLayerGroupEnableBegin,
+                                                                        self._onLayerGroupPreparation)
         return True
         pass
 

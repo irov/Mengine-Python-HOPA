@@ -6,13 +6,30 @@ from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 from HOPA.Entities.Monetization.Coin import Coin
 from HOPA.System.SystemTutorialFade import SystemTutorialFade
 
+
 class Hint(BaseComponent):
-    _settings = {"is_enable": "EnablePaidHint", "product_id": "HintProductID", "alias_id": "AliasCoinUsePrice", "text_id": "HintPriceTextID", "movie": "CoinMovie2Name", }
-    _defaults = {"product_id": "tech_hint", "alias_id": "$AliasCoinUsePrice", "text_id": "ID_TEXT_MONETIZE_NEGATIVE_PRICE", "movie": "Movie2_Coin", "group": "Hint"}
+    _settings = {
+        "is_enable": "EnablePaidHint",
+        "product_id": "HintProductID",
+        "alias_id": "AliasCoinUsePrice",
+        "text_id": "HintPriceTextID",
+        "movie": "CoinMovie2Name",
+    }
+    _defaults = {
+        "product_id": "tech_hint",
+        "alias_id": "$AliasCoinUsePrice",
+        "text_id": "ID_TEXT_MONETIZE_NEGATIVE_PRICE",
+        "movie": "Movie2_Coin",
+        "group": "Hint"
+    }
 
     def _createParams(self):
         Hint = DemonManager.getDemon("Hint")
-        self.rollback_actions = {Hint.ACTION_EMPTY_USE: MonetizationManager.getGeneralSetting("HintRollbackIfDummy", True), Hint.ACTION_REGULAR_USE: False, Hint.ACTION_MIND_USE: MonetizationManager.getGeneralSetting("HintRollbackIfMind", True), Hint.ACTION_NO_RELOAD_USE: MonetizationManager.getGeneralSetting("HintRollbackIfNoReload", False)}
+        self.rollback_actions = {
+            Hint.ACTION_EMPTY_USE: MonetizationManager.getGeneralSetting("HintRollbackIfDummy", True),
+            Hint.ACTION_REGULAR_USE: False,
+            Hint.ACTION_MIND_USE: MonetizationManager.getGeneralSetting("HintRollbackIfMind", True),
+            Hint.ACTION_NO_RELOAD_USE: MonetizationManager.getGeneralSetting("HintRollbackIfNoReload", False)}
 
         self.coin = Coin(self)
 

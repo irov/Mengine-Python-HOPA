@@ -8,6 +8,7 @@ from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 
+
 class SystemHint(System):
     def __init__(self):
         super(SystemHint, self).__init__()

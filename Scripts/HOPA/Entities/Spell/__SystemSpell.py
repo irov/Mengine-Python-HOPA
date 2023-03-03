@@ -5,6 +5,7 @@ from Notification import Notification
 
 from SpellManager import SpellManager
 
+
 class __SystemSpell(System):
     """
     deprecated
@@ -63,7 +64,11 @@ class __SystemSpell(System):
             self.__onInventoryUp()
             pass
 
-        self.onQuestObjectsNotificators = {'SpellOne': (Notificator.onSpellOneMouseEnter, Notificator.onSpellOneMouseLeave), 'SpellTwo': (Notificator.onSpellTwoMouseEnter, Notificator.onSpellTwoMouseLeave), 'SpellThree': (Notificator.onSpellThreeMouseEnter, Notificator.onSpellThreeMouseLeave), 'SpellFour': (Notificator.onSpellFourMouseEnter, Notificator.onSpellFourMouseLeave)}
+        self.onQuestObjectsNotificators = {
+            'SpellOne': (Notificator.onSpellOneMouseEnter, Notificator.onSpellOneMouseLeave),
+            'SpellTwo': (Notificator.onSpellTwoMouseEnter, Notificator.onSpellTwoMouseLeave),
+            'SpellThree': (Notificator.onSpellThreeMouseEnter, Notificator.onSpellThreeMouseLeave),
+            'SpellFour': (Notificator.onSpellFourMouseEnter, Notificator.onSpellFourMouseLeave)}
 
         self.onSpellPreparedObserver = Notification.addObserver(Notificator.onSpellPrepared, self.__onSpellPrepared)
         self.onSpellReadyObserver = Notification.addObserver(Notificator.onSpellReady, self.__onSpellReady)
@@ -73,8 +78,10 @@ class __SystemSpell(System):
         self.onSpellHideObserver = Notification.addObserver(Notificator.onInventoryHide, self.__onSpellHide)
         self.onSpellShowObserver = Notification.addObserver(Notificator.onInventoryShow, self.__onSpellShow)
         self.onInventoryUpObserver = Notification.addObserver(Notificator.onInventoryUp, self.__onInventoryUp)
-        self.onSpellUseMacroBeginObserver = Notification.addObserver(Notificator.onSpellUseMacroBegin, self.__onSpellMacroBegin)
-        self.onSpellUseMacroEndObserver = Notification.addObserver(Notificator.onSpellUseMacroEnd, self.__onSpellMacroEnd)
+        self.onSpellUseMacroBeginObserver = Notification.addObserver(Notificator.onSpellUseMacroBegin,
+                                                                     self.__onSpellMacroBegin)
+        self.onSpellUseMacroEndObserver = Notification.addObserver(Notificator.onSpellUseMacroEnd,
+                                                                   self.__onSpellMacroEnd)
 
         for pair in SystemSpell.noficators.values():
             NotifyEnter, NotifyLeave = pair

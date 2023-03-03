@@ -8,6 +8,7 @@ from Foundation.Utils import isCollectorEdition
 from HOPA.MorphManager import MorphManager
 from Notification import Notification
 
+
 # Confluence doc: https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/1858666545/Morphs
 
 
@@ -280,7 +281,8 @@ class SystemMorphs(System):
 
             parent_movie = GroupManager.getObject(morph.params.group_name, morph.params.parent_movie_name)
             if parent_movie.hasSlot(morph.params.slot_name) is False:
-                Trace.log("System", 0, "SystemMorph find error for morph [{}]: movie {!r} [{}] not found slot {!r}".format(morph.id, morph.params.parent_movie_name, morph.params.group_name, morph.params.slot_name))
+                Trace.log("System", 0, "SystemMorph find error for morph [{}]: movie {!r} [{}] not found slot {!r}".format(
+                    morph.id, morph.params.parent_movie_name, morph.params.group_name, morph.params.slot_name))
                 self.morphs.pop(morph.id)
                 morph.disableMovies()
                 morph.cleanUp()
@@ -356,6 +358,7 @@ class SystemMorphs(System):
 
         return
 
+
 class Morph(object):
     EVENT_STATE_CHANGE = Event("MorphStateChange")
 
@@ -382,7 +385,8 @@ class Morph(object):
         idle_movie = self.getMovieState("Idle")
 
         with source.addIfTask(lambda: self.getCurrentState() != "Idle") as (wait, _):
-            wait.addEvent(Morph.EVENT_STATE_CHANGE, Filter=lambda morph, state: all([morph.id == self.id, state == "Idle"]))
+            wait.addEvent(Morph.EVENT_STATE_CHANGE,
+                          Filter=lambda morph, state: all([morph.id == self.id, state == "Idle"]))
         source.addTask("TaskMovie2SocketClick", Movie2=idle_movie, SocketName="socket")
 
     def scopePick(self, source):

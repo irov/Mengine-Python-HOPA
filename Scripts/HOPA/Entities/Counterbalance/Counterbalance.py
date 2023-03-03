@@ -5,7 +5,9 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.CounterbalanceManager import CounterbalanceManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 # todo: parameterize rope hand scaling
 # todo: rope hand attach to new special created top layer
@@ -22,7 +24,9 @@ def CREATE_BOX_POLYGON(size):
     bottom_left = (-size, size)
     return [top_left, top_right, bottom_right, bottom_left]
 
-def CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(parent_node, child_nodes, child_name_suffix, matrix_size, distance, first_pos, hotspot_size):
+
+def CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(parent_node, child_nodes, child_name_suffix,
+                                           matrix_size, distance, first_pos, hotspot_size):
     nodes = list()
 
     for j in range(matrix_size[1]):
@@ -44,19 +48,24 @@ def CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(parent_node, child_nodes, child_name_
 
     return nodes
 
+
 def GET_VEC_ATAN_2(vec_1, vec_2):
     dot = vec_1.x * vec_2.x + vec_1.y * vec_2.y
     det = vec_1.x * vec_2.y - vec_1.y * vec_2.x
     return atan2(det, dot)
 
+
 def DOT_DIST(dot_1, dot_2):
     return Mengine.length_v2_v2(dot_1, dot_2)
+
 
 def NORMALIZE_DIST(dist, normal):
     return dist / normal
 
+
 def NUM_IN_BOUNDARIES(num, min_, max_):
     return max(min(max_, num), min_)
+
 
 def EDIT_DISABLE_LAYERS(id_, state, From):
     disabled = From.getParam('DisableLayers')
@@ -64,6 +73,7 @@ def EDIT_DISABLE_LAYERS(id_, state, From):
         From.delParam('DisableLayers', id_)
     elif state is False and id_ not in disabled:
         From.appendParam('DisableLayers', id_)
+
 
 class Rope(object):
     def __init__(self, movie, wheel):
@@ -185,6 +195,7 @@ class Rope(object):
 
             self.__movie.onFinalize()
             self.__movie.onDestroy()
+
 
 class RopeManager(object):
     def __init__(self, rope_hand_movie, rope_movies_generator, teams_params):
@@ -311,6 +322,7 @@ class RopeManager(object):
         for rope in self.__ropes:
             rope.cleanUp()
 
+
 class Wheel(object):
     def __init__(self, movie):
         self.__parent_node = movie.getEntityNode().getParent()
@@ -412,6 +424,7 @@ class Wheel(object):
             self.__parent_node.removeFromParent()
             Mengine.destroyNode(self.__parent_node)
             self.__parent_node = None
+
 
 class WheelManager(object):
     def __init__(self, matrix_size, wheels_movies, object_generator, teams_params, continue_chain_mod):
@@ -625,6 +638,7 @@ class WheelManager(object):
         for wheel in self.__wheels_by_index.values():
             wheel.cleanUp()
 
+
 class Counterbalance(Enigma):
     def __init__(self):
         super(Counterbalance, self).__init__()
@@ -673,12 +687,14 @@ class Counterbalance(Enigma):
         '''
         creating HotSpotPolygon nodes grid and attaching wheel movies on it
         '''
-        CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(self.node, wheel_movies, 'Wheel', self.params.matrix_size, self.params.distance, self.params.first_pos, self.params.hotspot_size)
+        CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(self.node, wheel_movies, 'Wheel', self.params.matrix_size,
+                                               self.params.distance, self.params.first_pos, self.params.hotspot_size)
 
         '''
         creating wheel and rope managers for separating and resolving game logic
         '''
-        self.wheel_manager = WheelManager(self.params.matrix_size, wheel_movies, object_generator, self.params.teams, self.params.continue_chain_mod)
+        self.wheel_manager = WheelManager(self.params.matrix_size, wheel_movies, object_generator, self.params.teams,
+                                          self.params.continue_chain_mod)
         self.rope_manager = RopeManager(rope_hand, object_generator, self.params.teams)
 
     def _cleanUp(self):

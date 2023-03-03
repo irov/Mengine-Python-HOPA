@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.ZoomManager import ZoomManager
 
+
 class TaskZoomEmpty(MixinObserver, Task):
     Skiped = False
 
@@ -22,4 +23,5 @@ class TaskZoomEmpty(MixinObserver, Task):
     def _onZoomEmptyFilter(self):
         return True
         pass
+
     pass

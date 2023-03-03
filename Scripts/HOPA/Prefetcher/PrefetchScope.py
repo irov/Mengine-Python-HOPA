@@ -6,13 +6,14 @@ from HOPA.Prefetcher.PrefetchLoader import PrefetchLoader
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class PrefetchScope(Initializer):
     def __init__(self):
+        super(PrefetchScope, self).__init__()
         self.__groups = {}
         self.__loader = PrefetchLoader()
         self.__neighbors = []
         self.__sceneName = None
-        pass
 
     def _onInitialize(self, sceneName):
         super(PrefetchScope, self)._onInitialize(sceneName)

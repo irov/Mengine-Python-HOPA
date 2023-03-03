@@ -5,7 +5,9 @@ from Circle import Circle
 from DragMiniSystem import DragMiniSystem
 from RotateMiniSystem import RotateMiniSystem
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ZenElements(Enigma):
 
@@ -65,7 +67,8 @@ class ZenElements(Enigma):
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object, Cb=self.__complete) as tc:
             with tc.addRepeatTask() as (tc_do, tc_until):
                 with tc_do.addParallelTask(2) as (tc_al, tc_list):
-                    tc_al.addTask("AliasSpinCircles", ObjectName=self.socket_ref.keys()[0], Sockets=self.socket_ref.keys() + self.gen_sockets.keys())
+                    tc_al.addTask("AliasSpinCircles", ObjectName=self.socket_ref.keys()[0],
+                                  Sockets=self.socket_ref.keys() + self.gen_sockets.keys())
 
                     tc_list.addTask("TaskListener", ID=Notificator.onSpin, Filter=self.__socketFilter)
 

@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasMessageNoUp(TaskAlias):
     def __init__(self):
         super(AliasMessageNoUp, self).__init__()
@@ -15,5 +16,3 @@ class AliasMessageNoUp(TaskAlias):
 
     def _onGenerate(self, source):
         source.addTask("TaskButtonClickEndUp", GroupName="Message", ButtonName="MovieButton_No")
-        pass
-    pass

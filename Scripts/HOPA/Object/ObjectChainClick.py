@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectChainClick(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectChainClick, self)._onParams(params)
@@ -20,4 +21,5 @@ class ObjectChainClick(ObjectEnigma):
 
     def _onLoad(self, load_obj):
         pass
+
     pass

@@ -2,10 +2,12 @@ import Keys
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class TestActionParam(object):
     def __init__(self, test_action, test_action_params):
         self.test_action = test_action
         self.test_action_params = test_action_params
+
 
 class UnittestManager(Manager):
     s_unittest = {}

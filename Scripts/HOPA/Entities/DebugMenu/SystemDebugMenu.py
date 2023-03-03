@@ -11,14 +11,20 @@ from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 ALIAS_ENV = ""
 ALIAS_TEXT_NAME = "$ID_LineSpeed"
+
 
 class SystemDebugMenu(System):
     s_dev_to_debug = False
     s_is_showable = False
 
-    s_easing_types = ["easyLinear", "easyIn", "easyOut", "easyInOut", "easySineIn", "easeSineOut", "easySineInOut", "easyQuadIn", "easyQuadOut", "easyQuadInOut", "easyCubicIn", "easyCubicOut", "easyCubicInOut", "easyQuartIn", "easyQuartOut", "easyQuartInOut", "easyQuintIn", "easyQuintOut", "easyQuintInOut", "easyExpoIn", "easyExpoOut", "easyExpoInOut", "easyCircIn", "easyCircOut", "easyCircInOut", "easyElasticIn", "easyElasticOut", "easyElasticInOut", "easyBackIn", "easyBackOut", "easyBackInOut",
+    s_easing_types = ["easyLinear", "easyIn", "easyOut", "easyInOut", "easySineIn", "easeSineOut", "easySineInOut",
+        "easyQuadIn", "easyQuadOut", "easyQuadInOut", "easyCubicIn", "easyCubicOut", "easyCubicInOut", "easyQuartIn",
+        "easyQuartOut", "easyQuartInOut", "easyQuintIn", "easyQuintOut", "easyQuintInOut", "easyExpoIn", "easyExpoOut",
+        "easyExpoInOut", "easyCircIn", "easyCircOut", "easyCircInOut", "easyElasticIn", "easyElasticOut",
+        "easyElasticInOut", "easyBackIn", "easyBackOut", "easyBackInOut",
         "easyBounceIn", "easyBounceOut", "easyBounceInOut", ]
 
     def __init__(self):
@@ -158,7 +164,8 @@ class SystemDebugMenu(System):
         def _set_setting(text):
             params = text.split(" ")
             if len(params) != 2:
-                Trace.msg_err("[DevToDebug] wrong len ({} != 2) for set user settings - syntax: <key> <value>".format(len(params)))
+                Trace.msg_err("[DevToDebug] wrong len ({} != 2) for set user settings - syntax: <key> <value>".format(
+                    len(params)))
                 return
             key, val = params
 
@@ -334,7 +341,11 @@ class SystemDebugMenu(System):
 
         # description at the bottom:
 
-        descr_texts = ["---", "Total number of scenes: **{}**".format(sum([len(x) for x in categorized_scenes.values()])), "All scene types: _{}_".format(", ".join(SCENE_TYPES))]
+        descr_texts = [
+            "---",
+            "Total number of scenes: **{}**".format(sum([len(x) for x in categorized_scenes.values()])),
+            "All scene types: _{}_".format(", ".join(SCENE_TYPES))
+        ]
         w_descr = Mengine.createDevToDebugWidgetText("description")
         description = "\n".join(descr_texts)
         w_descr.setText(description)
@@ -591,7 +602,8 @@ class SystemDebugMenu(System):
             TaskManager.cancelTaskChain("Debug_Tween_Move")
 
         with TaskManager.createTaskChain(Name="Debug_Tween_Move", Repeat=False) as tc:
-            tc.addTask("TaskNodeMoveTo", Node=entity_node, Time=time, From=from_point, To=to_point, Easing=easing_type_name)
+            tc.addTask("TaskNodeMoveTo", Node=entity_node, Time=time,
+                       From=from_point, To=to_point, Easing=easing_type_name)
 
     def __runTaskChain(self):
         if GroupManager.hasGroup("LineSpeed") is False:
@@ -606,23 +618,29 @@ class SystemDebugMenu(System):
                 tc_right.addFunction(self.__changeCurrentTweenOnTestScene, "Next")
 
     def __initTweenCheat(self):
-        cheat_candidates = [("CHEAT_TEST_TWEEN_ZOOM", "ZoomTweenIn", "ZoomTweenOut"), ("CHEAT_TEST_TWEEN_TRANSITION", "TransitionTweenIn", "TransitionTweenOut"), ("CHEAT_TEST_TWEEN_PICK", "PickEffectTween", "PickEffectTween"), ]
+        cheat_candidates = [
+            ("CHEAT_TEST_TWEEN_ZOOM", "ZoomTweenIn", "ZoomTweenOut"),
+            ("CHEAT_TEST_TWEEN_TRANSITION", "TransitionTweenIn", "TransitionTweenOut"),
+            ("CHEAT_TEST_TWEEN_PICK", "PickEffectTween", "PickEffectTween"),
+        ]
 
         for cheat_candidate_desc in cheat_candidates:
             cheat_key, tween_in_default_name, tween_out_default_name = cheat_candidate_desc
 
             is_cheat_enable = DefaultManager.getDefault(cheat_key, False)
-            if is_cheat_enable:
-                self.cheat_tween_in_default_name = tween_in_default_name
-                self.cheat_tween_out_default_name = tween_out_default_name
+            if is_cheat_enable is False:
+                continue
 
-                self.cheat_tween_in_easing_type = DefaultManager.getDefault(self.cheat_tween_in_default_name, "easyLinear")
+            self.cheat_tween_in_default_name = tween_in_default_name
+            self.cheat_tween_out_default_name = tween_out_default_name
 
-                self.cheat_tween_out_easing_type = DefaultManager.getDefault(self.cheat_tween_out_default_name, "easyLinear")
+            self.cheat_tween_in_easing_type = DefaultManager.getDefault(self.cheat_tween_in_default_name, "easyLinear")
 
-                DefaultManager.addDefault(self.cheat_tween_in_default_name, self.cheat_tween_in_easing_type)
-                DefaultManager.addDefault(self.cheat_tween_out_default_name, self.cheat_tween_out_easing_type)
-                break
+            self.cheat_tween_out_easing_type = DefaultManager.getDefault(self.cheat_tween_out_default_name, "easyLinear")
+
+            DefaultManager.addDefault(self.cheat_tween_in_default_name, self.cheat_tween_in_easing_type)
+            DefaultManager.addDefault(self.cheat_tween_out_default_name, self.cheat_tween_out_easing_type)
+            break
 
     def _onRun(self):
         super(SystemDebugMenu, self)._onRun()

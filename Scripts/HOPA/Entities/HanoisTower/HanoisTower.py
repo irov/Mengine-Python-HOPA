@@ -1,6 +1,8 @@
 from Foundation.TaskManager import TaskManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HanoisTower(Enigma):
 
@@ -87,6 +89,7 @@ class HanoisTower(Enigma):
         self.Mov = [None]
         self.Clicked_1 = -1
         self.Clicked_2 = -1
+
         def filter():
             size = len(self.Pilars[self.Click])
             if (size == 0):

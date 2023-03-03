@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMana(DemonObject):
     def _onParams(self, params):
         super(ObjectMana, self)._onParams(params)
@@ -8,4 +9,5 @@ class ObjectMana(DemonObject):
         self.initParam("HideState", params, "Idle")
 
         pass
+
     pass

@@ -8,6 +8,7 @@ from HOPA.MusicManager import MusicManager
 
 from MusicPlate import MusicPlate
 
+
 class BonusMusic(BaseEntity):
     def __init__(self):
         super(BonusMusic, self).__init__()
@@ -190,7 +191,8 @@ class BonusMusic(BaseEntity):
 
         _, music_resource = playlist[0]
 
-        source.addFunction(Mengine.copyUserMusic, self.current_plate.music_param.resource_name, r'{}.mp3'.format(self.current_plate.plate_id))
+        source.addFunction(Mengine.copyUserMusic, self.current_plate.music_param.resource_name,
+                           r'{}.mp3'.format(self.current_plate.plate_id))
 
     def setScrollbarObserver(self):
         def _clickUp(perc):

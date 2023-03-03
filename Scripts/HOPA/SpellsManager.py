@@ -1,16 +1,20 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 SPELLS_UI_DEMON_NAME = 'SpellsUI'  # const for SpellsUI
 SPELL_AMULET_TYPE = 'amulet'  # const for SpellAmulet
+
 
 class SpellUIParam(object):
     def __init__(self, movie2_spell_slots, socket_name):
         self.movie2_spell_slots = movie2_spell_slots
         self.socket_name = socket_name
 
+
 class SpellUIButtonsParam(object):
-    def __init__(self, is_unlocked, spell_type, slot_name, movie2_spell_button_idle, movie2_spell_button_ready, movie2_spell_button_use, movie2_spell_button_locked, movie2_spell_button_update, mind_use_less_spell, spell_use_quest):
+    def __init__(self, is_unlocked, spell_type, slot_name, movie2_spell_button_idle, movie2_spell_button_ready,
+                 movie2_spell_button_use, movie2_spell_button_locked, movie2_spell_button_update, mind_use_less_spell, spell_use_quest):
         self.is_unlocked = is_unlocked  # locked or unlocked by default
         self.spell_type = spell_type
         self.slot_name = slot_name
@@ -25,13 +29,17 @@ class SpellUIButtonsParam(object):
 
         self.spell_use_quest = spell_use_quest
 
+
 class SpellDemonParam(object):
     def __init__(self, spell_type, spell_demon_name):
         self.spell_type = spell_type
         self.spell_demon_name = spell_demon_name
 
+
 class SpellAmuletParam(object):
-    def __init__(self, movie2_amulet_idle, movie2_amulet_hide, movie2_amulet_open, movie2button_amulet_hint, text_alias_power_locked, text_alias_power_description, socket_name, play_hide_amulet_after_use_bool, hide_amulet_on_zoom_bool, hint_text_alpha_time, hint_text_show_time, amulet_use_alpha_time):
+    def __init__(self, movie2_amulet_idle, movie2_amulet_hide, movie2_amulet_open, movie2button_amulet_hint,
+                 text_alias_power_locked, text_alias_power_description, socket_name, play_hide_amulet_after_use_bool,
+                 hide_amulet_on_zoom_bool, hint_text_alpha_time, hint_text_show_time, amulet_use_alpha_time):
         self.movie2_amulet_idle = movie2_amulet_idle
         self.movie2_amulet_hide = movie2_amulet_hide
         self.movie2_amulet_open = movie2_amulet_open
@@ -51,9 +59,14 @@ class SpellAmuletParam(object):
 
         self.amulet_use_alpha_time = amulet_use_alpha_time
 
+
 class SpellAmuletStoneParam(object):
-    def __init__(self, is_unlocked, power_type, movie2_power_stone_prototype_appear, movie2_power_stone_prototype_idle, movie2_power_stone_prototype_ready, movie2_power_stone_select, movie2_power_stone_info_type, movie2_power_stone_locked_info_prototype, amulet_stone_slot_name, amulet_info_slot_name, text_id_for_alias_power_locked, text_id_for_alias_power_description, movie2_power_stone_aim_prototype, movie2_power_stone_fail_prototype, mind_add_stone, movie2_power_aim_first_submovie,
-        movie2_power_aim_second_submovie, movie2_power_aim_third_submovie):
+    def __init__(self, is_unlocked, power_type, movie2_power_stone_prototype_appear, movie2_power_stone_prototype_idle,
+                 movie2_power_stone_prototype_ready, movie2_power_stone_select, movie2_power_stone_info_type,
+                 movie2_power_stone_locked_info_prototype, amulet_stone_slot_name, amulet_info_slot_name,
+                 text_id_for_alias_power_locked, text_id_for_alias_power_description, movie2_power_stone_aim_prototype,
+                 movie2_power_stone_fail_prototype, mind_add_stone, movie2_power_aim_first_submovie,
+                 movie2_power_aim_second_submovie, movie2_power_aim_third_submovie):
         self.is_unlocked = is_unlocked  # unlocked or locked by default
         self.power_type = power_type
 
@@ -78,8 +91,10 @@ class SpellAmuletStoneParam(object):
         self.movie2_power_aim_second_submovie = movie2_power_aim_second_submovie
         self.movie2_power_aim_third_submovie = movie2_power_aim_third_submovie
 
+
 class SpellAmuletPowerParam(object):
-    def __init__(self, is_unblocked, power_name, power_type, mind_power_can_use, mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone):
+    def __init__(self, is_unblocked, power_name, power_type, mind_power_can_use, mind_power_blocked,
+                 mind_power_unblocked, mind_power_wrong_stone):
         self.is_unblocked = is_unblocked  # is blocked or unblocked by default
         self.power_name = power_name
         self.power_type = power_type
@@ -89,12 +104,14 @@ class SpellAmuletPowerParam(object):
         self.mind_power_unblocked = mind_power_unblocked
         self.mind_power_wrong_stone = mind_power_wrong_stone
 
+
 class SpellAmuletPowerDefaultMinds(object):
     def __init__(self, mind_power_can_use, mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone):
         self.mind_power_can_use = mind_power_can_use
         self.mind_power_blocked = mind_power_blocked
         self.mind_power_unblocked = mind_power_unblocked
         self.mind_power_wrong_stone = mind_power_wrong_stone
+
 
 class SpellUIRuneParam(object):
     def __init__(self, b_start_enable_state, rune_type, movie2_rune_idle, movie2_rune_ready, movie2_rune_appear):
@@ -103,6 +120,7 @@ class SpellUIRuneParam(object):
         self.movie2_rune_idle = movie2_rune_idle
         self.movie2_rune_ready = movie2_rune_ready
         self.movie2_rune_appear = movie2_rune_appear
+
 
 class SpellsManager(Manager):
     s_spells_ui_param = None
@@ -197,7 +215,8 @@ class SpellsManager(Manager):
         movie2_rune_ready = record.get('Movie2_Rune_READY')
         movie2_rune_appear = record.get('Movie2_Rune_APPEAR')
 
-        SpellsManager.s_spells_ui_runes_params[rune_type] = SpellUIRuneParam(b_start_enable_state, rune_type, movie2_rune_idle, movie2_rune_ready, movie2_rune_appear)
+        param = SpellUIRuneParam(b_start_enable_state, rune_type, movie2_rune_idle, movie2_rune_ready, movie2_rune_appear)
+        SpellsManager.s_spells_ui_runes_params[rune_type] = param
 
     @staticmethod
     def __loadSpellsDemonsParam(record):
@@ -242,7 +261,10 @@ class SpellsManager(Manager):
         mind_use_less_spell = record.get('Mind_UseLessSpell')
         spell_use_quest = record.get('SpellUseQuest')
 
-        SpellsManager.s_spells_ui_buttons_params[spell_type] = SpellUIButtonsParam(bIsUnlockedByDefault, spell_type, slot_name, movie2_spell_button_idle, movie2_spell_button_ready, movie2_spell_button_use, movie2_spell_button_locked, movie2_spell_button_update, mind_use_less_spell, spell_use_quest)
+        param = SpellUIButtonsParam(bIsUnlockedByDefault, spell_type, slot_name, movie2_spell_button_idle,
+                                    movie2_spell_button_ready, movie2_spell_button_use, movie2_spell_button_locked,
+                                    movie2_spell_button_update, mind_use_less_spell, spell_use_quest)
+        SpellsManager.s_spells_ui_buttons_params[spell_type] = param
 
     @staticmethod
     def __loadSpellAmuletParam(record):
@@ -266,7 +288,11 @@ class SpellsManager(Manager):
         hint_text_show_time = record.get('HintTextShowTime')
         amulet_use_alpha_time = record.get('AmuletUseAlphaTime')
 
-        SpellsManager.s_spell_amulet_param = SpellAmuletParam(movie2_amulet_idle, movie2_amulet_hide, movie2_amulet_open, movie2_button_amulet_hint, text_alias_power_locked, text_alias_power_description, socket_name, play_hide_amulet_after_use, hide_amulet_on_zoom, hint_text_alpha_time, hint_text_show_time, amulet_use_alpha_time)
+        param = SpellAmuletParam(movie2_amulet_idle, movie2_amulet_hide, movie2_amulet_open, movie2_button_amulet_hint,
+                                 text_alias_power_locked, text_alias_power_description, socket_name,
+                                 play_hide_amulet_after_use, hide_amulet_on_zoom, hint_text_alpha_time,
+                                 hint_text_show_time, amulet_use_alpha_time)
+        SpellsManager.s_spell_amulet_param = param
 
     @staticmethod
     def __loadSpellAmuletStoneParam(record):
@@ -300,8 +326,15 @@ class SpellsManager(Manager):
         movie2_power_aim_second_submovie = record.get('Movie2_PowerAimSecondSubmovie')
         movie2_power_aim_third_submovie = record.get('Movie2_PowerAimThirdSubmovie')
 
-        SpellsManager.s_spell_amulet_stones_params[power_type] = SpellAmuletStoneParam(bIsUnlockedByDefault, power_type, movie2_power_stone_prototype_appear, movie2_power_stone_prototype_idle, movie2_power_stone_prototype_ready, movie2_power_stone_prototype_select, movie2_power_stone_info_prototype, movie2_power_stone_locked_prototype, amulet_stone_slot_name, amulet_info_slot_name, text_id_for_alias_power_locked, text_id_for_alias_power_description, movie2_power_aim_prototype, movie2_power_fail_prototype,
-            mind_add_stone, movie2_power_aim_first_submovie, movie2_power_aim_second_submovie, movie2_power_aim_third_submovie)
+        param = SpellAmuletStoneParam(
+            bIsUnlockedByDefault, power_type, movie2_power_stone_prototype_appear, movie2_power_stone_prototype_idle,
+            movie2_power_stone_prototype_ready, movie2_power_stone_prototype_select, movie2_power_stone_info_prototype,
+            movie2_power_stone_locked_prototype, amulet_stone_slot_name, amulet_info_slot_name,
+            text_id_for_alias_power_locked, text_id_for_alias_power_description, movie2_power_aim_prototype,
+            movie2_power_fail_prototype, mind_add_stone, movie2_power_aim_first_submovie,
+            movie2_power_aim_second_submovie, movie2_power_aim_third_submovie
+        )
+        SpellsManager.s_spell_amulet_stones_params[power_type] = param
 
     @staticmethod
     def __loadSpellAmuletPowerParam(record):
@@ -321,7 +354,9 @@ class SpellsManager(Manager):
         mind_power_unblocked = record.get('Mind_PowerUnblocked')
         mind_power_wrong_stone = record.get('Mind_PowerWrongStone')
 
-        SpellsManager.s_spell_amulet_powers_params[power_name] = SpellAmuletPowerParam(bIsUnblockedByDefault, power_name, power_type, mind_power_can_use, mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone)
+        param = SpellAmuletPowerParam(bIsUnblockedByDefault, power_name, power_type, mind_power_can_use,
+                                      mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone)
+        SpellsManager.s_spell_amulet_powers_params[power_name] = param
 
     @staticmethod
     def __loadSpellAmuletPowerDefaultMinds(record):
@@ -330,7 +365,8 @@ class SpellsManager(Manager):
         mind_power_unblocked = record.get('Mind_PowerUnblocked')
         mind_power_wrong_stone = record.get('Mind_PowerWrongStone')
 
-        SpellsManager.s_spell_amulet_powers_default_minds = SpellAmuletPowerDefaultMinds(mind_power_can_use, mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone)
+        param = SpellAmuletPowerDefaultMinds(mind_power_can_use, mind_power_blocked, mind_power_unblocked, mind_power_wrong_stone)
+        SpellsManager.s_spell_amulet_powers_default_minds = param
 
     @staticmethod
     def getSpellAmuletPowerDefaultMinds():

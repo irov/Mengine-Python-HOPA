@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Notification import Notification
 
+
 class FanItem(BaseEntity):
     ITEM_NONE = 0
     ITEM_HAND = 1

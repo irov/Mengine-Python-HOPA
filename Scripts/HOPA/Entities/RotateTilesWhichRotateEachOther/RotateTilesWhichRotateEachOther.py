@@ -5,7 +5,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.RotateTilesWhichRotateEachOtherManager import RotateTilesWhichRotateEachOtherManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Tile(object):
     def __init__(self, params, obj_generator, tiles_dict_ref, root_node):
@@ -15,7 +17,8 @@ class Tile(object):
 
         tiles_dict_ref[params.id] = self  # save self ref to tiles dict in enigma
 
-        self.movie = obj_generator(str(self.params.id) + self.params.movie_proto, self.params.movie_proto, Enable=True, Interactive=True)
+        self.movie = obj_generator(str(self.params.id) + self.params.movie_proto,
+                                   self.params.movie_proto, Enable=True, Interactive=True)
 
         self.node = self.movie.entity.node
 
@@ -58,6 +61,7 @@ class Tile(object):
         self.movie.entity.node.removeFromParent()
         self.movie.onFinalize()
         self.movie.onDestroy()
+
 
 class RotateTilesWhichRotateEachOther(Enigma):
 

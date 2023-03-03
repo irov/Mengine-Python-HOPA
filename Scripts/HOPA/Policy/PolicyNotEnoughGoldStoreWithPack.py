@@ -4,6 +4,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyNotEnoughGoldStoreWithPack(TaskAlias):
 
     def _onParams(self, params):

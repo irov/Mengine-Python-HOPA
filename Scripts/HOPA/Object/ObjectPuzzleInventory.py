@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectPuzzleInventory(DemonObject):
     @staticmethod
     def declareORM(Type):

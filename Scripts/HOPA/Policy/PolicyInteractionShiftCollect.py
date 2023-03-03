@@ -2,6 +2,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 
+
 class PolicyInteractionShiftCollect(MixinGroup, Task):
     Skiped = False
 
@@ -71,4 +72,5 @@ class PolicyInteractionShiftCollect(MixinGroup, Task):
             Shift.setShift(WaitState)
             pass
         pass
+
     pass

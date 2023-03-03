@@ -6,6 +6,7 @@ from Notification import Notification
 
 from MovieChanger import MovieChanger
 
+
 class Pet(BaseEntity):
 
     def __init__(self):
@@ -50,7 +51,8 @@ class Pet(BaseEntity):
                     tc_leave.addTask("TaskListener", ID=Notificator.onPetLeave)
                     tc_leave.addTask("TaskPrint", Value="Skipping task chain Pet")
                     tc_give.addTask("TaskPrint", Value="Run task chain Pet")
-                    tc_give.addTask("TaskSocketPlaceInventoryItem", SocketName=socket.getName(), SocketGroup=self.object, InventoryItem=InventoryItem, ItemName=item_name, Taken=True, Pick=False)
+                    tc_give.addTask("TaskSocketPlaceInventoryItem", SocketName=socket.getName(), Taken=True, Pick=False,
+                                    SocketGroup=self.object, InventoryItem=InventoryItem, ItemName=item_name)
                     tc_give.addListener(Notificator.onInventoryUpdateItem)
                     tc_give.addTask("TaskNotify", ID=Notificator.onPetComplete, Args=(item_name, sceneName))
                     tc_give.addTask("TaskFunction", Fn=self.MovieChanger.setUse)
@@ -62,6 +64,7 @@ class Pet(BaseEntity):
         else:
             self.MovieChanger.setIdle()
         return False
+
     pass
 
     def setTaken(self):

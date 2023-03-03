@@ -4,6 +4,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroAddItem(MacroCommand):
     def __init__(self):
         super(MacroAddItem, self).__init__()
@@ -28,7 +29,8 @@ class MacroAddItem(MacroCommand):
                 except ValueError:
                     break
 
-            b_is_point_tuple_valid = len(parsed_floats) >= 2 and isinstance(parsed_floats[0], float) and isinstance(parsed_floats[1], float)
+            b_is_point_tuple_valid = len(parsed_floats) >= 2 and isinstance(parsed_floats[0], float) and isinstance(
+                parsed_floats[1], float)
 
             if b_is_point_tuple_valid:  # from point should be tuple
                 self.IsFromPointTuple = True
@@ -87,4 +89,5 @@ class MacroAddItem(MacroCommand):
                 if self.FromPoint is None:
                     guard_source.addTask("AliasInventoryAddInventoryItem", Inventory=Inventory, ItemName=self.ItemName)
                 else:
-                    guard_source.addTask("AliasInventoryAddInventoryItemFromPoint", Inventory=Inventory, ItemName=self.ItemName, FromPoint=self.FromPoint)
+                    guard_source.addTask("AliasInventoryAddInventoryItemFromPoint", Inventory=Inventory,
+                                         ItemName=self.ItemName, FromPoint=self.FromPoint)

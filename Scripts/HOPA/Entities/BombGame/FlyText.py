@@ -1,5 +1,6 @@
 Enigma = Mengine.importEntity("Enigma")
 
+
 class FlyText(object):
     def __init__(self, Game, StartPos, Text):
         self.Game = Game
@@ -7,9 +8,9 @@ class FlyText(object):
         self.CurrentPos = StartPos
         self.Text = Text
 
-        self.Time = 1000;
-        self.Move_On = (0, -60.0);
-        self.Move_On_Tic = (self.Move_On[0] / self.Time, self.Move_On[1] / self.Time);
+        self.Time = 1000
+        self.Move_On = (0, -60.0)
+        self.Move_On_Tic = (self.Move_On[0] / self.Time, self.Move_On[1] / self.Time)
 
         self.StartFlyTime = Mengine.getTimeMs()
         self.EndFlyTime = self.StartFlyTime + self.Time
@@ -31,6 +32,3 @@ class FlyText(object):
         self.CurrentPos = (x, y)
         self.Text.setLocalPosition(self.CurrentPos)
         return False
-        pass
-
-    pass

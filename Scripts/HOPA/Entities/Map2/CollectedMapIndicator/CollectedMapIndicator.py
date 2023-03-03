@@ -4,6 +4,7 @@ from HOPA.TransitionManager import TransitionManager
 
 from CollectedMapIndicatorManager import CollectedMapIndicatorManager
 
+
 class CollectedMapIndicator(BaseEntity):
     @staticmethod
     def declareORM(Type):

@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintWayTargetLoopEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintWayTargetLoopEffect, self)._onParams(params)
@@ -28,6 +29,8 @@ class PolicyHintWayTargetLoopEffect(TaskAlias):
         source.addTask("TaskSoundEffect", SoundName="SparklesCircle", Wait=False)
         source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintWay", Loop=True, Wait=False)
 
-        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
+        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay",
+                       Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
         pass
+
     pass

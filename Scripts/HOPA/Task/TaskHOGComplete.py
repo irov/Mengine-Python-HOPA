@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskHOGComplete(Task):
     Skiped = True
 

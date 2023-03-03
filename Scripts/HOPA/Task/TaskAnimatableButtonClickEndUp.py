@@ -3,6 +3,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskAnimatableButtonClickEndUp(MixinObject, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskAnimatableButtonClickEndUp, self)._onParams(params)
@@ -35,4 +36,5 @@ class TaskAnimatableButtonClickEndUp(MixinObject, MixinObserver, Task):
 
         return True
         pass
+
     pass

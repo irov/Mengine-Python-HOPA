@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class MoveChipsToRightPlacesManager(Manager):
     s_puzzles = {}
 

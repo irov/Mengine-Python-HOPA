@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskSocketUseItem(MixinItem, MixinObserver, Task):
     Skiped = False
 

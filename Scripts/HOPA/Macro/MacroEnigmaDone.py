@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnigmaDone(MacroCommand):
 
     def _onGenerate(self, source):

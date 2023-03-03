@@ -4,7 +4,9 @@ from Notification import Notification
 from ButtonConjunctionManager import ButtonConjunctionManager
 from MoviesButton import MoviesButton
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ButtonConjunction(Enigma):
 

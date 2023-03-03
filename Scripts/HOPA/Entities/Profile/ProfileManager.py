@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class ProfileManager(Manager):
     s_profiles = {}
 
@@ -9,10 +10,8 @@ class ProfileManager(Manager):
     def _onFinalize():
         for profile in ProfileManager.s_profiles.itervalues():
             profile.selectButton.onDestroy()
-            pass
 
         ProfileManager.s_profiles = {}
-        pass
 
     class Profile(object):
         def __init__(self, bSelect, bDelete, bCreate, bEdit=None):
@@ -20,49 +19,40 @@ class ProfileManager(Manager):
             self.deleteButton = bDelete
             self.createButton = bCreate
             self.editButton = bEdit
-            pass
 
         def getSelectButton(self):
             return self.selectButton
-            pass
 
         def getSelectButtonName(self):
             return self.selectButton.getName()
-            pass
 
         def getDeleteButton(self):
             return self.deleteButton
-            pass
+
         def getDeleteButtonName(self):
             return self.deleteButton.getName()
-            pass
 
         def getCreateButton(self):
             return self.createButton
-            pass
+
         def getCreateButtonName(self):
             return self.createButton.getName()
-            pass
 
         def getEditButton(self):
             return self.editButton
-            pass
+
         def getEditButtonName(self):
             return self.editButton.getName()
-            pass
-        pass
+
 
     @staticmethod
     def loadParams(module, param):
         if param == "ProfileNameBlackList":
             ProfileManager.loadNameBlackList(module, "ProfileNameBlackList")
-            pass
         if param == "Profile":
             ProfileManager.loadProfile(module, "Profile")
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadNameBlackList(module, param):
@@ -74,12 +64,9 @@ class ProfileManager(Manager):
             if Params == "Symbols":
                 BlackList = record.get("Value")
                 break
-                pass
-            pass
 
         ProfileEditBox = GroupManager.getObject("Profile_New", "Demon_EditBox_Name")
         ProfileEditBox.setBlackList(BlackList)
-        pass
 
     @staticmethod
     def loadProfile(module, param):
@@ -123,7 +110,8 @@ class ProfileManager(Manager):
 
             if editButtonName is not None:
                 if objectDemon.hasObject(editButtonName) is False:
-                    error_msg = "ProfileManager.loadProfile editButton {} not exist in demon Profile".format(editButtonName)
+                    error_msg = "ProfileManager.loadProfile editButton {} not exist in demon Profile".format(
+                        editButtonName)
                     Trace.log("Manager", 0, error_msg)
                 else:
                     editButton = objectDemon.getObject(editButtonName)
@@ -144,17 +132,12 @@ class ProfileManager(Manager):
                     profile = ProfileManager.Profile(selectButton, deleteButton, createButton, editButton)
 
                     ProfileManager.s_profiles[i] = profile
-                    pass
-                pass
-            pass
 
     @staticmethod
     def getProfiles():
         if len(ProfileManager.s_profiles) == 0:
             Trace.log("Manager", 0, "DifficultyManager.getDifficulties: s_profiles is empty")
             return None
-            pass
 
         return ProfileManager.s_profiles
-        pass
-    pass
+

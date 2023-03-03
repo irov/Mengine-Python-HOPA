@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemJournalSave(System):
     def __init__(self):
         super(SystemJournalSave, self).__init__()
@@ -31,6 +32,3 @@ class SystemJournalSave(System):
     def _onStop(self):
         self.Journal.setParam("Pages", [])
         self.Journal.setParam("CurrentPage", None)
-
-        pass
-    pass

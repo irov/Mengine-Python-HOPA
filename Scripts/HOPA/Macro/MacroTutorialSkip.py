@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroTutorialSkip(MacroCommand):
     def _onInitialize(self):
         pass

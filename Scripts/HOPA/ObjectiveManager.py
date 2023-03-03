@@ -1,13 +1,12 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ObjectiveManager(object):
     s_objectives = {}
 
     class Object(object):
         def __init__(self, textID):
             self.textID = textID
-            pass
-        pass
 
     @staticmethod
     def loadObjectives(module, param):
@@ -17,19 +16,15 @@ class ObjectiveManager(object):
             ID_TEXT = record.get("ID_TEXT")
 
             ObjectiveManager.addObjective(ID_OBJECTIVE, ID_TEXT)
-            pass
-        pass
 
     @staticmethod
     def hasObjective(objectiveID):
         return objectiveID in ObjectiveManager.s_objectives
-        pass
 
     @staticmethod
     def addObjective(objectiveID, textID):
         objective = ObjectiveManager.Object(textID)
         ObjectiveManager.s_objectives[objectiveID] = objective
-        pass
 
     @staticmethod
     def getObjective(objectiveID):
@@ -39,12 +34,8 @@ class ObjectiveManager(object):
 
         objective = ObjectiveManager.s_objectives[objectiveID]
         return objective
-        pass
-    pass
 
     @staticmethod
     def getObjectiveTextID(objectiveID):
         objective = ObjectiveManager.getObjective(objectiveID)
         return objective.textID
-        pass
-    pass

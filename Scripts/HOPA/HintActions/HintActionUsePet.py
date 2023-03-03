@@ -4,6 +4,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
+
 class HintActionUsePet(MixinObject, HintAction):
     def _onParams(self, params):
         super(HintActionUsePet, self)._onParams(params)
@@ -124,9 +125,3 @@ class HintActionUsePet(MixinObject, HintAction):
             with tc.addParallelTask(len(self.listInterrupt)) as tc_chains:
                 for tc_chain, policyName in zip(tc_chains, self.listInterrupt):
                     tc_chain.addTask(policyName)
-                    pass
-                pass
-            pass
-
-        pass
-    pass

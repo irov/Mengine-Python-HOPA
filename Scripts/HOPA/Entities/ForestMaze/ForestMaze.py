@@ -8,16 +8,29 @@ from HOPA.ForestMazeManager import ForestMazeManager
 
 import Chips
 
+
 Enigma = Mengine.importEntity("Enigma")
 
-_CHIP_TYPES = {'Block': Chips.BlockChip, 'Player': Chips.PlayerChip, 'Neutral': Chips.NeutralChip, 'Empty': Chips.EmptyChip, 'Enemy': Chips.EnemyChip, }
+_CHIP_TYPES = {
+    'Block': Chips.BlockChip,
+    'Player': Chips.PlayerChip,
+    'Neutral': Chips.NeutralChip,
+    'Empty': Chips.EmptyChip,
+    'Enemy': Chips.EnemyChip,
+}
 
-_EXTRA_CHIP_PARAMS = {'Player': "PlayerMoveTime", 'Neutral': "NeutralMoveTime", 'Enemy': "RotateTime", }
+_EXTRA_CHIP_PARAMS = {
+    'Player': "PlayerMoveTime",
+    'Neutral': "NeutralMoveTime",
+    'Enemy': "RotateTime",
+}
 
 _AVAILABLE_FOR_MOVE = (Chips.PlayerChip, Chips.NeutralChip)
 
+
 def getChipClassByType(chip_type):
     return _CHIP_TYPES.get(chip_type)
+
 
 class ForestMaze(Enigma):
     def __init__(self):

@@ -31,4 +31,5 @@ class MacroCommandFactory(object):
 
         return Command
         pass
+
     pass

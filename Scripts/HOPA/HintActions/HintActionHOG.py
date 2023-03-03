@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinGroup import MixinGroup
 from HOPA.HintAction import HintAction
 
+
 class HintActionHOG(MixinGroup, HintAction):
     def _onAction(self, hint, cb):
         cb(False)

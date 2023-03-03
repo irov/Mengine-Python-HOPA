@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
     s_puzzles = {}
 
@@ -27,7 +28,9 @@ class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
             Skip = record.get('Skip')
             ChipParam = record.get('ChipParam')
 
-            result = ClickOnChipAndPlacesForActionOverPlaceManager.addParam(EnigmaName, module, PlaceParam, NumberOfChips, NeighboringPlaces, Skip, ChipParam)
+            result = ClickOnChipAndPlacesForActionOverPlaceManager.addParam(EnigmaName, module, PlaceParam,
+                                                                            NumberOfChips, NeighboringPlaces, Skip,
+                                                                            ChipParam)
 
             if result is False:
                 error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager invalid addParam {}".format(EnigmaName)
@@ -66,7 +69,8 @@ class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
         records = DatabaseManager.getDatabaseRecords(Module, PlaceParam)
         placeParam = {}
         if records is None:
-            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find placeParam database for {}".format(EnigmaName)
+            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find placeParam database for {}".format(
+                EnigmaName)
             Trace.log("Manager", 0, error_msg)
             return False
 
@@ -86,14 +90,16 @@ class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
             MovieNameYellowWin = record.get('MovieNameYellowWin')
             MovieNameSilverWin = record.get('MovieNameSilverWin')
 
-            placeParam[PlaceID] = ((MovieNameGreen, MovieNameGreenWin), (MovieNameBlue, MovieNameBlueWin), (MovieNameYellow, MovieNameYellowWin), (None, MovieNameSilverWin))
+            placeParam[PlaceID] = ((MovieNameGreen, MovieNameGreenWin), (MovieNameBlue, MovieNameBlueWin),
+            (MovieNameYellow, MovieNameYellowWin), (None, MovieNameSilverWin))
         # ==============================================================================================================
 
         # -------------- Neighboring Places ----------------------------------------------------------------------------
         records = DatabaseManager.getDatabaseRecords(Module, NeighboringPlaces)
         neighboringPlacesParam = {}
         if records is None:
-            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find NeighboringPlaces database for {}".format(EnigmaName)
+            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find NeighboringPlaces database for {}".format(
+                EnigmaName)
             Trace.log("Manager", 0, error_msg)
             return False
 
@@ -111,7 +117,8 @@ class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
         records = DatabaseManager.getDatabaseRecords(Module, Skip)
         skipParam = {}
         if records is None:
-            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find Skip database for {}".format(EnigmaName)
+            error_msg = "ClickOnChipAndPlacesForActionOverPlaceManager cant find Skip database for {}".format(
+                EnigmaName)
             Trace.log("Manager", 0, error_msg)
             return False
 
@@ -125,7 +132,8 @@ class ClickOnChipAndPlacesForActionOverPlaceManager(Manager):
             skipParam[PlaceID] = ChipID
         # ==============================================================================================================
 
-        new_param = ClickOnChipAndPlacesForActionOverPlaceManager.ClickOnChipAndPlacesForActionOverPlaceParam(placeParam, NumberOfChips, neighboringPlacesParam, skipParam, chipParam)
+        new_param = ClickOnChipAndPlacesForActionOverPlaceManager.ClickOnChipAndPlacesForActionOverPlaceParam(
+            placeParam, NumberOfChips, neighboringPlacesParam, skipParam, chipParam)
 
         ClickOnChipAndPlacesForActionOverPlaceManager.s_puzzles[EnigmaName] = new_param
 

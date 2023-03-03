@@ -4,6 +4,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsBonusItems(System):
     def _onParams(self, params):
         super(SystemAwardsBonusItems, self)._onParams(params)
@@ -71,4 +72,5 @@ class SystemAwardsBonusItems(System):
 
         return False
         pass
+
     pass

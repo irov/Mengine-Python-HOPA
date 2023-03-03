@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.DialogManager import DialogManager
 
+
 class PolicyDialogAvatarMovie2(TaskAlias):
     def _onParams(self, params):
         super(PolicyDialogAvatarMovie2, self)._onParams(params)
@@ -40,15 +41,13 @@ class PolicyDialogAvatarMovie2(TaskAlias):
                 #     tc2.addTask("TaskSocketClick", SocketName = "Socket_Next")
                 #     pass
 
-                tc_d.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog, CharacterID=dialog.characterID, DialogPersGroup=DialogPersGroup, Wait=False)
+                tc_d.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog, CharacterID=dialog.characterID,
+                             DialogPersGroup=DialogPersGroup, Wait=False)
 
                 tc_d.addTask("TaskNotify", ID=Notificator.onDialogMessageComplete, Args=(self.Dialog,))
                 pass
 
-        source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)  # speed fix
+        source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)
         source.addTask("TaskEnable", Object=Text_Message, Value=False)
         if DialogPersGroupName is not None:
             source.addTask("TaskSceneLayerGroupEnable", LayerName=DialogPersGroupName, Value=False)
-            pass
-        pass
-    pass

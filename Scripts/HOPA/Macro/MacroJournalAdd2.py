@@ -1,6 +1,7 @@
 from HOPA.Entities.Journal2.Journal2Manager import Journal2Manager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroJournalAdd2(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = None
@@ -29,4 +30,5 @@ class MacroJournalAdd2(MacroCommand):
 
         source.addTask("TaskNotify", ID=Notificator.onJournalAddPage, Args=(self.JournalID,))
         pass
+
     pass

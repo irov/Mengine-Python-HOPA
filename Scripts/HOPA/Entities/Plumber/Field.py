@@ -2,6 +2,7 @@ from Foundation.TaskManager import TaskManager
 
 from Cell import Cell
 
+
 class Field(object):
     def __init__(self, startPos, data):
         self.metric = data.getMetric()

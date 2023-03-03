@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CursorMaskFindInvisibleChipManager import CursorMaskFindInvisibleChipManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SymbolHint(object):
     IDLE_STATE = 'idle'
@@ -22,7 +24,11 @@ class SymbolHint(object):
         movie_fail.setEnable(False)
 
         self.index = index
-        self.movies = {SymbolHint.IDLE_STATE: movie_idle, SymbolHint.SELECT_STATE: movie_select, SymbolHint.FAIL_STATE: movie_fail}
+        self.movies = {
+            SymbolHint.IDLE_STATE: movie_idle,
+            SymbolHint.SELECT_STATE: movie_select,
+            SymbolHint.FAIL_STATE: movie_fail
+        }
 
         self.cur_movie = movie_idle
 
@@ -30,17 +36,20 @@ class SymbolHint(object):
         movie = self.movies[state]
 
         if SymbolHint.STATE_CHANGE_ALPHA_TIME != -1:
-            source.addTask("TaskNodeAlphaTo", Node=self.cur_movie.getEntityNode(), From=1.0, To=0.0, Time=SymbolHint.STATE_CHANGE_ALPHA_TIME)
+            source.addTask("TaskNodeAlphaTo", Node=self.cur_movie.getEntityNode(), From=1.0, To=0.0,
+                           Time=SymbolHint.STATE_CHANGE_ALPHA_TIME)
         source.addDisable(self.cur_movie)
 
         source.addEnable(movie)
         if SymbolHint.STATE_CHANGE_ALPHA_TIME != -1:
-            source.addTask("TaskNodeAlphaTo", Node=movie.getEntityNode(), From=0.0, To=1.0, Time=SymbolHint.STATE_CHANGE_ALPHA_TIME)
+            source.addTask("TaskNodeAlphaTo", Node=movie.getEntityNode(), From=0.0, To=1.0,
+                           Time=SymbolHint.STATE_CHANGE_ALPHA_TIME)
 
         self.cur_movie = movie
 
     def scopePlayCurMovie(self, source, **params):
         source.addPlay(self.cur_movie, **params)
+
 
 class Symbol(object):
     """
@@ -105,7 +114,8 @@ class Symbol(object):
 
         if not movie.getEnable():
             if waitToEnableIfDisabled:
-                source.addEvent(Symbol.EVENT_MOVIE_ENABLE, lambda symbol, symbol_movie: symbol is self and symbol_movie is movie)
+                source.addEvent(Symbol.EVENT_MOVIE_ENABLE,
+                                lambda symbol, symbol_movie: symbol is self and symbol_movie is movie)
             else:
                 source.addBlock()
                 return
@@ -118,7 +128,8 @@ class Symbol(object):
         self.found = movie is self.movies[Symbol.SELECT_STATE]
 
         if SymbolHint.STATE_CHANGE_ALPHA_TIME != -1:
-            source.addTask("TaskNodeAlphaTo", Node=prev_movie.getEntityNode(), From=1.0, To=0.0, Time=Symbol.STATE_CHANGE_ALPHA_TIME)
+            source.addTask("TaskNodeAlphaTo", Node=prev_movie.getEntityNode(), From=1.0, To=0.0,
+                           Time=Symbol.STATE_CHANGE_ALPHA_TIME)
 
         source.addEnable(movie)
         source.addFunction(self.setCurMovie, movie)
@@ -127,7 +138,8 @@ class Symbol(object):
         source.addDisable(prev_movie)
 
         if SymbolHint.STATE_CHANGE_ALPHA_TIME != -1:
-            source.addTask("TaskNodeAlphaTo", Node=movie.getEntityNode(), From=0.0, To=1.0, Time=Symbol.STATE_CHANGE_ALPHA_TIME)
+            source.addTask("TaskNodeAlphaTo", Node=movie.getEntityNode(), From=0.0, To=1.0,
+                           Time=Symbol.STATE_CHANGE_ALPHA_TIME)
 
     def scopePlayCurMovie(self, source, **params):
         source.addPlay(self.cur_movie, **params)
@@ -164,10 +176,12 @@ class Symbol(object):
 
         with self.__tc_play as tc:
             with tc.addRaceTask(2) as (race_0, race_1):
-                race_0.addEvent(Symbol.EVENT_MOVIE_ENABLE, lambda symbol, movie: symbol is self and movie is not self.movies[Symbol.FAIL_STATE])
+                race_0.addEvent(Symbol.EVENT_MOVIE_ENABLE,
+                                lambda symbol, movie: symbol is self and movie is not self.movies[Symbol.FAIL_STATE])
 
                 with race_1.addSwitchTask(5, __switch) as (wait_0, play_1, play_2, play_3, play_4):
-                    wait_0.addEvent(Symbol.EVENT_MOVIE_ENABLE, lambda symbol, movie: symbol is self and movie is not self.movies[Symbol.FAIL_STATE])
+                    wait_0.addEvent(Symbol.EVENT_MOVIE_ENABLE,
+                                    lambda symbol, movie: symbol is self and movie is not self.movies[Symbol.FAIL_STATE])
 
                     play_1.addTask("TaskMovie2SocketClick", Movie2=self.movies[Symbol.IDLE_STATE], SocketName='socket')
                     play_1.addTask("TaskMovie2Play", Movie2=self.movies[Symbol.IDLE_STATE], Wait=True)
@@ -187,6 +201,7 @@ class Symbol(object):
 
     def cleanUp(self):
         self.disablePlayTC()
+
 
 class SymbolHintsManager(object):
     """
@@ -259,6 +274,7 @@ class SymbolHintsManager(object):
         for symbol in self.symbols:
             symbol.cleanUp()
 
+
 class CursorMaskFindInvisibleChip(Enigma):
     def __init__(self):
         super(CursorMaskFindInvisibleChip, self).__init__()
@@ -307,7 +323,8 @@ class CursorMaskFindInvisibleChip(Enigma):
         symbol_hints = list()
 
         for index, symbols_param_list in self.params.symbols.items():
-            for (movie2_hint_idle_name, movie2_hint_select_name, movie2_hint_fail_name, movie2_symbol_idle_name, movie2_symbol_select_name, movie2_symbol_fail_name) in symbols_param_list:
+            for (movie2_hint_idle_name, movie2_hint_select_name, movie2_hint_fail_name, movie2_symbol_idle_name,
+                 movie2_symbol_select_name, movie2_symbol_fail_name) in symbols_param_list:
                 movie2_symbol_idle = get_movie(movie2_symbol_idle_name)
                 movie2_symbol_select = get_movie(movie2_symbol_select_name)
                 movie2_symbol_fail = get_movie(movie2_symbol_fail_name)
@@ -375,7 +392,8 @@ class CursorMaskFindInvisibleChip(Enigma):
             self.tc_smooth_alpha_cursor_movie_with_mask = TaskManager.createTaskChain(Repeat=False)
 
             with self.tc_smooth_alpha_cursor_movie_with_mask as tc:
-                tc.addTask("TaskNodeAlphaTo", Node=self.cursor_movie_with_mask.getEntityNode(), To=alpha_to, Time=self.params.cursor_movie_alpha_time)
+                tc.addTask("TaskNodeAlphaTo", Node=self.cursor_movie_with_mask.getEntityNode(), To=alpha_to,
+                           Time=self.params.cursor_movie_alpha_time)
 
     def enableMoveCursorMovieTC(self, enable):
         if enable:

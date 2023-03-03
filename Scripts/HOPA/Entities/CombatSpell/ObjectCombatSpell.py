@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectCombatSpell(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectCombatSpell, self)._onParams(params)
@@ -11,5 +12,3 @@ class ObjectCombatSpell(ObjectEnigma):
         self.initParam("FieldXY", params, [])
         self.initParam("AITurn", params, False)
         self.initParam("CheckWin", params, False)
-        pass
-    pass

@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from HOPA.ItemManager import ItemManager
 
+
 class MindBranchManager(object):
     s_branch = []
 
@@ -26,6 +27,7 @@ class MindBranchManager(object):
         def getItemName(self):
             return self.InventoryItemName
             pass
+
         def getGroupName(self):
             return self.GroupName
             pass

@@ -8,6 +8,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
 
+
 class SystemStore(System):
 
     def _onRun(self):
@@ -132,7 +133,8 @@ class SystemStore(System):
     # === Observers ====================================================================================================
 
     def _addAnalytics(self):
-        SystemAnalytics.addAnalytic("store_open_page", Notificator.onStoreTabSwitched, check_method=None, params_method=lambda _, to_page_id: {"page_id": to_page_id})
+        SystemAnalytics.addAnalytic("store_open_page", Notificator.onStoreTabSwitched, check_method=None,
+                                    params_method=lambda _, to_page_id: {"page_id": to_page_id})
 
     def _setupObservers(self):
         tab_params = StoreManager.getTabsSettings()

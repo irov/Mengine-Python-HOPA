@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 
 from CollectedMapManager import CollectedMapManager
 
+
 class CollectedMap(BaseEntity):
     @staticmethod
     def declareORM(Type):

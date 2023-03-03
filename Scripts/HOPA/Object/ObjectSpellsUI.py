@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectSpellsUI(DemonObject):
     @staticmethod
     def declareORM(Type):

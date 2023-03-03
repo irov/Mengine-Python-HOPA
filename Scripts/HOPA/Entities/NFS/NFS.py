@@ -3,12 +3,14 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.NFSManager import NFSManager
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 PI = 3.14159265
 
 min_speed = 0.05
 max_speed = 0.25
+
 
 class NFS(Enigma):
 
@@ -242,7 +244,8 @@ class NFS(Enigma):
         self.onAffectorTimingId = Mengine.timing(0.0, self.__onAffector)
         self.onCollisionTimingId = Mengine.timing(0.5, self.__onCollision)
 
-        self.setEventListener(onGlobalHandleMouseMove=self._onGlobalHandleMouseMove, onGlobalHandleMouseButtonEvent=self._onGlobalHandleMouseButtonEvent)
+        self.setEventListener(onGlobalHandleMouseMove=self._onGlobalHandleMouseMove,
+                              onGlobalHandleMouseButtonEvent=self._onGlobalHandleMouseButtonEvent)
         self.enableGlobalMouseEvent(True)
 
         if Mengine.isMouseButtonDown(0) is True:
@@ -265,7 +268,7 @@ class NFS(Enigma):
                     self.speed_slow = value
                     pass
 
-                tc1.addTask("TaskInterpolatorLinearFloat", Time=1. * 1000, From=self.speed_slow, To=0.0, Fn=__onSpeedZero)  # speed fix
+                tc1.addTask("TaskInterpolatorLinearFloat", Time=1. * 1000, From=self.speed_slow, To=0.0, Fn=__onSpeedZero)
                 tc2.addTask("AliasFadeIn", Time=1.0 * 1000, FadeGroupName="Fade", To=1.0)  # speed fix
                 pass
 
@@ -350,7 +353,8 @@ class NFS(Enigma):
             time = 0.3
             time *= 1000  # speed fix
 
-            TaskManager.runAlias("AliasObjectMoveTo", None, Object=Sprite_Progress, To=(ProgressBarX, self.ProgressBar[0][1]), Time=time)
+            TaskManager.runAlias("AliasObjectMoveTo", None, Object=Sprite_Progress,
+                                 To=(ProgressBarX, self.ProgressBar[0][1]), Time=time)
 
             #            Sprite_Progress.setPosition((ProgressBarX, self.ProgressBar[0][1]))
             #            self.progressbar_pitstop_offset
@@ -572,4 +576,5 @@ class NFS(Enigma):
             #            self.CameraFollowInterpolatorId = Mengine.addInterpolatorLinearFloat(1, zoom_from, 1.0, __onCameraZoomInterpolator)
             pass
         pass
+
     pass

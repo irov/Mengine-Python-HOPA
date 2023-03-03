@@ -5,7 +5,9 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from HOPA.MoveChipsToRightPlacesManager import MoveChipsToRightPlacesManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoveChipsToRightPlaces(Enigma):
     class Chip(object):
@@ -89,6 +91,7 @@ class MoveChipsToRightPlaces(Enigma):
     def _onDeactivate(self):
         super(MoveChipsToRightPlaces, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -99,6 +102,7 @@ class MoveChipsToRightPlaces(Enigma):
 
     def _restoreEnigma(self):
         self._playEnigma()
+
     # ==================================================================================================================
 
     # -------------- _onPreparation methods ----------------------------------------------------------------------------
@@ -109,6 +113,7 @@ class MoveChipsToRightPlaces(Enigma):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
         BG = Group.getObject('Movie_Environment_back')
+
         def setupObj(dict, objDict):
             for (ChipID, movieName) in dict.iteritems():
                 placeToMove = BG.getSocket('place_{}'.format(ChipID))
@@ -117,6 +122,7 @@ class MoveChipsToRightPlaces(Enigma):
                 objDict[ChipID] = obj
 
         setupObj(self.param.chipDict, self.chips)
+
     # ==================================================================================================================
 
     # -------------- Task Chain ----------------------------------------------------------------------------------------
@@ -190,6 +196,7 @@ class MoveChipsToRightPlaces(Enigma):
 
             if flagOnPlace == len(self.chips):
                 self.enigmaComplete()
+
     # ==================================================================================================================
 
     # -------------- _cleanUp ------------------------------------------------------------------------------------------

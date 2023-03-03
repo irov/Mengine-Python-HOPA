@@ -3,6 +3,7 @@ from Notification import Notification
 
 from StrategyGuideZoomManager import StrategyGuideZoomManager
 
+
 class StrategyGuideZoom(BaseEntity):
     @staticmethod
     def declareORM(Type):

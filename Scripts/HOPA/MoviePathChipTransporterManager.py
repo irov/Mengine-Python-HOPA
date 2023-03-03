@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class MoviePathChipTransporterManager(Manager):
     s_puzzles = {}
 
@@ -34,7 +35,8 @@ class MoviePathChipTransporterManager(Manager):
             StartSlot = record.get("StartSlot")
             WinSlotsChain = record.get("WinSlotsChain", [])
 
-            result = MoviePathChipTransporterManager.addParam(EnigmaName, module, ParamSlots, ParamPaths, ParamGraph, MovieSlots, MovieChip, StartSlot, WinSlotsChain)
+            result = MoviePathChipTransporterManager.addParam(EnigmaName, module, ParamSlots, ParamPaths, ParamGraph,
+                                                              MovieSlots, MovieChip, StartSlot, WinSlotsChain)
 
             if result is False:
                 error_msg = "MoviePathChipTransporterManager invalid addParam {}".format(EnigmaName)
@@ -44,7 +46,8 @@ class MoviePathChipTransporterManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, ParamSlots, ParamPaths, ParamGraph, MovieSlots, MovieChip, StartSlot, WinSlotsChain):
+    def addParam(EnigmaName, Module, ParamSlots, ParamPaths, ParamGraph, MovieSlots, MovieChip, StartSlot,
+                 WinSlotsChain):
         if EnigmaName in MoviePathChipTransporterManager.s_puzzles:
             error_msg = "MoviePathChipTransporterManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -104,7 +107,9 @@ class MoviePathChipTransporterManager(Manager):
 
             graph_dict[(FromSlotID, ToSlotID)] = PathID
 
-        NewParam = MoviePathChipTransporterManager.MoviePathChipTransporterParam(MovieSlots, MovieChip, StartSlot, WinSlotsChain, slots_dict, paths_dict, graph_dict)
+        NewParam = MoviePathChipTransporterManager.MoviePathChipTransporterParam(MovieSlots, MovieChip, StartSlot,
+                                                                                 WinSlotsChain, slots_dict, paths_dict,
+                                                                                 graph_dict)
 
         MoviePathChipTransporterManager.s_puzzles[EnigmaName] = NewParam
         return True

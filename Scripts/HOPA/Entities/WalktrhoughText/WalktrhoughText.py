@@ -4,6 +4,7 @@ from HOPA.WalktrhoughTextManager import WalktrhoughTextManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class WalktrhoughText(BaseEntity):
     @staticmethod
     def declareORM(Type):

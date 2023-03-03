@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.HOGManager import HOGManager
 
+
 class PolicyHOGRollingItemFoundEffectCrossOut(TaskAlias):
     def _onParams(self, params):
         super(PolicyHOGRollingItemFoundEffectCrossOut, self)._onParams(params)

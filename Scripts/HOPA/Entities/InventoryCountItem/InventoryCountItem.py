@@ -4,14 +4,19 @@ from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 InventoryItem = Mengine.importEntity("InventoryItem")
+
 
 class InventoryCountItem(InventoryItem):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems", Update=InventoryItem._restoreFoundItems, Append=InventoryCountItem._appendFoundItems, Remove=InventoryItem._removeFoundItems)
+        Type.addAction(Type, "FoundItems",
+                       Update=InventoryItem._restoreFoundItems,
+                       Append=InventoryCountItem._appendFoundItems,
+                       Remove=InventoryItem._removeFoundItems)
 
         Type.addAction(Type, "SpriteResourceName")
         Type.addAction(Type, "ArrowPoint")

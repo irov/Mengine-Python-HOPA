@@ -9,16 +9,23 @@ from HOPA.Entities.StorePage.Buttons import ButtonFactory
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
 
+
 _Log = SimpleLogger("Store")
+
 
 class Store(BaseEntity):
 
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "CurrentPageID", Update=Store._cbUpdatePageID)
-        Type.addAction(Type, "UnvisitedPagesID", Append=Store._cbAppendUnvisitedPagesID, Remove=Store._cbRemoveUnvisitedPagesID)
-        Type.addAction(Type, "HiddenPagesID", Append=Store._cbAppendHiddenPagesID, Remove=Store._cbRemoveHiddenPagesID)
+        Type.addAction(Type, "CurrentPageID",
+                       Update=Store._cbUpdatePageID)
+        Type.addAction(Type, "UnvisitedPagesID",
+                       Append=Store._cbAppendUnvisitedPagesID,
+                       Remove=Store._cbRemoveUnvisitedPagesID)
+        Type.addAction(Type, "HiddenPagesID",
+                       Append=Store._cbAppendHiddenPagesID,
+                       Remove=Store._cbRemoveHiddenPagesID)
 
     def __init__(self):
         super(Store, self).__init__()
@@ -66,7 +73,8 @@ class Store(BaseEntity):
             return False
 
         if StoreTabs.hasObject("Movie2_Tabs") is False:
-            Trace.log("Entity", 0, "Store.createTabs failed - not found parent movie {!r} in group StoreTabs".format("Movie2_Tabs"))
+            Trace.log("Entity", 0,
+                      "Store.createTabs failed - not found parent movie {!r} in group StoreTabs".format("Movie2_Tabs"))
             return False
 
         if StoreTabs.hasObject("Movie2_BG") is True:
@@ -83,7 +91,8 @@ class Store(BaseEntity):
         self.tab_section = tab_section
 
         if StoreTabs.hasObject("Movie2_Content") is False:
-            Trace.log("Entity", 0, "Store.createTabs failed - not found movie {!r} - scroll disabled".format("Movie2_Content"))
+            Trace.log("Entity", 0,
+                      "Store.createTabs failed - not found movie {!r} - scroll disabled".format("Movie2_Content"))
             return False
         content_movie = StoreTabs.getObject("Movie2_Content")
         tab_section.setupVirtualArea(content_movie, slot_name="tabs", socket_name="touch")

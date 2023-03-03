@@ -7,12 +7,14 @@ from Foundation.Utils import SimpleLogger
 from Foundation.Utils import calcTime, getCurrentPublisher
 from Notification import Notification
 
+
 ALIAS_COINS = "$AliasGameStoreCoinsCount"
 ALIAS_ENV = ""
 TEXT_ID_COINS = "ID_TEXT_GAMESTORE_BALANCE"
 TEXT_ID_EMPTY = "ID_EMPTY"
 
 _Log = SimpleLogger("GameStore")
+
 
 class GameStore(BaseEntity):
 
@@ -47,7 +49,11 @@ class GameStore(BaseEntity):
         if self.isStoreEnable() is False:
             return
 
-        observers = [Notification.addObserver(Notificator.onUpdateGoldBalance, self.refreshBalance), Notification.addObserver(Notificator.onAvailableAdsEnded, self.__onAdsEnded), Notification.addObserver(Notificator.onProductsUpdateDone, self._onProductsUpdateDone)]
+        observers = [
+            Notification.addObserver(Notificator.onUpdateGoldBalance, self.refreshBalance),
+            Notification.addObserver(Notificator.onAvailableAdsEnded, self.__onAdsEnded),
+            Notification.addObserver(Notificator.onProductsUpdateDone, self._onProductsUpdateDone)
+        ]
         self.observers = observers
 
         ad_card = self.getAdCard()
@@ -105,10 +111,18 @@ class GameStore(BaseEntity):
                 else:
                     _Log("{}:{} not inited ({} hasn't this object)".format(key, movie_name, self.object.getName()), err=True)
 
-        content = {"window": "Movie2_Window", "close": "Movie2Button_CloseWindow", "balance": "Movie2Button_Balance", "indicator": "Movie2_Indicator"}
+        content = {
+            "window": "Movie2_Window",
+            "close": "Movie2Button_CloseWindow",
+            "balance": "Movie2Button_Balance",
+            "indicator": "Movie2_Indicator"
+        }
         _getMovies(content, self.content)
 
-        effects = {"appear": "Movie2_Appear", "disappear": "Movie2_Disappear", }
+        effects = {
+            "appear": "Movie2_Appear",
+            "disappear": "Movie2_Disappear",
+        }
         _getMovies(effects, self.effects)
 
     def __initMovies(self):
@@ -349,6 +363,7 @@ class GameStore(BaseEntity):
         with tc_open as tc:
             tc.addScope(self.scopeOpenStore)
 
+
 # --- StoreCards
 
 
@@ -443,7 +458,8 @@ class StoreCardMixin(object):
         price = MonetizationManager.getProductPrice(self.prod_id)
         currency = MonetizationManager.getCurrentCurrencySymbol() or ""
 
-        Mengine.setTextAliasArguments(self.env, self.ALIAS_PRICE, self.PRICE_TEMPLATE.format(price=str(price), currency=currency))
+        Mengine.setTextAliasArguments(self.env, self.ALIAS_PRICE,
+                                      self.PRICE_TEMPLATE.format(price=str(price), currency=currency))
 
     def _setDescr(self):
         descr_text_id = self.params.descr
@@ -469,6 +485,7 @@ class StoreCardMixin(object):
     def _scopeInteractDummy(self, source):
         source.addDummy()
 
+
 class StoreCardDefault(StoreCardMixin):
     # PRICE_TEMPLATE is overrides in GameStore.createStoreCards
     PRICE_TEMPLATE = "{currency}{price}"
@@ -483,7 +500,10 @@ class StoreCardDefault(StoreCardMixin):
 
     def _scopeInteractDummy(self, source):
         prod_params = self.prod_params
-        source.addFunction(_Log, "[{}] Dummy pay {} money for prod id {} ({!r}: {}) that returns {}".format(self.card_id, prod_params.price, self.prod_id, prod_params.name, prod_params.descr, prod_params.reward))
+        source.addFunction(_Log, "[{}] Dummy pay {} money for prod id {} ({!r}: {}) that returns {}".format(
+            self.card_id, prod_params.price, self.prod_id, prod_params.name, prod_params.descr, prod_params.reward)
+        )
+
 
 class StoreCardAdvert(StoreCardMixin):
     unblock_timestamp = None

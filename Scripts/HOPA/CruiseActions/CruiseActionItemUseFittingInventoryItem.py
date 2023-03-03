@@ -6,6 +6,7 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ItemManager import ItemManager
 
+
 class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
     def __init__(self):
         super(CruiseActionItemUseFittingInventoryItem, self).__init__()
@@ -14,25 +15,20 @@ class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
         self.SocketName = None
 
         self.Inventory = DemonManager.getDemon("FittingInventory")
-        pass
 
     def _onParams(self, params):
         super(CruiseActionItemUseFittingInventoryItem, self)._onParams(params)
 
         self.InventoryItem = params["InventoryItem"]
-        pass
 
     def _onCheck(self):
         if CruiseControlManager.inBlackList(self.Item) is True:
             return False
-            pass
 
         if self.Inventory.hasInventoryItem(self.InventoryItem) is False:
             return False
-            pass
 
         return True
-        pass
 
     def _onAction(self, cruise):
         Inventory = DemonManager.getDemon("FittingInventory")
@@ -72,4 +68,5 @@ class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
     def _onEnd(self):
         super(CruiseActionItemUseFittingInventoryItem, self)._onEnd()
         pass
+
     pass

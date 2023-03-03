@@ -5,6 +5,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class PolicyEffectInventoryGetInventoryItemFXMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyEffectInventoryGetInventoryItemFXMovie, self)._onParams(params)
@@ -197,4 +198,5 @@ class PolicyEffectInventoryGetInventoryItemFXMovie(TaskAlias):
         slot.setItem(InventoryItem)
         return
         pass
+
     pass

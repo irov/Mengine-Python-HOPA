@@ -3,6 +3,7 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyNotEnoughEnergyStoreWithPack(TaskAlias):
 
     def _onParams(self, params):

@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMovieInterrupt(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -20,4 +21,5 @@ class MacroMovieInterrupt(MacroCommand):
 
         source.addTask("TaskMovieInterrupt", Movie=Object)
         pass
+
     pass

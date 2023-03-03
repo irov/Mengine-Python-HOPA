@@ -2,6 +2,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingDisableSlot(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -20,11 +21,13 @@ class MacroHOGFittingDisableSlot(MacroCommand):
         Enigma = EnigmaManager.getEnigmaObject(self.EnigmaName)
         EnigmaEntity = Enigma.getEntity()
         Inventory = EnigmaEntity.getInventory()
+
         # Inventory = DemonManager.getDemon("HOGInventoryFitting")
 
         def ff():
             Inventory.getEntity().DisableSlotItem(self.ItemName)
             pass
+
         source.addTask("TaskFunction", Fn=ff)
         pass
 

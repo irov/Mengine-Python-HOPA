@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskHOGInventoryCrossOut(TaskAlias):
     HOG_TEXT_COLOR_OFF = (0.3, 0.3, 0.3, 1)
 
@@ -77,4 +78,5 @@ class TaskHOGInventoryCrossOut(TaskAlias):
         textLine.setScale((textLength.x, 3.0, 1.0))
         textField.setLocalColor(self.HOG_TEXT_COLOR_OFF)
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintReadyMovieFade(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintReadyMovieFade, self)._onParams(params)
@@ -35,4 +36,5 @@ class PolicyHintReadyMovieFade(TaskAlias):
 
             tc_Play.addTask("TaskMovie2Play", Movie2=MovieReady, Loop=True, Wait=False)
         pass
+
     pass

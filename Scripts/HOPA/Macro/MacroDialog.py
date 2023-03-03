@@ -1,6 +1,7 @@
 from HOPA.DialogManager import DialogManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDialog(MacroCommand):
     def _onValues(self, values):
         self.DialogID = values[0]
@@ -15,11 +16,13 @@ class MacroDialog(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "Dialog", SceneName=self.SceneName, GroupName=self.GroupName, DialogID=self.DialogID)
+        Quest = self.addQuest(source, "Dialog", SceneName=self.SceneName, GroupName=self.GroupName,
+                              DialogID=self.DialogID)
 
         with Quest as tc_quest:
             tc_quest.addTask("TaskSceneInit", SceneName=self.SceneName)
             tc_quest.addTask("AliasDialogPlay", DialogID=self.DialogID)
             pass
         pass
+
     pass

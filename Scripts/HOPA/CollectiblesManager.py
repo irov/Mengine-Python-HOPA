@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class CollectiblesManager(Manager):
     s_collectibles_params = {}
     s_collectibles_scene_params = {}
@@ -18,7 +19,8 @@ class CollectiblesManager(Manager):
             self.group_name = group_name
 
     class CollectibleSceneParam(object):
-        def __init__(self, collectible_group_id, scene_name, transition_text_movie_name, icon_block_state_movie_name, icon_idle_state_movie_name, icon_complete_state_movie_name, scene_icon_name):
+        def __init__(self, collectible_group_id, scene_name, transition_text_movie_name, icon_block_state_movie_name,
+                     icon_idle_state_movie_name, icon_complete_state_movie_name, scene_icon_name):
             self.collectible_group_id = collectible_group_id
             self.scene_name = scene_name
             self.transition_text_movie_name = transition_text_movie_name
@@ -126,7 +128,8 @@ class CollectiblesManager(Manager):
         movie_collect_idle_state_name = record.get("MovieCollectIdleStateName")
         group_name = record.get("GroupName")
 
-        collectibles_param = CollectiblesManager.CollectibleParam(item_id, scene_name, movie_collect_name, movie_collect_idle_state_name, group_name)
+        collectibles_param = CollectiblesManager.CollectibleParam(item_id, scene_name, movie_collect_name,
+                                                                  movie_collect_idle_state_name, group_name)
 
         CollectiblesManager.s_collectibles_params[item_id] = collectibles_param
 
@@ -143,7 +146,12 @@ class CollectiblesManager(Manager):
         icon_complete_state_movie_name = record.get("CompleteState")
         transition_text_movie_name = record.get("TransitionText")
         scene_icon_name = record.get("SceneIcon")
-        collectible_scene_param = CollectiblesManager.CollectibleSceneParam(collectible_group_id, scene_name, transition_text_movie_name, icon_block_state_movie_name, icon_idle_state_movie_name, icon_complete_state_movie_name, scene_icon_name)
+        collectible_scene_param = CollectiblesManager.CollectibleSceneParam(collectible_group_id, scene_name,
+                                                                            transition_text_movie_name,
+                                                                            icon_block_state_movie_name,
+                                                                            icon_idle_state_movie_name,
+                                                                            icon_complete_state_movie_name,
+                                                                            scene_icon_name)
         CollectiblesManager.s_collectibles_scene_params[scene_name] = collectible_scene_param
 
     @staticmethod

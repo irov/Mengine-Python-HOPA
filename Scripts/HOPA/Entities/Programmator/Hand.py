@@ -153,8 +153,10 @@ class Hand(object):
             """
             print current run method
             """
+
             def show(self, *args):
                 return bound_method(self, *args)
+
             return show
             pass
 
@@ -333,8 +335,10 @@ class Hand(object):
         """
         print current run method
         """
+
         def show(self, *args):
             return bound_method(self, *args)
+
         return show
         pass
 
@@ -344,6 +348,7 @@ class Hand(object):
                 return
             else:
                 return bound_method(self, *args)
+
         return wrap
 
     @term

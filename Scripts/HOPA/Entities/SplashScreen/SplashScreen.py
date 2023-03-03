@@ -5,6 +5,7 @@ from Notification import Notification
 
 from SplashScreenManager import SplashScreenManager
 
+
 class Splash(object):
     def __init__(self, resource, type, resource_name):
         self.resource = resource
@@ -41,6 +42,7 @@ class Splash(object):
             source.addTask("TaskSurfaceAnimationPlay", Surface=surface)
             pass
         pass
+
 
 class SplashScreen(BaseEntity):
 
@@ -130,4 +132,3 @@ class SplashScreen(BaseEntity):
             Mengine.destroyNode(splash.shape)
 
         Notification.notify(Notificator.onPlaySplashScreens)
-        pass

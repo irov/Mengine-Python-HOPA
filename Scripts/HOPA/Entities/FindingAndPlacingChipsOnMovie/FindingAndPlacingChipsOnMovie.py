@@ -2,7 +2,9 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
 from HOPA.FindingAndPlacingChipsOnMovieManager import FindingAndPlacingChipsOnMovieManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Chip(object):
     def __init__(self, chip_id, chip_movie, movie_place, demon_node):
@@ -16,6 +18,7 @@ class Chip(object):
         self.movie_place.setEnable(False)
         self.demon_node.addChild(self.chip_movie.getEntityNode())
         self.demon_node.addChild(self.movie_place.getEntityNode())
+
 
 class FindingAndPlacingChipsOnMovie(Enigma):
     @staticmethod

@@ -2,7 +2,9 @@ from HOPA.ChainClickManager import ChainClickManager
 
 from ChainClickElement import ChainClickElement
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChainClick(Enigma):
     def __init__(self):
@@ -116,7 +118,8 @@ class ChainClick(Enigma):
             itemObject = self.object.getObject(elementData["ObjectName"])
             itemClickedObject = self.object.getObject(elementData["ClickedObjectName"])
 
-            movieCompleteObject = self.object.generateObject(elementData["CompleteObjectName"], elementData["CompleteObjectName"])
+            movieCompleteObject = self.object.generateObject(elementData["CompleteObjectName"],
+                                                             elementData["CompleteObjectName"])
 
             element = ChainClickElement(itemObject, itemClickedObject, movieCompleteObject)
             self.elements[elementId] = element
@@ -126,18 +129,11 @@ class ChainClick(Enigma):
             self.chains[chainId] = chain
             if chain.needToWin == 1:
                 self.chainsToWin.append(chainId)
-                pass
 
             for elementId in chain.elements:
                 element = self.elements[elementId]
                 element.setChain(chainId)
-                pass
-            pass
-        pass
 
     def _playEnigma(self):
         for elementId, element in self.elements.items():
             element.initialize(self._onClickElement)
-            pass
-        pass
-    pass

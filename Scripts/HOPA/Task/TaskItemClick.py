@@ -4,6 +4,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskItemClick(MixinItem, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskItemClick, self)._onParams(params)
@@ -46,4 +47,5 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
 
         return True
         pass
+
     pass

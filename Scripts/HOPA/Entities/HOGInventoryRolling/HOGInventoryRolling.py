@@ -5,9 +5,11 @@ from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
 
 HOGROLLING_MOVIE_SLOT_TEXTALIAS = "$text"
+
 
 class HOGInventorySlot(object):
     def __init__(self):
@@ -73,6 +75,7 @@ class HOGInventorySlot(object):
         self.movie = None
         self.hogItemName = []
 
+
 class HOGInventoryRolling(InventoryBase):
 
     @staticmethod
@@ -83,8 +86,12 @@ class HOGInventoryRolling(InventoryBase):
         Type.addAction(Type, "ItemsCount")
 
         Type.addAction(Type, "HOG")
-        Type.addActionActivate(Type, "FindItems", Append=HOGInventoryRolling._appendFindItems, Update=HOGInventoryRolling._updateFindItems)
-        Type.addActionActivate(Type, "FoundItems", Append=HOGInventoryRolling._appendFoundItems, Update=HOGInventoryRolling._updateFoundItems)
+        Type.addActionActivate(Type, "FindItems",
+                               Append=HOGInventoryRolling._appendFindItems,
+                               Update=HOGInventoryRolling._updateFindItems)
+        Type.addActionActivate(Type, "FoundItems",
+                               Append=HOGInventoryRolling._appendFoundItems,
+                               Update=HOGInventoryRolling._updateFoundItems)
 
     def __init__(self):
         super(HOGInventoryRolling, self).__init__()

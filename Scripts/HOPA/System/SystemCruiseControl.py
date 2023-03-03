@@ -11,6 +11,7 @@ from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 CRUISE_LOGGER = None
 
 ActionConsideredBlockedTime = DefaultManager.getDefaultFloat("CruiseControlActionConsideredBlockedTimeMs", 3000.0)
@@ -24,6 +25,7 @@ CruiseControlCursorSpeed = DefaultManager.getDefaultFloat("CruiseControlCursorSp
 # DEPRECATED
 CruiseControlSpeedFactor = DefaultManager.getDefaultFloat("CruiseControlGameSpeedFactor", 1.0)
 
+
 def MAKE_CRUISE_LOG():
     global CRUISE_LOGGER
 
@@ -32,14 +34,17 @@ def MAKE_CRUISE_LOG():
         cruiseLogName = "Cruise_%s.log" % t
         CRUISE_LOGGER = Mengine.makeFileLogger(cruiseLogName)
 
+
 def __LOG_TIMESTAMP_MSG(msg):
     timestamp = Mengine.getLoggerTimestamp("[%02u:%02u:%02u:%04u]")
 
     return "%s %s" % (timestamp, msg)
 
+
 def CRUISE_LOG(msg):
     if CRUISE_LOGGER:
         CRUISE_LOGGER(msg)
+
 
 class SystemCruiseControl(System):
     def __init__(self):
@@ -84,14 +89,16 @@ class SystemCruiseControl(System):
 
                 self.__restartCruiseControl_Delayed()
 
-                self._debugCruisetLog("Cruise activated (Press {!r} to Deactivate)".format(DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")))
+                self._debugCruisetLog("Cruise activated (Press {!r} to Deactivate)".format(
+                    DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")))
 
             elif key == DefaultManager.getDefaultKey("CruiseControlDeactivate", "VK_E") and self.isTurnOn is True:
                 self.isTurnOn = False
 
                 self.__stopCruiseControl()
 
-                self._debugCruisetLog("Cruise deactivated (Press {!r} to Activate)".format(DefaultManager.getDefaultKeyName("CruiseControlActivate", "VK_W")))
+                self._debugCruisetLog("Cruise deactivated (Press {!r} to Activate)".format(
+                    DefaultManager.getDefaultKeyName("CruiseControlActivate", "VK_W")))
 
         return False
 
@@ -106,7 +113,8 @@ class SystemCruiseControl(System):
             quest = QuestManager.createLocalQuest('Message', SceneName=scene, GroupName=group)
 
             bShouldPressYes = True if text_id == "ID_POPUP_CONFIRM_MiniGame_QUIT" else False
-            cruise = CruiseControlManager.createCruiseAction("CruiseActionMessage", quest, SelectYesChoice=bShouldPressYes)
+            cruise = CruiseControlManager.createCruiseAction("CruiseActionMessage", quest,
+                                                             SelectYesChoice=bShouldPressYes)
 
             if cruise.onCheck():  # If Popup Window Is Active
 
@@ -203,7 +211,8 @@ class SystemCruiseControl(System):
                 tc_wait.addDelay(0.0)  # delay one frame
 
                 with tc_ok.addRaceTask(3) as (race_0, race_1, race_2):
-                    # race_0.addListener(Notificator.onQuestEnd, Filter=self.__onQuestEndFilter)  # better to use this in CruiseAction types where they needed
+                    # race_0.addListener(Notificator.onQuestEnd, Filter=self.__onQuestEndFilter)
+                    # better to use this in CruiseAction types where they needed
                     race_0.addBlock()
                     race_1.addListener(Notificator.onCruiseActionEnd, Filter=self.__onCruiseEndFilter)
                     race_2.addScope(self.__checkCruiseBlocker)
@@ -264,7 +273,8 @@ class SystemCruiseControl(System):
                         if group_name:
                             quest_param_name = group_name
 
-        msg = "[SystemCruiseControl] BLOCKER: skip action %s, quest: %s, param: %s, doesn't finished after %d seconds elapsed" % (self.currentAction.__class__.__name__, quest_type, quest_param_name, int(ActionConsideredBlockedTime / 1000.0))
+        msg = "[SystemCruiseControl] BLOCKER: skip action %s, quest: %s, param: %s, doesn't finished after %d seconds elapsed" % (
+            self.currentAction.__class__.__name__, quest_type, quest_param_name, int(ActionConsideredBlockedTime / 1000.0))
 
         source.addFunction(CRUISE_LOG, msg)
 
@@ -278,7 +288,8 @@ class SystemCruiseControl(System):
                 if DefaultManager.getDefaultBool('CruiseControlTestHint', False):
                     SystemManager.getSystem("SystemHint").showHintEvent(cb=self.currentAction.onAction)
                 else:
-                    self.currentAction.onAction()  # print "__cruiseActionCheck onAction: {}".format(self.currentAction.__class__.__name__)
+                    self.currentAction.onAction()
+                    # print "__cruiseActionCheck onAction: {}".format(self.currentAction.__class__.__name__)
                 return
 
             else:
@@ -337,13 +348,16 @@ class SystemCruiseControl(System):
                 if quest is not None:
                     quest_type = quest.getType()
 
-                self._debugCruisetLog("[3] Zoom Scene. Cruise Type {}, Quest type {}, SceneName {}, GroupName {}".format(CruiseAction.getType(), quest_type, currentSceneName, zoomGroupName))
+                self._debugCruisetLog(
+                    "[3] Zoom Scene. Cruise Type {}, Quest type {}, SceneName {}, GroupName {}".format(
+                        CruiseAction.getType(), quest_type, currentSceneName, zoomGroupName))
                 return CruiseAction
 
             CruiseAction = self.getSceneCruiseAction(currentSceneName, groupName)
             if CruiseAction is not None:
                 # print "__getCruiseAction (zoom group is not None) ZoomLeave"
-                self._debugCruisetLog("[4] CurrentSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(CruiseAction.__class__.__name__, CruiseAction.Quest))
+                self._debugCruisetLog("[4] CurrentSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(
+                    CruiseAction.__class__.__name__, CruiseAction.Quest))
                 return self.createZoomLeaveCruiseAction(zoomGroupName)
 
             CruiseSceneName, CruiseAction = self.getAroundSceneCruiseAction(currentSceneName, True)
@@ -354,12 +368,14 @@ class SystemCruiseControl(System):
                 if TransitionObject is not None and TransitionObject.getGroupName() == zoomGroupName:
                     CruiseAction = self.createSceneEnterCruiseAction(TransitionObject)
                     if CruiseAction is not None:
-                        self._debugCruisetLog("[5] AroundSceneCheck, created SceneEnterCruiseAction: {} {}".format(CruiseAction.__class__.__name__, CruiseAction.Quest))
+                        self._debugCruisetLog("[5] AroundSceneCheck, created SceneEnterCruiseAction: {} {}".format(
+                            CruiseAction.__class__.__name__, CruiseAction.Quest))
                         # print "__getCruiseAction (zoom group is not None) sceneEnter(TransitionObj)"
                         return CruiseAction
 
             CruiseAction = self.createZoomLeaveCruiseAction(zoomGroupName)
-            self._debugCruisetLog("[6] AroundSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(CruiseAction.__class__.__name__, CruiseAction.Quest))
+            self._debugCruisetLog("[6] AroundSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(
+                CruiseAction.__class__.__name__, CruiseAction.Quest))
             # print "__getCruiseAction (zoom group is not None) zoomLeave"
             return CruiseAction
 
@@ -369,7 +385,8 @@ class SystemCruiseControl(System):
             # try get item collect cruise action
             cruiseAction = self.getItemCollectCruiseAction(currentSceneName)
             if cruiseAction is not None:
-                self._debugCruisetLog("[7] CollectItemSceneCheck, create ItemCollectCruiseAction: {} {}".format(cruiseAction.__class__.__name__, cruiseAction.Quest))
+                self._debugCruisetLog("[7] CollectItemSceneCheck, create ItemCollectCruiseAction: {} {}".format(
+                    cruiseAction.__class__.__name__, cruiseAction.Quest))
                 # print "__getCruiseAction ItemCollect"
                 return cruiseAction
 
@@ -380,13 +397,15 @@ class SystemCruiseControl(System):
                 if quest is not None:
                     quest_type = quest.getType()
 
-                self._debugCruisetLog("[8] Scene. Cruise Type {}, Quest type {}, SceneName {}, GroupName {}".format(CruiseAction.getType(), quest_type, currentSceneName, zoomGroupName))
+                self._debugCruisetLog("[8] Scene. Cruise Type {}, Quest type {}, SceneName {}, GroupName {}".format(
+                    CruiseAction.getType(), quest_type, currentSceneName, zoomGroupName))
                 # print "__getCruiseAction (zoom is None) Scene"
                 return CruiseAction
 
             cruiseAction = self.getZoomCruiseAction(currentSceneName)
             if cruiseAction is not None:
-                self._debugCruisetLog("[9] ZoomCheck, CreateZoomEnterCruiseAction: {} {}".format(cruiseAction.__class__.__name__, cruiseAction.Quest))
+                self._debugCruisetLog("[9] ZoomCheck, CreateZoomEnterCruiseAction: {} {}".format(
+                    cruiseAction.__class__.__name__, cruiseAction.Quest))
                 # print "__getCruiseAction (zoom is None) ZoomEnter"
                 return cruiseAction
 
@@ -400,29 +419,33 @@ class SystemCruiseControl(System):
 
                         cruiseAction = self.createZoomEnterCruiseAction(currentSceneName, TransitionGroupName, False)
                         if cruiseAction is not None:
-                            self._debugCruisetLog("[10] CreateZoomEnterCruiseAction: {} {}".format(cruiseAction.__class__.__name__, cruiseAction.Quest))
+                            self._debugCruisetLog("[10] CreateZoomEnterCruiseAction: {} {}".format(
+                                cruiseAction.__class__.__name__, cruiseAction.Quest))
                             # print "__getCruiseAction (zoom is None) (transition obj is not None) ZoomEnter"
                             return cruiseAction
 
                     else:
                         CruiseAction = self.createSceneEnterCruiseAction(TransitionObject)
                         if CruiseAction is not None:
-                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {}".format(CruiseAction.__class__.__name__, CruiseAction.Quest))
+                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {}".format(
+                                CruiseAction.__class__.__name__, CruiseAction.Quest))
                             # print "__getCruiseAction (zoom is None) (trans obj is not None) (trans obj is Active) SceneEnter"
                             return CruiseAction
                         else:
-                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {} FAILED".format(currentSceneName, TransitionObject))
+                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {} FAILED".format(
+                                currentSceneName, TransitionObject))
 
                 elif TransitionManager.hasTransitionBack(currentSceneName) is True:
                     TransitionBackObject = TransitionManager.getTransitionBackObject()
 
                     CruiseAction = self.createSceneEnterCruiseAction(TransitionBackObject)
                     if CruiseAction is not None:
-                        self._debugCruisetLog("[12] CreateSceneEnterCruiseAction: {} {}".format(CruiseAction.__class__.__name__, CruiseAction.Quest))
+                        self._debugCruisetLog("[12] CreateSceneEnterCruiseAction: {} {}".format(
+                            CruiseAction.__class__.__name__, CruiseAction.Quest))
                         # print "__getCruiseAction (zoom is None) (trans obj is None) TransitionBack"
                         return CruiseAction
                     else:
-                        self._debugCruisetLog("[12] CreateSceneEnterCruiseAction: {} FAILED".format(currentSceneName))  # print "EAT SHIT MOTHERFUCKER!!!"
+                        self._debugCruisetLog("[12] CreateSceneEnterCruiseAction: {} FAILED".format(currentSceneName))
 
     def getSceneCruiseAction(self, sceneName, groupName, checkActive=True):
         """
@@ -446,9 +469,14 @@ class SystemCruiseControl(System):
 
             itemCollect = itemCollects[currentActiveItemCollectName]
 
-            Quest = QuestManager.createLocalQuest('ItemCollect', SceneName=currentActiveItemCollectName[0], GroupName=currentActiveItemCollectName[0], ItemList=itemCollect[0], Object=itemCollect[1])
+            Quest = QuestManager.createLocalQuest('ItemCollect', SceneName=currentActiveItemCollectName[0],
+                                                  GroupName=currentActiveItemCollectName[0], ItemList=itemCollect[0],
+                                                  Object=itemCollect[1])
 
-            return CruiseControlManager.createCruiseAction('CruiseActionItemCollect', Quest, SceneName=currentActiveItemCollectName[0], GroupName=currentActiveItemCollectName[0], ItemList=itemCollect[0], Object=itemCollect[1])
+            return CruiseControlManager.createCruiseAction('CruiseActionItemCollect', Quest,
+                                                           SceneName=currentActiveItemCollectName[0],
+                                                           GroupName=currentActiveItemCollectName[0],
+                                                           ItemList=itemCollect[0], Object=itemCollect[1])
 
         else:  # has closed ItemCollect create open ItemCollect
             itemCollects = SystemManager.getSystem("SystemItemCollect").getItemList()
@@ -460,9 +488,11 @@ class SystemCruiseControl(System):
                 if flag is True:
                     continue
 
-                Quest = QuestManager.createLocalQuest("ItemCollectOpen", SceneName=sceneName, GroupName=sceneName, Object=socket)
+                Quest = QuestManager.createLocalQuest("ItemCollectOpen", SceneName=sceneName, GroupName=sceneName,
+                                                      Object=socket)
 
-                return CruiseControlManager.createCruiseAction('CruiseActionClick', Quest, SceneName=sceneName, GroupName=sceneName, Object=socket)
+                return CruiseControlManager.createCruiseAction('CruiseActionClick', Quest, SceneName=sceneName,
+                                                               GroupName=sceneName, Object=socket)
 
     def getSpellUseCruiseAction(self, sceneName):
         if SystemManager.hasSystem("SystemSpells") is False:
@@ -475,7 +505,8 @@ class SystemCruiseControl(System):
             if UIComponent.hasSceneActiveQuest() is True:
                 Quests = UIComponent.getSceneActiveQuests()
                 power_name = Quests[0].params['PowerName']
-                return CruiseControlManager.createCruiseAction('CruiseActionSpellAmuletUseRune', Quests[0], Power_Name=power_name)
+                return CruiseControlManager.createCruiseAction('CruiseActionSpellAmuletUseRune', Quests[0],
+                                                               Power_Name=power_name)
 
     def getZoomCruiseAction(self, sceneName):
         if SceneManager.hasSceneZooms(sceneName) is False:
@@ -616,7 +647,8 @@ class SystemCruiseControl(System):
             Quest = QuestManager.getSceneQuest(SceneNameTo, GroupNameTo, "EnterScene")
 
         else:
-            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo, Transition=TransitionObject)
+            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo,
+                                                  Transition=TransitionObject)
             with TaskManager.createTaskChain() as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     tc_quest.addTask("TaskSceneEnter", SceneName=SceneNameTo)
@@ -645,7 +677,8 @@ class SystemCruiseControl(System):
             Quest = QuestManager.getSceneQuest(sceneName, zoomGroupName, "EnterZoom")
 
         else:
-            Quest = QuestManager.createLocalQuest("EnterZoom", Zoom=ZoomObject, GroupName=zoomGroupName, SceneName=sceneName)
+            Quest = QuestManager.createLocalQuest("EnterZoom", Zoom=ZoomObject,
+                                                  GroupName=zoomGroupName, SceneName=sceneName)
 
         Params = dict(Zoom=ZoomObject)
 

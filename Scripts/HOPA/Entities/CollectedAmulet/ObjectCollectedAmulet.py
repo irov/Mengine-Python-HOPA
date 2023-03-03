@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCollectedAmulet(DemonObject):
     def _onParams(self, params):
         super(ObjectCollectedAmulet, self)._onParams(params)
@@ -25,5 +26,3 @@ class ObjectCollectedAmulet(DemonObject):
         pos = (posScene.x + hintPoint[0], posScene.y + hintPoint[1])
 
         return pos
-        pass
-    pass

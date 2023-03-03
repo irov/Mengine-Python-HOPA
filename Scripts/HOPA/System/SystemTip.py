@@ -6,12 +6,18 @@ from HOPA.QuestManager import QuestManager
 from HOPA.TipManager import TipManager
 from Notification import Notification
 
+
 class SystemTip(System):
     def __init__(self):
         super(SystemTip, self).__init__()
         self.activeTips = []
         self.objects = []
-        self.listTypes = [Notificator.onSocketClick, Notificator.onItemClick, Notificator.onZoomClick, Notificator.onTransitionClick]
+        self.listTypes = [
+            Notificator.onSocketClick,
+            Notificator.onItemClick,
+            Notificator.onZoomClick,
+            Notificator.onTransitionClick
+        ]
 
     def _onRun(self):
         for type in self.listTypes:

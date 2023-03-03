@@ -1,11 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ChangeScreenOnClickManager(Manager):
     s_puzzles = {}
 
     class Param(object):
-        def __init__(self, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight, StateNames, EnvironmentNames, Diractions, Board):
+        def __init__(self, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
+                     PrototypeArrowRight, StateNames, EnvironmentNames, Diractions, Board):
             self.MapName = MapName
             self.HandName = HandName
             self.StateNames = StateNames
@@ -18,7 +20,7 @@ class ChangeScreenOnClickManager(Manager):
             self.PrototypeArrowRight = PrototypeArrowRight
 
         def __repr__(self):
-            return "<ChangeScreenOnClickManager.Param id={} MovieSlots={} GridSize={}>".format(id(self), self.movie_slots, self.grid_size)
+            return "<ChangeScreenOnClickManager.Param id={}>".format(id(self))
 
     @staticmethod
     def loadParams(module, param):
@@ -35,7 +37,9 @@ class ChangeScreenOnClickManager(Manager):
             PrototypeArrowLeft = record.get("PrototypeArrowLeft", None)
             PrototypeArrowRight = record.get("PrototypeArrowRight", None)
 
-            result = ChangeScreenOnClickManager.addParam(EnigmaName, module, Param, ParamGraph, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight)
+            result = ChangeScreenOnClickManager.addParam(EnigmaName, module, Param, ParamGraph, MapName, HandName,
+                                                         PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
+                                                         PrototypeArrowRight)
 
             if result is False:
                 error_msg = "ChangeScreenOnClickManager invalid addParam {}".format(EnigmaName)
@@ -45,7 +49,8 @@ class ChangeScreenOnClickManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, Param, ParamGraph, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight):
+    def addParam(EnigmaName, Module, Param, ParamGraph, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown,
+                 PrototypeArrowLeft, PrototypeArrowRight):
         if EnigmaName in ChangeScreenOnClickManager.s_puzzles:
             error_msg = "ChangeScreenOnClickManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -80,7 +85,9 @@ class ChangeScreenOnClickManager(Manager):
             Values = record.get("Values", [])
             Board.append(Values)
 
-        NewParam = ChangeScreenOnClickManager.Param(MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight, StateNames, EnvironmentNames, Diractions, Board)
+        NewParam = ChangeScreenOnClickManager.Param(MapName, HandName, PrototypeArrowUp, PrototypeArrowDown,
+                                                    PrototypeArrowLeft, PrototypeArrowRight, StateNames,
+                                                    EnvironmentNames, Diractions, Board)
 
         ChangeScreenOnClickManager.s_puzzles[EnigmaName] = NewParam
         return True

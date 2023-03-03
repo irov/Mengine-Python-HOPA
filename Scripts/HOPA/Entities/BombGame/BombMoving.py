@@ -2,6 +2,7 @@ Enigma = Mengine.importEntity("Enigma")
 
 import math
 
+
 class BombMoving(object):
     Move_None = 0
     Move_Cant = 1
@@ -30,6 +31,7 @@ class BombMoving(object):
         self.SpawnPrevent = []
 
         pass
+
     ###################################
     def Move(self):
         self.Movies = []
@@ -132,6 +134,7 @@ class BombMoving(object):
             return True
             pass
         pass
+
     ###################
     def EndMove(self):
         if (self.Result == BombMoving.Move_Cant):
@@ -222,6 +225,7 @@ class BombMoving(object):
             slot_Prev.UpdateTypeVisual()
             pass
         pass
+
     ############
     def __MoveOut(self):
         slot_self = self.Game.getSlot(self.CurrentPos)
@@ -232,10 +236,12 @@ class BombMoving(object):
 
         self.Result = BombMoving.Move_Out
         pass
+
     ############
     def __MoveCantMove(self):
         self.Result = BombMoving.Move_Cant
         pass
+
     ###################################
 
     def SetMoveDir(self, MouseStart, MouseEnd):
@@ -344,4 +350,5 @@ class BombMoving(object):
                 pass
             pass
         pass
+
     pass

@@ -52,7 +52,9 @@ class Cell(object):
         self.left = None
         self.right = None
         pass
+
     pass
+
 
 class Field(object):
     def __init__(self, gameData):

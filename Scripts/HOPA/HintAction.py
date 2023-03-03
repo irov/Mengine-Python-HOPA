@@ -8,6 +8,7 @@ from HOPA.HintManager import HintManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class HintAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(HintAction, self).__init__()
@@ -190,5 +191,3 @@ class HintAction(MixinScene, Params, Initializer):
 
     def _onEnd(self):
         pass
-
-    pass

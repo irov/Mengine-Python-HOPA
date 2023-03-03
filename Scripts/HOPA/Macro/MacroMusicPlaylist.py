@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMusicPlaylist(MacroCommand):
     def _onValues(self, values):
         self.MusicPlaylistID = values[0]
@@ -9,4 +10,5 @@ class MacroMusicPlaylist(MacroCommand):
         source.addNotify(Notificator.onMusicPlatlistPlay, self.MusicPlaylistID)
         # source.addPrint("   ".format(self.MusicPlaylistID))
         pass
+
     pass

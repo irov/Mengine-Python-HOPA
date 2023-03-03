@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PaperConnectGameManager(object):
     Games = {}
 
@@ -7,20 +8,15 @@ class PaperConnectGameManager(object):
         def __init__(self, movie, moving):
             self.PaperMovieName = movie
             self.Moving = moving
-
             self.ConectTo = {}
-            pass
 
         def addConnect(self, paper):
             self.ConectTo[paper.PaperMovieName] = paper
-            pass
 
     class GameData(object):
         def __init__(self, Name):
             self.Name = Name
             self.Parts = {}
-            pass
-        pass
 
     @staticmethod
     def loadGames(module, param):
@@ -107,6 +103,3 @@ class PaperConnectGameManager(object):
             return None
             pass
         return PaperConnectGameManager.Games[name]
-        pass
-
-    pass

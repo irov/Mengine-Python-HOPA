@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasPickReagentPaper(TaskAlias):
     def _onParams(self, params):
         super(AliasPickReagentPaper, self)._onParams(params)
@@ -23,4 +24,5 @@ class AliasPickReagentPaper(TaskAlias):
         source.addTask("TaskEnable", Object=self.ItemObject, Value=False)
         source.addTask("TaskSetParam", Object=Demon, Param="EnablePaper", Value=True)
         pass
+
     pass

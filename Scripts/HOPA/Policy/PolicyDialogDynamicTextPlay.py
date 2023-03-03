@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyDialogDynamicTextPlay(TaskAlias):
 
     def __init__(self):
@@ -22,7 +23,8 @@ class PolicyDialogDynamicTextPlay(TaskAlias):
         self.ObjectText.setParam("TextID", None)
         source.addTask("TaskFunction", Fn=self.__AddToLayer, Args=(self.ObjectText, "Dialog",))
 
-        source.addTask("AliasTextPlay", ObjectText=self.ObjectText, TextID=self.TextID, TextDelay=self.TextDelay, AudioDuration=self.AudioDuration)
+        source.addTask("AliasTextPlay", ObjectText=self.ObjectText, TextID=self.TextID,
+                       TextDelay=self.TextDelay, AudioDuration=self.AudioDuration)
         # source.addTask("TaskFunction", Fn=self.clearance)
         pass
 

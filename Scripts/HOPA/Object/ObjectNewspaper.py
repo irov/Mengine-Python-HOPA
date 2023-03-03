@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectNewspaper(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -17,4 +18,5 @@ class ObjectNewspaper(DemonObject):
         self.initParam("Open", params, False)
         self.initParam("ShowComplete", params, False)
         pass
+
     pass

@@ -1,11 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class MagicVisionManager(object):
     s_movies = {}
     s_scenes = {}
     s_backScenes = {}
     s_backMovies = {}
+
     @staticmethod
     def onFinalize():
         MagicVisionManager.s_movies = {}
@@ -32,14 +34,14 @@ class MagicVisionManager(object):
                 movieActivate = GroupManager.getObject(GroupName, ActivateMovieName)
                 pass
             else:
-                Trace.log("MagicVisionManager", 0, "MagicVisionManager.loadMagicVision :: invalid parameters for Activate movies on Group:%s Scene:%s" % (GroupName, SceneName))
+                Trace.log("MagicVisionManager", 0, "loadMagicVision :: invalid parameters for Activate movies on Group:%s Scene:%s" % (GroupName, SceneName))
                 pass
 
             if GroupManager.hasObject(GroupNameTo, DeactivateMovieName) is True:
                 movieDeactivate = GroupManager.getObject(GroupNameTo, DeactivateMovieName)
                 pass
             else:
-                Trace.log("MagicVisionManager", 0, "MagicVisionManager.loadMagicVision :: invalid parameters for Deactivate movies on Group:%s Scene:%s" % (GroupNameTo, SceneNameTo))
+                Trace.log("MagicVisionManager", 0, "loadMagicVision :: invalid parameters for Deactivate movies on Group:%s Scene:%s" % (GroupNameTo, SceneNameTo))
                 pass
 
             MagicVisionManager.s_scenes[SceneName] = SceneNameTo

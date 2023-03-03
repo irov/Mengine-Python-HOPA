@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from Notification import Notification
 
+
 class Dialog(BaseEntity):
     def __init__(self):
         super(Dialog, self).__init__()
@@ -38,11 +39,7 @@ class Dialog(BaseEntity):
 
         with TaskManager.createTaskChain(Name="DialogMessage", Group=self.object, Cb=Functor(self._dialogEnd, dialogID)) as tc:
             DialogPolicy = PolicyManager.getPolicy("Dialog", "PolicyMonologue")
-
             tc.addTask(DialogPolicy, DialogID=dialogID, Dialog=self.object)
-            pass
-
-        pass
 
     def _dialogEnd(self, isEnd, dialogID):
         Notification.notify(Notificator.onDialogHide, dialogID, self.object)
@@ -65,7 +62,3 @@ class Dialog(BaseEntity):
             TaskManager.cancelTaskChain("DialogMessage")
 
             Notification.notify(Notificator.onDialogSkip, self.curID, self.object)
-            pass
-        pass
-
-    pass

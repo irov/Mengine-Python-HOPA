@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectHunt2d(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

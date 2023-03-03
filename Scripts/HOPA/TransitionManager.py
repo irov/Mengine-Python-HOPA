@@ -10,6 +10,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class TransitionManager(object):
     s_transition = []
     s_transitionBack = {}
@@ -217,33 +218,30 @@ class TransitionManager(object):
 
             MovieInGroupName = record.get("MovieFadeInGroup", None)
             MovieInName = record.get("MovieFadeInName", None)
+
             if MovieInName is not None:
                 if MovieInGroupName is None:
                     MovieInGroupName = GroupName
-                    pass
+
                 if GroupManager.hasObject(MovieInGroupName, MovieInName) is False:
                     Trace.log("Manager", 0, "TransitionManager.loadTransitionMovies: Group '%s' not found movie '%s'" % (MovieInGroupName, MovieInName,))
                     return False
-                    pass
+
                 MovieObject = GroupManager.getObject(MovieInGroupName, MovieInName)
                 TransitionManager.s_inMovies[(GroupName, TransitionName)] = MovieObject
-                pass
 
             MovieOutGroupName = record.get("MovieFadeOutGroup", None)
             MovieOutName = record.get("MovieFadeOutName", None)
             if MovieOutName is not None:
                 if MovieOutGroupName is None:
                     MovieOutGroupName = GroupName
-                    pass
+
                 if GroupManager.hasObject(MovieOutGroupName, MovieOutName) is False:
                     Trace.log("Manager", 0, "TransitionManager.loadTransitionMovies: Group '%s' not found movie '%s'" % (MovieOutGroupName, MovieOutName,))
                     return False
-                    pass
+
                 MovieObject = GroupManager.getObject(MovieOutGroupName, MovieOutName)
                 TransitionManager.s_outMovies[(GroupName, TransitionName)] = MovieObject
-                pass
-            pass
-        pass
 
     @staticmethod
     def setTransition(groupName, objectName, sceneNameFrom, sceneNameTo, cursorMode, SceneNameShow):
@@ -331,19 +329,18 @@ class TransitionManager(object):
             scene_to = TransitionManager.getTransitionSceneTo(transition)
             transition_to = TransitionManager.findTransitionObjectToScene(scene_to, CurrentSceneName)
 
-            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName, MovieIn=MovieInObject, MovieOut=MovieInObject, ZoomEffectTransitionBackObject=transition_to)
-            pass
+            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName,
+                                 MovieIn=MovieInObject, MovieOut=MovieInObject,
+                                 ZoomEffectTransitionBackObject=transition_to)
         else:
-            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName, MovieIn=MovieInObject, MovieOut=MovieOutObject, ZoomEffectTransitionObject=transition)
-            pass
-        pass
+            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName,
+                                 MovieIn=MovieInObject, MovieOut=MovieOutObject, ZoomEffectTransitionObject=transition)
 
     @staticmethod
     def changeScene(sceneName, zoomGroupName=None, fade=True, Cb=None):
         if sceneName is None:
             Trace.log("Manager", 0, "TransitionManager.changeScene sceneName is None!!!!!")
         TaskManager.runAlias("AliasTransition", Cb, SceneName=sceneName, ZoomGroupName=zoomGroupName, Fade=fade)
-        pass
 
     @staticmethod
     def changeToGameScene(fade=True):
@@ -833,6 +830,3 @@ class TransitionManager(object):
         TransitionBack = TransitionManager.getTransitionBackObject()
 
         return TransitionBack
-        pass
-
-    pass

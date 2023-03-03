@@ -1,6 +1,7 @@
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 
+
 class Symbol(Initializer):
 
     def _onInitialize(self, name, movie_backplate, movie_mouseover, movie_open, movie_activate, movie_close, movie_sound):
@@ -27,12 +28,10 @@ class Symbol(Initializer):
     def closeSymbol(self):
         self.isOpen = False
         self.activateSymbol()
-        pass
 
     def openSymbol(self):
         self.isOpen = True
         self.activateSymbol()
-        pass
 
     def activateSymbol(self):
         with TaskManager.createTaskChain() as tc:
@@ -44,32 +43,24 @@ class Symbol(Initializer):
                 tc.addTask("TaskEnable", Object=self.movie_open, Value=False)
                 tc.addTask("TaskEnable", Object=self.movie_backplate, Value=True)
                 tc.addTask("TaskFunction", Fn=self.mouseOff)
-                pass
             else:
                 if self.movie_sound is not None:
                     tc.addTask("TaskMoviePlay", Movie=self.movie_sound, Wait=False, Loop=False)
-                    pass
                 tc.addTask("TaskEnable", Object=self.movie_backplate, Value=False)
                 tc.addTask("TaskEnable", Object=self.movie_activate, Value=True)
                 tc.addTask("TaskMoviePlay", Movie=self.movie_activate, Wait=True)
                 tc.addTask("TaskEnable", Object=self.movie_activate, Value=False)
                 tc.addTask("TaskEnable", Object=self.movie_open, Value=True)
                 tc.addTask("TaskEnable", Object=self.movie_mouseover, Value=True)
-                pass
-            pass
-        pass
 
     def mouseOn(self):
         self.movie_mouseover.setEnable(True)
-        pass
 
     def mouseOff(self):
         self.movie_mouseover.setEnable(False)
-        pass
 
     def getIsOpen(self):
         return self.isOpen
-        pass
 
     def restore(self):
         self.movie_backplate.setEnable(False)
@@ -77,5 +68,3 @@ class Symbol(Initializer):
         self.movie_open.setEnable(True)
         self.isOpen = True
         self.blocked = True
-        pass
-    pass

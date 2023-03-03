@@ -6,12 +6,16 @@ from Notification import Notification
 
 from ReagentsManager import ReagentsManager
 
+
 class Reagents(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "OpenReagents", Append=Reagents._appendReagent, Remove=Reagents._removeReagent, Update=Reagents._updateReagents)
+        Type.addAction(Type, "OpenReagents",
+                       Append=Reagents._appendReagent,
+                       Remove=Reagents._removeReagent,
+                       Update=Reagents._updateReagents)
         pass
 
     def _appendReagent(self, id, reagentName):
@@ -140,9 +144,11 @@ class Reagents(BaseEntity):
                         tc_do.addTask("AliasRemoveItemAttach", Item=item)
                         tc_do.addTask("TaskObjectReturn", Object=item)
                         tc_do.addTask("TaskEnable", Object=item, Value=True)
+
                         def __restore(obj):
                             obj.onEntityRestore()
                             pass
+
                         tc_do.addTask("TaskFunction", Fn=__restore, Args=(item,))
                         tc_do.addTask("TaskFunction", Fn=self._setButtonsInteraction, Args=(1,))
 
@@ -231,9 +237,11 @@ class Reagents(BaseEntity):
         scope.addTask("TaskObjectReturn", Object=itemObject)
         scope.addTask("TaskObjectSetPosition", Object=itemObject, Value=position)
         scope.addTask("TaskEnable", Object=itemObject, Value=True)
+
         def __restore(obj):
             obj.onEntityRestore()
             pass
+
         scope.addTask("TaskFunction", Fn=__restore, Args=(itemObject,))
         pass
 

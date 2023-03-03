@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionItem(SparksActionDefault, MixinItem):
 
     def _onCheck(self):

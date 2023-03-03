@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class DragTheChainToTheRightPlaceManager(Manager):
     s_puzzles = {}
 
@@ -32,7 +33,8 @@ class DragTheChainToTheRightPlaceManager(Manager):
             winSlotsForMasterChain = record.get('winSlotsForMasterChain')
             winComb = (MasterChain, winSlotsForMasterChain)
 
-            result = DragTheChainToTheRightPlaceManager.addParam(EnigmaName, module, GraphParam, ChipsParam, NumOfSlots, ChainParam, winComb, TextureName)
+            result = DragTheChainToTheRightPlaceManager.addParam(EnigmaName, module, GraphParam, ChipsParam, NumOfSlots,
+                                                                 ChainParam, winComb, TextureName)
             if result is False:
                 error_msg = "MoveChipToCellsManager invalid addParam {}".format(EnigmaName)
                 Trace.log("Manager", 0, error_msg)
@@ -113,7 +115,8 @@ class DragTheChainToTheRightPlaceManager(Manager):
             chainParam[ChainName] = Order
         # ==============================================================================================================
 
-        new_param = DragTheChainToTheRightPlaceManager.DragTheChainToTheRightPlaceParam(graphParam, chipsParam, NumOfSlots, chainParam, winComb, TextureName)
+        new_param = DragTheChainToTheRightPlaceManager.DragTheChainToTheRightPlaceParam(graphParam, chipsParam, NumOfSlots,
+                                                                                        chainParam, winComb, TextureName)
         DragTheChainToTheRightPlaceManager.s_puzzles[EnigmaName] = new_param
         return True
 

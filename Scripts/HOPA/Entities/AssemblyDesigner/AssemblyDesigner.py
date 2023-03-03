@@ -6,8 +6,10 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.AssemblyDesignerManager import AssemblyDesignerManager
 
+
 Enigma = Mengine.importEntity("Enigma")
 TEXT_ALIAS_SET_NAME = '$AliasSetName'
+
 
 def _log(message, is_error=True):
     if _DEVELOPMENT is True:
@@ -15,6 +17,7 @@ def _log(message, is_error=True):
             Trace.log("Object", 1, message + "\n")
         else:
             print(message)
+
 
 class AssemblyDesigner(Enigma):
     class MixinEffectsInterface(object):
@@ -30,7 +33,8 @@ class AssemblyDesigner(Enigma):
             source.addFunction(slot_parent.addChild, movie_main_en)
 
     class __Set(MixinEffectsInterface):
-        def __init__(self, set_id, movie_carcass, types, movie_set_open, movie_set_close, set_name_not_complete_text_id, set_name_complete_text_id):
+        def __init__(self, set_id, movie_carcass, types, movie_set_open, movie_set_close, set_name_not_complete_text_id,
+                     set_name_complete_text_id):
             self.set_id = set_id
             self.movie_carcass = movie_carcass
 
@@ -53,10 +57,14 @@ class AssemblyDesigner(Enigma):
 
         def runTests(self):
             if self.movie_set_open is not None and self.movie_set_close is not None:
-                assert self.movie_set_open[0].hasSlot('play_effect') is True, "Movie2_SetOpenMinus dont has slot play_effect"
-                assert self.movie_set_open[1].hasSlot('play_effect') is True, "Movie2_SetOpenPlus dont has slot play_effect"
-                assert self.movie_set_close[0].hasSlot('play_effect') is True, "Movie2_SetCloseMinus dont has slot play_effect"
-                assert self.movie_set_close[1].hasSlot('play_effect') is True, "Movie2_SetClosePlus dont has slot play_effect"
+                assert self.movie_set_open[0].hasSlot(
+                    'play_effect') is True, "Movie2_SetOpenMinus dont has slot play_effect"
+                assert self.movie_set_open[1].hasSlot(
+                    'play_effect') is True, "Movie2_SetOpenPlus dont has slot play_effect"
+                assert self.movie_set_close[0].hasSlot(
+                    'play_effect') is True, "Movie2_SetCloseMinus dont has slot play_effect"
+                assert self.movie_set_close[1].hasSlot(
+                    'play_effect') is True, "Movie2_SetClosePlus dont has slot play_effect"
 
         def cleanUp(self):
             self.movie_carcass.getEntityNode().removeFromParent()
@@ -97,8 +105,8 @@ class AssemblyDesigner(Enigma):
 
         def scopeOpenSet(self, source, motion_vector):
             if self.movie_set_open is None:
-                _log("Set Open animation has not exist. "
-                     "\nPlease add Movie2_SetOpenPlus and Movie2_SetOpenMinus if you want have the animation", is_error=False)
+                _log("Set Open animation has not exist. \nPlease add Movie2_SetOpenPlus and Movie2_SetOpenMinus "
+                     "if you want to have the animation", is_error=False)
                 source.addDummy()
                 return
 
@@ -109,8 +117,8 @@ class AssemblyDesigner(Enigma):
 
         def scopeCloseSet(self, source, motion_vector):
             if self.movie_set_close is None:
-                _log("Set Close animation has not exist. "
-                     "\nPlease add Movie2_SetClosePlus and Movie2_SetCloseMinus if you want have the animation", is_error=False)
+                _log("Set Close animation has not exist. \nPlease add Movie2_SetClosePlus and Movie2_SetCloseMinus "
+                     "if you want have the animation", is_error=False)
                 source.addDummy()
                 return
 
@@ -241,19 +249,24 @@ class AssemblyDesigner(Enigma):
                 movie_shelf_close.getEntityNode().removeFromParent()
 
         def runTests(self):
-            assert len(self.places) == self.__number_of_places, "shelf {} has {} places, but must has {}".format(self.shelf_id, len(self.places), self.__number_of_places)
+            assert len(self.places) == self.__number_of_places, "shelf {} has {} places, but must has {}".format(
+                self.shelf_id, len(self.places), self.__number_of_places)
             if self.movie_shelf_open is not None and self.movie_shelf_close is not None:
-                assert self.movie_shelf_open[0].hasSlot('play_effect') is True, "Movie2_ShelfOpenMinus dont has slot play_effect"
-                assert self.movie_shelf_open[1].hasSlot('play_effect') is True, "Movie2_ShelfOpenPlus dont has slot play_effect"
-                assert self.movie_shelf_close[0].hasSlot('play_effect') is True, "Movie2_ShelfCloseMinus dont has slot play_effect"
-                assert self.movie_shelf_close[1].hasSlot('play_effect') is True, "Movie2_ShelfClosePlus dont has slot play_effect"
+                assert self.movie_shelf_open[0].hasSlot(
+                    'play_effect') is True, "Movie2_ShelfOpenMinus dont has slot play_effect"
+                assert self.movie_shelf_open[1].hasSlot(
+                    'play_effect') is True, "Movie2_ShelfOpenPlus dont has slot play_effect"
+                assert self.movie_shelf_close[0].hasSlot(
+                    'play_effect') is True, "Movie2_ShelfCloseMinus dont has slot play_effect"
+                assert self.movie_shelf_close[1].hasSlot(
+                    'play_effect') is True, "Movie2_ShelfClosePlus dont has slot play_effect"
 
         def __registerPlaces(self, number_of_places):
             for i in range(1, number_of_places + 1):
                 slot_name = "place_{}".format(i)
                 if not self.movie_shelf.hasSlot(slot_name):
-                    _log("Movie shelf {} don`t has slot {}!!!. "
-                         "\nPlease add this slot to movie or update NumberOfPlaces param in **Shelves.xlsx".format(self.shelf_id, slot_name))
+                    _log("Movie shelf {} don`t has slot {}!!!. \nPlease add this slot to movie or update NumberOfPlaces"
+                         " param in **Shelves.xlsx".format(self.shelf_id, slot_name))
                     continue
                 place = self.movie_shelf.getMovieSlot(slot_name)
                 self.places[place] = None
@@ -273,7 +286,8 @@ class AssemblyDesigner(Enigma):
         def scopeCloseShelf(self, source, motion_vector):
             if self.movie_shelf_close is None:
                 _log("Set Close animation has not exist. "
-                     "\nPlease add Movie2_ShelfClosePlus and Movie2_ShelfCloseMinus if you want have the animation", is_error=False)
+                     "\nPlease add Movie2_ShelfClosePlus and Movie2_ShelfCloseMinus if you want have the animation",
+                     is_error=False)
                 source.addDummy()
                 return
 
@@ -285,7 +299,8 @@ class AssemblyDesigner(Enigma):
         def scopeOpenShelf(self, source, motion_vector):
             if self.movie_shelf_open is None:
                 _log("Set Open animation has not exist. "
-                     "\nPlease add Movie2_ShelfOpenPlus and Movie2_ShelfOpenMinus if you want have the animation", is_error=False)
+                     "\nPlease add Movie2_ShelfOpenPlus and Movie2_ShelfOpenMinus if you want have the animation",
+                     is_error=False)
                 source.addDummy()
                 return
 
@@ -397,7 +412,12 @@ class AssemblyDesigner(Enigma):
             self.button_next_shelf = self.object.getObject("Movie2Button_NextShelf")
             self.button_prev_shelf = self.object.getObject("Movie2Button_PrevShelf")
 
-            buttons_and_slots = (("button_next_set", self.button_next_set), ("button_prev_set", self.button_prev_set), ("button_next_shelf", self.button_next_shelf), ("button_prev_shelf", self.button_prev_shelf))
+            buttons_and_slots = (
+                ("button_next_set", self.button_next_set),
+                ("button_prev_set", self.button_prev_set),
+                ("button_next_shelf", self.button_next_shelf),
+                ("button_prev_shelf", self.button_prev_shelf)
+            )
 
             for button_slot_name, button in buttons_and_slots:
                 if not self.movie_content.hasSlot(button_slot_name):
@@ -424,7 +444,12 @@ class AssemblyDesigner(Enigma):
 
                 movie_shelf_open = None
                 movie_shelf_close = None
-                if self.object.hasObject("Movie2_ShelfOpenMinus") and self.object.hasObject("Movie2_ShelfCloseMinus") and self.object.hasObject("Movie2_ShelfOpenPlus") and self.object.hasObject("Movie2_ShelfClosePlus"):
+                if all([
+                    self.object.hasObject("Movie2_ShelfOpenMinus"),
+                    self.object.hasObject("Movie2_ShelfCloseMinus"),
+                    self.object.hasObject("Movie2_ShelfOpenPlus"),
+                    self.object.hasObject("Movie2_ShelfClosePlus"),
+                ]):
                     movie_shelf_open_minus = self.object.getObject("Movie2_ShelfOpenMinus")
                     slot_shelf.addChild(movie_shelf_open_minus.getEntityNode())
 
@@ -442,11 +467,13 @@ class AssemblyDesigner(Enigma):
                 else:
                     _log("Enigma {} don`t has Movie2_SetOpenMinus or Movie2_SetCloseMinus or "
                          "Movie2_SetOpenPlus or Movie2_SetClosePlus."
-                         "\nPlease add this movie for add animation open and close set".format(self.EnigmaName), is_error=False)
+                         "\nPlease add this movie for add animation open and close set".format(self.EnigmaName),
+                         is_error=False)
 
                 slot_shelf.addChild(movie_shelf.getEntityNode())
 
-                self.shelves[shelf_id] = self.__Shelf(shelf_id, movie_shelf, number_of_places, movie_shelf_open, movie_shelf_close)
+                self.shelves[shelf_id] = self.__Shelf(shelf_id, movie_shelf, number_of_places, movie_shelf_open,
+                                                      movie_shelf_close)
                 self.ordered_shelves.append(shelf_id)
 
         def __create_items():
@@ -459,15 +486,18 @@ class AssemblyDesigner(Enigma):
                 if not self.object.hasPrototype(item_param.movie_name_on_shelf):
                     _log("movie {} doesnt exist".format(item_param.movie_name_on_shelf))
                     continue
-                movie_on_set = self.object.tryGenerateObjectUnique("{}_{}".format(item_param.item_id, item_param.movie_name_on_set), item_param.movie_name_on_set, Enable=True, Interactive=True)
+                movie_on_set = self.object.tryGenerateObjectUnique("{}_{}".format(item_param.item_id, item_param.movie_name_on_set),
+                                                                   item_param.movie_name_on_set, Enable=True, Interactive=True)
 
-                movie_on_shelf = self.object.tryGenerateObjectUnique("{}_{}".format(item_param.item_id, item_param.movie_name_on_shelf), item_param.movie_name_on_shelf, Enable=True, Interactive=True)
+                movie_on_shelf = self.object.tryGenerateObjectUnique("{}_{}".format(item_param.item_id, item_param.movie_name_on_shelf),
+                                                                     item_param.movie_name_on_shelf, Enable=True, Interactive=True)
 
                 shelf = self.shelves.get(item_param.shelf_id, None)
                 if shelf is None:
                     _log("shelf {} doesnt exist. Can`t add item {}".format(item_param.shelf_id, item_param.item_id))
 
-                self.items[item_param.item_id] = self.__Item(item_param.item_id, item_param.item_type, movie_on_set, movie_on_shelf, shelf)
+                self.items[item_param.item_id] = self.__Item(item_param.item_id, item_param.item_type,
+                                                             movie_on_set, movie_on_shelf, shelf)
 
         def __create_sets():
             sets_params = self.params.finish_sets_params
@@ -485,7 +515,12 @@ class AssemblyDesigner(Enigma):
 
             movie_set_open = None
             movie_set_close = None
-            if self.object.hasObject("Movie2_SetOpenMinus") and self.object.hasObject("Movie2_SetCloseMinus") and self.object.hasObject("Movie2_SetOpenPlus") and self.object.hasObject("Movie2_SetClosePlus"):
+            if all([
+                self.object.hasObject("Movie2_SetOpenMinus"),
+                self.object.hasObject("Movie2_SetCloseMinus"),
+                self.object.hasObject("Movie2_SetOpenPlus"),
+                self.object.hasObject("Movie2_SetClosePlus"),
+            ]):
                 movie_set_open_minus = self.object.getObject("Movie2_SetOpenMinus")
                 slot_carcass.addChild(movie_set_open_minus.getEntityNode())
 
@@ -506,10 +541,12 @@ class AssemblyDesigner(Enigma):
                      "\nPlease add this movie for add animation open and close set".format(self.EnigmaName), is_error=False)
 
             for set_id, (types, set_name_not_complete_text_id, set_name_complete_text_id) in sets_params.iteritems():
-                movie_carcass = self.object.tryGenerateObjectUnique(set_id, self.params.carcass_movie_name, Enable=False, Interactive=True)
+                movie_carcass = self.object.tryGenerateObjectUnique(set_id, self.params.carcass_movie_name,
+                                                                    Enable=False, Interactive=True)
 
                 slot_carcass.addChild(movie_carcass.getEntityNode())
-                self.sets[set_id] = self.__Set(set_id, movie_carcass, types, movie_set_open, movie_set_close, set_name_not_complete_text_id, set_name_complete_text_id)
+                self.sets[set_id] = self.__Set(set_id, movie_carcass, types, movie_set_open, movie_set_close,
+                                               set_name_not_complete_text_id, set_name_complete_text_id)
                 self.ordered_sets.append(set_id)
 
         if not self.object.hasObject("Movie2_Content"):

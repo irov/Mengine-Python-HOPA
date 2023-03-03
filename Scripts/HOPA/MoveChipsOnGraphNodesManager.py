@@ -1,10 +1,12 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class MoveChipsOnGraphNodesParam(object):
     def __init__(self, nodes, move_time):
         self.nodes = nodes
         self.move_time = move_time
+
 
 class MoveChipsOnGraphNodesManager(Manager):
     s_params = {}

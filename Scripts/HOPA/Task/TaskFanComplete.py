@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.FanManager import FanManager
 
+
 class TaskFanComplete(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskFanComplete, self)._onParams(params)
@@ -31,4 +32,5 @@ class TaskFanComplete(MixinObserver, Task):
     def _onFanComplete(self, fan):
         return True
         pass
+
     pass

@@ -5,6 +5,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryFX.InventoryFXManager import InventoryFXManager
 
+
 class SystemInventoryFX(System):
     def _onParams(self, params):
         super(SystemInventoryFX, self)._onParams(params)
@@ -15,7 +16,15 @@ class SystemInventoryFX(System):
 
         self.inventoryState = None
 
-        self.listChain = ["INVENTORY_UP", "INVENTORY_RIGHT", "INVENTORY_ADDITEM", "INVENTORY_SHOWADD", "INVENTORY_ARROWITEM", "INVENTORY_RETURNITEM", "INVENTORY_REMOVEITEM"]
+        self.listChain = [
+            "INVENTORY_UP",
+            "INVENTORY_RIGHT",
+            "INVENTORY_ADDITEM",
+            "INVENTORY_SHOWADD",
+            "INVENTORY_ARROWITEM",
+            "INVENTORY_RETURNITEM",
+            "INVENTORY_REMOVEITEM"
+        ]
         self.listChain2 = ["INVENTORY_MOVEADDITEM", "INVENTORY_MOVEDELITEM", "INVENTORY_LEFT", "INVENTORY_RIGHT"]
 
         self.listChain3 = ["INVENTORY_HIDE", "Inventory_SHOW", "Inventory_DelayHide"]

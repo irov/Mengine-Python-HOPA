@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.MoviePathChipTransporterManager import MoviePathChipTransporterManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoviePathChipTransporter(Enigma):
     # - service classes ----------------------------------------------
@@ -123,7 +125,9 @@ class MoviePathChipTransporter(Enigma):
     def generateMovieOnNode(self, MovieName, AttachNode=None, Enable=True):
         GroupName = self.object.getGroupName()
         MoviePosition = [0.0, 0.0]
-        movie = ObjectManager.createObjectUnique('Movie2', MovieName, None, ResourceMovie="Movie2_" + GroupName, CompositionName=MovieName, Position=MoviePosition, Enable=Enable, Interactive=True)
+        movie = ObjectManager.createObjectUnique('Movie2', MovieName, None, ResourceMovie="Movie2_" + GroupName,
+                                                 CompositionName=MovieName, Position=MoviePosition, Enable=Enable,
+                                                 Interactive=True)
 
         if AttachNode is not None:
             AttachNode.addChild(movie.getEntityNode())

@@ -1,6 +1,7 @@
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGPrepareHOGItem(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]

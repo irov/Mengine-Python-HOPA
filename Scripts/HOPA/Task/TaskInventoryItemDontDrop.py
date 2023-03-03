@@ -1,6 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.Task import Task
 
+
 # DEPRECATED
 class TaskInventoryItemDontDrop(Task):
     Skiped = True

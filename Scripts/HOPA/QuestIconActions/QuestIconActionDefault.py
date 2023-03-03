@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinGroup import MixinGroup
 from HOPA.QuestIconAction import QuestIconAction
 
+
 class QuestIconActionDefault(MixinGroup, QuestIconAction):
     def __init__(self):
         super(QuestIconActionDefault, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintTargetStop(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintTargetStop, self)._onParams(params)
@@ -14,4 +15,5 @@ class PolicyHintTargetStop(TaskAlias):
         source.addTask("TaskMovie2Stop", GroupName="HintEffect", Movie2Name="Movie2_HintTarget")
         # source.addTask("TaskMovieLastFrame", GroupName="HintEffect", MovieName="Movie2_HintTarget")
         pass
+
     pass

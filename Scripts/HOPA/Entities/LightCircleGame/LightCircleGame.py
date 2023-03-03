@@ -1,10 +1,10 @@
 from Foundation.TaskManager import TaskManager
-
+import math
 from HOPA.LightCircleGameManager import LightCircleGameManager
+
 
 Enigma = Mengine.importEntity("Enigma")
 
-import math
 
 class LightCircleGame(Enigma):
     class Reflector(object):
@@ -78,19 +78,14 @@ class LightCircleGame(Enigma):
         def TryOn(self, RefOn, UseDiagonal):
             if (self.IsOn is True):
                 return self.IsOn
-                pass
             circleDif = RefOn.CircleId - self.CircleId
             if (math.fabs(circleDif) == 1):
                 if UseDiagonal is True:
                     self.__TryOnDiagonal(RefOn)
-                    pass
                 else:
                     self.__TryOnAngle(RefOn)
-                    pass
-                pass
             self.OnMovie()
             return self.IsOn
-            pass
 
         def __TryOnDiagonal(self, RefOn):
             plusSlots = RefOn.getPlusSlots()
@@ -108,10 +103,6 @@ class LightCircleGame(Enigma):
                         # print pPos, " ", mPos
                         # print len1, " ", len2, " ", lenDif, " ", Range, self, " ",RefOn
                         self.IsOn = True
-                        pass
-                    pass
-                pass
-            pass
 
         def __TryOnAngle(self, RefOn):
             plusSlots = RefOn.getPlusSlots()
@@ -128,10 +119,6 @@ class LightCircleGame(Enigma):
                     dif = math.fabs(dif)
                     if (dif <= Range):
                         self.IsOn = True
-                        pass
-                    pass
-                pass
-            pass
 
         def ResetEnergy(self):
             if (len(self.MinusSlots) == 0):
@@ -141,29 +128,20 @@ class LightCircleGame(Enigma):
             else:
                 self.setOn(False)
                 return False
-                pass
-            pass
 
         def setOn(self, on):
             self.IsOn = on
             self.OnMovie()
-            pass
 
         def OnMovie(self):
             if (self.IsOn is True):
                 self.Movie.enable()
-                pass
             else:
                 self.Movie.disable()
-                pass
-            pass
 
         def __str__(self):
             str = "c %d, r %d " % (self.CircleId, self.ReflectorId)
             return str
-            pass
-
-        pass
 
     class Circle(object):
         def __init__(self, CircleId):
@@ -171,19 +149,14 @@ class LightCircleGame(Enigma):
             self.Reflectors = []
 
             self.CurrentRotate = 0
-            pass
 
         def addReflector(self, Reflector):
             self.Reflectors.append(Reflector)
-            pass
 
         def setRotate(self, Ang):
             self.CurrentRotate = Ang
             for ref in self.Reflectors:
                 ref.setRotate(Ang)
-                pass
-            pass
-        pass
 
     Slot_Movie = None
     Midle_Point = None
@@ -235,9 +208,6 @@ class LightCircleGame(Enigma):
             if (self.CirclesRotatable[id] == 1):
                 if TaskManager.existTaskChain("CircleClick_%d" % (id)) is True:
                     TaskManager.cancelTaskChain("CircleClick_%d" % (id))
-                    pass
-                pass
-            pass
 
         if TaskManager.existTaskChain("SetRotateDirection") is True:
             TaskManager.cancelTaskChain("SetRotateDirection")
@@ -343,6 +313,7 @@ class LightCircleGame(Enigma):
             self.CircleClickedID = id
             self.PrevMousePos = Mengine.getCursorPosition()
             pass
+
         # ------------------------------------------------------
         with TaskManager.createTaskChain(Name="CircleClick_%d" % (id), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=self.SocketNames[id], Movie=Movie, isDown=True)
@@ -365,9 +336,10 @@ class LightCircleGame(Enigma):
             ang = angDif + self.CircleClickedAngle
             ang = LightCircleGame.getDegree360(ang)
             self.object.changeParam("CirclesAngle", self.CircleClickedID, ang)
-            self.__setMovieCurrentAng(self.CircleClickedID, ang);
+            self.__setMovieCurrentAng(self.CircleClickedID, ang)
             self.__ReEnergyCircles()
             pass
+
         # ------------------------------------------------------
         with TaskManager.createTaskChain(Name="SetRotateDirection", Repeat=True) as tc:
             tc.addTask("TaskListener", ID=Notificator.onLightCircleGameCircleClick)
@@ -394,9 +366,6 @@ class LightCircleGame(Enigma):
                     pass
                 else:
                     DeActive.append(refClient)
-                    pass
-                pass
-            pass
 
         changeAc = True
         while (changeAc):
@@ -410,10 +379,6 @@ class LightCircleGame(Enigma):
                         DeActive.remove(deAc)
                         changeAc = True
                         break
-                        pass
-                    pass
-                pass
-            pass
 
         self.__CheckWin(DeActive)
         pass

@@ -2,6 +2,7 @@ from Foundation.System import System
 
 from HOPA.AmbientManager import AmbientManager
 
+
 class SystemSceneAmbient(System):
     def __init__(self):
         super(SystemSceneAmbient, self).__init__()
@@ -30,4 +31,5 @@ class SystemSceneAmbient(System):
         Demon_Switch.setSwitch(AmbientName)
         return False
         pass
+
     pass

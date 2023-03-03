@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapChipsSwitchEnableAndDisableManager import SwapChipsSwitchEnableAndDisableManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SwapChipsSwitchEnableAndDisable(Enigma):
     class Chip(object):
@@ -62,6 +64,7 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     def _onDeactivate(self):
         super(SwapChipsSwitchEnableAndDisable, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     @staticmethod
@@ -80,6 +83,7 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
 
     def _restoreEnigma(self):
         self._playEnigma()
+
     # ==================================================================================================================
 
     # -------------- _onPreparation methods ----------------------------------------------------------------------------
@@ -214,6 +218,7 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
                 if chip.selected is True:
                     chips.append(chip)
             return chips
+
         self.isSelectedChipsList = isSelectedChips()
 
     def changeAlpha(self, source, From, To):
@@ -240,6 +245,7 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
                     chip.movie.setEnable(True)
                 else:
                     chip.movie.setEnable(False)
+
         disable(self.redChips)
         disable(self.blueChips)
         disable(self.greenChips)

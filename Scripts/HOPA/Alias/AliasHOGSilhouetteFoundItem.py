@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGSilhouetteFoundItem(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGSilhouetteFoundItem, self)._onParams(params)
@@ -43,10 +44,6 @@ class AliasHOGSilhouetteFoundItem(TaskAlias):
             # source.addTask(PolicyCheckMarkNearItem, HOG = self.HOG, HOGItemName = self.HOGItemName, EnigmaName = self.EnigmaName)
 
             source.addTask(PolicyFoundEffect, HOG=self.HOG, HOGItemName=self.HOGItemName, EnigmaName=self.EnigmaName)
-            pass
 
         source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
         source.addTask("TaskHOGInventoryFoundItem", HOGInventory=HOGInventory, HOGItemName=self.HOGItemName)
-        pass
-
-    pass

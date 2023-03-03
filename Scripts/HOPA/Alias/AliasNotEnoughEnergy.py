@@ -1,6 +1,7 @@
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasNotEnoughEnergy(TaskAlias):
 
     def _onParams(self, params):

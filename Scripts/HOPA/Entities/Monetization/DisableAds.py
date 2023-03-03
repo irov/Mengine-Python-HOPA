@@ -4,11 +4,18 @@ from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 TC_NAME = "SpecialPackageDisableAds"
 
+
 class DisableAds(BaseComponent):
-    _settings = {"product_id": "DisableAdsProductId", }
-    _defaults = {"product_id": "disable_ads", "is_enable": True}
+    _settings = {
+        "product_id": "DisableAdsProductId",
+    }
+    _defaults = {
+        "product_id": "disable_ads",
+        "is_enable": True
+    }
 
     def _createParams(self):
         self.tc = None

@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroZoomInterrupt(MacroCommand):
 
     def _onInitialize(self):

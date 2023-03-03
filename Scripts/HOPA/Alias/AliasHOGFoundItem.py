@@ -2,6 +2,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGFoundItem(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGFoundItem, self)._onParams(params)
@@ -9,7 +10,6 @@ class AliasHOGFoundItem(TaskAlias):
         self.HOGItemName = params.get("HOGItemName")
         self.CrossOut = params.get("CrossOut", True)
         self.EnigmaName = params.get("EnigmaName")
-        pass
 
     def _onGenerate(self, source):
         SceneName = EnigmaManager.getEnigmaSceneName(self.EnigmaName)
@@ -29,8 +29,3 @@ class AliasHOGFoundItem(TaskAlias):
             tc_inventory.addTask("TaskHOGInventoryFoundItem", HOGInventory=HOGInventory, HOGItemName=self.HOGItemName)
             if self.CrossOut is True:
                 tc_inventory.addTask("TaskHOGInventoryCrossOut", HOGItemName=self.HOGItemName, Immediately=False)
-                pass
-            pass
-        pass
-
-    pass

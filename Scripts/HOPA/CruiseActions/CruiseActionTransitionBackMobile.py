@@ -4,6 +4,7 @@ from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.System.SystemNavigation import SystemNavigation
 
+
 class CruiseActionTransitionBackMobile(MixinTransition, CruiseActionDefault):
 
     def _onParams(self, params):

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class SwapAndRotateMovieChipsManager(Manager):
     s_puzzles = {}
 
@@ -99,7 +100,9 @@ class SwapAndRotateMovieChipsManager(Manager):
             ParamSlots = record.get("ParamSlots")
             ParamStates = record.get("ParamStates")
 
-            result = SwapAndRotateMovieChipsManager.addParam(EnigmaName, module, MovieSlots, RotationSocket, RotationCount, RotationClockWise, ParamChips, ParamSlots, ParamStates)
+            result = SwapAndRotateMovieChipsManager.addParam(EnigmaName, module, MovieSlots, RotationSocket,
+                                                             RotationCount, RotationClockWise, ParamChips, ParamSlots,
+                                                             ParamStates)
 
             if result is False:
                 error_msg = "SwapAndRotateMovieChipsManager invalid addParam {}".format(EnigmaName)
@@ -109,7 +112,8 @@ class SwapAndRotateMovieChipsManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, MovieSlots, RotationSocket, RotationCount, RotationClockwise, ParamChips, ParamSlots, ParamStates):
+    def addParam(EnigmaName, Module, MovieSlots, RotationSocket, RotationCount, RotationClockwise, ParamChips,
+                 ParamSlots, ParamStates):
         if EnigmaName in SwapAndRotateMovieChipsManager.s_puzzles:
             error_msg = "SwapAndRotateMovieChipsManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -212,7 +216,8 @@ class SwapAndRotateMovieChipsManager(Manager):
 
             # //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        NewParam = SwapAndRotateMovieChipsManager.SwapAndRotateMovieChipsParam(MovieSlots, RotationSocket, RotationCount, RotationClockwise, chips_dict, slots_dict)
+        NewParam = SwapAndRotateMovieChipsManager.SwapAndRotateMovieChipsParam(
+            MovieSlots, RotationSocket, RotationCount, RotationClockwise, chips_dict, slots_dict)
 
         SwapAndRotateMovieChipsManager.s_puzzles[EnigmaName] = NewParam
         return True

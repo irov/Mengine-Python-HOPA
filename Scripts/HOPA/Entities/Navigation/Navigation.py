@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class Navigation(BaseEntity):
     def __init__(self):
         super(Navigation, self).__init__()
@@ -10,4 +11,5 @@ class Navigation(BaseEntity):
 
     def _onDeactivate(self):
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasMessageShow(TaskAlias):
     def __init__(self):
         super(AliasMessageShow, self).__init__()

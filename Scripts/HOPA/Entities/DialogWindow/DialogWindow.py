@@ -6,7 +6,9 @@ from Foundation.Utils import SimpleLogger
 from HOPA.DialogWindowManager import DialogWindowManager
 from Notification import Notification
 
+
 Log = SimpleLogger("DialogWindow", enable=False)
+
 
 class DialogWindow(BaseEntity):
     EVENT_WINDOW_DISAPPEAR = Event("onDialogWindowDisappear")
@@ -23,7 +25,16 @@ class DialogWindow(BaseEntity):
     ID_ALIAS_URL_CENTER = "$DialogWindow_UrlCenter"
     ID_ALIAS_ICON_VALUE = "$DialogWindow_IconValue"
 
-    ALIAS_TO_TEXT = {"title": ID_ALIAS_TITLE, "question": ID_ALIAS_QUESTION, "confirm": ID_ALIAS_CONFIRM, "cancel": ID_ALIAS_CANCEL, "url_left": ID_ALIAS_URL_LEFT, "url_right": ID_ALIAS_URL_RIGHT, "url_center": ID_ALIAS_URL_CENTER, "icon_value": ID_ALIAS_ICON_VALUE}
+    ALIAS_TO_TEXT = {
+        "title": ID_ALIAS_TITLE,
+        "question": ID_ALIAS_QUESTION,
+        "confirm": ID_ALIAS_CONFIRM,
+        "cancel": ID_ALIAS_CANCEL,
+        "url_left": ID_ALIAS_URL_LEFT,
+        "url_right": ID_ALIAS_URL_RIGHT,
+        "url_center": ID_ALIAS_URL_CENTER,
+        "icon_value": ID_ALIAS_ICON_VALUE
+    }
 
     # Movies
     MOV_EFFECT_APPEAR = "Movie2_Appear"

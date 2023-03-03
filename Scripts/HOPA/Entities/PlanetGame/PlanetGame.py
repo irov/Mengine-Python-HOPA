@@ -2,7 +2,9 @@ from HOPA.PlanetGameManager import PlanetGameManager
 
 from Planet import Planet
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class PlanetGame(Enigma):
 

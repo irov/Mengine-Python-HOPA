@@ -6,7 +6,9 @@ from BallStack import BallStack
 from ChasingSystem import ChasingSystem
 from Gun import Gun
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ShootingRange(Enigma):
     @staticmethod
@@ -125,4 +127,5 @@ class ShootingRange(Enigma):
         BallStack.reset()
         ChasingSystem.stop_chase()
         pass
+
     pass

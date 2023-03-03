@@ -3,6 +3,7 @@ from Foundation.StateManager import StateManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemInventoryMovie(System):
     def _onParams(self, params):
         super(SystemInventoryMovie, self)._onParams(params)
@@ -13,10 +14,23 @@ class SystemInventoryMovie(System):
 
         self.inventoryState = "INVENTORY_UP"
 
-        self.listChain = ["INVENTORY_UP", "INVENTORY_LEFT", "INVENTORY_RIGHT", "INVENTORY_ADDITEM", "INVENTORY_ARROWITEM", "INVENTORY_RETURNITEM", "INVENTORY_REMOVEITEM", "INVENTORY_MOVEADDITEM"]
+        self.listChain = [
+            "INVENTORY_UP",
+            "INVENTORY_LEFT",
+            "INVENTORY_RIGHT",
+            "INVENTORY_ADDITEM",
+            "INVENTORY_ARROWITEM",
+            "INVENTORY_RETURNITEM",
+            "INVENTORY_REMOVEITEM",
+            "INVENTORY_MOVEADDITEM"
+        ]
 
-        self.listChain2 = ["InventoryPopUpPrepare", "InventoryUpPrepare", "InventoryDownPrepare", "INVENTORY_PrepareTOITEM"]
-        pass
+        self.listChain2 = [
+            "InventoryPopUpPrepare",
+            "InventoryUpPrepare",
+            "InventoryDownPrepare",
+            "INVENTORY_PrepareTOITEM"
+        ]
 
     def _onRun(self):
         self.addObserver(Notificator.onStateChange, self._onStateChange)
@@ -50,29 +64,21 @@ class SystemInventoryMovie(System):
 
                 tc_move.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=inventoryItem)
                 tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
-                pass
-
-            pass
 
         return False
-        pass
 
     def _onStateChange(self, id, value):
         if id != "StateInventory":
             return False
-            pass
 
         self.inventoryState = value
 
         if self.Inventory.isActive() is False:
             return False
-            pass
 
         for chain in self.listChain:
             if TaskManager.existTaskChain(chain):
                 TaskManager.cancelTaskChain(chain)
-                pass
-            pass
 
         InventoryEntity = self.Inventory.getEntity()
 
@@ -87,7 +93,6 @@ class SystemInventoryMovie(System):
                     tc_right.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_RIGHT")
 
                     tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
-                    #                    tc_item.addTask("TaskStateChange", ID = "StateInventory", Value = "INVENTORY_ADDITEM")
 
                     tc_invItem.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem)
                     tc_invItem.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_ARROWITEM")
@@ -99,17 +104,13 @@ class SystemInventoryMovie(System):
         elif value == "INVENTORY_LEFT":
             with TaskManager.createTaskChain(Name="INVENTORY_LEFT", Group=self.Inventory) as tc:
                 tc.addTask("AliasInventorySlotsMoveRight", Inventory=self.Inventory)
-
                 tc.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
-                pass
             return False
 
         elif value == "INVENTORY_RIGHT":
             with TaskManager.createTaskChain(Name="INVENTORY_RIGHT", Group=self.Inventory) as tc:
                 tc.addTask("AliasInventorySlotsMoveLeft", Inventory=self.Inventory)
-
                 tc.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
-                pass
             return False
 
         elif value == "INVENTORY_ADDITEM":
@@ -133,7 +134,6 @@ class SystemInventoryMovie(System):
 
                     tc_remove.addTask("TaskListener", ID=Notificator.onInventoryClickRemoveItem)
                     tc_remove.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_REMOVEITEM")
-                    pass
             return False
 
         elif value == "INVENTORY_RETURNITEM":
@@ -143,9 +143,6 @@ class SystemInventoryMovie(System):
                     tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
 
                     tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
-                    pass
-
-                pass
             return False
 
         elif value == "INVENTORY_REMOVEITEM":
@@ -155,29 +152,17 @@ class SystemInventoryMovie(System):
                     tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
 
                     tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
-                    pass
-
-                pass
             return False
 
         else:
             Trace.log("System", 0, "SystemInventoryMovie _onStateChange: unidentified inventoryState %s" % self.inventoryState)
-            pass
-        pass
 
         return False
-        pass
 
     def _onStop(self):
         self._cleanAll()
         pass
-
     def _cleanAll(self):
         for chain in self.listChain + self.listChain2:
             if TaskManager.existTaskChain(chain):
                 TaskManager.cancelTaskChain(chain)
-                pass
-            pass
-        pass
-
-    pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class MagneticLabyrinthManager(object):
     s_objects = {}
 
@@ -76,4 +77,5 @@ class MagneticLabyrinthManager(object):
             pass
         return True
         pass
+
     pass

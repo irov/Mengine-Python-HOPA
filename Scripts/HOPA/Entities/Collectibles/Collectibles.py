@@ -7,9 +7,11 @@ from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 FADE_TIME = DefaultManager.getDefaultFloat("CollectiblesSceneTextFade", 300.0)
 ALIAS_COUNT = '$AliasCollectiblesCount'
 TEXT_ID_COUNT = 'ID_COLLECTIBLES_COUNT'
+
 
 class CollectibleInfoPlate(object):
     def __init__(self, button_plate, movie_plate_content, movie_open, movie_close):
@@ -73,8 +75,10 @@ class CollectibleInfoPlate(object):
 
         self.__tcs = []
 
+
 class CollectiblePlate(object):
-    def __init__(self, collectibles_group, movie_state_block, movie_state_idle, movie_state_complete, movie_scene_icon, movie_transition_text, movie_scene_icon_block, movie_text_transition_block):
+    def __init__(self, collectibles_group, movie_state_block, movie_state_idle, movie_state_complete, movie_scene_icon,
+                 movie_transition_text, movie_scene_icon_block, movie_text_transition_block):
         self.id = collectibles_group.collectible_group_id
         self.collectibles_group = collectibles_group
         self.states = {'Block': movie_state_block, 'Idle': movie_state_idle, 'Complete': movie_state_complete}
@@ -217,6 +221,7 @@ class CollectiblePlate(object):
 
         self.movie_text_transition.entity.node.removeFromParent()
 
+
 class Collectibles(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -299,7 +304,8 @@ class Collectibles(BaseEntity):
         movie_scene_icon_block = None
         if scene_icon_block_prototype_name is not None:
             unique_name = '{}_scene_icon_block'.format(movie_scene_icon.getName())
-            movie_scene_icon_block = self.object.generateObjectUnique(unique_name, scene_icon_block_prototype_name, Enable=True, Play=False, Loop=False, )
+            movie_scene_icon_block = self.object.generateObjectUnique(unique_name, scene_icon_block_prototype_name,
+                                                                      Enable=True, Play=False, Loop=False)
             movie_scene_icon_block.setEnable(False)
 
             slot = movie_scene_icon.getMovieSlot('slot')
@@ -309,7 +315,8 @@ class Collectibles(BaseEntity):
         movie_text_transition_block = None
         if text_block_prototype_name is not None:
             unique_name = '{}_text_block'.format(movie_scene_icon.getName())
-            movie_text_transition_block = self.object.generateObjectUnique(unique_name, text_block_prototype_name, Enable=True, Play=False, Loop=False, )
+            movie_text_transition_block = self.object.generateObjectUnique(unique_name, text_block_prototype_name,
+                                                                           Enable=True, Play=False, Loop=False)
             movie_text_transition_block.setAlpha(0.0)
             arrow.addChild(movie_text_transition_block.getEntityNode())
 
@@ -322,7 +329,9 @@ class Collectibles(BaseEntity):
 
         arrow.addChild(movie_transition_text.getEntityNode())
 
-        return CollectiblePlate(collectibles_group, movie_state_block, movie_state_idle, movie_state_complete, movie_scene_icon, movie_transition_text, movie_scene_icon_block, movie_text_transition_block)
+        return CollectiblePlate(collectibles_group, movie_state_block, movie_state_idle, movie_state_complete,
+                                movie_scene_icon, movie_transition_text, movie_scene_icon_block,
+                                movie_text_transition_block)
 
     def __disableCollectibleInfoPlate(self):
         if self.object.hasObject('Movie2Button_Plate'):

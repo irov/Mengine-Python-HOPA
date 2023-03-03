@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.StageManager import StageManager
 
+
 class TaskStageRun(Task):
     Skiped = True
 
@@ -18,4 +19,5 @@ class TaskStageRun(Task):
 
         return True
         pass
+
     pass

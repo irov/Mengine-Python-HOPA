@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskEffectInventoryGetInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(TaskEffectInventoryGetInventoryItem, self)._onParams(params)
@@ -127,4 +128,5 @@ class TaskEffectInventoryGetInventoryItem(TaskAlias):
 
         return False
         pass
+
     pass

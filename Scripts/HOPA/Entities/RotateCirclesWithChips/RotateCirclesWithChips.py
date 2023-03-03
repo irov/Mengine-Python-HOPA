@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.RotateCirclesWithChipsManager import RotateCirclesWithChipsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class RotateCirclesWithChips(Enigma):
     # -------------- Classes -------------------------------------------------------------------------------------------
@@ -98,6 +100,7 @@ class RotateCirclesWithChips(Enigma):
     def _onPreparationDeactivate(self):
         super(RotateCirclesWithChips, self)._onPreparationDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -107,6 +110,7 @@ class RotateCirclesWithChips(Enigma):
 
     def _restoreEnigma(self):
         self._playEnigma()
+
     # ==================================================================================================================
 
     # -------------- _onPreparation methods ----------------------------------------------------------------------------
@@ -155,6 +159,7 @@ class RotateCirclesWithChips(Enigma):
         for starts in self.startComb:
             slot = starts.Circle.movie.getMovieSlot('chip_{}'.format(starts.SlotID))
             slot.addChild(starts.Chip.node)
+
     # ==================================================================================================================
 
     # -------------- Task Chain ----------------------------------------------------------------------------------------
@@ -277,6 +282,7 @@ class RotateCirclesWithChips(Enigma):
 
                 for (_, chip) in chipsNearCenter:
                     chip.onCenter = 1
+
     # ==================================================================================================================
 
     def _cleanUp(self):

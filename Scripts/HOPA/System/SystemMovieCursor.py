@@ -3,6 +3,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.System import System
 from HOPA.CursorManager import CursorManager
 
+
 class SystemMovieCursor(System):
     custom_arrows = {}
 

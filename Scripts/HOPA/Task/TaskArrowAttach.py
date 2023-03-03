@@ -3,6 +3,7 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.Task import Task
 from HOPA.CursorManager import CursorManager
 
+
 class TaskArrowAttach(MixinObject, Task):
     Skiped = True
 

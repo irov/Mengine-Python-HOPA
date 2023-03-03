@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.System import System
 from Foundation.Utils import isCollectorEdition
 
+
 class SystemGuide(System):
     NAVIGATION_FOCUS_PARAM_CACHE = True
     MENU_PAGE_OBJ_INDEX_CACHE = 0
@@ -35,12 +36,21 @@ class SystemGuide(System):
 
     @staticmethod
     def getDataCache():
-        return SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE
+        return SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, \
+            SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE
 
     @staticmethod
     def _onSave():
-        return SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE
+        return SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, \
+            SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE
 
     @staticmethod
     def _onLoad(save_data):
-        SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_OBJ_INDEX_CACHE, SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE = save_data
+        SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE, \
+            SystemGuide.MENU_PAGE_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_OBJ_INDEX_CACHE, \
+            SystemGuide.CHAPTER_PAGE_OBJ_INDEX_CACHE = save_data

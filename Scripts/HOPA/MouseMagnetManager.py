@@ -1,11 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class MouseMagnetManager(Manager):
     s_puzzles = {}
 
     class Param(object):
-        def __init__(self, PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX, ChipStartY, FinishSocket):
+        def __init__(self, PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX, ChipStartY,
+                     FinishSocket):
             self.PrototypeChip = PrototypeChip
             self.PrototypeWalls = PrototypeWalls
             self.WallSocketName = WallSocketName
@@ -13,8 +15,9 @@ class MouseMagnetManager(Manager):
             self.ChipStartX = ChipStartX
             self.ChipStartY = ChipStartY
             self.FinishSocket = FinishSocket
+
         def __repr__(self):
-            return "<MouseMagnetManager.Param error"
+            return "<MouseMagnetManager.Param>"
 
     @staticmethod
     def loadParams(module, param):
@@ -30,7 +33,8 @@ class MouseMagnetManager(Manager):
             ChipStartY = record.get("ChipStartY")
             FinishSocket = record.get("FinishSocket")
 
-            result = MouseMagnetManager.addParam(EnigmaName, module, param, PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX, ChipStartY, FinishSocket)
+            result = MouseMagnetManager.addParam(EnigmaName, module, param, PrototypeChip, PrototypeWalls,
+                                                 WallSocketName, WallNumber, ChipStartX, ChipStartY, FinishSocket)
 
             if result is False:
                 error_msg = "MouseMagnetManager invalid addParam {}".format(EnigmaName)
@@ -40,7 +44,8 @@ class MouseMagnetManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, Param, PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX, ChipStartY, FinishSocket):
+    def addParam(EnigmaName, Module, Param, PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX,
+                 ChipStartY, FinishSocket):
         if EnigmaName in MouseMagnetManager.s_puzzles:
             error_msg = "MouseMagnetManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -48,7 +53,8 @@ class MouseMagnetManager(Manager):
 
         records = DatabaseManager.getDatabaseRecords(Module, Param)
 
-        NewParam = MouseMagnetManager.Param(PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX, ChipStartY, FinishSocket)
+        NewParam = MouseMagnetManager.Param(PrototypeChip, PrototypeWalls, WallSocketName, WallNumber, ChipStartX,
+                                            ChipStartY, FinishSocket)
         MouseMagnetManager.s_puzzles[EnigmaName] = NewParam
         return True
 

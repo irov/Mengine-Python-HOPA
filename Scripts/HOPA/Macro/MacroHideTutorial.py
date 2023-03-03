@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHideTutorial(MacroCommand):
 
     def _onInitialize(self):

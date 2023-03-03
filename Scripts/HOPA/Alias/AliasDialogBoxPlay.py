@@ -1,6 +1,7 @@
 from Foundation.GuardBlockGame import GuardBlockGame
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasDialogBoxPlay(TaskAlias):
     def _onParams(self, params):
         super(AliasDialogBoxPlay, self)._onParams(params)

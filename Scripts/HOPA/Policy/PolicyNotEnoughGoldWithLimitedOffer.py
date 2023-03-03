@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyNotEnoughGoldWithLimitedOffer(TaskAlias):
 
     def _onParams(self, params):

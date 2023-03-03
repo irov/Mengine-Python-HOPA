@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChapterManager import ChapterManager
 from HOPA.QuestManager import QuestManager
 
+
 class SystemDifficulty(System):
 
     def __init__(self):
@@ -57,7 +58,9 @@ class SystemDifficulty(System):
 
     def _onSave(self):
         # BAD PRACTICE!!! Do not use list or tuple for save!!
-        return (self.ScenariosDifficulty, self.TutorialSkip, self.bIsCustomDifficultySetOnce, self.bSparkOnActiveArea, self.bTutorialAvaliable, self.bItemPlusIndicator, self.bChangeActiveAreaIcon, self.bMapIndicator, self.bSparksOnHO, self.fHintTime, self.fSkipTime)
+        return (self.ScenariosDifficulty, self.TutorialSkip, self.bIsCustomDifficultySetOnce, self.bSparkOnActiveArea,
+                self.bTutorialAvaliable, self.bItemPlusIndicator, self.bChangeActiveAreaIcon, self.bMapIndicator,
+                self.bSparksOnHO, self.fHintTime, self.fSkipTime)
 
     def _onLoad(self, data_save):
         self.ScenariosDifficulty, self.TutorialSkip = data_save[0], data_save[1]

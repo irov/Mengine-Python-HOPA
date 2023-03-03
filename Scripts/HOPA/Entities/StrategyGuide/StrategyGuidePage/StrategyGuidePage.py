@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 
 from StrategyGuidePageManager import StrategyGuidePageManager
 
+
 class StrategyGuidePage(BaseEntity):
     @staticmethod
     def declareORM(Type):

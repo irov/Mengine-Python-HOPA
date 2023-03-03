@@ -1,6 +1,7 @@
 from HOPA.Entities.Journal2.Journal2Manager import Journal2Manager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroGuidebookAdd(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = None
@@ -17,9 +18,6 @@ class MacroGuidebookAdd(MacroCommand):
         if _DEVELOPMENT is True:
             if Journal2Manager.hasPage(self.GuidebookID) is False:
                 self.initializeFailed("GuidebookPage ->%s is not registered.Please add item to appropriate places" % (self.JournalID))
-                pass
-            pass
-        pass
 
     def _onGenerate(self, source):
         if self.ObjectName is not None:
@@ -29,4 +27,5 @@ class MacroGuidebookAdd(MacroCommand):
 
         source.addTask("TaskNotify", ID=Notificator.onGuidebookAddPage, Args=(self.GuidebookID,))
         pass
+
     pass

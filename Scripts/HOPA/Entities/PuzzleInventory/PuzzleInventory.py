@@ -1,5 +1,6 @@
 InventoryBase = Mengine.importEntity("InventoryBase")
 
+
 class PuzzleInventory(InventoryBase):
     @staticmethod
     def declareORM(Type):

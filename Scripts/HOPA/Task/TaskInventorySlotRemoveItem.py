@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskInventorySlotRemoveItem(Task):
     Skiped = True
 
@@ -34,4 +35,5 @@ class TaskInventorySlotRemoveItem(Task):
 
         return True
         pass
+
     pass

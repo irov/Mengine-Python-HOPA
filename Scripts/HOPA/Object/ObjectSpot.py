@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectSpot(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectSpot(DemonObject):
         super(ObjectSpot, self)._onParams(params)
         self.initParam("FadeColor", params, (1.0, 1.0, 1.0))
         pass
+
     pass

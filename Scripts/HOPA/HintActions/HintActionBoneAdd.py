@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.HintActions.HintActionUseInventoryItem import HintActionUseInventoryItem
 
+
 class HintActionBoneAdd(HintActionUseInventoryItem):
     def __init__(self):
         super(HintActionBoneAdd, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ProgrammatorForFindWayMGManager(Manager):
     s_puzzles = {}
 
@@ -29,7 +30,8 @@ class ProgrammatorForFindWayMGManager(Manager):
             FailCells = record.get('FailCells')
             SkipPosition = record.get('SkipPosition')
 
-            result = ProgrammatorForFindWayMGManager.addParam(EnigmaName, module, ChipParam, ChipManMovieName, PlaceParam, FinishCellID, FailCells, SkipPosition)
+            result = ProgrammatorForFindWayMGManager.addParam(EnigmaName, module, ChipParam, ChipManMovieName,
+                                                              PlaceParam, FinishCellID, FailCells, SkipPosition)
             if result is False:
                 error_msg = "ProgrammatorForFindWayMGManager invalid addParam {}".format(EnigmaName)
                 Trace.log("Manager", 0, error_msg)
@@ -99,7 +101,8 @@ class ProgrammatorForFindWayMGManager(Manager):
             PlaceID = record.get('PlaceID')
             skipPosition[ChipID] = PlaceID
         # ==============================================================================================================
-        new_param = ProgrammatorForFindWayMGManager.ProgrammatorForFindWayMGParam(chipDict, ChipManMovieName, placeList, FinishCellID, FailCells, skipPosition)
+        new_param = ProgrammatorForFindWayMGManager.ProgrammatorForFindWayMGParam(chipDict, ChipManMovieName, placeList,
+                                                                                  FinishCellID, FailCells, skipPosition)
         ProgrammatorForFindWayMGManager.s_puzzles[EnigmaName] = new_param
 
     @staticmethod

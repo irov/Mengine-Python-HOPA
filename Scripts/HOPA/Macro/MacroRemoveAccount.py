@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroRemoveAccount(MacroCommand):
     def _onValues(self, values):
         pass
@@ -12,4 +13,5 @@ class MacroRemoveAccount(MacroCommand):
     def changeMengineSetting(self):
         Mengine.changeCurrentAccountSettingBool("GameComplete", True)
         pass
+
     pass

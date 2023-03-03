@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class AwardsManager(object):
     s_awards = {}
     s_awardsData = {}
@@ -360,8 +361,3 @@ class AwardsManager(object):
     def getAwardOpenMovie(awardId):
         movie = AwardsManager.s_openMovies.get(awardId)
         return movie
-        pass
-
-    pass
-
-pass

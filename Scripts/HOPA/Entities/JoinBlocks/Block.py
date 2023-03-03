@@ -61,6 +61,7 @@ class Block(object):
     def setSlotName(self, slotName):
         self._slotName = slotName
         pass
+
     def getState(self):
         return self._state
         pass
@@ -110,5 +111,6 @@ class Block(object):
         pass
 
     pass
+
 
 pass

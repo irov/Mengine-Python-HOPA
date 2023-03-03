@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
 
+
 class Reloader(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -115,5 +116,3 @@ class Reloader(BaseEntity):
             pass
 
         self.Movies = {}
-        pass
-    pass

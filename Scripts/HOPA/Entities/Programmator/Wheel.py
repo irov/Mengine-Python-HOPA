@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class Wheel(object):
     SLOT = "container"
     TaskName = "Programttor_Wheel"

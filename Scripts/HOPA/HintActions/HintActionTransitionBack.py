@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionTransitionBack(MixinTransition, HintActionDefault):
     def _onInitialize(self):
         super(HintActionTransitionBack, self)._onInitialize()

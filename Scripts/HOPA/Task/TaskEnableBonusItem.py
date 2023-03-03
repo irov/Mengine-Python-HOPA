@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.BonusItemManager import BonusItemManager
 
+
 class TaskEnableBonusItem(MixinObserver, TaskAlias):
     def _onParams(self, params):
         super(TaskEnableBonusItem, self)._onParams(params)
@@ -15,4 +16,5 @@ class TaskEnableBonusItem(MixinObserver, TaskAlias):
             source.addTask("TaskInteractive", Object=item, Value=self.Value)
             pass
         pass
+
     pass

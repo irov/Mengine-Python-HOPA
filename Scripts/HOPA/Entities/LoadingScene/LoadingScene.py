@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 
 from PlayFabFramework.Managers.GameManager import GameManager
 
+
 class LoadingScene(BaseEntity):
     def __init__(self):
         super(LoadingScene, self).__init__()
@@ -64,7 +65,12 @@ class LoadingScene(BaseEntity):
 
         authorization_method = GameManager.scopeAuthenticate
 
-        load_steps_scopes = [(authorization_method, 25, self.__scopeLoadFailResolve, "AUTHENTICATE"), (GameManager.scopeGetAccountInfo, 25, self.__scopeLoadFailResolve, "ACCOUNT_INFO"), (GameManager.scopeLoadTitleDataFromServer, 25, self.__scopeVesion_FailResolve, "TITLE_DATA"), (GameManager.scopeLoadStatistics, 25, self.__scopeLoadFailResolve, "STATISTICS"), ]
+        load_steps_scopes = [
+            (authorization_method, 25, self.__scopeLoadFailResolve, "AUTHENTICATE"),
+            (GameManager.scopeGetAccountInfo, 25, self.__scopeLoadFailResolve, "ACCOUNT_INFO"),
+            (GameManager.scopeLoadTitleDataFromServer, 25, self.__scopeVesion_FailResolve, "TITLE_DATA"),
+            (GameManager.scopeLoadStatistics, 25, self.__scopeLoadFailResolve, "STATISTICS"),
+        ]
 
         source.addFunction(self.__setupValueFollower)
         source.addFunction(GameManager.clearLoadDataCache)
@@ -101,7 +107,9 @@ class LoadingScene(BaseEntity):
 
     def __scopeVesion_FailResolve(self, source):
         source.addDisable(self.progressbar)
-        source.addPrin("__scopeVesion_FailResolve")  # source.addScope(PopUp.scope_Check_Version)  # todo add scope_Check_Version
+        source.addPrin("__scopeVesion_FailResolve")
+        # source.addScope(PopUp.scope_Check_Version)
+        # todo add scope_Check_Version
 
     def __loadFromCache(self):
         account_info_cache = GameManager.getLoadDataCache("AccountInfo")

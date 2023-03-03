@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 
 from ManaManager import ManaManager
 
+
 class Mana(BaseEntity):
     IDLE = "Idle"
     HIDE = "Hide"
@@ -210,4 +211,5 @@ class Mana(BaseEntity):
         pos = Slot.getWorldPosition()
         return pos
         pass
+
     pass

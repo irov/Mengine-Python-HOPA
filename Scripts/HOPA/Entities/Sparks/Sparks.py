@@ -9,6 +9,7 @@ from HOPA.SparksManager import SparksManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class Sparks(BaseEntity):
     @staticmethod
     def declareORM(Type):

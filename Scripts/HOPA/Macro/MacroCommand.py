@@ -4,6 +4,7 @@ from HOPA.MacroManager import MacroManager
 from HOPA.QuestManager import QuestManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroCommand(Initializer):
     Immediately = False
 
@@ -102,8 +103,6 @@ class MacroCommand(Initializer):
             traceback.print_exc()
 
             self.initializeFailed("Macro %s group %s:%s except params: %s" % (self.CommandType, self.GroupName, self.Index, ex))
-            pass
-        pass
 
     def _onParams(self, params):
         self.GroupName = params["GroupName"]
@@ -116,9 +115,8 @@ class MacroCommand(Initializer):
         except Exception as ex:
             traceback.print_exc()
 
-            Trace.log("Command", 0, "MacroCommand.onValues: command %s group %s index %d values %s except: '%s'" % (self.CommandType, self.GroupName, self.Index, values, ex))
-            pass
-        pass
+            Trace.log("Command", 0, "MacroCommand.onValues: command %s group %s index %d values %s except: '%s'" % (
+                self.CommandType, self.GroupName, self.Index, values, ex))
 
     def _onValues(self, values):
         pass
@@ -142,25 +140,19 @@ class MacroCommand(Initializer):
         pass
 
     def onGenerate(self, source):
-        #        source.addTask("TaskNoSkip")
-
-        #        source.addTask("TaskPrint", Value = "MacroCommand Begin %s:%s %s"%(self.GroupName, self.Index, self.CommandType))
-        #        with source.addRaceTask(2) as (tc_run_macro, tc_run_source):
-
         self._onGenerate(source)
-
-        #        source.addTask("TaskPrint", Value = "MacroCommand End %s:%s %s"%(self.GroupName, self.Index, self.CommandType))
-        pass
 
     def _onGenerate(self, source):
         pass
 
     def _onInitializeFailed(self, msg):
-        Trace.log("Command", 0, "MacroCommand initialize failed %s macro %s:%d failed %s" % (self.CommandType, self.GroupName, self.Index, msg))
+        Trace.log("Command", 0, "MacroCommand initialize failed %s macro %s:%d failed %s" % (
+            self.CommandType, self.GroupName, self.Index, msg))
         pass
 
     def _onFinalizeFailed(self, msg):
-        Trace.log("Command", 0, "MacroCommand finalize failed %s macro %s:%d failed %s" % (self.CommandType, self.GroupName, self.Index, msg))
+        Trace.log("Command", 0, "MacroCommand finalize failed %s macro %s:%d failed %s" % (
+            self.CommandType, self.GroupName, self.Index, msg))
         pass
 
     def hasObject(self, name, filter=None):
@@ -181,12 +173,8 @@ class MacroCommand(Initializer):
 
                 if OverFrameGroupName is not None and GroupManager.hasObject(OverFrameGroupName, name) is True:
                     return True
-                    pass
-                pass
-            pass
 
         return False
-        pass
 
     def findObject(self, name, filter=None):
         FinderType, Object = MacroManager.findObject(name, filter)
@@ -195,7 +183,8 @@ class MacroCommand(Initializer):
             if Object.getType() is "ObjectItem":
                 ItemGroupName = Object.getGroupName()
                 if self.GroupName != ItemGroupName:
-                    Trace.log("Command", 0, "MacroCommand.findObject: Item %s in ItemManager has any group - %s, not %s!!!!!!" % (Object.name, ItemGroupName, self.GroupName))
+                    Trace.log("Command", 0, "MacroCommand.findObject: Item %s in ItemManager has any group - %s, not %s!!!!!!" % (
+                              Object.name, ItemGroupName, self.GroupName))
                     return None, None
 
             return FinderType, Object
@@ -227,5 +216,3 @@ class MacroCommand(Initializer):
             pass
 
         return True
-        pass
-    pass

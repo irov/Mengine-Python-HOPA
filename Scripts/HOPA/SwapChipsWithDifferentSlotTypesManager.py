@@ -2,8 +2,10 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Manager import Manager
 
+
 class SwapChipsWithDifferentSlotTypesParam(object):
-    def __init__(self, MovieSlots, ChipsDict, SlotsDict, FixedSlotsIDs, DragDrop, PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride, LitChips, LitAlpha, LitTime):
+    def __init__(self, MovieSlots, ChipsDict, SlotsDict, FixedSlotsIDs, DragDrop, PlaySwapSoundTwice, SaveMG, PlaySkip,
+                 ChipMoveTimeOverride, LitChips, LitAlpha, LitTime):
         self.MovieSlots = MovieSlots
 
         self.ChipsDict = {}
@@ -38,12 +40,14 @@ class SwapChipsWithDifferentSlotTypesParam(object):
     def getChips(self):
         return self.ChipsDict
 
+
 class ChipParam(object):
     def __init__(self, Type, MovieNotPlaced, MoviePlaced, MovieSelected):
         self.Type = Type
         self.MovieNotPlaced = MovieNotPlaced
         self.MoviePlaced = MoviePlaced
         self.MovieSelected = MovieSelected
+
 
 class SlotParam(object):
     def __init__(self, MovieSlot, MovieSocket, SupportedChipTypes, AllowedSlots):
@@ -60,6 +64,7 @@ class SlotParam(object):
 
     def setEndChipIDs(self, ChipIDs):
         self.EndChipIDs = ChipIDs
+
 
 class SwapChipsWithDifferentSlotTypesManager(Manager):
     s_puzzles = {}
@@ -92,7 +97,10 @@ class SwapChipsWithDifferentSlotTypesManager(Manager):
             LitAlpha = record.get("LitAlpha", 0.0)
             LitTime = record.get("LitTime", 0.0)
 
-            result = SwapChipsWithDifferentSlotTypesManager.addParam(EnigmaName, module, MovieSlots, ParamChips, ParamSlots, ParamStates, FixedSlotsIDs, DragDrop, PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride, LitChips, LitAlpha, LitTime)
+            result = SwapChipsWithDifferentSlotTypesManager.addParam(EnigmaName, module, MovieSlots, ParamChips,
+                                                                     ParamSlots, ParamStates, FixedSlotsIDs, DragDrop,
+                                                                     PlaySwapSoundTwice, SaveMG, PlaySkip,
+                                                                     ChipMoveTimeOverride, LitChips, LitAlpha, LitTime)
 
             if result is False:
                 error_msg = "SwapChipsWithDifferentSlotTypesManager invalid addParam {}".format(EnigmaName)
@@ -102,7 +110,8 @@ class SwapChipsWithDifferentSlotTypesManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, MovieSlots, ParamChips, ParamSlots, ParamStates, FixedSlotsIDs, DragDrop, PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride, LitChips, LitAlpha, LitTime):
+    def addParam(EnigmaName, Module, MovieSlots, ParamChips, ParamSlots, ParamStates, FixedSlotsIDs, DragDrop,
+                 PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride, LitChips, LitAlpha, LitTime):
         if EnigmaName in SwapChipsWithDifferentSlotTypesManager.s_puzzles:
             error_msg = "SwapChipsWithDifferentSlotTypesManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -206,7 +215,9 @@ class SwapChipsWithDifferentSlotTypesManager(Manager):
 
             Slot.setEndChipIDs(EndChipIDs)
 
-        NewParam = SwapChipsWithDifferentSlotTypesParam(MovieSlots, chips_dict, slots_dict, FixedSlotsIDs, DragDrop, PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride, LitChips, LitAlpha, LitTime)
+        NewParam = SwapChipsWithDifferentSlotTypesParam(MovieSlots, chips_dict, slots_dict, FixedSlotsIDs, DragDrop,
+                                                        PlaySwapSoundTwice, SaveMG, PlaySkip, ChipMoveTimeOverride,
+                                                        LitChips, LitAlpha, LitTime)
 
         SwapChipsWithDifferentSlotTypesManager.s_puzzles[EnigmaName] = NewParam
         return True

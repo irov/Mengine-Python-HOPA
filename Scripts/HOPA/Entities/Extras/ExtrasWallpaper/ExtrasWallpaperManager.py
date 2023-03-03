@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ExtrasWallpaperManager(object):
     s_data = {}
 
@@ -19,4 +20,5 @@ class ExtrasWallpaperManager(object):
     def getData():
         return ExtrasWallpaperManager.s_data
         pass
+
     pass

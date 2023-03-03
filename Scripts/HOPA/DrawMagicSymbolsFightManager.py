@@ -1,8 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class DrawMagicSymbolParam(object):
-    def __init__(self, symbols, symbols_complete, symbols_fail, boundary, cursor, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop, pen_sprite_prot, draw_sound_notifier, fFightMoviesAlphaTime, fFailMovie, fight_movies, draw_sound_delay, d_symbols_shake_fx, hp_movie_name, symbols_location_type, hp_alpha_time, rotate_pen_sprite):
+    def __init__(self, symbols, symbols_complete, symbols_fail, boundary, cursor, cursor_movie_alpha_appear_time,
+                 hide_cursor, symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop,
+                 pen_sprite_prot, draw_sound_notifier, fFightMoviesAlphaTime, fFailMovie, fight_movies,
+                 draw_sound_delay, d_symbols_shake_fx, hp_movie_name, symbols_location_type, hp_alpha_time,
+                 rotate_pen_sprite):
         self.symbols = symbols
         self.symbols_complete = symbols_complete
         self.symbols_fail = symbols_fail
@@ -32,6 +37,7 @@ class DrawMagicSymbolParam(object):
         self.hp_movie_name = hp_movie_name
         self.hp_alpha_time = hp_alpha_time
         self.symbols_location_type = symbols_location_type
+
 
 class DrawMagicSymbolsFightManager(Manager):
     s_draw_magic_symbol_params = {}
@@ -77,7 +83,14 @@ class DrawMagicSymbolsFightManager(Manager):
             hp_alpha_time = record.get("HPAlphaTime", 300)
             symbols_location_type = bool(record.get("SymbolLocationType"))
 
-            result = DrawMagicSymbolsFightManager.addParam(enigma_name, module, symbol_param, fight_param, symbol_path_param, boundary_name, symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop, cursor_movie_name, cursor_movie_alpha_appear_time, hide_cursor, pen_sprite_prot, draw_sound_notifier, fFightMoviesAlphaTime, fFailMovie, draw_sound_delay, hp_movie_name, symbols_location_type, hp_alpha_time, rotate_pen_sprite)
+            result = DrawMagicSymbolsFightManager.addParam(enigma_name, module, symbol_param, fight_param,
+                                                           symbol_path_param, boundary_name, symbol_movie_alpha_time,
+                                                           draw_offset, max_draw_distance, draw_distance_stop,
+                                                           cursor_movie_name, cursor_movie_alpha_appear_time,
+                                                           hide_cursor, pen_sprite_prot, draw_sound_notifier,
+                                                           fFightMoviesAlphaTime, fFailMovie, draw_sound_delay,
+                                                           hp_movie_name, symbols_location_type, hp_alpha_time,
+                                                           rotate_pen_sprite)
             if result is False:
                 error_msg = "DrawMagicSymbolsFightManager invalid addParam {}".format(enigma_name)
                 Trace.log("Manager", 0, error_msg)
@@ -85,8 +98,12 @@ class DrawMagicSymbolsFightManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, symbol_param, fight_param, symbol_path_param, boundary_name, symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop, cursor_movie_name, cursor_movie_alpha_appear_time, hide_cursor, pen_sprite_prot, draw_sound_notifier, fFightMoviesAlphaTime, fFailMovie, draw_sound_delay, hp_movie_name, symbols_location_type, hp_alpha_time, rotate_pen_sprite):
-        symbols = list()
+    def addParam(enigma_name, module, symbol_param, fight_param, symbol_path_param, boundary_name,
+                 symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop, cursor_movie_name,
+                 cursor_movie_alpha_appear_time, hide_cursor, pen_sprite_prot, draw_sound_notifier,
+                 fFightMoviesAlphaTime, fFailMovie, draw_sound_delay, hp_movie_name, symbols_location_type,
+                 hp_alpha_time, rotate_pen_sprite):
+
         symbols_complete = dict()
         symbols_fail = dict()
         fight_movies = list()
@@ -103,7 +120,8 @@ class DrawMagicSymbolsFightManager(Manager):
             Trace.log("Manager", 0, error_msg)
             return False
 
-        symbols = [[str(), {"MultTime": [], "OneTime": []}] for _ in range(len(records))]  # for proper work of list.insert()
+        # for proper work of list.insert()
+        symbols = [[str(), {"MultTime": [], "OneTime": []}] for _ in range(len(records))]
         for record in records:
             '''
             SymbolMovie2Name  SymbolCompleteMovie2Name  SymbolFailMovie2Name SymbolOrderIndex   ShakeFXMoviePrototype
@@ -160,7 +178,12 @@ class DrawMagicSymbolsFightManager(Manager):
         fight_movies = [(movie_fight, movie_idle) for (index, movie_fight, movie_idle) in fight_movies]
         '''  '''
 
-        param = DrawMagicSymbolParam(symbols, symbols_complete, symbols_fail, boundary_name, cursor_movie_name, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, draw_offset, max_draw_distance, draw_distance_stop, pen_sprite_prot, draw_sound_notifier, fFightMoviesAlphaTime, fFailMovie, fight_movies, draw_sound_delay, d_symbols_shake_fx, hp_movie_name, symbols_location_type, hp_alpha_time, rotate_pen_sprite)
+        param = DrawMagicSymbolParam(symbols, symbols_complete, symbols_fail, boundary_name, cursor_movie_name,
+                                     cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, draw_offset,
+                                     max_draw_distance, draw_distance_stop, pen_sprite_prot, draw_sound_notifier,
+                                     fFightMoviesAlphaTime, fFailMovie, fight_movies, draw_sound_delay,
+                                     d_symbols_shake_fx, hp_movie_name, symbols_location_type, hp_alpha_time,
+                                     rotate_pen_sprite)
 
         DrawMagicSymbolsFightManager.s_draw_magic_symbol_params[enigma_name] = param
 

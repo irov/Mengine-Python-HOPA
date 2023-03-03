@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSetSkipReloading(MacroCommand):
     def _onValues(self, values):
         self.Value = values[0]
@@ -17,4 +18,5 @@ class MacroSetSkipReloading(MacroCommand):
         DemonSkipPuzzle = DemonManager.getDemon('SkipPuzzle')
         DemonSkipPuzzle.setParam("ForceReload", self.Value)
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionItem(HintActionDefault, MixinItem):
 
     def _getHintObject(self):

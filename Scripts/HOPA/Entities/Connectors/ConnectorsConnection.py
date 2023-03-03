@@ -1,5 +1,6 @@
 from Notification import Notification
 
+
 class ConnectorsConnection(object):
     def __init__(self, socketObject, stateObject):
         self.elements = []
@@ -84,4 +85,5 @@ class ConnectorsConnection(object):
         self.stateObject.setCurrentState("onUp")
         return False
         pass
+
     pass

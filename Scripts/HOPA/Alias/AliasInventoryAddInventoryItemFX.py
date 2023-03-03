@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryAddInventoryItemFX(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryAddInventoryItemFX, self)._onParams(params)
@@ -30,9 +31,7 @@ class AliasInventoryAddInventoryItemFX(TaskAlias):
             source.addTask("TaskAppendParam", Object=InventoryItem, Param="FoundItems", Value=self.ItemName)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory, Args=(self.Inventory, self.ItemName, self.EffectPolicy))
+        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
+                       Args=(self.Inventory, self.ItemName, self.EffectPolicy))
         source.addTask("TaskInventoryFXAddItem", InventoryItem=InventoryItem, ItemName=self.ItemName)
         source.addFunction(self.Inventory.UnBlockButtons)
-        pass
-
-    pass

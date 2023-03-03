@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectSpell(DemonObject):
 
     @staticmethod
@@ -18,4 +19,5 @@ class ObjectSpell(DemonObject):
         self.initParam("AtmosphericUse", params, False)
         self.initParam("HideState", params, "Idle")
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasEffectInventoryReturnInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(AliasEffectInventoryReturnInventoryItem, self)._onParams(params)
@@ -97,7 +98,8 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
             pass
         with source.addParallelTask(2) as (tc0, tc1):
             # tc0.addTask("TaskNodeBezier2To", Node=node, Point1=P1, To=P2, Speed=SpeedEffectInventoryReturnInventoryItem)
-            tc0.addTask("TaskNodeBezier2Follow", Follow=node2, Node=node, Speed=SpeedEffectInventoryReturnInventoryItem, Easing=self.easing)
+            tc0.addTask("TaskNodeBezier2Follow", Follow=node2, Node=node,
+                        Speed=SpeedEffectInventoryReturnInventoryItem, Easing=self.easing)
 
             tc1.addTask("TaskNodeScaleTo", Node=node, To=(scaleTo, scaleTo, 1.0), Time=time, Easing=self.easing)
             pass

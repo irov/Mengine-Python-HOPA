@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class CollectedMapManager(object):
     s_objects = {}
     s_partsRelation = {}
@@ -53,7 +54,8 @@ class CollectedMapManager(object):
     @staticmethod
     def hasData(demon):
         if demon not in CollectedMapManager.s_objects:
-            Trace.log("CollectedMapManager", 0, "CollectedMapManager.hasData invalid param demon %s" % (demon.getName()))
+            Trace.log("CollectedMapManager", 0,
+                      "CollectedMapManager.hasData invalid param demon %s" % (demon.getName()))
             return False
             pass
         return True
@@ -63,4 +65,5 @@ class CollectedMapManager(object):
     def getObjectByPart(partID):
         return CollectedMapManager.s_partsRelation[partID]
         pass
+
     pass

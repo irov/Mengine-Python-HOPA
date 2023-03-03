@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ExtrasConceptManager(object):
     s_data = []
 
@@ -17,4 +18,5 @@ class ExtrasConceptManager(object):
     def getData():
         return ExtrasConceptManager.s_data
         pass
+
     pass

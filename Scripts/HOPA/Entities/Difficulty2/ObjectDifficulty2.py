@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectDifficulty2(Object):
     @staticmethod
     def declareORM(Type):

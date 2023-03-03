@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemInventoryItemText(System):
     def _onParams(self, params):
         super(SystemInventoryItemText, self)._onParams(params)
@@ -187,4 +188,5 @@ class SystemInventoryItemText(System):
         self.Inventory.returnItemSlot(ItemKey)
         return
         pass
+
     pass

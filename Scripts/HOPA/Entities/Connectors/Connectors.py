@@ -3,7 +3,9 @@ from HOPA.ConnectorsManager import ConnectorsManager
 from ConnectorsConnection import ConnectorsConnection
 from ConnectorsElement import ConnectorsElement
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Connectors(Enigma):
     def __init__(self):
@@ -75,4 +77,5 @@ class Connectors(Enigma):
             connection.initialize(self._checkComplete)
             pass
         pass
+
     pass

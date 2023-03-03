@@ -2,6 +2,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.TurnBasedStrategyGoManager import TurnBasedStrategyGoManager
 
+
 TEXT_EMPTY = 'ID_EMPTY'
 TEXT_WIN = 'ID_GO_RESULTS_WIN'
 TEXT_LOSE = 'ID_GO_RESULTS_LOSE'
@@ -12,6 +13,7 @@ ALIAS_PLAYER_COUNTER = '$GoPlayerCounter'
 ALIAS_RESULTS = '$GoResults'
 
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Chip(object):
     def __init__(self, chip_id, movie_chip, owner, place):
@@ -42,6 +44,7 @@ class Chip(object):
         self.setCurrentPlace(None)
         self.disableChipGlow()
         self.movie_chip.onDestroy()
+
 
 class Place(object):
     def __init__(self, place_id, movie_place):
@@ -77,6 +80,7 @@ class Place(object):
     def cleanUp(self):
         self.movie_place.onDestroy()
 
+
 class Counter(object):
     def __init__(self, id_, movie, value, text_alias):
         self.id = id_
@@ -92,6 +96,7 @@ class Counter(object):
     def cleanUp(self):
         self.movie.onDestroy()
         Mengine.setTextAliasArguments('', self.text_alias, '')
+
 
 class TurnBasedStrategyGo(Enigma):
     @staticmethod
@@ -427,7 +432,8 @@ class TurnBasedStrategyGo(Enigma):
 
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (move, sound):
-                move.addTask("AliasObjectMoveTo", Object=chip.movie_chip, To=(place_wp.x, place_wp.y), Time=moving_time, Wait=True)
+                move.addTask("AliasObjectMoveTo", Object=chip.movie_chip,
+                             To=(place_wp.x, place_wp.y), Time=moving_time, Wait=True)
                 sound.addNotify(Notificator.onSoundEffectOnObject, self.object, "TurnBasedStrategyGo_Move")
             guard_source.addFunction(chip.current_place.setOwner, None)
             guard_source.addFunction(place.setOwner, chip)
@@ -604,7 +610,8 @@ class TurnBasedStrategyGo(Enigma):
             self.tc.cancel()
             self.tc = None
 
-        for obj in self.places.values() + self.enemy_chips.values() + self.player_chips.values() + [self.enemy_counter, self.player_counter]:
+        for obj in self.places.values() + self.enemy_chips.values() + self.player_chips.values() + [self.enemy_counter,
+            self.player_counter]:
             if obj is None:
                 continue
             obj.cleanUp()

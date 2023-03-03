@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasObjectEnter(MixinObject, TaskAlias):
     def _onParams(self, params):
         super(AliasObjectEnter, self)._onParams(params)

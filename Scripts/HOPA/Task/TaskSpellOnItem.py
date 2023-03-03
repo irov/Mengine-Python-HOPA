@@ -4,6 +4,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.Entities.Spell.SystemSpell import SystemSpell
 
+
 class TaskSpellOnItem(MixinItem, MixinObserver, Task):
 
     def _onParams(self, params):
@@ -44,12 +45,6 @@ class TaskSpellOnItem(MixinItem, MixinObserver, Task):
                 Value = Mana.getManaCount()
                 if Value >= self.SpellCost:
                     return True
-                    pass
                 else:
                     return False
-                    pass
-                pass
-            pass
         return False
-        pass
-    pass

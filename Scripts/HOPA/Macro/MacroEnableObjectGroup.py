@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnableObjectGroup(MacroCommand):
     def _onValues(self, values):
         self.GroupObjectName = values[0]
@@ -11,11 +12,7 @@ class MacroEnableObjectGroup(MacroCommand):
         if _DEVELOPMENT is True:
             if GroupManager.hasObject(self.GroupObjectName, self.ObjectName) is False:
                 self.initializeFailed("MacroEnableObjectGroup not found Object %s in group %s" % (self.ObjectName, self.GroupObjectName))
-                pass
-        pass
 
     def _onGenerate(self, source):
         Object = GroupManager.getObject(self.GroupObjectName, self.ObjectName)
         source.addTask("TaskEnable", Object=Object, Value=True)
-        pass
-    pass

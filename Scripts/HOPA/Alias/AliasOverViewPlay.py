@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasOverViewPlay(MixinObject, TaskAlias):
     def _onParams(self, params):
         super(AliasOverViewPlay, self)._onParams(params)
@@ -11,5 +12,3 @@ class AliasOverViewPlay(MixinObject, TaskAlias):
 
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onOverView, Args=(self.ViewID, self.FinalParagraph))
-        pass
-    pass

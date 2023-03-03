@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class CutSceneManager(object):
     manager_dict = {}
     allMovies = []
@@ -39,12 +40,9 @@ class CutSceneManager(object):
                 return None
                 pass
             return self.MovieGroupName
-            pass
 
         def getNext(self):
             return self.NextSceneID
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -68,7 +66,8 @@ class CutSceneManager(object):
             MovieObject = GroupManager.getObject(MovieGroupName, MovieName)
 
             if MovieObject is None:
-                Trace.log("Manager", 0, "CutSceneManager.loadParams: not found movie object [%s:%s]" % (MovieGroupName, MovieName))
+                Trace.log("Manager", 0,
+                          "CutSceneManager.loadParams: not found movie object [%s:%s]" % (MovieGroupName, MovieName))
                 return False
                 pass
 
@@ -144,6 +143,7 @@ class CutSceneManager(object):
 
         return record.getMovieText()
         pass
+
     @staticmethod
     def getGroup(SceneId):
         record = CutSceneManager.getItem(SceneId)
@@ -166,6 +166,3 @@ class CutSceneManager(object):
         for cutData in CutSceneManager.manager_dict.values():
             movie = cutData.getMovie()
             movie.setEnable(False)
-            pass
-        pass
-    pass

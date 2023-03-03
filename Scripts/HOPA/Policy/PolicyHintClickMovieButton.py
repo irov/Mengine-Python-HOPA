@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintClickMovieButton(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintClickMovieButton, self)._onParams(params)

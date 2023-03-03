@@ -1,6 +1,7 @@
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDetachItem(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -26,4 +27,5 @@ class MacroDetachItem(MacroCommand):
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
         source.addTask("AliasItemDetach", InventoryItem=InventoryItem)
         pass
+
     pass

@@ -3,6 +3,7 @@ from HOPA.ScenarioManager import ScenarioManager
 
 from Notification import Notification
 
+
 class QuestManager(object):
     s_enumerate = 0
     s_questGlobalCache = []
@@ -20,7 +21,11 @@ class QuestManager(object):
         if _DEVELOPMENT is True and Mengine.hasOption("hintdebug") is True:
             def __repr__(self):
                 MacroCommand = self.params.get("FromMacroCommand")
-                _details = [("A" if self.active else "N/A"), ("GLOBAL" if self.questGlobal else "LOCAL"), ("Done" if self.complete else "Work"), ]
+                _details = [
+                    ("A" if self.active else "N/A"),
+                    ("GLOBAL" if self.questGlobal else "LOCAL"),
+                    ("Done" if self.complete else "Work"),
+                ]
                 details = " ".join(_details)
                 return "<QuestObject {} [{}] from {}: {}>".format(self.questType, details, MacroCommand, self.params)
 
@@ -52,7 +57,8 @@ class QuestManager(object):
 
     @staticmethod
     def printQuest(quest):
-        print("QuestManager printQuest, group", quest.questType, quest.params.get("GroupName"), "complete", quest.isComplete(), "active", quest.active, "params", quest.params)
+        print("QuestManager printQuest, group", quest.questType, quest.params.get("GroupName"), "complete",
+        quest.isComplete(), "active", quest.active, "params", quest.params)
         if quest.questType == "Click" or quest.questType == "Enable":
             print(quest.params.get("Object").name)
         elif quest.questType == "PickItem":
@@ -70,7 +76,6 @@ class QuestManager(object):
     def hasActiveTipObject(obj):
         if obj in QuestManager.s_activeTipObjects:
             return True
-
         return False
 
     @staticmethod
@@ -95,10 +100,6 @@ class QuestManager(object):
     def _onAppendQuestList(quest):
         quest.setActive(True)
         return False
-
-    @staticmethod
-    def cancelQuest(quest, questID):
-        QuestManager._onRemoveQuestList(quest, questID)
 
     @staticmethod
     def _onRemoveQuestList(quest):

@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemMagicGlove(System):
     def _onRun(self):
         self.addObserver(Notificator.onRuneReady, self.__cbReaction)

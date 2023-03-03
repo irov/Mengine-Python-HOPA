@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Options.Options import Options
 from Notification import Notification
 
+
 class OptionsMore(BaseEntity):
 
     @staticmethod
@@ -16,7 +17,8 @@ class OptionsMore(BaseEntity):
         Type.addAction(Type, 'WideScreen', Activate=True, Update=OptionsMore._updateWideScreen)
 
     def _updateArrow(self, value):
-        Mengine.changeCurrentAccountSetting("CustomCursor", unicode(value))  # Mengine.changeCurrentAccountSetting("Cursor", unicode(value))
+        Mengine.changeCurrentAccountSetting("CustomCursor", unicode(value))
+        # Mengine.changeCurrentAccountSetting("Cursor", unicode(value))
 
     def _updateFullScreen(self, value):
         if value is None:
@@ -104,18 +106,22 @@ class OptionsMore(BaseEntity):
             with CheckBox.addRaceTask(2) as (FullScreen, Others):
                 for checkBoxName, race in Others.addRaceTaskList(self.listWithCheckBoxesNames):
                     with race.addRaceTask(2) as (true, false):
-                        true.addTask('TaskMovie2CheckBox', Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)), Value=True)
+                        true.addTask('TaskMovie2CheckBox', Value=True,
+                                     Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)))
                         true.addFunction(self.object.setParam, checkBoxName, True)
 
-                        false.addTask('TaskMovie2CheckBox', Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)), Value=False)
+                        true.addTask('TaskMovie2CheckBox', Value=False,
+                                     Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)))
 
                         false.addFunction(self.object.setParam, checkBoxName, False)
 
                 with FullScreen.addRaceTask(2) as (true, false):
-                    true.addTask('TaskMovie2CheckBox', Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'), Value=True)
+                    true.addTask('TaskMovie2CheckBox', Value=True,
+                                 Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'))
                     true.addFunction(Mengine.changeCurrentAccountSetting, "Fullscreen", unicode(True))
 
-                    false.addTask('TaskMovie2CheckBox', Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'), Value=False)
+                    false.addTask('TaskMovie2CheckBox', Value=False,
+                                  Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'))
                     false.addFunction(Mengine.changeCurrentAccountSetting, "Fullscreen", unicode(False))
 
     def scopeOpen(self, source, GropName):

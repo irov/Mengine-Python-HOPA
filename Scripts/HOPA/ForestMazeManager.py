@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ForestMazeManager(Manager):
     class ForestMazeParam(object):
         class __PlaceParam(object):
@@ -18,13 +19,15 @@ class ForestMazeManager(Manager):
                 assert self.chip_type is not None, "ChipType in Chip {} is None".format(self.place_id)
                 assert self.movie_prototype_name is not None, "MoviePrototypeName in Chip {} is None".format(self.place_id)
 
-        def __init__(self, enigma_name, finish_point, enemy_rotate_angle, place_params, rotate_time, player_move_time, neutral_move_time, disable_glow):
+        def __init__(self, enigma_name, finish_point, enemy_rotate_angle, place_params, rotate_time, player_move_time,
+                     neutral_move_time, disable_glow):
             self.enigma_name = enigma_name
 
             self.finish_point = finish_point
             self.enemy_rotate_angle = enemy_rotate_angle
             self.places = {}
-            self.extra = {"RotateTime": rotate_time, "PlayerMoveTime": player_move_time, "NeutralMoveTime": neutral_move_time, "DisableFinishGlowAfterReset": disable_glow}
+            self.extra = {"RotateTime": rotate_time, "PlayerMoveTime": player_move_time,
+                "NeutralMoveTime": neutral_move_time, "DisableFinishGlowAfterReset": disable_glow}
 
             self.__createPlaces(place_params)
 
@@ -64,7 +67,8 @@ class ForestMazeManager(Manager):
             neutral_move_time = record.get('NeutralMoveTime', 1000)
             disable_glow = record.get('DisableFinishGlowAfterReset', False)
 
-            result = ForestMazeManager.addParam(enigma_name, module, finish_point, enemy_rotate_angle, places_param, rotate_time, player_move_time, neutral_move_time, disable_glow)
+            result = ForestMazeManager.addParam(enigma_name, module, finish_point, enemy_rotate_angle, places_param,
+                                                rotate_time, player_move_time, neutral_move_time, disable_glow)
             if result is False:
                 error_msg = "ForestMazeManager invalid addParam {}".format(enigma_name)
                 Trace.log("Manager", 0, error_msg)
@@ -73,7 +77,8 @@ class ForestMazeManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, finish_point, enemy_rotate_angle, places_param, rotate_time, player_move_time, neutral_move_time, disable_glow):
+    def addParam(enigma_name, module, finish_point, enemy_rotate_angle, places_param, rotate_time, player_move_time,
+                 neutral_move_time, disable_glow):
         if enigma_name in ForestMazeManager.s_params:
             error_msg = "ForestMazeManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -99,7 +104,10 @@ class ForestMazeManager(Manager):
 
             place_params[place_id] = (chip_type, movie_prototype_name, other_params)
 
-        ForestMazeManager.s_params[enigma_name] = ForestMazeManager.ForestMazeParam(enigma_name, finish_point, enemy_rotate_angle, place_params, rotate_time, player_move_time, neutral_move_time, disable_glow)
+        ForestMazeManager.s_params[enigma_name] = ForestMazeManager.ForestMazeParam(enigma_name, finish_point,
+                                                                                    enemy_rotate_angle, place_params,
+                                                                                    rotate_time, player_move_time,
+                                                                                    neutral_move_time, disable_glow)
 
         return True
 

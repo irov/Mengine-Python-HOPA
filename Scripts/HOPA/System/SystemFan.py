@@ -1,6 +1,7 @@
 from Foundation.Notificator import Notificator
 from Foundation.System import System
 
+
 class SystemFan(System):
     def __init__(self):
         super(SystemFan, self).__init__()

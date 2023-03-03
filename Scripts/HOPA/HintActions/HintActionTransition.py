@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinTransition
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionTransition(MixinTransition, HintActionDefault):
     def _getHintObject(self):
         return self.Transition

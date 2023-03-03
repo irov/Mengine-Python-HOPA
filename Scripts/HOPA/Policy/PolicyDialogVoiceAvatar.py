@@ -5,6 +5,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.DialogManager import DialogManager
 
+
 class PolicyDialogVoiceAvatar(TaskAlias):
     def _onParams(self, params):
         super(PolicyDialogVoiceAvatar, self)._onParams(params)
@@ -34,7 +35,8 @@ class PolicyDialogVoiceAvatar(TaskAlias):
 
         with GuardBlockGame(source) as tc:
             with tc.addParallelTask(3) as (tc_Fade, tc1, tc_SceneEffect):
-                tc_Fade.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=DialogFadeTo, Time=DialogFadeTime, FromIdle=True, ResetFadeCount=True)
+                tc_Fade.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=DialogFadeTo, Time=DialogFadeTime,
+                                FromIdle=True, ResetFadeCount=True)
 
                 if GroupManager.hasObject("Dialog", "Movie2_Open") is True:
                     tc_SceneEffect.addTask("TaskMovie2Play", GroupName="Dialog", Movie2Name="Movie2_Open", Wait=True)
@@ -53,9 +55,12 @@ class PolicyDialogVoiceAvatar(TaskAlias):
                                     tc_voice.addTask("PolicyDummy")
                                     pass
 
-                                tc_text.addTask(DialogTextPlay, ObjectText=Text_Message, TextID=dialog.textID, TextDelay=dialog.textDelay, AudioDuration=dialog.audio_duration)
+                                tc_text.addTask(DialogTextPlay, ObjectText=Text_Message, TextID=dialog.textID,
+                                                TextDelay=dialog.textDelay, AudioDuration=dialog.audio_duration)
 
-                                tc_play_dialog.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog, DialogPersGroup=self.Dialog, CharacterID=dialog.characterID, IdleID=dialog.idleID, Wait=False)
+                                tc_play_dialog.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog,
+                                                       DialogPersGroup=self.Dialog, CharacterID=dialog.characterID,
+                                                       IdleID=dialog.idleID, Wait=False)
 
                             tc_dialog.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
                             if dialog.finish is not True:
@@ -64,11 +69,11 @@ class PolicyDialogVoiceAvatar(TaskAlias):
                                 tc_dialog.addDelay(1000.0)
 
                             tc_next.addTask("TaskDelay", Time=DialogShowTime)
-                            tc_next.addTask("TaskMovie2ButtonClick", GroupName="Dialog", Movie2ButtonName="Movie2Button_Next", AutoEnable=True)
+                            tc_next.addTask("TaskMovie2ButtonClick", GroupName="Dialog",
+                                            Movie2ButtonName="Movie2Button_Next", AutoEnable=True)
 
-                            pass
-
-                    tc_skip_button.addTask("TaskMovie2ButtonClick", GroupName="Dialog", Movie2ButtonName="Movie2Button_Skip", AutoEnable=True)
+                    tc_skip_button.addTask("TaskMovie2ButtonClick", GroupName="Dialog",
+                                           Movie2ButtonName="Movie2Button_Skip", AutoEnable=True)
                     tc_skip_socket.addBlock()
 
             tc.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=DialogFadeTo, Time=DialogFadeTime, Block=False)

@@ -2,7 +2,9 @@ from Notification import Notification
 
 from MoveBlocksManager import MoveBlocksManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoveBlocks(Enigma):
     def __init__(self):
@@ -227,4 +229,5 @@ class MoveBlocks(Enigma):
         # self.buttons = {}
         # self.blocks = {}
         pass
+
     pass

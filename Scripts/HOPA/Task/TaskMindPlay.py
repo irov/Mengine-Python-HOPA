@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.MindManager import MindManager
 
+
 class TaskMindPlay(MixinObserver, Task):
     Skiped = True
 
@@ -11,7 +12,6 @@ class TaskMindPlay(MixinObserver, Task):
         self.isZoom = params.get("isZoom", False)
         self.Static = params.get("Static")
 
-        pass
 
     def _onInitialize(self):
         super(TaskMindPlay, self)._onInitialize()
@@ -19,9 +19,6 @@ class TaskMindPlay(MixinObserver, Task):
         if _DEVELOPMENT is True:
             if MindManager.hasMind(self.MindID) is False:
                 self.initializeFailed("MindID %s not found" % (self.MindID))
-                pass
-            pass
-        pass
 
     def _onRun(self):
         self.addObserverFilter(Notificator.onMindPlayComplete, self._onMindShowComplete, self.MindID)
@@ -29,12 +26,9 @@ class TaskMindPlay(MixinObserver, Task):
         MindManager.mindShow(self.MindID, self.isZoom, self.Static)
 
         return True
-        pass
 
     def _onMindShowComplete(self, mindID, mindDemon):
         if self.MindID != mindID:
             return False
-            pass
 
         return True
-        pass

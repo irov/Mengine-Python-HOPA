@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class SecretElement(object):
     def __init__(self, movie_secret, movie_classified):
         # movieObject instance

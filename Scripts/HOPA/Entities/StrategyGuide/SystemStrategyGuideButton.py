@@ -3,6 +3,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class SystemStrategyGuideButton(System):
     def __init__(self):
         super(SystemStrategyGuideButton, self).__init__()
@@ -68,7 +69,3 @@ class SystemStrategyGuideButton(System):
 
         if TaskManager.existTaskChain("StrategyGuideButtonMove") is True:
             TaskManager.cancelTaskChain("StrategyGuideButtonMove")
-            pass
-        pass
-
-    pass

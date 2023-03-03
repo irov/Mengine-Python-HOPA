@@ -1,8 +1,11 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class FindSimilarChipsForActivateParam(object):
-    def __init__(self, chips, places, hand_setup, hand_charged, slots, hand_charged_alpha_enable, hand_charged_alpha_disable, hand_setup_alpha_enable, hand_setup_alpha_disable, movie_use_alpha_enable, movie_use_alpha_disable, chips_prototypes_alpha):
+    def __init__(self, chips, places, hand_setup, hand_charged, slots, hand_charged_alpha_enable,
+                 hand_charged_alpha_disable, hand_setup_alpha_enable, hand_setup_alpha_disable, movie_use_alpha_enable,
+                 movie_use_alpha_disable, chips_prototypes_alpha):
         self.chips = chips
         self.places = places
         self.hand_setup = hand_setup
@@ -19,6 +22,7 @@ class FindSimilarChipsForActivateParam(object):
         self.movie_use_alpha_disable = movie_use_alpha_disable
 
         self.chips_prototypes_alpha = chips_prototypes_alpha
+
 
 class FindSimilarChipsForActivateManager(Manager):
     s_params = {}
@@ -54,7 +58,12 @@ class FindSimilarChipsForActivateManager(Manager):
 
             chips_prototypes_alpha = record.get('ChipsPrototypesAlpha')
 
-            result = FindSimilarChipsForActivateManager.addParam(enigma_name, module, chip_param, place_param, hand_setup, hand_charged, slots, hand_charged_alpha_enable, hand_charged_alpha_disable, hand_setup_alpha_enable, hand_setup_alpha_disable, movie_use_alpha_enable, movie_use_alpha_disable, chips_prototypes_alpha)
+            result = FindSimilarChipsForActivateManager.addParam(enigma_name, module, chip_param, place_param,
+                                                                 hand_setup, hand_charged, slots,
+                                                                 hand_charged_alpha_enable, hand_charged_alpha_disable,
+                                                                 hand_setup_alpha_enable, hand_setup_alpha_disable,
+                                                                 movie_use_alpha_enable, movie_use_alpha_disable,
+                                                                 chips_prototypes_alpha)
 
             if result is False:
                 error_msg = "FindSimilarChipsForActivateManager invalid addParam {}".format(enigma_name)
@@ -63,7 +72,9 @@ class FindSimilarChipsForActivateManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, chip_param, place_param, hand_setup, hand_charged, slots, hand_charged_alpha_enable, hand_charged_alpha_disable, hand_setup_alpha_enable, hand_setup_alpha_disable, movie_use_alpha_enable, movie_use_alpha_disable, chips_prototypes_alpha):
+    def addParam(enigma_name, module, chip_param, place_param, hand_setup, hand_charged, slots,
+                 hand_charged_alpha_enable, hand_charged_alpha_disable, hand_setup_alpha_enable,
+                 hand_setup_alpha_disable, movie_use_alpha_enable, movie_use_alpha_disable, chips_prototypes_alpha):
         if enigma_name in FindSimilarChipsForActivateManager.s_params:
             error_msg = "FindSimilarChipsForActivateManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -111,9 +122,15 @@ class FindSimilarChipsForActivateManager(Manager):
             num_of_uses = record.get('NumOfUses')
             chip_for_use_id = record.get('ChipForUseID')
 
-            place_dict[place_id] = ((movie_name_idle, movie_name_fight, movie_name_death, movie_name_use, progress_bar_prototype, slot_progress_bar), num_of_uses, chip_for_use_id)
+            place_dict[place_id] = ((
+            movie_name_idle, movie_name_fight, movie_name_death, movie_name_use, progress_bar_prototype,
+            slot_progress_bar), num_of_uses, chip_for_use_id)
 
-        param = FindSimilarChipsForActivateParam(chip_dict, place_dict, hand_setup, hand_charged, slots, hand_charged_alpha_enable, hand_charged_alpha_disable, hand_setup_alpha_enable, hand_setup_alpha_disable, movie_use_alpha_enable, movie_use_alpha_disable, chips_prototypes_alpha)
+        param = FindSimilarChipsForActivateParam(chip_dict, place_dict, hand_setup, hand_charged, slots,
+                                                 hand_charged_alpha_enable, hand_charged_alpha_disable,
+                                                 hand_setup_alpha_enable, hand_setup_alpha_disable,
+                                                 movie_use_alpha_enable, movie_use_alpha_disable,
+                                                 chips_prototypes_alpha)
         FindSimilarChipsForActivateManager.s_params[enigma_name] = param
         return True
 

@@ -3,6 +3,7 @@ from Notification import Notification
 
 from ChessPuzzleElement import ChessPuzzleElement
 
+
 class ChessPuzzleShift(ChessPuzzleElement):
     def __init__(self, dx, dy):
         super(ChessPuzzleShift, self).__init__()
@@ -95,8 +96,4 @@ class ChessPuzzleShift(ChessPuzzleElement):
     def _onFinalise(self):
         if self.observer is not None:
             Notification.removeObserver(self.observer)
-            pass
-
         self.observer = None
-        pass
-    pass

@@ -8,6 +8,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.QuestManager import QuestManager
 from Notification import Notification
 
+
 class CursorManager(object):
     s_block_Cursore_Update_in_Puzzle = False
     s_block_Cursore_Update = False
@@ -47,7 +48,8 @@ class CursorManager(object):
     onEnigmaDeactivateObserver = None
 
     class Cursor(object):
-        def __init__(self, iconName, enterFilterObserver, leaveFilterObserver, questType, cursorCheckAction, priority, _type, arrowItem):
+        def __init__(self, iconName, enterFilterObserver, leaveFilterObserver, questType, cursorCheckAction, priority,
+                     _type, arrowItem):
             self.icon = iconName
             self.enterFilterObserver = enterFilterObserver
             self.leaveFilterObserver = leaveFilterObserver
@@ -171,7 +173,6 @@ class CursorManager(object):
             Module = __import__(ModuleName, fromlist=[FromName])
         except ImportError as ex:
             Trace.log("System", 0, "CursorManager.importCursorCheck: invalid import module '%s' from '%s' ex '%s'" % (Name, FromName, ex))
-
             return None
 
         cursorCheckAction = getattr(Module, Name)
@@ -216,7 +217,7 @@ class CursorManager(object):
             ArrowItem = bool(record.get("ArrowItem", 1))
 
             if QuestType is not None and CursorCheck is None:
-                print("CursorManager.loadCursors: cursor %s have questType %s but not have check action (please add)" % (Name, QuestType))
+                Trace.msg_err("CursorManager.loadCursors: cursor %s have questType %s but not have check action (please add)" % (Name, QuestType))
                 continue
 
             cursorCheckAction = None
@@ -224,10 +225,12 @@ class CursorManager(object):
             if CursorCheck is not None:
                 cursorCheckAction = CursorManager.importCursorCheck(cursorModule, Name, CursorCheck)
 
-            cursors_data.append((Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type, ArrowItem))
+            cursors_data.append(
+                (Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type, ArrowItem))
 
         '''  Load Leave Mouse '''
-        for (Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type, ArrowItem) in cursors_data:
+        for (Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type,
+        ArrowItem) in cursors_data:
             if LeaveFilter is not None:
                 cursors_leave_observers.append(Notification.addObserver(LeaveFilter, CursorManager._arrowLeaveFilter))
 
@@ -237,13 +240,16 @@ class CursorManager(object):
         ''' Load Enter Mouse '''
         for (Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type, ArrowItem) in cursors_data:
             if EnterFilter is not None:
-                cursors_enter_observers.append(Notification.addObserver(EnterFilter, CursorManager._arrowEnterFilter, Name))
+                cursors_enter_observers.append(
+                    Notification.addObserver(EnterFilter, CursorManager._arrowEnterFilter, Name))
             else:
                 cursors_enter_observers.append(None)
 
         '''  Save Cursor Data With Observers Refs to CursorManager '''
         for index, (Name, ResourceName, EnterFilter, LeaveFilter, QuestType, cursorCheckAction, Priority, Type, ArrowItem) in enumerate(cursors_data):
-            CursorManager.s_cursors[Name] = CursorManager.Cursor(ResourceName, cursors_enter_observers[index], cursors_leave_observers[index], QuestType, cursorCheckAction, Priority, Type, ArrowItem)
+            CursorManager.s_cursors[Name] = CursorManager.Cursor(ResourceName, cursors_enter_observers[index],
+                                                                 cursors_leave_observers[index], QuestType,
+                                                                 cursorCheckAction, Priority, Type, ArrowItem)
 
     @staticmethod
     def loadCursorObjects(module, param):
@@ -263,9 +269,9 @@ class CursorManager(object):
             GameCursorObject = GroupManager.getObject(GameCursorsGroup, GameCursorModeObject)
 
             if GameCursorObject is None:
-                Trace.log("System", 0, "CursorManager.loadCursorObjects: invalid get object '%s' from '%s'" % (GameCursorModeObject, GameCursorsGroup))
+                Trace.log("System", 0, "CursorManager.loadCursorObjects: invalid get object '%s' from '%s'" % (
+                GameCursorModeObject, GameCursorsGroup))
                 continue
-                pass
 
             GameCursorObject.setEnable(False)
 
@@ -377,14 +383,13 @@ class CursorManager(object):
         if movieEntity.hasMovieSlot("item") is False:
             return
 
-        if item is not None:
-            if movieEntity.hasMovieSlot("item") is True:
-                itemEntityNode = item.getEntityNode()
-                slotItem = movieEntity.getMovieSlot("item")
-                pos = item.getArrowPoint()
-                itemEntityNode.setLocalPosition((-pos[0], -pos[1]))
-                item.setOrigin((0, 0))
-                slotItem.addChild(itemEntityNode)
+        if item is not None and movieEntity.hasMovieSlot("item") is True:
+            itemEntityNode = item.getEntityNode()
+            slotItem = movieEntity.getMovieSlot("item")
+            pos = item.getArrowPoint()
+            itemEntityNode.setLocalPosition((-pos[0], -pos[1]))
+            item.setOrigin((0, 0))
+            slotItem.addChild(itemEntityNode)
 
         return False
 
@@ -406,7 +411,8 @@ class CursorManager(object):
     def updateCursorObjects():
         CursorManager.s_cursorObjects = CursorManager.s_cursorObjectsPaks[CursorManager.s_currentCursorObjectsPakName]
 
-        CursorManager.s_cursorObjectsShow = CursorManager.s_cursorObjectsShowPaks[CursorManager.s_currentCursorObjectsPakName]
+        CursorManager.s_cursorObjectsShow = CursorManager.s_cursorObjectsShowPaks[
+            CursorManager.s_currentCursorObjectsPakName]
 
     @staticmethod
     def changeCursorPak(pak_name):
@@ -469,7 +475,8 @@ class CursorManager(object):
             CursorManager.s_currentCursorModeName = "Default"
 
         if CursorManager.s_currentCursorModeName is not None and CursorManager.s_currentCursorModeName not in CursorManager.s_cursors:
-            Trace.log("CursorManager", 0, "CursorManager.updateArrowCursor: current CursorModeName is not register %s." % (CursorManager.s_currentCursorModeName))
+            Trace.log("CursorManager", 0,
+                      "CursorManager.updateArrowCursor: current CursorModeName is not register %s." % (CursorManager.s_currentCursorModeName))
             return False
 
         if CursorManager.s_currentCursorModeName is None:

@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionHOGItem(HintActionDefault):
 
     def _onParams(self, params):

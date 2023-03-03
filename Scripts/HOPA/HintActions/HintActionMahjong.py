@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget
 
+
 class HintActionMahjong(MixinObject, HintActionMultiTarget):
 
     def _onParams(self, params):

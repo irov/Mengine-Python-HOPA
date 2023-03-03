@@ -3,6 +3,7 @@ import math
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 
+
 class Isometric(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -90,4 +91,5 @@ class Isometric(BaseEntity):
 
         return Movie
         pass
+
     pass

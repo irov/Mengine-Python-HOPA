@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class MenuGreeting(BaseEntity):
     def __init__(self):
         super(MenuGreeting, self).__init__()
@@ -59,6 +60,3 @@ class MenuGreeting(BaseEntity):
             text = self.object.getObject("Text_Greeting")
             textEn = text.getEntity()
             textEn.removeFromParent()
-            pass
-        pass
-    pass

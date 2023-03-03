@@ -1,6 +1,7 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TipManager import TipManager
 
+
 class MacroTip(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -26,4 +27,5 @@ class MacroTip(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("AliasTipPlay", TipID=self.TipName, ObjectName=self.ObjectName, Notifies=self.Notifies)
         pass
+
     pass

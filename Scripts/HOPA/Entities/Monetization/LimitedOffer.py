@@ -4,9 +4,11 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 """
     Doc: https://wonderland-games.atlassian.net/wiki/spaces/SCR/pages/1897037829/LimitedPromo
 """
+
 
 class LimitedOffer(BaseComponent):
 

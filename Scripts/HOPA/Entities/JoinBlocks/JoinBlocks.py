@@ -6,7 +6,9 @@ from Block import Block
 from Road import Road
 from Slot import Slot
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class JoinBlocks(Enigma):
 
@@ -83,6 +85,7 @@ class JoinBlocks(Enigma):
         self.previousSlot = None
         self.BeginBlock = None
         pass
+
     pass
 
     def restorePathFromSave(self):
@@ -145,6 +148,7 @@ class JoinBlocks(Enigma):
         self.CheckRoads.pop()
         return False
         pass
+
     pass
 
     def _playEnigma(self):
@@ -192,6 +196,7 @@ class JoinBlocks(Enigma):
             socket.setInteractive(False)
         return True
         pass
+
     pass
 
     def __blockEndSocket(self, curSocket):
@@ -445,6 +450,8 @@ class JoinBlocks(Enigma):
             pass
 
         pass
+
     pass
+
 
 pass

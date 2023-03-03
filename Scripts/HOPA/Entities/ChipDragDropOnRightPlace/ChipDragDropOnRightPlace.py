@@ -5,7 +5,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChipDragDropOnRightPlaceManager import ChipDragDropOnRightPlaceManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipDragDropOnRightPlace(Enigma):
     class Chip(object):
@@ -318,7 +320,8 @@ class ChipDragDropOnRightPlace(Enigma):
             source.addScope(self.complete)
 
     def complete(self, source, skip=False):
-        source.addTask('TaskMovie2Play', GroupName=EnigmaManager.getEnigmaGroupName(self.EnigmaName), Movie2Name='Movie2_FinalLight', Wait=True)
+        source.addTask('TaskMovie2Play', GroupName=EnigmaManager.getEnigmaGroupName(self.EnigmaName),
+                       Movie2Name='Movie2_FinalLight', Wait=True)
         if not skip:
             source.addFunction(self.enigmaComplete)
 

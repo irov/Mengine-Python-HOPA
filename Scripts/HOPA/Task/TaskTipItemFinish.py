@@ -1,6 +1,7 @@
 from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.Task import Task
 
+
 class TaskTipItemFinish(MixinGroup, Task):
     Skiped = True
 
@@ -17,4 +18,5 @@ class TaskTipItemFinish(MixinGroup, Task):
     def _onTipHideComplete(self, tip):
         return True
         pass
+
     pass

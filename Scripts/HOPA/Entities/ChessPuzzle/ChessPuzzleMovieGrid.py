@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class ChessPuzzleMovieGrid(object):
     def __init__(self, group, grid, description):
         movieObj = group.getObject(description.objectName)

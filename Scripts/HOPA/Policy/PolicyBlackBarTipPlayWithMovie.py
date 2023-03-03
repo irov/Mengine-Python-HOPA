@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyBlackBarTipPlayWithMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyBlackBarTipPlayWithMovie, self)._onParams(params)
@@ -62,4 +63,5 @@ class PolicyBlackBarTipPlayWithMovie(TaskAlias):
         TextEntity = TextBox.getEntity()
         TextEntity.removeFromParent()
         pass
+
     pass

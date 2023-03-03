@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskSpellUse(MixinObserver, Task):
 
     def _onParams(self, params):
@@ -35,4 +36,5 @@ class TaskSpellUse(MixinObserver, Task):
             pass
         return False
         pass
+
     pass

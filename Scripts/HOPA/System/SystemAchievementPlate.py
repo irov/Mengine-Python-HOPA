@@ -3,6 +3,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import isCollectorEdition
 
+
 class SystemAchievementPlate(System):
 
     def _onRun(self):

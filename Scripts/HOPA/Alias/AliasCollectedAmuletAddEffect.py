@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasCollectedAmuletAddEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasCollectedAmuletAddEffect, self)._onParams(params)

@@ -3,10 +3,20 @@ from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class SystemEsc(System):
     def _onParams(self, params):
         super(SystemEsc, self)._onParams(params)
-        self.layerFilter = {7: "Zoom", 6: "ItemPopUp", 5: "Journal", 4: "GUI", 3: "Options", 2: "Profile", 1: "Profile_New", 0: "Message"}
+        self.layerFilter = {
+            7: "Zoom",
+            6: "ItemPopUp",
+            5: "Journal",
+            4: "GUI",
+            3: "Options",
+            2: "Profile",
+            1: "Profile_New",
+            0: "Message"
+        }
         pass
 
     def _onRun(self):

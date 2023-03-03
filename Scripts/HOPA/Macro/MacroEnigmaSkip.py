@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnigmaSkip(MacroCommand):
     def _onInitialize(self):
         pass

@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasBoneUsage(TaskAlias):
     def _onParams(self, params):
         super(AliasBoneUsage, self)._onParams(params)
@@ -11,6 +12,7 @@ class AliasBoneUsage(TaskAlias):
         source.addTask("TaskNotify", ID=Notificator.onBoneUse, Args=(self.bone_repr, self.SceneName))
         source.addTask("TaskListener", ID=Notificator.onBoneUse, Filter=self.on_used)
         pass
+
     pass
 
     def on_used(self, repr, group=None):
@@ -19,4 +21,5 @@ class AliasBoneUsage(TaskAlias):
             pass
         return False
         pass
+
     pass

@@ -88,6 +88,7 @@ class Connectable:
         return True
         pass
 
+
 class Connections(object):
 
     def __init__(self, movie, connections, topLevelConnections=None):

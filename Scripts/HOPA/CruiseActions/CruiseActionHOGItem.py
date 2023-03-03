@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 
+
 class CruiseActionHOGItem(CruiseActionDefault):
     def _onParams(self, params):
         super(CruiseActionHOGItem, self)._onParams(params)

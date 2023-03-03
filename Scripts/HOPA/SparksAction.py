@@ -3,10 +3,10 @@ from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene
 from HOPA.SparksManager import SparksManager
 
+
 class SparksAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(SparksAction, self).__init__()
-
         self.ID = None
         self.sparksObject = None
         pass
@@ -92,4 +92,3 @@ class SparksAction(MixinScene, Params, Initializer):
 
     def _onEnd(self):
         pass
-    pass

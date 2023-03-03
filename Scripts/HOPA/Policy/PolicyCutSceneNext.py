@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyCutSceneNext(TaskAlias):
     def _onParams(self, params):
         super(PolicyCutSceneNext, self)._onParams(params)
@@ -28,7 +29,6 @@ class PolicyCutSceneNext(TaskAlias):
         if GroupManager.hasObject(self.CutSceneGroup, "Movie2Button_Next") is False and GroupManager.hasObject(self.CutSceneGroup, "Button_Next") is False:
             source.addTask("TaskDeadLock")
             return False
-            pass
 
         if TaskName == 'TaskMovie2ButtonClick':
             source.addTask(TaskName, GroupName=self.CutSceneGroup, Movie2ButtonName=ButtonName)

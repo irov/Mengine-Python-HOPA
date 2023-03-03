@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasObjective(TaskAlias):
     def _onParams(self, params):
         super(AliasObjective, self)._onParams(params)
@@ -11,5 +12,3 @@ class AliasObjective(TaskAlias):
         #        source.addTask("TaskSoundEffect", SoundName = "ObjectiveAppearance", Wait = False)
         source.addTask("TaskObjective", ObjectiveID=self.ObjectiveID)
         #        source.addTask("TaskPrint", Value = "Objective %s"%(self.ObjectiveID))
-        pass
-    pass

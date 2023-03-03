@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class NotebookManager(object):
     s_entries = {}
     s_notes = {}
@@ -28,6 +29,7 @@ class NotebookManager(object):
         def getSelectCloseMovie(self):
             return self.selectCloseMovie
             pass
+
         pass
 
     @staticmethod
@@ -126,6 +128,7 @@ class NotebookManager(object):
         return True
 
         pass
+
     @staticmethod
     def getAllEntries():
         return NotebookManager.s_entries

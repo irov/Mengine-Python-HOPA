@@ -30,7 +30,9 @@ class Cell(object):
     def getPrevElement(self):
         return self.prevElement
         pass
+
     pass
+
 
 class Grid(object):
     def __init__(self, width, height):
@@ -108,6 +110,3 @@ class Grid(object):
             cell = self.getCell(index)
             element = cell.getElement()
             visitor(index, element)
-            pass
-        pass
-    pass

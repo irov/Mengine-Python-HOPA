@@ -3,6 +3,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class PolicyCheckMarkNearMovieItem(TaskAlias):
     def _onParams(self, params):
         super(PolicyCheckMarkNearMovieItem, self)._onParams(params)
@@ -53,9 +54,11 @@ class PolicyCheckMarkNearMovieItem(TaskAlias):
 
         checkMarkEffect = None
         if HOGInventory.hasPrototype("Movie2_CheckMark"):
-            checkMarkEffect = HOGInventory.tryGenerateObjectUnique('CheckMark_{}'.format(self.HOGItemName), 'Movie2_CheckMark')
+            checkMarkEffect = HOGInventory.tryGenerateObjectUnique('CheckMark_{}'.format(self.HOGItemName),
+                                                                   'Movie2_CheckMark')
         elif HOGInventory.hasPrototype("Movie_CheckMark"):
-            checkMarkEffect = HOGInventory.tryGenerateObjectUnique('CheckMark_{}'.format(self.HOGItemName), 'Movie_CheckMark')
+            checkMarkEffect = HOGInventory.tryGenerateObjectUnique('CheckMark_{}'.format(self.HOGItemName),
+                                                                   'Movie_CheckMark')
         else:
             if _DEVELOPMENT:
                 Trace.log("Policy", 0, "Not found checkMarkEffect! Please add Movie_CheckMark or Movie2_CheckMark to %s" % HOGInventory.getName())

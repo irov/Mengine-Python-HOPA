@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionUseInventoryItem(SparksActionDefault, MixinObject):
     def __init__(self):
         super(SparksActionUseInventoryItem, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasHOGFittingReturnItemToSlot(TaskAlias):
     def __init__(self):
         super(AliasHOGFittingReturnItemToSlot, self).__init__()
@@ -33,12 +34,10 @@ class AliasHOGFittingReturnItemToSlot(TaskAlias):
             pass
 
         source.addTask("TaskFunction", Fn=RemoveVisualFromAttach)
-        source.addTask("AliasHOGFittingMoveItemToSlot", Inventory=self.Inventory, ItemName=self.ItemName, ItemObject=self.ItemObject, InventoryItemObject=self.InventoryItemObject)
+        source.addTask("AliasHOGFittingMoveItemToSlot", Inventory=self.Inventory, ItemName=self.ItemName,
+                       ItemObject=self.ItemObject, InventoryItemObject=self.InventoryItemObject)
+
         def ReturnItem():
             invEnt.returnSlotItem(self.ItemName)
 
-            pass
-
         source.addTask("TaskFunction", Fn=ReturnItem)
-        pass
-    pass

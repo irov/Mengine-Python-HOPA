@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class DifficultyTimeScrollbarData(object):
     def __init__(self, time, time_min, time_max, scrollbar_obj):
         self.__time = self.__clampVal(time, time_min, time_max)
@@ -47,6 +48,7 @@ class DifficultyTimeScrollbarData(object):
     def __deepcopy__(self, memodict={}):
         return DifficultyTimeScrollbarData(self.__time, self.__time_min, self.__time_max, self.__scrollbar_obj)
 
+
 class Difficulty2Manager(object):
     s_difficulties = {}
     s_difficultiesParams = {}
@@ -80,7 +82,17 @@ class Difficulty2Manager(object):
 
             id = record.get("ID")
 
-            d_difficultiesSettings[id] = {"ID": record.get("ID"), "HintTime": record.get("HintTime"), "SkipTime": record.get("SkipTime"), "SparklesOnActiveAreas": record.get("SPARKLES_ON_ACTIVE_AREAS"), "Tutorial": record.get("TUTORIAL_AVAILABLE"), "PlusItemIndicated": record.get("PLUS_ITEM_INDICATED"), "ChangeIconOnActiveAreas": record.get("CHANGE_ICON_ON_ACTIVE_AREAS"), "IndicatorsOnMap": record.get("INDICATORS_ON_MAP"), "SparklesOnHOPuzzles": record.get("SPARKLES_ON_HO"), }
+            d_difficultiesSettings[id] = {
+                "ID": record.get("ID"),
+                "HintTime": record.get("HintTime"),
+                "SkipTime": record.get("SkipTime"),
+                "SparklesOnActiveAreas": record.get("SPARKLES_ON_ACTIVE_AREAS"),
+                "Tutorial": record.get("TUTORIAL_AVAILABLE"),
+                "PlusItemIndicated": record.get("PLUS_ITEM_INDICATED"),
+                "ChangeIconOnActiveAreas": record.get("CHANGE_ICON_ON_ACTIVE_AREAS"),
+                "IndicatorsOnMap": record.get("INDICATORS_ON_MAP"),
+                "SparklesOnHOPuzzles": record.get("SPARKLES_ON_HO"),
+            }
 
             selectGroupName = record.get("SelectGroupName")
             selectObjectName = record.get("SelectObjectName")

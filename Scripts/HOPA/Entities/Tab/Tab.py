@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Notification import Notification
 
+
 class Tab(BaseEntity):
 
     @staticmethod

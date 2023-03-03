@@ -1,8 +1,10 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class CounterbalanceParam(object):
-    def __init__(self, matrix_size, distance, first_pos, hotspot_size, rope_hand, wheels, teams, reward_movie, skip_ways, continue_chain_mod):
+    def __init__(self, matrix_size, distance, first_pos, hotspot_size, rope_hand, wheels, teams, reward_movie,
+                 skip_ways, continue_chain_mod):
         self.matrix_size = matrix_size
         self.distance = distance
         self.first_pos = first_pos
@@ -13,6 +15,7 @@ class CounterbalanceParam(object):
         self.reward_movie = reward_movie
         self.skip_ways = skip_ways
         self.continue_chain_mod = continue_chain_mod
+
 
 class CounterbalanceManager(Manager):
     s_params = {}
@@ -39,7 +42,9 @@ class CounterbalanceManager(Manager):
             reward_movie = record.get("RewardMovie")
             continue_chain_mod = bool(record.get("ContinueChain", False))
 
-            result = CounterbalanceManager.addParam(enigma_name, module, matrix_size, distance, first_pos, hotspot_size, rope_hand, wheel_xlsx, team_xlsx, reward_movie, skip_xlsx, continue_chain_mod)
+            result = CounterbalanceManager.addParam(enigma_name, module, matrix_size, distance, first_pos, hotspot_size,
+                                                    rope_hand, wheel_xlsx, team_xlsx, reward_movie, skip_xlsx,
+                                                    continue_chain_mod)
 
             if result is False:
                 error_msg = "CounterbalanceManager invalid addParam {}".format(enigma_name)
@@ -48,7 +53,8 @@ class CounterbalanceManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, matrix_size, distance, first_pos, hotspot_size, rope_hand, wheel_xlsx, team_xlsx, reward_movie, skip_xlsx, continue_chain_mod):
+    def addParam(enigma_name, module, matrix_size, distance, first_pos, hotspot_size, rope_hand, wheel_xlsx, team_xlsx,
+                 reward_movie, skip_xlsx, continue_chain_mod):
         wheels = list()
         teams = dict()
         skip_ways = dict()
@@ -118,7 +124,8 @@ class CounterbalanceManager(Manager):
                 team_wheels.append(wheel_name)
                 skip_ways[team_name] = team_wheels
 
-        param = CounterbalanceParam(matrix_size, distance, first_pos, hotspot_size, rope_hand, wheels, teams, reward_movie, skip_ways, continue_chain_mod)
+        param = CounterbalanceParam(matrix_size, distance, first_pos, hotspot_size, rope_hand, wheels, teams,
+                                    reward_movie, skip_ways, continue_chain_mod)
 
         CounterbalanceManager.s_params[enigma_name] = param
 

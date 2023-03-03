@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class MapSwitchManager(object):
     s_objects = {}
 
@@ -19,8 +20,6 @@ class MapSwitchManager(object):
             data = MapSwitchManager.loadCollection(module, CollectionParam, demon)
 
             MapSwitchManager.s_objects[demon] = data
-            pass
-        pass
 
     @staticmethod
     def loadCollection(module, CollectionParam, demon):
@@ -53,7 +52,4 @@ class MapSwitchManager(object):
         if demon not in MapSwitchManager.s_objects:
             Trace.log("MapSwitchManager", 0, "MapSwitchManager.hasData invalid param for demon %s" % (demon.getName()))
             return False
-            pass
         return True
-        pass
-    pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PetnaGameManager(object):
     Games = {}
 
@@ -9,8 +10,6 @@ class PetnaGameManager(object):
             self.FieldWidth = FieldWidth
             self.FieldHeight = FieldHeight
             self.StartData = StartData
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -50,12 +49,10 @@ class PetnaGameManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def hasGame(name):
         return name in PetnaGameManager.Games
-        pass
 
     @staticmethod
     def getGame(name):
@@ -64,6 +61,3 @@ class PetnaGameManager(object):
             return None
             pass
         return PetnaGameManager.Games[name]
-        pass
-
-    pass

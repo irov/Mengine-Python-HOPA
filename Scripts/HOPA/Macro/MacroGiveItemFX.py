@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroGiveItemFX(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:
@@ -36,7 +37,8 @@ class MacroGiveItemFX(MacroCommand):
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
         Inventory = DemonManager.getDemon("Inventory")
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
             tc_quest.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=self.ItemName)
@@ -44,4 +46,5 @@ class MacroGiveItemFX(MacroCommand):
 
         source.addTask("TaskDelay", Time=0.1 * 1000)
         pass
+
     pass

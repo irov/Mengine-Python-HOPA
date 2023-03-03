@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 class Transition(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -14,11 +15,29 @@ class Transition(BaseEntity):
         Type.addActionActivate(Type, "BlockOpen", Update=Transition.__updateBlockOpen)
         pass
 
-    NotificatorTransitionEnterDict = {"TransitionHOG": Notificator.onTransitionHOGMouseEnter, "TransitionUp": Notificator.onTransitionUpMouseEnter, "TransitionBack": Notificator.onTransitionBackMouseEnter, "TransitionLeft": Notificator.onTransitionLeftMouseEnter, "TransitionRight": Notificator.onTransitionRightMouseEnter, "TransitionPuzzle": Notificator.onTransitionPuzzleMouseEnter, "TransitionUpLeft": Notificator.onTransitionUpLeftMouseEnter, "TransitionUpRight": Notificator.onTransitionUpRightMouseEnter,
-        "Transition": Notificator.onTransitionMouseEnter}
+    NotificatorTransitionEnterDict = {
+        "TransitionHOG": Notificator.onTransitionHOGMouseEnter,
+        "TransitionUp": Notificator.onTransitionUpMouseEnter,
+        "TransitionBack": Notificator.onTransitionBackMouseEnter,
+        "TransitionLeft": Notificator.onTransitionLeftMouseEnter,
+        "TransitionRight": Notificator.onTransitionRightMouseEnter,
+        "TransitionPuzzle": Notificator.onTransitionPuzzleMouseEnter,
+        "TransitionUpLeft": Notificator.onTransitionUpLeftMouseEnter,
+        "TransitionUpRight": Notificator.onTransitionUpRightMouseEnter,
+        "Transition": Notificator.onTransitionMouseEnter
+    }
 
-    NotificatorTransitionLeaveDict = {"TransitionHOG": Notificator.onTransitionHOGMouseLeave, "TransitionUp": Notificator.onTransitionUpMouseLeave, "TransitionBack": Notificator.onTransitionBackMouseLeave, "TransitionLeft": Notificator.onTransitionLeftMouseLeave, "TransitionRight": Notificator.onTransitionRightMouseLeave, "TransitionUpRight": Notificator.onTransitionUpRightMouseLeave, "TransitionUpLeft": Notificator.onTransitionUpLeftMouseLeave, "TransitionPuzzle": Notificator.onTransitionPuzzleMouseLeave,
-        "Transition": Notificator.onTransitionMouseLeave}
+    NotificatorTransitionLeaveDict = {
+        "TransitionHOG": Notificator.onTransitionHOGMouseLeave,
+        "TransitionUp": Notificator.onTransitionUpMouseLeave,
+        "TransitionBack": Notificator.onTransitionBackMouseLeave,
+        "TransitionLeft": Notificator.onTransitionLeftMouseLeave,
+        "TransitionRight": Notificator.onTransitionRightMouseLeave,
+        "TransitionUpRight": Notificator.onTransitionUpRightMouseLeave,
+        "TransitionUpLeft": Notificator.onTransitionUpLeftMouseLeave,
+        "TransitionPuzzle": Notificator.onTransitionPuzzleMouseLeave,
+        "Transition": Notificator.onTransitionMouseLeave
+    }
 
     def __init__(self):
         super(Transition, self).__init__()
@@ -38,7 +57,11 @@ class Transition(BaseEntity):
         super(Transition, self)._onInitialize(obj)
 
         self.hotspot = self.createChild("HotSpotPolygon")
-        self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent, onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseButtonEventBegin=self._onMouseButtonEventBegin, onHandleMouseOverDestroy=self._onMouseOverDestroy)
+        self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent,
+                                      onHandleMouseEnter=self._onMouseEnter,
+                                      onHandleMouseLeave=self._onMouseLeave,
+                                      onHandleMouseButtonEventBegin=self._onMouseButtonEventBegin,
+                                      onHandleMouseOverDestroy=self._onMouseOverDestroy)
         self.hotspot.enable()
         pass
 
@@ -139,6 +162,7 @@ class Transition(BaseEntity):
     def _onMouseOverDestroy(self):
         self._mouseLeave()
         pass
+
     def _mouseLeave(self):
         Notification.notify(Notificator.onInteractionMouseLeave, self.object)
 

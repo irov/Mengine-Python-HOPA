@@ -3,7 +3,9 @@ from Notification import Notification
 
 from Column import Column
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ColumnChain(Enigma):
 
@@ -62,6 +64,3 @@ class ColumnChain(Enigma):
             pass
         self.setComplete()
         return False
-        pass
-
-    pass

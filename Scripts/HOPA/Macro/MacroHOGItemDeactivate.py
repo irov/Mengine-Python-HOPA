@@ -1,6 +1,7 @@
 from HOPA.HOGManager import HOGManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGItemDeactivate(MacroCommand):
     def _onValues(self, values):
         self.HOGName = values[0]
@@ -11,4 +12,5 @@ class MacroHOGItemDeactivate(MacroCommand):
         hogItemData = HOGManager.getHOGItem(self.HOGName, self.HOGItemName)
         source.addTask("TaskFunction", Fn=hogItemData.setActivate, Args=(False,))
         pass
+
     pass

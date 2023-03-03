@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskInventorySlotsShowInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(TaskInventorySlotsShowInventoryItem, self)._onParams(params)
@@ -61,7 +62,8 @@ class TaskInventorySlotsShowInventoryItem(TaskAlias):
                     continue
                     pass
 
-                tci.addTask("TaskInventorySlotSetItem", Inventory=self.Inventory, SlotID=SlotID, InventoryItem=InventoryItem)
+                tci.addTask("TaskInventorySlotSetItem", Inventory=self.Inventory, SlotID=SlotID,
+                            InventoryItem=InventoryItem)
 
                 InventoryItemEntityNode = InventoryItem.getEntityNode()
 
@@ -69,7 +71,4 @@ class TaskInventorySlotsShowInventoryItem(TaskAlias):
                 time *= 1000  # speed fix
 
                 tci.addTask("TaskNodeAlphaTo", Node=InventoryItemEntityNode, Time=time, From=0.0, To=1.0)
-                pass
-            pass
-        pass
-    pass
+

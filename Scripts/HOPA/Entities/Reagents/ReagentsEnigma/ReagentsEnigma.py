@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Reagents.ReagentsManager import ReagentsManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ReagentsEnigma(Enigma):
     def __init__(self):

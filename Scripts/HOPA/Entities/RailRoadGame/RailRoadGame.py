@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.RailRoadGameManager import RailRoadGameManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class RailRoadGame(Enigma):
     class InterDataSide():
@@ -53,6 +55,7 @@ class RailRoadGame(Enigma):
             self.MovieRotate.setEnable(False)
             self.MovieUnderMouse.setEnable(False)
             pass
+
         pass
 
     class InterData():
@@ -137,7 +140,8 @@ class RailRoadGame(Enigma):
                 with tc.addRepeatTask() as (tc_do, tc_until):
                     tc_do.addTask("AliasMultyplMovePlay", Movies=movv)
                     with tc_until.addRaceTask(2) as (tc_until_1, tc_until_2):
-                        tc_until_1.addTask("TaskMovieSocketClick", SocketName=sockeName, Movie=self.Game.Movie_Points, isDown=True)
+                        tc_until_1.addTask("TaskMovieSocketClick", SocketName=sockeName,
+                                           Movie=self.Game.Movie_Points, isDown=True)
                         tc_until_1.addTask("TaskFunction", Fn=Click)
 
                         tc_until_2.addTask("TaskMovieSocketLeave", SocketName=sockeName, Movie=self.Game.Movie_Points)
@@ -183,6 +187,7 @@ class RailRoadGame(Enigma):
             hp.disable()
             hp.enable()
             pass
+
         pass
 
     @staticmethod
@@ -302,6 +307,7 @@ class RailRoadGame(Enigma):
 
         mov2 = [[(None, True)]]
         end = [False]
+
         def DoPath():
             self.PlayMovie = True
             mov = []

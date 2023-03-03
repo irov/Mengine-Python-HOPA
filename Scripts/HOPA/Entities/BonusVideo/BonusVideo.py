@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.BonusManager import BonusManager
 from HOPA.BonusVideoManager import BonusVideoManager
 
+
 class Page(object):
     def __init__(self, movie, bg_id=None, cut_scene_name=None):
         self.id = bg_id
@@ -11,10 +12,12 @@ class Page(object):
         self.cut_scene_name = cut_scene_name
         self.isBlock = False
 
+
 class PageBlock(Page):
     def __init__(self, movie):
         super(PageBlock, self).__init__(movie)
         self.isBlock = True
+
 
 class BonusVideo(BaseEntity):
     @staticmethod

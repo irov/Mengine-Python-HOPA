@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 from HOPA.SpellsManager import SpellsManager, SPELLS_UI_DEMON_NAME, SPELL_AMULET_TYPE
 
+
 class HintActionSpellAmuletUsePower(HintActionDefault):
     def _onParams(self, params):
         super(HintActionSpellAmuletUsePower, self)._onParams(params)

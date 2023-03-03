@@ -4,6 +4,7 @@ from Foundation.Task.TaskGenerator import TaskGeneratorException
 
 from HOPA.Macro.MacroCommandFactory import MacroCommandFactory
 
+
 class ScenarioElement(object):
     __slots__ = "Index", "CommandType", "Repeat"
 
@@ -26,13 +27,16 @@ class ScenarioElement(object):
         sc_count_after = len(source.getSource())
 
         if sc_count == sc_count_after:
-            Trace.log("Macro", 0, "ScenarioElement.onGenerator %s:%d generator %s not add task!" % (ScenarioRunner.Name, self.Index, self.CommandType))
+            Trace.log("Macro", 0, "ScenarioElement.onGenerator %s:%d generator %s not add task!" % (
+            ScenarioRunner.Name, self.Index, self.CommandType))
 
         if self.Repeat is False:
-            source.addFunction(ScenarioRunner.endMacro, self.Index)  # source.addTask("TaskPrint", Value = "%s Macro end %s:%s"%(ScenarioRunner.getGroupName(), self.Index, self.CommandType ))
+            source.addFunction(ScenarioRunner.endMacro, self.Index)
+            # source.addTask("TaskPrint", Value = "%s Macro end %s:%s"%(ScenarioRunner.getGroupName(), self.Index, self.CommandType ))
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter, ScenarioCommands, ScenarioQuests):
         return
+
 
 class ScenarioMacroCommand(ScenarioElement):
     __slots__ = "Values"
@@ -90,14 +94,13 @@ class ScenarioMacroCommand(ScenarioElement):
 
         return True
 
+
 class ScenarioParallel(ScenarioElement):
     __slots__ = "Count", "commands"
 
     def __init__(self, Index, Repeat, Count):
         super(ScenarioParallel, self).__init__(Index, "__Parallel__", Repeat)
-
         self.Count = Count
-
         self.commands = [[] for i in range(self.Count)]
 
     def addActive(self, Index, Id, CommandType, *Values):
@@ -107,12 +110,12 @@ class ScenarioParallel(ScenarioElement):
             Trace.log("Scenario", 0, "ScenarioParallel.addActive Index %d Invalid Id %s CommandType %s Values %s" % (Index, Id, CommandType, Values))
             return
 
-        self.commands[Id].append(command)
+        self.commands[Id].append(command)   # noqa
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter, ScenarioCommands, ScenarioQuests):
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario parallel command '%s' scene '%s' group '%s' macro index [%u]" % (self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
-            pass
+            source.setDocument("Scenario parallel command '%s' scene '%s' group '%s' macro index [%u]" % (
+                self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
 
         ParallelScenarioQuests = []
         with source.addParallelTask(self.Count) as parallel_sources:
@@ -123,7 +126,6 @@ class ScenarioParallel(ScenarioElement):
                 ParallelScenarioQuests.append(CurParallelScenarioQuests)
 
         ScenarioQuests.append(('parallel', ParallelScenarioQuests))
-
         return True
 
     def __enter__(self):
@@ -132,8 +134,8 @@ class ScenarioParallel(ScenarioElement):
     def __exit__(self, type, value, traceback):
         if type is not None:
             return False
-
         return True
+
 
 class ScenarioRace(ScenarioElement):
     __slots__ = "Count", "commands"
@@ -148,12 +150,12 @@ class ScenarioRace(ScenarioElement):
     def addActive(self, Index, Id, CommandType, *Values):
         command = ScenarioMacroCommand(Index, CommandType, self.Repeat, Values)
 
-        self.commands[Id].append(command)
+        self.commands[Id].append(command)   # noqa
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter, ScenarioCommands, ScenarioQuests):
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario race command '%s' scene '%s' group '%s' macro index [%u]" % (self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
-            pass
+            source.setDocument("Scenario race command '%s' scene '%s' group '%s' macro index [%u]" % (
+                self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
 
         RaceScenarioQuests = []
         with source.addRaceTask(self.Count) as race_sources:
@@ -164,7 +166,6 @@ class ScenarioRace(ScenarioElement):
                 RaceScenarioQuests.append(CurParallelScenarioQuests)
 
         ScenarioQuests.append(('race', RaceScenarioQuests))
-
         return True
 
     def __enter__(self):
@@ -175,6 +176,7 @@ class ScenarioRace(ScenarioElement):
             return False
 
         return True
+
 
 class ScenarioShiftCollect(ScenarioElement):
     __slots__ = "Count", "commands"
@@ -191,8 +193,8 @@ class ScenarioShiftCollect(ScenarioElement):
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter, ScenarioCommands, ScenarioQuests):
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario shift collect '%s' scene '%s' group '%s' macro index [%u]" % (self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
-            pass
+            source.setDocument("Scenario shift collect '%s' scene '%s' group '%s' macro index [%u]" % (
+                self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
 
         source.addShiftCollect(self.Index, self.commands)
 
@@ -204,8 +206,8 @@ class ScenarioShiftCollect(ScenarioElement):
     def __exit__(self, type, value, traceback):
         if type is not None:
             return False
-
         return True
+
 
 def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter):
     with source.addParallelTask(len(Paragraphs)) as tcp_paragraphs:
@@ -216,7 +218,8 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
                 pass
             else:
                 if paragraphID[:3] != "PH_":
-                    Trace.log("Scenario", 0, "ScenarioParagraph.onGenerator: %s:%d Paragraph %s invalid - 'PH_'" % (ScenarioRunner.getName(), Index, paragraphID))
+                    Trace.log("Scenario", 0, "ScenarioParagraph.onGenerator: %s:%d Paragraph %s invalid - 'PH_'" % (
+                    ScenarioRunner.getName(), Index, paragraphID))
 
                 def __checkParagraph(id):
                     return ScenarioChapter.isParagraphComplete(id)
@@ -227,20 +230,26 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
 
                     return True
 
-                tci.addTask("TaskListener", ID=Notificator.onParagraphRun, Check=__checkParagraph, Filter=__filterParagraph, Args=(paragraphID,))
+                tci.addTask("TaskListener", ID=Notificator.onParagraphRun, Check=__checkParagraph,
+                            Filter=__filterParagraph, Args=(paragraphID,))
+
 
 def generatorSceneInitial(source, ScenarioRunner):
     source.addTask("AliasScenarioInit", ScenarioRunner=ScenarioRunner)
 
+
 def generatorSceneEnter(source, ScenarioRunner):
     source.addTask("AliasScenarioEnter", ScenarioRunner=ScenarioRunner)
+
 
 PARAGRAPH_WAIT = 1
 PARAGRAPH_RUN = 2
 PARAGRAPH_COMPLETE = 3
 
+
 class ScenarioCommands(Initializer):
     def __init__(self, GroupName, SceneName, Index, Paragraphs):
+        super(ScenarioCommands, self).__init__()
         self.GroupName = GroupName
         self.SceneName = SceneName
         self.Index = Index
@@ -266,7 +275,8 @@ class ScenarioCommands(Initializer):
             return
 
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario commands scene '%s' group '%s' macro index [%u]" % (self.SceneName, self.GroupName, self.Index))
+            source.setDocument("Scenario commands scene '%s' group '%s' macro index [%u]" % (
+                self.SceneName, self.GroupName, self.Index))
             pass
 
         generateParagraph(self.Index, self.Paragraphs, source, ScenarioRunner, ScenarioChapter)
@@ -444,6 +454,7 @@ class ScenarioCommands(Initializer):
 
         return quests
 
+
 class ScenarioParagraph(ScenarioCommands):
     def __init__(self, GroupName, SceneName, Index, Paragraphs):
         super(ScenarioParagraph, self).__init__(GroupName, SceneName, Index, Paragraphs)
@@ -471,7 +482,8 @@ class ScenarioParagraph(ScenarioCommands):
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter):
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario paragraph scene '%s' group '%s' macro index [%u]" % (self.SceneName, self.GroupName, self.Index))
+            source.setDocument("Scenario paragraph scene '%s' group '%s' macro index [%u]" % (
+                self.SceneName, self.GroupName, self.Index))
             pass
 
         for command in self.Preparations:
@@ -536,6 +548,7 @@ class ScenarioParagraph(ScenarioCommands):
             return False
 
         return True
+
 
 class ScenarioRepeat(ScenarioCommands):
     def __init__(self, GroupName, SceneName, Index, Paragraphs):
@@ -606,13 +619,15 @@ class ScenarioRepeat(ScenarioCommands):
         self.UntilIndex = Index
 
         if len(Paragraphs) == 0:
-            Trace.log("Scenario", 0, "ScenarioRepeat.addUntil scene %s group %s line %d until invalid setup paragraphs" % (self.SceneName, self.GroupName, self.Index))
+            Trace.log("Scenario", 0, "ScenarioRepeat.addUntil scene %s group %s line %d until invalid setup paragraphs" % (
+                self.SceneName, self.GroupName, self.Index))
 
         self.UntilParagraphs = Paragraphs
 
     def _onGenerator(self, source, ScenarioRunner, ScenarioChapter):
         if _DEVELOPMENT is True:
-            source.setDocument("Scenario repeat scene '%s' group '%s' macro index [%u]" % (self.SceneName, self.GroupName, self.Index))
+            source.setDocument("Scenario repeat scene '%s' group '%s' macro index [%u]" % (
+                self.SceneName, self.GroupName, self.Index))
             pass
 
         with source.addRepeatTask() as (source_repeat, source_until):
@@ -644,6 +659,7 @@ class ScenarioRepeat(ScenarioCommands):
             return False
 
         return True
+
 
 class Scenario(object):
     def __init__(self):

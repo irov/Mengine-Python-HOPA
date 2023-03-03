@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyMenuHelpDefault(TaskAlias):
 
     def _onGenerate(self, source):
@@ -15,4 +16,5 @@ class PolicyMenuHelpDefault(TaskAlias):
             tc_leave.addTask("TaskSceneLeave", SceneAny=True)
             pass
         pass
+
     pass

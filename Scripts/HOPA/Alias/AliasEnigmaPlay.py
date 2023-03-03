@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasEnigmaPlay(TaskAlias):
 
     def _onParams(self, params):

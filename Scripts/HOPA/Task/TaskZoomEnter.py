@@ -3,6 +3,7 @@ from HOPA.Task.MixinZoomGroup import MixinZoomGroup
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskZoomEnter(MixinZoomGroup, MixinObserver, Task):
     Skiped = False
 
@@ -22,4 +23,5 @@ class TaskZoomEnter(MixinZoomGroup, MixinObserver, Task):
 
         return False
         pass
+
     pass

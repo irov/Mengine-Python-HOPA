@@ -7,22 +7,21 @@ from ColoringPuzzleBrush import ColoringPuzzleBrush
 from ColoringPuzzleFragment import ColoringPuzzleFragment
 from ColoringPuzzlePalette import ColoringPuzzlePalette
 
+
 class ColoringPuzzleColor(object):
     def __init__(self, colorId, colorName):
         self.colorId = colorId
         self.colorName = colorName
-        pass
 
     def getColorId(self):
         return self.colorId
-        pass
 
     def getColorName(self):
         return self.colorName
-        pass
-    pass
+
 
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ColoringPuzzle(Enigma):
 
@@ -257,6 +256,3 @@ class ColoringPuzzle(Enigma):
             pass
 
         return False
-        pass
-
-    pass

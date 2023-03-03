@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class TaskEffectInventoryGetInventoryItemFX(TaskAlias):
     def _onParams(self, params):
         super(TaskEffectInventoryGetInventoryItemFX, self)._onParams(params)
@@ -76,7 +77,8 @@ class TaskEffectInventoryGetInventoryItemFX(TaskAlias):
 
         SpeedEffectInventoryGetInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryGetInventoryItem", 1000.0)
         SpeedEffectInventoryGetInventoryItem *= 0.001  # speed fix
-        source.addTask("TaskNodeBezier2To", Node=InventoryItemEntityNode, Point1=P1, To=P2, Speed=SpeedEffectInventoryGetInventoryItem)
+        source.addTask("TaskNodeBezier2To", Node=InventoryItemEntityNode, Point1=P1, To=P2,
+                       Speed=SpeedEffectInventoryGetInventoryItem)
 
         source.addTask("TaskNodeRemoveFromParent", Node=InventoryItemEntityNode)
 
@@ -88,5 +90,3 @@ class TaskEffectInventoryGetInventoryItemFX(TaskAlias):
         source.addTask("TaskNodeEnable", Node=InventoryItemEntityNode, Value=True)
 
         return False
-        pass
-    pass

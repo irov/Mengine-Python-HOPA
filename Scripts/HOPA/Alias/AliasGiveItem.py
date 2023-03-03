@@ -2,6 +2,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 from HOPA.ItemUseManager import ItemUseManager
 
+
 class AliasGiveItem(TaskAlias):
     def _onParams(self, params):
         super(AliasGiveItem, self)._onParams(params)
@@ -24,7 +25,8 @@ class AliasGiveItem(TaskAlias):
             Movie_Open = ItemUseManager.getMovie(self.ItemName, self.SocketName)
 
         if ObjectType == "ObjectSocket":
-            source.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem, ItemName=self.ItemName, Taken=True, Pick=False)
+            source.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
+                           ItemName=self.ItemName, Taken=True, Pick=False)
 
             if Movie_Open is not None:
                 source.addTask("TaskMoviePlay", Movie=Movie_Open, Wait=True)
@@ -34,7 +36,8 @@ class AliasGiveItem(TaskAlias):
                 source.addTask("AliasInventoryGetInventoryItem", ItemName=PopItemName)
 
         elif ObjectType == "ObjectItem":
-            source.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem, Taken=True, Pick=False)
+            source.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName,
+                           InventoryItem=InventoryItem, Taken=True, Pick=False)
 
         elif ObjectType == "ObjectTransition":
             source.addTask("TaskTransitionGiveInventoryItem", TransitionName=ObjectName, InventoryItem=InventoryItem)

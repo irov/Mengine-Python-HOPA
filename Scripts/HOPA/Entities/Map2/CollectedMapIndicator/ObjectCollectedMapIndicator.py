@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCollectedMapIndicator(DemonObject):
     def _onParams(self, params):
         super(ObjectCollectedMapIndicator, self)._onParams(params)
@@ -7,4 +8,5 @@ class ObjectCollectedMapIndicator(DemonObject):
         self.initParam("CurrentCollectedMap", params, None)
 
         pass
+
     pass

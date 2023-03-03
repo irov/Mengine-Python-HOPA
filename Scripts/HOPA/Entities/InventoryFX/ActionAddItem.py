@@ -1,5 +1,6 @@
 from HOPA.Entities.InventoryFX.ActionDefault import ActionDefault
 
+
 class ActionAddItem(ActionDefault):
     def _onParams(self, params):
         super(ActionAddItem, self)._onParams(params)

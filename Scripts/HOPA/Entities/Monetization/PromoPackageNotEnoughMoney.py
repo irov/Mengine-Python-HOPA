@@ -4,9 +4,15 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 class PromoPackageNotEnoughMoney(BaseComponent):
-    _settings = {"product_id": "PromoPackageProductID", "is_enable": "PromoPackageNotEnoughMoney", }
-    _defaults = {"is_enable": False}
+    _settings = {
+        "product_id": "PromoPackageProductID",
+        "is_enable": "PromoPackageNotEnoughMoney",
+    }
+    _defaults = {
+        "is_enable": False
+    }
 
     def _check(self):
         if self.product is None:

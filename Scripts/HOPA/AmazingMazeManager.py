@@ -1,8 +1,12 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class AmazingMazeParam(object):
-    def __init__(self, EnigmaName, FinishIdle, FinishReached, HeroNode, HeroIdle, HeroMove, HeroFinish, Maze, HeroSpawnPoint, MoveMode, RotationSpeed, InitSpeed, MaxSpeed, Acceleration, BreakingMult, TargetReachDistanceThreshold, ZeroVelocityThreshold, bUseCursorPointer, PointerPlaced, PointerReached, PointerActive):
+    def __init__(self, EnigmaName, FinishIdle, FinishReached, HeroNode, HeroIdle, HeroMove, HeroFinish, Maze,
+                 HeroSpawnPoint, MoveMode, RotationSpeed, InitSpeed, MaxSpeed, Acceleration, BreakingMult,
+                 TargetReachDistanceThreshold, ZeroVelocityThreshold, bUseCursorPointer, PointerPlaced, PointerReached,
+                 PointerActive):
         self.EnigmaName = EnigmaName
         self.FinishIdle = FinishIdle
         self.FinishReached = FinishReached
@@ -24,6 +28,7 @@ class AmazingMazeParam(object):
         self.PointerPlaced = PointerPlaced
         self.PointerReached = PointerReached
         self.PointerActive = PointerActive
+
 
 class AmazingMazeManager(Manager):
     s_params = {}
@@ -73,7 +78,10 @@ class AmazingMazeManager(Manager):
             PointerReached = record.get('PointerReached')
             PointerActive = record.get('PointerActive')
 
-            param = AmazingMazeParam(EnigmaName, FinishIdle, FinishReached, HeroNode, HeroIdle, HeroMove, HeroFinish, Maze, HeroSpawnPoint, MoveMode, RotationSpeed, InitSpeed, MaxSpeed, Acceleration, BreakingMult, TargetReachDistanceThreshold, ZeroVelocityThreshold, bUseCursorPointer, PointerPlaced, PointerReached, PointerActive)
+            param = AmazingMazeParam(EnigmaName, FinishIdle, FinishReached, HeroNode, HeroIdle, HeroMove, HeroFinish,
+                                     Maze, HeroSpawnPoint, MoveMode, RotationSpeed, InitSpeed, MaxSpeed, Acceleration,
+                                     BreakingMult, TargetReachDistanceThreshold, ZeroVelocityThreshold,
+                                     bUseCursorPointer, PointerPlaced, PointerReached, PointerActive)
 
             AmazingMazeManager.s_params[EnigmaName] = param
 

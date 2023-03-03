@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectSpinCirclesMastermind(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectSpinCirclesMastermind, self)._onParams(params)

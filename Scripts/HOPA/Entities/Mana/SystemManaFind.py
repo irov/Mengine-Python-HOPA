@@ -3,6 +3,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class SystemManaFind(System):
 
     def __init__(self):
@@ -63,5 +64,3 @@ class SystemManaFind(System):
             tc.addTask("TaskNotify", ID=Notificator.onManaIncrease, Args=(value,))
             pass
         return False
-        pass
-    pass

@@ -1,5 +1,6 @@
 from Foundation.ArrowManager import ArrowManager
 
+
 class ColoringPuzzleBrush(object):
     def __init__(self, movieObject):
         super(ColoringPuzzleBrush, self).__init__()
@@ -8,7 +9,6 @@ class ColoringPuzzleBrush(object):
 
     def __repr__(self):
         return " ColoringPuzzleBrush --- " + self.movieObject.getName()
-        pass
 
     def show(self):
         self.movieObject.setEnable(True)
@@ -45,4 +45,3 @@ class ColoringPuzzleBrush(object):
             pass
 
         currentCursor.setEnable(True)
-        pass

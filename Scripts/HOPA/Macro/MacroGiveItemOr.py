@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroGiveItemOr(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -33,15 +34,13 @@ class MacroGiveItemOr(MacroCommand):
         ItemsCount = len(self.ItemsName)
         Inventory = DemonManager.getDemon("Inventory")
 
-        Quest = self.addQuest(source, "GiveItemOr", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, ItemNames=self.ItemsName, Object=Object)
+        Quest = self.addQuest(source, "GiveItemOr", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, ItemNames=self.ItemsName, Object=Object)
 
         with Quest as tc_quest:
             with tc_quest.addRaceTask(ItemsCount) as tc_races:
                 for tc_race, ItemName in zip(tc_races, self.ItemsName):
-                    tc_race.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=ItemName, SceneName=self.SceneName, Group_Name=self.GroupName)
-                    pass
-                pass
+                    tc_race.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=ItemName,
+                                    SceneName=self.SceneName, Group_Name=self.GroupName)
 
         source.addListener(Notificator.onInventoryUpdateItem)
-        pass
-    pass

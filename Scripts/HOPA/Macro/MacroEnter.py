@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnter(MacroCommand):
 
     def _onValues(self, values):
@@ -23,9 +24,12 @@ class MacroEnter(MacroCommand):
         isRepeat = self.isRepeatScenario()
 
         if isRepeat is False or self.CreateQuestOnRepeat is True:
-            Quest = self.addQuest(source, "Enter", SceneName=self.SceneName, GroupName=self.GroupName, Object=self.Object)
+            Quest = self.addQuest(source, "Enter", SceneName=self.SceneName,
+                                  GroupName=self.GroupName, Object=self.Object)
 
             with Quest as tc_quest:
-                tc_quest.addTask("AliasObjectEnter", SceneName=self.SceneName, Object=self.Object, AutoEnable=self.AutoEnable)
+                tc_quest.addTask("AliasObjectEnter", SceneName=self.SceneName,
+                                 Object=self.Object, AutoEnable=self.AutoEnable)
         else:
-            source.addTask("AliasObjectEnter", SceneName=self.SceneName, Object=self.Object, AutoEnable=self.AutoEnable)
+            source.addTask("AliasObjectEnter", SceneName=self.SceneName,
+                           Object=self.Object, AutoEnable=self.AutoEnable)

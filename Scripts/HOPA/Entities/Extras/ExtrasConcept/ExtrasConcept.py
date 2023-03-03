@@ -3,6 +3,7 @@ from Notification import Notification
 
 from ExtrasConceptManager import ExtrasConceptManager
 
+
 class ExtrasConcept(BaseEntity):
     @staticmethod
     def declareORM(Type):

@@ -11,6 +11,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 
+
 class SystemNavigation(System):
     __use_movie2buttons__ = False  # check if we using old buttons or new movie2buttons
 
@@ -19,7 +20,12 @@ class SystemNavigation(System):
 
     def _onParams(self, params):
         super(SystemNavigation, self)._onParams(params)
-        SystemNavigation.s_highlight = {"AlphaTime": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightAlpha", 500.0), "ShowTime": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightTime", 5000.0), "StairsDelay": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightStairsDelay", 340.0), "ShowWarnings": DefaultManager.getDefaultBool("MobileNavigationTransitionShowWarnings", True), }
+        SystemNavigation.s_highlight = {
+            "AlphaTime": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightAlpha", 500.0),
+            "ShowTime": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightTime", 5000.0),
+            "StairsDelay": DefaultManager.getDefaultFloat("MobileNavigationTransitionHighlightStairsDelay", 340.0),
+            "ShowWarnings": DefaultManager.getDefaultBool("MobileNavigationTransitionShowWarnings", True),
+        }
         SystemNavigation.s_show_warnings = DefaultManager.getDefaultBool("MobileNavigationTransitionShowWarnings", True)
 
     def _onStop(self):

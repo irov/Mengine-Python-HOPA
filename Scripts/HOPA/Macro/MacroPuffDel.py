@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPuffDel(MacroCommand):
     def __init__(self):
         super(MacroPuffDel, self).__init__()
@@ -33,4 +34,5 @@ class MacroPuffDel(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskPuffShowElement", Puff=self.Puff, ElementName=self.Value, Enable=False)
         pass
+
     pass

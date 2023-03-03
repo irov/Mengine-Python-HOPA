@@ -1,5 +1,6 @@
 from Foundation.Initializer import Initializer
 
+
 # TODO  support onHover mode for chips
 
 class ChipView(Initializer):

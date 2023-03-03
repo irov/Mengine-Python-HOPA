@@ -1,13 +1,12 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsMoveRemoveItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsMoveRemoveItem, self)._onParams(params)
 
         self.Inventory = params.get("Inventory")
         self.InventoryItem = params.get("InventoryItem")
-
-        pass
 
     def _onGenerate(self, source):
         InventoryItem = self.InventoryItem
@@ -53,6 +52,3 @@ class AliasInventorySlotsMoveRemoveItem(TaskAlias):
                 Exceptions.append(invItem)
                 pass
             source.addTask("AliasInventorySlotsMoveLeft", Inventory=self.Inventory, StartSlotIndex=newIndex, Exceptions=Exceptions)
-            pass
-        pass
-    pass

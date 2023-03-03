@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TransitionManager import TransitionManager
 
+
 class MacroTransition(MacroCommand):
     Immediately = True
 
@@ -58,9 +59,11 @@ class MacroTransition(MacroCommand):
             source.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
             return
 
-        quest = self.addQuest(source, "Teleport", SceneName=self.SceneName, GroupName=self.GroupName, SceneNameTo=self.scene_name_to)
+        quest = self.addQuest(source, "Teleport", SceneName=self.SceneName, GroupName=self.GroupName,
+                              SceneNameTo=self.scene_name_to)
 
         with quest as tc_quest:
             if self.ScenarioRunner.isZoom is True:
                 tc_quest.addTask("TaskZoomClose", ZoomName=self.GroupName)
-            tc_quest.addTask("AliasTransition", SceneName=self.scene_name_to, ZoomGroupName=self.zoom_group_name, ZoomEffectTransitionObject=self.zoom_effect_transition_object, Fade=self.fade)
+            tc_quest.addTask("AliasTransition", SceneName=self.scene_name_to, ZoomGroupName=self.zoom_group_name,
+                             ZoomEffectTransitionObject=self.zoom_effect_transition_object, Fade=self.fade)

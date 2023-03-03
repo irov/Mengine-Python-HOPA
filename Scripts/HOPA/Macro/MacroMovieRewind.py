@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMovieRewind(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -23,4 +24,5 @@ class MacroMovieRewind(MacroCommand):
         source.addTask("TaskMovieRewind", Movie=Object)
 
         pass
+
     pass

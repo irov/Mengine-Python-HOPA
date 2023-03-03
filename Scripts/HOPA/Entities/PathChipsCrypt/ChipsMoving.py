@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class ChipsMoving(object):
     def __init__(self, movie, slotFrom, slotTo, soundMovieName):
         self.movieObject = movie

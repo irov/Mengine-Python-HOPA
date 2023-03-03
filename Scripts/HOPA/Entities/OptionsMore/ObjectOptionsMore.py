@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectOptionsMore(DemonObject):
     def _onParams(self, params):
         super(ObjectOptionsMore, self)._onParams(params)

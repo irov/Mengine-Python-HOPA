@@ -7,7 +7,9 @@ from HOPA.Entities.Options.OptionsCheckSound import CheckSoundController
 from HOPA.Entities.Options.OptionsManager import OptionsManager
 from Notification import Notification
 
+
 BUTTON_LANGUAGE_SELECT_NAME = "Movie2Button_LanguageSelect"
+
 
 class Options(BaseEntity):
     s_start_volume_values = []
@@ -51,7 +53,11 @@ class Options(BaseEntity):
         self.Sliders['Sound'][0] = Options.startSoundVolumeValue
         self.Sliders['Voice'][0] = Options.startVoiceVolumeValue
 
-        Options.s_start_volume_values = [Options.startMusicVolumeValue, Options.startSoundVolumeValue, Options.startVoiceVolumeValue]
+        Options.s_start_volume_values = [
+            Options.startMusicVolumeValue,
+            Options.startSoundVolumeValue,
+            Options.startVoiceVolumeValue
+        ]
 
         # Check sound volume buttons:
         self.soundCheckController = CheckSoundController(self.object)
@@ -332,7 +338,8 @@ class Options(BaseEntity):
                     tc.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=False)
 
             else:
-                Trace.log("Entity", 4, "%s has not found %s. Please add to Options.aep, Options.psd if you need." % (self.__class__.__name__, BUTTON_LANGUAGE_SELECT_NAME))
+                Trace.log("Entity", 4, "%s has not found %s. Please add to Options.aep, Options.psd if you need." % (
+                    self.__class__.__name__, BUTTON_LANGUAGE_SELECT_NAME))
 
     def scopeOpen(self, source, GropName):
         MovieName = "Movie2_Open"

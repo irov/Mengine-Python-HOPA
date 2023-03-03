@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroJournalOpen(MacroCommand):
     def _onValues(self, values):
         if len(values) < 1:
@@ -11,4 +12,5 @@ class MacroJournalOpen(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskSceneLayerGroupEnable", LayerName=self.layerName, Value=True)
         pass
+
     pass

@@ -7,7 +7,9 @@ from ProgrammatorManager import ProgrammatorManager
 from Tap import Tap
 from Wheel import Wheel
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Programmator(Enigma):
     # static fields

@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class HOGManager(object):
     s_hogs = {}
     s_hogTypes = {}
@@ -11,15 +12,11 @@ class HOGManager(object):
             self.paramType = paramType
             self.sceneName = sceneName
             self.objectHOG = objectHOG
-            pass
-        pass
 
     @staticmethod
     def importParamTypes(module, listTypes):
         for typeName in listTypes:
             HOGManager.importParamType(module, typeName)
-            pass
-        pass
 
     @staticmethod
     def importParamType(module, name):
@@ -29,19 +26,15 @@ class HOGManager(object):
         Module = __import__(ModuleName, fromlist=[FromName])
         Type = getattr(Module, Name)
         HOGManager.addParamType(name, Type)
-        pass
 
     @staticmethod
     def addParamType(name, param):
         HOGManager.s_hogTypes[name] = param
-        pass
 
     @staticmethod
     def getParamType(type):
         param = HOGManager.s_hogTypes[type]
-
         return param
-        pass
 
     @staticmethod
     def onInitialize():
@@ -50,7 +43,6 @@ class HOGManager(object):
     @staticmethod
     def onFinalize():
         HOGManager.s_hogs = {}
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -65,13 +57,10 @@ class HOGManager(object):
                 param = HOGManager.getParamType(ParamType)
                 inventory = DemonManager.getDemon(Inventory)
                 param.setInventory(Name, inventory)
-                pass
 
             HOGManager.loadHOG(module, Name, ParamType, Param)
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadHOG(module, name, paramType, param):

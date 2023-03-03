@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class SpinCirclesManager(object):
     s_objects = {}
 
@@ -14,8 +15,6 @@ class SpinCirclesManager(object):
 
         def getParams(self):
             return self.params
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -143,8 +142,3 @@ class SpinCirclesManager(object):
             pass
         record = SpinCirclesManager.s_objects[name]
         return record.getParams()
-        pass
-
-    pass
-
-pass

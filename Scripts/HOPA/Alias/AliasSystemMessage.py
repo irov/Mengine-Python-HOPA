@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasSystemMessage(TaskAlias):
 
     def _onParams(self, params):

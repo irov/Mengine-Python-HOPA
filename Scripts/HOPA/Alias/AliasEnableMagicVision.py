@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasEnableMagicVision(MixinObserver, TaskAlias):
     def _onParams(self, params):
         super(AliasEnableMagicVision, self)._onParams(params)
@@ -19,7 +20,3 @@ class AliasEnableMagicVision(MixinObserver, TaskAlias):
             for movieName in Movies_Names:
                 movie = MagicVision.getObject(movieName)
                 movie.setEnable(False)
-                pass
-            pass
-        pass
-    pass

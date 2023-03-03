@@ -7,7 +7,9 @@ from HOPA.SemaphoreManager import SemaphoreManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 _Log = SimpleLogger("SystemCameraManipulation")
+
 
 class DebugHUD(object):
     def __init__(self):
@@ -114,6 +116,7 @@ class DebugHUD(object):
         if mouse_pos_id in self.dev_hud:
             self.dev_hud[mouse_pos_id].setTextFormatArgs("[{}] pos: ({}, {})".format(touchId, x, y))
 
+
 class DebugCameraGizmo(object):
     MIN_SCALE = None
     MAX_SCALE = None
@@ -214,7 +217,7 @@ class DebugCameraGizmo(object):
         step = self.MAX_STEP / next_scale  # step decrease proportionally scale param
         vec = Mengine.vec2f(self.camera_pos.x - this_pos.x, self.camera_pos.y - this_pos.y)
         vec_len = self.getEuclideanDistance(vec, Mengine.vec2f(0, 0))
-        direction = vec / self.getEuclideanDistance(vec, Mengine.vec2f(0, 0), to_vec=True) if vec_len != 0 else Mengine.vec2f(0, 0)
+        direction = vec / self.getEuclideanDistance(vec, Mengine.vec2f(0, 0),to_vec=True) if vec_len != 0 else Mengine.vec2f(0, 0)
         dist = self.getEuclideanDistance(self.camera_pos, this_pos)
         if dist > step:
             step_vec = direction * Mengine.vec2f(step, step)
@@ -277,6 +280,7 @@ class DebugCameraGizmo(object):
         self.camera = None
         self.viewport = None
         return False
+
 
 class SystemCameraManipulation(System):
 

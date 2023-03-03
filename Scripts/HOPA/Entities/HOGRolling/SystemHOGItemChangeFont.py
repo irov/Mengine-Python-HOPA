@@ -4,6 +4,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 class SystemHOGItemChangeFont(System):
     def _onParams(self, params):
         super(SystemHOGItemChangeFont, self)._onParams(params)
@@ -134,6 +135,3 @@ class SystemHOGItemChangeFont(System):
         self.onHOGInventoryAppendItem = None
         self.EnigmaName = None
         self.items = {}
-        pass
-
-    pass

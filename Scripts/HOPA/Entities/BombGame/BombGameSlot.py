@@ -1,5 +1,6 @@
 Enigma = Mengine.importEntity("Enigma")
 
+
 class BombGameSlot(object):
     def __init__(self, Game, slotX, slotY, Pos, Movie, SocketName, Group):
         self.Game = Game
@@ -106,6 +107,3 @@ class BombGameSlot(object):
     def __str__(self):
         str = "x %d, y %d " % (self.slotX, self.slotY)
         return str
-        pass
-
-    pass

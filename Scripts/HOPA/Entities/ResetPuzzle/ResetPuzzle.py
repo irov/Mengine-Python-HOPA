@@ -3,6 +3,7 @@ from Foundation.Entities.MovieButton.ObjectMovieButton import ObjectMovieButton
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 
+
 class ResetPuzzle(BaseEntity):
     def __init__(self):
         super(ResetPuzzle, self).__init__()

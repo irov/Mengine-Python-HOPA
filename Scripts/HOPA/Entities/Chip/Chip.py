@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class Chip(BaseEntity):
     def __init__(self):
         super(Chip, self).__init__()

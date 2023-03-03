@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from HOPA.TipManager import TipManager
 
+
 class TipItem(BaseEntity):
     # TIME_TIP = 0.1
     TIME_TIP = 0.1 * 1000  # speed fix
@@ -123,7 +124,11 @@ class TipItem(BaseEntity):
 
         #        print TipPoint
         self.sprite.setLocalPosition(TipPoint)
-        self.text.setParam("Position", (TipPoint[0] + spriteSize.x * scaleWidth / 2, TipPoint[1] + spriteSize.y * scaleHeight / 2 - textLength.y / 2))
+        Position = (
+            TipPoint[0] + spriteSize.x * scaleWidth / 2,
+            TipPoint[1] + spriteSize.y * scaleHeight / 2 - textLength.y / 2
+        )
+        self.text.setParam("Position", Position)
 
         textEntity.setLocalAlpha(0.0)
         textEntity.enable()
@@ -133,7 +138,8 @@ class TipItem(BaseEntity):
 
         self.sprite.colorStop()
 
-        with TaskManager.createTaskChain(Name="TipItemPlay", Group=self.object, Cb=Functor(self._onTipEndComplete, cb)) as tc:
+        with TaskManager.createTaskChain(Name="TipItemPlay", Group=self.object,
+                                         Cb=Functor(self._onTipEndComplete, cb)) as tc:
             with tc.addRaceTask(2) as (tc_show, tc_skip):
                 tc_show.addTask("TaskDelay", Time=delayTime)
 
@@ -174,5 +180,3 @@ class TipItem(BaseEntity):
 
     def releaseTip(self):
         self.status = TipItem.TIP_HIDE
-        pass
-    pass

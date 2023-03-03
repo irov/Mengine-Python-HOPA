@@ -4,13 +4,12 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.BonusItemManager import BonusItemManager
 
+
 class SystemBonusItem(System):
     def _onParams(self, params):
         super(SystemBonusItem, self)._onParams(params)
         self._currentCount = 0
         self.bonusList = []
-
-        pass
 
     def _onSave(self):
         return self.BonusInventory.getItemsCount()
@@ -44,29 +43,17 @@ class SystemBonusItem(System):
                     tc.addTask("TaskItemClick", Item=ItemObject)
                     tc.addTask("TaskItemPick", Item=ItemObject)
                     tc.addTask("TaskFunction", Fn=self.BonusInventory._updateCount)
-                    pass
-                pass
-            pass
 
-        pass
         return False
-        pass
 
     def __cleanBonusList(self):
         for group in self.bonusList:
             for item in self.bonusList[group]:
                 if TaskManager.existTaskChain("BonusItemTaskChain_%s_%s" % (group, item,)):
                     TaskManager.cancelTaskChain("BonusItemTaskChain_%s_%s" % (group, item,))
-                    pass
-                pass
-            pass
 
         self.bonusList = []
-        pass
 
     def __onSceneLeave(self, sceneName):
         self.__cleanBonusList()
         return False
-        pass
-
-    pass

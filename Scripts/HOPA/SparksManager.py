@@ -4,6 +4,7 @@ from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class SparksManager(object):
     s_questsType = {}
     s_actionTypes = {}

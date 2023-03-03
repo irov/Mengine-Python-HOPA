@@ -15,6 +15,7 @@ from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class Hint(BaseEntity):
 
     @staticmethod
@@ -119,8 +120,10 @@ class Hint(BaseEntity):
         # self.onInventorySlotsShiftObserver = Notification.addObserver(Notificator.onInventorySlotsShiftEnd, self.currentHintEnd)
         self.onItemPlusLeaveObserver = Notification.addObserver(Notificator.onSceneLeave, self.currentHintEnd_Scene)
         self.onItemPickedObserver = Notification.addObserver(Notificator.onItemPicked, self.currentHintEnd)
-        self.onTipActivateWithoutParagraphsObserver = Notification.addObserver(Notificator.onTipRemoveWithoutParagraphs, self.currentHintEnd)
-        self.onClickItemCollectHintSocketObserver = Notification.addObserver(Notificator.onClickItemCollectHintSocket, self.currentHintEnd)
+        self.onTipActivateWithoutParagraphsObserver = Notification.addObserver(Notificator.onTipRemoveWithoutParagraphs,
+                                                                               self.currentHintEnd)
+        self.onClickItemCollectHintSocketObserver = Notification.addObserver(Notificator.onClickItemCollectHintSocket,
+                                                                             self.currentHintEnd)
 
         DialogBlockHint = DefaultManager.getDefaultBool("DialogBlockHint", True)
         if DialogBlockHint is True:
@@ -281,7 +284,8 @@ class Hint(BaseEntity):
         click_event = Event("HintRightClick")
         with source.addRepeatTask() as (repeat, until):
             with repeat.addRaceTask(2) as (click, reset):
-                reset.addListener(Notificator.onStateChange, Filter=lambda id, state: id == "StateHintReady" and state is False)
+                reset.addListener(Notificator.onStateChange,
+                                  Filter=lambda id, state: id == "StateHintReady" and state is False)
 
                 click.addTask("TaskStateMutex", ID="StateHintReady", From=True)
                 click.addTask(self.PolicyHintClick)
@@ -347,7 +351,8 @@ class Hint(BaseEntity):
         self._debugHintLog("_hintPlay [cur={}] {}".format(self.currentHint, newHint))
         if self.currentHint is not None:
             if newHint.getQuest() is self.currentHint.getQuest() and self.currentHint.isEnd() is False:
-                self._debugHintLog("_hintPlay [cur={}] <0> newHint.quest = curHint.quest ({}), curHint isEnd=False".format(self.currentHint.__class__.__name__, newHint.getQuest()))
+                self._debugHintLog("_hintPlay [cur={}] <0> newHint.quest = curHint.quest ({}), curHint isEnd=False".format(
+                    self.currentHint.__class__.__name__, newHint.getQuest()))
                 cb(isSkip, 0)
                 return
 
@@ -367,7 +372,8 @@ class Hint(BaseEntity):
             SystemHintSceneExceptions = SystemManager.getSystem("SystemHintSceneExceptions")
             hasException = SystemHintSceneExceptions.hasActiveException(currentSceneName, GroupName)
             if hasException is True:
-                self._debugHintLog("_hintPlay [cur={}] <0> hasActiveException showMind ({}, {})".format(self.currentHint, newHint.getQuest(), currentSceneName, GroupName))
+                self._debugHintLog("_hintPlay [cur={}] <0> hasActiveException showMind ({}, {})".format(
+                    self.currentHint, newHint.getQuest(), currentSceneName, GroupName))
                 cb(isSkip, 0)
                 SystemHintSceneExceptions.showMind(currentSceneName, GroupName)
                 return
@@ -377,7 +383,8 @@ class Hint(BaseEntity):
             hintActionType = self.currentHint.getType()
             isValidateHint = HintManager.isValidateHint(hintActionType)
             if isValidateHint is True:
-                self._debugHintLog("_hintPlay [cur={}] <1> quest={} valid - SHOW".format(self.currentHint.__class__.__name__, newHint.getQuest(), hintActionType))
+                self._debugHintLog("_hintPlay [cur={}] <1> quest={} valid - SHOW".format(
+                    self.currentHint.__class__.__name__, newHint.getQuest(), hintActionType))
                 cb(isSkip, 1)
                 self.hintShow(self.currentHint)
 
@@ -391,7 +398,8 @@ class Hint(BaseEntity):
                         tc_scene.addTask("TaskSceneLeave", SceneName=currentSceneName)
 
             elif isValidateHint is False:
-                self._debugHintLog("_hintPlay [cur={}] <3> quest={} invalid - SHOW".format(self.currentHint.__class__.__name__, newHint.getQuest(), hintActionType))
+                self._debugHintLog("_hintPlay [cur={}] <3> quest={} invalid - SHOW".format(
+                    self.currentHint.__class__.__name__, newHint.getQuest(), hintActionType))
                 cb(isSkip, 3)
                 self.hintShow(self.currentHint)
         else:
@@ -404,7 +412,8 @@ class Hint(BaseEntity):
         Trace.msg("[Hint debug] {}".format(msg))
 
     def hintGive(self):
-        self._debugHintLog("---- HintAction find [AroundSceneCheck={} ItemCollectCheck={} ZoomCheck={}] -----".format(self.AroundSceneCheck, self.ItemCollectCheck, self.ZoomCheck))
+        self._debugHintLog("---- HintAction find [AroundSceneCheck={} ItemCollectCheck={} ZoomCheck={}] -----".format(
+            self.AroundSceneCheck, self.ItemCollectCheck, self.ZoomCheck))
 
         HintAction = HintManager.findGlobalHint(self.object)
         if HintAction is not None:
@@ -433,7 +442,8 @@ class Hint(BaseEntity):
 
                 if HintAction is not None:
                     HintAction = self.createZoomLeaveHintAction(currentSceneName, zoomGroupName)
-                    self._debugHintLog("[3] AroundSceneCheck {}, created ZoomLeaveHintAction: {} {}".format(currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
+                    self._debugHintLog("[3] AroundSceneCheck {}, created ZoomLeaveHintAction: {} {}".format(
+                        currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
                     return HintAction
                 else:
                     self._debugHintLog("[3] (AroundSceneCheck) Not found scene hint [{} {}]".format(currentSceneName, groupName))
@@ -446,13 +456,16 @@ class Hint(BaseEntity):
                         if TransitionObject.getGroupName() == zoomGroupName:
                             HintAction = self.createSceneEnterHintAction(TransitionObject)
                             if HintAction is not None:
-                                self._debugHintLog("[4] TransitionObject:{} == zoomGroupName:{} => {} {}".format(TransitionObject.getGroupName(), zoomGroupName, HintAction.__class__.__name__, HintAction.Quest))
+                                self._debugHintLog("[4] TransitionObject:{} == zoomGroupName:{} => {} {}".format(
+                                    TransitionObject.getGroupName(), zoomGroupName, HintAction.__class__.__name__, HintAction.Quest))
                                 return HintAction
                             else:
-                                self._debugHintLog("[4] TransitionObject:{} == zoomGroupName:{} => scene enter hint NOT created".format(TransitionObject.getGroupName(), zoomGroupName))
+                                self._debugHintLog("[4] TransitionObject:{} == zoomGroupName:{} => scene enter hint NOT created".format(
+                                    TransitionObject.getGroupName(), zoomGroupName))
 
                 HintAction = self.createZoomLeaveHintAction(currentSceneName, zoomGroupName)
-                self._debugHintLog("[5] AroundSceneCheck ZoomLeave, created ZoomLeaveHintAction: {} {}".format(HintAction.__class__.__name__, HintAction.Quest))
+                self._debugHintLog("[5] AroundSceneCheck ZoomLeave, created ZoomLeaveHintAction: {} {}".format(
+                    HintAction.__class__.__name__, HintAction.Quest))
                 return HintAction
 
         else:
@@ -468,7 +481,8 @@ class Hint(BaseEntity):
 
             HintAction = self.getSceneHintAction(currentSceneName, groupName)
             if HintAction is not None:
-                self._debugHintLog("[7] {} {} [{} {}]".format(HintAction.__class__.__name__, HintAction.Quest, currentSceneName, groupName))
+                self._debugHintLog("[7] {} {} [{} {}]".format(
+                    HintAction.__class__.__name__, HintAction.Quest, currentSceneName, groupName))
                 return HintAction
             else:
                 self._debugHintLog("[7] getSceneHintAction not found [{} {}]".format(currentSceneName, groupName))
@@ -478,7 +492,8 @@ class Hint(BaseEntity):
                 if HintAction is not None:
                     HintAction = self.createSpecialSceneEnterHintAction(currentSceneName)
                     if HintAction is not None:
-                        self._debugHintLog("[8] createSpecialSceneEnterHintAction {} {}".format(HintAction.__class__.__name__, HintAction.Quest))
+                        self._debugHintLog("[8] createSpecialSceneEnterHintAction {} {}".format(
+                            HintAction.__class__.__name__, HintAction.Quest))
                         return HintAction
                     else:
                         self._debugHintLog("[8] createSpecialSceneEnterHintAction not found [{}]".format(currentSceneName))
@@ -486,7 +501,8 @@ class Hint(BaseEntity):
             if self.AroundSceneCheck is True:
                 HintSceneName, HintActionAroundScene = self.getAroundSceneHintAction(currentSceneName, True)
 
-                self._debugHintLog("-- AroundSceneCheck -- HintSceneName={}, HintActionAroundScene={}".format(HintSceneName, HintActionAroundScene))
+                self._debugHintLog("-- AroundSceneCheck -- HintSceneName={}, HintActionAroundScene={}".format(
+                    HintSceneName, HintActionAroundScene))
 
                 if HintActionAroundScene is not None:
                     TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, HintSceneName)
@@ -496,14 +512,17 @@ class Hint(BaseEntity):
                             TransitionGroupName = TransitionObject.getGroupName()
                             HintAction = self.createZoomEnterHintAction(currentSceneName, TransitionGroupName, False)
                             if HintAction is not None:
-                                self._debugHintLog("[9] AroundSceneCheck (TransitionObject is NOT active): {} {}".format(HintAction.__class__.__name__, HintAction.Quest))
+                                self._debugHintLog("[9] AroundSceneCheck (TransitionObject is NOT active): {} {}".format(
+                                    HintAction.__class__.__name__, HintAction.Quest))
                                 return HintAction
                             else:
-                                self._debugHintLog("[9] AroundSceneCheck (TransitionObject is NOT active): FAILED [{} {} {}]".format(currentSceneName, TransitionGroupName, False))
+                                self._debugHintLog("[9] AroundSceneCheck (TransitionObject is NOT active): FAILED [{} {} {}]".format(
+                                    currentSceneName, TransitionGroupName, False))
                         else:
                             HintAction = self.createSceneEnterHintAction(TransitionObject)
                             if HintAction is not None:
-                                self._debugHintLog("[10] AroundSceneCheck (TransitionObject is ACTIVE): {} {}".format(HintAction.__class__.__name__, HintAction.Quest))
+                                self._debugHintLog("[10] AroundSceneCheck (TransitionObject is ACTIVE): {} {}".format(
+                                    HintAction.__class__.__name__, HintAction.Quest))
                                 return HintAction
                             else:
                                 self._debugHintLog("[10] AroundSceneCheck (TransitionObject is ACTIVE): FAILED [{}]".format(TransitionObject))
@@ -515,15 +534,18 @@ class Hint(BaseEntity):
                         if TransitionBackObjectScene == HintSceneName:
                             HintAction = self.createSceneEnterHintAction(TransitionBackObject)
                             if HintAction is not None:
-                                self._debugHintLog("[11] AroundSceneCheck, hasTransitionBack {}: {} {}".format(currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
+                                self._debugHintLog("[11] AroundSceneCheck, hasTransitionBack {}: {} {}".format(
+                                    currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
                                 return HintAction
                             else:
-                                self._debugHintLog("[11] AroundSceneCheck, hasTransitionBack {}: FAILED [{}]".format(currentSceneName, TransitionBackObject))
+                                self._debugHintLog("[11] AroundSceneCheck, hasTransitionBack {}: FAILED [{}]".format(
+                                    currentSceneName, TransitionBackObject))
 
             if SceneManager.isSpecialScene(currentSceneName) is True:
                 HintAction = self.createSpecialSceneLeaveHintAction(currentSceneName)
                 if HintAction is not None:
-                    self._debugHintLog("[12] special scene {}: {} {}".format(currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
+                    self._debugHintLog("[12] special scene {}: {} {}".format(
+                        currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
                     return HintAction
                 else:
                     self._debugHintLog("[12] special scene {}: FAILED".format(currentSceneName))
@@ -639,7 +661,8 @@ class Hint(BaseEntity):
         if QuestManager.hasLocalQuest(SceneNameFrom, GroupNameFrom, "MagicVisionUse") is True:
             Quest = QuestManager.getSceneQuest(SceneNameFrom, GroupNameFrom, "MagicVisionUse")
         else:
-            Quest = QuestManager.createLocalQuest("MagicVisionUse", SceneName=SceneNameFrom, GroupName=GroupNameFrom, SceneNameTo=SceneNameTo, Demon=SpecialEnterTrigger)
+            Quest = QuestManager.createLocalQuest("MagicVisionUse", SceneName=SceneNameFrom, GroupName=GroupNameFrom,
+                                                  SceneNameTo=SceneNameTo, Demon=SpecialEnterTrigger)
             with TaskManager.createTaskChain() as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     tc_quest.addTask("TaskSceneLeave", SceneName=SceneNameFrom)
@@ -677,7 +700,8 @@ class Hint(BaseEntity):
     def getSceneHintAction(self, sceneName, groupName, checkActive=True):
         hintAction = HintManager.findSceneHint(sceneName, groupName, self.object, checkActive)
         if hintAction is not None:
-            self._debugHintLog("  getSceneHintAction {} :: {} {} {}".format(hintAction.__class__.__name__, sceneName, groupName, checkActive))
+            self._debugHintLog("  getSceneHintAction {} :: {} {} {}".format(
+                hintAction.__class__.__name__, sceneName, groupName, checkActive))
             return hintAction
 
         if self.ItemCollectCheck is True:
@@ -688,7 +712,8 @@ class Hint(BaseEntity):
         if self.ZoomCheck is True:
             hintAction = self.getZoomHintAction(sceneName)
             if hintAction is not None:
-                self._debugHintLog("  getSceneHintAction ZoomCheck {} :: {} {} {}".format(hintAction.__class__.__name__, sceneName, groupName, checkActive))
+                self._debugHintLog("  getSceneHintAction ZoomCheck {} :: {} {} {}".format(
+                    hintAction.__class__.__name__, sceneName, groupName, checkActive))
                 return hintAction
 
         self._debugHintLog("  FAILED getSceneHintAction {} [{} {} {}]".format(hintAction, sceneName, groupName, checkActive))
@@ -715,9 +740,11 @@ class Hint(BaseEntity):
                 continue
             if flag is True:
                 continue
-            Quest = QuestManager.createLocalQuest("ItemCollectOpen", SceneName=SceneName, GroupName=SceneName, Object=socket)
+            Quest = QuestManager.createLocalQuest("ItemCollectOpen", SceneName=SceneName,
+                                                  GroupName=SceneName, Object=socket)
 
-            hintAction = HintManager.createHintAction("HintActionItemCollectOpen", Quest, SceneName=SceneName, GroupName=SceneName, Object=socket)
+            hintAction = HintManager.createHintAction("HintActionItemCollectOpen", Quest, SceneName=SceneName,
+                                                      GroupName=SceneName, Object=socket)
             return hintAction
 
     def getAroundSceneHintAction(self, fromSceneName, checkActive=False):
@@ -843,7 +870,8 @@ class Hint(BaseEntity):
         if QuestManager.hasLocalQuest(SceneNameTo, GroupNameTo, "EnterScene") is True:
             Quest = QuestManager.getSceneQuest(SceneNameTo, GroupNameTo, "EnterScene")
         else:
-            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo, Transition=TransitionObject)
+            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo,
+                                                  GroupName=GroupNameTo, Transition=TransitionObject)
 
             with TaskManager.createTaskChain() as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:

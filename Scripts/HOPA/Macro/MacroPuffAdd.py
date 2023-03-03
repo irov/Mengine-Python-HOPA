@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPuffAdd(MacroCommand):
     def __init__(self):
         super(MacroPuffAdd, self).__init__()
@@ -33,4 +34,5 @@ class MacroPuffAdd(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskPuffShowElement", Puff=self.Puff, ElementName=self.Value, Enable=True)
         pass
+
     pass

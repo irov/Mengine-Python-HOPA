@@ -4,6 +4,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardsEnigmaTime(System):
     def _onParams(self, params):
         super(SystemAwardsEnigmaTime, self)._onParams(params)
@@ -88,11 +89,7 @@ class SystemAwardsEnigmaTime(System):
             pass
 
         return False
-        pass
 
     def __onEnigmaSkip(self):
         self._skipFlag = True
         return False
-        pass
-
-    pass

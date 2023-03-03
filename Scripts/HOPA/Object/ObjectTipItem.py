@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectTipItem(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectTipItem(DemonObject):
 
         self.initParam("TipItemID", params, None)
         pass
+
     pass

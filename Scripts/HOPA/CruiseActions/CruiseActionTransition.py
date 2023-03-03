@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseActionTransition(MixinTransition, CruiseAction):
 
     def _onCheck(self):
@@ -20,7 +21,8 @@ class CruiseActionTransition(MixinTransition, CruiseAction):
 
         with TaskManager.createTaskChain(Name="CruiseActionTransition") as tc:
             tc.addDelay(self.move_delay)
-            tc.addTask("AliasCruiseControlAction", Position=self.Transition.calcWorldHintPoint(), Object=self._getCruiseObject())
+            tc.addTask("AliasCruiseControlAction",
+                       Position=self.Transition.calcWorldHintPoint(), Object=self._getCruiseObject())
             tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
 
     def _onEnd(self):

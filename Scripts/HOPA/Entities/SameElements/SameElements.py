@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from SameElementsManager import SameElementsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SameElements(Enigma):
     @staticmethod

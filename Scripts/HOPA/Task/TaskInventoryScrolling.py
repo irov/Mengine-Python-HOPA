@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryScrolling(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskInventoryScrolling, self)._onParams(params)
@@ -25,4 +26,5 @@ class TaskInventoryScrolling(MixinObserver, Task):
 
         return False
         pass
+
     pass

@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintInventoryTargetLoopInterruptEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintInventoryTargetLoopInterruptEffect, self)._onParams(params)
@@ -15,4 +16,5 @@ class PolicyHintInventoryTargetLoopInterruptEffect(TaskAlias):
         # source.addTask("TaskMovie2Stop", GroupName = "HintEffect", Movie2Name = "Movie2_HintInventoryTargetLoop")
         # source.addTask("TaskMovie2Rewind", GroupName="HintEffect", Movie2Name="Movie2_HintTarget")
         pass
+
     pass

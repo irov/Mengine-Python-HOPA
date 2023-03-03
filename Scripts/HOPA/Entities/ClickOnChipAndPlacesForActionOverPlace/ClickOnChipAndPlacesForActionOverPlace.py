@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipAndPlacesForActionOverPlaceManager import ClickOnChipAndPlacesForActionOverPlaceManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ClickOnChipAndPlacesForActionOverPlace(Enigma):
     class Place(object):
@@ -92,6 +94,7 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
     def _onDeactivate(self):
         super(ClickOnChipAndPlacesForActionOverPlace, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -113,7 +116,8 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
 
                 if self.selectedPlace is not None:
                     # with parallel_2.addIfTask(lambda: self.selectedPlace is None) as (true, false):
-                    parallel_2.addScope(self.selectedPlace.changeAlpha, self.selectedPlace.findCorrectMovie(None)[1].getEntityNode(), 0.0, 1.0)
+                    parallel_2.addScope(self.selectedPlace.changeAlpha,
+                                        self.selectedPlace.findCorrectMovie(None)[1].getEntityNode(), 0.0, 1.0)
                     parallel_2.addFunction(self.setSelectedPlace, None)
 
     def _skipEnigmaScope(self, source):
@@ -129,10 +133,12 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
         for (placeID, place), parallel in source.addParallelTaskList(self.places.iteritems()):
             parallel.addFunction(cleanPlate, place)
             parallel.addFunction(place.findCorrectMovie(self.chips[SkipPlaces[placeID]])[0].setEnable, True)
-            parallel.addScope(place.changeAlpha, place.findCorrectMovie(self.chips[SkipPlaces[placeID]])[0].getEntityNode(), 1.0, 0.0)
+            parallel.addScope(place.changeAlpha,
+                              place.findCorrectMovie(self.chips[SkipPlaces[placeID]])[0].getEntityNode(), 1.0, 0.0)
             place.parent = self.chips[SkipPlaces[placeID]]
 
         source.addScope(self.complete)
+
     # ==================================================================================================================
 
     def _loadParam(self):
@@ -163,7 +169,8 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
             return movie, movieWin
 
         for (placeID, MoviesName) in self.param.Places.iteritems():
-            MovieGreen, MovieBlue, MovieYellow, MovieSilver = getMovie(MoviesName[0]), getMovie(MoviesName[1]), getMovie(MoviesName[2]), getMovie(MoviesName[3])
+            MovieGreen, MovieBlue, MovieYellow, MovieSilver = \
+                getMovie(MoviesName[0]), getMovie(MoviesName[1]), getMovie(MoviesName[2]), getMovie(MoviesName[3])
             socketName = 'place_{}'.format(placeID)
             place = ClickOnChipAndPlacesForActionOverPlace.Place(placeID, MovieGreen, MovieBlue, MovieYellow, MovieSilver, socketName)
             self.places[placeID] = place
@@ -199,9 +206,11 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
 
             for chip, race in clickOnChip.addRaceTaskList(self.chips.values()):
                 race.addScope(chip.scopeClickDown)
-                race.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ClickOnChipAndPlacesForActionOverPlace_ClickOnChipDown')
+                race.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                               'ClickOnChipAndPlacesForActionOverPlace_ClickOnChipDown')
                 race.addScope(chip.scopeClickUp)
-                race.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ClickOnChipAndPlacesForActionOverPlace_ClickOnChipUp')
+                race.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                               'ClickOnChipAndPlacesForActionOverPlace_ClickOnChipUp')
                 race.addFunction(ClickObject.set, chip)
 
         source.addScope(holder_scopeClick, ClickObject)
@@ -215,10 +224,12 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
             with source.addParallelTask(2) as (paintPlace, soundEffect):
                 paintPlace.addScope(self.selectedPlace.setParent, chip)
                 paintPlace.addFunction(self.setSelectedPlace, None)
-                soundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ClickOnChipAndPlacesForActionOverPlace_PaintEffect')
+                soundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                                      'ClickOnChipAndPlacesForActionOverPlace_PaintEffect')
 
     def resolveClickOnPlace(self, source, place):
-        source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ClickOnChipAndPlacesForActionOverPlace_ClickOnPlace')
+        source.addNotify(Notificator.onSoundEffectOnObject, self.object,
+                         'ClickOnChipAndPlacesForActionOverPlace_ClickOnPlace')
 
         if self.selectedPlace is None:
             source.addScope(self.EnableSelect, place)

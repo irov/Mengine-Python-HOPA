@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroStates(MacroCommand):
     def __init__(self):
         super(MacroStates, self).__init__()
@@ -39,4 +40,5 @@ class MacroStates(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskStates", States=self.States, Value=self.Value)
         pass
+
     pass

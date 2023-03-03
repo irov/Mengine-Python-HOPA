@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from TraceManager import TraceManager
 
+
 class ColorCollectManager(object):
     s_objects = {}
 
@@ -61,6 +62,7 @@ class ColorCollectManager(object):
         def getItemNames(self):
             return self.itemNames
             pass
+
         pass
 
     @staticmethod
@@ -154,8 +156,3 @@ class ColorCollectManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

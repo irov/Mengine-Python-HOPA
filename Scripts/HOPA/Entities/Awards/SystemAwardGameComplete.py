@@ -3,6 +3,7 @@ from Notification import Notification
 
 from AwardsManager import AwardsManager
 
+
 class SystemAwardGameComplete(System):
     def _onParams(self, params):
         super(SystemAwardGameComplete, self)._onParams(params)

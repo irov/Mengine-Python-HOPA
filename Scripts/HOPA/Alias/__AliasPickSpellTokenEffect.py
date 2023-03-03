@@ -1,6 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class __AliasPickSpellTokenEffect(TaskAlias):
     """
     deprecated

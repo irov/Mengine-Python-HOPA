@@ -6,7 +6,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapAndRotateSegmentsManager import SwapAndRotateSegmentsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Chip(object):
     def __init__(self, chip_id, movie, start_position, finish_position, numbers_of_chips, slot):
@@ -48,6 +50,7 @@ class Chip(object):
         difference = (position_to - position_from) % self.numOfChips
         angle = difference * self.rotateAngle
         return angle
+
 
 class SwapAndRotateSegments(Enigma):
     def __init__(self):

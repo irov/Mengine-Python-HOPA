@@ -4,6 +4,7 @@ from HOPA.FanItemManager import FanItemManager
 from HOPA.FanManager import FanManager
 from HOPA.QuestManager import QuestManager
 
+
 class AliasFanFindItem(MixinFan, TaskAlias):
     def _onParams(self, params):
         super(AliasFanFindItem, self)._onParams(params)
@@ -34,7 +35,8 @@ class AliasFanFindItem(MixinFan, TaskAlias):
             tc_do.addTask("TaskObjectReturn", Object=ItemObject)
             tc_do.addTask("TaskObjectSetPosition", Object=ItemObject, Value=Pos)
 
-            Quest = QuestManager.createLocalQuest("Fan", SceneName=self.SceneName, GroupName=ItemObjectGroup, ItemObjectName=ItemObjectName)
+            Quest = QuestManager.createLocalQuest("Fan", SceneName=self.SceneName, GroupName=ItemObjectGroup,
+                                                  ItemObjectName=ItemObjectName)
             with QuestManager.runQuest(tc_until, Quest) as tc_quest:
                 tc_quest.addTask("TaskFanUse", GroupName=self.GroupName, FanName=self.FanName, Item=ItemObject)
                 pass
@@ -51,4 +53,5 @@ class AliasFanFindItem(MixinFan, TaskAlias):
 
     def _onSkip(self):
         pass
+
     pass

@@ -1,12 +1,12 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasPickSpellTokenEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasPickSpellTokenEffect, self)._onParams(params)
         self.Item = params.get("Item")
         self.Spell = params.get("Spell")
-        pass
 
     def _onGenerate(self, source):
         Camera = Mengine.getRenderCamera2D()
@@ -35,11 +35,7 @@ class AliasPickSpellTokenEffect(TaskAlias):
 
         with source.addParallelTask(2) as (tc_1, tc_2):
             tc_1.addTask("TaskNodeBezier2To", Node=sprite, Point1=P1, To=P2, Time=time)
-
             tc_2.addTask("TaskNodeAlphaTo", Node=sprite, From=1.0, To=0.0, Time=time)
-            pass
+
         source.addTask("TaskNodeRemoveFromParent", Node=sprite)
         source.addTask("TaskNodeDestroy", Node=sprite)
-        pass
-
-    pass

@@ -1,6 +1,7 @@
 from Foundation.Task.MixinTime import MixinTime
 from Foundation.Task.Task import Task
 
+
 class TaskDelayPointer(MixinTime, Task):
     Skiped = True
 
@@ -40,4 +41,5 @@ class TaskDelayPointer(MixinTime, Task):
             Trace.trace()
             pass
         pass
+
     pass

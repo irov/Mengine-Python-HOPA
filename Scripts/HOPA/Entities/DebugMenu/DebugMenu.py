@@ -10,6 +10,7 @@ from Notification import Notification
 
 from SystemDebugMenu import SystemDebugMenu
 
+
 class DebugMenu(BaseEntity):
 
     @staticmethod

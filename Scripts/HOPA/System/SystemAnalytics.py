@@ -5,6 +5,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemAnalytics(SystemAnalyticsBase):
 
     def _onParams(self, params):
@@ -35,7 +36,8 @@ class SystemAnalytics(SystemAnalyticsBase):
                 self.__dict__[attr].append(save)
             return False
 
-        self.addObserver(Notificator.onEnigmaPlay, _cb, "unlocked_enigmas", lambda enigma: enigma.getParam("EnigmaName"))
+        self.addObserver(Notificator.onEnigmaPlay, _cb, "unlocked_enigmas",
+                         lambda enigma: enigma.getParam("EnigmaName"))
         self.addObserver(Notificator.onSceneEnter, _cb, "unlocked_scenes", lambda scene_name: scene_name)
         self.addObserver(Notificator.onZoomOpen, _cb, "unlocked_zooms", lambda group_name: group_name)
         self.addObserver(Notificator.onParagraphComplete, _cb, "used_paragraphs", lambda paragraph_id: paragraph_id)

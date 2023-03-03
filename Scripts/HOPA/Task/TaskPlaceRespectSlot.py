@@ -3,6 +3,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.ItemManager import ItemManager
 
+
 class TaskPlaceRespectSlot(MixinObserver, Task):
 
     def _onParams(self, params):
@@ -32,4 +33,5 @@ class TaskPlaceRespectSlot(MixinObserver, Task):
         self.ObjectToPlace.setPosition(positionOfObject)
         return True
         pass
+
     pass

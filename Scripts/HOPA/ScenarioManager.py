@@ -5,6 +5,7 @@ from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioRunner import ScenarioRunner
 from Notification import Notification
 
+
 class ScenarioManager(object):
     class EmptyScenario(object):
         def __init__(self):
@@ -28,8 +29,6 @@ class ScenarioManager(object):
             self.Module = Module
             self.ScenarioName = ScenarioName
             self.PlusName = PlusName
-            pass
-        pass
 
     @staticmethod
     def onInitialize():
@@ -337,7 +336,6 @@ class ScenarioManager(object):
     def generateScenario(ScenarioID):
         if ScenarioManager.hasScenario(ScenarioID) is False:
             Trace.log("Manager", 0, "ScenarioManager.generateScenario not found scenario %s" % (ScenarioID))
-
             return None
             pass
 
@@ -390,5 +388,3 @@ class ScenarioManager(object):
             pass
 
         return GroupName
-        pass
-    pass

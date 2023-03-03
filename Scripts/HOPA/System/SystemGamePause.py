@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemGamePause(System):
     PAUSE_GROUP = "GamePause"  # in same layer
     CONTINUE_BUTTON = "Button_Continue"

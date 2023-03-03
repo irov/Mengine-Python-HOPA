@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskHOGInventoryFoundItem(Task):
     Skiped = True
 
@@ -24,4 +25,5 @@ class TaskHOGInventoryFoundItem(Task):
         self.HOGInventory.appendParam("FoundItems", self.HOGItemName)
         return True
         pass
+
     pass

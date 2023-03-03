@@ -2,25 +2,22 @@ from Foundation.TaskManager import TaskManager
 from HOPA.OrderMatchesManager import OrderMatchesManager
 from Notification import Notification
 
+
 class OrderMatchesElementSource(object):
     def __init__(self, stateObjectObject):
         super(OrderMatchesElementSource, self).__init__()
         self.stateObject = stateObjectObject
         self.stateObject.setCurrentState("Wait")
-        pass
 
     def setComplete(self):
         self.stateObject.setCurrentState("Complete")
-        pass
 
     def setActive(self):
         self.stateObject.setCurrentState("Active")
-        pass
 
     def setWait(self):
         self.stateObject.setCurrentState("Wait")
-        pass
-    pass
+
 
 class OrderMatchesElementDestination(object):
     def __init__(self, elementType, stateObjectObject, socketObject, movButtonName, MovieButtonGroup):
@@ -111,7 +108,9 @@ class OrderMatchesElementDestination(object):
     #        pass
     pass
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class OrderMatches(Enigma):
     def __init__(self):

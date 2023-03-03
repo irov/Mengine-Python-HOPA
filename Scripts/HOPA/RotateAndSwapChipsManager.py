@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class RotateAndSwapChipsManager(object):
     s_games = {}
 
@@ -11,8 +12,6 @@ class RotateAndSwapChipsManager(object):
             self.rules = rules
             self.connectionsSlots = connectionsSlots
             self.slotsControllers = slotsControllers
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -28,10 +27,8 @@ class RotateAndSwapChipsManager(object):
             SlotsControllers = record.get("SlotsControllers")
 
             RotateAndSwapChipsManager.loadGame(Name, module, Chips, Slots, Connections, Rules, ConnectionsSlots, SlotsControllers)
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadGame(name, module, Chips, Slots, Connections, Rules, ConnectionsSlots, SlotsControllers):
@@ -45,7 +42,6 @@ class RotateAndSwapChipsManager(object):
         game = RotateAndSwapChipsManager.RotateAndSwapChipsGame(chips, slots, connections, rules, connectionsSlots, slotsControllers)
         RotateAndSwapChipsManager.s_games[name] = game
         return game
-        pass
 
     @staticmethod
     def loadGameChips(module, param):
@@ -58,9 +54,8 @@ class RotateAndSwapChipsManager(object):
             startAngle = record.get("StartAngle")
             startSlotId = record.get("StartSlotId")
             chips[chipId] = dict(StatesObjectName=statesObjectName, StartAngle=startAngle, StartSlotId=startSlotId)
-            pass
+
         return chips
-        pass
 
     @staticmethod
     def loadGameSlots(module, param):
@@ -74,9 +69,8 @@ class RotateAndSwapChipsManager(object):
             ButtonCCW = record.get("ButtonCCW")
 
             slots[SlotId] = dict(MovieSlotName=MovieSlotName, ButtonCW=ButtonCW, ButtonCCW=ButtonCCW)
-            pass
+
         return slots
-        pass
 
     @staticmethod
     def loadGameConnections(module, param):
@@ -87,9 +81,8 @@ class RotateAndSwapChipsManager(object):
             connectionId = record.get("ConnectionId")
             movieObjectName = record.get("MovieObjectName")
             connections[connectionId] = dict(MovieObjectName=movieObjectName)
-            pass
+
         return connections
-        pass
 
     @staticmethod
     def loadGameConnectionsSlots(module, param):
@@ -103,9 +96,8 @@ class RotateAndSwapChipsManager(object):
 
             slot = dict(SlotId=slotId, MovieSlotName=MovieSlotName)
             connectionsSlots.setdefault(connectionId, []).append(slot)
-            pass
+
         return connectionsSlots
-        pass
 
     @staticmethod
     def loadGameRules(module, param):
@@ -118,9 +110,8 @@ class RotateAndSwapChipsManager(object):
             Angle = record.get("Angle")
 
             rules[ChipId] = dict(SlotId=SlotId, Angle=Angle)
-            pass
+
         return rules
-        pass
 
     @staticmethod
     def loadGameSlotsControllers(module, param):
@@ -134,23 +125,18 @@ class RotateAndSwapChipsManager(object):
             ButtonName = record.get("ButtonName")
 
             slotsControllers[ControllerId] = dict(SlotId=SlotId, DeltaAngle=DeltaAngle, ButtonName=ButtonName)
-            pass
+
         return slotsControllers
-        pass
 
     @staticmethod
     def getGame(name):
         if name not in RotateAndSwapChipsManager.s_games:
             Trace.log("Manager", 0, "RotateAndSwapChipsManager.getGame: not found game %s" % (name))
             return None
-            pass
+
         game = RotateAndSwapChipsManager.s_games[name]
         return game
-        pass
 
     @staticmethod
     def hasGame(name):
         return name in RotateAndSwapChipsManager.s_games
-        pass
-
-    pass

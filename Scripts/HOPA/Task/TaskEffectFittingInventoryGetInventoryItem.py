@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 
+
 class TaskEffectFittingInventoryGetInventoryItem(Task):
     def _onParams(self, params):
         super(TaskEffectFittingInventoryGetInventoryItem, self)._onParams(params)
@@ -45,11 +46,13 @@ class TaskEffectFittingInventoryGetInventoryItem(Task):
         with TaskManager.createTaskChain(Cb=self._onEffectInventoryAddItemComplete) as tc:
             TimeEffectFittingInventoryAlphaInventoryItem = DefaultManager.getDefaultFloat("TimeEffectFittingInventoryAlphaInventoryItem", 2.0)
             TimeEffectFittingInventoryAlphaInventoryItem *= 1000  # speed fix
-            tc.addTask("TaskNodeAlphaTo", Node=self.NodeCopyInventoryItem, Time=TimeEffectFittingInventoryAlphaInventoryItem, To=1.0)
+            tc.addTask("TaskNodeAlphaTo", Node=self.NodeCopyInventoryItem,
+                       Time=TimeEffectFittingInventoryAlphaInventoryItem, To=1.0)
 
             SpeedEffectFittingInventoryGetItem = DefaultManager.getDefaultFloat("SpeedEffectFittingInventoryGetItem", 2000.0)
             SpeedEffectFittingInventoryGetItem *= 0.001  # speed fix
-            tc.addTask("TaskNodeBezier2To", Node=self.NodeCopyInventoryItem, Point1=P1, To=P2, Speed=SpeedEffectFittingInventoryGetItem)
+            tc.addTask("TaskNodeBezier2To", Node=self.NodeCopyInventoryItem, Point1=P1, To=P2,
+                       Speed=SpeedEffectFittingInventoryGetItem)
             pass
 
         return False

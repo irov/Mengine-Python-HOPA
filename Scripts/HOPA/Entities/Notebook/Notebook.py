@@ -4,6 +4,7 @@ from Notification import Notification
 
 from NotebookManager import NotebookManager
 
+
 class Notebook(BaseEntity):
 
     @staticmethod

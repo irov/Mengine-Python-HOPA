@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.ScenarioManager import ScenarioManager
 
+
 class TaskScenarioSkip(Task):
     Skiped = True
 
@@ -16,4 +17,5 @@ class TaskScenarioSkip(Task):
 
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ShootingRangeManager(object):
     shootingRanges = {}
 

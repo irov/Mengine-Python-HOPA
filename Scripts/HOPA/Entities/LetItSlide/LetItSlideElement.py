@@ -1,6 +1,7 @@
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class LetItSlideElement(object):
     def __init__(self, id, movieObject, isHorizontal, socket, length, field):
         self.id = id
@@ -103,7 +104,8 @@ class LetItSlideElement(object):
 
     def onActivate(self):
         self.movieSocket.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
-        self.movieSocket.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove, onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
+        self.movieSocket.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove,
+                                          onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
         pass
 
     def onDeactivate(self):
@@ -189,4 +191,5 @@ class LetItSlideElement(object):
         self.position = None
         self.mousePos = None
         pass
+
     pass

@@ -3,6 +3,7 @@ from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TipManager import TipManager
 
+
 class MacroUseItemTip(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -40,19 +41,23 @@ class MacroUseItemTip(MacroCommand):
         ObjectName = Object.getName()
         ObjectType = Object.getType()
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, Object, self.TipName)
             if ObjectType == "ObjectSocket":
-                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem, ItemName=self.ItemName, Taken=False, Pick=False)
+                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
+                                 ItemName=self.ItemName, Taken=False, Pick=False)
                 pass
             elif ObjectType == "ObjectItem":
-                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem, Taken=False, Pick=False)
+                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem,
+                                 Taken=False, Pick=False)
                 pass
             tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
             pass
 
         source.addListener(Notificator.onInventoryUpdateItem)
         pass
+
     pass

@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasFadeOut(TaskAlias):
     def __init__(self):
         super(AliasFadeOut, self).__init__()
@@ -30,6 +31,6 @@ class AliasFadeOut(TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskFadeOut", GroupName=self.FadeGroupName, From=self.From, Time=self.Time, DemonNameSuffix=self.DemonNameSuffix, FromIdle=self.FromIdle, Easing=self.easing, ResetFadeCount=self.reset_fade_count)
-        pass
-    pass
+        source.addTask("TaskFadeOut", GroupName=self.FadeGroupName, From=self.From, Time=self.Time,
+                       DemonNameSuffix=self.DemonNameSuffix, FromIdle=self.FromIdle, Easing=self.easing,
+                       ResetFadeCount=self.reset_fade_count)

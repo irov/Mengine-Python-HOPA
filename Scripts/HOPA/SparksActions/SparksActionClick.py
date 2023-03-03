@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionClick(SparksActionDefault, MixinObject):
     def _onParams(self, params):
         super(SparksActionClick, self)._onParams(params)

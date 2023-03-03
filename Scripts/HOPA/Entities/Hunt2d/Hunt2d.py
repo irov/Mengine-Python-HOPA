@@ -4,7 +4,9 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.Hunt2dManager import Hunt2dManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Weapon(object):
     def __init__(self, movie_weapon_in_attack, movie_weapon_shot_effect, movie_weapon_in_hand, movie_weapon_start):
@@ -22,6 +24,7 @@ class Weapon(object):
             if movie is None:
                 continue
             movie.getEntityNode().removeFromParent()
+
 
 class HuntersHand(object):
     def __init__(self, movie_hunters_hand, movie_hunters_hand_hide, weapon):
@@ -60,8 +63,11 @@ class HuntersHand(object):
         source.addFunction(movie_weapon_in_attack_entity_node.setWorldPosition, sight_position)
         source.addEnable(self.weapon.movie_weapon_in_attack)
 
+
 class Prey(object):
-    def __init__(self, movie_prey_body_box, movie_prey_idle_left, movie_prey_idle_right, movie_prey_death, movie_prey_run_to_right_side, movie_prey_run_to_left_side, movie_prey_turned_to_right_side, movie_prey_turned_to_left_side, alpha_time):
+    def __init__(self, movie_prey_body_box, movie_prey_idle_left, movie_prey_idle_right, movie_prey_death,
+                 movie_prey_run_to_right_side, movie_prey_run_to_left_side, movie_prey_turned_to_right_side,
+                 movie_prey_turned_to_left_side, alpha_time):
         self.movie_prey_body_box = movie_prey_body_box
         self.movie_prey_idle_left = movie_prey_idle_left
         self.movie_prey_idle_right = movie_prey_idle_right
@@ -82,10 +88,23 @@ class Prey(object):
 
         self.movie_prey_death.setEnable(False)
 
-        self.modes_sides = {('run', 'right'): self.movie_prey_run_to_right_side, ('run', 'left'): self.movie_prey_run_to_left_side, ('idle', 'right'): self.movie_prey_idle_right, ('idle', 'left'): self.movie_prey_idle_left, }
+        self.modes_sides = {
+            ('run', 'right'): self.movie_prey_run_to_right_side,
+            ('run', 'left'): self.movie_prey_run_to_left_side,
+            ('idle', 'right'): self.movie_prey_idle_right,
+            ('idle', 'left'): self.movie_prey_idle_left,
+        }
 
     def cleanUp(self):
-        for movie in [self.movie_prey_idle_left, self.movie_prey_idle_right, self.movie_prey_run_to_right_side, self.movie_prey_run_to_left_side, self.movie_prey_turned_to_right_side, self.movie_prey_turned_to_left_side]:
+        movies = [
+            self.movie_prey_idle_left,
+            self.movie_prey_idle_right,
+            self.movie_prey_run_to_right_side,
+            self.movie_prey_run_to_left_side,
+            self.movie_prey_turned_to_right_side,
+            self.movie_prey_turned_to_left_side
+        ]
+        for movie in movies:
             if movie is None:
                 continue
             movie.getEntityNode().removeFromParent()
@@ -224,10 +243,12 @@ class Prey(object):
     def setPosition(self, position):
         self.entity_node.setWorldPosition(position)
 
+
 class PreysTrace(object):
     """
     This module save and randomize next trace point, trace, speed and delay on trace point
     """
+
     def __init__(self, movie_content, params):
         number_race_points = params.trace_points_number
 
@@ -324,6 +345,7 @@ class PreysTrace(object):
         tuple_delay_borders = DefaultManager.getDefaultTuple(self.delay_on_finish_trace_point_default_value_name, (1000, 3000))
 
         return Mengine.range_rand(tuple_delay_borders[0], tuple_delay_borders[1])
+
 
 class Hunt2d(Enigma):
     def __init__(self):
@@ -425,7 +447,9 @@ class Hunt2d(Enigma):
 
         self.hunters_hand = HuntersHand(movie_hunters_hand, movie_hunters_hand_hide, weapon)
 
-        self.prey = Prey(movie_prey_body_box, movie_prey_idle_left, movie_prey_idle_right, movie_prey_death, movie_prey_run_to_right_side, movie_prey_run_to_left_side, movie_prey_turned_to_right_side, movie_prey_turned_to_left_side, self.params.alpha_time)
+        self.prey = Prey(movie_prey_body_box, movie_prey_idle_left, movie_prey_idle_right, movie_prey_death,
+                         movie_prey_run_to_right_side, movie_prey_run_to_left_side, movie_prey_turned_to_right_side,
+                         movie_prey_turned_to_left_side, self.params.alpha_time)
         self.preys_trace = PreysTrace(self.movie_content, self.params)
 
         trace_point_wp = self.preys_trace.getTracePointPosition(0)
@@ -492,7 +516,8 @@ class Hunt2d(Enigma):
                 self.tc_first_launch = TaskManager.createTaskChain()
                 with self.tc_first_launch as tc:
                     if self.params.b_hunter_hand_alpha_in_on_first_play:
-                        tc.addTask("TaskNodeAlphaTo", Node=self.hunters_hand.movie_hunters_hand.getEntityNode(), From=0.0, To=1.0, Time=self.params.alpha_time)
+                        tc.addTask("TaskNodeAlphaTo", Node=self.hunters_hand.movie_hunters_hand.getEntityNode(),
+                                   From=0.0, To=1.0, Time=self.params.alpha_time)
                         tc.addFunction(self.hunters_hand.movie_hunters_hand.setAlpha, 1.0)  # save alpha=1.0 to group
 
                     tc.addSemaphore(semaphore_tc_first_launch_finish, To=True)
@@ -583,7 +608,8 @@ class Hunt2d(Enigma):
             source_enable_run.addFunction(self.prey.enableRunMode, side)
             source_enable_run.addScope(self.prey.scopeAlphaTo, "run", True)
 
-        source.addTask("AliasObjectBezier2To", Object=self.prey.movie_prey_body_box, Point1=bezier_coordinates, To=finish_point_wp, Speed=self.preys_trace.trace_speed)
+        source.addTask("AliasObjectBezier2To", Object=self.prey.movie_prey_body_box, Point1=bezier_coordinates,
+                       To=finish_point_wp, Speed=self.preys_trace.trace_speed)
 
         with source.addParallelTask(2) as (source_disable_run, source_enable_idle):
             source_disable_run.addScope(self.prey.scopeAlphaTo, "run", False)

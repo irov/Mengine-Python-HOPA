@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCollectedMapAdd(MacroCommand):
     def _onValues(self, values):
         self.PartName = values[0]

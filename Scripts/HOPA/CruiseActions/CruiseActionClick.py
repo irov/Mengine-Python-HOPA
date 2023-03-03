@@ -2,6 +2,7 @@ from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 
+
 class CruiseActionClick(CruiseActionDefault, MixinObject):
     def _getCruiseObject(self):
         return self.Object

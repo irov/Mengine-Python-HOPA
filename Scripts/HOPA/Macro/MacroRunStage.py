@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.StageManager import StageManager
 
+
 class MacroRunStage(MacroCommand):
     def _onValues(self, values):
         self.StageName = values[0]
@@ -18,4 +19,5 @@ class MacroRunStage(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("AliasStageRun", StageName=self.StageName)
         pass
+
     pass

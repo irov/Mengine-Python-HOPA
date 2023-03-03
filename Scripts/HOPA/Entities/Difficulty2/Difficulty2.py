@@ -6,7 +6,9 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Difficulty2.Difficulty2Manager import Difficulty2Manager
 
+
 HAS_ITEM_PLUS = SystemManager.hasSystem('SystemItemPlusScene')
+
 
 class Difficulty2(BaseEntity):
     def __init__(self):

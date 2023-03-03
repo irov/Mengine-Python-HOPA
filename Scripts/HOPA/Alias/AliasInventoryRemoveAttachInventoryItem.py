@@ -1,13 +1,13 @@
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryRemoveAttachInventoryItem, self)._onParams(params)
 
         self.InventoryItem = params.get("InventoryItem")
         self.Inventory = params.get("Inventory")
-        pass
 
     def _onInitialize(self):
         super(AliasInventoryRemoveAttachInventoryItem, self)._onInitialize()
@@ -17,9 +17,6 @@ class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
         if _DEVELOPMENT is True:
             if self.InventoryItem not in InventoryItems:
                 self.initializeFailed("InventoryItem %s not found in Inventory %s", self.InventoryItem, self.Inventory.name)
-                pass
-            pass
-        pass
 
     def _onGenerate(self, source):
         CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")
@@ -32,7 +29,8 @@ class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
 
         source.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
         source.addTask("TaskRemoveArrowAttach")
-        source.addTask("TaskSceneLayerAddEntity", LayerName="InventoryItemEffect", Object=self.InventoryItem, AdaptScreen=True)
+        source.addTask("TaskSceneLayerAddEntity", LayerName="InventoryItemEffect", Object=self.InventoryItem,
+                       AdaptScreen=True)
 
         with GuardBlockInput(source) as guard_source:
             if CurrentSlotIndex != RemoveSlotIndex:
@@ -40,17 +38,16 @@ class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
                 guard_source.addTask("TaskDelParam", Object=self.Inventory, Param="InventoryItems", Value=self.InventoryItem)
                 guard_source.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory)
             else:
-                guard_source.addTask("TaskInventorySlotsHideInventoryItem", Inventory=self.Inventory, From=InventoryItemRemoveIndex - RemoveSlotIndex + 1)
+                guard_source.addTask("TaskInventorySlotsHideInventoryItem", Inventory=self.Inventory,
+                                     From=InventoryItemRemoveIndex - RemoveSlotIndex + 1)
 
-                guard_source.addTask("TaskDelParam", Object=self.Inventory, Param="InventoryItems", Value=self.InventoryItem)
+                guard_source.addTask("TaskDelParam", Object=self.Inventory, Param="InventoryItems",
+                                     Value=self.InventoryItem)
 
-                guard_source.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory, From=InventoryItemRemoveIndex - RemoveSlotIndex)
-                pass
-            pass
+                guard_source.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory,
+                                     From=InventoryItemRemoveIndex - RemoveSlotIndex)
 
         source.addTask("TaskObjectReturn", Object=self.InventoryItem)
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryRemoveInventoryItem, Args=(self.Inventory, self.InventoryItem))
-        pass
-
-    pass
+        source.addTask("TaskNotify", ID=Notificator.onInventoryRemoveInventoryItem,
+                       Args=(self.Inventory, self.InventoryItem))

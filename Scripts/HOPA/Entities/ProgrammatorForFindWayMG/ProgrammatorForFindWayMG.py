@@ -7,7 +7,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ProgrammatorForFindWayMGManager import ProgrammatorForFindWayMGManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ProgrammatorForFindWayMG(Enigma):
     class Chip(object):
@@ -125,6 +127,7 @@ class ProgrammatorForFindWayMG(Enigma):
     def _onDeactivate(self):
         super(ProgrammatorForFindWayMG, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -164,6 +167,7 @@ class ProgrammatorForFindWayMG(Enigma):
         self.SemaphoreMoveRace.setValue(True)
         with TaskManager.createTaskChain() as skip_tc:
             skip_tc.addScope(self.returnChipManToStartPosition)
+
     # ==================================================================================================================
 
     # -------------- Preparation ---------------------------------------------------------------------------------------
@@ -253,6 +257,7 @@ class ProgrammatorForFindWayMG(Enigma):
                     source.addFunction(self.PlayMovie.delParam, 'DisableLayers', 'GlowScale')
 
         source.addScope(holder_scopeClick, ClickHolder)
+
     # ==================================================================================================================
 
     # -------------- Click on Chip -------------------------------------------------------------------------------------
@@ -370,6 +375,7 @@ class ProgrammatorForFindWayMG(Enigma):
         self.canPlay = flag
         if flag is True:
             self.PlayMovie.delParam('DisableLayers', 'Glow')
+
     # ==================================================================================================================
 
     # -------------- Click on Play Button ------------------------------------------------------------------------------
@@ -481,6 +487,7 @@ class ProgrammatorForFindWayMG(Enigma):
 
     def complete(self):
         self.enigmaComplete()
+
     # ==================================================================================================================
 
     def _cleanUp(self):

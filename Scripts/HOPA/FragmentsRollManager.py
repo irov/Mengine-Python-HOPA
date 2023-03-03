@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class FragmentsRollManager(object):
     s_games = {}
 
@@ -8,8 +9,6 @@ class FragmentsRollManager(object):
             self.fragments = fragments
             self.cells = cells
             self.rules = rules
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -22,10 +21,8 @@ class FragmentsRollManager(object):
             FragmentsParam = record.get("Fragments")
 
             FragmentsRollManager.loadGame(Name, module, FragmentsParam, CellsParam, RulesParam)
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadGame(name, module, FragmentsParam, CellsParam, RulesParam):
@@ -47,9 +44,7 @@ class FragmentsRollManager(object):
             X = record.get("X")
             Y = record.get("Y")
             fragments[fragmentId] = dict(ObjectName=objectName, X=X, Y=Y)
-            pass
         return fragments
-        pass
 
     @staticmethod
     def loadGameCells(module, param):

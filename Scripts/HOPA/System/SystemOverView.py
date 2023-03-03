@@ -6,6 +6,7 @@ from HOPA.ChapterManager import ChapterManager
 from HOPA.OverViewManager import OverViewManager
 from Notification import Notification
 
+
 class SystemOverView(System):
     noficators = {
         'ObjectSocket': (Notificator.onSocketMouseEnter, Notificator.onSocketMouseLeave),

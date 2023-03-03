@@ -1,6 +1,7 @@
 from Foundation.Notificator import Notificator
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroActions(object):
     ENABLE = 'Enable'
     DISABLE = 'Disable'
@@ -8,6 +9,7 @@ class MacroActions(object):
     DECREMENT = 'Decrement'
     MANUAL = 'Manual'
     UPDATE_TEXT = 'UpdateText'
+
 
 class MacroDragDropCounter(MacroCommand):
     def _onValues(self, values):
@@ -23,7 +25,9 @@ class MacroDragDropCounter(MacroCommand):
 
     def _onInitialize(self):
         if _DEVELOPMENT is True:
-            if self.action not in [MacroActions.ENABLE, MacroActions.DISABLE, MacroActions.INCREMENT, MacroActions.DECREMENT, MacroActions.UPDATE_TEXT]:
+            allowed_actions = [MacroActions.ENABLE, MacroActions.DISABLE, MacroActions.INCREMENT,
+                               MacroActions.DECREMENT, MacroActions.UPDATE_TEXT]
+            if self.action not in allowed_actions:
                 self.initializeFailed("Macro DragDropCounter should have 'Enable'/'Disable'/'Increment','Decrement' "
                                       "as value1, and text_id as optional value2, when value1 == 'Enable'"
                                       "and 'Manual' as optional value3 when value1 == 'Enable'"

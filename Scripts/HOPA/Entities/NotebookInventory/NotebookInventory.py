@@ -1,13 +1,14 @@
-
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 
 from NotebookInventoryManager import NotebookInventoryManager
 
+
 SLOT_NAME = "text"
 TEXT_ALIAS_NAME = "$text"
 ID_EMPTY_TEXT = "ID_EMPTY_TEXT"
+
 
 class NotebookInventory(BaseEntity):
 

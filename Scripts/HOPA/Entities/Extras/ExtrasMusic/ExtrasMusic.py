@@ -5,6 +5,7 @@ from Notification import Notification
 
 from ExtrasMusicManager import ExtrasMusicManager
 
+
 class ExtrasMusic(BaseEntity):
     @staticmethod
     def declareORM(Type):

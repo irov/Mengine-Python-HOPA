@@ -6,7 +6,9 @@ from Foundation.TaskManager import TaskManager
 from Foundation.Utils import isCollectorEdition, setEnableLayer
 from HOPA.TransitionManager import TransitionManager
 
+
 CE_LABEL_LAYER = "ce_label"
+
 
 class Credits(BaseEntity):
 
@@ -80,7 +82,8 @@ class Credits(BaseEntity):
 
         def _updateSpeedFactor(source, speed):
             time = animation.getTime()
-            source.addTask("TaskMovie2Play", Movie2=self.movie, StartTiming=time, SpeedFactor=speed, DefaultSpeedFactor=1.0, Wait=False)
+            source.addTask("TaskMovie2Play", Movie2=self.movie, StartTiming=time, SpeedFactor=speed,
+                           DefaultSpeedFactor=1.0, Wait=False)
 
         event_credits_done = Event("onCreditsDone")
 

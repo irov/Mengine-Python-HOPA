@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectClickOnChipsInTheRightOrder(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

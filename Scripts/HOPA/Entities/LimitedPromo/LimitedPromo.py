@@ -6,8 +6,10 @@ from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from Foundation.Utils import calcTime
 
+
 _Log = SimpleLogger("LimitedPromo")
 EVENT_TIMEOUT = Event("LimitedPromoTimeout")
+
 
 class LimitedPromo(BaseEntity):
     TEXT_ID_TIMER = "ID_TEXT_LIMITED_PROMO_TIMER"

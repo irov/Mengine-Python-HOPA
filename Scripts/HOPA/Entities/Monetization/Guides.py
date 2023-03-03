@@ -4,9 +4,18 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Utils import getCurrentPublisher
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 class Guides(BaseComponent):
-    _settings = {"is_enable": "EnablePaidGuides", "product_id": "GuidesProductID", "movie": "GuidesButton", }
-    _defaults = {"product_id": "tech_guides", "movie": "Movie2Button_{}".format(getCurrentPublisher()), "group": "GuideOpen", }
+    _settings = {
+        "is_enable": "EnablePaidGuides",
+        "product_id": "GuidesProductID",
+        "movie": "GuidesButton",
+    }
+    _defaults = {
+        "product_id": "tech_guides",
+        "movie": "Movie2Button_{}".format(getCurrentPublisher()),
+        "group": "GuideOpen",
+    }
 
     def _createParams(self):
         self.default_movie_name = "Movie2Button_Guide"

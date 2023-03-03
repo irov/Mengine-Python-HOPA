@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class RubiksPuzzleManager(Manager):
     s_puzzles = {}
 
@@ -60,7 +61,8 @@ class RubiksPuzzleManager(Manager):
 
             VertexSlotMask = record.get("VertexSlotMask", "")
 
-            result = RubiksPuzzleManager.addParam(EnigmaName, module, ParamGraph, ParamStates, MovieSlots, PrototypeMovieChip1, PrototypeMovieChip2, VertexSlotMask)
+            result = RubiksPuzzleManager.addParam(EnigmaName, module, ParamGraph, ParamStates, MovieSlots,
+                                                  PrototypeMovieChip1, PrototypeMovieChip2, VertexSlotMask)
 
             if result is False:
                 error_msg = "RubiksPuzzleManager invalid addParam {}".format(EnigmaName)
@@ -116,7 +118,8 @@ class RubiksPuzzleManager(Manager):
             start_state_dict[VertexWithMask] = StartState
             win_state_dict[VertexWithMask] = WinState
 
-        NewParam = RubiksPuzzleManager.RubiksPuzzleParam(MovieSlots, PrototypeMovieChip1, PrototypeMovieChip2, vertices_dict, start_state_dict, win_state_dict)
+        NewParam = RubiksPuzzleManager.RubiksPuzzleParam(MovieSlots, PrototypeMovieChip1, PrototypeMovieChip2,
+                                                         vertices_dict, start_state_dict, win_state_dict)
 
         RubiksPuzzleManager.s_puzzles[EnigmaName] = NewParam
         return True

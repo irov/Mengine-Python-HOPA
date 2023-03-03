@@ -4,6 +4,7 @@ from Foundation.System import System
 from HOPA.StageManager import StageManager
 from Notification import Notification
 
+
 class SystemAutoSave(System):
     def _onParams(self, params):
         super(SystemAutoSave, self)._onParams(params)

@@ -4,7 +4,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.MoveChipsToKeyPointsManager import MoveChipsToKeyPointsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class MoveChipsToKeyPoints(Enigma):
     class Chip(object):
@@ -39,6 +41,7 @@ class MoveChipsToKeyPoints(Enigma):
     def _onDeactivate(self):
         super(MoveChipsToKeyPoints, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -147,8 +150,10 @@ class MoveChipsToKeyPoints(Enigma):
                 parallel.addTask('TaskNodeMoveTo', Node=chip.node, To=tempSlot.slot.getWorldPosition(), Time=moveTime)
                 parallel.addFunction(self.afterNodeMove, chip, tempSlot)
             else:
-                parallel.addTask('TaskNodeMoveTo', Node=chip.node, To=NeighboringChipsList[(ind + 1) % len(NeighboringChipsList)].slot.slot.getWorldPosition(), Time=moveTime)
-                parallel.addFunction(self.afterNodeMove, chip, NeighboringChipsList[(ind + 1) % len(NeighboringChipsList)].slot)
+                parallel.addTask('TaskNodeMoveTo', Node=chip.node, Time=moveTime,
+                                 To=NeighboringChipsList[(ind + 1) % len(NeighboringChipsList)].slot.slot.getWorldPosition())
+                parallel.addFunction(self.afterNodeMove, chip,
+                                     NeighboringChipsList[(ind + 1) % len(NeighboringChipsList)].slot)
 
     def searchChipInSocket(self, socketID):
         """
@@ -175,7 +180,16 @@ class MoveChipsToKeyPoints(Enigma):
         upperChipID = slot.id - (len(self.chips) ** 0.5)
         lowerChipID = slot.id + (len(self.chips) ** 0.5)
 
-        NeighboringChips_listOfIndex = [upperChipID, upperChipID + 1, slot.id + 1, lowerChipID + 1, lowerChipID, lowerChipID - 1, slot.id - 1, upperChipID - 1]
+        NeighboringChips_listOfIndex = [
+            upperChipID,
+            upperChipID + 1,
+            slot.id + 1,
+            lowerChipID + 1,
+            lowerChipID,
+            lowerChipID - 1,
+            slot.id - 1,
+            upperChipID - 1
+        ]
 
         NeighboringChips_listWithChips = []
         for i in NeighboringChips_listOfIndex:

@@ -6,6 +6,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from HOPA.SparksAction import SparksAction
 from HOPA.ZoomManager import ZoomManager
 
+
 class SparksActionDefault(MixinGroup, SparksAction):
     def __init__(self):
         super(SparksActionDefault, self).__init__()

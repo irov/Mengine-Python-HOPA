@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class TaskEnigmaComplete(MixinObserver, Task):
     Skip = False
 
@@ -26,4 +27,5 @@ class TaskEnigmaComplete(MixinObserver, Task):
     def _onEnigmaComplete(self, Enigma):
         return True
         pass
+
     pass

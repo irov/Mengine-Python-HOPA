@@ -8,6 +8,7 @@ from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class QuestIcon(BaseEntity):
     def __init__(self):
         super(QuestIcon, self).__init__()
@@ -49,7 +50,8 @@ class QuestIcon(BaseEntity):
             if TaskManager.existTaskChain("Open%s" % (SceneNameTo)):
                 continue
             GroupNameTo = SceneManager.getSceneMainGroupName(SceneNameTo)
-            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo, Transition=TransitionObject)
+            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo,
+                                                  GroupName=GroupNameTo, Transition=TransitionObject)
 
             with TaskManager.createTaskChain(Name="Open%s" % (SceneNameTo)) as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
@@ -88,7 +90,8 @@ class QuestIcon(BaseEntity):
             return False
             pass
         GroupNameTo = SceneManager.getSceneMainGroupName(SceneNameTo)
-        Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo, Transition=object)
+        Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo,
+                                              GroupName=GroupNameTo, Transition=object)
 
         with TaskManager.createTaskChain(Name="Open%s" % (SceneNameTo)) as tc:
             with QuestManager.runQuest(tc, Quest) as tc_quest:
@@ -171,7 +174,8 @@ class QuestIcon(BaseEntity):
                 continue
                 pass
 
-            Quest = QuestManager.createLocalQuest("EnterZoom", Zoom=ZoomObject, SceneName=sceneName, GroupName=ZoomGroupName)
+            Quest = QuestManager.createLocalQuest("EnterZoom", Zoom=ZoomObject,
+                                                  SceneName=sceneName, GroupName=ZoomGroupName)
 
             with TaskManager.createTaskChain(Name="Open%s" % (ZoomObject.getName())) as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
@@ -192,7 +196,8 @@ class QuestIcon(BaseEntity):
                 continue
 
             GroupNameTo = SceneManager.getSceneMainGroupName(SceneNameTo)
-            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo, Transition=TransitionObject)
+            Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo,
+                                                  GroupName=GroupNameTo, Transition=TransitionObject)
 
             with TaskManager.createTaskChain(Name="Open%s" % (SceneNameTo)) as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:

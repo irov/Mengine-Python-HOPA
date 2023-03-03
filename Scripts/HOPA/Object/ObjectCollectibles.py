@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectCollectibles(DemonObject):
     @staticmethod
     def declareORM(Type):

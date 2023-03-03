@@ -2,9 +2,11 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
 
 from Notification import Notification
+
 
 class HOGInventorySlot(object):
     def __init__(self, textID):
@@ -79,9 +81,7 @@ class HOGInventorySlot(object):
         if self.field is not None:
             Mengine.destroyNode(self.field)
             self.field = None
-            pass
-        pass
-    pass
+
 
 class HOGInventory(InventoryBase):
     HOG_TEXT_COLOR_OFF = (0.3, 0.3, 0.3, 1)
@@ -198,9 +198,9 @@ class HOGInventory(InventoryBase):
         count = len(self.slots)
 
         if self.MaxColumn * self.MaxRow < count:
-            Trace.log("HOGInventory", 0, "HOGInventory %s FindItems %s > max count %s" % (self.object.name, self.HOGItems, self.MaxColumn * self.MaxRow))
+            Trace.log("HOGInventory", 0, "HOGInventory %s FindItems %s > max count %s" % (
+                self.object.name, self.HOGItems, self.MaxColumn * self.MaxRow))
             return
-            pass
 
         self._calculateDimentions(count)
 
@@ -213,17 +213,12 @@ class HOGInventory(InventoryBase):
             slot.setTextField(textField)
             slot.updateText()
             self._updateTextFieldPos(textField, column, row, slot)
-            pass
 
         with TaskManager.createTaskChain(Name="HOGInventory", Group=self.object) as tc:
             itemCount = len(self.FoundItems)
             with tc.addParallelTask(itemCount) as tcho:
                 for tchog, foundItemName in zip(tcho, self.FoundItems):
                     tchog.addTask("TaskHOGInventoryCrossOut", HOGItemName=foundItemName, Immediately=True)
-                    pass
-                pass
-            pass
-        pass
 
     def _onDeactivate(self):
         if TaskManager.existTaskChain("HOGInventory") is True:
@@ -293,6 +288,3 @@ class HOGInventory(InventoryBase):
             Notification.notify(Notificator.onHOGInventoryFoundItem, value, True)
         else:
             Notification.notify(Notificator.onHOGInventoryFoundItem, value, False)
-            pass
-        pass
-    pass

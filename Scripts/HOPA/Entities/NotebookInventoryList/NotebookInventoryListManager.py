@@ -3,6 +3,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class NotebookInventoryListManager(Manager):
     s_showEntries = {}
     s_textes = {}
@@ -93,7 +94,9 @@ class NotebookInventoryListManager(Manager):
             TriggerAutoEnable = bool(int(record.get("AutoEnable", 1)))
             TriggerClickOnButton = bool(int(record.get("ClickOnButton", 0)))
 
-            NotebookInventoryListManager.s_trigger = NotebookInventoryListManager.TriggerData(TriggerObjectName, TriggerObjectGroup, TriggerAutoEnable, TriggerIsClick, TriggerClickOnButton)
+            trigger = NotebookInventoryListManager.TriggerData(TriggerObjectName, TriggerObjectGroup,
+                                                               TriggerAutoEnable, TriggerIsClick, TriggerClickOnButton)
+            NotebookInventoryListManager.s_trigger = trigger
             NotebookInventoryListManager.addShowMovies(module, ShowModuleName)
             NotebookInventoryListManager.addTextes(module, ShowTextModuleName)
             pass
@@ -123,7 +126,8 @@ class NotebookInventoryListManager(Manager):
     @staticmethod
     def hasText(value):
         if value not in NotebookInventoryListManager.s_textes:
-            Trace.log("NotebookInventoryListManager", 0, "NotebookInventoryListManager.hasText invalid value %s, maybe forgot to add in xls" % (value,))
+            Trace.log("NotebookInventoryListManager", 0,
+                      "NotebookInventoryListManager.hasText invalid value %s, maybe forgot to add in xls" % (value,))
             return False
             pass
 
@@ -160,14 +164,16 @@ class NotebookInventoryListManager(Manager):
             ShowMovie = Setup_Movie(ShowGroupName, ShowName, Value)
 
             if ShowMovie is None:
-                Trace.log("NotebookInventoryListManager", 0, "NotebookInventoryListManager.addShowMovies invalid %s:%s, maybe it doesn't exist" % (ShowGroupName, ShowName,))
+                Trace.log("NotebookInventoryListManager", 0,
+                          "NotebookInventoryListManager.addShowMovies invalid %s:%s, maybe it doesn't exist" % (ShowGroupName, ShowName,))
                 return False
                 pass
 
             IdleMovie = Setup_Movie(IdleGroupName, IdleName, Value)
             HideMovie = Setup_Movie(HideGroupName, HideName, Value)
 
-            NotebookInventoryListManager.s_showEntries[Value] = NotebookInventoryListManager.ShowEntry(ShowMovie, IdleMovie, HideMovie)
+            entry = NotebookInventoryListManager.ShowEntry(ShowMovie, IdleMovie, HideMovie)
+            NotebookInventoryListManager.s_showEntries[Value] = entry
             pass
         pass
 
@@ -200,6 +206,3 @@ class NotebookInventoryListManager(Manager):
     @staticmethod
     def getTriggerData():
         return NotebookInventoryListManager.s_trigger
-        pass
-
-    pass

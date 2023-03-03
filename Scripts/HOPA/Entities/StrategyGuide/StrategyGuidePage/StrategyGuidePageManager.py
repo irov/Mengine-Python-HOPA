@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class StrategyGuidePageManager(object):
     s_objects = {}
 
@@ -25,7 +26,8 @@ class StrategyGuidePageManager(object):
     @staticmethod
     def getSockets(demon):
         if StrategyGuidePageManager.hasSockets(demon) is False:
-            Trace.log("StrategyGuidePageManager", 0, "StrategyGuidePageManager.getSockets invalid param demon %s" % (demon,))
+            Trace.log("StrategyGuidePageManager", 0,
+                      "StrategyGuidePageManager.getSockets invalid param demon %s" % (demon,))
             return None
             pass
         return StrategyGuidePageManager.s_objects[demon]
@@ -38,4 +40,5 @@ class StrategyGuidePageManager(object):
             pass
         return True
         pass
+
     pass

@@ -4,6 +4,7 @@ from Notification import Notification
 
 from ExtrasWallpaperManager import ExtrasWallpaperManager
 
+
 class ExtrasWallpaper(BaseEntity):
     @staticmethod
     def declareORM(Type):

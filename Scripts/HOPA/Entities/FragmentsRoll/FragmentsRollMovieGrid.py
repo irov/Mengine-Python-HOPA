@@ -3,8 +3,7 @@ class FragmentsRollMovieSlot(object):
         self.x = x
         self.y = y
         self.node = node
-        pass
-    pass
+
 
 class FragmentsRollMovieGrid(object):
     def __init__(self, grid, movieObj, cells):

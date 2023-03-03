@@ -2,6 +2,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryCombineInventoryItem(MixinObserver, Task):
     Skiped = False
 
@@ -50,4 +51,5 @@ class TaskInventoryCombineInventoryItem(MixinObserver, Task):
 
         return True
         pass
+
     pass

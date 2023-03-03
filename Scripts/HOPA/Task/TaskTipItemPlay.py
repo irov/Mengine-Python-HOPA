@@ -1,6 +1,7 @@
 from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.Task import Task
 
+
 class TaskTipItemPlay(MixinGroup, Task):
     def _onParams(self, params):
         super(TaskTipItemPlay, self)._onParams(params)

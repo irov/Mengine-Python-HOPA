@@ -2,6 +2,7 @@ from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskItemPopUp(MixinGroup, MixinObserver, Task):
     Skiped = True
 

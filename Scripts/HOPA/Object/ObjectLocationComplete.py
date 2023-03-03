@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectLocationComplete(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectLocationComplete(DemonObject):
         super(ObjectLocationComplete, self)._onParams(params)
         self.initParam("CompleteScenes", params, [])
         pass
+
     pass

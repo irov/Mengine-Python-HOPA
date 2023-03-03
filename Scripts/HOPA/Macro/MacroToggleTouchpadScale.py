@@ -2,6 +2,7 @@ from Foundation.SystemManager import SystemManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroToggleTouchpadScale(MacroCommand):
 
     def _onValues(self, values):

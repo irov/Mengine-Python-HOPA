@@ -4,6 +4,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.Entities.Spell.SystemSpell import SystemSpell
 
+
 class TaskSpellOnTransition(MixinTransition, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSpellOnTransition, self)._onParams(params)
@@ -51,4 +52,5 @@ class TaskSpellOnTransition(MixinTransition, MixinObserver, Task):
             pass
         return False
         pass
+
     pass

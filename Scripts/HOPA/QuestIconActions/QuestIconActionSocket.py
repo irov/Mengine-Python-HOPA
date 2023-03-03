@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinSocket
 from HOPA.QuestIconActions.QuestIconActionDefault import QuestIconActionDefault
 
+
 class QuestIconActionSocket(MixinSocket, QuestIconActionDefault):
     def _onParams(self, params):
         super(QuestIconActionSocket, self)._onParams(params)

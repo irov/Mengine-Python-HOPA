@@ -5,6 +5,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class SystemZoomSkipPuzzle(System):
     BlackListEnigmaTypes = ["HOGRolling 564654654654645", ]
 
@@ -65,9 +66,11 @@ class SystemZoomSkipPuzzle(System):
                         race_interrupt_1.addListener(Notificator.onEnigmaStop)
 
                     with race_1.addParallelTask(2) as (parallel_0, parallel_1):
-                        parallel_0.addTask('TaskSceneLayerGroupEnable', LayerName='Hint', Value=False, WaitSceneInit=True)
+                        parallel_0.addTask('TaskSceneLayerGroupEnable', LayerName='Hint', Value=False,
+                                           WaitSceneInit=True)
 
-                        parallel_1.addTask('TaskSceneLayerGroupEnable', LayerName='SkipZoomPuzzle', Value=True, WaitSceneInit=True)
+                        parallel_1.addTask('TaskSceneLayerGroupEnable', LayerName='SkipZoomPuzzle', Value=True,
+                                           WaitSceneInit=True)
 
         if Enigma.Reset is True:
             TaskManager.runAlias('TaskSceneLayerGroupEnable', None, LayerName='ResetMG', Value=True)

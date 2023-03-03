@@ -1,7 +1,9 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.Prefetcher.GroupPrefetch import GroupPrefetch
 
-class GroupPrefetchManager:
+
+class GroupPrefetchManager(object):
+
     s_groupPrefetches = {}
 
     @staticmethod

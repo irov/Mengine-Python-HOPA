@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroItemCollect(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -19,9 +20,11 @@ class MacroItemCollect(MacroCommand):
 
         # for finding item collect from other scene, coz itemCollect onCheck from other scene will return False
 
-        QuestLocator = self.addQuest(source, "ItemCollectOpenLocator", SceneName=self.SceneName, GroupName=self.GroupName)
+        QuestLocator = self.addQuest(source, "ItemCollectOpenLocator", SceneName=self.SceneName,
+                                     GroupName=self.GroupName)
 
-        Quest = self.addQuest(source, "ItemCollect", SceneName=self.SceneName, GroupName=self.GroupName, ItemList=self.ItemsList, Object=self.Socket)
+        Quest = self.addQuest(source, "ItemCollect", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ItemList=self.ItemsList, Object=self.Socket)
 
         with Quest as tc_quest:
             tc_quest.addListener(Notificator.onItemCollectComplete, Filter=self.__filter)

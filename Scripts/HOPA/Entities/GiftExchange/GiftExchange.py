@@ -4,7 +4,9 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.Utils import getCurrentPublisher, SimpleLogger
 
+
 _Log = SimpleLogger("GiftExchange")
+
 
 class GiftExchange(BaseEntity):
     # Aliases
@@ -17,7 +19,11 @@ class GiftExchange(BaseEntity):
 
     # Texts
     ID_TEXT_SUCCESS_TITLE = "ID_TEXT_GIFTEXCHANGE_SUCCESS_TITLE"
-    ID_TEXT_SUCCESS_MSGS = {"MysteryChapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER", "golds": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GOLD", "energy": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_ENERGY", }
+    ID_TEXT_SUCCESS_MSGS = {
+        "MysteryChapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
+        "golds": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GOLD",
+        "energy": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_ENERGY",
+    }
     ID_TEXT_FAIL_TITLE = "ID_TEXT_GIFTEXCHANGE_FAIL_TITLE"
     ID_TEXT_FAIL_MSG = "ID_TEXT_GIFTEXCHANGE_FAIL_MSG"
     ID_TEXT_INTERACT_GET = "ID_TEXT_GIFTEXCHANGE_INTERACT_GET"
@@ -205,7 +211,8 @@ class GiftExchange(BaseEntity):
 
             with interrupt.addRaceTask(2) as (interrupt_1, interrupt_2):
                 interrupt_1.addSemaphore(self.cancelLongTouchSemaphore, From=True, To=False)
-                interrupt_2.addSemaphore(pastedSemaphore, From=True, To=False)  # interrupt_2.addTask("TaskListener", ID=Notificator.EditBoxUnhold)
+                interrupt_2.addSemaphore(pastedSemaphore, From=True, To=False)
+                # interrupt_2.addTask("TaskListener", ID=Notificator.EditBoxUnhold)
 
             interrupt.addSemaphore(untilSemaphore, To=True)
             interrupt.addSemaphore(self.cancelLongTouchSemaphore, To=False)
@@ -251,7 +258,7 @@ class GiftExchange(BaseEntity):
             except UnicodeDecodeError as ex:
                 code = "ERROR"
                 if _DEVELOPMENT is True:
-                    Trace.log("Entity", 0, "GiftExchange::__paste - clipboard={!r} - {} - paste {!r}".format(clipboard, ex, text))
+                    Trace.log("Entity", 0, "clipboard={!r} - {} - paste {!r}".format(clipboard, ex, code))
 
             max_len = self.demon.getParam("TextLengthLimit")
             if max_len is not None and len(code) > max_len:
@@ -304,6 +311,7 @@ class GiftExchange(BaseEntity):
         self.__onKeyboardFilter(state)
         self.demon.entity.setActive(state)
 
+
 class Plate(object):
 
     def __init__(self, entity):
@@ -343,14 +351,18 @@ class Plate(object):
 
         content_slot = self.content["plate"].getMovieSlot("content")
         if content_slot is not None:
-            nodes = [self.content["input"].getEntityNode(), self.content["interact"].getEntityNode(), self.content["quit"].getEntityNode(), ]
+            nodes = [
+                self.content["input"].getEntityNode(),
+                self.content["interact"].getEntityNode(),
+                self.content["quit"].getEntityNode(),
+            ]
             if self.icon_movie is not None:
                 nodes.append(self.icon_movie.getEntityNode())
 
             for node in nodes:
                 content_slot.addChild(node)
         else:
-            Trace.log("Entity", 0, "GiftExchange Plate.__initMovies: movie 'GiftExchangePlate' should has slot 'content'")
+            Trace.log("Entity", 0, "Plate.__initMovies: movie 'GiftExchangePlate' should has slot 'content'")
 
         self.attachToEffect("appear")  # default effect
         for movie in self.content.values():
@@ -362,7 +374,7 @@ class Plate(object):
         window_movie = self.content["plate"]
         effect_movie = self.effects.get(effect, None)
         if effect_movie is None:
-            Trace.log("Entity", 0, "GiftExchange Plate.attachToEffect: can't find effect '{}' in self.effects dict={}".format(effect, self.effects))
+            Trace.log("Entity", 0, "Plate.attachToEffect: can't find effect '{}' in self.effects dict={}".format(effect, self.effects))
             return
 
         slot = effect_movie.getMovieSlot("window")
@@ -371,7 +383,7 @@ class Plate(object):
             window_node.removeFromParent()
             slot.addChild(window_node)
         else:
-            Trace.log("Entity", 0, "GiftExchange Plate.attachToEffect: movie '{}' should has slot 'window'".format(effect_movie.getName()))
+            Trace.log("Entity", 0, "Plate.attachToEffect: movie '{}' should has slot 'window'".format(effect_movie.getName()))
             return
 
         effect_movie.setLastFrame(False)  # set first frame

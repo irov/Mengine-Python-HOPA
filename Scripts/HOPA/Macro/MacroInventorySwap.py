@@ -5,6 +5,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.System.SystemInventoryPanel import SystemInventoryPanel
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroInventorySwap(MacroCommand):
     def _onValues(self, values):
         self.InventoryName = values[0]

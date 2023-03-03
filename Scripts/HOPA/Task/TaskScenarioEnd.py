@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskScenarioEnd(MixinObserver, Task):
     #    Skiped = False
     Skiped = True
@@ -20,4 +21,5 @@ class TaskScenarioEnd(MixinObserver, Task):
 
         return False
         pass
+
     pass

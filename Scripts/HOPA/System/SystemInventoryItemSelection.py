@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.System import System
 
+
 class SystemInventoryItemSelection(System):
     def _onParams(self, params):
         super(SystemInventoryItemSelection, self)._onParams(params)
@@ -57,4 +58,5 @@ class SystemInventoryItemSelection(System):
 
         return False
         pass
+
     pass

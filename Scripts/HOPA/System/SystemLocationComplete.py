@@ -8,8 +8,10 @@ from HOPA.StageManager import StageManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 # if LocationCompleteManager has issues, then this filter will used
 DEFAULT_QUEST_FILTER = ['Teleport', 'Play', 'Enable', 'Click', 'RunParagraph', 'WaitParagraph', 'TechnicalQuest']
+
 
 class SystemLocationComplete(System):
     def _onParams(self, params):

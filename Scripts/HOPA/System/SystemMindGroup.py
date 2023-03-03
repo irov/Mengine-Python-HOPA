@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.MindManager import MindManager
 from Notification import Notification
 
+
 class SystemMindGroup(System):
     def __init__(self):
         super(SystemMindGroup, self).__init__()

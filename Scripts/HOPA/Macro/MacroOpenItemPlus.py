@@ -3,6 +3,7 @@ from Foundation.Notificator import Notificator
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroOpenItemPlus(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]

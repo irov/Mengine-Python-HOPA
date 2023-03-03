@@ -5,6 +5,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGFXPartsGatheringItemFoundEffect, self)._onParams(params)
@@ -160,12 +161,14 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
 
                 all_gathered.addFunction(prepare)
 
-                all_gathered.addTask('TaskMovie2Play', Movie2=InventoryEntity.getMovieGathering(), Wait=True, Docdeb="LOLOLOLOLOLOLOLOLOLOLOLOLOLO")
+                all_gathered.addTask('TaskMovie2Play', Movie2=InventoryEntity.getMovieGathering(), Wait=True,
+                                     Docdeb="LOLOLOLOLOLOLOLOLOLOLOLOLOLO")
 
                 def enigmaComplete():
                     EnigmaManager.getEnigma(self.EnigmaName).getEntity().enigmaComplete()
 
                 all_gathered.addFunction(enigmaComplete)
+
         source.addTask("TaskScope", Scope=__playMovie)
 
     def createMovie2FromResource(self, ResourceMovie, CompositionName, MovieName, AttachNode):
@@ -177,7 +180,8 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
             return None
             pass
 
-        Movie = ObjectManager.createObjectUnique("Movie2", MovieName, None, ResourceMovie=ResourceMovie, CompositionName=CompositionName)
+        Movie = ObjectManager.createObjectUnique("Movie2", MovieName, None, ResourceMovie=ResourceMovie,
+                                                 CompositionName=CompositionName)
 
         Movie.setEnable(True)
         Movie.setPlay(False)

@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 
+
 class NFSManager(object):
     s_nfs = {}
 
@@ -10,8 +11,6 @@ class NFSManager(object):
             self.x = x
             self.y = y
             self.angle = angle
-            pass
-        pass
 
     class NFS(object):
         def __init__(self, sceneName, group, obj, tiles, winTile):
@@ -19,10 +18,7 @@ class NFSManager(object):
             self.group = group
             self.obj = obj
             self.tiles = tiles
-
             self.winTile = winTile
-            pass
-        pass
 
     @staticmethod
     def loadNFS(name, sceneName, groupName, objectName, module, param):
@@ -50,8 +46,6 @@ class NFSManager(object):
             for tile in tiles:
                 if tile.x == i and tile.y == j:
                     return True
-                    pass
-                pass
 
             return False
             pass
@@ -67,16 +61,12 @@ class NFSManager(object):
 
                 if __findTile(grass_tiles, x, y) is True:
                     continue
-                    pass
 
                 if __findTile(nfs_tiles, x, y) is True:
                     continue
-                    pass
 
                 tile_grass = NFSManager.NFSTile(Coach_Grass, x, y, 0)
                 grass_tiles.append(tile_grass)
-                pass
-            pass
 
         nfs_tiles.extend(grass_tiles)
 
@@ -85,12 +75,10 @@ class NFSManager(object):
         if nfs_group is None:
             Trace.log("NFSManager", 0, "NFSManager.loadNFS: Maybe you forgot to add [%s] in Groups.xls!" % (groupName))
             return
-            pass
 
         if sceneName is None:
             Trace.log("NFSManager", 0, "NFSManager.loadNFS: You forgot to add NFSsceneName!" % (sceneName))
             return
-            pass
 
         nfs_obj = nfs_group.getObject(objectName)
         nfs_obj.onEnigmaInit(name)
@@ -105,19 +93,16 @@ class NFSManager(object):
     @staticmethod
     def hasNFS(name):
         return name in NFSManager.s_nfs
-        pass
 
     @staticmethod
     def getNFS(name):
         if NFSManager.hasNFS(name) is False:
             Trace.log("Manager", 0, "NFSManager.getNFS: not found nfs %s" % (name))
             return None
-            pass
 
         nfs = NFSManager.s_nfs[name]
 
         return nfs
-        pass
 
     @staticmethod
     def getNFSObject(name):
@@ -136,8 +121,5 @@ class NFSManager(object):
 
         if desc is None:
             return None
-            pass
 
         return desc.tiles
-        pass
-    pass

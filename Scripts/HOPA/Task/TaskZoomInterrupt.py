@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.ZoomManager import ZoomManager
 
+
 class TaskZoomInterrupt(MixinObserver, Task):
     Skiped = True
 
@@ -28,4 +29,5 @@ class TaskZoomInterrupt(MixinObserver, Task):
 
         return True
         pass
+
     pass

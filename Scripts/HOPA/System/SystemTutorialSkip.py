@@ -3,6 +3,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class SystemTutorialSkip(System):
     def __init__(self):
         super(SystemTutorialSkip, self).__init__()

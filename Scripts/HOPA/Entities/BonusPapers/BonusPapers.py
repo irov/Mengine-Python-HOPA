@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.BonusManager import BonusManager
 from HOPA.WallPaperManager import WallPaperManager
 
+
 class BonusPapers(BaseEntity):
     def __init__(self):
         super(BonusPapers, self).__init__()
@@ -32,7 +33,11 @@ class BonusPapers(BaseEntity):
 
         self._setupPopUpQuestion()
 
-        self.buttons_cbs = {self.next_paper_button: self.__cbScopeNextButtonClick, self.pre_paper_button: self.__cbScopePreButtonClick, self.set_paper_button: self.__cbScopeSetButtonClick}
+        self.buttons_cbs = {
+            self.next_paper_button: self.__cbScopeNextButtonClick,
+            self.pre_paper_button: self.__cbScopePreButtonClick,
+            self.set_paper_button: self.__cbScopeSetButtonClick
+        }
 
         for wallpaper in WallPaperManager.getWallpapers():
             wallpaper_movie = self.object.getObject(wallpaper.movie_name)
@@ -47,9 +52,11 @@ class BonusPapers(BaseEntity):
         if self.object.hasObject("Movie2_PlatePopupPaperSave") is False:
             return
 
-        if any([self.object.hasObject("Movie2Button_PopupPaperSaveYes") is False, self.object.hasObject("Movie2Button_PopupPaperSaveCancel") is False]):
+        if any([self.object.hasObject("Movie2Button_PopupPaperSaveYes") is False,
+                self.object.hasObject("Movie2Button_PopupPaperSaveCancel") is False]):
             if _DEVELOPMENT is True:
-                Trace.msg_err("You add pop up window, but where is buttons? Missing Movie2Button_PopupPaperSaveYes or Movie2Button_PopupPaperSaveCancel")
+                Trace.msg_err("You add pop up window, but where is buttons? "
+                              "Missing Movie2Button_PopupPaperSaveYes or Movie2Button_PopupPaperSaveCancel")
             return
 
         self.popup_save_paper_button_yes = self.object.getObject('Movie2Button_PopupPaperSaveYes')
@@ -125,7 +132,8 @@ class BonusPapers(BaseEntity):
     def __scopeSetWallpaper(self, source):
         current_wallpaper = WallPaperManager.getWallpapers()[self.current_ind]
 
-        source.addFunction(Mengine.copyUserPicture, current_wallpaper.resource_name, r'{}.jpg'.format(current_wallpaper.resource_name))
+        source.addFunction(Mengine.copyUserPicture, current_wallpaper.resource_name,
+                           r'{}.jpg'.format(current_wallpaper.resource_name))
 
         source.addFunction(Mengine.updateUserWallpaper, r'{}.jpg'.format(current_wallpaper.resource_name))
 

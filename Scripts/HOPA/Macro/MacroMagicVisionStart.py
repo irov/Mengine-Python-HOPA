@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMagicVisionStart(MacroCommand):
     def _onValues(self, values):
         pass
@@ -18,4 +19,5 @@ class MacroMagicVisionStart(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onMagicVisionStart)
         pass
+
     pass

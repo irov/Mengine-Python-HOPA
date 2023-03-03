@@ -5,6 +5,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.ChapterManager import ChapterManager
 from Notification import Notification
 
+
 class Stage(Params, Initializer):
     def __init__(self):
         super(Stage, self).__init__()
@@ -94,11 +95,13 @@ class Stage(Params, Initializer):
         pass
 
     def _onInitializeFailed(self, msg):
-        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid initialize: %s" % (self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
+        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid initialize: %s" % (
+            self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
         pass
 
     def _onFinalizeFailed(self, msg):
-        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid finalize: %s" % (self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
+        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid finalize: %s" % (
+            self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
         pass
 
     def preparation(self):
@@ -242,5 +245,3 @@ class Stage(Params, Initializer):
             pass
 
         return True
-        pass
-    pass

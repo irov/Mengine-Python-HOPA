@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskHOGItemTakeEffect(MixinItem, TaskAlias):
 
     def _onParams(self, params):
@@ -72,4 +73,5 @@ class TaskHOGItemTakeEffect(MixinItem, TaskAlias):
         source.addTask("TaskNodeRemoveFromParent", Node=pure)
         source.addTask("TaskNodeDestroy", Node=pure)
         pass
+
     pass

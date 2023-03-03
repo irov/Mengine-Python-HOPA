@@ -3,6 +3,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingFindItem(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -27,14 +28,16 @@ class MacroHOGFittingFindItem(MacroCommand):
         ItemObjectName = ItemObject.getName()
         Enigma = EnigmaManager.getEnigmaObject(self.EnigmaName)
 
-        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName, ItemName=ItemObjectName)
+        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ItemName=ItemObjectName)
         with Quest as tc_quest:
             tc_quest.addTask("TaskItemClick", Item=ItemObject)
             tc_quest.addTask("TaskItemPick", Item=ItemObject)
             tc_quest.addTask("TaskNotify", ID=Notificator.onItemPicked, Args=(ItemObject,))
             tc_quest.addTask("TaskNotify", ID=Notificator.onSoundEffectOnObject, Args=(ItemObject, "PickItem"))
 
-            tc_quest.addTask("AliasHOGInventoryFittingAddItem", Enigma=Enigma, ItemObject=ItemObject, InventoryItemObject=InventoryItemObject, ItemName=self.ItemName)
+            tc_quest.addTask("AliasHOGInventoryFittingAddItem", Enigma=Enigma, ItemObject=ItemObject,
+                             InventoryItemObject=InventoryItemObject, ItemName=self.ItemName)
             pass
         pass
 

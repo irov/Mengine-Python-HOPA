@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class MorphManager(Manager):
     s_morphs = []
 
@@ -24,7 +25,11 @@ class MorphManager(Manager):
 
             self.settings = MorphManager.MorphSettings(record)
 
-            self.__checkRecord()  # if self.hasCorrectRecord() is True:  #     if _DEVELOPMENT is True:  #         Trace.msg("MorphManager successfully load [{}] morph {!r} in {!r} with params: {}".format(  #             self.id, movie_name, self.group_name, self.settings.__dict__))
+            self.__checkRecord()
+
+            # if _DEVELOPMENT is True and self.hasCorrectRecord() is True:
+            #     Trace.msg("MorphManager successfully load [{}] morph {!r} in {!r} with params: {}".format(
+            #               self.id, movie_name, self.group_name, self.settings.__dict__))
 
         def __checkRecord(self):
             error_msg = "MorphManager checkRecord [{}] find error: ".format(self.id)
@@ -68,7 +73,6 @@ class MorphManager(Manager):
     class MorphSettings(__Param):
         def __init__(self, record):
             self.anim_delay = MorphManager.getRecordValue(record, "AnimDelay", default=5) * 1000.0
-            pass
 
     @staticmethod
     def loadParams(module, name):
@@ -81,6 +85,7 @@ class MorphManager(Manager):
             MorphManager.s_morphs.append(morph_param)
 
         return True
+
     # ---
 
     @staticmethod

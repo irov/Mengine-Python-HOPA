@@ -1,6 +1,7 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemBonusGameComplete(System):
     def __init__(self):
         super(SystemBonusGameComplete, self).__init__()
@@ -66,4 +67,5 @@ class SystemBonusGameComplete(System):
             TaskManager.cancelTaskChain("GameCompleteMessage")
             pass
         pass
+
     pass

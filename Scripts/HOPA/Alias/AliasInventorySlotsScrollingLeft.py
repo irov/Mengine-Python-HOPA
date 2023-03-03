@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsScrollingLeft(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsScrollingLeft, self)._onParams(params)

@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseActionPlusSceneOut(CruiseAction):
     def _getCruisePosition(self):
         group = GroupManager.getGroup("ItemPlusDefault")

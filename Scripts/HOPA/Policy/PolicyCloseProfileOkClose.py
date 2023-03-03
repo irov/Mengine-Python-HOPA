@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyCloseProfileOkClose(TaskAlias):
     def _onParams(self, params):
         super(PolicyCloseProfileOkClose, self)._onParams(params)
@@ -11,4 +12,5 @@ class PolicyCloseProfileOkClose(TaskAlias):
             tc_close.addTask("TaskButtonClick", GroupName="Profile", ButtonName="Button_Close")
             pass
         pass
+
     pass

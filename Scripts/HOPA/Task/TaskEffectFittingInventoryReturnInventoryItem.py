@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 
+
 class TaskEffectFittingInventoryReturnInventoryItem(Task):
     Skiped = True
 
@@ -39,14 +40,16 @@ class TaskEffectFittingInventoryReturnInventoryItem(Task):
 
         length = Mengine.length_v2_v2(P0, P2)
 
-        SpeedEffectFittingInventoryReturnInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectFittingInventoryReturnInventoryItem", 2000)
+        SpeedEffectFittingInventoryReturnInventoryItem = DefaultManager.getDefaultFloat(
+            "SpeedEffectFittingInventoryReturnInventoryItem", 2000)
         SpeedEffectFittingInventoryReturnInventoryItem *= 0.001  # speed fix
         time = length / SpeedEffectFittingInventoryReturnInventoryItem
         # time *= 1000  # speed fix
 
         with TaskManager.createTaskChain(Cb=self._onReturnInventoryItemEffectComplete) as tc:
             with tc.addParallelTask(2) as (tc0, tc1):
-                tc0.addTask("TaskNodeBezier2To", Node=InventoryItemEntity, Point1=P1, To=P2, Speed=SpeedEffectFittingInventoryReturnInventoryItem)
+                tc0.addTask("TaskNodeBezier2To", Node=InventoryItemEntity, Point1=P1, To=P2,
+                            Speed=SpeedEffectFittingInventoryReturnInventoryItem)
                 tc1.addTask("TaskNodeScaleTo", Node=InventoryItemEntity, To=(scaleTo, scaleTo, 1.0), Time=time)
                 pass
             pass

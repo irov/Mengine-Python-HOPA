@@ -1,9 +1,11 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class PuzzleInstructions(BaseEntity):
 
     def __init__(self):
         super(PuzzleInstructions, self).__init__()
+
     pass
 
     def _onActivate(self):

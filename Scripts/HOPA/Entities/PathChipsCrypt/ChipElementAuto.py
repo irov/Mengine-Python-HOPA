@@ -3,6 +3,7 @@ from Notification import Notification
 from ChipElement import ChipElement
 from Path import Path
 
+
 class ChipElementAuto(ChipElement):
     def __init__(self):
         super(ChipElementAuto, self).__init__()
@@ -71,4 +72,5 @@ class ChipElementAuto(ChipElement):
         Notification.notify(Notificator.onBeginMovingChip, self)
         self.moving.playTo(self.destinationSlot, self._onEndMoviePlay)
         pass
+
     pass

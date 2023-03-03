@@ -3,6 +3,7 @@ from Foundation.System import System
 from HOPA.MusicManager import MusicManager
 from HOPA.ScenarioManager import ScenarioManager
 
+
 class SystemMusic(System):
     def __init__(self):
         super(SystemMusic, self).__init__()

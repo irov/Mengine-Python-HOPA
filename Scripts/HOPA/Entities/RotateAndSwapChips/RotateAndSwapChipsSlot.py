@@ -38,4 +38,5 @@ class RotateAndSwapChipsSlot(object):
     def rotate(self, angle):
         self.chip.rotateOnAngleInDegree(angle)
         pass
+
     pass

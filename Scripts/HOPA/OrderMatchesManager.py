@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class OrderMatchesManager(object):
     s_games = {}
 
@@ -8,8 +9,6 @@ class OrderMatchesManager(object):
             self.elementsSource = elementsSource
             self.elementsDestination = elementsDestination
             self.order = order
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -64,10 +63,11 @@ class OrderMatchesManager(object):
             objectName = record.get("ObjectName")
             socketObjectName = record.get("SocketObjectName")
             MovieButton = record.get("MovieButton")
-            elementsDestination[elementId] = dict(ObjectName=objectName, SocketObjectName=socketObjectName, MovieButton=MovieButton)
-            pass
+            elementsDestination[elementId] = dict(ObjectName=objectName,
+                                                  SocketObjectName=socketObjectName,
+                                                  MovieButton=MovieButton)
+
         return elementsDestination
-        pass
 
     @staticmethod
     def loadGameOrder(module, param):
@@ -96,6 +96,3 @@ class OrderMatchesManager(object):
     @staticmethod
     def hasGame(name):
         return name in OrderMatchesManager.s_games
-        pass
-
-    pass

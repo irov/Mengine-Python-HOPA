@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.ConnectLampManager import ConnectLampManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ConnectLamp(Enigma):
 
@@ -270,4 +272,5 @@ class ConnectLamp(Enigma):
             TaskManager.cancelTaskChain(Name)
             pass
         pass
+
     pass

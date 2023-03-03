@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 from HOPA.StageManager import StageManager
 from Notification import Notification
 
+
 class TaskStageSave(Task):
     Skiped = True
 

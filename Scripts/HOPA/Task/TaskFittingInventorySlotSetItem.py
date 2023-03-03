@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFittingInventorySlotSetItem(Task):
     def __init__(self):
         super(TaskFittingInventorySlotSetItem, self).__init__()
@@ -28,4 +29,5 @@ class TaskFittingInventorySlotSetItem(Task):
 
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectHOGInventoryRolling(DemonObject):
     @staticmethod
     def declareORM(Type):

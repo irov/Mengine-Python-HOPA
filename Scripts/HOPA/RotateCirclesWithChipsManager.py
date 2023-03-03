@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class RotateCirclesWithChipsManager(Manager):
     # print '=========================Manager RotateCirclesWithChips==============================='
     s_puzzles = {}
@@ -25,7 +26,8 @@ class RotateCirclesWithChipsManager(Manager):
             StartComb = record.get('StartComb')
             ParamSlots = record.get('ParamSlots')
 
-            result = RotateCirclesWithChipsManager.addParam(EnigmaName, module, ParamChips, ParamCircles, WinsComb, StartComb, ParamSlots)
+            result = RotateCirclesWithChipsManager.addParam(EnigmaName, module, ParamChips, ParamCircles,
+                                                            WinsComb, StartComb, ParamSlots)
 
             if result is False:
                 error_msg = "RotateCirclesWithChipsManager invalid addParam {}".format(EnigmaName)
@@ -138,7 +140,8 @@ class RotateCirclesWithChipsManager(Manager):
             slots_dict[(circleID, slotID)] = onCenter
         # ==============================================================================================================
 
-        new_param = RotateCirclesWithChipsManager.RotateCirclesWithChipsParam(chips_dict, circles_dict, winsComb_dict, startComb_dict, slots_dict, )
+        new_param = RotateCirclesWithChipsManager.RotateCirclesWithChipsParam(chips_dict, circles_dict, winsComb_dict,
+                                                                              startComb_dict, slots_dict)
 
         RotateCirclesWithChipsManager.s_puzzles[EnigmaName] = new_param
 

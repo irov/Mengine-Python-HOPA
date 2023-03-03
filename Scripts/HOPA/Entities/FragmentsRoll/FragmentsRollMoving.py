@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class FragmentsRollMoving(object):
     def __init__(self, movie, soundMovie, movieReverse=None):
         super(FragmentsRollMoving, self).__init__()
@@ -163,4 +164,5 @@ class FragmentsRollMoving(object):
     def getPoint(self, index):
         return self.movieData[index]
         pass
+
     pass

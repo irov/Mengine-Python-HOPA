@@ -4,6 +4,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMessage(MacroCommand):
     def _onValues(self, values):
         self.textID = values[0]
@@ -64,4 +65,5 @@ class MacroMessage(MacroCommand):
 
         source.addTask("AliasMessageHide", SceneName=CurrentSceneName)
         source.addTask("TaskStateChange", ID="AliasMessageShow", Value=False)
+
     pass

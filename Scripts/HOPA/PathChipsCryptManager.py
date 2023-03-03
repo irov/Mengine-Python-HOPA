@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PathChipsCryptManager(object):
     s_games = {}
 
@@ -11,8 +12,6 @@ class PathChipsCryptManager(object):
             self.chips = chips
             self.completeEffects = completeEffects
             self.connections = connections
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -27,14 +26,16 @@ class PathChipsCryptManager(object):
             ConnectionsParam = record.get("Connections")
             CompleteEffects = record.get("CompleteEffects")
 
-            PathChipsCryptManager.loadGame(module, Name, ChipsParam, SlotsParam, ConnectionsParam, TransportersParam, RulesParam, CompleteEffects)
+            PathChipsCryptManager.loadGame(module, Name, ChipsParam, SlotsParam, ConnectionsParam, TransportersParam,
+                                           RulesParam, CompleteEffects)
             pass
 
         return True
         pass
 
     @staticmethod
-    def loadGame(module, name, ChipsParam, SlotsParam, ConnectionsParam, TransportersParam, RulesParam, CompleteEffectsParam):
+    def loadGame(module, name, ChipsParam, SlotsParam, ConnectionsParam, TransportersParam, RulesParam,
+                 CompleteEffectsParam):
         chips = PathChipsCryptManager.loadGameChips(module, ChipsParam)
         slots = PathChipsCryptManager.loadGameSlots(module, SlotsParam)
         connections = PathChipsCryptManager.loadGameConnections(module, ConnectionsParam)
@@ -139,6 +140,3 @@ class PathChipsCryptManager(object):
     @staticmethod
     def hasGame(name):
         return name in PathChipsCryptManager.s_games
-        pass
-
-    pass

@@ -8,6 +8,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 from Notification import Notification
 
+
 class InventorySlot(object):
     def __init__(self, inventoryObject, slotId, slot, hotspot):
         self.inventoryObject = inventoryObject
@@ -148,7 +149,9 @@ class InventorySlot(object):
 
         self.slot.addChild(itemEntityNode)
 
-        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseButtonEvent=self._onMouseButtonEvent)
+        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
+                                      onHandleMouseLeave=self._onMouseLeave,
+                                      onHandleMouseButtonEvent=self._onMouseButtonEvent)
         pass
 
     def removeItem(self):
@@ -229,7 +232,9 @@ class InventorySlot(object):
                 self.item.setPosition(itemPosition)
                 self.item.setEnable(True)
 
-                self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseButtonEvent=self._onMouseButtonEvent)
+                self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
+                                              onHandleMouseLeave=self._onMouseLeave,
+                                              onHandleMouseButtonEvent=self._onMouseButtonEvent)
                 self.hotspot.enable()
                 pass
             pass
@@ -254,8 +259,7 @@ class InventorySlot(object):
 
         self.slot = None
         self.inventoryObject = None
-        pass
-    pass
+
 
 class InventoryFX(BaseEntity):
 
@@ -263,7 +267,9 @@ class InventoryFX(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "InventoryItems", Append=InventoryFX._appendInventoryItems, Remove=InventoryFX._removeInventoryItems)
+        Type.addActionActivate(Type, "InventoryItems",
+                               Append=InventoryFX._appendInventoryItems,
+                               Remove=InventoryFX._removeInventoryItems)
 
         Type.addAction(Type, "SlotPoints")
         Type.addAction(Type, "SlotCount")
@@ -335,8 +341,10 @@ class InventoryFX(BaseEntity):
         InventoryItemEntity = InventoryItem.getEntity()
 
         state = InventoryItemEntity.getState()
-        PolicyPickInventoryItemEnd = PolicyManager.getPolicy("PickInventoryItemEnd", "PolicyPickInventoryItemEffectDummy")
-        PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop", "PolicyPickInventoryItemEffectDummy")
+        PolicyPickInventoryItemEnd = PolicyManager.getPolicy("PickInventoryItemEnd",
+                                                             "PolicyPickInventoryItemEffectDummy")
+        PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop",
+                                                              "PolicyPickInventoryItemEffectDummy")
 
         if state is InventoryItemEntity.ITEM_PICK:  # state 2
             with TaskManager.createTaskChain(Group=self.object) as tc:
@@ -518,7 +526,8 @@ class InventoryFX(BaseEntity):
         super(InventoryFX, self)._onDeactivate()
 
         def __returnInvItemForce(InventoryItem):
-            PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop", "PolicyPickInventoryItemEffectDummy")
+            PolicyPickInventoryItemStop = PolicyManager.getPolicy("PickInventoryItemStop",
+                                                                  "PolicyPickInventoryItemEffectDummy")
             TaskManager.runAlias(PolicyPickInventoryItemStop, None)
             TaskManager.runAlias("TaskInventorySlotReturnItem", None, InventoryItem=InventoryItem, Inventory=self.object)
             TaskManager.runAlias("TaskObjectReturn", None, Object=InventoryItem)
@@ -651,6 +660,3 @@ class InventoryFX(BaseEntity):
             pass
 
         return None
-        pass
-
-    pass

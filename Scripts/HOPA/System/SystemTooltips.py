@@ -5,9 +5,11 @@ from Foundation.SystemManager import SystemManager
 from HOPA.TooltipsManager import TooltipsManager
 from HOPA.TransitionManager import TransitionManager
 
+
 ALIAS_ENV = ""
 ALIAS_CURSOR_TEXT = "$CursorText"
 ID_EMPTY_TEXT = "ID_EMPTY_TEXT"
+
 
 class SystemTooltips(System):
     def _onInitialize(self):

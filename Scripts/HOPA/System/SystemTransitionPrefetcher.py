@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from HOPA.TransitionManager import TransitionManager
 
+
 class SystemTransitionPrefetcher(System):
     def __init__(self):
         super(SystemTransitionPrefetcher, self).__init__()
@@ -132,4 +133,5 @@ class SystemTransitionPrefetcher(System):
 
         Mengine.unfetchResources(groupName)
         pass
+
     pass

@@ -3,6 +3,7 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class CruiseActionZoomOut(CruiseAction):
     def _getCruiseObject(self):
         zoomGroupName = ZoomManager.getZoomOpenGroupName()

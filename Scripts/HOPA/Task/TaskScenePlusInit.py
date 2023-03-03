@@ -2,6 +2,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskScenePlusInit(MixinObserver, Task):
     Skiped = False
 
@@ -23,10 +24,6 @@ class TaskScenePlusInit(MixinObserver, Task):
 
                 if SceneManager.hasScene(self.SceneName) is False:
                     self.initializeFailed("Scene %s not found" % (self.SceneName))
-                    pass
-                pass
-            pass
-        pass
 
     def _onCheck(self):
         if self.SceneAny is False:
@@ -59,4 +56,5 @@ class TaskScenePlusInit(MixinObserver, Task):
 
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class StaticPopUpTransitionManager(object):
     """
     Mark transition back with text and movie
@@ -12,8 +13,6 @@ class StaticPopUpTransitionManager(object):
             self.sceneName = sceneName
             self.movieName = movieName
             self.offset = offset
-            pass
-        pass
 
         def getTextId(self):
             return self.textId

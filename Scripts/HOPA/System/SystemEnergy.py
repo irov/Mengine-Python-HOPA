@@ -10,10 +10,12 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 _Log = SimpleLogger("SystemEnergy")
 
 EVENT_CHANGED_BALANCE = Event("onEnergyBalanceChanged")
 EVENT_UPDATE_TIMER = Event("onEnergyTimerUpdate")
+
 
 class SystemEnergy(System):
     s_settings = {}  # key-value energy params
@@ -42,11 +44,25 @@ class SystemEnergy(System):
         if Mengine.getConfigBool("Energy", "Enable", False) is False:
             return
 
-        settings = {"enable": True, "max_energy": Mengine.getConfigInt("Energy", "MaxEnergy", 300), "default_energy_consumption": Mengine.getConfigInt("Energy", "DefaultConsumption", 6), "refill_per_time": Mengine.getConfigInt("Energy", "RefillEnergyPerTime", 1), "refill_time": Mengine.getConfigFloat("Energy", "RefillTime", 240.0), }
+        settings = {
+            "enable": True,
+            "max_energy": Mengine.getConfigInt("Energy", "MaxEnergy", 300),
+            "default_energy_consumption": Mengine.getConfigInt("Energy", "DefaultConsumption", 6),
+            "refill_per_time": Mengine.getConfigInt("Energy", "RefillEnergyPerTime", 1),
+            "refill_time": Mengine.getConfigFloat("Energy", "RefillTime", 240.0),
+        }
 
-        actions = {"PickItem": Mengine.getConfigBool("Energy", "PickItem", False), "CombineItems": Mengine.getConfigBool("Energy", "CombineItems", False), "PlaceItem": Mengine.getConfigBool("Energy", "PlaceItem", False), "EnterHOG": Mengine.getConfigBool("Energy", "EnterHOG", False), }
+        actions = {
+            "PickItem": Mengine.getConfigBool("Energy", "PickItem", False),
+            "CombineItems": Mengine.getConfigBool("Energy", "CombineItems", False),
+            "PlaceItem": Mengine.getConfigBool("Energy", "PlaceItem", False),
+            "EnterHOG": Mengine.getConfigBool("Energy", "EnterHOG", False),
+        }
 
-        actions_price = {action: Mengine.getConfigInt("Energy", (action + "Consumption"), settings["default_energy_consumption"]) for action in actions.keys()}
+        actions_price = {
+            action: Mengine.getConfigInt("Energy", (action + "Consumption"), settings["default_energy_consumption"])
+            for action in actions.keys()
+        }
 
         SystemEnergy.s_settings = settings
         SystemEnergy.s_actions = actions
@@ -127,10 +143,13 @@ class SystemEnergy(System):
 
         SystemAnalytics.addExtraAnalyticParams(_getExtraParams)
 
-        SystemAnalytics.addSpecificAnalytic("earn_currency", "refill_energy", Notificator.onEnergyIncrease, None, lambda amount: {'name': 'energy', 'amount': amount})
-        SystemAnalytics.addSpecificAnalytic("spent_currency", "consume_energy", Notificator.onEnergyConsumed, None, lambda action, amount: {'amount': amount, 'description': action, 'name': 'energy'})
+        SystemAnalytics.addSpecificAnalytic("earn_currency", "refill_energy", Notificator.onEnergyIncrease, None,
+                                            lambda amount: {'name': 'energy', 'amount': amount})
+        SystemAnalytics.addSpecificAnalytic("spent_currency", "consume_energy", Notificator.onEnergyConsumed, None,
+                                            lambda action, amount: {'amount': amount, 'description': action, 'name': 'energy'})
 
-        SystemAnalytics.addAnalytic("not_enough_energy", Notificator.onEnergyNotEnough, None, lambda action: {"action": action, "price": self.getActionEnergy(action)})
+        SystemAnalytics.addAnalytic("not_enough_energy", Notificator.onEnergyNotEnough, None,
+                                    lambda action: {"action": action, "price": self.getActionEnergy(action)})
 
     def _onStop(self):
         if self._balance_change_observer is not None:
@@ -366,7 +385,8 @@ class SystemEnergy(System):
             return
 
         if self.cooldown_timestamp is None or self.end_refill_timestamp is None:
-            Trace.log("System", 0, "SystemEnergy start timer, but cooldown_timestamp [{}] or end_refill_timestamp [{}] is None".format(self.cooldown_timestamp, self.end_refill_timestamp))
+            Trace.log("System", 0, "SystemEnergy start timer, but cooldown_timestamp [{}] or end_refill_timestamp [{}] is None".format(
+                self.cooldown_timestamp, self.end_refill_timestamp))
             self.onCharged()
             return
 
@@ -427,7 +447,9 @@ class SystemEnergy(System):
 
     def __loadProgress(self):
         params = {  # key: [save_key, default_value, cast_type]
-            "current_energy": ["Energy", self.getMaxEnergy(), int], "end_refill_timestamp": ["EnergyRefill", None, float], "cooldown_timestamp": ["EnergyCooldown", None, float]}
+            "current_energy": ["Energy", self.getMaxEnergy(), int],
+            "end_refill_timestamp": ["EnergyRefill", None, float],
+            "cooldown_timestamp": ["EnergyCooldown", None, float]}
 
         for atr, (save_key, default_value, cast) in params.items():
             save = Mengine.getCurrentAccountSetting(save_key)
@@ -606,7 +628,7 @@ class SystemEnergy(System):
 
             setting = params[0]
             if setting not in self.s_settings:
-                Trace.msg_err("!!! [DevToDebug Energy] setting {!r} not found: {}".format(setting, self.s_settings.keys()))
+                Trace.msg_err("!!! [DevDebugger Energy] setting {!r} not found: {}".format(setting, self.s_settings.keys()))
                 return
 
             value = int(params[1]) if params[1].isdigit() else params[1]
@@ -631,7 +653,7 @@ class SystemEnergy(System):
         def _updateAction(text):
             action = text
             if action not in self.s_actions:
-                Trace.msg_err("!!! [DevToDebug Energy] action {!r} not found: {}".format(action, self.s_actions.keys()))
+                Trace.msg_err("!!! [DevDebugger Energy] action {!r} not found: {}".format(action, self.s_actions.keys()))
                 return
 
             value = not self.s_actions[action]

@@ -4,8 +4,10 @@ from Foundation.System import System
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
+
 SCENE_EFFECT_MOVIE_OPEN = "Movie2_Open"
 SCENE_EFFECT_MOVIE_CLOSE = "Movie2_Close"
+
 
 class SystemInGameMenuCall(System):
     def __init__(self):
@@ -82,7 +84,8 @@ class SystemInGameMenuCall(System):
             tc_options.addTask("AliasFadeIn", FadeGroupName="FadeUI", Time=250.0, To=self.MenuFade)
             tc_options.addScope(self.__scopeOpen, "InGameMenu")
 
-            tc_difficulty.addTask('TaskMovie2ButtonClick', GroupName='InGameMenu', Movie2ButtonName='Movie2Button_Difficulty')
+            tc_difficulty.addTask('TaskMovie2ButtonClick', GroupName='InGameMenu',
+                                  Movie2ButtonName='Movie2Button_Difficulty')
             tc_difficulty.addScope(self.__scopeClose, "InGameMenu")
             tc_difficulty.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=False)
             tc_difficulty.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=True)
@@ -102,7 +105,8 @@ class SystemInGameMenuCall(System):
             guard_tc_resume.addTask("TaskSceneLayerGroupEnable", LayerName="InGameMenu", Value=False)
 
     def _scopeResumeMenuOutClick(self, source, movie2_button_menu):
-        source.addTask("TaskMovie2SocketClick", GroupName="InGameMenu", Movie2Name="Movie2_BG", SocketName="close", isDown=True)
+        source.addTask("TaskMovie2SocketClick", GroupName="InGameMenu", Movie2Name="Movie2_BG", SocketName="close",
+                       isDown=True)
 
         with GuardBlockInput(source) as guard_tc_resume:
             guard_tc_resume.addFunction(movie2_button_menu.setBlock, False)

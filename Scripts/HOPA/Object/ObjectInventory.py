@@ -4,6 +4,7 @@ from Foundation.Object.DemonObject import DemonObject
 from HOPA.ItemManager import ItemManager
 from Notification import Notification
 
+
 class ObjectInventory(DemonObject):
     @staticmethod
     def declareORM(Type):

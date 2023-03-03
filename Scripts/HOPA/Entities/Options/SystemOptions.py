@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 
+
 class SystemOptions(System):
     OPTIONS_GROUP = "Options"
     OPTIONS_OBJECT = "Demon_Options"

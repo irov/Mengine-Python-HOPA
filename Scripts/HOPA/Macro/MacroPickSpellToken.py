@@ -1,6 +1,7 @@
 from HOPA.Entities.Spell.SpellManager import SpellManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPickSpellToken(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]

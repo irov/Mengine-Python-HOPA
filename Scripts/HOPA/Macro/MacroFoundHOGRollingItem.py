@@ -1,6 +1,7 @@
 from HOPA.HOGManager import HOGManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroFoundHOGRollingItem(MacroCommand):
     def _onValues(self, values):
         self.HOGName = values[0]
@@ -21,5 +22,3 @@ class MacroFoundHOGRollingItem(MacroCommand):
         ObjectHOG = HOGManager.getHOGObject(self.HOGName)
 
         source.addTask("AliasHOGRollingFoundItem", HOG=ObjectHOG, HOGItemName=self.HOGItemName, EnigmaName=self.HOGName)
-        pass
-    pass

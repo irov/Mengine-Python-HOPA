@@ -36,9 +36,11 @@ class TaskZoomOpen(MixinZoomGroup, MixinObserver, Task):
 
         return False
         pass
+
     pass
 
     def _onZoomEnterFilter(self, zoomGroupName):
         return True
         pass
+
     pass

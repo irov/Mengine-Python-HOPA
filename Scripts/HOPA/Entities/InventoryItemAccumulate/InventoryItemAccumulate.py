@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Notification import Notification
 
+
 class InventoryItemAccumulate(BaseEntity):
     ITEM_STORE = 0
     ITEM_INVENTORY = 1
@@ -14,7 +15,10 @@ class InventoryItemAccumulate(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "FoundItems", Update=InventoryItemAccumulate._restoreFoundItems, Append=InventoryItemAccumulate._appendFoundItems, Remove=InventoryItemAccumulate._removeFoundItems)
+        Type.addAction(Type, "FoundItems",
+                       Update=InventoryItemAccumulate._restoreFoundItems,
+                       Append=InventoryItemAccumulate._appendFoundItems,
+                       Remove=InventoryItemAccumulate._removeFoundItems)
 
         Type.addActionActivate(Type, "Value", Update=InventoryItemAccumulate.__updateValue)
         pass

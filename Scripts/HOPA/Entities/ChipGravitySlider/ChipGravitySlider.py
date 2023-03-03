@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipGravitySliderManager import ChipGravitySliderManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipGravitySlider(Enigma):
     def _onActivate(self):
@@ -95,7 +97,6 @@ class ChipGravitySlider(Enigma):
                 self.Arrows.append(Movie_Arrow_Left)
                 self.Arrows.append(Movie_Arrow_Right)
 
-        pass
     def _setup_Board(self):
         MovieSlotsEntity = self.Movie_Slots_Start.getEntity()
         # MovieSlotsEntityNode = self.Movie_Slots_Start.getEntityNode()
@@ -121,9 +122,6 @@ class ChipGravitySlider(Enigma):
                     else:
                         self.Blocks[i - 1].append(Movie_Block)
                     first = False
-                else:
-                    pass
-        pass
 
     def _setup_Chips(self):
         MovieSlotsEntityNode = self.Movie_Slots_Grid.getEntityNode()
@@ -215,7 +213,8 @@ class ChipGravitySlider(Enigma):
         self._Board_Block_Move_Free(column, diraction)
 
         for i in range(len(chip_Index)):
-            self.Board_State[column + 1][chip_Index[i]], self.Board_State[column + 1][chip_Index[i] - diraction] = self.Board_State[column + 1][chip_Index[i] - diraction], self.Board_State[column + 1][chip_Index[i]]
+            self.Board_State[column + 1][chip_Index[i]], self.Board_State[column + 1][chip_Index[i] - diraction] = \
+                self.Board_State[column + 1][chip_Index[i] - diraction], self.Board_State[column + 1][chip_Index[i]]
 
         self._Board_Block_Move_Chip(column, chip_Index, diraction)
 
@@ -231,10 +230,12 @@ class ChipGravitySlider(Enigma):
     def _Board_Block_Move_Free(self, column, diraction):
         if diraction > 0:
             for i in range(1, len(self.Board_State[column + 1]) - 1):
-                self.Board_State[column + 1][i], self.Board_State[column + 1][i + 1] = self.Board_State[column + 1][i + 1], self.Board_State[column + 1][i]
+                self.Board_State[column + 1][i], self.Board_State[column + 1][i + 1] = \
+                    self.Board_State[column + 1][i + 1], self.Board_State[column + 1][i]
         if diraction < 0:
             for i in range(len(self.Board_State[column + 1]) - 2, 1, -1):
-                self.Board_State[column + 1][i], self.Board_State[column + 1][i - 1] = self.Board_State[column + 1][i - 1], self.Board_State[column + 1][i]
+                self.Board_State[column + 1][i], self.Board_State[column + 1][i - 1] = \
+                    self.Board_State[column + 1][i - 1], self.Board_State[column + 1][i]
 
     def _scopeMove_Blocks(self, source, btn_holder):
         self._setup_distance()

@@ -5,7 +5,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChipsInNetManager import ChipsInNetManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipsInNet(Enigma):
     class Chip(object):
@@ -377,13 +379,25 @@ class ChipsInNet(Enigma):
                 y = 0
                 x = 0
             # check the membership of the point of the segments
-            firstSegmentAlongX = any([all([P2.x > P1.x, P1.x <= x, P2.x >= x]), all([P2.x < P1.x, P2.x <= x, P1.x >= x])])
+            firstSegmentAlongX = any([
+                all([P2.x > P1.x, P1.x <= x, P2.x >= x]),
+                all([P2.x < P1.x, P2.x <= x, P1.x >= x])]
+            )
 
-            secondSegmentAlongX = any([all([P3.x > P4.x, P4.x <= x, P3.x >= x]), all([P3.x < P4.x, P3.x <= x, P4.x >= x])])
+            secondSegmentAlongX = any([
+                all([P3.x > P4.x, P4.x <= x, P3.x >= x]),
+                all([P3.x < P4.x, P3.x <= x, P4.x >= x])]
+            )
 
-            firstSegmentAlongY = any([all([P2.y > P1.y, P1.y <= y, P2.y >= y]), all([P2.y < P1.y, P2.y <= y, P1.y >= y])])
+            firstSegmentAlongY = any([
+                all([P2.y > P1.y, P1.y <= y, P2.y >= y]),
+                all([P2.y < P1.y, P2.y <= y, P1.y >= y])]
+            )
 
-            secondSegmentAlongY = any([all([P3.y > P4.y, P4.y <= y, P3.y >= y]), all([P3.y < P4.y, P3.y <= y, P4.y >= y])])
+            secondSegmentAlongY = any([
+                all([P3.y > P4.y, P4.y <= y, P3.y >= y]),
+                all([P3.y < P4.y, P3.y <= y, P4.y >= y])]
+            )
 
             if any([all([firstSegmentAlongX, secondSegmentAlongX]), all([firstSegmentAlongY, secondSegmentAlongY])]):
                 rope_1.IntersectionFlag = True

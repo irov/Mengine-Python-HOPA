@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroTalk(MacroCommand):
     def __init__(self):
         super(MacroTalk, self).__init__()
@@ -28,4 +29,5 @@ class MacroTalk(MacroCommand):
                 pass
             pass
         pass
+
     pass

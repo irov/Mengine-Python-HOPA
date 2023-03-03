@@ -6,7 +6,9 @@ from HOPA.Entities.BombGame.BombMoving import BombMoving
 from HOPA.Entities.BombGame.FlyText import FlyText
 from HOPA.Entities.BombGame.ItemProto import ItemProto
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 # TODO Fix movie exploushen for every slot not 1 for all Timing play
 
@@ -23,6 +25,7 @@ class BombGame(Enigma):
     item_None_Open = None
     item_Close_Move = None
     item_Close_Block = None
+
     # item_Bomb_Back = None
 
     @staticmethod
@@ -286,7 +289,8 @@ class BombGame(Enigma):
         for x in range(self.FieldWidth):
             for y in range(self.FieldHeight):
                 posOffCell = (x * self.CellSize, y * self.CellSize)
-                posNew = (posBase[0] + posOffCell[0] - self.CellSize / 2, posBase[1] + posOffCell[1] - self.CellSize / 2)
+                posNew = (
+                posBase[0] + posOffCell[0] - self.CellSize / 2, posBase[1] + posOffCell[1] - self.CellSize / 2)
                 Movie = self.object.generateObject("%s_%d_%d" % (movieSlotsName, x, y), movieSlotsName)
                 Movie.setPosition(posOffCell)
 
@@ -383,6 +387,7 @@ class BombGame(Enigma):
             pass
 
         pass
+
     def __AliasItemTime(self, item, i):
         SpawnDelay = item.getSpawnDelay()
         if (SpawnDelay <= 0):
@@ -481,6 +486,7 @@ class BombGame(Enigma):
         dir = slotStart.Item.ItemData.TypeExtraValue
         x = slotStart.slotX
         y = slotStart.slotY
+
         ##################################
         def blowSlot(slot, sloteExp):
             item = slot.Item
@@ -533,6 +539,7 @@ class BombGame(Enigma):
         sloteExp.append(slot)
         return True
         pass
+
     ###############################
     def __PosLimitCheck(self, pos):
         if (0 <= pos[0] and pos[0] < self.FieldWidth):

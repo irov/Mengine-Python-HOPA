@@ -1,17 +1,15 @@
 from Foundation.Initializer import Initializer
 from Notification import Notification
 
+
 class ScenarioRunner(Initializer):
     class MacroCommandHandler(object):
         def __init__(self, CommandType):
             self.CommandType = CommandType
             self.Run = False
-            pass
 
         def setRun(self, value):
             self.Run = value
-            pass
-        pass
 
     def __init__(self, Name, SceneName, GroupName, isZoom, Scenario, isPlusScene):
         super(ScenarioRunner, self).__init__()
@@ -172,5 +170,3 @@ class ScenarioRunner(Initializer):
         macroEnd, Valid = load_data
 
         self.macroEnd = macroEnd
-        pass
-    pass

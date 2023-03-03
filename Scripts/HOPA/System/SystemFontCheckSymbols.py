@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.System import System
 
+
 class SystemFontCheckSymbols(System):
     def __init__(self):
         super(SystemFontCheckSymbols, self).__init__()
@@ -45,7 +46,3 @@ class SystemFontCheckSymbols(System):
 
             if Mengine.validateFont(font, symbols) is False:
                 Trace.log("System", 0, "invalid font %s" % (font))
-                pass
-            pass
-        pass
-    pass

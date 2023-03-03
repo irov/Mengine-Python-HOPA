@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCollectedAmuletAdd(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -26,7 +27,3 @@ class MacroCollectedAmuletAdd(MacroCommand):
             tc_quest.addTask("TaskItemPick", Item=self.Item)
             tc_quest.addTask("AliasCollectedAmuletAddEffect", Item=self.Item)
             tc_quest.addTask("TaskNotify", ID=Notificator.onCollectedAmuletAdd)
-            pass
-        pass
-
-    pass

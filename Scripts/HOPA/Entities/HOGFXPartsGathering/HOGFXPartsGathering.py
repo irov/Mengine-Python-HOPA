@@ -3,14 +3,18 @@ from Foundation.TaskManager import TaskManager
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HOGFXPartsGathering(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems", Append=Type._appendFoundItems, Update=Type._updateFoundItems)
+        Type.addAction(Type, "FoundItems",
+                       Append=Type._appendFoundItems,
+                       Update=Type._updateFoundItems)
 
     def __init__(self):
         super(HOGFXPartsGathering, self).__init__()
@@ -57,7 +61,8 @@ class HOGFXPartsGathering(Enigma):
         for item in self.items:
             with TaskManager.createTaskChain(Name="HOGFindItem%s" % item.name, Group=self.ItemsGroup) as tc:
                 if item.name not in self.HOGInventory.getFoundItems():
-                    tc.addTask("AliasHOGFXPartsGatheringFindItem", HOG=self.object, HOGItemName=item.name, EnigmaName=self.EnigmaName)
+                    tc.addTask("AliasHOGFXPartsGatheringFindItem", HOG=self.object,
+                               HOGItemName=item.name, EnigmaName=self.EnigmaName)
                 else:
                     tc.addTask("TaskDummy")
 

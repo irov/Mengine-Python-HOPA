@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsMoveRight(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsMoveRight, self)._onParams(params)
@@ -151,7 +152,7 @@ class AliasInventorySlotsMoveRight(TaskAlias):
                     pass
 
                 speedFactor = DefaultSpeedFactor * self.SpeedFactor
-                tc_movie.addTask("TaskMoviePlay", Movie=movie, SpeedFactor=speedFactor, DefaultSpeedFactor=1)  # speed fix
+                tc_movie.addTask("TaskMoviePlay", Movie=movie, SpeedFactor=speedFactor, DefaultSpeedFactor=1)
                 pass
             pass
         # source.addTask("TaskPrint", Value = "_______1")

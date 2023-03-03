@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ButtonConjunctionManager(object):
     TraceName = "ButtonConjunctionManager"
     s_objects = {}
@@ -65,7 +66,8 @@ class ButtonConjunctionManager(object):
     @staticmethod
     def getCollection(name):
         if name not in ButtonConjunctionManager.s_objects.keys():
-            Trace.log(ButtonConjunctionManager.TraceName, 0, "%s.getCollection: cant find %s" % (ButtonConjunctionManager.TraceName, name))
+            Trace.log(ButtonConjunctionManager.TraceName, 0,
+                      "%s.getCollection: cant find %s" % (ButtonConjunctionManager.TraceName, name))
             return None
             pass
         collection = ButtonConjunctionManager.s_objects[name]

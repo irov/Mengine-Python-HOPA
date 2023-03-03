@@ -1,6 +1,7 @@
 from Foundation.System import System
 from HOPA.SemaphoreManager import SemaphoreManager
 
+
 class SystemSemaphore(System):
     def _onParams(self, params):
         super(SystemSemaphore, self)._onParams(params)
@@ -9,8 +10,9 @@ class SystemSemaphore(System):
         return True
 
     def _onSave(self):
-        dict_save = {}
-        dict_save["Semaphores"] = {}
+        dict_save = {
+            "Semaphores": {}
+        }
         for name, semaphore in SemaphoreManager.s_semaphore.iteritems():
             value = semaphore.getValue()
             dict_save["Semaphores"][name] = value

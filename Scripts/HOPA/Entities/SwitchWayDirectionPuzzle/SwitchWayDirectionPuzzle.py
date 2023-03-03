@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwitchWayDirectionPuzzleManager import SwitchWayDirectionPuzzleManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SwitchWayDirectionPuzzle(Enigma):
     class Slot(object):
@@ -15,10 +17,12 @@ class SwitchWayDirectionPuzzle(Enigma):
             self.movieMain = movieMain
 
         def scopeClick(self, source):
-            source.addTask('TaskNodeSocketClick', Socket=self.socket)  # source.addPrint(' click on slot {} '.format(self.id))
+            source.addTask('TaskNodeSocketClick', Socket=self.socket)
+            # source.addPrint(' click on slot {} '.format(self.id))
 
         def scopeClickDown(self, source):
-            source.addTask("TaskMovie2SocketClick", Movie2=self.movieMain, SocketName="socket_{}".format(self.id), isDown=True)
+            source.addTask("TaskMovie2SocketClick", Movie2=self.movieMain,
+                           SocketName="socket_{}".format(self.id), isDown=True)
             # source.addPrint(" click down on slot {}".format(self.id))
             source.addFunction(self.movieMain.delParam, 'DisableLayers', 'Sprite_Number_{}_Scale'.format(self.id))
             source.addFunction(self.movieMain.appendParam, 'DisableLayers', 'Sprite_Number_{}'.format(self.id))

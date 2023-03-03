@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseActionTransitionBack(MixinTransition, CruiseActionDefault):
 
     def _onParams(self, params):

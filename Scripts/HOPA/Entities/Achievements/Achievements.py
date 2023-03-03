@@ -5,6 +5,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
 
+
 class Achievements(BaseEntity):
     @staticmethod
     def declareORM(Type):

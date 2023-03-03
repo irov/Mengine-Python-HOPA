@@ -7,6 +7,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.QuestManager import QuestManager
 
+
 class TaskSocketPlaceInventoryItem(MixinSocket, MixinObserver, Task):
     Skiped = False
 

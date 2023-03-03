@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class TabManager(object):
 
     @staticmethod
@@ -15,8 +16,6 @@ class TabManager(object):
 
             StartTab = record.get("StartTab")
             TabManager.addTab(Name, GroupName, module, ModuleName, StartTab)
-            pass
-        pass
 
     @staticmethod
     def addTab(Name, GroupName, module, param, StartTabName):
@@ -37,6 +36,3 @@ class TabManager(object):
 
         Tab.setTabs(tabs)
         Tab.setCurrentTab(StartTab)
-        pass
-
-    pass

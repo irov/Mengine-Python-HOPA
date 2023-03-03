@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroUnblockInteractive(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -18,4 +19,5 @@ class MacroUnblockInteractive(MacroCommand):
 
         source.addTask("TaskBlockInteractive", Object=Object, BlockInteractive=False)
         pass
+
     pass

@@ -1,12 +1,14 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class FindSymbolsSetsMatchingCenterParam(object):
     def __init__(self, symbols, movie_win, movie_set_complete, movie_set_fail):
         self.symbols = symbols
         self.movie_win = movie_win
         self.movie_set_complete = movie_set_complete
         self.movie_set_fail = movie_set_fail
+
 
 class FindSymbolsSetsMatchingCenterManager(Manager):
     s_params = {}
@@ -25,7 +27,8 @@ class FindSymbolsSetsMatchingCenterManager(Manager):
             movie2_set_fail = record.get('Movie2_SetFail')
             symbol_sets_xlsx = record.get('SymbolSetsXlsx')
 
-            result = FindSymbolsSetsMatchingCenterManager.addParam(enigma_name, module, movie2_win, movie2_set_complete, movie2_set_fail, symbol_sets_xlsx)
+            result = FindSymbolsSetsMatchingCenterManager.addParam(enigma_name, module, movie2_win, movie2_set_complete,
+                                                                   movie2_set_fail, symbol_sets_xlsx)
 
             if result is False:
                 error_msg = "FindSymbolsSetsMatchingCenterManager invalid addParam {}".format(enigma_name)

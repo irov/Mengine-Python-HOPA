@@ -11,6 +11,7 @@ from HOPA.InventoryPanelManager import InventoryPanelManager
 from HOPA.SemaphoreManager import SemaphoreManager
 from Holder import Holder
 
+
 # fixme: guard block input can't save as from game closing through window closing, possibly can corrupt save games
 
 
@@ -148,7 +149,8 @@ class SystemInventoryPanel(System):
 
     def InventorySwap(self, InventoryName, onZoomRepeat=False, zoomGroupName='', onLoad=False):
         if _DEVELOPMENT is True:
-            Trace.msg("<SystemInventoryPanel> InventorySwap: Inv={!r}, ZoomRepeat={}, ZoomGroup={!r}, onLoad={}".format(InventoryName, onZoomRepeat, zoomGroupName, onLoad))
+            Trace.msg("<SystemInventoryPanel> InventorySwap: Inv={!r}, ZoomRepeat={}, ZoomGroup={!r}, onLoad={}".format(
+                InventoryName, onZoomRepeat, zoomGroupName, onLoad))
 
         if self.CurrentInventory is None:
             self.setCurrentInventory(self.getActiveInventoryName)
@@ -195,7 +197,8 @@ class SystemInventoryPanel(System):
                     with source.addRaceTask(2) as (race_scene_leave, race_zoom_leave):
                         race_scene_leave.addListener(Notificator.onSceneLeave)
 
-                        race_zoom_leave.addListener(Notificator.onZoomLeave, Filter=lambda groupName: groupName == zoomGroupName)
+                        race_zoom_leave.addListener(Notificator.onZoomLeave,
+                                                    Filter=lambda groupName: groupName == zoomGroupName)
                         race_zoom_leave.addDelay(0)
                         race_zoom_leave.addScope(self.__swapInventoryScope, self.getCurrentInventory)
 

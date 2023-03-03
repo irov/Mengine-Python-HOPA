@@ -3,6 +3,7 @@ from HOPA.Entities.InventoryItem.InventoryItem import InventoryItem
 from HOPA.ItemManager import ItemManager
 from HOPA.PopUpItemManager import PopUpItemManager
 
+
 class SubMovie(object):
     def __init__(self, movie):
         self.movie = movie
@@ -39,6 +40,7 @@ class SubMovie(object):
             return
 
         self.end()
+
 
 class InventoryCountItemFX(InventoryItem):
     @staticmethod

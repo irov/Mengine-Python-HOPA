@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class AssociationElements2Manager(object):
     s_objects = {}
 
@@ -36,6 +37,7 @@ class AssociationElements2Manager(object):
         def getActiveMovieName(self):
             return self.active
             pass
+
         pass
 
     @staticmethod
@@ -89,7 +91,4 @@ class AssociationElements2Manager(object):
         if name not in AssociationElements2Manager.s_objects:
             Trace.log("AssociationElements2Manager", 0, "AssociationElements2Manager.hasData invalid mapID %s" % (name))
             return False
-            pass
         return True
-        pass
-    pass

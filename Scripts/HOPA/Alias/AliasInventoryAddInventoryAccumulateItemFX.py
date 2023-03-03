@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class AliasInventoryAddInventoryAccumulateItemFX(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryAddInventoryAccumulateItemFX, self)._onParams(params)
@@ -38,8 +39,6 @@ class AliasInventoryAddInventoryAccumulateItemFX(TaskAlias):
 
         source.addTask("TaskFunction", Fn=setValue, Args=(self.Value,))
 
-        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory, Args=(self.Inventory, self.ItemName, "ActionPickItem"))
+        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
+                       Args=(self.Inventory, self.ItemName, "ActionPickItem"))
         source.addFunction(self.Inventory.UnBlockButtons)
-        pass
-
-    pass

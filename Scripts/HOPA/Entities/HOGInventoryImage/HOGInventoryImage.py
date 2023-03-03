@@ -6,6 +6,7 @@ from HOPA.HOGImageManager import HOGImageManager
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 class HOGInventorySlot(object):
     def __init__(self):
         self.item = None
@@ -84,8 +85,7 @@ class HOGInventorySlot(object):
             pass
 
         self.hogItemName = None
-        pass
-    pass
+
 
 class HOGInventoryImage(BaseEntity):
     HOG_TEXT_COLOR_OFF = (0.3, 0.3, 0.3, 1)
@@ -98,10 +98,14 @@ class HOGInventoryImage(BaseEntity):
         Type.addAction(Type, "Slots")
 
         Type.addAction(Type, "HOG")
-        Type.addActionActivate(Type, "FindItems", Append=HOGInventoryImage._appendFindItems, Update=HOGInventoryImage._updateFindItems)
+        Type.addActionActivate(Type, "FindItems",
+                               Append=HOGInventoryImage._appendFindItems,
+                               Update=HOGInventoryImage._updateFindItems)
         Type.addAction(Type, "ItemsCount", Update=HOGInventoryImage._updateItemsAllCount)
 
-        Type.addActionActivate(Type, "FoundItems", Append=HOGInventoryImage._appendFoundItems, Update=HOGInventoryImage._updateFoundItems)
+        Type.addActionActivate(Type, "FoundItems",
+                               Append=HOGInventoryImage._appendFoundItems,
+                               Update=HOGInventoryImage._updateFoundItems)
         pass
 
     def __init__(self):
@@ -121,7 +125,9 @@ class HOGInventoryImage(BaseEntity):
         inventoryImageColor = DefaultManager.getDefault("HOGInventoryImageColor")
         if inventoryImageColor:
             inventoryImageColor = inventoryImageColor.split(",")
-            self.inventoryImageColor = (float(inventoryImageColor[0]), float(inventoryImageColor[1]), float(inventoryImageColor[2]), float(inventoryImageColor[3]))
+            self.inventoryImageColor = (
+            float(inventoryImageColor[0]), float(inventoryImageColor[1]), float(inventoryImageColor[2]),
+            float(inventoryImageColor[3]))
             pass
         pass
 
@@ -304,4 +310,5 @@ class HOGInventoryImage(BaseEntity):
         Notification.notify(Notificator.onHOGInventoryFoundItem, value, True)
         slot.release()
         pass
+
     pass

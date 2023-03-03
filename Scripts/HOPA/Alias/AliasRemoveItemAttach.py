@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasRemoveItemAttach(MixinItem, TaskAlias):
     def _onParams(self, params):
         super(AliasRemoveItemAttach, self)._onParams(params)

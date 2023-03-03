@@ -5,6 +5,7 @@ from HOPA.StaticPopUpManager import StaticPopUpManager
 from HOPA.StaticPopUpTransitionManager import StaticPopUpTransitionManager
 from Notification import Notification
 
+
 class SystemStaticPopUp(System):
     def _onParams(self, params):
         super(SystemStaticPopUp, self)._onParams(params)

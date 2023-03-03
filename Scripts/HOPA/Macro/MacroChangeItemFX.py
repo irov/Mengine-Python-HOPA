@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroChangeItemFX(MacroCommand):
     def _onValues(self, values):
         self.ItemNameFrom = values[0]
@@ -45,4 +46,5 @@ class MacroChangeItemFX(MacroCommand):
         source.addTask("AliasInventoryGetInventoryItem", ItemName=self.ItemNameTo)
 
         pass
+
     pass

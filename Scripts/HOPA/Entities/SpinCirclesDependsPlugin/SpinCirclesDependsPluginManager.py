@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class SpinCirclesDependsPluginManager(object):
     s_objects = {}
 
@@ -89,7 +90,8 @@ class SpinCirclesDependsPluginManager(object):
     @staticmethod
     def hasData(name):
         if name not in SpinCirclesDependsPluginManager.s_objects:
-            Trace.log("SpinCirclesDependsPluginManager", 0, "SpinCirclesDependsPluginManager.hasData invalid param name %s" % (name))
+            Trace.log("SpinCirclesDependsPluginManager", 0,
+                      "SpinCirclesDependsPluginManager.hasData invalid param name %s" % (name))
             return False
             pass
         return True

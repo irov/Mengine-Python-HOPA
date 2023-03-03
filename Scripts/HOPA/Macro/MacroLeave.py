@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroLeave(MacroCommand):
 
     def _onValues(self, values):
@@ -23,9 +24,11 @@ class MacroLeave(MacroCommand):
         isRepeat = self.isRepeatScenario()
 
         if isRepeat is False or self.CreateQuestOnRepeat is True:
-            Quest = self.addQuest(source, "Leave", SceneName=self.SceneName, GroupName=self.GroupName, Object=self.Object)
+            Quest = self.addQuest(source, "Leave", SceneName=self.SceneName, GroupName=self.GroupName,
+                                  Object=self.Object)
 
             with Quest as tc_quest:
-                tc_quest.addTask("AliasObjectLeave", SceneName=self.SceneName, Object=self.Object, AutoEnable=self.AutoEnable)
+                tc_quest.addTask("AliasObjectLeave", SceneName=self.SceneName, Object=self.Object,
+                                 AutoEnable=self.AutoEnable)
         else:
             source.addTask("AliasObjectLeave", SceneName=self.SceneName, Object=self.Object, AutoEnable=self.AutoEnable)

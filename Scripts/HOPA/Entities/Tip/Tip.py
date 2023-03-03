@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.TipManager import TipManager
 from Notification import Notification
 
+
 class Tip(BaseEntity):
     TIP_SHOW = 1
     TIP_HIDE = 2
@@ -143,4 +144,5 @@ class Tip(BaseEntity):
     def __onSceneChange(self, SceneName_From):
         Notification.notify(Notificator.onBlackBarRelease, self.tipID)
         return False
+
     pass

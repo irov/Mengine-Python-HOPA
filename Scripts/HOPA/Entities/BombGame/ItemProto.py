@@ -1,5 +1,6 @@
 Enigma = Mengine.importEntity("Enigma")
 
+
 class ItemProto(object):
     Global_Iterator = 0
 
@@ -167,6 +168,7 @@ class ItemProto(object):
             Trace.trace()
             pass
         pass
+
     ###################################
     def getItemType(self):
         if (self.ItemData is None):
@@ -281,6 +283,3 @@ class ItemProto(object):
     def __str__(self):
         str = "Name %s data %s" % (self.Name, self.ItemData)
         return str
-        pass
-
-    pass

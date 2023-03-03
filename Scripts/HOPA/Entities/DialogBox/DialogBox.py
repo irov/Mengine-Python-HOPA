@@ -4,6 +4,7 @@ from Foundation.GuardBlockMusicVolumeFade import GuardBlockMusicVolumeFade
 from Foundation.TaskManager import TaskManager
 from HOPA.DialogBoxManager import DialogBoxManager
 
+
 class DialogBox(BaseEntity):
     def _onPreparation(self):
         super(DialogBox, self)._onPreparation()
@@ -26,7 +27,8 @@ class DialogBox(BaseEntity):
         super(DialogBox, self)._onActivate()
 
         self.onDialogBoxShow = Notification.addObserver(Notificator.onDialogBoxShow, self.__showDialogBox)
-        self.onDialogBoxRelease = Notification.addObserver(Notificator.onDialogBoxShowRelease, self.__releaseDialogBox)  # self.onZoomLeave= Notification.addObserver(Notificator.onZoomLeave, self.__releaseDialogBox)
+        self.onDialogBoxRelease = Notification.addObserver(Notificator.onDialogBoxShowRelease, self.__releaseDialogBox)
+        # self.onZoomLeave= Notification.addObserver(Notificator.onZoomLeave, self.__releaseDialogBox)
 
     def _onDeactivate(self):
         super(DialogBox, self)._onDeactivate()
@@ -56,7 +58,8 @@ class DialogBox(BaseEntity):
     def __showDialogBox(self, dialogIDs):
         MusicFadeDialog = DefaultManager.getDefault("MusicFadeDialog", 0.25)
 
-        with TaskManager.createTaskChain(Name="DialogBoxPlay", Group=self.object, Cb=Functor(self.__onDialogBoxPlayComplete, dialogIDs)) as tc:
+        with TaskManager.createTaskChain(Name="DialogBoxPlay", Group=self.object,
+                                         Cb=Functor(self.__onDialogBoxPlayComplete, dialogIDs)) as tc:
             with GuardBlockMusicVolumeFade(tc, "Dialog", MusicFadeDialog) as source:
                 for dialogID in dialogIDs:
                     source.addScope(self.__scopeDialogBoxPlay, dialogID)
@@ -85,15 +88,18 @@ class DialogBox(BaseEntity):
         with source.addParallelTask(5) as (tc_avatar_frame, tc_avatar_bg, tc_black_bar, tc_avatar, tc_text):
             if self.object.hasObject("Sprite_AvatarFrame"):
                 tc_avatar_frame.addTask("TaskEnable", ObjectName="Sprite_AvatarFrame")
-                tc_avatar_frame.addTask("AliasObjectAlphaTo", ObjectName="Sprite_AvatarFrame", Time=AlphaToTime, From=0.0, To=1.0)
+                tc_avatar_frame.addTask("AliasObjectAlphaTo", ObjectName="Sprite_AvatarFrame",
+                                        Time=AlphaToTime, From=0.0, To=1.0)
 
             if self.object.hasObject("Sprite_AvatarBG"):
                 tc_avatar_bg.addTask("TaskEnable", ObjectName="Sprite_AvatarBG")
-                tc_avatar_bg.addTask("AliasObjectAlphaTo", ObjectName="Sprite_AvatarBG", Time=AlphaToTime, From=0.0, To=1.0)
+                tc_avatar_bg.addTask("AliasObjectAlphaTo", ObjectName="Sprite_AvatarBG",
+                                     Time=AlphaToTime, From=0.0, To=1.0)
 
             if self.object.hasObject("Sprite_BlackBar"):
                 tc_black_bar.addTask("TaskEnable", ObjectName="Sprite_BlackBar")
-                tc_black_bar.addTask("AliasObjectAlphaTo", ObjectName="Sprite_BlackBar", Time=AlphaToTime, From=0.0, To=1.0)
+                tc_black_bar.addTask("AliasObjectAlphaTo", ObjectName="Sprite_BlackBar",
+                                     Time=AlphaToTime, From=0.0, To=1.0)
 
             if self.object.hasObject(CharacterID):
                 tc_avatar.addTask("TaskEnable", ObjectName=CharacterID)
@@ -160,4 +166,3 @@ class DialogBox(BaseEntity):
             pass
 
         return False
-        pass

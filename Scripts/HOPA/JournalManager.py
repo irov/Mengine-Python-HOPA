@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 
+
 class JournalManager(object):
     s_pages = {}
     s_sequencePagesID = {}
@@ -13,8 +14,6 @@ class JournalManager(object):
             self.nextPageID = nextPageID
             self.textIDs = textIDs
             self.cutScene = cutScene
-            pass
-        pass
 
     @staticmethod
     def setSequencePagesID(dict):
@@ -116,13 +115,8 @@ class JournalManager(object):
             if JournalManager.s_sequencePagesID[id] == JournalID:
                 if id not in PageID:
                     return None
-                    pass
                 return id
-                pass
-            pass
-
         return None
-        pass
 
     @staticmethod
     def getNextPage(JournalID):
@@ -131,17 +125,12 @@ class JournalManager(object):
         PageID = Journal.getParam("PageID")
         if JournalID not in JournalManager.s_sequencePagesID:
             return None
-            pass
 
         next = JournalManager.s_sequencePagesID[JournalID]
         if next not in PageID:
             return None
-            pass
 
         return next
-        pass
-
-    pass
 
     @staticmethod
     def getAllPages():

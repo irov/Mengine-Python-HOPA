@@ -2,6 +2,7 @@ from Foundation.TaskManager import TaskManager
 
 from BoneMinds import BoneMinds
 
+
 class BoneItem(object):
     def __init__(self, prev, item, movie_use, movie_wrong, movie_add, movie_over):
         self.item = item
@@ -91,5 +92,3 @@ class BoneItem(object):
 
     def getOver(self):
         return self.movie_over
-        pass
-    pass

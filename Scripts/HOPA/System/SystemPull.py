@@ -3,6 +3,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.PullManager import PullManager
 
+
 class SystemPull(System):
     def __init__(self):
         super(SystemPull, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class NotebookDescriptionManager(object):
     s_descriptions = {}
 
@@ -16,6 +17,7 @@ class NotebookDescriptionManager(object):
         def getMovie(self):
             return self.Movie
             pass
+
         pass
 
     @staticmethod
@@ -46,7 +48,8 @@ class NotebookDescriptionManager(object):
 
             Movie = GroupManager.getObject(DescriptionGroupName, DescriptionMovieName)
 
-            NotebookDescriptionManager.s_descriptions[NoteID] = NotebookDescriptionManager.DescriptionEntry(DescriptionTextID, Movie)
+            param = NotebookDescriptionManager.DescriptionEntry(DescriptionTextID, Movie)
+            NotebookDescriptionManager.s_descriptions[NoteID] = param
             pass
 
         pass
@@ -64,7 +67,8 @@ class NotebookDescriptionManager(object):
     @staticmethod
     def hasDescription(id):
         if id not in NotebookDescriptionManager.s_descriptions:
-            Trace.log("NotebookDescriptionManager", 0, "NotebookDescriptionManager.hasDescription invalid ID, maybe forgot to add in some xls")
+            Trace.log("NotebookDescriptionManager", 0,
+                      "NotebookDescriptionManager.hasDescription invalid ID, maybe forgot to add in some xls")
             return False
             pass
 

@@ -1,6 +1,7 @@
 from Foundation.GuardBlockGame import GuardBlockGame
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventoryItemPopUp(TaskAlias):
     def _onParams(self, params):
         super(AliasInventoryItemPopUp, self)._onParams(params)
@@ -12,7 +13,7 @@ class AliasInventoryItemPopUp(TaskAlias):
         with GuardBlockGame(source) as source:
             source.addTask("TaskSceneActivate")
 
-            source.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0, Block=True)  # speed fix
+            source.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0, Block=True)
 
             source.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=True)
 

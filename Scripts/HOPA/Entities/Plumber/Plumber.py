@@ -4,7 +4,9 @@ from Notification import Notification
 from Field import Field
 from PlumberManager import PlumberManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Plumber(Enigma):
     def __init__(self):
@@ -27,8 +29,20 @@ class Plumber(Enigma):
 
     def _onPreparation(self):
         super(Plumber, self)._onPreparation()
-        self.movieConforms = {"Movie_Up": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"], "Movie_Down": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"], "Movie_Left": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"], "Movie_Right": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"], "Movie_UpLeft": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"], "Movie_UpRight": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"], "Movie_DownLeft": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"],
-            "Movie_DownRight": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"], "Movie_LeftUp": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"], "Movie_LeftDown": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"], "Movie_RightUp": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"], "Movie_RightDown": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"]}
+        self.movieConforms = {
+            "Movie_Up": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"],
+            "Movie_Down": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"],
+            "Movie_Left": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"],
+            "Movie_Right": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"],
+            "Movie_UpLeft": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"],
+            "Movie_UpRight": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"],
+            "Movie_DownLeft": ["Movie_Left", "Movie_LeftUp", "Movie_LeftDown"],
+            "Movie_DownRight": ["Movie_Right", "Movie_RightUp", "Movie_RightDown"],
+            "Movie_LeftUp": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"],
+            "Movie_LeftDown": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"],
+            "Movie_RightUp": ["Movie_Up", "Movie_UpLeft", "Movie_UpRight"],
+            "Movie_RightDown": ["Movie_Down", "Movie_DownLeft", "Movie_DownRight"]
+        }
         self.onPlumberItemWinPos = Notification.addObserver(Notificator.onPlumberItemWinPos, self.__onChangeGame)
         pass
 
@@ -119,7 +133,8 @@ class Plumber(Enigma):
                                 cellMovie = cell.getMovie()
                                 tc_cell.addTask("TaskMovieSocketClick", SocketName="socket", Movie=cellMovie)
                                 tc_cell.addTask("TaskScope", Scope=self.setItemToCell, Args=(cell, item))
-                                tc_cell.addTask("TaskFunction", Fn=self.reatachItemMovies, Args=(itemMovie, itemSelectedMovie, cellMovie))
+                                tc_cell.addTask("TaskFunction", Fn=self.reatachItemMovies,
+                                                Args=(itemMovie, itemSelectedMovie, cellMovie))
                                 pass
                             pass
                         pass
@@ -300,7 +315,8 @@ class Plumber(Enigma):
                 tc_2.addTask("TaskMoviePlay", Movie=winMovie, Wait=True)
                 pass
             tc.addTask("TaskMovieSocketEnable", SocketName="socket", Movie=cellMovie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.completeCurrentWin, Args=(cellMovieEntity, winMovieEntity, halfMovieEntity,))
+            tc.addTask("TaskFunction", Fn=self.completeCurrentWin,
+                       Args=(cellMovieEntity, winMovieEntity, halfMovieEntity,))
             pass
         return True
         pass

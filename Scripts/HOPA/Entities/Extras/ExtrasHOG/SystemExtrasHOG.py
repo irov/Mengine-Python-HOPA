@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChapterManager import ChapterManager
 from Notification import Notification
 
+
 class SystemExtrasHOG(System):
     def __init__(self):
         super(SystemExtrasHOG, self).__init__()

@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinInventoryItem
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryDetachItem(MixinInventoryItem, Task):
     Skiped = True
 
@@ -32,4 +33,5 @@ class TaskInventoryDetachItem(MixinInventoryItem, Task):
 
         return True
         pass
+
     pass

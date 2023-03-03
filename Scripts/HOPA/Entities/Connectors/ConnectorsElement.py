@@ -32,4 +32,5 @@ class ConnectorsElement(object):
             self.stateObject.setCurrentState("Off")
             pass
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemBlockInput(System):
     """
     This class is for handling blocking input from macro, this system should not be global

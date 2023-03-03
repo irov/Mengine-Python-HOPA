@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ChipsMoveOnMouseMoveManager(Manager):
     s_puzzles = {}
 
@@ -11,7 +12,7 @@ class ChipsMoveOnMouseMoveManager(Manager):
             self.Layers = Layers
 
         def __repr__(self):
-            return "<ChipsMoveOnMouseMoveManager.Param id={} MovieSlots={} GridSize={}>".format(id(self), self.movie_slots, self.grid_size)
+            return "<ChipsMoveOnMouseMoveManager.Param id={}".format(id(self))
 
     @staticmethod
     def loadParams(module, param):

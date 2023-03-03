@@ -1,6 +1,8 @@
 from Foundation.TaskManager import TaskManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class PatchesGame(Enigma):
 
@@ -84,6 +86,7 @@ class PatchesGame(Enigma):
         Opening = self.Mov_Opening[i]
 
         Mov = [[[Idle, True]]]
+
         ######################################################
         def filterund():
             if (self.Active[i] is False and self.Win == -1 and self.Block == -1):
@@ -109,6 +112,7 @@ class PatchesGame(Enigma):
                 pass
             tc.addTask("TaskFunction", Fn=undLeav)
             pass
+
         ######################################################
         def click():
             Opening.setEnable(True)

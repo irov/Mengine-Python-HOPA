@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinFan
 from Foundation.Task.Task import Task
 
+
 class TaskFanFoundItem(MixinFan, Task):
     def _onParams(self, params):
         super(TaskFanFoundItem, self)._onParams(params)

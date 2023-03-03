@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskFanItemInvalidUse(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskFanItemInvalidUse, self)._onParams(params)
@@ -17,4 +18,5 @@ class TaskFanItemInvalidUse(MixinObserver, Task):
     def _onFanItemInvalidUse(self, item):
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskInventorySlotAttachMovie(Task):
     Skiped = True
 
@@ -13,7 +14,8 @@ class TaskInventorySlotAttachMovie(Task):
 
     def _onRun(self):
         if self.Inventory.isActive() is False:
-            Trace.log("TaskInventorySlotAttachMovie", 3, "TaskInventorySlotAttachMovie._onRun-> Inventory hasn't Entity")
+            Trace.log("TaskInventorySlotAttachMovie", 3,
+                      "TaskInventorySlotAttachMovie._onRun-> Inventory hasn't Entity")
             return False
             pass
 
@@ -21,7 +23,8 @@ class TaskInventorySlotAttachMovie(Task):
         invItem = self.Slot.item
 
         if invItem is None:
-            Trace.log("TaskInventorySlotAttachMovie", 3, "TaskInventorySlotAttachMovie._onRun-> Slot%d hasn't item" % (self.Slot.slotId))
+            Trace.log("TaskInventorySlotAttachMovie", 3,
+                      "TaskInventorySlotAttachMovie._onRun-> Slot%d hasn't item" % (self.Slot.slotId))
             return True
             pass
 
@@ -37,5 +40,3 @@ class TaskInventorySlotAttachMovie(Task):
         pointSlot.addChild(movieEntity)
 
         return True
-        pass
-    pass

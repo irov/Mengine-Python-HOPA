@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinZoom
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskZoomClick(MixinZoom, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskZoomClick, self)._onParams(params)
@@ -30,4 +31,5 @@ class TaskZoomClick(MixinZoom, MixinObserver, Task):
     def _onZoomClickFilter(self, zoom):
         return True
         pass
+
     pass

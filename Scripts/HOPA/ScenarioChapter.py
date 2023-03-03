@@ -2,6 +2,7 @@ from Foundation.Initializer import Initializer
 from Foundation.Notificator import Notificator
 from Notification import Notification
 
+
 class ScenarioChapter(Initializer):
     def __init__(self):
         super(ScenarioChapter, self).__init__()
@@ -14,19 +15,14 @@ class ScenarioChapter(Initializer):
         self.skipedInjections = []
 
         self.onParagraphRunObserver = None
-        pass
 
     def addScenario(self, ScenarioID, Runner):
         if Runner is None:
             Trace.log("Manager", 0, "ScenarioChapter.addScenario %s Runner is None" % (ScenarioID))
-
             return False
-            pass
 
         self.scenarios[ScenarioID] = Runner
-
         return True
-        pass
 
     def getScenario(self, ScenarioID):
         if ScenarioID not in self.scenarios:
@@ -34,9 +30,7 @@ class ScenarioChapter(Initializer):
             pass
 
         Runner = self.scenarios[ScenarioID]
-
         return Runner
-        pass
 
     def addOption(self, name, value):
         self.Options[name] = value
@@ -53,20 +47,15 @@ class ScenarioChapter(Initializer):
     def visitScenario(self, cb):
         for scenario in self.scenarios.itervalues():
             cb(scenario)
-            pass
-        pass
 
     def _onInitialize(self):
         super(ScenarioChapter, self)._onInitialize()
-
         self.onParagraphRunObserver = Notification.addObserver(Notificator.onParagraphRun, self.__onParagraphRun)
         pass
 
     def __onParagraphRun(self, ParagraphID):
         self.completeParagraph(ParagraphID)
-
         return False
-        pass
 
     def _onFinalize(self):
         super(ScenarioChapter, self)._onFinalize()
@@ -283,5 +272,3 @@ class ScenarioChapter(Initializer):
             pass
 
         return SceneCommandsRun
-        pass
-    pass

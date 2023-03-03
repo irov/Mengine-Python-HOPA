@@ -1,8 +1,10 @@
 from Foundation.Task.Task import Task
 from Notification import Notification
 
+
 class TaskJournal(Task):
     Skiped = True
+
     def _onParams(self, params):
         super(TaskJournal, self)._onParams(params)
         self.JournalID = params.get("JournalID")

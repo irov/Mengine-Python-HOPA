@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class Toolbar(BaseEntity):
     def __init__(self):
         super(Toolbar, self).__init__()
@@ -10,4 +11,5 @@ class Toolbar(BaseEntity):
 
     def _onDeactivate(self):
         pass
+
     pass

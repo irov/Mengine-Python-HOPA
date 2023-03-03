@@ -7,6 +7,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 
+
 class SystemGetItemRound(System):
     def __init__(self):
         super(SystemGetItemRound, self).__init__()
@@ -80,7 +81,8 @@ class SystemGetItemRound(System):
             with GuardBlockGame(tc) as source:
                 source.addTask("TaskSceneActivate")
 
-                source.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0, Block=True)  # speed fix
+                source.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0,
+                               Block=True)  # speed fix
 
                 source.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=True)
 
@@ -118,13 +120,16 @@ class SystemGetItemRound(System):
             scope.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory)
 
         with scope.addParallelTask(2) as (scope_fade_out, scope_get_item):
-            scope_fade_out.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.3, Time=0.2 * 1000, Unblock=True)  # speed fix
+            scope_fade_out.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.3, Time=0.2 * 1000,
+                                   Unblock=True)  # speed fix
 
             scope_get_item.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=itemName)
-            scope_get_item.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
+            scope_get_item.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory,
+                                   InventoryItem=InventoryItem)
             scope_get_item.addTask("TaskEnable", Object=InventoryItem, Value=False)
 
-            scope_get_item.addTask("TaskEffectInventoryAddInventoryItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
+            scope_get_item.addTask("TaskEffectInventoryAddInventoryItem", Inventory=self.Inventory,
+                                   InventoryItem=InventoryItem)
             scope_get_item.addTask("TaskEnable", Object=InventoryItem, Value=True)
 
         scope.addFunction(self.Inventory.setParam, "BlockScrolling", False)

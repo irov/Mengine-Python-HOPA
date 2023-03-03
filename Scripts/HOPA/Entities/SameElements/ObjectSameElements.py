@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectSameElements(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -11,4 +12,5 @@ class ObjectSameElements(ObjectEnigma):
         super(ObjectSameElements, self)._onParams(params)
         self.initParam("Collections", params, {})
         pass
+
     pass

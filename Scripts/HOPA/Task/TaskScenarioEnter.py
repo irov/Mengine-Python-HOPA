@@ -2,6 +2,7 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from HOPA.ScenarioManager import ScenarioManager
 
+
 class TaskScenarioEnter(MixinObserver, Task):
     Skiped = False
 
@@ -40,4 +41,5 @@ class TaskScenarioEnter(MixinObserver, Task):
             pass
         return True
         pass
+
     pass

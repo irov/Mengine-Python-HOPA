@@ -1,5 +1,6 @@
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionEnvSpellUse(HintActionDefault):
     def _onParams(self, params):
         super(HintActionEnvSpellUse, self)._onParams(params)

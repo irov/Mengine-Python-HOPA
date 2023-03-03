@@ -4,6 +4,7 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class CruiseActionZoom(MixinZoom, CruiseAction):
     def _onParams(self, params):
         super(CruiseActionZoom, self)._onParams(params)

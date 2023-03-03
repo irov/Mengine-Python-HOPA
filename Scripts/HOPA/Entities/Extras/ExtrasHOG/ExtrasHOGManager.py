@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ExtrasHOGManager(object):
     s_data = {}
 

@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
+
 class LeversPuzzleManager(Manager):
     s_puzzles = {}
 

@@ -1,7 +1,9 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.HOGFittingInventoryManager import HOGFittingInventoryManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HOGFitting(Enigma):
 

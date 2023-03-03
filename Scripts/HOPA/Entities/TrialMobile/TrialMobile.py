@@ -3,7 +3,9 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
 
+
 ALPHA = 400.0
+
 
 class PurchaseButton(object):
     IDLE = 0
@@ -36,6 +38,7 @@ class PurchaseButton(object):
     def getEnterEvent(self):
         return self.movies[self.IDLE].onMovieSocketEnterEvent
 
+
 class TrialMobile(BaseEntity):
     def __init__(self):
         super(TrialMobile, self).__init__()
@@ -58,10 +61,14 @@ class TrialMobile(BaseEntity):
 
         getObject = self.object.getObject
 
-        self.purchase_button_ce = PurchaseButton(getObject("Movie2_PurchaseCE_Idle"), getObject("Movie2_PurchaseCE_Over"), getObject("Movie2_PurchaseCE_Pressed"))
+        self.purchase_button_ce = PurchaseButton(getObject("Movie2_PurchaseCE_Idle"),
+                                                 getObject("Movie2_PurchaseCE_Over"),
+                                                 getObject("Movie2_PurchaseCE_Pressed"))
         self.purchase_button_ce.setState(PurchaseButton.OVER)
 
-        self.purchase_button_se = PurchaseButton(getObject("Movie2_PurchaseSE_Idle"), getObject("Movie2_PurchaseSE_Over"), getObject("Movie2_PurchaseSE_Pressed"))
+        self.purchase_button_se = PurchaseButton(getObject("Movie2_PurchaseSE_Idle"),
+                                                 getObject("Movie2_PurchaseSE_Over"),
+                                                 getObject("Movie2_PurchaseSE_Pressed"))
 
         self.se_info = self.object.getObject("Movie2_PurchaseSE_Info")
         self.se_info.setPlay(True)

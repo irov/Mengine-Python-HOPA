@@ -8,14 +8,13 @@ from FragmentsRollGrid import FragmentsRollGrid
 from FragmentsRollMovieGrid import FragmentsRollMovieGrid
 from FragmentsRollMoving import FragmentsRollMoving
 
+
 def getMaxMin(first, second):
     if first > second:
         return (first, second)
-        pass
     else:
         return (second, first)
-        pass
-    pass
+
 
 class FragmentsRollShift(object):
     def __init__(self, x, y, dx, dy):
@@ -32,10 +31,10 @@ class FragmentsRollShift(object):
             pass
 
         return True
-        pass
-    pass
+
 
 Enigma = Mengine.importEntity("Enigma")
+
 
 class FragmentsRoll(Enigma):
     def __init__(self):
@@ -329,22 +328,21 @@ class FragmentsRoll(Enigma):
 
         isBackward = False
 
-        if (self.currentShift.dy < 0 and dy > 0) or (self.currentShift.dy > 0 and dy < 0) or (self.currentShift.dx > 0 and dx < 0) or (self.currentShift.dx < 0 and dx > 0):
+        if any([
+            (self.currentShift.dy < 0 and dy > 0),
+            (self.currentShift.dy > 0 and dy < 0),
+            (self.currentShift.dx > 0 and dx < 0),
+            (self.currentShift.dx < 0 and dx > 0)
+        ]):
             isBackward = True
-            pass
         else:
             isBackward = False
-            pass
 
         for fragment in self.movingFragments:
             if isBackward is True:
                 fragment.moveBackward()
-                pass
             else:
                 fragment.moveForward()
-                pass
-            pass
-        pass
 
     def generateFragment(self, fragmentId):
         name = self.GameData.fragments[fragmentId]["ObjectName"]
@@ -406,5 +404,3 @@ class FragmentsRoll(Enigma):
 
         self.refresh()
         return False
-        pass
-    pass

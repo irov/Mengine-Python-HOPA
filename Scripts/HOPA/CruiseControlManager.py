@@ -5,6 +5,7 @@ from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class CruiseControlManager(object):
     s_cruiseTypes = {}
     s_questsType = {}
@@ -35,6 +36,7 @@ class CruiseControlManager(object):
         def getPriority(self):
             return self.cruisePriority
             pass
+
         pass
 
     @staticmethod
@@ -330,7 +332,8 @@ class CruiseControlManager(object):
                     TransitionBack = TransitionManager.findTransitionBackToScene(currentSceneName, CruiseSceneName)
                     if TransitionBack is not None:
                         Params = dict(Transition=TransitionBack)
-                        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionTransitionBack", quest, **Params)
+                        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionTransitionBack", quest,
+                                                                               **Params)
                     else:
                         continue
 

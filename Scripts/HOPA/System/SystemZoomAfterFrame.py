@@ -2,6 +2,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemZoomAfterFrame(System):
     def __init__(self):
         super(SystemZoomAfterFrame, self).__init__()

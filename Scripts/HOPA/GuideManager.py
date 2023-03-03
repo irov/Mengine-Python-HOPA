@@ -2,27 +2,28 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import isCollectorEdition
 
+
 class MenuPageParam(object):
     def __init__(self, index):
         self.index = index
-
         self.chapters = list()
+
 
 class ChapterParam(object):
     def __init__(self, index, button_name):
         self.index = index
         self.button_name = button_name
-
         self.pages = list()
+
 
 class PageParam(object):
     def __init__(self, unique_index, index, prototype_movie_name):
         self.unique_index = unique_index
         self.index = index
         self.prototype_movie_name = prototype_movie_name
-
         self.page_pic_slots = list()
         self.page_text_ids = list()
+
 
 class GuideParam(object):
     def __init__(self, pic_zoom_pos, pic_zoom_scale, pic_zoom_time, menu_pages):
@@ -30,6 +31,7 @@ class GuideParam(object):
         self.pic_zoom_scale = pic_zoom_scale
         self.pic_zoom_time = pic_zoom_time
         self.menu_pages = menu_pages
+
 
 class GuideManager(Manager):
     s_guide_param = None
@@ -52,12 +54,14 @@ class GuideManager(Manager):
             guide_pages_pics = record.get('GuidePagesPics')
             guide_pages_texts = record.get('GuidePagesTexts')
 
-            result = GuideManager.addParam(module, guide_pages, guide_pages_pics, guide_pages_texts, pic_zoom_pos, pic_zoom_scale, pic_zoom_time)
+            result = GuideManager.addParam(module, guide_pages, guide_pages_pics, guide_pages_texts, pic_zoom_pos,
+                                           pic_zoom_scale, pic_zoom_time)
 
             if result is False:
                 error_msg = "GuideManager invalid addParam"
                 Trace.log("Manager", 0, error_msg)
                 return False
+
         return True
 
     @staticmethod

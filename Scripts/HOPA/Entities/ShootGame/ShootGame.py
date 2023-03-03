@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ShootGameManager import ShootGameManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ShootGame(Enigma):
 
@@ -79,6 +81,7 @@ class ShootGame(Enigma):
             self.__StartGame()
 
             pass
+
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName="Start", Movie=self.MoviePoints, isDown=True)
             tc.addTask("TaskFunction", Fn=fun)
@@ -237,4 +240,5 @@ class ShootGame(Enigma):
             TaskManager.cancelTaskChain(Name)
             pass
         pass
+
     pass

@@ -4,6 +4,7 @@ from Foundation.Task.MixinObjectTemplate import MixinZoom
 from HOPA.HintManager import HintManager
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 
+
 class SparksActionHint(SparksActionDefault, MixinZoom):
     def __init__(self):
         super(SparksActionHint, self).__init__()

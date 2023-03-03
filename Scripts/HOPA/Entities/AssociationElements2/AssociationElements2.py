@@ -4,7 +4,9 @@ from Notification import Notification
 from AssociationElements2Manager import AssociationElements2Manager
 from Element import Element
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class AssociationElements2(Enigma):
     def __init__(self):

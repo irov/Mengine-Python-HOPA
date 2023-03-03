@@ -4,6 +4,7 @@ from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 
+
 class TaskEffectFittingInventoryAddInventoryItem(Task):
     def _onParams(self, params):
         super(TaskEffectFittingInventoryAddInventoryItem, self)._onParams(params)
@@ -50,7 +51,8 @@ class TaskEffectFittingInventoryAddInventoryItem(Task):
 
         with TaskManager.createTaskChain(Cb=self._onEffectInventoryAddItemComplete) as tc:
             with tc.addParallelTask(3) as (tcp0, tcp1, tcp2):
-                tcp0.addTask("TaskNodeBezier2To", Node=self.itemEntity, Point1=P1, To=P2, Speed=SpeedEffectFittingInventoryAddItem)
+                tcp0.addTask("TaskNodeBezier2To", Node=self.itemEntity, Point1=P1, To=P2,
+                             Speed=SpeedEffectFittingInventoryAddItem)
                 tcp1.addTask("TaskNodeScaleTo", Node=self.itemEntity, To=(scaleTo, scaleTo, 1.0), Time=time)
                 tcp2.addTask("TaskDelay", Time=time / 2)
                 tcp2.addTask("TaskNodeAlphaTo", Node=self.itemEntity, To=0.3, Time=time / 2)

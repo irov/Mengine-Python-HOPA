@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class SwapDifferentManager(object):
     s_games = {}
 
@@ -7,8 +8,6 @@ class SwapDifferentManager(object):
         def __init__(self, elements, rules):
             self.elements = elements
             self.rules = rules
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -20,8 +19,6 @@ class SwapDifferentManager(object):
             RulesParam = record.get("Rules")
 
             SwapDifferentManager.loadGame(Name, ElementsParam, RulesParam)
-            pass
-        pass
 
     @staticmethod
     def loadGame(name, elementsParam, RulesParam):
@@ -73,6 +70,3 @@ class SwapDifferentManager(object):
     @staticmethod
     def hasGame(name):
         return name in SwapDifferentManager.s_games
-        pass
-
-    pass

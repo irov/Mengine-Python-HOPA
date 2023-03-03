@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinMovieItem
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskMovieItemClickOBS(MixinMovieItem, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskMovieItemClickOBS, self)._onParams(params)

@@ -1,6 +1,7 @@
 from Foundation.Object.DemonObject import DemonObject
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 
+
 class ObjectHOGInventoryFitting(DemonObject):
     @staticmethod
     def declareORM(Type):

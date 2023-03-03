@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintWayEffectInterrupt(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintWayEffectInterrupt, self)._onParams(params)
@@ -14,4 +15,5 @@ class PolicyHintWayEffectInterrupt(TaskAlias):
         source.addTask("TaskMovie2Interrupt", GroupName="HintEffect", Movie2Name="Movie2_HintWay")
         # source.addTask("TaskMovie2Stop", GroupName = "HintEffect", Movie2Name = "Movie2_HintWay")
         pass
+
     pass

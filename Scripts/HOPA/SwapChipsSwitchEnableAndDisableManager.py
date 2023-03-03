@@ -1,11 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class SwapChipsSwitchEnableAndDisableManager(Manager):
     s_puzzles = {}
 
     class SwapChipsSwitchEnableAndDisableParam(object):
-        def __init__(self, red_dict, blue_dict, green_dict, black_dict, blueSelected_dict, redSelected_dict, greenSelected_dict, blackSelected_dict, slot_dict, startComb_dict):
+        def __init__(self, red_dict, blue_dict, green_dict, black_dict, blueSelected_dict, redSelected_dict,
+                     greenSelected_dict, blackSelected_dict, slot_dict, startComb_dict):
             self.redDict = red_dict
             self.blueDict = blue_dict
             self.greenDict = green_dict
@@ -121,7 +123,9 @@ class SwapChipsSwitchEnableAndDisableManager(Manager):
             startComb_dict[SlotID] = Type
         # ==============================================================================================================
 
-        new_param = SwapChipsSwitchEnableAndDisableManager.SwapChipsSwitchEnableAndDisableParam(red_dict, blue_dict, green_dict, black_dict, blueSelected_dict, redSelected_dict, greenSelected_dict, blackSelected_dict, slot_dict, startComb_dict)
+        new_param = SwapChipsSwitchEnableAndDisableManager.SwapChipsSwitchEnableAndDisableParam(
+            red_dict, blue_dict, green_dict, black_dict, blueSelected_dict, redSelected_dict,
+            greenSelected_dict, blackSelected_dict, slot_dict, startComb_dict)
         SwapChipsSwitchEnableAndDisableManager.s_puzzles[EnigmaName] = new_param
         return True
 

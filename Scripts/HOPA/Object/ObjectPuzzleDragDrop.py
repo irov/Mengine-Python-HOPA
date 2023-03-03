@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectPuzzleDragDrop(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -19,4 +20,5 @@ class ObjectPuzzleDragDrop(ObjectEnigma):
         self.initParam("HoldItems", params, [])
         self.initParam("DisableItems", params, [])
         pass
+
     pass

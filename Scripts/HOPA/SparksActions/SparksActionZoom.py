@@ -2,6 +2,7 @@ from Foundation.Task.MixinObjectTemplate import MixinZoom
 from HOPA.SparksActions.SparksActionDefault import SparksActionDefault
 from HOPA.ZoomManager import ZoomManager
 
+
 class SparksActionZoom(SparksActionDefault, MixinZoom):
     def _onParams(self, params):
         super(SparksActionZoom, self)._onParams(params)

@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.StonePyramidsManager import StonePyramidsManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Stone(object):
     def __init__(self, slot_name, slot, slot_to_name, movie_start, movie_select, movie_finish, movie_fall):
@@ -90,7 +92,9 @@ class Stone(object):
                 repeat.addTask("TaskNodeAlphaTo", Node=node, To=1.0, Time=500, Interrupt=True)
                 until.addEvent(self.__pulse_end_event)
 
-        # Why alpha?  # play movie_select in loop cause sound problems  # scale looks terrible because of anchor which is not at the center of stone
+        # Why alpha?
+        # play movie_select in loop cause sound problems
+        # scale looks terrible because of anchor which is not at the center of stone
 
     def disablePulseTC(self):
         self.__pulse_end_event()
@@ -108,6 +112,7 @@ class Stone(object):
             self.movie_select.returnToParent()
 
         self.disableSelectTC()
+
 
 class Pyramid(object):
     STONES_PLATE_MOVIE = None
@@ -154,8 +159,10 @@ class Pyramid(object):
             tc.addDelay(1)
 
             with tc.addRaceTask(2) as (alpha_to, interrupt):
-                alpha_to.addTask("TaskNodeAlphaTo", Node=self.virtual_slot, To=Pyramid.PYRAMID_ALPHA_TO, Time=Pyramid.PYRAMID_ALPHA_TIME, Interrupt=True)
-                interrupt.addEvent(Pyramid.UPDATE_PYRAMID_DIST_INFO_EVENT, lambda pyramid_list: pyramid_list[0] is not self)
+                alpha_to.addTask("TaskNodeAlphaTo", Node=self.virtual_slot, To=Pyramid.PYRAMID_ALPHA_TO,
+                                 Time=Pyramid.PYRAMID_ALPHA_TIME, Interrupt=True)
+                interrupt.addEvent(Pyramid.UPDATE_PYRAMID_DIST_INFO_EVENT,
+                                   lambda pyramid_list: pyramid_list[0] is not self)
 
         self.__tc_alpha_from = TaskManager.createTaskChain(Repeat=True)
         with self.__tc_alpha_from as tc:
@@ -163,7 +170,8 @@ class Pyramid(object):
             tc.addDelay(1)
 
             with tc.addRaceTask(2) as (alpha_from, interrupt):
-                alpha_from.addTask("TaskNodeAlphaTo", Node=self.virtual_slot, To=Pyramid.PYRAMID_ALPHA_FROM, Time=Pyramid.PYRAMID_ALPHA_TIME, Interrupt=True)
+                alpha_from.addTask("TaskNodeAlphaTo", Node=self.virtual_slot, To=Pyramid.PYRAMID_ALPHA_FROM,
+                                   Time=Pyramid.PYRAMID_ALPHA_TIME, Interrupt=True)
                 interrupt.addEvent(Pyramid.UPDATE_PYRAMID_DIST_INFO_EVENT, lambda pyramid_list: pyramid_list[0] is self)
 
     def disableTransparencyTC(self):
@@ -188,6 +196,7 @@ class Pyramid(object):
         self.virtual_slot.removeFromParent()
         Mengine.destroyNode(self.virtual_slot)
         self.virtual_slot = None
+
 
 class StonePyramids(Enigma):
     def __init__(self):
@@ -308,7 +317,8 @@ class StonePyramids(Enigma):
             race.addFunction(stone_holder.set, stone)
             race.addFunction(stone.setPicked, True)
 
-    def scopeAttachStoneDefault(self, source, stone_holder, pyramids_list_by_dist_holder, pyramid_holder, attach_stone_first_time_holder):
+    def scopeAttachStoneDefault(self, source, stone_holder, pyramids_list_by_dist_holder, pyramid_holder,
+                                attach_stone_first_time_holder):
         stone = stone_holder.get()
         movie_finish = stone.movie_finish
         movie_finish_node = movie_finish.getEntityNode()
@@ -324,7 +334,8 @@ class StonePyramids(Enigma):
         source.addFunction(slot.addChild, movie_finish_node)
 
         if attach_stone_first_time_holder.get():
-            source.addTask("TaskNodeAlphaTo", Node=movie_finish_node, From=Pyramid.PYRAMID_ALPHA_TO, To=Pyramid.PYRAMID_ALPHA_FROM, Time=Pyramid.PYRAMID_ALPHA_TIME)
+            source.addTask("TaskNodeAlphaTo", Node=movie_finish_node, From=Pyramid.PYRAMID_ALPHA_TO,
+                           To=Pyramid.PYRAMID_ALPHA_FROM, Time=Pyramid.PYRAMID_ALPHA_TIME)
 
     def scopeAttachStoneTouchpad(self, source, stone_holder, pyramids_list_by_dist_holder, pyramid_holder):
         stone = stone_holder.get()
@@ -336,7 +347,8 @@ class StonePyramids(Enigma):
         slot = pyramid.getLastSlot()
 
         source.addFunction(slot.addChild, movie_finish_node)
-        source.addTask("TaskNodeAlphaTo", Node=movie_finish_node, From=Pyramid.PYRAMID_ALPHA_TO, To=Pyramid.PYRAMID_ALPHA_FROM, Time=Pyramid.PYRAMID_ALPHA_TIME)
+        source.addTask("TaskNodeAlphaTo", Node=movie_finish_node, From=Pyramid.PYRAMID_ALPHA_TO,
+                       To=Pyramid.PYRAMID_ALPHA_FROM, Time=Pyramid.PYRAMID_ALPHA_TIME)
 
     def scopeDetachStone(self, source, stone_holder):
         stone = stone_holder.get()
@@ -435,7 +447,8 @@ class StonePyramids(Enigma):
 
             with source.addRepeatTask() as (repeat, until):
                 # attach stone finish_movie
-                repeat.addScope(self.scopeAttachStoneDefault, stone_holder, pyramids_list_by_dist_holder, pyramid_holder, attach_stone_first_time_holder)
+                repeat.addScope(self.scopeAttachStoneDefault, stone_holder, pyramids_list_by_dist_holder,
+                                pyramid_holder, attach_stone_first_time_holder)
                 repeat.addEvent(Pyramid.UPDATE_PYRAMID_DIST_INFO_EVENT)
                 repeat.addScope(self.scopeDetachStone, stone_holder)  # dettach stone finish_movie
                 repeat.addFunction(attach_stone_first_time_holder.set, False)
@@ -472,7 +485,8 @@ class StonePyramids(Enigma):
 
             tc.addScope(self.scopePlaceStone, stone_holder, pyramid_holder)  # play stone finish_movie or fall_movie
 
-            tc.addFunction(lambda: self.enigmaComplete() if all([pyramid.complete for pyramid in self.pyramids.values()]) else None)
+            tc.addFunction(lambda: self.enigmaComplete() if all(
+                [pyramid.complete for pyramid in self.pyramids.values()]) else None)
 
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):

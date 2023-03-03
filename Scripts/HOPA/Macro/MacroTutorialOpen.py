@@ -1,6 +1,7 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TutorialManager import TutorialManager
 
+
 class MacroTutorialOpen(MacroCommand):
     def _onValues(self, values):
         self.TutorName = values[0]

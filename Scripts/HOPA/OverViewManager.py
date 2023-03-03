@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class OverViewManager(object):
     managment_dict = {}
     immediately = []
@@ -22,8 +23,6 @@ class OverViewManager(object):
         def getMovie(self):
             movieObj = self.__get_object(self.MovieName)
             return movieObj
-            pass
-        pass
 
         def ifFindItem(self):
             return self.isFindItem
@@ -33,25 +32,19 @@ class OverViewManager(object):
             if self.SubObject is not None:
                 sub_object = GroupManager.getObject(self.MovieGroupName, self.SubObject)
                 _object = sub_object.getObject(objectName)
-                pass
             else:
                 _object = GroupManager.getObject(self.MovieGroupName, objectName)
-                pass
             return _object
-            pass
 
         def getObject(self):
             Object = self.__get_object(self.ObjectName)
 
             return Object
-            pass
-        pass
 
         def __disable(self):
             movie = self.getMovie()
             movie.setEnable(False)
             return False
-            pass
 
         def getLoop(self):
             return bool(self.Loop)
@@ -59,7 +52,6 @@ class OverViewManager(object):
     @staticmethod
     def onFinalize():
         OverViewManager.managment_dict = {}
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -75,9 +67,8 @@ class OverViewManager(object):
             SubObject = record.get("SubObject")
             Immediately = record.get("Immediately")
             isFindItem = record.get("isFindItem")
-            OverViewManager.loadViewer(ViewID, ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, Immediately, isFindItem)
-            pass
-        pass
+            OverViewManager.loadViewer(ViewID, ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject,
+                                       Immediately, isFindItem)
 
     @staticmethod
     def loadViewer(*params):
@@ -86,7 +77,6 @@ class OverViewManager(object):
         if not ObjectName or not MovieGroupName or not MovieGroupName:
             Trace.log("OverViewManager", 0, "OverViewManager.loadViewer: : invalid param")
             return
-            pass
 
         data = OverViewManager.SingleOverView(ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, isFindItem)
 
@@ -94,8 +84,6 @@ class OverViewManager(object):
 
         if Immediately is not None:
             OverViewManager.immediately.append(ViewID)
-            pass
-        pass
 
     @staticmethod
     def hasView(ViewID):

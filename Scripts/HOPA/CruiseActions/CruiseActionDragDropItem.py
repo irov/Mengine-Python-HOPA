@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionDragDropItem(MixinItem, MixinObject, CruiseAction):
 
     def _onCheck(self):

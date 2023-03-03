@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroSceneLeave(MacroCommand):
     def _onGenerate(self, source):
         if self.ScenarioRunner.isZoom is True:
@@ -9,4 +10,5 @@ class MacroSceneLeave(MacroCommand):
             source.addTask("TaskSceneLeave", SceneName=self.SceneName)
             pass
         pass
+
     pass

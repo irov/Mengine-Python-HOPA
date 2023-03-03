@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class RotateAndReflectElementManager(object):
     s_object = {}
 
@@ -20,8 +21,6 @@ class RotateAndReflectElementManager(object):
 
         def getElement(self):
             return self.element
-            pass
-        pass
 
     class Element(object):
         def __init__(self, sprite, start, win):
@@ -41,6 +40,7 @@ class RotateAndReflectElementManager(object):
         def getWinPos(self):
             return self.win
             pass
+
         pass
 
     @staticmethod
@@ -56,7 +56,9 @@ class RotateAndReflectElementManager(object):
             swapData = RotateAndReflectElementManager.loadSwapData(module, SwapCollection)
             elementData = RotateAndReflectElementManager.loadElementData(module, ElementCollection)
             socketData = RotateAndReflectElementManager.loadSocketData(module, SocketCollection)
-            RotateAndReflectElementManager.s_object[EnigmaName] = RotateAndReflectElementManager.Data(swapData, elementData, socketData)
+
+            data = RotateAndReflectElementManager.Data(swapData, elementData, socketData)
+            RotateAndReflectElementManager.s_object[EnigmaName] = data
 
         return True
         pass

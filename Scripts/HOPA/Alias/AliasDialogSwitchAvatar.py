@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasDialogSwitchAvatar(TaskAlias):
     def _onParams(self, params):
         super(AliasDialogSwitchAvatar, self)._onParams(params)
@@ -109,7 +110,9 @@ class AliasDialogSwitchAvatar(TaskAlias):
                 pass
             pass
         pass
+
     pass
+
     def scope_SubmoviePlay(self, tc_skip_socket, Movie):
         if Movie != None:
             if Movie.getEntity().hasSubMovie('SubMuvieDIalog') is True:

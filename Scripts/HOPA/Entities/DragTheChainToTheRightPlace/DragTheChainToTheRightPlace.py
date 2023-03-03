@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.DragTheChainToTheRightPlaceManager import DragTheChainToTheRightPlaceManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class DragTheChainToTheRightPlace(Enigma):
     class Chip(object):
@@ -64,6 +66,7 @@ class DragTheChainToTheRightPlace(Enigma):
     def _onDeactivate(self):
         super(DragTheChainToTheRightPlace, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------

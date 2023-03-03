@@ -4,6 +4,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class PolicyHOGRollingMovieItemFoundEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHOGRollingMovieItemFoundEffect, self)._onParams(params)

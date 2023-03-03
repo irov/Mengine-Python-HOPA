@@ -3,8 +3,10 @@ import math
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 
+
 class Planet(Initializer):
     SOCKET_NAME = "Socket_Planet"
+
     def __init__(self, enigmaObject, initialData):
         super(Planet, self).__init__()
         self.enigmaObject = enigmaObject
@@ -147,4 +149,5 @@ class Planet(Initializer):
     def onFinalize(self):
         self.socket.removeFromParent()
         pass
+
     pass

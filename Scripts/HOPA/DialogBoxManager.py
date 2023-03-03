@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 from Foundation.Manager import Manager
 
+
 class DialogBoxManager(Manager):
     s_dialogs = {}
 
@@ -14,9 +15,6 @@ class DialogBoxManager(Manager):
             self.AlphaToTime = AlphaToTime
             self.AlphaFromTime = AlphaFromTime
             self.PlayDialogDelay = PlayDialogDelay
-            pass
-
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -33,7 +31,6 @@ class DialogBoxManager(Manager):
             PlayDialogDelay = record.get("PlayDialogDelay", 100)
 
             DialogBoxManager.addDialog(ID_DIALOG, ID_TEXT, CHARACTER, VoiceID, AlphaToTime, AlphaFromTime, PlayDialogDelay)
-            pass
 
         return True
         pass
@@ -41,9 +38,9 @@ class DialogBoxManager(Manager):
     @staticmethod
     def addDialog(dialogID, textID, characterID, voiceID, AlphaToTime, AlphaFromTime, PlayDialogDelay):
         if Mengine.existText(textID) is False:
-            Trace.log("Manager", 0, "DialogBoxManager.addDialogID: invalid dialog '%s' not found text '%s'" % (dialogID, textID))
+            Trace.log("Manager", 0,
+                      "DialogBoxManager.addDialogID: invalid dialog '%s' not found text '%s'" % (dialogID, textID))
             return
-            pass
 
         Demon_DialogBox = DemonManager.getDemon("DialogBox")
         if Demon_DialogBox.hasObject(characterID) is True:
@@ -69,9 +66,7 @@ class DialogBoxManager(Manager):
         if dialogID not in DialogBoxManager.s_dialogs:
             Trace.log("Manager", 0, "DialogBoxManager.getDialogID: not found dialog id %s" % (dialogID))
             return None
-            pass
 
         dialog = DialogBoxManager.s_dialogs[dialogID]
 
         return dialog
-        pass

@@ -1,5 +1,6 @@
 from HOPA.Entities.InventoryFX.ActionDefaultRemove import ActionDefaultRemove
 
+
 class ActionRemoveItem(ActionDefaultRemove):
     def _onCheck(self):
         return True
@@ -10,4 +11,3 @@ class ActionRemoveItem(ActionDefaultRemove):
 
     def _onRun(self):
         pass
-    pass

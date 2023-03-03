@@ -2,6 +2,7 @@ from Foundation.Initializer import Initializer
 from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene
 
+
 class QuestIconAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(QuestIconAction, self).__init__()

@@ -2,6 +2,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGFittingUseItem(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -34,7 +35,8 @@ class MacroHOGFittingUseItem(MacroCommand):
         EnigmaEntity = EnigmaObject.getEntity()
         Inventory = EnigmaEntity.getInventory()
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=ItemUseObject, Object=ItemObject)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=ItemUseObject, Object=ItemObject)
         with Quest as tc_quest:
             tc_quest.addTask("TaskHOGFittingItemUse", ItemObject=ItemObject, ItemUseObject=ItemUseObject)
             pass

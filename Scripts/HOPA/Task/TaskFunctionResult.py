@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFunctionResult(Task):
     Skiped = True
 
@@ -15,4 +16,5 @@ class TaskFunctionResult(Task):
 
         return res
         pass
+
     pass

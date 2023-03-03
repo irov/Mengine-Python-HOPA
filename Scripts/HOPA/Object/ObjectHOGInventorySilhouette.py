@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectHOGInventorySilhouette(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -23,4 +24,5 @@ class ObjectHOGInventorySilhouette(DemonObject):
         self.initParam("FoundItems", params, [])
 
         pass
+
     pass

@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionDefault(MixinGroup, CruiseAction):
 
     def _onInitialize(self):
@@ -22,12 +23,11 @@ class CruiseActionDefault(MixinGroup, CruiseAction):
             tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
 
     def _getCruiseObject(self):
-        print("Invalid Cruise Object")
+        Trace.msg_err("CruiseActionDefault - Invalid Cruise Object")
         return None
 
     def _getCruisePosition(self, Object):
-        print("Invalid Cruise Position", Object)
-
+        Trace.msg_err("CruiseActionDefault - Invalid Cruise Position {}".format(Object))
         return 0, 0
 
     def _onEnd(self):

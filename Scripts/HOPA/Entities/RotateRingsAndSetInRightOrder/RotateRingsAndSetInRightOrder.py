@@ -3,7 +3,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.RotateRingsAndSetInRightOrderManager import RotateRingsAndSetInRightOrderManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class RotateRingsAndSetInRightOrder(Enigma):
     class Ring(object):
@@ -72,6 +74,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
     def _onDeactivate(self):
         super(RotateRingsAndSetInRightOrder, self)._onDeactivate()
         self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -85,6 +88,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
 
     def _skipEnigmaScope(self, skip_tc):
         skip_tc.addScope(self.complete)
+
     # ==================================================================================================================
 
     def _loadParam(self):
@@ -196,8 +200,15 @@ class RotateRingsAndSetInRightOrder(Enigma):
             slotTempRing = ringTemp.movie.getMovieSlot('checkSlot_{}'.format(ring.id))
             slotRingPos = slotRing.getWorldPosition()
             slotTempRingPos = slotTempRing.getWorldPosition()
-            if (slotTempRingPos[0] > slotRingPos[0] - 10) and (slotTempRingPos[0] < slotRingPos[0] + 10) and (slotTempRingPos[1] > slotRingPos[1] - 10) and (slotTempRingPos[1] < slotRingPos[1] + 10):
+
+            if all([
+                (slotTempRingPos[0] > slotRingPos[0] - 10),
+                (slotTempRingPos[0] < slotRingPos[0] + 10),
+                (slotTempRingPos[1] > slotRingPos[1] - 10),
+                (slotTempRingPos[1] < slotRingPos[1] + 10)
+            ]):
                 ringTemp = ring
+
             else:
                 break
         else:

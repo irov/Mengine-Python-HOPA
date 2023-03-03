@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class DifficultyManager(object):
     s_difficulties = {}
 
@@ -35,5 +36,3 @@ class DifficultyManager(object):
             pass
 
         return DifficultyManager.s_difficulties
-        pass
-    pass

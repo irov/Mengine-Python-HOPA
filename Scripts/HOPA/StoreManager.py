@@ -4,8 +4,13 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 from Foundation.Utils import getCurrentPlatformParams, getCurrentPublisher
 
+
 class StoreManager(Manager):
-    __PARAMS_TABLE_NAMES = {"tabs": "StoreTabs", "buttons": "StoreButtons", "redirect": "StoreRedirect"}
+    __PARAMS_TABLE_NAMES = {
+        "tabs": "StoreTabs",
+        "buttons": "StoreButtons",
+        "redirect": "StoreRedirect"
+    }
 
     s_tabs = {}
     s_buttons = {}
@@ -53,11 +58,13 @@ class StoreManager(Manager):
             self.slot_name = StoreManager.getRecordValue(record, "SlotName")
             self.action = StoreManager.getRecordValue(record, "Action", default="purchase")
             self.product_id = StoreManager.getRecordValue(record, "ProductID", cast=str)
+
             # prototypes
             self.prototype_group = StoreManager.getRecordValue(record, "PrototypeGroup")
             self.button_prototype = StoreManager.getRecordValue(record, "ButtonPrototype")
             self.icon_prototype = StoreManager.getRecordValue(record, "IconPrototype")
             self.discount_submovie = StoreManager.getRecordValue(record, "DiscountSubmovie", default="discount")
+
             # texts
             self.price_text_id = StoreManager.getRecordValue(record, "PriceTextID", default="ID_EMPTY")
             self.title_text_id = StoreManager.getRecordValue(record, "TitleTextID", default="ID_EMPTY")
@@ -173,7 +180,8 @@ class StoreManager(Manager):
             Type = HUMAN_TABLE_NAMES.get(record.get("Type"))
             if Type is None:
                 redirect_table_name = StoreManager.__PARAMS_TABLE_NAMES["redirect"]
-                Trace.log("Manager", 0, "{} has error in Type {!r} - choose one of them: {!r}".format(redirect_table_name, record.get("Type"), HUMAN_TABLE_NAMES))
+                Trace.log("Manager", 0, "{} has error in Type {!r} - choose one of them: {!r}".format(
+                    redirect_table_name, record.get("Type"), HUMAN_TABLE_NAMES))
                 continue
 
             platforms = getCurrentPlatformParams()
@@ -181,11 +189,15 @@ class StoreManager(Manager):
             for platform, b_active in platforms.items():
                 if b_active is False:
                     continue
+
                 table_name = record.get(platform)
                 if table_name is None:
                     # only one platform could be True, so we don't need to continue our loop
                     break
-                table_name = table_name.format(tag=StoreManager.__PARAMS_TABLE_NAMES[Type], platform=platform, publisher=Publisher)
+
+                table_name = table_name.format(tag=StoreManager.__PARAMS_TABLE_NAMES[Type],
+                                               platform=platform,
+                                               publisher=Publisher)
                 StoreManager.__PARAMS_TABLE_NAMES[Type] = table_name
 
     @staticmethod

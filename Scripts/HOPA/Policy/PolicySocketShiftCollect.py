@@ -6,6 +6,7 @@ from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 from HOPA.QuestManager import QuestManager
 
+
 class PolicySocketShiftCollect(MixinGroup, Task):
     Skiped = False
 
@@ -30,12 +31,14 @@ class PolicySocketShiftCollect(MixinGroup, Task):
         for collect_index, collect in enumerate(self.Collects):
             Object = self.Group.getObject(collect["InteractionName"])
 
-            Quest = QuestManager.createLocalQuest("ShiftCollect", SceneName=SceneName, GroupName=self.Group.getName(), Collects=self.Collects, CollectIndex=collect_index)
+            Quest = QuestManager.createLocalQuest("ShiftCollect", SceneName=SceneName, GroupName=self.Group.getName(),
+                                                  Collects=self.Collects, CollectIndex=collect_index)
 
             with TaskManager.createTaskChain(Name=self.Name + str(collect_index), Group=self.Group) as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     with tc_quest.addRepeatTask() as (tc_repeat, tc_until):
-                        tc_repeat.addTask("AliasObjectClick", ObjectName=collect["InteractionName"], IsQuest=False, SceneName=SceneName)
+                        tc_repeat.addTask("AliasObjectClick", ObjectName=collect["InteractionName"], IsQuest=False,
+                                          SceneName=SceneName)
 
                         tc_repeat.addTask("TaskShiftNext", ShiftName=collect["ShiftName"])
 

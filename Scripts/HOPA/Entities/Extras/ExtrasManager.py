@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ExtrasManager(object):
     s_extras = {}
 
@@ -31,6 +32,7 @@ class ExtrasManager(object):
         def getObjectName(self):
             return self.objectName
             pass
+
         pass
 
     class ExtrasEnigma(object):
@@ -51,6 +53,7 @@ class ExtrasManager(object):
         def getScenarioID(self):
             return self.scenarioID
             pass
+
         pass
 
     @staticmethod
@@ -107,6 +110,7 @@ class ExtrasManager(object):
     def getExtra(extraName):
         return ExtrasManager.s_extras[extraName]
         pass
+
     pass
 
     @staticmethod
@@ -118,6 +122,7 @@ class ExtrasManager(object):
 
         return ExtrasManager.s_extras
         pass
+
     pass
 
     @staticmethod

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectReloader(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -23,4 +24,5 @@ class ObjectReloader(DemonObject):
 
         self.initParam("Time", params, 1000.0)
         pass
+
     pass

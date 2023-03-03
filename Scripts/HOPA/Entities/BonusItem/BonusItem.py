@@ -1,5 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 
+
 class BonusItem(BaseEntity):
 
     @staticmethod
@@ -85,5 +86,3 @@ class BonusItem(BaseEntity):
 
         MovieEntity = self.MovieActiveCounterObject.getEntity()
         MovieEntity.removeFromParent()
-        pass
-    pass

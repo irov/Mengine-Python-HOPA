@@ -43,4 +43,5 @@ class InventoryFXManager(object):
 
         return invAction
         pass
+
     pass

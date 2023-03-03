@@ -5,6 +5,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 
+
 class SystemDebugHideInterface(System):
     INTERFACE_GROUPS = ["Inventory", "Hint", "Toolbar", "HintEffect", "OpenMap", "Navigation"]
 

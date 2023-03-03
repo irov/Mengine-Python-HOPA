@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDeactivateBonusItem(MacroCommand):
     def _onValues(self, values):
         pass
@@ -7,4 +8,5 @@ class MacroDeactivateBonusItem(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskEnableBonusItem", Value=False)
         pass
+
     pass

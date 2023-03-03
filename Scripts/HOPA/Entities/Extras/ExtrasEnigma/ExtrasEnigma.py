@@ -3,6 +3,7 @@ from Notification import Notification
 
 from ExtrasEnigmaManager import ExtrasEnigmaManager
 
+
 class ExtrasEnigma(BaseEntity):
     @staticmethod
     def declareORM(Type):

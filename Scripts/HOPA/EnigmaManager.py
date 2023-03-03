@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 
+
 class EnigmaManager(object):
     s_enigmas = {}
     s_enigmaInventoryText = {}
@@ -71,7 +72,8 @@ class EnigmaManager(object):
             ZoomFrameGroup = record.get("ZoomFrameGroup")
             Reset = bool(record.get("Reset", False))
 
-            if EnigmaManager.addEnigma(ID, Name, Type, ObjectName, GroupName, SceneName, MovieWinGroupName, MovieName, Skip, ZoomFrameGroup, Reset) is False:
+            if EnigmaManager.addEnigma(ID, Name, Type, ObjectName, GroupName, SceneName, MovieWinGroupName, MovieName,
+                                       Skip, ZoomFrameGroup, Reset) is False:
                 return False
 
         return True

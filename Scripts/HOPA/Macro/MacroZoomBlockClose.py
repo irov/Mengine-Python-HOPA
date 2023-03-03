@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroZoomBlockClose(MacroCommand):
     def _onValues(self, values):
         self.ZoomName = None
@@ -10,6 +11,7 @@ class MacroZoomBlockClose(MacroCommand):
             self.ZoomName = values[0]
             pass
         pass
+
     def _onInitialize(self):
         super(MacroZoomBlockClose, self)._onInitialize()
         if self.ZoomName is None:
@@ -25,7 +27,3 @@ class MacroZoomBlockClose(MacroCommand):
 
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onZoomBlockClose, Args=(self.ZoomName, True))
-        pass
-    pass
-
-pass

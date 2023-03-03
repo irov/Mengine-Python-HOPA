@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class ExtrasMusicManager(object):
     s_objects = {}
 
@@ -27,6 +28,7 @@ class ExtrasMusicManager(object):
         def getResource(self):
             return self.resource
             pass
+
         pass
 
     @staticmethod

@@ -1,14 +1,20 @@
 from HOPA.HOGManager import HOGManager
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class HOG2(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addActionActivate(Type, "FoundItems", Append=HOG2._appendFoundItems, Update=HOG2._updateFoundItems)
-        Type.addActionActivate(Type, "PrepareItems", Update=HOG2._updatePrepareItems, Append=HOG2._appendPrepareItems)
+        Type.addActionActivate(Type, "FoundItems",
+                               Append=HOG2._appendFoundItems,
+                               Update=HOG2._updateFoundItems)
+        Type.addActionActivate(Type, "PrepareItems",
+                               Update=HOG2._updatePrepareItems,
+                               Append=HOG2._appendPrepareItems)
         pass
 
     def __init__(self):
@@ -73,7 +79,3 @@ class HOG2(Enigma):
         super(HOG2, self)._onDeactivate()
         self.HOGInventory.setParams(FindItems=[], FoundItems=[], HOG=None)
         self.HOGInventory.setEnable(False)
-
-        pass
-
-    pass

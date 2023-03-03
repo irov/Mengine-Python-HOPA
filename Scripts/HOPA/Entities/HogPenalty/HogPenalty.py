@@ -4,6 +4,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification
 
+
 class HogPenalty(BaseEntity):
     def __init__(self):
         super(HogPenalty, self).__init__()

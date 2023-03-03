@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMap2(DemonObject):
     @staticmethod
     def declareORM(Type):

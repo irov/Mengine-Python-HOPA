@@ -3,6 +3,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
+
 class PolicyCheckMarkNearItem(TaskAlias):
     def _onParams(self, params):
         super(PolicyCheckMarkNearItem, self)._onParams(params)

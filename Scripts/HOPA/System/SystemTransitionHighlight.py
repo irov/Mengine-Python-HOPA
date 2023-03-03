@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.TransitionHighlightManager import TransitionHighlightManager
 from HOPA.TransitionManager import TransitionManager
 
+
 class SystemTransitionHighlight(System):
     def __init__(self):
         super(SystemTransitionHighlight, self).__init__()
@@ -132,7 +133,8 @@ class SystemTransitionHighlight(System):
 
         prototype_group = GroupManager.getGroup(transition_highlight.prototypeGroupName)
         effect_params = dict(EmitterName=effect_name)
-        effect = prototype_group.generateObject("{}_{}".format(transition_highlight.prototypeName, name), transition_highlight.prototypeName, effect_params)
+        effect = prototype_group.generateObject("{}_{}".format(transition_highlight.prototypeName, name),
+                                                transition_highlight.prototypeName, effect_params)
 
         if effect is None:
             return

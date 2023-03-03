@@ -5,8 +5,6 @@ class PuzzleRulesManager(object):
         def __init__(self, casualTextID, expertTextID):
             self.casualTextID = casualTextID
             self.expertTextID = expertTextID
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
@@ -32,27 +30,16 @@ class PuzzleRulesManager(object):
             Object = PuzzleRulesManager.PuzzleRules(casualTextID, expertTextID)
 
             PuzzleRulesManager.s_objects[collectionName] = Object
-            pass
-        pass
 
     @staticmethod
     def getPuzzleRules(name):
         if name not in PuzzleRulesManager.s_objects.keys():
             return None
-            pass
 
         return PuzzleRulesManager.s_objects[name]
-        pass
 
     @staticmethod
     def hasPuzzleRules(name):
         if name not in PuzzleRulesManager.s_objects.keys():
             return False
-            pass
-
         return True
-        pass
-
-    pass
-
-pass

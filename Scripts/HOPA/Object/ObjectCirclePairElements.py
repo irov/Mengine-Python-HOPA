@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectCirclePairElements(ObjectEnigma):
 
     @staticmethod
@@ -15,4 +16,5 @@ class ObjectCirclePairElements(ObjectEnigma):
         self.initParam("SaveNames", params, [])
         self.initParam("SaveCircles", params, [])
         pass
+
     pass

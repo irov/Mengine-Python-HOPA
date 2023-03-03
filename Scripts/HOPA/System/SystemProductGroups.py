@@ -3,9 +3,12 @@ from Foundation.System import System
 from Foundation.Utils import SimpleLogger
 from Notification import Notification
 
+
 _Log = SimpleLogger("SystemProductGroups")
 
+
 class SystemProductGroups(System):
+
     class GroupInfo(object):
         if _DEVELOPMENT is True:
             def __repr__(self):
@@ -119,7 +122,10 @@ class SystemProductGroups(System):
 
             # handle subgroup
             if subgroup_id not in group.subgroups:
-                subgroup = SystemProductGroups.SubGroupInfo({"SubGroupID": subgroup_id, "ProductIDs": [product_info.id], })
+                subgroup = SystemProductGroups.SubGroupInfo({
+                    "SubGroupID": subgroup_id,
+                    "ProductIDs": [product_info.id],
+                })
                 group.addSubgroup(subgroup)
             else:
                 subgroup = group.getSubgroup(subgroup_id)

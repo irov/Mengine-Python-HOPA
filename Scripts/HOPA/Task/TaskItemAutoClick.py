@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.Task import Task
 
+
 class TaskItemAutoClick(MixinItem, Task):
     def _onParams(self, params):
         super(TaskItemAutoClick, self)._onParams(params)
@@ -24,6 +25,4 @@ class TaskItemAutoClick(MixinItem, Task):
 
         if self.AutoEnable is True:
             self.Item.setInteractive(False)
-            pass
-        pass
-    pass
+

@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroStop(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -25,4 +26,5 @@ class MacroStop(MacroCommand):
             source.addTask("TaskMovie2Stop", Movie2=Object)
             pass
         pass
+
     pass

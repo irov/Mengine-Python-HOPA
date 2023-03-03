@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroRemoveReagentPaper(MacroCommand):
     def _onValues(self, values):
         pass
@@ -12,4 +13,5 @@ class MacroRemoveReagentPaper(MacroCommand):
         Demon = DemonManager.getDemon("ReagentsButton")
         source.addTask("TaskSetParam", Object=Demon, Param="EnablePaper", Value=False)
         pass
+
     pass

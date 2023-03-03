@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinZoom
 from HOPA.QuestIconActions.QuestIconActionDefault import QuestIconActionDefault
 
+
 class QuestIconActionZoom(MixinZoom, QuestIconActionDefault):
     def _onParams(self, params):
         super(QuestIconActionZoom, self)._onParams(params)

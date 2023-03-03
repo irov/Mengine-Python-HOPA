@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class StrategyGuideZoomManager(object):
     s_objects = {}
 
@@ -27,4 +28,5 @@ class StrategyGuideZoomManager(object):
     def getZooms():
         return StrategyGuideZoomManager.s_objects
         pass
+
     pass

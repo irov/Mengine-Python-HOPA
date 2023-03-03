@@ -10,6 +10,7 @@ from Functor import Functor
 from HOPA.ItemManager import ItemManager
 from Notification import Notification
 
+
 class SystemGetItemRoundFX(System):
     def __init__(self):
         super(SystemGetItemRoundFX, self).__init__()
@@ -93,7 +94,8 @@ class SystemGetItemRoundFX(System):
 
                 with tc.addParallelTask(3) as (tc1, tc2, tc3):
                     tc1.addScope(self.scopeOpen, "ItemPopUp")
-                    tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=GetItemFade, Time=time, Block=True, ReturnItem=False)
+                    tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=GetItemFade, Time=time, Block=True,
+                                ReturnItem=False)
                     tc3.addTask("TaskItemPopUp", GroupName="ItemPopUp", ItemName=itemName)
 
                 with tc.addParallelTask(3) as (tc1, tc2, tc3):
@@ -105,7 +107,8 @@ class SystemGetItemRoundFX(System):
                 tc.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=False)
 
     def __addInventoryItem(self, scope, itemName):
-        scope.addTask("AliasInventoryAddInventoryItemFX", Inventory=self.Inventory, ItemName=itemName, EffectPolicy="ActionGetItem")
+        scope.addTask("AliasInventoryAddInventoryItemFX", Inventory=self.Inventory, ItemName=itemName,
+                      EffectPolicy="ActionGetItem")
 
     def __removeRoundItem(self, isSkip, itemName):
         self.__checkTasks()

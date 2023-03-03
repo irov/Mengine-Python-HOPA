@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.ItemManager import ItemManager
 
+
 class CruiseActionGiveItemOr(MixinObject, CruiseAction):
     def _onParams(self, params):
         super(CruiseActionGiveItemOr, self)._onParams(params)
@@ -21,11 +22,8 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
             if self.Inventory.hasInventoryItem(InventoryItem) is True:
                 self.InventoryItem = InventoryItem
                 return True
-                pass
-            pass
 
         return False
-        pass
 
     def _onAction(self):
         if TaskManager.existTaskChain("CruiseActionUseInventoryItem_Scrolling") is True:
@@ -75,11 +73,6 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
             tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
             tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
             tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
-            pass
-        pass
 
     def _onEnd(self):
         super(CruiseActionGiveItemOr, self)._onEnd()
-
-        pass
-    pass

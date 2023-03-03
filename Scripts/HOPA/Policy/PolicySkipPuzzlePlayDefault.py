@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicySkipPuzzlePlayDefault(TaskAlias):
 
     def _onGenerate(self, source):

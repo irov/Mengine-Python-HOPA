@@ -39,4 +39,5 @@ class FragmentsRollElement(object):
     def finalize(self):
         self._onFinalise()
         pass
+
     pass

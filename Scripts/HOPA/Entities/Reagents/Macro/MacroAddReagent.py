@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.Entities.Reagents.ReagentsManager import ReagentsManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroAddReagent(MacroCommand):
     def _onValues(self, values):
         self.reagentName = values[0]
@@ -20,4 +21,5 @@ class MacroAddReagent(MacroCommand):
 
         source.addTask("TaskAppendParam", Object=Demon, Param="OpenReagents", Value=self.reagentName)
         pass
+
     pass

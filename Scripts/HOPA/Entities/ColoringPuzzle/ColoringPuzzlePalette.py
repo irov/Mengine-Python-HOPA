@@ -1,5 +1,6 @@
 from Notification import Notification
 
+
 class ColoringPuzzlePalette(object):
     def __init__(self, color, socketObject):
         super(ColoringPuzzlePalette, self).__init__()
@@ -27,5 +28,3 @@ class ColoringPuzzlePalette(object):
 
         callback(self.color)
         return False
-        pass
-    pass

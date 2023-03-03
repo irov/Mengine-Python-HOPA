@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasFanBezier2To(TaskAlias):
     def _onParams(self, params):
         super(AliasFanBezier2To, self)._onParams(params)
@@ -25,5 +26,5 @@ class AliasFanBezier2To(TaskAlias):
 
         # P1 = (p1x, p1y)
 
-        source.addTask("AliasObjectBezier2To", GroupName=self.FanItemGroupName, ObjectName=self.FanItemName, Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
-        pass
+        source.addTask("AliasObjectBezier2To", GroupName=self.FanItemGroupName, ObjectName=self.FanItemName,
+                       Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix

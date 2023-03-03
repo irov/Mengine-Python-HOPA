@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectNotebook(DemonObject):
     def _onParams(self, params):
         super(ObjectNotebook, self)._onParams(params)

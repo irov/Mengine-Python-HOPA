@@ -4,6 +4,7 @@ from Notification import Notification
 from BallStack import BallStack
 from ChasingSystem import ChasingSystem
 
+
 class Gun(object):
 
     def __init__(self, guns_movies, ball_movies, socketObj, generic, pattern):

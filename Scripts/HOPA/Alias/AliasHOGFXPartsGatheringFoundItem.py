@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGFXPartsGatheringFoundItem(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGFXPartsGatheringFoundItem, self)._onParams(params)

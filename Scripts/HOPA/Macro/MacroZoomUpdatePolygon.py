@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroZoomUpdatePolygon(MacroCommand):
 
     def _onValues(self, values):
@@ -26,14 +27,17 @@ class MacroZoomUpdatePolygon(MacroCommand):
 
             if self.ReferObjectName is not None:
                 if GroupManager.hasObject(self.GroupName, self.ReferObjectName) is False:
-                    self.initializeFailed("Scene '%s' Group '%s' not found object '%s'" % (self.SceneName, self.GroupName, self.ReferObjectName))
+                    self.initializeFailed("Scene '%s' Group '%s' not found object '%s'" % (
+                        self.SceneName, self.GroupName, self.ReferObjectName))
                 refer_object = GroupManager.getObject(self.GroupName, self.ReferObjectName)
                 if refer_object.hasParam("Polygon") is False:
-                    self.initializeFailed("Scene '%s' Group '%s' ReferObject '%s' hasn't param Polygon!" % (self.SceneName, self.GroupName, self.ReferObjectName))
+                    self.initializeFailed("Scene '%s' Group '%s' ReferObject '%s' hasn't param Polygon!" % (
+                        self.SceneName, self.GroupName, self.ReferObjectName))
                 else:
                     polygon = refer_object.getParam("Polygon") or []
                     if len(polygon) < 3:
-                        self.initializeFailed("Scene '%s' Group '%s' ReferObject '%s' should have at least 3 points!" % (self.SceneName, self.GroupName, self.ReferObjectName))
+                        self.initializeFailed("Scene '%s' Group '%s' ReferObject '%s' should have at least 3 points!" % (
+                            self.SceneName, self.GroupName, self.ReferObjectName))
 
             if self.Points is None and self.ReferObjectName is None:
                 self.initializeFailed("You should init or Points, or ReferObjectName to use this macro command")

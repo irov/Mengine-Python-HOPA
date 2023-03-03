@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class MoviesButton(object):
 
     def __init__(self, movie_active, movie_down, movie_over):
@@ -26,19 +27,15 @@ class MoviesButton(object):
         Name = "%s_%s" % (self.__class__.__name__, activate_name)
         if TaskManager.existTaskChain(Name):
             return
-            pass
+
         self.movie_over.setEnable(False)
         self.movie_active.setEnable(False)
+
         with TaskManager.createTaskChain(Name=Name) as tc:
             tc.addTask("TaskEnable", Object=self.movie_down)
             tc.addTask("TaskMoviePlay", Movie=self.movie_down)
             tc.addTask("TaskFunction", Fn=cbBoundMethod, Args=(True,))
-            pass
-        pass
 
     def reset(self):
         self.state = self.movie_active
         self._initialize()
-        pass
-
-    pass

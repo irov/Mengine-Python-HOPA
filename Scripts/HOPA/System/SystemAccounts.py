@@ -3,8 +3,10 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.System import System
 
+
 SCENE_EFFECT_MOVIE_OPEN = "Movie2_Open"
 SCENE_EFFECT_MOVIE_CLOSE = "Movie2_Close"
+
 
 class SystemAccounts(System):
     def __init__(self):
@@ -105,7 +107,8 @@ class SystemAccounts(System):
                 guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=self.MenuFade, Time=250.0)
 
             with source_new_profile.addRaceTask(2) as (source_create_account, source_cancel_create_account):
-                source_create_account.addTask("TaskListener", ID=Notificator.onCreateNewProfile, Filter=Functor(self.__completeNewAccount, click_slot_id))
+                source_create_account.addTask("TaskListener", ID=Notificator.onCreateNewProfile,
+                                              Filter=Functor(self.__completeNewAccount, click_slot_id))
 
                 source_create_account.addFunction(self.__updatePlayerName)
 
@@ -116,7 +119,8 @@ class SystemAccounts(System):
 
                 with source_create_account.addParallelTask(2) as (guard_source_movie_difficulty, guard_source_fade):
                     guard_source_movie_difficulty.addScope(self.__scopeOpen, "Difficulty")
-                    guard_source_movie_difficulty.addTask("AliasFadeIn", FadeGroupName="Fade", To=self.MenuFade, Time=250.0)
+                    guard_source_movie_difficulty.addTask("AliasFadeIn", FadeGroupName="Fade", To=self.MenuFade,
+                                                          Time=250.0)
 
                     guard_source_fade.addTask("AliasFadeOut", FadeGroupName="Fade", To=self.MenuFade, Time=250.0)
 
@@ -126,7 +130,8 @@ class SystemAccounts(System):
 
                 source_create_account.addTask("TaskNotify", ID=Notificator.onProfileCreated)
 
-                source_cancel_create_account.addTask("TaskMovie2ButtonClick", GroupName="Profile_New", Movie2ButtonName="Movie2Button_Cancel")
+                source_cancel_create_account.addTask("TaskMovie2ButtonClick", GroupName="Profile_New",
+                                                     Movie2ButtonName="Movie2Button_Cancel")
                 with GuardBlockInput(source_cancel_create_account) as guard_source:
                     guard_source.addScope(self.__scopeClose, "Profile_New")
                     guard_source.addTask("TaskSceneLayerGroupEnable", LayerName="Profile_New", Value=False)
@@ -134,12 +139,14 @@ class SystemAccounts(System):
                     guard_source.addScope(self.__scopeOpen, "Profile")
             return True
 
-        with self.createTaskChain(Name="Menu_NewProfile", GroupName="Menu_Background", Global=True, Repeat=True) as tc_new_profile:
+        with self.createTaskChain(Name="Menu_NewProfile", GroupName="Menu_Background", Global=True,
+                                  Repeat=True) as tc_new_profile:
             tc_new_profile.addTask("TaskScopeListener", ID=Notificator.onNewProfile, Scope=__on_new_profile)
 
         # ------------------------- Del Profile ------------------------------------------------------------------------
         self.ProfileOkInteractive = True
-        with self.createTaskChain(Name="Menu_DelProfile", GroupName="Menu_Background", Global=True, Repeat=True) as tc_delete_profile:
+        with self.createTaskChain(Name="Menu_DelProfile", GroupName="Menu_Background", Global=True,
+                                  Repeat=True) as tc_delete_profile:
             with tc_delete_profile.addRaceTask(2) as (tc_delete, tc_change):
                 tc_delete.addTask("TaskListener", ID=Notificator.onProfileDelete)
                 tc_change.addTask("TaskListener", ID=Notificator.onProfileChange)
@@ -171,7 +178,8 @@ class SystemAccounts(System):
 
                 slot_id = Mengine.getAccountSettingUInt(accountID, "SlotID")
                 if slot_id is None:
-                    Trace.log("System", 0, "SystemAccounts.onAccountInitialize invalid get SlotID for account %s" % (accountID))
+                    Trace.log("System", 0,
+                              "SystemAccounts.onAccountInitialize invalid get SlotID for account %s" % (accountID))
                     continue
 
                 accounts_list.append((slot_id, accountID))

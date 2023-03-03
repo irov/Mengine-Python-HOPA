@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroHOGItemActive(MacroCommand):
     def _onValues(self, values):
         self.HOGItemName = values[0]
@@ -16,4 +17,5 @@ class MacroHOGItemActive(MacroCommand):
 
         source.addTask("TaskListener", ID=Notificator.onHOGInventoryAppendItem, Filter=__thisItem)
         pass
+
     pass

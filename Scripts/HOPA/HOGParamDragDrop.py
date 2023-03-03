@@ -3,6 +3,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class HOGParamDragDrop(object):
     s_items = {}
     s_inventories = {}
@@ -18,7 +19,6 @@ class HOGParamDragDrop(object):
             self.slot = slot
             self.slot_bind = slot_bind
             self.activate = True
-            pass
 
         def setActivate(self, value):
             self.activate = value
@@ -54,8 +54,6 @@ class HOGParamDragDrop(object):
 
         def getSlotBind(self):
             return self.slot_bind
-            pass
-        pass
 
     @staticmethod
     def loadHOGItems(module, param, name):
@@ -75,53 +73,38 @@ class HOGParamDragDrop(object):
             if Mengine.existText(TextID) is False:
                 Trace.log("HOGManager", 0, "HOGManager.loadHOG: HOG '%s' element '%s' not found text '%s'" % (param, HOGItemName, TextID))
                 return False
-                pass
 
             if _DEVELOPMENT is True:
                 for item in items:
                     if item.itemName == HOGItemName:
                         Trace.log("HOGManager", 0, "HOGManager.loadHOG: HOG '%s' element '%s' dublicate" % (param, HOGItemName))
-
                         return False
-                        pass
-                    pass
-                pass
 
             HOGItemsInDemon = DefaultManager.getDefaultBool("HOGItemsInDemon", True)
             EnigmaObject = EnigmaManager.getEnigmaObject(name)
             if HOGItemsInDemon is True:
                 ItemsGroup = EnigmaObject
-                pass
             else:
                 ItemsGroup = EnigmaObject.getGroup()
-                pass
 
             if ObjectName is not None:
                 if ItemsGroup.hasObject(ObjectName) is False:
                     Trace.log("Manager", 0, "HOGManager.loadHOGItems: group '%s'not found item %s" % (ItemsGroup.getName(), ObjectName))
                     return False
-                    pass
-                pass
 
             HOGItem = HOGParamDragDrop.HOGItem(HOGItemName, ObjectName, TextID, Difficulty, Score, Slot, SlotBind)
             items.append(HOGItem)
-            pass
 
         HOGParamDragDrop.s_items[name] = items
-
         return True
-        pass
 
     @staticmethod
     def getHOGItems(name):
         if name not in HOGParamDragDrop.s_items:
             Trace.log("HOGManager", 0, "HOGParamRolling.getHOGItems: no current items for HOG: %s" % name)
-
             return None
-            pass
 
         return HOGParamDragDrop.s_items[name]
-        pass
 
     @staticmethod
     def getSceneHOGItems(sceneName):
@@ -130,7 +113,6 @@ class HOGParamDragDrop(object):
         for enigmaName in enigmas:
             enigmaItems = HOGParamDragDrop.getHOGItems(enigmaName)
             allItems += enigmaItems
-            pass
 
         return allItems
         pass
@@ -142,13 +124,8 @@ class HOGParamDragDrop(object):
         for item in items:
             if item.itemName != identity:
                 continue
-                pass
-
             return True
-            pass
-
         return False
-        pass
 
     @staticmethod
     def getHOGItem(name, identity):
@@ -157,15 +134,10 @@ class HOGParamDragDrop(object):
         for item in items:
             if item.itemName != identity:
                 continue
-                pass
-
             return item
-            pass
 
         Trace.log("HOGManager", 0, "HOGParamRolling.getHOGItem: %s no found item %s" % (name, identity))
-
         return None
-        pass
 
     @staticmethod
     def getInventory(name):
@@ -196,6 +168,3 @@ class HOGParamDragDrop(object):
         item = HOGParamDragDrop.getHOGItem(name, identity)
 
         return item.textID
-        pass
-
-    pass

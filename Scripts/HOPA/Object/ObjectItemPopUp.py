@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectItemPopUp(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -15,4 +16,5 @@ class ObjectItemPopUp(DemonObject):
         self.initParam("ItemName", params, None)
         self.initParam("Open", params, False)
         pass
+
     pass

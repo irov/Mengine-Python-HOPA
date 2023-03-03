@@ -5,6 +5,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 from Foundation.Utils import getCurrentPublisher
 
+
 class PolicyGuideOpenPaid(TaskAlias):
 
     def _onParams(self, params):

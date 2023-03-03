@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectLightLock(ObjectEnigma):
 
     def _onParams(self, params):

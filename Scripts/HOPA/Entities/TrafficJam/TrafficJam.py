@@ -2,6 +2,7 @@ import Foundation.Utils as Utils
 from HOPA.TrafficJamManager import TrafficJamManager
 from Notification import Notification
 
+
 class TrafficJamElement(object):
     def __init__(self, trafficjam, sprite, hotspot, element):
         self.trafficjam = trafficjam
@@ -71,7 +72,8 @@ class TrafficJamElement(object):
 
     def onActivate(self):
         self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
-        self.hotspot.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove, onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
+        self.hotspot.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove,
+                                      onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
 
         self.hotspot.enable()
 
@@ -229,9 +231,12 @@ class TrafficJamElement(object):
 
         return
         pass
+
     pass
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class TrafficJam(Enigma):
 
@@ -276,7 +281,9 @@ class TrafficJam(Enigma):
         pass
 
     def _resetEnigma(self):
-        self.CellSize = (self.CellWrap[1][0] - self.CellWrap[0][0], self.CellWrap[1][1] - self.CellWrap[0][1])
+        self.CellSize = (
+            self.CellWrap[1][0] - self.CellWrap[0][0],
+            self.CellWrap[1][1] - self.CellWrap[0][1])
         self.pole = [0] * (self.PoleSize[0] * self.PoleSize[1])
         for element in self.elements:
             element.reset()
@@ -333,4 +340,5 @@ class TrafficJam(Enigma):
             self._onWinEnigma()
             pass
         pass
+
     pass

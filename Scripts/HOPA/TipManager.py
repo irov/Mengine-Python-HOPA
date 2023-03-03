@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class TipManager(object):
     s_tips = {}
     s_movieTips = {}
@@ -12,8 +13,6 @@ class TipManager(object):
 
             self.textId = textId
             self.tipID = tipID
-            pass
-        pass
 
     @staticmethod
     def loadMovieTips(module, param):
@@ -27,8 +26,6 @@ class TipManager(object):
             movie = GroupManager.getObject(GroupName, MovieName)
 
             TipManager.s_movieTips[TipId] = movie
-            pass
-        pass
 
     @staticmethod
     def isMovieTip(tipId):
@@ -43,7 +40,6 @@ class TipManager(object):
             pass
         movie = TipManager.s_movieTips[tipId]
         return movie
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -52,9 +48,7 @@ class TipManager(object):
         for record in records:
             TipId = record.get("TipId")
             TextId = record.get("TextId")
-
             TipManager.addTipID(TipId, TextId)
-            pass
 
         return True
         pass
@@ -85,5 +79,3 @@ class TipManager(object):
     @staticmethod
     def addTipID(tipId, textId):
         TipManager.s_tips[tipId] = textId
-        pass
-    pass

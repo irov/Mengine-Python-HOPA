@@ -1,6 +1,7 @@
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 
+
 class Executable(object):
     TaskName = "Programmattor_execution"
 
@@ -12,7 +13,12 @@ class Executable(object):
         pass
 
     def setDepends(self, objButtonRight, objButtonLeft, objButtonUp, objButtonDown):
-        self.translateMap = {objButtonUp: self.hand.moveUp, objButtonDown: self.hand.moveDown, objButtonLeft: self.hand.moveLeft, objButtonRight: self.hand.moveRight, }
+        self.translateMap = {
+            objButtonUp: self.hand.moveUp,
+            objButtonDown: self.hand.moveDown,
+            objButtonLeft: self.hand.moveLeft,
+            objButtonRight: self.hand.moveRight,
+        }
         pass
 
     def translateInstruction(self):
@@ -49,4 +55,5 @@ class Executable(object):
     def executionCb(self, isSkip, cb):
         self.hand.flushTerm()  # move out from termination state
         pass
+
     pass

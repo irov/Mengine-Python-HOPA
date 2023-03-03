@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class ChipGravitySliderManager(Manager):
     s_puzzles = {}
 
@@ -11,7 +12,8 @@ class ChipGravitySliderManager(Manager):
             self.finish = finish
 
     class Param(object):
-        def __init__(self, MovieSlots, MovieSlotsStart, grid_size, ChipNumber, PrototypeBlock, prototype_arrow_up, prototype_arrow_down, prototype_arrow_left, prototype_arrow_right, chips):
+        def __init__(self, MovieSlots, MovieSlotsStart, grid_size, ChipNumber, PrototypeBlock, prototype_arrow_up,
+                     prototype_arrow_down, prototype_arrow_left, prototype_arrow_right, chips):
             self.movie_slots = MovieSlots
             self.MovieSlotsStart = MovieSlotsStart
             self.grid_size = grid_size
@@ -25,7 +27,8 @@ class ChipGravitySliderManager(Manager):
             self.chips = chips
 
         def __repr__(self):
-            return "<ChipGravitySliderManager.Param id={} MovieSlots={} GridSize={}>".format(id(self), self.movie_slots, self.grid_size)
+            return "<ChipGravitySliderManager.Param id={} MovieSlots={} GridSize={}>".format(id(self), self.movie_slots,
+                                                                                             self.grid_size)
 
     @staticmethod
     def loadParams(module, param):
@@ -45,7 +48,10 @@ class ChipGravitySliderManager(Manager):
             PrototypeArrowLeft = record.get("PrototypeArrowLeft", None)
             PrototypeArrowRight = record.get("PrototypeArrowRight", None)
 
-            result = ChipGravitySliderManager.addParam(EnigmaName, module, Param, MovieSlots, MovieSlotsStart, ChipNumber, GridWidth, GridHeight, PrototypeBlock, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight)
+            result = ChipGravitySliderManager.addParam(EnigmaName, module, Param, MovieSlots, MovieSlotsStart,
+                                                       ChipNumber, GridWidth, GridHeight, PrototypeBlock,
+                                                       PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
+                                                       PrototypeArrowRight)
 
             if result is False:
                 error_msg = "ChipGravitySliderManager invalid addParam {}".format(EnigmaName)
@@ -55,7 +61,8 @@ class ChipGravitySliderManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, Param, MovieSlots, MovieSlotsStart, ChipNumber, GridWidth, GridHeight, PrototypeBlock, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight):
+    def addParam(EnigmaName, Module, Param, MovieSlots, MovieSlotsStart, ChipNumber, GridWidth, GridHeight,
+                 PrototypeBlock, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight):
         if EnigmaName in ChipGravitySliderManager.s_puzzles:
             error_msg = "ChipGravitySliderManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -82,7 +89,9 @@ class ChipGravitySliderManager(Manager):
 
         grid_size = (GridHeight, GridWidth)
 
-        NewParam = ChipGravitySliderManager.Param(MovieSlots, MovieSlotsStart, grid_size, ChipNumber, PrototypeBlock, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft, PrototypeArrowRight, chips)
+        NewParam = ChipGravitySliderManager.Param(MovieSlots, MovieSlotsStart, grid_size, ChipNumber, PrototypeBlock,
+                                                  PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
+                                                  PrototypeArrowRight, chips)
 
         ChipGravitySliderManager.s_puzzles[EnigmaName] = NewParam
         return True

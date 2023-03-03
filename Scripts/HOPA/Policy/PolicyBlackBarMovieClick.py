@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyBlackBarMovieClick(TaskAlias):
     def _onParams(self, params):
         super(PolicyBlackBarMovieClick, self)._onParams(params)
@@ -47,4 +48,5 @@ class PolicyBlackBarMovieClick(TaskAlias):
 
         source.addTask("TaskEnable", Object=self.Text_Message, Value=False)
         pass
+
     pass

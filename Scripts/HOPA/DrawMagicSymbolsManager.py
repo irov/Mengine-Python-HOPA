@@ -1,8 +1,13 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class DrawMagicSymbolParam(object):
-    def __init__(self, symbols, symbols_complete, symbols_fail, boundary, all_symbols_complete, cursor, draw_all_at_once, auto_draw_animation_speed, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail, use_background_timer_game_rule, background_timer_movie_name, background_win_movie_name, background_fail_movie_name, background_timer_scale, background_movie_change_alpha_time):
+    def __init__(self, symbols, symbols_complete, symbols_fail, boundary, all_symbols_complete, cursor,
+                 draw_all_at_once, auto_draw_animation_speed, cursor_movie_alpha_appear_time, hide_cursor,
+                 symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail, use_background_timer_game_rule,
+                 background_timer_movie_name, background_win_movie_name, background_fail_movie_name,
+                 background_timer_scale, background_movie_change_alpha_time):
         """
         order matter, so we use list here:
 
@@ -34,6 +39,7 @@ class DrawMagicSymbolParam(object):
         self.background_fail_movie_name = background_fail_movie_name
         self.background_timer_scale = background_timer_scale
         self.background_movie_change_alpha_time = background_movie_change_alpha_time
+
 
 class DrawMagicSymbolsManager(Manager):
     s_draw_magic_symbol_params = {}
@@ -81,7 +87,14 @@ class DrawMagicSymbolsManager(Manager):
             background_timer_scale = float(record.get('BackgroundTimerScale', 1.0))
             background_movie_change_alpha_time = float(record.get('BackgroundMovieChangeAlphaTime', 100.0))
 
-            result = DrawMagicSymbolsManager.addParam(enigma_name, module, symbol_param, symbol_path_param, boundary_name, all_symbols_complete_name, cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail, use_background_timer_game_rule, background_timer_movie_name, background_win_movie_name, background_fail_movie_name, background_timer_scale, background_movie_change_alpha_time)
+            result = DrawMagicSymbolsManager.addParam(enigma_name, module, symbol_param, symbol_path_param,
+                                                      boundary_name, all_symbols_complete_name, cursor_movie_name,
+                                                      symbol_appear_all_at_once, auto_draw_animation_speed,
+                                                      cursor_movie_alpha_appear_time, hide_cursor,
+                                                      symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail,
+                                                      use_background_timer_game_rule, background_timer_movie_name,
+                                                      background_win_movie_name, background_fail_movie_name,
+                                                      background_timer_scale, background_movie_change_alpha_time)
             if result is False:
                 error_msg = "DrawMagicSymbolsManager invalid addParam {}".format(enigma_name)
                 Trace.log("Manager", 0, error_msg)
@@ -89,8 +102,13 @@ class DrawMagicSymbolsManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, symbol_param, symbol_path_param, boundary_name, all_symbols_complete_name, cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail, use_background_timer_game_rule, background_timer_movie_name, background_win_movie_name, background_fail_movie_name, background_timer_scale, background_movie_change_alpha_time):
-        symbols = list()
+    def addParam(enigma_name, module, symbol_param, symbol_path_param, boundary_name, all_symbols_complete_name,
+                 cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed,
+                 cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time,
+                 drop_progress_on_symbol_draw_fail, use_background_timer_game_rule, background_timer_movie_name,
+                 background_win_movie_name, background_fail_movie_name, background_timer_scale,
+                 background_movie_change_alpha_time):
+
         symbols_complete = dict()
         symbols_fail = dict()
 
@@ -152,7 +170,12 @@ class DrawMagicSymbolsManager(Manager):
             for socket_index, socket_name in symbol_path_list:
                 symbol_path_list[socket_index] = socket_name
 
-        param = DrawMagicSymbolParam(symbols, symbols_complete, symbols_fail, boundary_name, all_symbols_complete_name, cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed, cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time, drop_progress_on_symbol_draw_fail, use_background_timer_game_rule, background_timer_movie_name, background_win_movie_name, background_fail_movie_name, background_timer_scale, background_movie_change_alpha_time)
+        param = DrawMagicSymbolParam(symbols, symbols_complete, symbols_fail, boundary_name, all_symbols_complete_name,
+                                     cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed,
+                                     cursor_movie_alpha_appear_time, hide_cursor, symbol_movie_alpha_time,
+                                     drop_progress_on_symbol_draw_fail, use_background_timer_game_rule,
+                                     background_timer_movie_name, background_win_movie_name, background_fail_movie_name,
+                                     background_timer_scale, background_movie_change_alpha_time)
 
         DrawMagicSymbolsManager.s_draw_magic_symbol_params[enigma_name] = param
 

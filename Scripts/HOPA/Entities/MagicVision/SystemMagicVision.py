@@ -7,6 +7,7 @@ from Notification import Notification
 
 from MagicVisionManager import MagicVisionManager
 
+
 class SystemMagicVision(System):
     def __init__(self):
         super(SystemMagicVision, self).__init__()

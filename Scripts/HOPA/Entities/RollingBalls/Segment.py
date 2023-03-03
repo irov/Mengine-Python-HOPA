@@ -3,9 +3,11 @@ class SegmentSlot(object):
         self.id = id
         self.value = value
         pass
+
     def __repr__(self):
         return "%i-%i" % (self.id, self.value)
         pass
+
 
 class Segment(object):
     def __init__(self, elements):
@@ -74,5 +76,3 @@ class Segment(object):
 
     def __repr__(self):
         return self.elements.__repr__()
-        pass
-    pass

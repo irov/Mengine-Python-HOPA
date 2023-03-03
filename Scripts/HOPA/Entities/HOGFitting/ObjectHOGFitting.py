@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectHOGFitting(ObjectEnigma):
     def _onParams(self, params):
         super(ObjectHOGFitting, self)._onParams(params)

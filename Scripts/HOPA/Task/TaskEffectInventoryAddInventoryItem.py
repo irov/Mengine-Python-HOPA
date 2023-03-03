@@ -6,6 +6,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class TaskEffectInventoryAddInventoryItem(TaskAlias):
     def __init__(self):
         super(TaskEffectInventoryAddInventoryItem, self).__init__()
@@ -214,8 +215,10 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
 
         with source.addParallelTask(2) as (parallel_0, parallel_1):
-            parallel_0.addTask("TaskNodeBezier2Follow", Follow=self.nodeFollow, Node=self.nodeMove, Time=Time, Easing=self.easing)
-            parallel_1.addTask("TaskNodeScaleTo", Node=nodeScale, To=(scaleTo, scaleTo, 1.0), Time=Time, Easing=self.easing)
+            parallel_0.addTask("TaskNodeBezier2Follow", Follow=self.nodeFollow, Node=self.nodeMove, Time=Time,
+                               Easing=self.easing)
+            parallel_1.addTask("TaskNodeScaleTo", Node=nodeScale, To=(scaleTo, scaleTo, 1.0), Time=Time,
+                               Easing=self.easing)
 
         source.addFunction(self.slot.setBlock, False)
 
@@ -315,7 +318,8 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
         PointItemCameraPosition = Point_Item.entity.getCameraPosition(Camera)
 
-        return Mengine.vec2f(PointItemCameraPosition.x - ItemSpriteCenter.x, PointItemCameraPosition.y - ItemSpriteCenter.y)
+        return Mengine.vec2f(PointItemCameraPosition.x - ItemSpriteCenter.x,
+                             PointItemCameraPosition.y - ItemSpriteCenter.y)
 
     def __CreateNodes(self):
         """Helper
@@ -351,7 +355,8 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
         if slot is None:
             if _DEVELOPMENT is True:
-                Trace.log("Task", 0, "TaskEffectInventoryAddInventoryItem: not found slot for {} in {}".format(InventoryItem.getName(), self.Inventory.getName()))
+                Trace.log("Task", 0, "TaskEffectInventoryAddInventoryItem: not found slot for {} in {}".format(
+                    InventoryItem.getName(), self.Inventory.getName()))
             return
 
         self.slot = slot

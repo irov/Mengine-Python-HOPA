@@ -1,5 +1,6 @@
 from Foundation.System import System
 
+
 class SystemBoneBoardWrongHandler(System):
     def _onParams(self, params):
         super(SystemBoneBoardWrongHandler, self)._onParams(params)

@@ -4,7 +4,9 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
 
+
 InventoryBase = Mengine.importEntity("InventoryBase")
+
 
 class InventorySilhouetteSlot(object):
     def __init__(self, movieSlot):
@@ -60,6 +62,7 @@ class InventorySilhouetteSlot(object):
 
         if self.itemObject is not None:
             self.deattachItemObject()
+
 
 class HOGInventorySilhouette(InventoryBase):
 

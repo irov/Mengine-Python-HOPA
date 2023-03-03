@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChapterManager import ChapterManager
 from HOPA.HintManager import HintManager
 
+
 class SystemHintSceneExceptions(System):
     def __init__(self):
         super(SystemHintSceneExceptions, self).__init__()

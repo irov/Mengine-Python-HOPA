@@ -4,6 +4,7 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.SystemManager import SystemManager
 from HOPA.StoreManager import StoreManager
 
+
 class ButtonMixin(object):
     aliases = {}
     _submovies = []
@@ -55,7 +56,7 @@ class ButtonMixin(object):
     def setTextArguments(self, alias_id, *args):
         """ alias_id is from param aliases"""
         if alias_id not in self.aliases:
-            Trace.log("Entity", "Not found alias_id={!r} in aliases dict. Available: {}".format(alias_id, self.aliases.keys()))
+            Trace.log("Entity", 0, "Not found alias_id={!r} in aliases dict. Available: {}".format(alias_id, self.aliases.keys()))
             return
         alias = self.aliases[alias_id]
         Mengine.setTextAliasArguments(self.env, alias, *args)
@@ -122,7 +123,8 @@ class ButtonMixin(object):
             movie.setLoop(Loop)
             movie.setPlay(state)
 
-            # todo: play, loop for each submovie (from _submovies)  # animatable.play, loop is not working because of "not initialized error"
+            # todo: play, loop for each submovie (from _submovies)
+            #       animatable.play, loop is not working because of "not initialized error"
 
     # CleanUp
 
@@ -149,15 +151,30 @@ class ButtonMixin(object):
     def scopeAction(self, source):
         source.addBlock()
 
+
 class ButtonPurchase(ButtonMixin):
-    aliases = {"price": "$AliasStoreButtonPrice", "title": "$AliasStoreButtonTitle", "descr": "$AliasStoreButtonDescr", "energy": "$AliasStoreEnergyReward", "gold": "$AliasStoreGoldReward", "discount": "$AliasStoreButtonDiscount", }
+    aliases = {
+        "price": "$AliasStoreButtonPrice",
+        "title": "$AliasStoreButtonTitle",
+        "descr": "$AliasStoreButtonDescr",
+        "energy": "$AliasStoreEnergyReward",
+        "gold": "$AliasStoreGoldReward",
+        "discount": "$AliasStoreButtonDiscount",
+    }
     action = "purchase"
     price_template = "{currency}{value}"
 
     # Texts
 
     def _getAliasAndTextID(self):
-        alias_param = {self.aliases["price"]: self.params.price_text_id, self.aliases["title"]: self.params.title_text_id, self.aliases["descr"]: self.params.descr_text_id, self.aliases["gold"]: self.params.gold_reward_text_id, self.aliases["energy"]: self.params.energy_reward_text_id, self.aliases["discount"]: self.params.discount_text_id, }
+        alias_param = {
+            self.aliases["price"]: self.params.price_text_id,
+            self.aliases["title"]: self.params.title_text_id,
+            self.aliases["descr"]: self.params.descr_text_id,
+            self.aliases["gold"]: self.params.gold_reward_text_id,
+            self.aliases["energy"]: self.params.energy_reward_text_id,
+            self.aliases["discount"]: self.params.discount_text_id,
+        }
         return alias_param
 
     def setText(self):
@@ -198,14 +215,29 @@ class ButtonPurchase(ButtonMixin):
         product_id = self.params.product_id
         source.addTask("AliasPurchase", ProductID=product_id)
 
+
 class ButtonAdvert(ButtonMixin):
-    aliases = {"title": "$AliasStoreButtonTitle", "descr": "$AliasStoreButtonDescr", "gold": "$AliasStoreGoldReward", "energy": "$AliasStoreEnergyReward", "reset_timer": "$AliasStoreAdvertTimer", "ads_counter": "$AliasStoreAdvertCounter"}
+    aliases = {
+        "title": "$AliasStoreButtonTitle",
+        "descr": "$AliasStoreButtonDescr",
+        "gold": "$AliasStoreGoldReward",
+        "energy": "$AliasStoreEnergyReward",
+        "reset_timer": "$AliasStoreAdvertTimer",
+        "ads_counter": "$AliasStoreAdvertCounter"
+    }
     action = "advert"
 
     # Texts
 
     def _getAliasAndTextID(self):
-        alias_param = {self.aliases["title"]: self.params.title_text_id, self.aliases["descr"]: self.params.descr_text_id, self.aliases["gold"]: self.params.gold_reward_text_id, self.aliases["energy"]: self.params.energy_reward_text_id, self.aliases["reset_timer"]: self.params.timer_text_id, self.aliases["ads_counter"]: self.params.counter_text_id, }
+        alias_param = {
+            self.aliases["title"]: self.params.title_text_id,
+            self.aliases["descr"]: self.params.descr_text_id,
+            self.aliases["gold"]: self.params.gold_reward_text_id,
+            self.aliases["energy"]: self.params.energy_reward_text_id,
+            self.aliases["reset_timer"]: self.params.timer_text_id,
+            self.aliases["ads_counter"]: self.params.counter_text_id,
+        }
         return alias_param
 
     def setText(self):
@@ -235,6 +267,7 @@ class ButtonAdvert(ButtonMixin):
 
     def scopeAction(self, source):
         source.addTask("AliasShowAdvert", AdType="Rewarded")
+
 
 # FACTORY
 

@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class HOGParamFXPartsGathering(object):
     s_groups = {}
     s_items = {}

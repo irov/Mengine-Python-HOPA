@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintCharged(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintCharged, self)._onParams(params)
@@ -27,4 +28,5 @@ class PolicyHintCharged(TaskAlias):
         source.addTask("TaskMovie2Play", Movie2=Movie_Charged)
         source.addTask("TaskEnable", Object=Movie_Charged, Value=False)
         pass
+
     pass

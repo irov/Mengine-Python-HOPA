@@ -3,6 +3,7 @@ from Notification import Notification
 
 from CollectedMapManager import CollectedMapManager
 
+
 class SystemCollectedMap(System):
 
     def __init__(self):
@@ -23,4 +24,5 @@ class SystemCollectedMap(System):
         Object.appendParam("OpenParts", partId)
         return False
         pass
+
     pass

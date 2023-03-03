@@ -1,6 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasDragDropPuzzle(TaskAlias):
     def _onParams(self, params):
         super(AliasDragDropPuzzle, self)._onParams(params)

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class SpinCirclesMastermindManager(object):
     s_objects = {}
 
@@ -31,6 +32,7 @@ class SpinCirclesMastermindManager(object):
         def getSize(self):
             return self.gameSize
             pass
+
         pass
 
     @staticmethod
@@ -53,7 +55,8 @@ class SpinCirclesMastermindManager(object):
             BullsCollection = SpinCirclesMastermindManager.loadBullsCollection(module, BullsCollectionParam)
             CowsCollection = SpinCirclesMastermindManager.loadCowsCollection(module, CowsCollectionParam)
 
-            object = SpinCirclesMastermindManager.MastermindData(relatedSpinCirclesName, TriggerName, BullsCollection, CowsCollection, WinParam)
+            object = SpinCirclesMastermindManager.MastermindData(relatedSpinCirclesName, TriggerName,
+                                                                 BullsCollection, CowsCollection, WinParam)
             SpinCirclesMastermindManager.s_objects[enigmaName] = object
             pass
         pass
@@ -102,8 +105,3 @@ class SpinCirclesMastermindManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroJournalAdd(MacroCommand):
     def _onValues(self, values):
         self.ItemObjectName = None
@@ -34,4 +35,5 @@ class MacroJournalAdd(MacroCommand):
 
         source.addTask("TaskNotify", ID=Notificator.onJournalAddPage, Args=(self.JournalID,))
         pass
+
     pass

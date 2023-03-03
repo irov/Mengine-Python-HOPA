@@ -4,6 +4,7 @@ from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TipManager import TipManager
 
+
 class MacroGiveItemTip(MacroCommand):
 
     def _onValues(self, values):
@@ -40,11 +41,13 @@ class MacroGiveItemTip(MacroCommand):
         self.Inventory = DemonManager.getDemon("Inventory")
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=self.Inventory, GroupName=self.GroupName, InventoryItem=self.InventoryItemObject, Object=self.SocketObject)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=self.Inventory,
+                              GroupName=self.GroupName, InventoryItem=self.InventoryItemObject, Object=self.SocketObject)
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
-            tc_quest.addTask("AliasGiveItem", Object=self.SocketObject, SocketName=self.SocketName, ItemName=self.ItemName, TipName=self.TipName)
+            tc_quest.addTask("AliasGiveItem", Object=self.SocketObject, SocketName=self.SocketName,
+                             ItemName=self.ItemName, TipName=self.TipName)
             tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
 
         source.addListener(Notificator.onInventoryUpdateItem)

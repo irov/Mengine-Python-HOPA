@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 
+
 class AssemblyDesignerManager(Manager):
     s_params = {}
 
@@ -13,7 +14,8 @@ class AssemblyDesignerManager(Manager):
                 self.movie_name_on_shelf = movie_name_on_shelf
                 self.shelf_id = shelf_id
 
-        def __init__(self, enigma_name, shelves_params, item_types_params, finish_sets_params, carcass_movie_name, number_of_sets, number_of_shelves, start_shelf_id, start_set_id):
+        def __init__(self, enigma_name, shelves_params, item_types_params, finish_sets_params, carcass_movie_name,
+                     number_of_sets, number_of_shelves, start_shelf_id, start_set_id):
             self.enigma_name = enigma_name
             self.shelves_params = shelves_params
             self.start_shelf_id = start_shelf_id
@@ -57,7 +59,9 @@ class AssemblyDesignerManager(Manager):
             number_of_sets = record.get('NumberOfSets')
             number_of_shelves = record.get('NumberOfShelves')
 
-            result = AssemblyDesignerManager.addParam(enigma_name, module, shelves_db_name, finish_sets_db_name, item_types_db_name, carcass_movie_name, number_of_sets, number_of_shelves, start_shelf_id, start_set_id)
+            result = AssemblyDesignerManager.addParam(enigma_name, module, shelves_db_name, finish_sets_db_name,
+                                                      item_types_db_name, carcass_movie_name, number_of_sets,
+                                                      number_of_shelves, start_shelf_id, start_set_id)
             if result is False:
                 error_msg = "ForestMazeManager invalid addParam {}".format(enigma_name)
                 Trace.log("Manager", 0, error_msg)
@@ -66,7 +70,8 @@ class AssemblyDesignerManager(Manager):
         return True
 
     @staticmethod
-    def addParam(enigma_name, module, shelves_db_name, finish_sets_db_name, item_types_db_name, carcass_movie_name, number_of_sets, number_of_shelves, start_shelf_id, start_set_id):
+    def addParam(enigma_name, module, shelves_db_name, finish_sets_db_name, item_types_db_name, carcass_movie_name,
+                 number_of_sets, number_of_shelves, start_shelf_id, start_set_id):
         if enigma_name in AssemblyDesignerManager.s_params:
             error_msg = "AssemblyDesignerManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -132,7 +137,10 @@ class AssemblyDesignerManager(Manager):
 
             finish_sets_params[set_id] = (record, set_name_not_complete_text_id, set_name_complete_text_id)
 
-        AssemblyDesignerManager.s_params[enigma_name] = AssemblyDesignerManager.AssemblyDesignerParam(enigma_name, shelves_params, item_types_params, finish_sets_params, carcass_movie_name, number_of_sets, number_of_shelves, start_shelf_id, start_set_id)
+        param = AssemblyDesignerManager.AssemblyDesignerParam(enigma_name, shelves_params, item_types_params,
+                                                              finish_sets_params, carcass_movie_name, number_of_sets,
+                                                              number_of_shelves, start_shelf_id, start_set_id)
+        AssemblyDesignerManager.s_params[enigma_name] = param
 
         return True
 

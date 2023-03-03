@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectHint(DemonObject):
     ACTION_EMPTY_USE = 0
     ACTION_REGULAR_USE = 1
@@ -37,4 +38,5 @@ class ObjectHint(DemonObject):
 
         return MovieGroup
         pass
+
     pass

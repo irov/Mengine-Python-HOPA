@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectSpinCircles(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -18,4 +19,5 @@ class ObjectSpinCircles(ObjectEnigma):
         self.initParam("MovieLoop", params, True)
         self.initParam("Related", params, False)
         pass
+
     pass

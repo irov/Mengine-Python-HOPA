@@ -6,6 +6,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.SemaphoreManager import SemaphoreManager
 
+
 class FreezeHOG(BaseEntity):
     def __init__(self):
         super(FreezeHOG, self).__init__()

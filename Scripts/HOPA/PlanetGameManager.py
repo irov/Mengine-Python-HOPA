@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PlanetGameManager(object):
     s_objects = {}
 
@@ -30,9 +31,6 @@ class PlanetGameManager(object):
 
         def getAccuracy(self):
             return self.accuracy
-            pass
-
-        pass
 
     @staticmethod
     def onFinalize():
@@ -47,8 +45,6 @@ class PlanetGameManager(object):
             enigmaName = values.get("Name")
             collectionParam = values.get("Collection")
             PlanetGameManager.loadPlanetGameCollection(enigmaName, module, collectionParam)
-            pass
-        pass
 
     @staticmethod
     def loadPlanetGameCollection(enigmaName, module, collectionParam):
@@ -63,10 +59,8 @@ class PlanetGameManager(object):
             Accuracy = values.get("Accuracy")
             planet = PlanetGameManager.Planet(Duration, MovieName, StartTiming, WinTiming, Accuracy)
             planetList.append(planet)
-            pass
 
         PlanetGameManager.s_objects[enigmaName] = planetList
-        pass
 
     @staticmethod
     def getPlanetGame(name):
@@ -84,8 +78,3 @@ class PlanetGameManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

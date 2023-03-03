@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintReloadMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintReloadMovie, self)._onParams(params)
@@ -33,6 +34,7 @@ class PolicyHintReloadMovie(TaskAlias):
             Movie_Ready = MovieGroup.getObject("Movie2_Ready_Effect")
             Movie_Ready.setEnable(False)
             pass
-        source.addTask("TaskMovie2Play", Movie2=Movie2_Reload, StartTiming=CurrentReloadTiming, Wait=True, LastFrame=None)
+        source.addTask("TaskMovie2Play", Movie2=Movie2_Reload, StartTiming=CurrentReloadTiming,
+                       Wait=True, LastFrame=None)
         source.addParam(Movie2_Reload, "StartTiming", None)
         pass

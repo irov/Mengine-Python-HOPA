@@ -1,6 +1,7 @@
 from Foundation.SessionManager import SessionManager
 from Foundation.System import System
 
+
 class SystemWalktrhough(System):
     def _onParams(self, params):
         super(SystemWalktrhough, self)._onParams(params)

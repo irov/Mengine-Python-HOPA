@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class Bulb(object):
     END_SLOT_ID = 5
     BEGIN_SLOT_ID = 1
@@ -118,5 +119,3 @@ class Bulb(object):
             items.append(name)
             pass
         return items
-        pass
-    pass

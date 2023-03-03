@@ -3,6 +3,7 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+
 class PolicyEffectInventoryAddInventoryItemParticles(TaskAlias):
     def _onParams(self, params):
         super(PolicyEffectInventoryAddInventoryItemParticles, self)._onParams(params)
@@ -101,4 +102,5 @@ class PolicyEffectInventoryAddInventoryItemParticles(TaskAlias):
             source.addTask("TaskNodeEnable", Node=InventoryItemEntityNode, Value=True)
             pass
         pass
+
     pass

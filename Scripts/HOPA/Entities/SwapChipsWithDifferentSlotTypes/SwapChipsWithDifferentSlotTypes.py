@@ -7,6 +7,7 @@ from HOPA.SwapChipsWithDifferentSlotTypesManager import SwapChipsWithDifferentSl
 from Holder import Holder
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
 
 SOCKET_CLICK_EVENT = Event('SwapChipsWithDifferentSlotTypesSocketClick')
@@ -20,6 +21,7 @@ SOUND_SWAP = "SwapChipsWithDifferentSlotTypes_SwapChips"
 CHIP_PLACED = 0
 CHIP_NOT_PLACED = 1
 CHIP_SELECTED = 2
+
 
 class Slot(object):
     LAST_SLOT_ENTER = None
@@ -136,6 +138,7 @@ class Slot(object):
 
         self.saved_slots_chip[self.id] = self.chip.id if self.chip is not None else None  # save mg
 
+
 class Chip(object):
     def __init__(self, chip_id, type_, movie_not_placed, movie_placed, movie_selected, cb_make_movie):
         self.id = chip_id
@@ -144,7 +147,11 @@ class Chip(object):
 
         self.slot = None  # # Slot instance reference
 
-        self.movies = {CHIP_NOT_PLACED: cb_make_movie(movie_not_placed, Enable=True, Play=True, Loop=True), CHIP_PLACED: cb_make_movie(movie_placed, Enable=False, Play=True, Loop=True), CHIP_SELECTED: cb_make_movie(movie_selected, Enable=False, Play=True, Loop=True)}
+        self.movies = {
+            CHIP_NOT_PLACED: cb_make_movie(movie_not_placed, Enable=True, Play=True, Loop=True),
+            CHIP_PLACED: cb_make_movie(movie_placed, Enable=False, Play=True, Loop=True),
+            CHIP_SELECTED: cb_make_movie(movie_selected, Enable=False, Play=True, Loop=True)
+        }
 
         self.node = Mengine.createNode('Interender')
 
@@ -218,6 +225,7 @@ class Chip(object):
         Mengine.destroyNode(self.node)
         self.node = None
 
+
 class SwapChipsWithDifferentSlotTypes(Enigma):
 
     def __init__(self):
@@ -277,7 +285,8 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
             movie_slot = self.movie_slots.getMovieSlot(slot_param.MovieSlot)
             socket = self.movie_slots.getSocket(slot_param.MovieSocket)
 
-            slot = Slot(slot_id, socket, movie_slot, slot_param.SupportedChipTypes, slot_param.EndChipIDs, self.savedSlotChips)
+            slot = Slot(slot_id, socket, movie_slot, slot_param.SupportedChipTypes, slot_param.EndChipIDs,
+                        self.savedSlotChips)
 
             self.slots.append(slot)
 
@@ -296,7 +305,8 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
             if chip_param is None:
                 continue
 
-            chip = Chip(chip_id, chip_param.Type, chip_param.MovieNotPlaced, chip_param.MoviePlaced, chip_param.MovieSelected, self.makeMovie)
+            chip = Chip(chip_id, chip_param.Type, chip_param.MovieNotPlaced, chip_param.MoviePlaced,
+                        chip_param.MovieSelected, self.makeMovie)
 
             self.chips.append(chip)
 
@@ -688,21 +698,13 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
             if self.param.LitChips:
                 self.litChips(False)
 
-        # CASE FAIL
-        elif slot_1.id in self.fixed_slots_ids or (slot_2 is None and not slot_1.hasChip()) or (slot_2 is not None and slot_2 is not slot_1 and ((not slot_1.isSupportChipType(slot_2) or not slot_2.isSupportChipType(slot_1)) or (bool(self.allowed_slots_id[slot_1.id]) and slot_2.id not in self.allowed_slots_id[slot_1.id]))):
-            # print 'mg fail click slot "is fixed" OR "empty" OR "not supported chip type" OR "not in allowed_slots'
-
-            self.playSound(SOUND_FAIL)
-
-            self.slot_holder_2.set(None)
-
-            slot_1.update()
-
-            if slot_2 is not None:
-                slot_2.update()
-
-            if self.param.LitChips:
-                self.litChips(False)
+        # CASE FAIL     # fixme: strange ifs
+        elif slot_1.id in self.fixed_slots_ids:
+            self._caseFail(slot_1, slot_2)
+        elif slot_2 is None and not slot_1.hasChip():
+            self._caseFail(slot_1, slot_2)
+        elif (slot_2 is not None and slot_2 is not slot_1 and ((not slot_1.isSupportChipType(slot_2) or not slot_2.isSupportChipType(slot_1)) or (bool(self.allowed_slots_id[slot_1.id]) and slot_2.id not in self.allowed_slots_id[slot_1.id]))):
+            self._caseFail(slot_1, slot_2)
 
         # CASE CLICK FIRST
         elif slot_2 is None:
@@ -734,6 +736,19 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
 
             else:
                 source.addScope(self.__scopeActionMoveOnClick, slot_1, slot_2)  # MAIN ACTION MOVE
+
+    def _caseFail(self, slot_1, slot_2):
+        # print 'mg fail click slot "is fixed" OR "empty" OR "not supported chip type" OR "not in allowed_slots'
+
+        self.playSound(SOUND_FAIL)
+        self.slot_holder_2.set(None)
+
+        slot_1.update()
+        if slot_2 is not None:
+            slot_2.update()
+
+        if self.param.LitChips:
+            self.litChips(False)
 
     # -------------- TaskChain -----------------------------------------------------------------------------------------
     def runTaskChain(self):
@@ -827,7 +842,8 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
                         parallel.addFunction(self.addChild, chip.node)
 
                         parallel.addFunction(chip.changeState, CHIP_SELECTED)
-                        parallel.addTask("TaskNodeMoveTo", Node=chip.node, From=chip.node.getWorldPosition(), To=slot.slot.getWorldPosition(), Time=self.param.ChipMoveTime)
+                        parallel.addTask("TaskNodeMoveTo", Node=chip.node, From=chip.node.getWorldPosition(),
+                                         To=slot.slot.getWorldPosition(), Time=self.param.ChipMoveTime)
 
                         parallel.addFunction(chip.node.setLocalPosition, (0.0, 0.0))
                         parallel.addFunction(chip.detachFromParent)

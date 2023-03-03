@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.Entities.BoneBoard.BoneBoardManager import BoneBoardManager
 
+
 class CruiseActionBoneUse(CruiseActionDefault):
     def __init__(self):
         super(CruiseActionBoneUse, self).__init__()

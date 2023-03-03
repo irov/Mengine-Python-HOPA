@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectAchievementsInGameMenu(DemonObject):
     # Just add here queue type:
     s_queue_types = ["Achievements", "Collectibles", "Morphs"]

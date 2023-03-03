@@ -2,6 +2,7 @@ from Foundation.Notificator import Notificator
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.SpellsManager import SpellsManager, SPELL_AMULET_TYPE
 
+
 class MacroSpellAmuletRemovePower(MacroCommand):
     def _onValues(self, values):
         self.power_type = values[0]

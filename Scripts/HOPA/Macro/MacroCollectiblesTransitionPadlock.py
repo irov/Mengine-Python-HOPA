@@ -2,6 +2,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.Utils import isCollectorEdition
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroCollectiblesTransitionPadlock(MacroCommand):
     def _onGenerate(self, source):
         if isCollectorEdition() is False:

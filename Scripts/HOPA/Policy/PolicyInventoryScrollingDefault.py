@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyInventoryScrollingDefault(TaskAlias):
     def _onParams(self, params):
         super(PolicyInventoryScrollingDefault, self)._onParams(params)
@@ -24,4 +25,5 @@ class PolicyInventoryScrollingDefault(TaskAlias):
                 pass
             pass
         pass
+
     pass

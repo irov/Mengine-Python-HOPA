@@ -11,6 +11,7 @@ from HOPA.Entities.Difficulty2.Difficulty2Manager import Difficulty2Manager
 from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.StageManager import StageManager
 
+
 class SystemFastStart(System):
 
     @staticmethod
@@ -169,7 +170,17 @@ class SystemFastStart(System):
             Trace.msg_err("SystemFastStart tried to setup difficulty 'Casual', "
                           "but it not found in DatabaseDifficulty2, so we used {!r}".format(first_dif_id))
 
-        SETTINGS = {"DifficultyCustomHintTime": "HintTime", "DifficultyCustomSkipTime": "SkipTime", "DifficultyCustomSparklesOnActiveAreas": "SparklesOnActiveAreas", "DifficultyCustomTutorial": "Tutorial", "DifficultyCustomPlusItemIndicated": "PlusItemIndicated", "DifficultyCustomChangeIconOnActiveAreas": "ChangeIconOnActiveAreas", "DifficultyCustomIndicatorsOnMap": "IndicatorsOnMap", "DifficultyCustomSparklesOnHOPuzzles": "SparklesOnHOPuzzles", "Difficulty": "ID"}
+        SETTINGS = {
+            "DifficultyCustomHintTime": "HintTime",
+            "DifficultyCustomSkipTime": "SkipTime",
+            "DifficultyCustomSparklesOnActiveAreas": "SparklesOnActiveAreas",
+            "DifficultyCustomTutorial": "Tutorial",
+            "DifficultyCustomPlusItemIndicated": "PlusItemIndicated",
+            "DifficultyCustomChangeIconOnActiveAreas": "ChangeIconOnActiveAreas",
+            "DifficultyCustomIndicatorsOnMap": "IndicatorsOnMap",
+            "DifficultyCustomSparklesOnHOPuzzles": "SparklesOnHOPuzzles",
+            "Difficulty": "ID"
+        }
 
         for account_param_name, dif_param_name in SETTINGS.items():
             option = cur_difficulty.get(dif_param_name)
@@ -179,7 +190,8 @@ class SystemFastStart(System):
                 option *= 1000.0  # ms
             elif account_param_name != "Difficulty":
                 option = bool(option)
-            Mengine.changeCurrentAccountSetting(account_param_name, unicode(option))  # print "[{}]".format(cur_difficulty["ID"]), "changeCurrentAccountSetting", account_param_name, unicode(option)
+            Mengine.changeCurrentAccountSetting(account_param_name, unicode(option))
+            # print "[{}]".format(cur_difficulty["ID"]), "changeCurrentAccountSetting", account_param_name, unicode(option)
 
         Trace.msg("SystemFastStart set difficulty to {!r}".format(cur_difficulty["ID"]))
 

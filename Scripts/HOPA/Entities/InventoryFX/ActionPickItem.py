@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryFX.ActionDefault import ActionDefault
 
+
 class ActionPickItem(ActionDefault):
     def _onCheck(self):
         return True
@@ -20,7 +21,3 @@ class ActionPickItem(ActionDefault):
             # tc.addPrint("ActionPickItem")
             tc.addTask(EffectPolicy, Inventory=self.Inventory, ItemName=self.ItemName)
             tc.addTask("TaskNotify", ID=Notificator.onItemEffectEnd, Args=(self.ItemName,))
-
-            pass
-        pass
-    pass

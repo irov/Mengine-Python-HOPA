@@ -5,6 +5,7 @@ from HOPA.Entities.BalanceIndicator.BalanceIndicator import ALIAS_ENV
 from HOPA.Entities.BalanceIndicator.BalanceIndicator import EnergyIndicator
 from HOPA.System.SystemEnergy import EVENT_UPDATE_TIMER
 
+
 class SystemBalanceIndicator(System):
 
     def _onParams(self, params):
@@ -43,7 +44,8 @@ class SystemBalanceIndicator(System):
             self.removeTaskChain("SystemBalanceIndicator_Appear")
         with self.createTaskChain(Name="SystemBalanceIndicator_Appear", Repeat=False) as tc:
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="BalanceIndicator", Value=True)
-            tc.addTask("AliasObjectAlphaTo", GroupName="BalanceIndicator", ObjectName="Demon_BalanceIndicator", From=0.0, To=1.0, Time=self.__alpha_time)
+            tc.addTask("AliasObjectAlphaTo", GroupName="BalanceIndicator", ObjectName="Demon_BalanceIndicator",
+                       From=0.0, To=1.0, Time=self.__alpha_time)
 
         return False
 
@@ -54,7 +56,8 @@ class SystemBalanceIndicator(System):
         if self.existTaskChain("SystemBalanceIndicator_Disappear") is True:
             self.removeTaskChain("SystemBalanceIndicator_Disappear")
         with self.createTaskChain(Name="SystemBalanceIndicator_Disappear", Repeat=False) as tc:
-            tc.addTask("AliasObjectAlphaTo", GroupName="BalanceIndicator", ObjectName="Demon_BalanceIndicator", From=1.0, To=0.0, Time=self.__alpha_time)
+            tc.addTask("AliasObjectAlphaTo", GroupName="BalanceIndicator", ObjectName="Demon_BalanceIndicator",
+                       From=1.0, To=0.0, Time=self.__alpha_time)
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="BalanceIndicator", Value=False)
 
         # TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName="BalanceIndicator", Value=False)

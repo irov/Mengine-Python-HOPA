@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class PuzzleDragDropManager(object):
     s_objects = {}
 
@@ -7,18 +8,14 @@ class PuzzleDragDropManager(object):
         def __init__(self, elements, Linked, winState):
             self.elements = elements
             self.winCase = winState
-            self.LinkedItems = Linked  # dictinary
-            pass
+            self.LinkedItems = Linked  # dict
 
         def getLinks(self):
             return self.LinkedItems
-            pass
-        pass
 
     @staticmethod
     def onFinalize():
         PuzzleDragDropManager.s_objects = {}
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -32,10 +29,8 @@ class PuzzleDragDropManager(object):
             collectionName = values.get("Collection")
 
             PuzzleDragDropManager.loadPuzzleDragDropCollection(objectName, module, collectionName)
-            pass
 
         return True
-        pass
 
     @staticmethod
     def loadPuzzleDragDropCollection(objectName, module, collectionName):
@@ -67,26 +62,15 @@ class PuzzleDragDropManager(object):
 
         PuzzleDragDropManager.s_objects[objectName] = Object
 
-        pass
-
     @staticmethod
     def getPuzzleDragDrop(name):
         if PuzzleDragDropManager.hasPuzzleDragDrop(name) is False:
             return None
-            pass
 
         return PuzzleDragDropManager.s_objects[name]
-        pass
 
     @staticmethod
     def hasPuzzleDragDrop(name):
         if name not in PuzzleDragDropManager.s_objects.keys():
             return False
-            pass
-
         return True
-        pass
-
-    pass
-
-pass

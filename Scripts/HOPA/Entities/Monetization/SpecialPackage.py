@@ -5,13 +5,24 @@ from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentPublisher
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+
 TC_NAME = "SpecialPackagePromotion"
+
 
 class SpecialPackage(BaseComponent):
     """ one-time package (chapter+gold/energy) """
 
-    _settings = {"is_enable": "EnablePromoPackage", "product_id": "PromoPackageProductID", "movie": "PromoPackageButtonName", "group": "PromoPackageGroupName", }
-    _defaults = {"product_id": "-3", "movie": "Movie2Button_{}".format(getCurrentPublisher()), "group": "SpecialPackage", }
+    _settings = {
+        "is_enable": "EnablePromoPackage",
+        "product_id": "PromoPackageProductID",
+        "movie": "PromoPackageButtonName",
+        "group": "PromoPackageGroupName",
+    }
+    _defaults = {
+        "product_id": "-3",
+        "movie": "Movie2Button_{}".format(getCurrentPublisher()),
+        "group": "SpecialPackage",
+    }
 
     def _createParams(self):
         self.demon_name = "SpecialPromotion"
@@ -67,7 +78,8 @@ class SpecialPackage(BaseComponent):
                 repeat.addTask("TaskMovie2ButtonClick", Group=self.group, Movie2Button=self.button)
                 repeat.addFunction(self.demon.run, self.product.id)
 
-                until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id in [self.product.id, self.bonus_chapter_prod_id])
+                until.addListener(Notificator.onPaySuccess,
+                                  Filter=lambda prod_id: prod_id in [self.product.id, self.bonus_chapter_prod_id])
 
         return False
 

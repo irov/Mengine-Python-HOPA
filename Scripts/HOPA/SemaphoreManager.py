@@ -1,5 +1,6 @@
 from Foundation.Manager import Manager
 
+
 class SemaphoreManager(Manager):
     s_semaphore = {}
 

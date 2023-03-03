@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class __SpellManager(object):
     """
     deprecated
@@ -11,7 +12,8 @@ class __SpellManager(object):
     s_cost = {}
 
     class SpellData(object):
-        def __init__(self, socket, sprite, locked, prepared, ready, active, charge, use, invalid, overview, idle, hide, show, down):
+        def __init__(self, socket, sprite, locked, prepared, ready, active, charge, use, invalid, overview, idle, hide,
+                     show, down):
             self.socket = socket
             self.sprite = sprite
             self.locked = locked
@@ -176,7 +178,9 @@ class __SpellManager(object):
                 DownMovie = spellDemon.getObject(DownMovieName)
                 pass
 
-            spell = SpellManager.SpellData(Socket, Sprite, LockedMovie, PreparedMovie, ReadyMovie, ActiveMovie, ChargeMovie, UseMovie, InvalidUseMovie, TipOverviewMovie, IdleMovie, HideMovie, ShowMovie, DownMovie)
+            spell = SpellManager.SpellData(Socket, Sprite, LockedMovie, PreparedMovie, ReadyMovie, ActiveMovie,
+                                           ChargeMovie, UseMovie, InvalidUseMovie, TipOverviewMovie, IdleMovie,
+                                           HideMovie, ShowMovie, DownMovie)
 
             SpellManager.s_objects[ObjectName] = spell
             SpellManager.s_ids[SpellID] = spellDemon
@@ -278,4 +282,5 @@ class __SpellManager(object):
             pass
         return True
         pass
+
     pass

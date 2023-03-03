@@ -2,6 +2,7 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from Notification import Notification
 
+
 class ChainClickElement(object):
     def __init__(self, item, itemClick, movieComplete):
         self.chainId = None
@@ -125,5 +126,3 @@ class ChainClickElement(object):
 
         self.itemClick.setParam("Enable", False)
         return False
-        pass
-    pass

@@ -2,10 +2,10 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasHOGFittingMoveItemToSlot(TaskAlias):
     def __init__(self):
         super(AliasHOGFittingMoveItemToSlot, self).__init__()
-        pass
 
     def _onParams(self, params):
         super(AliasHOGFittingMoveItemToSlot, self)._onParams(params)
@@ -13,11 +13,9 @@ class AliasHOGFittingMoveItemToSlot(TaskAlias):
         self.ItemName = params.get("ItemName")
         self.ItemObject = params.get("ItemObject")
         self.InventoryItemObject = params.get("InventoryItemObject")
-        pass
 
     def _onInitialize(self):
         super(AliasHOGFittingMoveItemToSlot, self)._onInitialize()
-        pass
 
     def _onGenerate(self, source):
         # if ArrowManager.emptyArrowAttach() is False :
@@ -87,5 +85,3 @@ class AliasHOGFittingMoveItemToSlot(TaskAlias):
         source.addTask("TaskNodeDestroy", Node=pure)
 
         source.addFunction(slot.EnableSocket)
-        pass
-    pass

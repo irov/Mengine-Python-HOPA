@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from HOPA.Entities.BoneBoard.BoneBoardManager import BoneBoardManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionBoneUse(HintActionDefault):
     def __init__(self):
         super(HintActionBoneUse, self).__init__()

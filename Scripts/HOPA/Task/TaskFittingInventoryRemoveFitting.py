@@ -1,5 +1,6 @@
 from Foundation.Task.Task import Task
 
+
 class TaskFittingInventoryRemoveFitting(Task):
     Skiped = True
 
@@ -19,4 +20,5 @@ class TaskFittingInventoryRemoveFitting(Task):
 
         return True
         pass
+
     pass

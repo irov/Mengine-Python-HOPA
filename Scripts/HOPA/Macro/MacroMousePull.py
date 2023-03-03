@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMousePull(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]
@@ -27,9 +28,11 @@ class MacroMousePull(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "Pull", SceneName=self.SceneName, GroupName=self.GroupName, ObjectName=self.ObjectName, Direction=self.Direction)
+        Quest = self.addQuest(source, "Pull", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ObjectName=self.ObjectName, Direction=self.Direction)
         with Quest as tc:
-            tc.addTask("AliasMousePull", ObjectName=self.ObjectName, MovieName=self.MovieName, MovieWrongName=self.MovieWrongName, Direction=self.Direction, Distance=self.Distance)
+            tc.addTask("AliasMousePull", ObjectName=self.ObjectName, MovieName=self.MovieName,
+                       MovieWrongName=self.MovieWrongName, Direction=self.Direction, Distance=self.Distance)
 
             pass
         pass

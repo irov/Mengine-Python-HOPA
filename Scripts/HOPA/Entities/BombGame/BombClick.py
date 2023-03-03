@@ -1,5 +1,6 @@
 Enigma = Mengine.importEntity("Enigma")
 
+
 class BombClick(object):
     def __init__(self, game, pos):
         self.Game = game
@@ -11,7 +12,6 @@ class BombClick(object):
         self.Movies = []
         self.slotsExp = []
         self.ExpItems = []
-        pass
 
     def PreExploud(self):
         slot_self = self.Game.getSlot(self.CurrentPos)
@@ -19,12 +19,10 @@ class BombClick(object):
         blob_Inivse = self.Game.getItemProtoById(id_Bomb)
         slot_self.setItemCheckSame(blob_Inivse)
         slot_self.UpdateTypeVisual()
-        pass
 
     def Exploud(self):
         for mov in self.Movies:
             mov.onDestroy()
-            pass
         self.Movies = []
 
         slot_self = self.Game.getSlot(self.CurrentPos)
@@ -36,8 +34,6 @@ class BombClick(object):
             self.ExpItems.append(slotin.Item)
             slotin.setItemCheckSame(self.Game.item_Close_Block)
             slotin.UpdateTypeVisual()
-            pass
-        pass
 
     def ExploudEnd(self):
         itemsBlowCount = {}
@@ -48,28 +44,20 @@ class BombClick(object):
                     ItemBlow = self.ExpItems[i]
                     if (ItemBlow in itemsBlowCount):
                         itemsBlowCount[ItemBlow] = itemsBlowCount[ItemBlow] + 1
-                        pass
                     else:
                         itemsBlowCount[ItemBlow] = 0
-                        pass
                     itemSpawn = ItemBlow.ItemRandom()
                     if (itemSpawn is not None):
                         slotin.setItemCheckSame(itemSpawn)
-                        pass
-                    pass
                 slotin.UpdateTypeVisual()
-                pass
-            pass
 
         self.Item.AddPoints(itemsBlowCount, self.Game.getSlot(self.CurrentPos))
 
         for mov in self.Movies:
             mov.onDestroy()
-            pass
 
         self.Movies = []
         self.ExpItems = []
-        pass
 
     def getPreExploudMovie(self):
         slotBase = self.Game.getSlot(self.CurrentPos)
@@ -79,9 +67,7 @@ class BombClick(object):
             slotBase.setMovieSlotPos(preMovie)
             self.Movies.append(preMovie)
             return preMovie
-            pass
         return None
-        pass
 
     def getMovie(self, Holder):
         hold = []
@@ -96,8 +82,6 @@ class BombClick(object):
                     slotin.setMovieSlotPos(movieExSlot)
                     self.Movies.append(movieExSlot)
                     hold.append((movieExSlot, False))
-                    pass
-                pass
 
             movieNmae = self.Item.getExploudMovieName()
             movie = self.Game.genExploudMovies(movieNmae)
@@ -107,9 +91,4 @@ class BombClick(object):
             wait = False
             if (i == len(self.slotsExp) - 1):
                 wait = True
-                pass
             hold.append((movie, wait))
-            pass
-        pass
-
-    pass

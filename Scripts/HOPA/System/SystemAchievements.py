@@ -10,7 +10,9 @@ from Foundation.Utils import isCollectorEdition
 from HOPA.AchievementManager import AchievementManager
 from Notification import Notification
 
+
 HOGS_HINT_ACTIONS = ['HintActionHOGItem', 'HintActionUseHOGFittingItem', 'HintActionDragDropItem']
+
 
 class Achievement(object):
     """ in-game achievements (internal) """
@@ -46,6 +48,7 @@ class Achievement(object):
         def __repr__(self):
             return "<{} {!r} [{}]>".format(self.__class__.__name__, self.name, self.complete)
 
+
 class ExternalAchievement(Achievement):
     """ achievements for Apple GameCenter, Google play, etc """
 
@@ -74,16 +77,23 @@ class ExternalAchievement(Achievement):
             return True
         return False
 
+
 class SystemAchievements(System):
     s_achievements = {}
     s_external_achievements = {}
 
-    s_stats_list = ["item_collect_complete_count",  # Collector
+    s_stats_list = [
+        "item_collect_complete_count",  # Collector
         "minigames_complete_count",  # PuzzleLover
         "hogs_complete_no_hint_count",  # ArgusEyed, Professional
         "scene_complete_no_hint_count",  # Discoverer
         # new params:
-        "hint_used_count", "completed_locations", "unlocked_achievements", "completed_missions", "items_picked", ]
+        "hint_used_count",
+        "completed_locations",
+        "unlocked_achievements",
+        "completed_missions",
+        "items_picked",
+    ]
 
     def _onParams(self, _params):
         self.scenes_hog_hint_used = []  # ArgusEyed, Professional
@@ -254,7 +264,7 @@ class SystemAchievements(System):
         achievement_name = achievement.name
 
         if any([was_unlocked is False,  # it is first time unlock
-            DefaultManager.getDefaultBool("ShowAlreadyCompletedAchievementsNotify", False) is True]):
+                DefaultManager.getDefaultBool("ShowAlreadyCompletedAchievementsNotify", False) is True]):
             Notification.notify(Notificator.onAddAchievementPlateToQueue, 'Achievements', achievement_name)
         self.__sendAchievementToSteam(achievement)
 
@@ -283,7 +293,8 @@ class SystemAchievements(System):
 
         SystemAchievements.s_external_achievements = {}
         external_achievements_params = AchievementManager.getExternalAchievementsParamsByService(service)
-        self.__createAchievements(external_achievements_params, ExternalAchievement, SystemAchievements.s_external_achievements)
+        self.__createAchievements(external_achievements_params, ExternalAchievement,
+                                  SystemAchievements.s_external_achievements)
 
     @staticmethod
     def __createAchievements(achievements_params, _type, _dict):
@@ -434,10 +445,17 @@ class SystemAchievements(System):
         if self.__checkEnable() is False:
             return {}
 
-        save_data = {'system_params': [  # old params, DO NOT change order - it destroys old user's saves
-            self.item_collect_complete_count, self.minigames_complete_count, self.scenes_hog_hint_used, self.hogs_complete_no_hint_count, self.scenes_hint_used, self.scene_complete_no_hint_count, ], 'new_params': {  # check `s_stats_list`, first 4 stats - old and saves in prev `system_params` list
-            stat: self.__dict__[stat] for stat in SystemAchievements.s_stats_list[4:]},  # achievements list saves only names or id to identify completed
-            'achievements_params': [], 'external_achievements_params': []}
+        save_data = {
+            'system_params': [  # old params, DO NOT change order - it destroys old user's saves
+                self.item_collect_complete_count, self.minigames_complete_count, self.scenes_hog_hint_used,
+                self.hogs_complete_no_hint_count, self.scenes_hint_used, self.scene_complete_no_hint_count, ],
+            'new_params': {  # check `s_stats_list`, first 4 stats - old and saves in prev `system_params` list
+                stat: self.__dict__[stat] for stat in SystemAchievements.s_stats_list[4:]
+            },
+            # achievements list saves only names or id to identify completed
+            'achievements_params': [],
+            'external_achievements_params': []
+        }
 
         for achievement in SystemAchievements.getAchievements().itervalues():
             if achievement.isComplete():
@@ -533,7 +551,8 @@ class SystemAchievements(System):
 
     def _addAnalytics(self):
         SystemAnalytics.addSpecificAnalytic("unlock_achievement", "unlock_external_achievement",
-            Notificator.onAchievementExternalUnlocked, None, lambda achieve_id: {'achievement_id': achieve_id})
+                                            Notificator.onAchievementExternalUnlocked, None,
+                                            lambda achieve_id: {'achievement_id': achieve_id})
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:

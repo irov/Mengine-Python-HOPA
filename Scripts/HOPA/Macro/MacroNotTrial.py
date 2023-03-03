@@ -1,6 +1,7 @@
 # coding=utf-8
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroNotTrial(MacroCommand):
     def _onValues(self, values):
         self.ParagraphsID = values
@@ -26,7 +27,8 @@ class MacroNotTrial(MacroCommand):
             return
             pass
 
-        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName, ParagraphsID=self.ParagraphsID)
+        Quest = self.addQuest(source, "RunParagraph", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
             # tc_quest.addTask("TaskPrint", Value = "RunParagraph %s:%s"%(paragraphID, self.GroupName))
@@ -34,4 +36,5 @@ class MacroNotTrial(MacroCommand):
             pass
 
         pass
+
     pass

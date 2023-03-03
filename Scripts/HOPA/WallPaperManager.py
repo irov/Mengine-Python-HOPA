@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import isCollectorEdition
 
+
 class WallPaperManager(Manager):
     s_wallpapers = []
     s_wallpapers_default_status = []

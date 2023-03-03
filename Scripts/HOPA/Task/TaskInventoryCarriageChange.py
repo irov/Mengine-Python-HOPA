@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryCarriageChange(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskInventoryCarriageChange, self)._onParams(params)
@@ -17,4 +18,5 @@ class TaskInventoryCarriageChange(MixinObserver, Task):
     def _onInventoryCurrentSlotIndex(self, Inventory, Value):
         return True
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectWalktrhoughText(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectWalktrhoughText(DemonObject):
         super(ObjectWalktrhoughText, self)._onParams(params)
         self.initParam("Open", params, False)
         pass
+
     pass

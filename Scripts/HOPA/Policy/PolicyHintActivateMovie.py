@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintActivateMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintActivateMovie, self)._onParams(params)
@@ -20,4 +21,5 @@ class PolicyHintActivateMovie(TaskAlias):
         source.addTask("TaskMovie2Play", Movie2=Movie_Activate)
         source.addTask("TaskEnable", Object=Movie_Activate, Value=False)
         pass
+
     pass

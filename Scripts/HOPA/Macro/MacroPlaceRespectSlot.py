@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.TutorialManager import TutorialManager
 
+
 class MacroPlaceRespectSlot(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[1]

@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 
 from HOPA.Entities.Difficulty.DifficultyManager import DifficultyManager
 
+
 class Difficulty(BaseEntity):
 
     def _onActivate(self):

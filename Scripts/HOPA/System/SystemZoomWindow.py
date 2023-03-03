@@ -4,6 +4,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
+
 class SystemZoomWindow(System):
     def _onParams(self, params):
         super(SystemZoomWindow, self)._onParams(params)

@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectSwapChipsInPlace(ObjectEnigma):
     @staticmethod
     def declareORM(Type):

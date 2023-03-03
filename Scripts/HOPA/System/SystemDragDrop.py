@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 ZOOM_MG_FRAME_GROUP = "ZoomMiniMGCountDefault"
 ZOOM_COUNTER_DEMON_OBJECT = "Demon_HOGInventoryCount"
 ZOOM_DEFAULT_FRAME_GROUP = "ZoomDefault"
@@ -17,6 +18,7 @@ SCENE_DEFAULT_INVENTORY_GROUP = "Inventory"
 TEXT_NAME = "Text_Message"
 
 SYSTEM_INVENTORY_PANEL = "SystemInventoryPanel"
+
 
 # todo: other drag drops, which are after macro DragDropCounter Disable, shouldn't processed
 
@@ -35,6 +37,7 @@ class DragDropItem(object):
     def isFound(self):
         return self.__is_found
 
+
 class DragDropMG(object):
     def __init__(self, group_name):
         self.group_name = group_name
@@ -48,7 +51,8 @@ class DragDropMG(object):
 
     def getSerialized(self):
         items_serialized = [item.getSerialized() for item in self.drag_drop_items.values()]
-        return [self.is_zoom, self.text_id, self.is_manual, self.manual_item_count, self.manual_complete_item_count, items_serialized]
+        return [self.is_zoom, self.text_id, self.is_manual, self.manual_item_count,
+                self.manual_complete_item_count, items_serialized]
 
     def restore(self, serialized):
         self.is_zoom = serialized[0]
@@ -85,6 +89,7 @@ class DragDropMG(object):
             return founded_item_names
         else:
             return [drag_drop_item.name for drag_drop_item in self.drag_drop_items.values()]
+
 
 class SystemDragDrop(System):
     s_group_drag_drop_mgs = dict()

@@ -8,6 +8,7 @@ from HOPA.System.SystemAchievements import SystemAchievements
 from HOPA.System.SystemCollectibles import SystemCollectibles
 from HOPA.System.SystemMorphs import SystemMorphs
 
+
 ALIAS_ENV = ''
 
 TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER = "$AchievementCounter"
@@ -29,6 +30,7 @@ TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_TOTAL = "ID_ACHIEVEMENT_PLATE_MORPHS_CO
 
 ACHIEVEMENT_PLATE_SHOW_DELAY = DefaultManager.getDefaultFloat('AchievementPLateShowDelay', 1500.0)
 
+
 class PlateSceneEffect(object):
     def __init__(self, movie):
         self.movie = movie
@@ -36,6 +38,7 @@ class PlateSceneEffect(object):
 
     def scopePlayEffect(self, source):
         source.addPlay(self.movie, Wait=True)
+
 
 class AchievementsInGameMenu(BaseEntity):
     semaphore_queue_is_empty = Semaphore(True, 'QueueAchievementPlateIsEmpty')
@@ -184,8 +187,10 @@ class AchievementsInGameMenu(BaseEntity):
             Mengine.removeTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT)
             Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, text_id_description)
 
-            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, TEXT_ID_ACHIEVEMENT_PLATE_TEXT_COLLECTIBLES_COUNTER)
-            Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(complete_counter), str(number_of_collectibles_on_scene))
+            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER,
+                                 TEXT_ID_ACHIEVEMENT_PLATE_TEXT_COLLECTIBLES_COUNTER)
+            Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(complete_counter),
+                                          str(number_of_collectibles_on_scene))
             self.__setEnableCounter(True)
         else:
             Mengine.removeTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT)
@@ -212,11 +217,14 @@ class AchievementsInGameMenu(BaseEntity):
         display_text_achievement_name = Mengine.getTextFromID(str(text_id_achievement))
 
         Mengine.removeTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT)
-        Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, TEXT_ID_ACHIEVEMENT_PLATE_TEXT_ACHIEVEMENT_COMPLETE)
+        Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT,
+                             TEXT_ID_ACHIEVEMENT_PLATE_TEXT_ACHIEVEMENT_COMPLETE)
         Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, display_text_achievement_name)
 
-        Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, TEXT_ID_ACHIEVEMENT_PLATE_ACHIEVEMENTS_COUNTER)
-        Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(counter), str(number_of_achievements))
+        Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER,
+                             TEXT_ID_ACHIEVEMENT_PLATE_ACHIEVEMENTS_COUNTER)
+        Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(counter),
+                                      str(number_of_achievements))
         self.__setEnableCounter(True)
 
     def __setMorphsText(self, morph_id=None):
@@ -229,31 +237,40 @@ class AchievementsInGameMenu(BaseEntity):
 
         if len(active_morphs) == 0:
             # if player collect all morphs in the game
-            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FOUND_ALL_MORPHS)
+            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT,
+                                 TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FOUND_ALL_MORPHS)
 
             self.__setEnableCounter(False)
 
         elif len(scene_morphs) > 0:
             # if player has morphs to collect on this scene
-            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FIND_MORPH)
+            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT,
+                                 TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FIND_MORPH)
 
             if DefaultManager.getDefaultBool("MorphShowCurSceneCounter", False) is True:
                 # shows how many morphs on this scene left
-                Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_SCENE)
-                Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(scene_morphs)), str(len(picked_morphs)), str(len(all_morphs)))
+                Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER,
+                                     TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_SCENE)
+                Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(scene_morphs)),
+                                              str(len(picked_morphs)), str(len(all_morphs)))
             else:
                 # shows only total counter
-                Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_TOTAL)
-                Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(picked_morphs)), str(len(all_morphs)))
+                Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER,
+                                     TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_TOTAL)
+                Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(picked_morphs)),
+                                              str(len(all_morphs)))
 
             self.__setEnableCounter(True)
 
         else:
             # if player collect all morphs on this scene
-            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT, TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FOUND_SCENE_MORPHS)
+            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT,
+                                 TEXT_ID_ACHIEVEMENT_PLATE_TEXT_FOUND_SCENE_MORPHS)
 
-            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_TOTAL)
-            Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(picked_morphs)), str(len(all_morphs)))
+            Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER,
+                                 TEXT_ID_ACHIEVEMENT_PLATE_MORPHS_COUNTER_TOTAL)
+            Mengine.setTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_COUNTER, str(len(picked_morphs)),
+                                          str(len(all_morphs)))
             self.__setEnableCounter(True)
 
     def _onActivate(self):
@@ -315,7 +332,8 @@ class AchievementsInGameMenu(BaseEntity):
             source_for_close.addScope(self.__scopeSceneEffect)
             source_for_close.addDelay(ACHIEVEMENT_PLATE_SHOW_DELAY)
 
-            with source_for_close.addIfTask(self.semaphore_play_scene_effect.getValue) as (source_skip, source_close):  # source_skip if we closed plate ourselves
+            with source_for_close.addIfTask(self.semaphore_play_scene_effect.getValue) as (
+            source_skip, source_close):  # source_skip if we closed plate ourselves
                 source_close.addScope(self.__scopeSceneEffect)
 
                 source_skip.addDummy()
@@ -344,7 +362,8 @@ class AchievementsInGameMenu(BaseEntity):
         self.__cleanAchievementMovie()
         if achievement_name is not None:
             achievement_name = achievement_name.replace(' ', '')
-            self.achievement_movie = self.object.tryGenerateObjectUnique('Achievement_Movie2', 'Movie2_' + achievement_name, Enable=True)
+            self.achievement_movie = self.object.tryGenerateObjectUnique('Achievement_Movie2',
+                                                                         'Movie2_' + achievement_name, Enable=True)
             if self.achievement_movie is None:
                 return
 
@@ -392,7 +411,8 @@ class AchievementsInGameMenu(BaseEntity):
             self.__setMorphsText(morph_id)
             return True
 
-        Trace.log("Entity", 0, "AchievementsInGameMenu.__setTexts: No achievement_name or collectible_scene inputted, also Morphs are disabled")
+        Trace.log("Entity", 0,
+                  "AchievementsInGameMenu.__setTexts: No achievement_name or collectible_scene inputted, also Morphs are disabled")
 
         return False
 

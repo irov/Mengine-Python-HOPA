@@ -7,6 +7,7 @@ from Notification import Notification
 
 from SpellManager import SpellManager
 
+
 class __Spell(BaseEntity):
     """
     deprecated
@@ -21,6 +22,7 @@ class __Spell(BaseEntity):
     HIDE = "Hide"
     SHOW = "Show"
     DOWN = "Down"
+
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
@@ -371,7 +373,8 @@ class __Spell(BaseEntity):
         self.cancelTaskChains()
         self.__disableAllMovies()
         if self.chargeMovie is not None:
-            with TaskManager.createTaskChain(Name="Charge_" + self.object.getName(), Cb=self.__changeState) as tc_charge:
+            with TaskManager.createTaskChain(Name="Charge_" + self.object.getName(),
+                                             Cb=self.__changeState) as tc_charge:
                 tc_charge.addTask("TaskEnable", Object=self.chargeMovie)
                 tc_charge.addTask("TaskMoviePlay", Movie=self.chargeMovie, Wait=True)
                 pass
@@ -615,4 +618,5 @@ class __Spell(BaseEntity):
             TaskManager.cancelTaskChain("Show_" + self.object.getName())
             pass
         pass
+
     pass

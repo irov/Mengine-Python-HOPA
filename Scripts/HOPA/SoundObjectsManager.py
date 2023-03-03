@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class SoundObjectsManager(object):
     s_soundObjects = {}
 
@@ -16,8 +17,6 @@ class SoundObjectsManager(object):
 
         def getObject(self):
             return self.object
-            pass
-        pass
 
     @staticmethod
     def loadSoundObjects(module, param):
@@ -44,12 +43,7 @@ class SoundObjectsManager(object):
             SoundObject = SoundObjectsManager.SoundObject(Sound, Object)
 
             SoundObjectsManager.s_soundObjects.setdefault(Event, []).append(SoundObject)
-            pass
-        pass
 
     @staticmethod
     def getSoundObjects():
         return SoundObjectsManager.s_soundObjects
-        pass
-
-    pass

@@ -7,6 +7,7 @@ from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.ParallaxEffectManager import ParallaxEffectManager
 
+
 def animator_sandbox(system, scene_name):
     global LOG_ENABLE
     LOG_ENABLE = True
@@ -57,6 +58,7 @@ def animator_sandbox(system, scene_name):
         tc.addTask("TaskSceneLeave", SceneName=current_scene_name)
         tc.addFunction(__clean_up)
 
+
 def parallax_debug(func):
     def wrapper(*args, **kwargs):
         CHEAT_PARALLAX_DEBUG = DefaultManager.getDefaultBool("CHEAT_PARALLAX_DEBUG", False)
@@ -66,7 +68,9 @@ def parallax_debug(func):
         else:
             # print "CHEAT_PARALLAX_DEBUG = OFF"
             func(*args, **kwargs)
+
     return wrapper
+
 
 # = main ========================================================================================
 class SystemParallaxEffect(System):

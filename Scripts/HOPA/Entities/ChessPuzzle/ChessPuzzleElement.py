@@ -99,4 +99,5 @@ class ChessPuzzleElement(object):
     def getNode(self):
         return self.node
         pass
+
     pass

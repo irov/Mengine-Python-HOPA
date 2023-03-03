@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.SceneManager import SceneManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMagicVisionUnblockScene(MacroCommand):
     def _onValues(self, values):
         self.SceneName = values[0]
@@ -24,4 +25,5 @@ class MacroMagicVisionUnblockScene(MacroCommand):
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onMagicVisionUnblockScene, Args=(self.SceneName,))
         pass
+
     pass

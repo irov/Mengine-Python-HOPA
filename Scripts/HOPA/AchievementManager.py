@@ -2,8 +2,10 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import getCurrentPlatform, getCurrentPublisher
 
+
 class AchievementParam(object):
-    def __init__(self, name, group_name, movie_unlocked, movie_locked, movie_text, task_id_name, task_id_description, steps_to_complete, page, basic_name, steam_value, task):
+    def __init__(self, name, group_name, movie_unlocked, movie_locked, movie_text, task_id_name, task_id_description,
+                 steps_to_complete, page, basic_name, steam_value, task):
         self.name = name
         self.group = group_name
         self.page = page
@@ -19,6 +21,7 @@ class AchievementParam(object):
         self.task = AchievementManager.HUMAN_KEYS.get(task, task)
         self.steps_to_complete = steps_to_complete
         self.basic_name = basic_name
+
 
 class ExternalAchievementParam(object):
     def __init__(self, record):
@@ -44,6 +47,7 @@ class ExternalAchievementParam(object):
                 return False
         return True
 
+
 class AchievementManager(Manager):
     """
         Docs: https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/1869217793#AchievementManager
@@ -52,7 +56,17 @@ class AchievementManager(Manager):
     s_achievement_params = {}
     s_external_params = {}  # { service: {id: ExternalAchievementParam}, ... }
 
-    HUMAN_KEYS = {"ItemCollect": "item_collect_complete_count", "Minigames": "minigames_complete_count", "NoHintHOGs": "hogs_complete_no_hint_count", "NoHintScenes": "scene_complete_no_hint_count", "UseHint": "hint_used_count", "CompleteLocations": "completed_locations", "UnlockAchievements": "unlocked_achievements", "CompleteTasks": "completed_missions", "PickItem": "items_picked"}
+    HUMAN_KEYS = {
+        "ItemCollect": "item_collect_complete_count",
+        "Minigames": "minigames_complete_count",
+        "NoHintHOGs": "hogs_complete_no_hint_count",
+        "NoHintScenes": "scene_complete_no_hint_count",
+        "UseHint": "hint_used_count",
+        "CompleteLocations": "completed_locations",
+        "UnlockAchievements": "unlocked_achievements",
+        "CompleteTasks": "completed_missions",
+        "PickItem": "items_picked"
+    }
 
     __EXTERNAL_TABLES = {}  # { table_name: service }
 
@@ -85,7 +99,8 @@ class AchievementManager(Manager):
 
             basic_name = record.get("Basic_Name", None)
 
-            achievement = AchievementParam(name, group_name, movie_unlocked, movie_locked, movie_text, task_id_name, task_id_description, steps_to_complete, page, basic_name, steam_value, task)
+            achievement = AchievementParam(name, group_name, movie_unlocked, movie_locked, movie_text, task_id_name,
+                                           task_id_description, steps_to_complete, page, basic_name, steam_value, task)
 
             AchievementManager.s_achievement_params[name] = achievement
 
@@ -109,7 +124,8 @@ class AchievementManager(Manager):
             if Platform != current_platform:
                 continue
 
-            table_name = record.get("ParamTableName", "").format(tag="AchievementsExternal", publisher=Publisher, platform=Platform)
+            table_name = record.get("ParamTableName", "").format(
+                tag="AchievementsExternal", publisher=Publisher, platform=Platform)
             if table_name == "":
                 Trace.log("Manager", 0, "AchievementManager [{}] [{}] table name can't be empty".format(Publisher, Platform))
                 continue

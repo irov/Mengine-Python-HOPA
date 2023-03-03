@@ -3,14 +3,17 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Notification import Notification
 
+
 DEMON_DIALOG = "Demon_Dialog"
 DEMON_DIALOG_AVATAR = "Demon_Switch_Avatar"
+
 
 class DialogManager(object):
     s_dialogs = {}
 
     class Dialog(object):
-        def __init__(self, dialogID, textID, characterID, idleID, GROUP, nextID, voiceID, textDelay, finish, audio_duration):
+        def __init__(self, dialogID, textID, characterID, idleID, GROUP, nextID, voiceID, textDelay, finish,
+                     audio_duration):
             self.dialogID = dialogID
             self.textID = textID
             self.characterID = characterID
@@ -21,8 +24,6 @@ class DialogManager(object):
             self.textDelay = textDelay
             self.finish = finish
             self.audio_duration = audio_duration
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -44,14 +45,13 @@ class DialogManager(object):
             CE = record.get("CE", None)
             BuildModeTags = record.get("BuildModeTags", [])
 
-            DialogManager.addDialog(ID_DIALOG, ID_TEXT, CHARACTER, IDLE, GROUP, NEXT, VoiceID, TextDelay, Finish, AudioDuration, Survey, CE, BuildModeTags)
-            pass
+            DialogManager.addDialog(ID_DIALOG, ID_TEXT, CHARACTER, IDLE, GROUP, NEXT, VoiceID, TextDelay, Finish,
+                                    AudioDuration, Survey, CE, BuildModeTags)
 
         if _DEVELOPMENT is True:
             DialogManager.__validateDialogs()
 
         return True
-        pass
 
     # for movie-character resource check if exists any audio composition with |vo| tag
     @staticmethod
@@ -116,19 +116,15 @@ class DialogManager(object):
                 if dialog.nextID in dialogChainId:
                     Trace.log("Manager", 0, "DialogManager.__validateDialogs dialog %s has cicle next %s" % (dialogID, dialog.nextID))
                     break
-                    pass
 
                 dialogChainId.append(dialog.nextID)
-                pass
-            pass
-        pass
 
     @staticmethod
-    def addDialog(dialogID, textID, characterID, idleID, GROUP, nextID, voiceID, textDelay, finish, AudioDuration, Survey, CE, BuildModeTags):
+    def addDialog(dialogID, textID, characterID, idleID, GROUP, nextID, voiceID, textDelay, finish, AudioDuration,
+                  Survey, CE, BuildModeTags):
         if Mengine.existText(textID) is False:
             Trace.log("Manager", 0, "DialogManager.addDialogID: invalid dialog '%s' not found text '%s'" % (dialogID, textID))
             return
-            pass
 
         if checkBuildMode(dialogID, Survey, CE, BuildModeTags) is True:
             return
@@ -141,28 +137,21 @@ class DialogManager(object):
     def hasDialog(dialogID):
         if dialogID not in DialogManager.s_dialogs:
             return False
-            pass
-
         return True
-        pass
 
     @staticmethod
     def getDialog(dialogID):
         if dialogID not in DialogManager.s_dialogs:
             Trace.log("Manager", 0, "DialogManager.getDialogID: not found dialog id %s" % (dialogID))
             return None
-            pass
 
         dialog = DialogManager.s_dialogs[dialogID]
-
         return dialog
-        pass
 
     @staticmethod
     def dialogShow(dialogId):
         Notification.notify(Notificator.onBlackBarRelease, dialogId)
         Notification.notify(Notificator.onDialogShow, dialogId)
-        pass
 
     @staticmethod
     def getDialogChain(dialogID):
@@ -170,7 +159,6 @@ class DialogManager(object):
 
         if dialog is None:
             return None
-            pass
 
         dialogs = []
         dialogs.append(dialog)
@@ -178,8 +166,5 @@ class DialogManager(object):
         while dialog.nextID is not None:
             dialog = DialogManager.getDialog(dialog.nextID)
             dialogs.append(dialog)
-            pass
 
         return dialogs
-
-    pass

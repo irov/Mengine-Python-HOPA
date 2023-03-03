@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskEffectInventoryPickInventoryItem(TaskAlias):
     Skiped = True
 
@@ -30,4 +31,5 @@ class TaskEffectInventoryPickInventoryItem(TaskAlias):
 
         source.addTask("TaskNodeScaleTo", Node=InventoryItemEntity, To=(1.0, 1.0, 1.0), Time=InvItemCursorScaleIn)
         pass
+
     pass

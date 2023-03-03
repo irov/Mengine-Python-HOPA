@@ -4,12 +4,14 @@ from Foundation.TaskManager import TaskManager
 
 from OpenJournalManager import OpenJournalManager
 
+
 class OpenJournal(BaseEntity):
     STATIC = "Static"
     IDLE = "Idle"
     ACTIVATE = "Activate"
     ENTER = "Enter"
     LEAVE = "Leave"
+
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

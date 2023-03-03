@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ConnectorsManager(object):
     s_games = {}
 
@@ -7,20 +8,15 @@ class ConnectorsManager(object):
         def __init__(self, elements, connections):
             self.elements = elements
             self.connections = connections
-            pass
-        pass
 
     class Connection(object):
         def __init__(self, socketName, statesName):
             self.socketObjectName = socketName
             self.statesObjectName = statesName
             self.elements = []
-            pass
 
         def appendElements(self, element):
-            self.elements.appned(element)
-            pass
-        pass
+            self.elements.append(element)
 
     @staticmethod
     def loadGames(module, param):
@@ -33,8 +29,6 @@ class ConnectorsManager(object):
             ElementsToConnectionParam = record.get("ElementsToConnection")
 
             ConnectorsManager.loadGame(Name, module, ElementsParam, ConnectionsParam, ElementsToConnectionParam)
-            pass
-        pass
 
     @staticmethod
     def loadGame(name, module, elementsParam, connectionsParam, elementsToConnectionParam):
@@ -108,6 +102,3 @@ class ConnectorsManager(object):
     @staticmethod
     def hasGame(name):
         return name in ConnectorsManager.s_games
-        pass
-
-    pass

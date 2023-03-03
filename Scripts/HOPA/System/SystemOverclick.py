@@ -1,6 +1,7 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 
+
 class SystemOverclick(System):
     def _onParams(self, params):
         super(SystemOverclick, self)._onParams(params)
@@ -67,4 +68,5 @@ class SystemOverclick(System):
 
     def _onStop(self):
         pass
+
     pass

@@ -1,6 +1,7 @@
 from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroIsChapterDone(MacroCommand):
     def _onValues(self, values):
         if len(values) == 1:

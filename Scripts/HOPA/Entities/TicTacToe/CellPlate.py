@@ -1,5 +1,6 @@
 from Foundation.DemonManager import DemonManager
 
+
 class CellPlate(object):
     def __init__(self, plate_id, movie_plate, movie_cell_x, movie_cell_o):
         self.plate_id = plate_id

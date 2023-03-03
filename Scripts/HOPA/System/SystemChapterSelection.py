@@ -9,6 +9,7 @@ from HOPA.SemaphoreManager import SemaphoreManager
 from HOPA.StageManager import StageManager
 from Notification import Notification
 
+
 class Chapter(object):
     def __init__(self, param):
         self.chapter_name = param.chapter_name
@@ -36,6 +37,7 @@ class Chapter(object):
 
     def setPlayed(self, value):
         self.is_played = value
+
 
 class SystemChapterSelection(System):
     s_dev_to_debug = False
@@ -86,12 +88,28 @@ class SystemChapterSelection(System):
 
         chapter_param = ChapterSelectionManager.getChapterSelectionParam(chapter_id)
 
-        old_params = {"Mute": Mengine.getCurrentAccountSetting("Mute"), "Fullscreen": Mengine.getCurrentAccountSettingBool("Fullscreen"), "Widescreen": Mengine.getCurrentAccountSetting("Widescreen"), "Cursor": Mengine.getCurrentAccountSetting("Cursor"), "CustomCursor": Mengine.getCurrentAccountSetting("CustomCursor"), "Name": Mengine.getCurrentAccountSetting("Name"), }
+        old_params = {
+            "Mute": Mengine.getCurrentAccountSetting("Mute"),
+            "Fullscreen": Mengine.getCurrentAccountSettingBool("Fullscreen"),
+            "Widescreen": Mengine.getCurrentAccountSetting("Widescreen"),
+            "Cursor": Mengine.getCurrentAccountSetting("Cursor"),
+            "CustomCursor": Mengine.getCurrentAccountSetting("CustomCursor"),
+            "Name": Mengine.getCurrentAccountSetting("Name"),
+        }
         slot_id = Mengine.getCurrentAccountSettingUInt("SlotID")
         slot_id_int = slot_id
 
-        difficulty = {"Difficulty": Mengine.getCurrentAccountSetting("Difficulty"), "DifficultyCustomHintTime": Mengine.getCurrentAccountSetting("DifficultyCustomHintTime"), "DifficultyCustomSkipTime": Mengine.getCurrentAccountSetting("DifficultyCustomSkipTime"), "DifficultyCustomTutorial": Mengine.getCurrentAccountSetting("DifficultyCustomTutorial"), "DifficultyCustomSparklesOnActiveAreas": Mengine.getCurrentAccountSetting("DifficultyCustomSparklesOnActiveAreas"),
-            "DifficultyCustomSparklesOnHOPuzzles": Mengine.getCurrentAccountSetting("DifficultyCustomSparklesOnHOPuzzles"), "DifficultyCustomPlusItemIndicated": Mengine.getCurrentAccountSetting("DifficultyCustomPlusItemIndicated"), "DifficultyCustomIndicatorsOnMap": Mengine.getCurrentAccountSetting("DifficultyCustomIndicatorsOnMap"), "DifficultyCustomChangeIconOnActiveAreas": Mengine.getCurrentAccountSetting("DifficultyCustomChangeIconOnActiveAreas"), }
+        difficulty = {
+            "Difficulty": Mengine.getCurrentAccountSetting("Difficulty"),
+            "DifficultyCustomHintTime": Mengine.getCurrentAccountSetting("DifficultyCustomHintTime"),
+            "DifficultyCustomSkipTime": Mengine.getCurrentAccountSetting("DifficultyCustomSkipTime"),
+            "DifficultyCustomTutorial": Mengine.getCurrentAccountSetting("DifficultyCustomTutorial"),
+            "DifficultyCustomSparklesOnActiveAreas": Mengine.getCurrentAccountSetting("DifficultyCustomSparklesOnActiveAreas"),
+            "DifficultyCustomSparklesOnHOPuzzles": Mengine.getCurrentAccountSetting("DifficultyCustomSparklesOnHOPuzzles"),
+            "DifficultyCustomPlusItemIndicated": Mengine.getCurrentAccountSetting("DifficultyCustomPlusItemIndicated"),
+            "DifficultyCustomIndicatorsOnMap": Mengine.getCurrentAccountSetting("DifficultyCustomIndicatorsOnMap"),
+            "DifficultyCustomChangeIconOnActiveAreas": Mengine.getCurrentAccountSetting("DifficultyCustomChangeIconOnActiveAreas"),
+        }
 
         '''
         Restore saved systems
@@ -114,14 +132,16 @@ class SystemChapterSelection(System):
         for paragraph_name in chapter_param.on_chapter_reset_saved_paragraphs:
             paragraph_complete = scenario_chapter.isParagraphComplete(paragraph_name)
             if paragraph_complete:
-                paragraphs_to_run.append(paragraph_name)  # print 'paragraph completed, added in list to complete in new account', paragraph_name
+                paragraphs_to_run.append(paragraph_name)
+                # print 'paragraph completed, added in list to complete in new account', paragraph_name
 
         account_id = Mengine.createAccount()
 
         def cbLoadSystems(account_id_):
             if account_id_ == account_id:
                 for system_, save_ in systems_save:
-                    system_._onLoad(save_)  # print '__cbChapterSelectionResetProfile load:', system_.__class__.__name__, save_
+                    system_._onLoad(save_)
+                    # print '__cbChapterSelectionResetProfile load:', system_.__class__.__name__, save_
 
                 return True
 
@@ -129,7 +149,8 @@ class SystemChapterSelection(System):
 
         def cbRunParagraphs(_stage_name):
             for _paragraph_name in paragraphs_to_run:
-                Notification.notify(Notificator.onParagraphRun, _paragraph_name)  # print '__cbChapterSelectionResetProfile paragraph complete:', _paragraph_name
+                Notification.notify(Notificator.onParagraphRun, _paragraph_name)
+                # print '__cbChapterSelectionResetProfile paragraph complete:', _paragraph_name
 
             return True
 
@@ -236,9 +257,11 @@ class SystemChapterSelection(System):
 
                 def __onTransitionEndFilter(sceneFrom, sceneTo, ZoomGroupName):
                     return sceneTo == "CutScene"
+
                 race_1.addTask("TaskListener", ID=Notificator.onTransitionEnd, Filter=__onTransitionEndFilter)
 
-            source_fork.addFunction(SceneManager.setCurrentGameSceneName, param.start_scene)  # actual fix  # source_fork.addPrint("SHITTY FIX IS IN FIRE BABY!!!")
+            source_fork.addFunction(SceneManager.setCurrentGameSceneName, param.start_scene)  # actual fix
+            # source_fork.addPrint("SHITTY FIX IS IN FIRE BABY!!!")
 
         if param.start_paragraph is not None:
             source.addListener(Notificator.onSceneInit)
@@ -266,7 +289,10 @@ class SystemChapterSelection(System):
         for param in SystemChapterSelection.getChapterSelections().values():
             data_chapter_status[param.chapter_name] = param.is_open, param.is_play_open_animation, param.is_played
 
-        data_save = {'CurrentChapter': ChapterSelectionManager.s_chapter_current, 'ChapterStatus': data_chapter_status, }
+        data_save = {
+            'CurrentChapter': ChapterSelectionManager.s_chapter_current,
+            'ChapterStatus': data_chapter_status,
+        }
 
         return data_save
 

@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskItemPlaceInventoryAccumulateItem(MixinItem, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskItemPlaceInventoryAccumulateItem, self)._onParams(params)

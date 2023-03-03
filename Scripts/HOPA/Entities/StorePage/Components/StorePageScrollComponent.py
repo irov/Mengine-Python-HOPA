@@ -1,6 +1,7 @@
 from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
 
+
 class StorePageScrollComponent(StorePageBaseComponent):
 
     def __init__(self, page):
@@ -14,7 +15,9 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
     def _check(self):
         if self.object.hasObject("Movie2_VirtualArea") is False:
-            Trace.log("Entity", 0, "StorePage [{}] not found Movie2_VirtualArea in demon inside group '{}'".format(self.page.PageID, self.object.parent.getName()))
+            Trace.log("Entity", 0,
+                      "StorePage [{}] not found Movie2_VirtualArea in demon inside group '{}'".format(self.page.PageID,
+                                                                                                      self.object.parent.getName()))
             return False
         return True
 
@@ -55,10 +58,12 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket("touch") is False:
-            Trace.log("Entity", 0, "StorePage [{}] not found socket {!r} in {}".format(self.page.PageID, "touch", self._va_movie.getName()))
+            Trace.log("Entity", 0, "StorePage [{}] not found socket {!r} in {}".format(self.page.PageID, "touch",
+                                                                                       self._va_movie.getName()))
             return
         if self._va_movie.hasMovieSlot("content") is False:
-            Trace.log("Entity", 0, "StorePage [{}] not found slot {!r} in {}".format(self.page.PageID, "content", self._va_movie.getName()))
+            Trace.log("Entity", 0, "StorePage [{}] not found slot {!r} in {}".format(self.page.PageID, "content",
+                                                                                     self._va_movie.getName()))
             return
 
         socket = self._va_movie.getSocket("touch")

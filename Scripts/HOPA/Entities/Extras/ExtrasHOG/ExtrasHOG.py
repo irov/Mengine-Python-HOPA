@@ -3,6 +3,7 @@ from Notification import Notification
 
 from ExtrasHOGManager import ExtrasHOGManager
 
+
 class ExtrasHOG(BaseEntity):
     @staticmethod
     def declareORM(Type):

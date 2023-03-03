@@ -3,6 +3,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.SpellsManager import SpellsManager, SPELL_AMULET_TYPE
 from HOPA.System.SystemSpells import SystemSpells
 
+
 class MacroSpellAmuletUsePower(MacroCommand):
 
     def _onValues(self, values):
@@ -42,7 +43,8 @@ class MacroSpellAmuletUsePower(MacroCommand):
 
     def __runQuest(self, source):
         quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
-        quest = self.addQuest(source, quest_type, SceneName=self.SceneName, GroupName=self.GroupName, PowerName=self.power_name)
+        quest = self.addQuest(source, quest_type, SceneName=self.SceneName, GroupName=self.GroupName,
+                              PowerName=self.power_name)
 
         source.addNotify(self.notificator, self.power_name, self.open, self.ScenarioQuests[-1])
 
@@ -61,6 +63,7 @@ class MacroSpellAmuletUsePower(MacroCommand):
 
     def _onGenerate(self, source):
         with source.addIfTask(self.__isRuneLocked) as (wait, _):
-            wait.addListener(Notificator.onSpellAmuletAddPower, Filter=lambda power_type, *args: power_type == self.power_type)
+            wait.addListener(Notificator.onSpellAmuletAddPower,
+                             Filter=lambda power_type, *args: power_type == self.power_type)
 
         source.addScope(self.__runQuest)

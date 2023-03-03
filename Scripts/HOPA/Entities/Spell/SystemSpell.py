@@ -5,6 +5,7 @@ from Notification import Notification
 
 from SpellManager import SpellManager
 
+
 class SystemSpell(System):
     s_currentSpell = None
     noficators = {
@@ -60,7 +61,12 @@ class SystemSpell(System):
             self.__onInventoryUp()
             pass
 
-        self.onQuestObjectsNotificators = {'SpellOne': (Notificator.onSpellOneMouseEnter, Notificator.onSpellOneMouseLeave), 'SpellTwo': (Notificator.onSpellTwoMouseEnter, Notificator.onSpellTwoMouseLeave), 'SpellThree': (Notificator.onSpellThreeMouseEnter, Notificator.onSpellThreeMouseLeave), 'SpellFour': (Notificator.onSpellFourMouseEnter, Notificator.onSpellFourMouseLeave)}
+        self.onQuestObjectsNotificators = {
+            'SpellOne': (Notificator.onSpellOneMouseEnter, Notificator.onSpellOneMouseLeave),
+            'SpellTwo': (Notificator.onSpellTwoMouseEnter, Notificator.onSpellTwoMouseLeave),
+            'SpellThree': (Notificator.onSpellThreeMouseEnter, Notificator.onSpellThreeMouseLeave),
+            'SpellFour': (Notificator.onSpellFourMouseEnter, Notificator.onSpellFourMouseLeave)
+        }
 
         self.onSpellPreparedObserver = Notification.addObserver(Notificator.onSpellPrepared, self.__onSpellPrepared)
         self.onSpellReadyObserver = Notification.addObserver(Notificator.onSpellReady, self.__onSpellReady)

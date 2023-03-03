@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectMap(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -27,4 +28,5 @@ class ObjectMap(DemonObject):
         self.setParam("OpenPages", {})
         self.setParam("CurrentID", None)
         pass
+
     pass

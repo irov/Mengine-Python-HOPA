@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectZenElements(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -14,4 +15,5 @@ class ObjectZenElements(ObjectEnigma):
         self.initParam("ItemParentMap", params, {})
         self.initParam("Frames", params, {})
         pass
+
     pass

@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class ClickSequenceManager(object):
     Games = {}
 
@@ -7,16 +8,12 @@ class ClickSequenceManager(object):
         def __init__(self, Socket, Socket_Movie):
             self.Socket = Socket
             self.Socket_Movie = Socket_Movie
-            pass
-        pass
 
     class Cliker(object):
         def __init__(self, Socket, Socket_Movie, Movie_Play):
             self.Socket = Socket
             self.Socket_Movie = Socket_Movie
             self.Movie_Play = Movie_Play
-            pass
-        pass
 
     class GameData(object):
         def __init__(self, Name):
@@ -27,12 +24,9 @@ class ClickSequenceManager(object):
 
         def add_Seq(self, Seq):
             self.Sequences.append(Seq)
-            pass
 
         def add_Click(self, click):
             self.Clikers.append(click)
-            pass
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -110,6 +104,3 @@ class ClickSequenceManager(object):
             return None
             pass
         return ClickSequenceManager.Games[name]
-        pass
-
-    pass

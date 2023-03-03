@@ -76,6 +76,7 @@ class Partition(object):
         return self.depth == 2
         pass
 
+
 class FinalPartition(object):
     # Aggregation object of partition for win check
 

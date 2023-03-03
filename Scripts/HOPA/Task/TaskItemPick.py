@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.Task import Task
 
+
 class TaskItemPick(MixinItem, Task):
     Skiped = True
 
@@ -17,4 +18,5 @@ class TaskItemPick(MixinItem, Task):
 
         return True
         pass
+
     pass

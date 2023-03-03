@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.DialogManager import DialogManager
 
+
 class AliasDialogPlay(TaskAlias):
     def _onParams(self, params):
         super(AliasDialogPlay, self)._onParams(params)
@@ -33,5 +34,3 @@ class AliasDialogPlay(TaskAlias):
         # source.addNotify(Notificator.onMusicFadeOut, MusicFadeDialog)
         source.addTask("TaskMusicSetVolume", Tag="Dialog", To=1.0, From=MusicFadeDialog)
 
-        pass
-    pass

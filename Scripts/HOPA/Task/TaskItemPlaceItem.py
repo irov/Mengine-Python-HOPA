@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskItemPlaceItem(MixinItem, MixinObserver, Task):
     Skiped = False
 
@@ -45,7 +46,10 @@ class TaskItemPlaceItem(MixinItem, MixinObserver, Task):
         itemPos = self.Item.getPosition()
         SocketPos = self.SocketItem.getPosition()
         arowPos = arrow.getWorldPosition()
-        condition = (itemPos[0] + arowPos[0] - SocketPos[0] - centre[0], itemPos[0] + arowPos[0] - SocketPos[0] - centre[0])
+        condition = (
+            itemPos[0] + arowPos[0] - SocketPos[0] - centre[0],
+            itemPos[0] + arowPos[0] - SocketPos[0] - centre[0]
+        )
         if (condition[0] ** 2 + condition[1] ** 2) ** 0.5 < self.accuracy:
             return True
             pass
@@ -57,7 +61,3 @@ class TaskItemPlaceItem(MixinItem, MixinObserver, Task):
 
         if self.AutoEnable is True:
             self.SocketItem.setInteractive(False)
-            pass
-        pass
-
-    pass

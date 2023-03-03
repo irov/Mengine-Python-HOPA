@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintWayEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintWayEffect, self)._onParams(params)
@@ -32,7 +33,8 @@ class PolicyHintWayEffect(TaskAlias):
             source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName=name, Value=P0)
             source.addTask("TaskMovie2Play", GroupName="HintEffect", Movie2Name=name, Loop=True, Wait=False)
 
-            source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName=name, Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
+            source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName=name,
+                           Point1=P1, To=P2, Speed=600 * 0.001)  # speed fix
         else:
             SystemHint = SystemManager.getSystem("SystemHint")
             self.Hint = SystemHint.getHintObject()
@@ -55,7 +57,9 @@ class PolicyHintWayEffect(TaskAlias):
             source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName=name, Value=P0)
             source.addTask("TaskMovie2Play", GroupName="HintEffect", Movie2Name=name, Loop=True, Wait=False)
 
-            source.addTask("AliasObjectBezier2Follow", GroupName="HintEffect", ObjectName=name, Follow=self.NodeTo, Time=1000.0)  # speed fix
+            source.addTask("AliasObjectBezier2Follow", GroupName="HintEffect", ObjectName=name,
+                           Follow=self.NodeTo, Time=1000.0)  # speed fix
             pass
         pass
+
     pass

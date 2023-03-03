@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroWaitItem(MacroCommand):
     def _onValues(self, values):
         self.ItemNameList = values

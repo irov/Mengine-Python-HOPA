@@ -1,6 +1,7 @@
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroEnigmaComplete(MacroCommand):
     def _onValues(self, values):
         self.EnigmaName = values[0]
@@ -15,6 +16,7 @@ class MacroEnigmaComplete(MacroCommand):
 
     def _onGenerate(self, source):
         Enigma = EnigmaManager.getEnigmaObject(self.EnigmaName)
+
         # source.addTask("TaskNotify", ID = Notificator.onEnigmaComplete, Args = (Enigma, ))
         # source.addTask("TaskFunction", Fn = Enigma.setPlay, Args = (False, ))
 
@@ -23,5 +25,3 @@ class MacroEnigmaComplete(MacroCommand):
             enigmaEntity.enigmaComplete()
 
         source.addFunction(_complete, Enigma)
-        pass
-    pass

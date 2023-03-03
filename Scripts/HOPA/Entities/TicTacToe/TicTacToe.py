@@ -4,6 +4,7 @@ from HOPA.TicTacToeManager import TicTacToeManager
 
 from CellPlate import CellPlate
 
+
 ALIAS_ENV = ""
 
 ALIAS_GAME_TEXT = "$AliasTicTacToeCurrentPlayer"
@@ -19,6 +20,7 @@ ALIAS_STATS_O = "$AliasTicTacToeOStats"
 TEXT_STATS = "ID_TEXT_STATS_TICTACTOE"  # text args: player_name, player_wins
 
 CELL_NUMBER = 9
+
 
 class TicTacToe(BaseEntity):
     @staticmethod
@@ -99,8 +101,10 @@ class TicTacToe(BaseEntity):
         slot.addChild(movie_cell_plate_entity_node)
 
         cell_plate_state_slot = movie_cell_plate.getMovieSlot('cell_state')
-        movie_cell_x = self.object.tryGenerateObjectUnique('cell_state_x_{}'.format(id_), 'Movie2_CellState_X', Enable=False)
-        movie_cell_o = self.object.tryGenerateObjectUnique('cell_state_o_{}'.format(id_), 'Movie2_CellState_O', Enable=False)
+        movie_cell_x = self.object.tryGenerateObjectUnique('cell_state_x_{}'.format(id_), 'Movie2_CellState_X',
+                                                           Enable=False)
+        movie_cell_o = self.object.tryGenerateObjectUnique('cell_state_o_{}'.format(id_), 'Movie2_CellState_O',
+                                                           Enable=False)
 
         cell_x_entity_node = movie_cell_x.getEntityNode()
         cell_o_entity_node = movie_cell_o.getEntityNode()
@@ -207,7 +211,8 @@ class TicTacToe(BaseEntity):
 
         elif winner == 'O':
             self.object.setParam('PlayerOWins', self.PlayerOWins + 1)
-            self.__setText(ALIAS_STATS_O, TEXT_STATS, self.o_player_name, self.object.getParam('PlayerXWins'))  # if draw do nothing
+            self.__setText(ALIAS_STATS_O, TEXT_STATS, self.o_player_name,
+                           self.object.getParam('PlayerXWins'))  # if draw do nothing
 
     def __updateWinner(self):
         winner = self.__findWinner()

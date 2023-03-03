@@ -2,6 +2,7 @@ from Foundation.PolicyManager import PolicyManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroShowItemOrFX(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -35,11 +36,13 @@ class MacroShowItemOrFX(MacroCommand):
         with source.addRaceTask(ItemsCount) as tc_races:
             for tc_race, ItemName in zip(tc_races, self.ItemsName):
                 InventoryItem = ItemManager.getItemInventoryItem(ItemName)
-                tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem, ItemName=ItemName, Taken=False, Pick=True)
+                tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
+                                ItemName=ItemName, Taken=False, Pick=True)
                 tc_race.addTask(policyPickInventoryItemEffectStop, InventoryItem=InventoryItem)
                 pass
             pass
 
         source.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
         pass
+
     pass

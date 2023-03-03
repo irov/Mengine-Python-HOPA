@@ -1,7 +1,9 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.LeversPuzzleManager import LeversPuzzleManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class LeversPuzzle(Enigma):
     # ------------------------------------------------------------------------------------------------

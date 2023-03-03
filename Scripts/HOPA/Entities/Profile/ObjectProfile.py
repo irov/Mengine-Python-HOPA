@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectProfile(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -56,4 +57,5 @@ class ObjectProfile(DemonObject):
 
         return None
         pass
+
     pass

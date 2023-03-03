@@ -1,10 +1,12 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class CirclePairElementsManager(object):
     s_objects = {}
 
     class CirclePairElements(object):
-        def __init__(self, movieNameList, movieActiveList, movieCloseList, movieSoundList, positionsList, fieldMovieList):  # all args are list except first
+        def __init__(self, movieNameList, movieActiveList, movieCloseList, movieSoundList, positionsList,
+                     fieldMovieList):  # all args are list except first
             self.movieNameList = movieNameList
             self.movieActiveList = movieActiveList
             self.movieCloseList = movieCloseList
@@ -36,6 +38,7 @@ class CirclePairElementsManager(object):
         def getFieldMovieList(self):
             return self.fieldMovieList
             pass
+
         pass
 
     @staticmethod
@@ -85,7 +88,8 @@ class CirclePairElementsManager(object):
             positionList.append(Positions)
             pass
 
-        Object = CirclePairElementsManager.CirclePairElements(movieList, movieActivateList, movieCloseList, movieSoundList, positionList, fieldMovieList)
+        Object = CirclePairElementsManager.CirclePairElements(movieList, movieActivateList, movieCloseList,
+                                                              movieSoundList, positionList, fieldMovieList)
         CirclePairElementsManager.s_objects[enigmaName] = Object
         pass
 
@@ -105,8 +109,3 @@ class CirclePairElementsManager(object):
             return False
             pass
         return True
-        pass
-
-    pass
-
-pass

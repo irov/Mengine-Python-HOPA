@@ -2,7 +2,9 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 from HOPA.SwapAndRotateMovieChipsManager import SwapAndRotateMovieChipsManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class SwapAndRotateMovieChips(Enigma):
     # - Service classes ----------------------------------------------
@@ -34,7 +36,8 @@ class SwapAndRotateMovieChips(Enigma):
         def clickScope(self, source):
             if self.socket is None:
                 return
-            source.addTask('TaskNodeSocketClick', Socket=self.socket)  # source.addPrint(" = Click on Slot with ID=%s with chip ID=%s", self.id, self.chip.getID())
+            source.addTask('TaskNodeSocketClick', Socket=self.socket)
+            # source.addPrint(" = Click on Slot with ID=%s with chip ID=%s", self.id, self.chip.getID())
 
         def checkEndChip(self):
             if self.chip is None:
@@ -96,7 +99,8 @@ class SwapAndRotateMovieChips(Enigma):
 
             self.rotation_time = 200  # ms
 
-            self.movies = dict(Idle=MakeMovieFunc(MovieIdle, Enable=False, Play=True, Loop=True), Selected=MakeMovieFunc(MovieSelected, Enable=False, Play=True, Loop=True), )
+            self.movies = dict(Idle=MakeMovieFunc(MovieIdle, Enable=False, Play=True, Loop=True),
+                               Selected=MakeMovieFunc(MovieSelected, Enable=False, Play=True, Loop=True), )
 
             self.node = Mengine.createNode('Interender')
 
@@ -231,7 +235,9 @@ class SwapAndRotateMovieChips(Enigma):
             MovieSlot = self.MovieSlots.getMovieSlot(slot_param.MovieSlot)
             Socket = self.MovieSlots.getSocket(slot_param.MovieSocket)
 
-            slot = SwapAndRotateMovieChips.Slot(slot_id, Socket, MovieSlot, slot_param.EndChipID, slot_param.EndChipRotation, slot_param.EndChipID2, slot_param.EndChipRotation2)
+            slot = SwapAndRotateMovieChips.Slot(slot_id, Socket, MovieSlot, slot_param.EndChipID,
+                                                slot_param.EndChipRotation, slot_param.EndChipID2,
+                                                slot_param.EndChipRotation2)
 
             self.slots.append(slot)
 
@@ -247,7 +253,8 @@ class SwapAndRotateMovieChips(Enigma):
 
             RotationAngle = self.param.getRotationAngle()
 
-            chip = SwapAndRotateMovieChips.Chip(chip_id, chip_param.MovieIdle, chip_param.MovieSelected, self._makeMovie, RotationAngle, self.param.RotationCount)
+            chip = SwapAndRotateMovieChips.Chip(chip_id, chip_param.MovieIdle, chip_param.MovieSelected,
+                                                self._makeMovie, RotationAngle, self.param.RotationCount)
 
             chip.setRotation(slot_param.StartChipRotation)
 

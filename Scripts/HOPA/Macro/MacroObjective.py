@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.ObjectiveManager import ObjectiveManager
 
+
 class MacroObjective(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:

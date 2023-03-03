@@ -5,6 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
+
 class Zoom(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -35,7 +36,11 @@ class Zoom(BaseEntity):
 
         self.hotspot = self.createChild("HotSpotPolygon")
 
-        self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent, onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseButtonEventBegin=self._onMouseButtonEventBegin, onHandleMouseButtonEventEnd=self._onMouseButtonEventEnd)
+        self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent,
+                                      onHandleMouseEnter=self._onMouseEnter,
+                                      onHandleMouseLeave=self._onMouseLeave,
+                                      onHandleMouseButtonEventBegin=self._onMouseButtonEventBegin,
+                                      onHandleMouseButtonEventEnd=self._onMouseButtonEventEnd)
         self.hotspot.disable()
         pass
 
@@ -72,7 +77,8 @@ class Zoom(BaseEntity):
         Zoom = ZoomManager.getZoom(zoomGroupName)
 
         if Zoom is None:
-            Trace.log("Object", 0, "Zoom._onMouseEnter: %s:%s not found zoom %s [maybe add to Zooms.xlsx]" % (self.object.getGroupName(), self.getName(), zoomGroupName))
+            Trace.log("Object", 0, "Zoom._onMouseEnter: %s:%s not found zoom %s [maybe add to Zooms.xlsx]" % (
+                self.object.getGroupName(), self.getName(), zoomGroupName))
             return False
             pass
 

@@ -4,6 +4,7 @@ from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class TaskStageResume(TaskAlias):
 
     def _onParams(self, params):

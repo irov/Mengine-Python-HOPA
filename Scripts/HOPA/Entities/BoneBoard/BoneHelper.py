@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class HelpChain(object):
     # class - iterator switches bone board help objects
 
@@ -57,6 +58,7 @@ class HelpChain(object):
             pass
         return False
         pass
+
 
 class CasualHelper(object):
     TaskName = "BoneBoard_CasualHelp"

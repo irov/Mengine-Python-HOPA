@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 
+
 class SystemNotebookInventory(System):
     def __init__(self):
         super(SystemNotebookInventory, self).__init__()

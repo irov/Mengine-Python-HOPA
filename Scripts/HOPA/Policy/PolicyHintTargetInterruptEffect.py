@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintTargetInterruptEffect(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintTargetInterruptEffect, self)._onParams(params)
@@ -14,4 +15,5 @@ class PolicyHintTargetInterruptEffect(TaskAlias):
         source.addTask("TaskMovie2Interrupt", GroupName="HintEffect", Movie2Name="Movie2_HintTarget", NoSkipStop=True)
 
         pass
+
     pass

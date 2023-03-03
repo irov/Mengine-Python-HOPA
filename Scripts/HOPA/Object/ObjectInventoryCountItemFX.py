@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectInventoryItem import ObjectInventoryItem
 
+
 class ObjectInventoryCountItemFX(ObjectInventoryItem):
     @staticmethod
     def declareORM(Type):

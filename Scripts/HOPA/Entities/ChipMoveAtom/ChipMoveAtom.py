@@ -2,7 +2,9 @@ from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipMoveAtomManager import ChipMoveAtomManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class ChipMoveAtom(Enigma):
     # - Service classes -----------------------------------------------------------------------------------------------
@@ -160,7 +162,8 @@ class ChipMoveAtom(Enigma):
         return movie
 
     def _createMovie2(self, name, group_name, movie_name):
-        movie = ObjectManager.createObjectUnique('Movie2', name, None, ResourceMovie="Movie2_{}".format(group_name), CompositionName=movie_name)
+        movie = ObjectManager.createObjectUnique('Movie2', name, None,
+                                                 ResourceMovie="Movie2_{}".format(group_name), CompositionName=movie_name)
         return movie
 
     def _load_params(self):

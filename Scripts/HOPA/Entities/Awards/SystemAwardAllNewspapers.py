@@ -4,6 +4,7 @@ from HOPA.NewspaperManager import NewspaperManager
 
 from Notification import Notification
 
+
 class SystemAwardAllNewspapers(System):
     def _onParams(self, params):
         super(SystemAwardAllNewspapers, self)._onParams(params)
@@ -43,6 +44,3 @@ class SystemAwardAllNewspapers(System):
             pass
 
         return False
-        pass
-
-    pass

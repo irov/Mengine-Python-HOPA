@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroListener(MacroCommand):
     SKIP_SIGN = "__"
 

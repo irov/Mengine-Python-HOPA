@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.DialogManager import DialogManager
 
+
 class PolicyMonologue(TaskAlias):
     def _onParams(self, params):
         super(PolicyMonologue, self)._onParams(params)
@@ -54,4 +55,5 @@ class PolicyMonologue(TaskAlias):
 
         # source.addTask("TaskTransitionBlock", Value = False)
         pass
+
     pass

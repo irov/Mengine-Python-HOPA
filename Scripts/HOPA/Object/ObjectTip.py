@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectTip(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -15,4 +16,5 @@ class ObjectTip(DemonObject):
         self.initParam("FixedPoint", params, None)
         self.initParam("PlayPolicy", params, None)
         pass
+
     pass

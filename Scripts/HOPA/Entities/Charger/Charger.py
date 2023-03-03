@@ -2,6 +2,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
 
+
 class Charger(BaseEntity):
     States = ["Idle", "Enter", "Over", "Leave", "Release"]
 
@@ -106,7 +107,8 @@ class Charger(BaseEntity):
             source_idle_enter.addTask("TaskMovieSocketEnter", SocketName="socket", Movie=MovieIdle)
             source_idle_enter.addFunction(self.__setState, "Enter", 11)
 
-            source_idle_listener.addTask("TaskListener", ID=Notificator.onChargerRun, Filter=lambda obj: obj is self.object)
+            source_idle_listener.addTask("TaskListener", ID=Notificator.onChargerRun,
+                                         Filter=lambda obj: obj is self.object)
             source_idle_listener.addFunction(self.__setState, "Release", 12)
             pass
 
@@ -122,7 +124,8 @@ class Charger(BaseEntity):
 
         source.addEnable(MovieEnter)
 
-        with source.addRaceTask(4) as (source_enter_movie, source_enter_click, source_enter_leave, source_enter_listener):
+        with source.addRaceTask(4) as (
+        source_enter_movie, source_enter_click, source_enter_leave, source_enter_listener):
             source_enter_movie.addTask("TaskMoviePlay", Movie=MovieEnter)
             source_enter_movie.addFunction(self.__setState, "Over", 21)
 
@@ -132,7 +135,8 @@ class Charger(BaseEntity):
             source_enter_leave.addTask("TaskMovieSocketLeave", SocketName="socket", Movie=MovieEnter)
             source_enter_leave.addFunction(self.__setState, "Idle", 23)
 
-            source_enter_listener.addTask("TaskListener", ID=Notificator.onChargerRun, Filter=lambda obj: obj is self.object)
+            source_enter_listener.addTask("TaskListener", ID=Notificator.onChargerRun,
+                                          Filter=lambda obj: obj is self.object)
             source_enter_listener.addFunction(self.__setState, "Release", 24)
             pass
 
@@ -149,7 +153,8 @@ class Charger(BaseEntity):
             source_over_leave.addTask("TaskMovieSocketLeave", SocketName="socket", Movie=MovieOver)
             source_over_leave.addFunction(self.__setState, "Leave", 32)
 
-            source_over_listener.addTask("TaskListener", ID=Notificator.onChargerRun, Filter=lambda obj: obj is self.object)
+            source_over_listener.addTask("TaskListener", ID=Notificator.onChargerRun,
+                                         Filter=lambda obj: obj is self.object)
             source_over_listener.addFunction(self.__setState, "Release", 33)
             pass
 
@@ -172,7 +177,8 @@ class Charger(BaseEntity):
             source_leave_enter.addTask("TaskMovieSocketEnter", SocketName="socket", Movie=MovieLeave)
             source_leave_enter.addFunction(self.__setState, "Over", 42)
 
-            source_leave_listener.addTask("TaskListener", ID=Notificator.onChargerRun, Filter=lambda obj: obj is self.object)
+            source_leave_listener.addTask("TaskListener", ID=Notificator.onChargerRun,
+                                          Filter=lambda obj: obj is self.object)
             source_leave_listener.addFunction(self.__setState, "Release", 43)
             pass
 
@@ -188,20 +194,23 @@ class Charger(BaseEntity):
                     source_release_movie_1.addDisable(MovieRelease)
                     source_release_movie_1.addEnable(MovieCharge)
 
-                    source_release_movie_2.addTask("TaskListener", ID=Notificator.onChargerSkip, Filter=lambda obj: obj is self.object)
+                    source_release_movie_2.addTask("TaskListener", ID=Notificator.onChargerSkip,
+                                                   Filter=lambda obj: obj is self.object)
                     source_release_movie_2.addFunction(self.object.setState, "Skip")
                     source_release_movie_2.addTask("TaskDeadLock")
                     pass
 
                 if self.WaitCharge is True:
-                    source_release_listener.addTask("TaskListener", ID=Notificator.onChargerCharge, Filter=lambda obj: obj is self.object)
+                    source_release_listener.addTask("TaskListener", ID=Notificator.onChargerCharge,
+                                                    Filter=lambda obj: obj is self.object)
                     pass
                 pass
             pass
         else:
             source.addEnable(MovieCharge)
             if self.WaitCharge is True:
-                source.addFunction("TaskListener", ID=Notificator.onChargerCharge, Filter=lambda obj: obj is self.object)
+                source.addFunction("TaskListener", ID=Notificator.onChargerCharge,
+                                   Filter=lambda obj: obj is self.object)
                 pass
             pass
 
@@ -211,7 +220,8 @@ class Charger(BaseEntity):
                     source_charge_1.addFunction(self.__updateChargeSpeedFactor)
                     source_charge_1.addTask("TaskMoviePlay", Movie=MovieCharge)
 
-                    source_charge_2.addTask("TaskListener", ID=Notificator.onChargerSkip, Filter=lambda obj: obj is self.object)
+                    source_charge_2.addTask("TaskListener", ID=Notificator.onChargerSkip,
+                                            Filter=lambda obj: obj is self.object)
                     pass
                 pass
             pass
@@ -271,9 +281,6 @@ class Charger(BaseEntity):
                 source_release.addScope(self.__stateCharge, MovieRelease, MovieCharge, MovieCharged)
                 source_release.addScope(self.__stateReturn, MovieOver)
                 source_release.addTask("TaskNotify", ID=Notificator.onChargerReload, Args=(self.object,))
-                pass
-            pass
-        pass
 
     def _onDeactivate(self):
         super(Charger, self)._onDeactivate()
@@ -282,16 +289,11 @@ class Charger(BaseEntity):
 
         for mov in self.Movies.itervalues():
             mov.setEnable(False)
-            pass
-        pass
 
     def _onFinalize(self):
         super(Charger, self)._onFinalize()
 
         for mov in self.Movies.itervalues():
             mov.onDestroy()
-            pass
 
         self.Movies = {}
-        pass
-    pass

@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroTutorialTracker(MacroCommand):
     def _onValues(self, values):
         self.value_0 = values[0]

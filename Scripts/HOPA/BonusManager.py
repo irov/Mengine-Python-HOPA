@@ -2,6 +2,7 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.Utils import isCollectorEdition
 
+
 class BonusManager(Manager):
     s_states = {}
     s_states_default_status = {}

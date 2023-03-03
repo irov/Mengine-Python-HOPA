@@ -7,10 +7,12 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger, getCurrentPublisher
 
+
 _Log = SimpleLogger("SpecialPromotion")
 
 EVENT_WINDOW_CLOSE = Event("SpecialPromotionClosed")
 EVENT_GET_PURCHASED = Event("SuccessPurchaseEvent")
+
 
 class SpecialPromotion(BaseEntity):
     ALIAS_NEW_PRICE = "$SpecPromoNewPrice"
@@ -75,10 +77,17 @@ class SpecialPromotion(BaseEntity):
                 else:
                     _Log("{}:{} not inited ({} hasn't this object)".format(key, movie_name, self.object.getName()), err=True)
 
-        content = {"window": "Movie2_Window", "purchase": "Movie2Button_Purchase", "close": "Movie2Button_Close", }
+        content = {
+            "window": "Movie2_Window",
+            "purchase": "Movie2Button_Purchase",
+            "close": "Movie2Button_Close",
+        }
         _getMovies(content, self.content)
 
-        effects = {"appear": "Movie2_Appear", "disappear": "Movie2_Disappear", }
+        effects = {
+            "appear": "Movie2_Appear",
+            "disappear": "Movie2_Disappear",
+        }
         _getMovies(effects, self.effects)
 
         icon_slot = None
@@ -121,7 +130,11 @@ class SpecialPromotion(BaseEntity):
             return text
 
         texts = {  # alias: [text_id, *args]
-            self.ALIAS_TITLE: [params.id_title], self.ALIAS_DESCRIPTION: [params.id_descr], self.ALIAS_NEW_PRICE: [params.id_new_price, with_currency(params.price)], self.ALIAS_OLD_PRICE: [params.id_old_price, with_currency(params.old_price)]}
+            self.ALIAS_TITLE: [params.id_title],
+            self.ALIAS_DESCRIPTION: [params.id_descr],
+            self.ALIAS_NEW_PRICE: [params.id_new_price, with_currency(params.price)],
+            self.ALIAS_OLD_PRICE: [params.id_old_price, with_currency(params.old_price)]
+        }
         self.__setTexts(texts)
 
     def _setRewardsPlate(self, tag):
@@ -133,7 +146,12 @@ class SpecialPromotion(BaseEntity):
         if params.use_reward_plate is False:
             return
 
-        texts = {self.ALIAS_REWARD_GOLD: [params.id_reward_gold, MonetizationManager.getProductReward(params.id, "Gold")], self.ALIAS_REWARD_ENERGY: [params.id_reward_energy, MonetizationManager.getProductReward(params.id, "Energy")]}
+        texts = {
+            self.ALIAS_REWARD_GOLD:
+                [params.id_reward_gold, MonetizationManager.getProductReward(params.id, "Gold")],
+            self.ALIAS_REWARD_ENERGY:
+                [params.id_reward_energy, MonetizationManager.getProductReward(params.id, "Energy")]
+        }
         self.__setTexts(texts)
 
         movie = self.object.generateObjectUnique("Movie2_Rewards", "Movie2_Rewards")
@@ -167,12 +185,12 @@ class SpecialPromotion(BaseEntity):
 
     def _attach(self, parent_name, slot_name, child_name):
         if self.content[parent_name].hasMovieSlot(slot_name) is False:
-            Trace.log("Entity", 0, "SpecialPromotion::__loadMovies - not found slot '{}' on '{}'".format(slot_name, parent_name))
+            Trace.log("Entity", 0, "__loadMovies - not found slot '{}' on '{}'".format(slot_name, parent_name))
             return False
         slot = self.content[parent_name].getMovieSlot(slot_name)
 
         if child_name not in self.content:
-            Trace.log("Entity", 0, "SpecialPromotion::__loadMovies - key '{}' not found".format(child_name))
+            Trace.log("Entity", 0, "__loadMovies - key '{}' not found".format(child_name))
             return False
         child = self.content.get(child_name)
 
@@ -208,12 +226,12 @@ class SpecialPromotion(BaseEntity):
         window_movie = self.content["window"]
         effect_movie = self.effects.get(effect, None)
         if effect_movie is None:
-            Trace.log("Entity", 0, "SpecialPromotion.attachToEffect: can't find effect '{}' in self.effects {}".format(effect, self.effects.keys()))
+            Trace.log("Entity", 0, "attachToEffect: can't find effect '{}' in self.effects {}".format(effect, self.effects.keys()))
             return
 
         slot = effect_movie.getMovieSlot("window")
         if slot is None:
-            Trace.log("Entity", 0, "SpecialPromotion.attachToEffect: movie '{}' should has slot 'window'".format(effect_movie.getName()))
+            Trace.log("Entity", 0, "attachToEffect: movie '{}' should has slot 'window'".format(effect_movie.getName()))
             return
 
         window_node = window_movie.getEntityNode()
@@ -298,6 +316,7 @@ class SpecialPromotion(BaseEntity):
                 tc_fade.addTask("AliasFadeOut", FadeGroupName="FadeUI", From=0.5, Time=250.0)
 
         return True
+
 
 class RewardPlate(object):
 

@@ -10,6 +10,7 @@ from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentPlatform, getCurrentBusinessModel
 from Notification import Notification
 
+
 class SystemRateUs(System):
     s_rate_accepted = False
     s_app_rated = False
@@ -102,7 +103,12 @@ class SystemRateUs(System):
 
         DialogWindow = DemonManager.getDemon("DialogWindow")
 
-        texts = {"title": "ID_TEXT_RATE_US_TITLE_{}".format(getCurrentBusinessModel().upper()), "question": "ID_TEXT_RATE_US_MSG_{}".format(getCurrentBusinessModel().upper()), "confirm": "ID_TEXT_RATE_US_RATE", "cancel": "ID_TEXT_RATE_US_LATER", }
+        texts = {
+            "title": "ID_TEXT_RATE_US_TITLE_{}".format(getCurrentBusinessModel().upper()),
+            "question": "ID_TEXT_RATE_US_MSG_{}".format(getCurrentBusinessModel().upper()),
+            "confirm": "ID_TEXT_RATE_US_RATE",
+            "cancel": "ID_TEXT_RATE_US_LATER",
+        }
 
         for text_id in texts.values():
             if Mengine.existText(text_id) is True:

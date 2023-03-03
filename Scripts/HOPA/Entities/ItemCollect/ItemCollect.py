@@ -8,6 +8,7 @@ from HOPA.System.SystemItemCollect import SystemItemCollect
 from Holder import Holder
 from Notification import Notification
 
+
 class ItemCollect(BaseEntity):
     s_openingProcessProgress = False
 
@@ -255,7 +256,8 @@ class ItemCollect(BaseEntity):
             node.setScale((1.0, 1.0, 1.0))
             self.tc_select_effect = None
 
-        self.tc_select_effect = TaskManager.createTaskChain(Name="ItemCollectSelectEffect_{}".format(itemObject.getName()), Cb=_cbStop, CbArgs=(itemNode,), Repeat=True)
+        self.tc_select_effect = TaskManager.createTaskChain(
+            Name="ItemCollectSelectEffect_{}".format(itemObject.getName()), Cb=_cbStop, CbArgs=(itemNode,), Repeat=True)
         with self.tc_select_effect as tc:
             tc.addTask("TaskNodeScaleTo", Node=itemNode, To=(ScaleTo, ScaleTo, 1.0), Time=ScaleTime)
             tc.addTask("TaskNodeScaleTo", Node=itemNode, To=(1.0, 1.0, 1.0), Time=ScaleTime)
@@ -270,7 +272,8 @@ class ItemCollect(BaseEntity):
         if self.AttachItem is None or self.AttachItem == '':
             for (itemName, Slot), race in source.addRaceTaskList(self.itemSlots.iteritems()):
                 hotspot = Slot.Icon.Item.entity.getHotSpot()
-                race.addTask('AliasItemAttach', Item=Slot.Icon.Item, OffsetValue=OffsetValue, AddArrowChild=Mengine.hasTouchpad() is False)
+                race.addTask('AliasItemAttach', Item=Slot.Icon.Item,
+                             OffsetValue=OffsetValue, AddArrowChild=Mengine.hasTouchpad() is False)
                 race.addFunction(hotspot.disable)
                 race.addFunction(ClickHolder.set, Slot)
                 race.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ItemCollect_Pick')
@@ -278,7 +281,8 @@ class ItemCollect(BaseEntity):
             Item = self.itemSlots[self.AttachItem].Icon.Item
             hotspot = Item.entity.getHotSpot()
             source.addTask("TaskFanItemInHand", FanItem=Item)
-            source.addTask("TaskArrowAttach", OffsetValue=OffsetValue, Origin=True, Object=Item, MovieAttach=True, AddArrowChild=Mengine.hasTouchpad() is False)
+            source.addTask("TaskArrowAttach", OffsetValue=OffsetValue, Origin=True, Object=Item, MovieAttach=True,
+                           AddArrowChild=Mengine.hasTouchpad() is False)
             source.addFunction(hotspot.disable)
             source.addFunction(ClickHolder.set, self.itemSlots[self.AttachItem])
 
@@ -298,9 +302,11 @@ class ItemCollect(BaseEntity):
                 race.addBlock()
 
             if movie.getType() == 'ObjectMovie':
-                race.addTask('TaskMovieSocketClick', Movie=movie, SocketName='socket', UseArrowFilter=False, isDown=True)
+                race.addTask('TaskMovieSocketClick', Movie=movie, SocketName='socket',
+                             UseArrowFilter=False, isDown=True)
             elif movie.getType() == 'ObjectMovie2':
-                race.addTask('TaskMovie2SocketClick', Movie2=movie, SocketName='socket', UseArrowFilter=False, isDown=True)
+                race.addTask('TaskMovie2SocketClick', Movie2=movie, SocketName='socket',
+                             UseArrowFilter=False, isDown=True)
 
             race.addFunction(allowed_slot_holder.set, self.itemSlots[slot_name])
 
@@ -349,7 +355,8 @@ class ItemCollect(BaseEntity):
         iconSilhouetteSpriteCenter = self.getSpriteCenter(allowed_slot_icon.Silhouette)
 
         allowed_slot_icon.Idle.getEntityNode().setLocalPosition(Mengine.vec2f(0.0, 0.0) - iconIdleSpriteCenter)
-        allowed_slot_icon.Silhouette.getEntityNode().setLocalPosition(Mengine.vec2f(0.0, 0.0) - iconSilhouetteSpriteCenter)
+        allowed_slot_icon.Silhouette.getEntityNode().setLocalPosition(
+            Mengine.vec2f(0.0, 0.0) - iconSilhouetteSpriteCenter)
         allowed_slot_used.set(True)
 
     def _socketClickResult(self, source, slot_holder, allowed_slot_holder, result_holder, allowed_slot_used):

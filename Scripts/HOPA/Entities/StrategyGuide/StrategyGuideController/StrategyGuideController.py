@@ -5,6 +5,7 @@ from Notification import Notification
 
 from StrategyGuideControllerManager import StrategyGuideControllerManager
 
+
 class StrategyGuideController(BaseEntity):
     @staticmethod
     def declareORM(Type):

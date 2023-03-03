@@ -8,7 +8,9 @@ from Foundation.Utils import getCurrentPublisher
 from HOPA.System.SystemEnergy import SystemEnergy
 from Notification import Notification
 
+
 ALIAS_ENV = ""
+
 
 class BalanceIndicator(BaseEntity):
 
@@ -58,6 +60,7 @@ class BalanceIndicator(BaseEntity):
         for indicator in self.indicators.values():
             indicator.cleanUp()
         self.indicators = None
+
 
 class IndicatorMixin(object):
     type = None
@@ -135,12 +138,14 @@ class IndicatorMixin(object):
     def scopeClicked(self, source):
         source.addNotify(Notificator.onIndicatorClicked, self.type)
 
+
 class GoldIndicator(IndicatorMixin):
     type = "Gold"
     icon_tag = "Coin"
     text_alias = "$AliasGoldBalance"
     text_id = "ID_TEXT_GOLD_BALANCE"
     identity = Notificator.onUpdateGoldBalance
+
 
 class EnergyIndicator(IndicatorMixin):
     type = "Energy"

@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectNFS(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectNFS(ObjectEnigma):
         super(ObjectNFS, self)._onParams(params)
         self.initParam("ProgressBar", params, [(0.0, 0.0), (0.0, 0.0)])
         pass
+
     pass

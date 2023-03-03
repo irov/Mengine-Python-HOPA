@@ -1,5 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
+
 class RotateAndSwapChipsConnection(object):
     def __init__(self, movieObject):
         self.movieObject = movieObject
@@ -36,4 +37,5 @@ class RotateAndSwapChipsConnection(object):
             tc.addTask("TaskFunction", Fn=callback)
             pass
         pass
+
     pass

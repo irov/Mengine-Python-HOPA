@@ -3,6 +3,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
+
 class CruiseActionShiftCollect(CruiseAction):
     def _onCheck(self):
         return True

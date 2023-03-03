@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class NotebookInventoryManager(object):
     s_showEntries = {}
     s_activateEntries = {}
@@ -28,6 +29,7 @@ class NotebookInventoryManager(object):
         def getCloseMovie(self):
             return self.closeMovie
             pass
+
         pass
 
     @staticmethod
@@ -64,7 +66,8 @@ class NotebookInventoryManager(object):
             OpenMovie = GroupManager.getObject(ShowMovieGroup, ShowMovieName)
             CloseMovie = GroupManager.getObject(CloseMovieGroup, CloseMovieName)
 
-            NotebookInventoryManager.s_activateEntries[NoteId] = NotebookInventoryManager.ActivateEntry(ShowTextID, CloseTextID, OpenMovie, CloseMovie)
+            param = NotebookInventoryManager.ActivateEntry(ShowTextID, CloseTextID, OpenMovie, CloseMovie)
+            NotebookInventoryManager.s_activateEntries[NoteId] = param
             pass
 
         pass
@@ -82,7 +85,8 @@ class NotebookInventoryManager(object):
     @staticmethod
     def hasActivateEntry(id):
         if id not in NotebookInventoryManager.s_activateEntries:
-            Trace.log("NotebookInventoryManager", 0, "NotebookInventoryManager.hasActivateEntry invalid data for entry %s, maybe forgot to add in some xls" % (id,))
+            Trace.log("NotebookInventoryManager", 0,
+                      "NotebookInventoryManager.hasActivateEntry invalid data for entry %s, maybe forgot to add in some xls" % (id,))
             return False
             pass
         return True
@@ -92,4 +96,5 @@ class NotebookInventoryManager(object):
     def getAllActivateEntries():
         return NotebookInventoryManager.s_activateEntries
         pass
+
     pass

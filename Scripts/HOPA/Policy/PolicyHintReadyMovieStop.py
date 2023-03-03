@@ -1,6 +1,7 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintReadyMovieStop(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintReadyMovieStop, self)._onParams(params)
@@ -17,4 +18,5 @@ class PolicyHintReadyMovieStop(TaskAlias):
             source.addTask("TaskEnable", Group=HintGroup, ObjectName="Movie2_Ready_Effect", Value=False)
             pass
         pass
+
     pass

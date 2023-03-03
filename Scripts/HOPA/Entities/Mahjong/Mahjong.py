@@ -7,7 +7,9 @@ from HOPA.QuestManager import QuestManager
 from Holder import Holder
 from Notification import Notification
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Mahjong(Enigma):
     @staticmethod
@@ -124,7 +126,8 @@ class Mahjong(Enigma):
 
         for (btn1, btn2), tc_parallel in source.addParallelTaskList(self.quest_pairs):
             button1, button2 = self._get_group_object(btn1), self._get_group_object(btn2)
-            Quest = QuestManager.createLocalQuest("Mahjong", SceneName=SceneName, GroupName=GroupName, Object=button1, Object2=button2)
+            Quest = QuestManager.createLocalQuest("Mahjong", SceneName=SceneName, GroupName=GroupName, Object=button1,
+                                                  Object2=button2)
             with QuestManager.runQuest(tc_parallel, Quest) as tc_quest:
                 tc_quest.addListener(Notificator.onMahjongFoundPair, self._filter, (btn1, btn2))
 
@@ -237,17 +240,21 @@ class Mahjong(Enigma):
                 sync_movie_2 = self._get_group_object(sync_movie_2_name)
 
             with source.addParallelTask(4) as (tc_button1, tc_sync_movie1, tc_button2, tc_sync_movie2):
-                tc_button1.addTask("TaskNodeAlphaTo", Node=button1.getEntityNode(), From=1.0, To=0.0, Time=MahjongHidePairsTime)
+                tc_button1.addTask("TaskNodeAlphaTo", Node=button1.getEntityNode(), From=1.0, To=0.0,
+                                   Time=MahjongHidePairsTime)
 
                 if sync_movie_1 is not None:
                     tc_sync_movie1.addEnable(sync_movie_1)
-                    tc_sync_movie1.addTask("TaskNodeAlphaTo", Node=sync_movie_1.getEntityNode(), From=0.0, To=1.0, Time=MahjongHidePairsTime)
+                    tc_sync_movie1.addTask("TaskNodeAlphaTo", Node=sync_movie_1.getEntityNode(), From=0.0, To=1.0,
+                                           Time=MahjongHidePairsTime)
 
-                tc_button2.addTask("TaskNodeAlphaTo", Node=button2.getEntityNode(), From=1.0, To=0.0, Time=MahjongHidePairsTime)
+                tc_button2.addTask("TaskNodeAlphaTo", Node=button2.getEntityNode(), From=1.0, To=0.0,
+                                   Time=MahjongHidePairsTime)
 
                 if sync_movie_2 is not None:
                     tc_sync_movie2.addEnable(sync_movie_2)
-                    tc_sync_movie2.addTask("TaskNodeAlphaTo", Node=sync_movie_2.getEntityNode(), From=0.0, To=1.0, Time=MahjongHidePairsTime)
+                    tc_sync_movie2.addTask("TaskNodeAlphaTo", Node=sync_movie_2.getEntityNode(), From=0.0, To=1.0,
+                                           Time=MahjongHidePairsTime)
 
     def _get_button_check_box(self, button):
         button_name = button.getName()
@@ -345,8 +352,9 @@ class Mahjong(Enigma):
 
             if self._is_valid_pair_for_current_button(button) is True:
                 # if energy feature is disabled - it just starts ScopeCb with button1, button2
-                source.addTask("AliasEnergyConsume", Action="CombineItems", ScopeCb=self.__scope_valid_click, CbArgs=[button1, button2],  # if energy not enough - imagine that we did invalid click
-                    FailScopeCb=self.__scope_invalid_click, FailCbArgs=[button, current_button])
+                source.addTask("AliasEnergyConsume", Action="CombineItems", ScopeCb=self.__scope_valid_click,
+                               CbArgs=[button1, button2],  # if energy not enough - imagine that we did invalid click
+                               FailScopeCb=self.__scope_invalid_click, FailCbArgs=[button, current_button])
             else:
                 source.addScope(self.__scope_invalid_click, button, current_button)
 

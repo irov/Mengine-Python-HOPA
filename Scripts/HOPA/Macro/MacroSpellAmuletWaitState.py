@@ -3,6 +3,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 from HOPA.SpellsManager import SpellsManager
 from HOPA.ZoomManager import ZoomManager
 
+
 class MacroSpellAmuletWaitState(MacroCommand):
     """ Confluence: https://bit.ly/3FuSiHL """
 

@@ -2,6 +2,7 @@ from Foundation.System import System
 from HOPA.SoundObjectsManager import SoundObjectsManager
 from Notification import Notification
 
+
 class SystemSoundObjects(System):
     def _onParams(self, params):
         super(SystemSoundObjects, self)._onParams(params)
@@ -40,4 +41,5 @@ class SystemSoundObjects(System):
             Notification.removeObserver(observer)
             pass
         pass
+
     pass

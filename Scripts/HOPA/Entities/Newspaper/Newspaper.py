@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.NewspaperManager import NewspaperManager
 from HOPA.QuestManager import QuestManager
 
+
 class Newspaper(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -39,7 +40,8 @@ class Newspaper(BaseEntity):
             pass
 
         with TaskManager.createTaskChain(Name="Newspaper%s" % (self.NewspaperID)) as tc:
-            self.Quest = QuestManager.createLocalQuest("NewspaperRepeat", SceneName=SceneName, GroupName=GroupName, Object=self.newspaper.socket_Open)
+            self.Quest = QuestManager.createLocalQuest("NewspaperRepeat", SceneName=SceneName,
+                                                       GroupName=GroupName, Object=self.newspaper.socket_Open)
             with QuestManager.runQuest(tc, self.Quest) as tc_quest:
                 tc_quest.addTask("TaskSocketClick", Socket=self.newspaper.socket_Open)
                 tc_quest.addTask("TaskFunction", Fn=self.__openNewspaper)

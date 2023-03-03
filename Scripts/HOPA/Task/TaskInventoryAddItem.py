@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.ItemManager import ItemManager
 
+
 class TaskInventoryAddItem(Task):
     Skiped = True
 
@@ -48,4 +49,5 @@ class TaskInventoryAddItem(Task):
 
         return True
         pass
+
     pass

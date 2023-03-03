@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyBlackBarPlayText(TaskAlias):
     def _onParams(self, params):
         super(PolicyBlackBarPlayText, self)._onParams(params)
@@ -16,4 +17,5 @@ class PolicyBlackBarPlayText(TaskAlias):
 
         source.addTask("TaskEnable", ObjectName="Text_Message", Value=False)
         pass
+
     pass

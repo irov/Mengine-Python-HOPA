@@ -1,6 +1,8 @@
 from Foundation.TaskManager import TaskManager
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Slot(object):
     offset_Ai = (-10, 6)
@@ -80,15 +82,17 @@ class Slot(object):
         movieEntity.removeFromParent()
         self.PlayMovie = None
         pass
+
     pass
 
+
 class CombatSpell(Enigma):
-    Type_None = 0;
-    Type_Ai = 1;
-    Type_Player = 2;
+    Type_None = 0
+    Type_Ai = 1
+    Type_Player = 2
 
     Sprite_Ai = None
-    Sprite_Player = None;
+    Sprite_Player = None
     Click = (-1, -1)
 
     @staticmethod

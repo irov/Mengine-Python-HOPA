@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDisableSubMovie(MacroCommand):
     def _onValues(self, values):
         if _DEVELOPMENT is True:

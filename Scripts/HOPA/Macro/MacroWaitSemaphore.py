@@ -2,6 +2,7 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 from HOPA.SemaphoreManager import SemaphoreManager
 
+
 class MacroWaitSemaphore(MacroCommand):
     def _onValues(self, values):
         self.Name = values[0]
@@ -17,7 +18,8 @@ class MacroWaitSemaphore(MacroCommand):
         self.isTechnical = True
 
     def _onGenerate(self, source):
-        Quest = self.addQuest(source, "WaitSemaphore", SceneName=self.SceneName, GroupName=self.GroupName, Name=self.Name, From=self.From, To=self.To)
+        Quest = self.addQuest(source, "WaitSemaphore", SceneName=self.SceneName, GroupName=self.GroupName,
+                              Name=self.Name, From=self.From, To=self.To)
 
         Semaphore = SemaphoreManager.getSemaphore(self.Name)
 

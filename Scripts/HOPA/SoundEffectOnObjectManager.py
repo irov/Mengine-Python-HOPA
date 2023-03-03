@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
+
 class SoundEffectOnObjectManager(object):
     s_soundEffects = {}
     s_soundEffectsOnce = {}
@@ -20,21 +21,16 @@ class SoundEffectOnObjectManager(object):
             if Mengine.hasSound(Sound) is False:
                 Trace.log("Manager", 0, "SoundEffectOnObjectManager.loadSoundEffect '%s' not found sound '%s' for object '%s' group '%s'" % (param, Sound, ObjectName, GroupName))
                 continue
-                pass
 
             if GroupName is None and ObjectName is None and DemonName is None:
                 Object = None
-                pass
             elif isinstance(GroupManager.getGroup(GroupName), GroupManager.EmptyGroup):
                 continue
-                pass
             elif DemonName is None:
                 Object = GroupManager.getObject(GroupName, ObjectName)
-                pass
             else:
                 Demon = GroupManager.getObject(GroupName, DemonName)
                 Object = Demon.getObject(ObjectName)
-                pass
 
             SoundEffectOnObjectManager.s_soundEffects[(Object, Tag)] = Sound
             SoundEffectOnObjectManager.s_soundEffectsOnce[(Object, Tag)] = Once
@@ -81,4 +77,3 @@ class SoundEffectOnObjectManager(object):
     @staticmethod
     def onDeactivate():
         pass
-    pass

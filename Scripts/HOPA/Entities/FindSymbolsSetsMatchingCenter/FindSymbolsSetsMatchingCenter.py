@@ -2,7 +2,9 @@ from Foundation.TaskManager import TaskManager
 from HOPA.FindSymbolsSetsMatchingCenterManager import FindSymbolsSetsMatchingCenterManager
 from Holder import Holder
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 class Symbol(object):
     def __init__(self, movie_idle, movie_select):
@@ -42,6 +44,7 @@ class Symbol(object):
     def cleanUp(self):
         self.disableIdlePlayTC()
 
+
 class SymbolSet(object):
     MOVIE2_SET_COMPLETE = None
     MOVIE2_SET_FAIL = None
@@ -73,6 +76,7 @@ class SymbolSet(object):
     @classmethod
     def scopePlayWin(cls, source):
         source.addPlay(cls.MOVIE2_WIN, AutoEnable=True)
+
 
 class FindSymbolsSetsMatchingCenter(Enigma):
     def __init__(self):

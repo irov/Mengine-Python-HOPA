@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinTransition
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskTransitionGiveInventoryItem(MixinTransition, MixinObserver, Task):
     Skiped = False
 
@@ -50,4 +51,5 @@ class TaskTransitionGiveInventoryItem(MixinTransition, MixinObserver, Task):
 
         return True
         pass
+
     pass

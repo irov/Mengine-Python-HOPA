@@ -4,6 +4,7 @@ from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 
+
 class SystemDebugNoGameArea(System):
     def __init__(self):
         super(SystemDebugNoGameArea, self).__init__()

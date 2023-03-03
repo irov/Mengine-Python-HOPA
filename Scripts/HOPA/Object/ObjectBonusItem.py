@@ -1,5 +1,6 @@
 from Foundation.Object.Object import Object
 
+
 class ObjectBonusItem(Object):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectBonusItem(Object):
 
         self.initParam("ItemsCount", params, 0)
         pass
+
     pass

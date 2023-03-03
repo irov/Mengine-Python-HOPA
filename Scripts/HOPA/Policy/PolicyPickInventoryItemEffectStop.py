@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyPickInventoryItemEffectStop(TaskAlias):
     def _onParams(self, params):
         super(PolicyPickInventoryItemEffectStop, self)._onParams(params)
@@ -32,4 +33,5 @@ class PolicyPickInventoryItemEffectStop(TaskAlias):
             source.addTask("TaskDummy")
             pass
         pass
+
     pass

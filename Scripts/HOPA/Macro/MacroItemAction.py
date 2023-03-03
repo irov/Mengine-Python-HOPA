@@ -3,6 +3,7 @@ from Foundation.GroupManager import GroupManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroItemAction(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
@@ -41,28 +42,29 @@ class MacroItemAction(MacroCommand):
         pos = Object.getPolygon()
         Movie_Open.setPosition(pos[0])
 
-        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory, GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
+        Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=Inventory,
+                              GroupName=self.GroupName, InventoryItem=InventoryItem, Object=Object)
 
         with Quest as tc_quest:
             if ObjectType == "ObjectSocket":
-                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem, ItemName=self.ItemName, Taken=self.Taken, Pick=False)
+                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
+                                 ItemName=self.ItemName, Taken=self.Taken, Pick=False)
                 tc_quest.addTask("TaskSceneLayerGroupEnable", LayerName="Fan", Value=True)
                 tc_quest.addTask("TaskFunction", Fn=self._AttendMovieSlots, Args=("Movie_Open",))
                 tc_quest.addTask("TaskMoviePlay", Movie=Movie_Open, Wait=False, LastFrame=None, Reverse=False)
-                pass
+
             elif ObjectType == "ObjectItem":
-                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem, Taken=self.Taken, Pick=False)
-                pass
+                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem,
+                                 Taken=self.Taken, Pick=False)
+
             elif ObjectType == "ObjectTransition" and self.Taken:
-                tc_quest.addTask("TaskTransitionGiveInventoryItem", TransitionName=ObjectName, InventoryItem=InventoryItem)
-                pass
+                tc_quest.addTask("TaskTransitionGiveInventoryItem", TransitionName=ObjectName,
+                                 InventoryItem=InventoryItem)
+
             elif ObjectType == "ObjectZoom" and self.Taken:
                 tc_quest.addTask("TaskZoomGiveInventoryItem", ZoomName=ObjectName, InventoryItem=InventoryItem)
-                pass
-            pass
 
         source.addListener(Notificator.onInventoryUpdateItem)
-        pass
 
     def _AttendMovieSlots(self, MovieName):
         fan_group = GroupManager.getGroup("Fan")

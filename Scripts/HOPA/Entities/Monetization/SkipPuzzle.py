@@ -7,11 +7,25 @@ from HOPA.Entities.Monetization.Coin import Coin
 from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
 from HOPA.System.SystemTutorialFade import SystemTutorialFade
 
+
 _Log = SimpleLogger("PaidSkipPuzzle")
 
+
 class SkipPuzzle(BaseComponent):
-    _settings = {"is_enable": "EnablePaidSkip", "product_id": "SkipProductID", "alias_id": "AliasCoinUsePrice", "text_id": "SkipPriceTextID", "movie": "CoinMovie2Name", }
-    _defaults = {"product_id": "tech_skip", "alias_id": "$AliasCoinUsePrice", "text_id": "ID_TEXT_MONETIZE_NEGATIVE_PRICE", "movie": "Movie2_Coin", "group": "SkipPuzzle", }
+    _settings = {
+        "is_enable": "EnablePaidSkip",
+        "product_id": "SkipProductID",
+        "alias_id": "AliasCoinUsePrice",
+        "text_id": "SkipPriceTextID",
+        "movie": "CoinMovie2Name",
+    }
+    _defaults = {
+        "product_id": "tech_skip",
+        "alias_id": "$AliasCoinUsePrice",
+        "text_id": "ID_TEXT_MONETIZE_NEGATIVE_PRICE",
+        "movie": "Movie2_Coin",
+        "group": "SkipPuzzle",
+    }
 
     def _createParams(self):
         self.coin = Coin(self)

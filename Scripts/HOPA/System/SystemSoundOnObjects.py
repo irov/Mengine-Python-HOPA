@@ -3,10 +3,12 @@ from Foundation.Notificator import Notificator
 from Foundation.System import System
 from HOPA.SoundEffectOnObjectManager import SoundEffectOnObjectManager
 
+
 MSG_SOUND_404 = '[SystemSoundOnObject] Not found sound for tag "{}" and object "{}"'
 MSG_SOUND_PLAY = '[SystemSoundOnObject] Play sound "{}" for object "{}" and tag "{}"'
 
 BOOL_PRINT_DEBUG_MSG = DefaultManager.getDefaultBool("Print_To_Console_SoundEffectOnObject", False)
+
 
 class SystemSoundOnObjects(System):
     def _onParams(self, params):

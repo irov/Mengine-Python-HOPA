@@ -3,6 +3,7 @@ from Foundation.Task.MixinObjectTemplate import MixinItem
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskItemPlaceInventoryItem(MixinItem, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskItemPlaceInventoryItem, self)._onParams(params)
@@ -58,4 +59,5 @@ class TaskItemPlaceInventoryItem(MixinItem, MixinObserver, Task):
 
         self.Item.setInteractive(False)
         pass
+
     pass

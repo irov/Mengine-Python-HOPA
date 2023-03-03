@@ -4,6 +4,7 @@ from Foundation.TaskManager import TaskManager
 
 from ExtrasManager import ExtrasManager
 
+
 class Extras(BaseEntity):
     @staticmethod
     def declareORM(Type):
@@ -77,4 +78,5 @@ class Extras(BaseEntity):
 
         self.extras = {}
         pass
+
     pass

@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class TaskEnigmaPlay(Task):
     Skiped = True
 
@@ -20,4 +21,5 @@ class TaskEnigmaPlay(Task):
 
         return True
         pass
+
     pass

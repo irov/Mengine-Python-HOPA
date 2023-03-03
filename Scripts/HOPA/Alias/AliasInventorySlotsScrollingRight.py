@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasInventorySlotsScrollingRight(TaskAlias):
     def _onParams(self, params):
         super(AliasInventorySlotsScrollingRight, self)._onParams(params)
@@ -29,19 +30,11 @@ class AliasInventorySlotsScrollingRight(TaskAlias):
 
                 if Slots[RemoveSlotIndex].item is not None:
                     inventory.addTask("TaskInventorySlotRemoveItem", Inventory=self.Inventory, SlotID=RemoveSlotIndex)
-                    pass
                 if Slots[0].item is not None:
                     inventory.addTask("TaskInventorySlotRemoveItem", Inventory=self.Inventory, SlotID=0)
-                    pass
                 inventory.addTask("TaskInventoryCurrentSlotIndex", Inventory=self.Inventory, Value=CurrentSlotIndex)
                 inventory.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory, Except=self.Except)
-                pass
-            pass
 
         source.addTask("TaskEnable", ObjectName="Movie_InventoryRight", Value=False)
         source.addTask("TaskEnable", ObjectName="Movie_InventoryShow", Value=True)
         source.addTask("TaskMovieLastFrame", MovieName="Movie_InventoryShow", Value=True)
-
-        pass
-
-    pass

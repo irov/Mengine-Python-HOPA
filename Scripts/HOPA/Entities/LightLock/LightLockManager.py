@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class LightLockManager(object):
     s_objects = {}
 
@@ -203,5 +204,6 @@ class LightLockManager(object):
         pass
 
     pass
+
 
 pass

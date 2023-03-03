@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskInventoryFXAddItem(MixinObserver, Task):
     Skiped = True
 
@@ -27,4 +28,5 @@ class TaskInventoryFXAddItem(MixinObserver, Task):
 
         return False
         pass
+
     pass

@@ -4,6 +4,7 @@ from Foundation.Task.MixinObjectTemplate import MixinSocket
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskHOGFittingItemUseSocket(MixinSocket, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskHOGFittingItemUseSocket, self)._onParams(params)

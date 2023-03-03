@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Notification import Notification
 
+
 class SystemCollectedMapIndicator(System):
 
     def __init__(self):
@@ -24,4 +25,5 @@ class SystemCollectedMapIndicator(System):
         Indicator.setCurrentValue(new)
         return False
         pass
+
     pass

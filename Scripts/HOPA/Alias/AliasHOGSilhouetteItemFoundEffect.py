@@ -3,20 +3,19 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.HOGManager import HOGManager
 
+
 class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
     def _onParams(self, params):
         super(AliasHOGSilhouetteItemFoundEffect, self)._onParams(params)
         self.HOGItemName = params.get("HOGItemName")
         self.HOG = params.get("HOG")
         self.EnigmaName = params.get("EnigmaName")
-        pass
 
     def _onGenerate(self, source):
         HOGInventory = HOGManager.getInventory(self.EnigmaName)
 
         if HOGInventory.isActive() is False:
             return
-            pass
 
         effect = HOGInventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
@@ -113,10 +112,5 @@ class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
             slot = InventoryEntity.getSlotByName(self.HOGItemName)
             if slot and slot.movie:
                 scope.addTask("TaskMoviePlay", Movie=slot.movie, Wait=True)
-                pass
-            pass
 
         # source.addTask("TaskScope", Scope=__playMovie)
-        pass
-
-    pass

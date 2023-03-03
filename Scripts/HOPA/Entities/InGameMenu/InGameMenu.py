@@ -4,6 +4,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
 from Foundation.TaskManager import TaskManager
 
+
 class InGameMenu(BaseEntity):
     def __init__(self):
         super(InGameMenu, self).__init__()
@@ -77,7 +78,9 @@ class InGameMenu(BaseEntity):
                 # tc_logout.addFunction(SystemGoogleServices.logout_event)
 
                 tc_login.addTask("TaskMovie2SocketClick", Movie2=self.auth_buttons["login"], SocketName="socket")
-                tc_login.addFunction(SystemGoogleServices.signIn)  # tc_login.addFunction(_login)  # tc_login.addFunction(SystemGoogleServices.login_event, True)
+                tc_login.addFunction(SystemGoogleServices.signIn)
+                # tc_login.addFunction(_login)
+                # tc_login.addFunction(SystemGoogleServices.login_event, True)
             tc.addEvent(done_event)
 
         with TaskManager.createTaskChain(Name="InGameMenuAuthUpdater", Repeat=True) as tc:

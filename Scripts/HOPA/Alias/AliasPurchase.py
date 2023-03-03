@@ -2,6 +2,7 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasPurchase(TaskAlias):
 
     def _onParams(self, params):

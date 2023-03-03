@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 
 from HOPA.ChapterManager import ChapterManager
 
+
 class TaskScenarioInjectionCreate(Task):
     Skiped = False
 
@@ -16,4 +17,5 @@ class TaskScenarioInjectionCreate(Task):
         ChapterManager.chapterAddRunInjection(currentScenarioChapter, self.ScenarioID)
         return True
         pass
+
     pass

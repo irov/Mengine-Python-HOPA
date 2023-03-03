@@ -1,6 +1,7 @@
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
+
 class LetItSlideManager(object):
     s_objects = {}
 
@@ -32,6 +33,7 @@ class LetItSlideManager(object):
         def getItemData(self):
             return self.itemData
             pass
+
         pass
 
     class LetItSlideItem(object):
@@ -57,6 +59,7 @@ class LetItSlideManager(object):
         def getLength(self):
             return self.length
             pass
+
         pass
 
     @staticmethod
@@ -164,5 +167,6 @@ class LetItSlideManager(object):
             pass
         return True
         pass
+
     pass
     pass

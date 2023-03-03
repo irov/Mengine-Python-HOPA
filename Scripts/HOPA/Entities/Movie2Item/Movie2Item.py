@@ -3,6 +3,7 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
 
+
 class Movie2Item(BaseEntity):
 
     @staticmethod
@@ -253,7 +254,14 @@ class Movie2Item(BaseEntity):
         self.tc = TaskManager.createTaskChain(Repeat=True, NoCheckAntiStackCycle=True)
 
         with self.tc as source_repeat:
-            Scopes = dict(Idle=Functor(self.__stateIdle, MovieIdle), Pick=Functor(self.__statePick, MoviePick), Enter=Functor(self.__stateEnter, MovieIdle), Leave=Functor(self.__stateLeave, MovieIdle), UnInteractive=Functor(self.__stateUnInteractive, MovieIdle), Interactive=Functor(self.__stateInteractive, MovieIdle), )
+            Scopes = dict(
+                Idle=Functor(self.__stateIdle, MovieIdle),
+                Pick=Functor(self.__statePick, MoviePick),
+                Enter=Functor(self.__stateEnter, MovieIdle),
+                Leave=Functor(self.__stateLeave, MovieIdle),
+                UnInteractive=Functor(self.__stateUnInteractive, MovieIdle),
+                Interactive=Functor(self.__stateInteractive, MovieIdle),
+            )
 
             def __states(isSkip, cb):
                 cb(isSkip, self.state)

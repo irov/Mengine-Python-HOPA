@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class SplashScreenManager(object):
     databaseORMs = []
 
@@ -14,4 +15,5 @@ class SplashScreenManager(object):
     def getSplashScreenData():
         return SplashScreenManager.databaseORMs
         pass
+
     pass

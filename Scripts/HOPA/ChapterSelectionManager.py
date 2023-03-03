@@ -2,12 +2,16 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from HOPA.TransitionManager import TransitionManager
 
+
 class ChapterSelectionManager(Manager):
     s_chapter_current = None
     s_chapter_selection_params = {}
 
     class ChapterSelectionParam(object):
-        def __init__(self, chapter_name, chapter_plate_name, chapter_plate_block, is_main_chapter, text_id_open_chapter, text_id_close_chapter, start_scene, map_demon_name, map_scene_name, map_group_name, start_cut_scene, is_open, open_chapter_movie_name, on_chapter_reset_saved_systems, start_paragraph):
+        def __init__(self, chapter_name, chapter_plate_name, chapter_plate_block, is_main_chapter, text_id_open_chapter,
+                     text_id_close_chapter, start_scene, map_demon_name, map_scene_name, map_group_name,
+                     start_cut_scene, is_open, open_chapter_movie_name, on_chapter_reset_saved_systems,
+                     start_paragraph):
             self.chapter_name = chapter_name
             self.start_scene = start_scene
             self.start_cut_scene = start_cut_scene
@@ -59,7 +63,13 @@ class ChapterSelectionManager(Manager):
                 on_chapter_reset_saved_systems = record.get("onChapterResetSavedSystems", [])
                 start_paragraph = record.get("StartParagraph")
 
-                param = ChapterSelectionManager.ChapterSelectionParam(chapter_name, chapter_plate_name, chapter_plate_block, is_main_chapter, text_id_open_chapter, text_id_close_chapter, start_scene, map_demon_name, map_scene_name, map_group_name, start_cut_scene, is_open, open_chapter_movie_name, on_chapter_reset_saved_systems, start_paragraph)
+                param = ChapterSelectionManager.ChapterSelectionParam(chapter_name, chapter_plate_name,
+                                                                      chapter_plate_block, is_main_chapter,
+                                                                      text_id_open_chapter, text_id_close_chapter,
+                                                                      start_scene, map_demon_name, map_scene_name,
+                                                                      map_group_name, start_cut_scene, is_open,
+                                                                      open_chapter_movie_name,
+                                                                      on_chapter_reset_saved_systems, start_paragraph)
 
                 ChapterSelectionManager.s_chapter_selection_params[chapter_name] = param
 
@@ -73,7 +83,8 @@ class ChapterSelectionManager(Manager):
                 on_chapter_reset_saved_paragraphs = record.get("onChapterResetSavedParagraphs", [])
                 if chapter_name not in ChapterSelectionManager.s_chapter_selection_params:
                     continue
-                ChapterSelectionManager.s_chapter_selection_params[chapter_name].on_chapter_reset_saved_paragraphs = on_chapter_reset_saved_paragraphs
+                ChapterSelectionManager.s_chapter_selection_params[
+                    chapter_name].on_chapter_reset_saved_paragraphs = on_chapter_reset_saved_paragraphs
 
         return True
 

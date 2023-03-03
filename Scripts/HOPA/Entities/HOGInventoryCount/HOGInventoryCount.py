@@ -1,5 +1,6 @@
 InventoryBase = Mengine.importEntity("InventoryBase")
 
+
 class HOGInventoryCount(InventoryBase):
     def __init__(self):
         super(HOGInventoryCount, self).__init__()
@@ -13,9 +14,14 @@ class HOGInventoryCount(InventoryBase):
         type_.addAction(type_, 'EnigmaName')
         type_.addAction(type_, 'TextID', Update=HOGInventoryCount._updateTextMessage)
 
-        type_.addActionActivate(type_, "ItemsCount", Update=HOGInventoryCount._updateItemsAllCount)
-        type_.addActionActivate(type_, "FindItems", Append=HOGInventoryCount._appendFindItems, Update=HOGInventoryCount._updateFindItems)
-        type_.addActionActivate(type_, "FoundItems", Append=HOGInventoryCount._appendFoundItems, Update=HOGInventoryCount._updateFoundItems)
+        type_.addActionActivate(type_, "ItemsCount",
+                                Update=HOGInventoryCount._updateItemsAllCount)
+        type_.addActionActivate(type_, "FindItems",
+                                Append=HOGInventoryCount._appendFindItems,
+                                Update=HOGInventoryCount._updateFindItems)
+        type_.addActionActivate(type_, "FoundItems",
+                                Append=HOGInventoryCount._appendFoundItems,
+                                Update=HOGInventoryCount._updateFoundItems)
 
     def _onActivate(self):
         super(HOGInventoryCount, self)._onActivate()

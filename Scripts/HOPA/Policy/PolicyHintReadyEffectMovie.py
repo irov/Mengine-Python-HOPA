@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class PolicyHintReadyEffectMovie(TaskAlias):
     def _onParams(self, params):
         super(PolicyHintReadyEffectMovie, self)._onParams(params)
@@ -17,4 +18,5 @@ class PolicyHintReadyEffectMovie(TaskAlias):
         source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintReady", Loop=True, Wait=False)
         source.addTask("TaskMoviePlay", GroupName="Hint", MovieName="Movie_Ready", Wait=False)
         pass
+
     pass

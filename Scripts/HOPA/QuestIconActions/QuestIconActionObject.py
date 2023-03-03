@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.QuestIconActions.QuestIconActionDefault import QuestIconActionDefault
 
+
 class QuestIconActionObject(MixinObject, QuestIconActionDefault):
     def _onParams(self, params):
         super(QuestIconActionObject, self)._onParams(params)
@@ -18,4 +19,5 @@ class QuestIconActionObject(MixinObject, QuestIconActionDefault):
 
         return Position
         pass
+
     pass

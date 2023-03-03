@@ -1,6 +1,7 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroDisableObjectGroup(MacroCommand):
     def _onValues(self, values):
         self.GroupObjectName = values[0]
@@ -19,4 +20,5 @@ class MacroDisableObjectGroup(MacroCommand):
         Object = GroupManager.getObject(self.GroupObjectName, self.ObjectName)
         source.addTask("TaskEnable", Object=Object, Value=False)
         pass
+
     pass

@@ -1,5 +1,6 @@
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroMovieLayerSetEnable(MacroCommand):
     def _onValues(self, values):
         self.ObjectName = values[0]

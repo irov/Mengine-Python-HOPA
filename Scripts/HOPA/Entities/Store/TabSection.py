@@ -1,6 +1,7 @@
 from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from Foundation.TaskManager import TaskManager
 
+
 class TabSection(object):
 
     def __init__(self, parent_group, parent_movie, params):
@@ -231,6 +232,7 @@ class TabSection(object):
         self._parent_movie = None
         self._parent_group = None
 
+
 class Tab(object):
     PROTOTYPE_NAME = "Movie2Button_TabSwitch"
     RED_DOT_PROTOTYPE_NAME = "Movie2_RedDot"
@@ -318,6 +320,7 @@ class Tab(object):
     def scopeInteract(self, source):
         source.addTask("TaskMovie2ButtonClick", Movie2Button=self.movie)
         source.addNotify(Notificator.onStoreTabSectionClickedTab, self)
+
 
 class Back(object):
     PROTOTYPE_NAME = "Movie2Button_Back"

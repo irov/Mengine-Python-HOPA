@@ -7,6 +7,7 @@ from Notification import Notification
 
 from SpellManager import SpellManager
 
+
 class Spell(BaseEntity):
     LOCKED = "Locked"
     PREPARED = "Prepared"
@@ -18,6 +19,7 @@ class Spell(BaseEntity):
     HIDE = "Hide"
     SHOW = "Show"
     DOWN = "Down"
+
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
@@ -368,7 +370,8 @@ class Spell(BaseEntity):
         self.cancelTaskChains()
         self.__disableAllMovies()
         if self.chargeMovie is not None:
-            with TaskManager.createTaskChain(Name="Charge_" + self.object.getName(), Cb=self.__changeState) as tc_charge:
+            with TaskManager.createTaskChain(Name="Charge_" + self.object.getName(),
+                                             Cb=self.__changeState) as tc_charge:
                 tc_charge.addTask("TaskEnable", Object=self.chargeMovie)
                 tc_charge.addTask("TaskMoviePlay", Movie=self.chargeMovie, Wait=True)
                 pass
@@ -612,4 +615,5 @@ class Spell(BaseEntity):
             TaskManager.cancelTaskChain("Show_" + self.object.getName())
             pass
         pass
+
     pass

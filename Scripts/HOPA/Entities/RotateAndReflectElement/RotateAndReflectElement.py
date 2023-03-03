@@ -3,10 +3,14 @@ from Notification import Notification
 
 from RotateAndReflectElementManager import RotateAndReflectElementManager
 
+
 Enigma = Mengine.importEntity("Enigma")
 
+
 class RotateAndReflectElement(Enigma):
-    Slots = ["slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9", "slot10", "slot11", "slot12"]
+    Slots = [
+        "slot1", "slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9", "slot10", "slot11", "slot12"
+    ]
 
     def __init__(self):
         super(RotateAndReflectElement, self).__init__()
@@ -253,4 +257,5 @@ class RotateAndReflectElement(Enigma):
             self.addChild(entityNode)
             pass
         pass
+
     pass

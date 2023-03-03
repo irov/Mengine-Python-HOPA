@@ -8,6 +8,7 @@ from HOPA.Entities.HOGFitting.ObjectHOGFitting import ObjectHOGFitting
 from HOPA.Object.ObjectHOG import ObjectHOG
 from HOPA.Object.ObjectHOGRolling import ObjectHOGRolling
 
+
 class CruiseActionEnigma(MixinGroup, CruiseAction):
 
     def _onParams(self, params):

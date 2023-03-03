@@ -1,5 +1,6 @@
 from HOPA.Object.ObjectEnigma import ObjectEnigma
 
+
 class ObjectJoinBlocks(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
@@ -13,4 +14,5 @@ class ObjectJoinBlocks(ObjectEnigma):
 
         self.initParam("BlockSave", params, {})
         pass
+
     pass

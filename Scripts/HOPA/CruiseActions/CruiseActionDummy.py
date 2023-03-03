@@ -2,6 +2,7 @@ from Foundation.Notificator import Notificator
 from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
+
 class CruiseActionDummy(CruiseAction):
     def _onAction(self):
         if TaskManager.existTaskChain("CruiseActionDummy") is True:

@@ -3,7 +3,9 @@ from HOPA.SwapDifferentManager import SwapDifferentManager
 
 from SwapDifferentElement import SwapDifferentElement
 
+
 Enigma = Mengine.importEntity("Enigma")
+
 
 def getMaxMin(first, second):
     if first > second:
@@ -13,6 +15,7 @@ def getMaxMin(first, second):
         return (second, first)
         pass
     pass
+
 
 class SwapDifferent(Enigma):
     def __init__(self):
@@ -200,4 +203,5 @@ class SwapDifferent(Enigma):
             element.initialize(self.onClickElement)
             pass
         pass
+
     pass

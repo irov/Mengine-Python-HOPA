@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskHintClick(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskHintClick, self)._onParams(params)
@@ -22,4 +23,5 @@ class TaskHintClick(MixinObserver, Task):
 
         return True
         pass
+
     pass

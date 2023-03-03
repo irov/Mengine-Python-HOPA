@@ -11,7 +11,25 @@ class Slot(object):
         self.orientationOutput = ""
         self._enigmaObject = None
 
-        self.movieID = {'EE': 'EW', 'WW': 'EW', 'NN': 'NS', 'SS': 'NS', 'E': 'E', 'S': 'S', 'SE': 'SW', 'N': 'N', 'NE': 'NW', 'ES': 'EN', 'W': 'W', 'SW': 'ES', 'EN': 'ES', 'WN': 'SW', 'WS': 'NW', 'NW': 'EN'}
+        self.movieID = {
+            'EE': 'EW',
+            'WW': 'EW',
+            'NN': 'NS',
+            'SS': 'NS',
+            'E': 'E',
+            'S': 'S',
+            'SE': 'SW',
+            'N': 'N',
+            'NE': 'NW',
+            'ES': 'EN',
+            'W': 'W',
+            'SW': 'ES',
+            'EN': 'ES',
+            'WN': 'SW',
+            'WS': 'NW',
+            'NW': 'EN'
+        }
+
     def setPrevious(self, slot):
         self._previousSlot = slot
         pass
@@ -108,4 +126,5 @@ class Slot(object):
             pass
         return PathSlotOrientation
         pass
+
     pass

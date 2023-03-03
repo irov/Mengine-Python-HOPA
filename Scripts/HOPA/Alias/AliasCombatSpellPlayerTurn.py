@@ -1,5 +1,6 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasCombatSpellPlayerTurn(TaskAlias):
     def __init__(self):
         super(AliasCombatSpellPlayerTurn, self).__init__()
@@ -57,5 +58,3 @@ class AliasCombatSpellPlayerTurn(TaskAlias):
             pass
 
         source.addTask("TaskFunction", Fn=update)
-        pass
-    pass

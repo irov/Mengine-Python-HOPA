@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 
+
 class ObjectSparks(DemonObject):
     @staticmethod
     def declareORM(Type):
@@ -12,4 +13,5 @@ class ObjectSparks(DemonObject):
 
         self.initParam("State", params, "Idle")
         pass
+
     pass

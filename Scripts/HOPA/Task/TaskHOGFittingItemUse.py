@@ -2,6 +2,7 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskHOGFittingItemUse(MixinObserver, Task):
     def _onParams(self, params):
         super(TaskHOGFittingItemUse, self)._onParams(params)
@@ -43,4 +44,5 @@ class TaskHOGFittingItemUse(MixinObserver, Task):
 
         self.ItemObject.setInteractive(False)
         pass
+
     pass

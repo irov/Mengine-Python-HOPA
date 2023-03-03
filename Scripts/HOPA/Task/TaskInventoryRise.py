@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class TaskInventoryRise(TaskAlias):
     def _onParams(self, params):
         super(TaskInventoryRise, self)._onParams(params)

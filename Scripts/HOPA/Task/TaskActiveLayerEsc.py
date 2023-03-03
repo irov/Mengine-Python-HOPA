@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 
+
 class TaskActiveLayerEsc(MixinObserver, Task):
     def onParams(self, params):
         super(TaskActiveLayerEsc, self).onParams(params)
@@ -15,4 +16,5 @@ class TaskActiveLayerEsc(MixinObserver, Task):
     def __onKeyEvent(self, layerName):
         return True
         pass
+
     pass

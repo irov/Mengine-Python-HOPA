@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 
+
 class MetalDetectorManager(object):
     detectors = {}
 
@@ -8,11 +9,9 @@ class MetalDetectorManager(object):
             self.InventoryItemName = InventoryItemName
             self.InteractRadius = InteractRadius
             self.Range = Range
-            pass
 
         def getRadius(self):
             return self.InteractRadius
-            pass
 
         def getItem(self):
             return self.InventoryItemName
@@ -23,7 +22,6 @@ class MetalDetectorManager(object):
     @staticmethod
     def onFinalize():
         MetalDetectorManager.detectors = {}
-    pass
 
     @staticmethod
     def loadItems(module, param):
@@ -35,19 +33,15 @@ class MetalDetectorManager(object):
             Radius = record.get("InteractRadius")
             Rage = record.get("Range")
             MetalDetectorManager.addRow(DemonName, Item, Radius, Rage)
-            pass
-        pass
 
     @staticmethod
     def addRow(DemonName, Item, Radius, Rage):
         data = MetalDetectorManager.SingleDetector(Item, Radius, Rage)
         MetalDetectorManager.detectors[DemonName] = data
-        pass
 
     @staticmethod
     def hasDetector(DemonName):
         return DemonName in MetalDetectorManager.detectors
-        pass
 
     @staticmethod
     def getDetector(DemonName):

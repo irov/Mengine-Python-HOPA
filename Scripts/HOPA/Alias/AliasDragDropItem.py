@@ -2,6 +2,7 @@ from Event import Event
 from Foundation.Notificator import Notificator
 from Foundation.Task.TaskAlias import TaskAlias
 
+
 class AliasDragDropItem(TaskAlias):
     def _onParams(self, params):
         super(AliasDragDropItem, self)._onParams(params)

@@ -1,6 +1,7 @@
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
+
 class HintActionItemCollectOpen(HintActionDefault, MixinObject):
     def _onParams(self, params):
         super(HintActionItemCollectOpen, self)._onParams(params)

@@ -3,6 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from HOPA.ItemManager import ItemManager
 from HOPA.Macro.MacroCommand import MacroCommand
 
+
 class MacroPickAccumulateItemFX(MacroCommand):
     def _onValues(self, values):
         self.ItemName = values[0]
@@ -38,7 +39,8 @@ class MacroPickAccumulateItemFX(MacroCommand):
 
         EffectPolicy = PolicyManager.getPolicy("EffectInventoryAddInventoryItem", "TaskEffectInventoryAddInventoryItem")
 
-        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName, ItemName=ItemObjectName)
+        Quest = self.addQuest(source, "PickItem", SceneName=self.SceneName, GroupName=self.GroupName,
+                              ItemName=ItemObjectName)
 
         with Quest as tc_quest:
             tc_quest.addTask("AliasFindItem", SceneName=self.SceneName, ItemName=self.ItemName)
@@ -46,7 +48,8 @@ class MacroPickAccumulateItemFX(MacroCommand):
             if ItemManager.hasItemInventoryItem(self.ItemName) is True:
                 Inventory = DemonManager.getDemon("Inventory")
                 # tc_quest.addPrint("MacroPickAccumulateItemFX")
-                tc_quest.addTask("AliasInventoryAddInventoryAccumulateItemFX", Inventory=Inventory, ItemName=self.ItemName, EffectPolicy=EffectPolicy, Value=self.Value)
+                tc_quest.addTask("AliasInventoryAddInventoryAccumulateItemFX", Inventory=Inventory,
+                                 ItemName=self.ItemName, EffectPolicy=EffectPolicy, Value=self.Value)
                 pass
             pass
         pass
