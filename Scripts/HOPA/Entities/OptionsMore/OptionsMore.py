@@ -65,10 +65,8 @@ class OptionsMore(BaseEntity):
         Options.setStartVolumeValues(volume_values[0], volume_values[1], volume_values[2])
 
     def _onActivate(self):
-        # with TaskManager.createTaskChain('Listen')
         self.onFullscreenObserver = Notification.addObserver(Notificator.onFullscreen, self._onFullscreenFilter)
-        #
-        # self.setParams()
+
         with TaskManager.createTaskChain(Name='OptionsMore_Ok', Repeat=True) as Ok:
             Ok.addTask('TaskMovie2ButtonClick', GroupName='OptionsMore', Movie2ButtonName='Movie2Button_OK')
             Ok.addScope(self.scopeClose, "OptionsMore")
@@ -78,7 +76,25 @@ class OptionsMore(BaseEntity):
             Ok.addFunction(self.setOptionsStarVolumeValues, volume_values)
             Ok.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
 
-            # if GroupManager.hasObject("OptionsMore", 'Movie_Close') is True:  #     with GuardBlockInput(Ok) as guard_source:  #         with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):  #             guard_source_movie.addTask("TaskMoviePlay", GroupName="OptionsMore",  #                                        MovieName="Movie_Close", Wait=True)  #  #             guard_source_movie.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)  #  #     if GroupManager.hasObject("Options", 'Movie_Open') is True:  #         with GuardBlockInput(Ok) as guard_source:  #             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):  #                 guard_source_movie.addTask("TaskMoviePlay", GroupName="Options",  #                                            MovieName="Movie_Open", Wait=True)  #                 guard_source_movie.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore',  #                                            Value=False)  #  # else:  #     Ok.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)  #     Ok.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
+            # if GroupManager.hasObject("OptionsMore", 'Movie_Close') is True:
+            #     with GuardBlockInput(Ok) as guard_source:
+            #         with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
+            #             guard_source_movie.addTask("TaskMoviePlay", GroupName="OptionsMore",
+            #                                        MovieName="Movie_Close", Wait=True)
+            #
+            #             guard_source_movie.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
+            #
+            #     if GroupManager.hasObject("Options", 'Movie_Open') is True:
+            #         with GuardBlockInput(Ok) as guard_source:
+            #             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
+            #                 guard_source_movie.addTask("TaskMoviePlay", GroupName="Options",
+            #                                            MovieName="Movie_Open", Wait=True)
+            #                 guard_source_movie.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore',
+            #                                            Value=False)
+            #
+            # else:
+            #     Ok.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
+            #     Ok.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
 
         with TaskManager.createTaskChain(Name='OptionsMore_Cancel', Repeat=True) as Cancel:
             Cancel.addTask('TaskMovie2ButtonClick', GroupName='OptionsMore', Movie2ButtonName='Movie2Button_Cancel')
@@ -91,7 +107,8 @@ class OptionsMore(BaseEntity):
             Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
 
         with TaskManager.createTaskChain(Name='OptionsMore_Cancel_Click_Out', Repeat=True) as Cancel:
-            Cancel.addTask('TaskMovie2SocketClick', GroupName='OptionsMore', Movie2Name='Movie2_BG', SocketName="close", isDown=True)
+            Cancel.addTask('TaskMovie2SocketClick', GroupName='OptionsMore',
+                           Movie2Name='Movie2_BG', SocketName="close", isDown=True)
             Cancel.addFunction(self.cancel)
             Cancel.addScope(self.scopeClose, "OptionsMore")
             Cancel.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
@@ -100,28 +117,47 @@ class OptionsMore(BaseEntity):
             Cancel.addFunction(self.setOptionsStarVolumeValues, volume_values)
             Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
 
-            # if GroupManager.hasObject("OptionsMore", 'Movie_Close') is True:  #     with GuardBlockInput(Cancel) as guard_source:  #         with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):  #  #             guard_source_movie.addTask("TaskMoviePlay", GroupName="OptionsMore",  #                                        MovieName="Movie_Close", Wait=True)  #  #             guard_source_movie.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)  #  #  #  #             if GroupManager.hasObject("Options", 'Movie_Open') is True:  #                 with GuardBlockInput(Cancel) as guard_source:  #                     with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):  #                         guard_source_movie.addTask("TaskMoviePlay", GroupName="Options",  #                                                    MovieName="Movie_Open", Wait=True)  #  #                         guard_source_movie.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore',  #                                                    Value=False)  #  #  # else:  #     Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)  #     Cancel.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
+            # if GroupManager.hasObject("OptionsMore", 'Movie_Close') is True:
+            #     with GuardBlockInput(Cancel) as guard_source:
+            #         with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
+            #             guard_source_movie.addTask("TaskMoviePlay", GroupName="OptionsMore",
+            #                                        MovieName="Movie_Close", Wait=True)
+            #
+            #             guard_source_movie.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
+            #
+            #             if GroupManager.hasObject("Options", 'Movie_Open') is True:
+            #                 with GuardBlockInput(Cancel) as guard_source:
+            #                     with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
+            #                         guard_source_movie.addTask("TaskMoviePlay", GroupName="Options",
+            #                                                    MovieName="Movie_Open", Wait=True)
+            #
+            #                         guard_source_movie.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore',
+            #                                                    Value=False)
+            #
+            #
+            # else:
+            #     Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=False)
+            #     Cancel.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=True)
 
         with TaskManager.createTaskChain(Name='OptionsMore_CheckBox', GroupName='OptionsMore', Repeat=True) as CheckBox:
             with CheckBox.addRaceTask(2) as (FullScreen, Others):
                 for checkBoxName, race in Others.addRaceTaskList(self.listWithCheckBoxesNames):
+                    race_checkbox = GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName))
+
                     with race.addRaceTask(2) as (true, false):
-                        true.addTask('TaskMovie2CheckBox', Value=True,
-                                     Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)))
+                        true.addTask('TaskMovie2CheckBox', Value=True, Movie2CheckBox=race_checkbox)
                         true.addFunction(self.object.setParam, checkBoxName, True)
 
-                        true.addTask('TaskMovie2CheckBox', Value=False,
-                                     Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_{}'.format(checkBoxName)))
-
+                        false.addTask('TaskMovie2CheckBox', Value=False, Movie2CheckBox=race_checkbox)
                         false.addFunction(self.object.setParam, checkBoxName, False)
 
                 with FullScreen.addRaceTask(2) as (true, false):
-                    true.addTask('TaskMovie2CheckBox', Value=True,
-                                 Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'))
+                    fullscreen_checkbox = GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen')
+
+                    true.addTask('TaskMovie2CheckBox', Value=True, Movie2CheckBox=fullscreen_checkbox)
                     true.addFunction(Mengine.changeCurrentAccountSetting, "Fullscreen", unicode(True))
 
-                    false.addTask('TaskMovie2CheckBox', Value=False,
-                                  Movie2CheckBox=GroupManager.getObject('OptionsMore', 'Movie2CheckBox_FullScreen'))
+                    false.addTask('TaskMovie2CheckBox', Value=False, Movie2CheckBox=fullscreen_checkbox)
                     false.addFunction(Mengine.changeCurrentAccountSetting, "Fullscreen", unicode(False))
 
     def scopeOpen(self, source, GropName):
