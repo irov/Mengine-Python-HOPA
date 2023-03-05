@@ -122,8 +122,6 @@ class SplashScreen(BaseEntity):
                     tc.addTask("AliasFadeIn", To=1.0, Time=SplashScreenFadeTime)
 
                 tc.addTask("TaskNodeEnable", Node=splash.shape, Value=False)
-
-            tc.addFunction(Mengine.moduleMessage, "ModuleGoogleAdMob", "Show", dict())
             pass
         pass
 
