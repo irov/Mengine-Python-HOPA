@@ -301,7 +301,7 @@ class SpecialPromotion(BaseEntity):
         with TaskManager.createTaskChain(Name="SpecialPromotion") as tc:
             with tc.addParallelTask(2) as (tc_show, tc_fade):
                 tc_show.addScope(self.scopeOpen)
-                tc_fade.addTask("AliasFadeIn", FadeGroupName="FadeUI", To=0.5, Time=250.0)
+                tc_fade.addTask("AliasFadeIn", FadeGroupName="FadeUI", To=0.5, Time=250.0, ReturnItem=False)
 
             with tc.addRepeatTask() as (purchase, until):
                 purchase.addTask("TaskMovie2ButtonClick", Movie2Button=self.content["purchase"])
