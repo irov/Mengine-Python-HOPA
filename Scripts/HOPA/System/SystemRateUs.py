@@ -18,6 +18,10 @@ class SystemRateUs(System):
     def _onRun(self):
         if Mengine.hasTouchpad() is False:
             return True
+
+        if Mengine.getGameParamBool("AskRateUs", True) is False:
+            return True
+
         if self.isAppRated() is True:
             return True
 
@@ -35,6 +39,8 @@ class SystemRateUs(System):
     def _onStop(self):
         if TaskManager.existTaskChain("RateUsPrepare"):
             TaskManager.cancelTaskChain("RateUsPrepare")
+        if TaskManager.existTaskChain("RateUs"):
+            TaskManager.cancelTaskChain("RateUs")
 
     def _onChapterDone(self, *args):
         if self.isAppRated() is True:
