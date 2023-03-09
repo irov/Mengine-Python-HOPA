@@ -18,7 +18,7 @@ class QuestManager(object):
     class QuestObject(object):
         __slots__ = "questType", "params", "questGlobal", "active", "complete", "isTechnical"
 
-        if _DEVELOPMENT is True and Mengine.hasOption("hintdebug") is True:
+        if _DEVELOPMENT is True and "quest" in Mengine.getOptionValues("debug"):
             def __repr__(self):
                 MacroCommand = self.params.get("FromMacroCommand")
                 _details = [

@@ -59,7 +59,7 @@ class Hint(BaseEntity):
         self.PolicyHintNotFound = None
         self.PolicyHintPlay = None
 
-        self.debug_hint_give = Mengine.hasOption("hintdebug") is True and _DEVELOPMENT is True
+        self.debug_hint_give = _DEVELOPMENT is True and "hint" in Mengine.getOptionValues("debug")
 
         # IDK wtf is this
         self.Print = False

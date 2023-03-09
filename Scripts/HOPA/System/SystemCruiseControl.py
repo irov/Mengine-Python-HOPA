@@ -54,7 +54,7 @@ class SystemCruiseControl(System):
         self.isTurnOn = False
 
         self.guardBlockInputCount = 0
-        self.debug_cruise_give = Mengine.hasOption("cruisedebug") is True and _DEVELOPMENT is True
+        self.debug_cruise_give = _DEVELOPMENT is True and "cruise" in Mengine.getOptionValues("debug")
 
     def _onRun(self):
         # todo: on popup restart fix cruise blocker (probably block input counter)
