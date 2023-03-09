@@ -19,15 +19,27 @@ class QuestManager(object):
         __slots__ = "questType", "params", "questGlobal", "active", "complete", "isTechnical"
 
         if _DEVELOPMENT is True and "quest" in Mengine.getOptionValues("debug"):
+            def __prepareQuestParams(self, params):
+                def _mapper(arg):
+                    try:
+                        return "{}".format(str(arg.getName()))
+                    except AttributeError:
+                        return str(arg)
+
+                msg = ", ".join("{}".format(key, _mapper(val)) for key, val in params.items())
+                return msg
+
             def __repr__(self):
-                MacroCommand = self.params.get("FromMacroCommand")
+                MacroCommand = self.params.get("FromMacroCommand", "?")
                 _details = [
                     ("A" if self.active else "N/A"),
                     ("GLOBAL" if self.questGlobal else "LOCAL"),
                     ("Done" if self.complete else "Work"),
+                    ("Technical" if self.isTechnical else "")
                 ]
                 details = " ".join(_details)
-                return "<QuestObject {} [{}] from {}: {}>".format(self.questType, details, MacroCommand, self.params)
+                return "<QuestObject {} [{}] from {}: {}>".format(
+                    self.questType, details, MacroCommand, self.__prepareQuestParams(self.params))
 
         def __init__(self, questType, params, questGlobal, Technical):
             self.questType = questType
