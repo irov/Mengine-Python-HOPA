@@ -16,7 +16,11 @@ DEFAULT_QUEST_FILTER = ['Teleport', 'Play', 'Enable', 'Click', 'RunParagraph', '
 class SystemLocationComplete(System):
     def _onParams(self, params):
         super(SystemLocationComplete, self)._onParams(params)
-        self.DemonLocationComplete = DemonManager.getDemon("LocationComplete")
+
+        self.DemonLocationComplete = None
+        if DemonManager.hasDemon("LocationComplete"):
+            self.DemonLocationComplete = DemonManager.getDemon("LocationComplete")
+
         self.__setLocationsData()
 
         self.quest_filter = DEFAULT_QUEST_FILTER
@@ -50,6 +54,7 @@ class SystemLocationComplete(System):
     def _onRun(self):
         self.addObserver(Notificator.onParagraphCompleteForReal, self.__cbCheckLocationComplete)
         self.addObserver(Notificator.onSceneInit, self.__cbCheckLocationComplete)
+        self.addObserver(Notificator.onLocationComplete, self._cbLocationComplete)
         return True
 
     @staticmethod
@@ -135,8 +140,7 @@ class SystemLocationComplete(System):
         if not SceneManager.isGameScene(cur_scene_name) or not ZoomManager.sceneHasZooms(cur_scene_name):
             return False
 
-        complete_scenes = self.DemonLocationComplete.getParam("CompleteScenes")
-        if cur_scene_name in complete_scenes:
+        if self._isLocationComplete(cur_scene_name) is True:
             return False
 
         scene_mg_is_complete = self.__sceneMGisComplete(cur_scene_name)
@@ -146,7 +150,27 @@ class SystemLocationComplete(System):
         quests_is_complete = self.__sceneQuestsIsComplete(cur_stage, cur_scene_name)
 
         if quests_is_complete:
-            self.DemonLocationComplete.appendParam("CompleteScenes", cur_scene_name)
             Notification.notify(Notificator.onLocationComplete, cur_scene_name)
+
+        return False
+
+    def _cbLocationComplete(self, scene_name):
+        if self.DemonLocationComplete is None:
+            return True
+
+        self.DemonLocationComplete.appendParam("CompleteScenes", scene_name)
+        return False
+
+    def _isLocationComplete(self, scene_name):
+        if self.DemonLocationComplete is not None:
+            demon = self.DemonLocationComplete
+            param = "CompleteScenes"
+        else:
+            demon = Map2Manager.getCurrentMapObject()
+            param = "CompletedScenes"
+
+        complete_scenes = demon.getParam(param)
+        if scene_name in complete_scenes:
+            return True
 
         return False
