@@ -259,7 +259,7 @@ class SpellsManager(Manager):
         movie2_spell_button_locked = record.get('Movie2_SpellButton_LOCKED')
         movie2_spell_button_update = record.get('Movie2_SpellButton_UPDATE')
         mind_use_less_spell = record.get('Mind_UseLessSpell')
-        spell_use_quest = record.get('SpellUseQuest')
+        spell_use_quest = record.get('SpellUseQuest', 'SpellAmuletUsePower')
 
         param = SpellUIButtonsParam(bIsUnlockedByDefault, spell_type, slot_name, movie2_spell_button_idle,
                                     movie2_spell_button_ready, movie2_spell_button_use, movie2_spell_button_locked,
