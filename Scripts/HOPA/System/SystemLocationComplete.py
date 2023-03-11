@@ -27,8 +27,6 @@ class SystemLocationComplete(System):
         if LocationCompleteManager.hasQuestTypeFilter() is True:
             self.quest_filter = LocationCompleteManager.getQuestTypeFilter()
 
-        self._debug_log = _DEVELOPMENT is True and "complete_loc" in Mengine.getOptionValues("debug")
-
     def __setLocationsData(self):
         """
         mg, hogs, dialog, cutscene, preintro, tasks is gamearea
@@ -57,6 +55,10 @@ class SystemLocationComplete(System):
         self.addObserver(Notificator.onParagraphCompleteForReal, self.__cbCheckLocationComplete)
         self.addObserver(Notificator.onSceneInit, self.__cbCheckLocationComplete)
         self.addObserver(Notificator.onLocationComplete, self._cbLocationComplete)
+
+        if _DEVELOPMENT is True and "complete_loc" in Mengine.getOptionValues("debug"):
+            self.addObserver(Notificator.onSceneInit, self._cbDebugSceneLog)
+
         return True
 
     @staticmethod
@@ -77,7 +79,7 @@ class SystemLocationComplete(System):
             return
         quest_type_list.append(quest_type)
 
-    def __sceneQuestsIsComplete(self, cur_stage, cur_scene_name):
+    def __sceneQuestsIsComplete(self, cur_stage, cur_scene_name, send_debug_log=False):
         scenario_chapter = cur_stage.getScenarioChapter()
         scene_paragraphs = scenario_chapter.findAllSceneScenarioParagraphs(cur_scene_name)
 
@@ -85,33 +87,9 @@ class SystemLocationComplete(System):
         for paragraph in SystemLocationComplete.__waitAndRunParagraphs(scene_paragraphs):
             paragraph.visitQuests(SystemLocationComplete.__cbQuestFilter, False, quest_type_list, self.quest_filter)
 
-        if self._debug_log is True:
-
-            def debugPrintParagraphsState():
-                print 'CURRENT SCENE NAME', cur_scene_name
-                print 'len(scene_paragraphs) =', len(scene_paragraphs)
-                paragraphs_states = {'Wait': 0, 'Run': 0, 'Complete': 0}
-
-                for paragraph in scene_paragraphs:
-                    if paragraph.Status == 1:
-                        paragraphs_states['Wait'] += 1
-                    elif paragraph.Status == 2:
-                        paragraphs_states['Run'] += 1
-                    elif paragraph.Status == 3:
-                        paragraphs_states['Complete'] += 1
-                    else:
-                        print '[ERROR] Unrecognized paragraph status(1-3)'
-
-                print 'paragraphs_states:\n  ', paragraphs_states
-
-            def debugPrintQuestCounter():
-                quest_type_counter = dict(
-                    (quest_type, quest_type_list.count(quest_type)) for quest_type in set(quest_type_list)
-                )
-                print 'quest of wait and run paragraphs:\n  {}'.format(quest_type_counter)
-
-            debugPrintParagraphsState()
-            debugPrintQuestCounter()
+        if send_debug_log:
+            self.debugPrintParagraphsState(cur_scene_name, scene_paragraphs)
+            self.debugPrintQuestCounter(quest_type_list)
 
         if len(quest_type_list) == 0:
             return True
@@ -177,3 +155,36 @@ class SystemLocationComplete(System):
             return True
 
         return False
+
+# --- DEBUG ------------------------------------------------------------------------------------------------------------
+
+    def _cbDebugSceneLog(self, cur_scene_name):
+        cur_stage = StageManager.getCurrentStage()
+        quests_is_complete = self.__sceneQuestsIsComplete(cur_stage, cur_scene_name, send_debug_log=True)
+        Trace.msg("quests_is_complete = {}".format(quests_is_complete))
+        return False
+
+    @staticmethod
+    def debugPrintParagraphsState(cur_scene_name, scene_paragraphs):
+        Trace.msg('CURRENT SCENE NAME = {!r}'.format(cur_scene_name))
+        Trace.msg('total scene_paragraphs = {}'.format(len(scene_paragraphs)))
+        paragraphs_states = {'Wait': 0, 'Run': 0, 'Complete': 0}
+
+        for paragraph in scene_paragraphs:
+            if paragraph.Status == 1:
+                paragraphs_states['Wait'] += 1
+            elif paragraph.Status == 2:
+                paragraphs_states['Run'] += 1
+            elif paragraph.Status == 3:
+                paragraphs_states['Complete'] += 1
+            else:
+                Trace.msg_err('[ERROR] Unrecognized paragraph status {} at index {}'.format(paragraph.Status, paragraph.Index))
+
+        Trace.msg('paragraphs_states:\n  {}'.format(paragraphs_states))
+
+    @staticmethod
+    def debugPrintQuestCounter(quest_type_list):
+        quest_type_counter = dict(
+            (quest_type, quest_type_list.count(quest_type)) for quest_type in set(quest_type_list)
+        )
+        Trace.msg('quest of wait and run paragraphs:\n  {}'.format(quest_type_counter))
