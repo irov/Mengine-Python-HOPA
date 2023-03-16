@@ -223,17 +223,13 @@ class DialogWindow(BaseEntity):
         if text_args is None:
             text_args = self.args
         elif isinstance(text_args, dict) is False:
-            raise TypeError("text_args must be dict, where values is iterable and usable keys is: {}".format(DialogWindow.ALIAS_TO_TEXT.keys()))
-
-        def getTextId(text_ids_obj):
-            if isinstance(text_ids_obj, dict):
-                return text_ids_obj.get(key, DialogWindow.ID_TEXT_EMPTY)
-            return text_ids_obj.__dict__.get(key, DialogWindow.ID_TEXT_EMPTY)
+            raise TypeError("text_args must be dict, usable keys is: {}".format(DialogWindow.ALIAS_TO_TEXT.keys()))
 
         for key, alias in DialogWindow.ALIAS_TO_TEXT.items():
-            text_id = getTextId(text_ids)
+            text_id = text_ids.get(key, DialogWindow.ID_TEXT_EMPTY)
             Mengine.removeTextAliasArguments(DialogWindow.ID_ALIAS_ENV, alias)
             Mengine.setTextAlias(DialogWindow.ID_ALIAS_ENV, alias, text_id)
+
             if text_args is not None:
                 args = text_args.get(key, None)
                 if args is not None:
@@ -340,7 +336,7 @@ class DialogWindow(BaseEntity):
     # Custom presets ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     def runPreset(self, preset_id, content_style=None, urls=None, text_args=None, icon_obj=None):
-        text_ids = DialogWindowManager.getPresetParamsByName(preset_id)
+        text_ids = DialogWindowManager.getPreset(preset_id)
 
         if text_ids is None:
             Trace.log("Entity", 0, "DialogWindow.runPreset: not found preset with id '%s'" % preset_id)

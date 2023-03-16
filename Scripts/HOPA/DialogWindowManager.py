@@ -12,7 +12,7 @@ class DialogWindowManager(Manager):
 
     class PresetParams(__Param):
         def __init__(self, record):
-            self.name = DialogWindowManager.getRecordValue(record, "PresetID", default=None)
+            self.id = DialogWindowManager.getRecordValue(record, "PresetID", default=None)
             self.confirm = DialogWindowManager.getRecordValue(record, "ConfirmButtonTextID", default=None)
             self.cancel = DialogWindowManager.getRecordValue(record, "CancelButtonTextID", default=None)
             self.question = DialogWindowManager.getRecordValue(record, "QuestionTextID", default=None)
@@ -22,6 +22,9 @@ class DialogWindowManager(Manager):
             self.url_center = DialogWindowManager.getRecordValue(record, "UrlCenterTextID", default=None)
             self.icon_value = DialogWindowManager.getRecordValue(record, "IconValueTextID", default=None)
 
+        def get(self, key, default=None):
+            return self.__dict__.get(key, default)
+
     @staticmethod
     def loadPresets(records):
         def trace(msg):
@@ -29,10 +32,10 @@ class DialogWindowManager(Manager):
 
         for i, record in enumerate(records):
             params = DialogWindowManager.PresetParams(record)
-            if params.name in DialogWindowManager.s_presets:
-                trace("Use only unique names - {!r} already used".format(params.name))
+            if params.id in DialogWindowManager.s_presets:
+                trace("Use only unique names - {!r} already used".format(params.id))
 
-            DialogWindowManager.s_presets[params.name] = params
+            DialogWindowManager.s_presets[params.id] = params
 
     @staticmethod
     def loadParams(module, name):
@@ -46,13 +49,13 @@ class DialogWindowManager(Manager):
     # === Getters ======================================================================================================
 
     @staticmethod
-    def getTabsSettings():
-        """ return: dict {page_id: PresetParams}"""
+    def getPresets():
         return DialogWindowManager.s_presets
 
-    # specific
+    @staticmethod
+    def getPreset(lookup_id):
+        return DialogWindowManager.s_presets.get(lookup_id)
 
     @staticmethod
-    def getPresetParamsByName(name, default=None):
-        """ return: PresetParams or None"""
-        return DialogWindowManager.s_presets.get(name, default)
+    def hasPreset(lookup_id):
+        return lookup_id in DialogWindowManager.s_presets
