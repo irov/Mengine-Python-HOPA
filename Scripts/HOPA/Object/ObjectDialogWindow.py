@@ -1,4 +1,5 @@
 from Foundation.Object.DemonObject import DemonObject
+from HOPA.DialogWindowManager import DialogWindowManager
 
 
 class ObjectDialogWindow(DemonObject):
@@ -10,6 +11,9 @@ class ObjectDialogWindow(DemonObject):
     def runPreset(self, preset_id, content_style=None, urls=None, text_args=None, icon_obj=None):
         if self.isActive():
             self.entity.runPreset(preset_id, content_style, urls, text_args, icon_obj)
+
+    def hasPreset(self, preset_id):
+        return DialogWindowManager.hasPreset(preset_id)
 
     def setButtonBlock(self, state, movie_name):
         if self.isActive():
