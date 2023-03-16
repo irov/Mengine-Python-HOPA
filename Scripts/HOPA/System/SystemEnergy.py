@@ -505,14 +505,20 @@ class SystemEnergy(System):
         energy_accumulated = int(time_passed // refill_time)
         max_energy = self.getMaxEnergy()
 
-        if (self.current_energy + energy_accumulated) > max_energy:
-            # User can't accumulate energy bigger than maximum
+        if self.current_energy >= max_energy:
+            # User has enough energy, can't accumulate more
+            energy_accumulated = 0
+        elif (self.current_energy + energy_accumulated) > max_energy:
+            # User hasn't enough energy, adjust accumulated (energy bigger than maximum)
             energy_accumulated = max_energy - self.current_energy
 
+        # CASE 1: no charging process
+        # CASE 2: full charge complete
         if self.end_refill_timestamp is None or self.end_refill_timestamp - time <= 0:
             if self.current_energy < max_energy:
                 self.setEnergy(max_energy)
             self.onCharged()
+        # CASE 3: accumulate some energy, but charging in progress
         else:
             if time < save_time:
                 _Log("cheater cheater cheater cheater cheater", err=True)
