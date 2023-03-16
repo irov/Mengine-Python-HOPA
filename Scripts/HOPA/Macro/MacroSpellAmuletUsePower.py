@@ -41,14 +41,22 @@ class MacroSpellAmuletUsePower(MacroCommand):
 
         return True
 
-    def __runQuest(self, source):
+    def __isRuneLocked(self):
+        rune = SystemSpells.getSpellAmuletStoneByPower(self.power_name)
+        return rune.locked
+
+    def _onGenerate(self, source):
         quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
         quest = self.addQuest(source, quest_type, SceneName=self.SceneName, GroupName=self.GroupName,
-                              PowerName=self.power_name)
-
-        source.addNotify(self.notificator, self.power_name, self.open, self.ScenarioQuests[-1])
+                              PowerName=self.power_name, PowerType=self.power_type)
 
         with quest as tc_quest:
+            with tc_quest.addIfTask(self.__isRuneLocked) as (wait, _):
+                wait.addListener(Notificator.onSpellAmuletAddPower,
+                                 Filter=lambda power_type, *args: power_type == self.power_type)
+
+            tc_quest.addNotify(self.notificator, self.power_name, self.open, self.ScenarioQuests[-1])
+
             with tc_quest.addParallelTask(2) as (parallel_0, parallel_1):
                 parallel_0.addListener(Notificator.onSpellMacroComplete, Filter=self.__macroCompleteFilter)
                 parallel_1.addNotify(Notificator.onSpellUISpellUpdate, SPELL_AMULET_TYPE)  # for state ready
@@ -56,14 +64,3 @@ class MacroSpellAmuletUsePower(MacroCommand):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addListener(Notificator.onSpellMacroComplete, Filter=self.__spellUIAmuletUpdateComplete)
             parallel_1.addNotify(Notificator.onSpellUISpellUpdate, SPELL_AMULET_TYPE, updateStatePlay=False)
-
-    def __isRuneLocked(self):
-        rune = SystemSpells.getSpellAmuletStoneByPower(self.power_name)
-        return rune.locked
-
-    def _onGenerate(self, source):
-        with source.addIfTask(self.__isRuneLocked) as (wait, _):
-            wait.addListener(Notificator.onSpellAmuletAddPower,
-                             Filter=lambda power_type, *args: power_type == self.power_type)
-
-        source.addScope(self.__runQuest)
