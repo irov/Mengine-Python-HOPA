@@ -1,5 +1,7 @@
 from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
+from Foundation.GuardBlockInput import GuardBlockInput
+from Foundation.TaskManager import TaskManager
 
 
 class StorePageScrollComponent(StorePageBaseComponent):
@@ -31,6 +33,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._va_bounds = None
         self._va_total_width = 0
 
+        self._cancelDragEndTC()
         self.virtual_area.onFinalize()
         self.virtual_area = None
 
@@ -95,6 +98,10 @@ class StorePageScrollComponent(StorePageBaseComponent):
         width, height = self.calculateContentSize()
         self.virtual_area.set_content_size(0.0, 0.0, width, height)
 
+        # callbacks
+        self.virtual_area.on_drag_start += self._cbDragStart
+        self.virtual_area.on_drag_end += self._cbDragEnd
+
     def calculateContentSize(self):
         bb = self._va_bounds
         width = self._va_total_width
@@ -108,3 +115,20 @@ class StorePageScrollComponent(StorePageBaseComponent):
         if self._va_total_width > width:
             return True
         return False
+
+    def _cbDragStart(self):
+        GuardBlockInput.enableBlockSocket(True)
+
+    def _cbDragEnd(self):
+        if self.virtual_area.is_dragging() is False:
+            return
+
+        self._cancelDragEndTC()
+        with TaskManager.createTaskChain(Name="{}_DragEnd".format(self.__class__.__name__)) as tc:
+            tc.addDelay(0.0)  # ensure that we will receive use on socket event before disable block input
+            tc.addFunction(GuardBlockInput.enableBlockSocket, False)
+
+    def _cancelDragEndTC(self):
+        tc_name = "{}_DragEnd".format(self.__class__.__name__)
+        if TaskManager.existTaskChain(tc_name):
+            TaskManager.cancelTaskChain(tc_name)

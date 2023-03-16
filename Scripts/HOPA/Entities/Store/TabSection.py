@@ -1,5 +1,6 @@
 from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from Foundation.TaskManager import TaskManager
+from Foundation.GuardBlockInput import GuardBlockInput
 
 
 class TabSection(object):
@@ -28,6 +29,9 @@ class TabSection(object):
     def create(self, ignored_pages=(), unvisited_pages=()):
         self._createBack()
         self._createTabs(ignored_pages, unvisited_pages)
+
+        self.virtual_area.on_drag_start += self._cbDragStart
+        self.virtual_area.on_drag_end += self._cbDragEnd
 
         self._observers.append(Notification.addObserver(Notificator.onStoreTabSectionClickedTab, self._cbTabClicked))
 
@@ -162,6 +166,23 @@ class TabSection(object):
             return True
         return False
 
+    def _cbDragStart(self):
+        GuardBlockInput.enableBlockSocket(True)
+
+    def _cbDragEnd(self):
+        if self.virtual_area.is_dragging() is False:
+            return
+
+        self._cancelDragEndTC()
+        with TaskManager.createTaskChain(Name="{}_DragEnd".format(self.__class__.__name__)) as tc:
+            tc.addDelay(0.0)
+            tc.addFunction(GuardBlockInput.enableBlockSocket, False)
+
+    def _cancelDragEndTC(self):
+        tc_name = "{}_DragEnd".format(self.__class__.__name__)
+        if TaskManager.existTaskChain(tc_name):
+            TaskManager.cancelTaskChain(tc_name)
+
     # remove tab -----
 
     def remove_tab(self, page_id):
@@ -224,6 +245,7 @@ class TabSection(object):
         if self.virtual_area is not None:
             self._parent_movie.returnToParent()
 
+            self._cancelDragEndTC()
             self.virtual_area.onFinalize()
             self.virtual_area = None
             self._va_bounds = None
