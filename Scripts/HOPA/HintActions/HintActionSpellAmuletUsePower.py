@@ -7,10 +7,18 @@ class HintActionSpellAmuletUsePower(HintActionDefault):
     def _onParams(self, params):
         super(HintActionSpellAmuletUsePower, self)._onParams(params)
 
-        demon_amulet = DemonManager.getDemon(SPELLS_UI_DEMON_NAME)
         object_name = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).movie2_spell_button_ready
 
-        self.Object = demon_amulet.getObject(object_name)
+        self.Object = DemonManager.getObject(SPELLS_UI_DEMON_NAME, object_name)
+        self.DemonSpellAmulet = DemonManager.getDemon("SpellAmulet")
+
+    def _onCheck(self):
+        amulet_button = self.DemonSpellAmulet.getSpellAmuletButton(self.Quest.params["PowerType"])
+
+        if amulet_button.getLocked() is True:
+            return False
+
+        return True
 
     def _getHintObject(self):
         return self.Object
