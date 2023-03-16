@@ -26,7 +26,7 @@ class QuestManager(object):
                     except AttributeError:
                         return str(arg)
 
-                msg = ", ".join("{}".format(key, _mapper(val)) for key, val in params.items())
+                msg = ", ".join("{}: {}".format(key, _mapper(val)) for key, val in params.items())
                 return msg
 
             def __repr__(self):
