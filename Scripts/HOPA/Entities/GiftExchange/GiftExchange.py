@@ -5,7 +5,7 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.Utils import getCurrentPublisher, SimpleLogger
 
 
-_Log = SimpleLogger("GiftExchange")
+_Log = SimpleLogger("GiftExchange", enable=False)
 
 
 class GiftExchange(BaseEntity):
