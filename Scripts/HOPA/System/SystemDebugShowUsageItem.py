@@ -28,7 +28,8 @@ class SystemDebugShowUsageItem(System):
         self._spell_amulet_quest_type = None
 
     def _onRun(self):
-        self._spell_amulet_quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
+        if SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE) is not None:
+            self._spell_amulet_quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
 
         self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
 
@@ -86,8 +87,9 @@ class SystemDebugShowUsageItem(System):
                 if elem.questType == "UseRune":
                     if elem.active:
                         self._generate_magic_glove_rune(elem)
-                if elem.questType == self._spell_amulet_quest_type:
-                    self._generate_spell_amulet_rune(elem)
+                if self._spell_amulet_quest_type is not None:
+                    if elem.questType == self._spell_amulet_quest_type:
+                        self._generate_spell_amulet_rune(elem)
             return
 
         for quest in quests:
