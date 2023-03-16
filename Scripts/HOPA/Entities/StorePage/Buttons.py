@@ -146,7 +146,7 @@ class ButtonMixin(object):
     # Scopes
 
     def scopeClick(self, source):
-        source.addTask("TaskMovie2ButtonClick", Movie2Button=self.movie)
+        source.addTask("TaskMovie2ButtonClick", isDown=False, Movie2Button=self.movie)
 
     def scopeAction(self, source):
         source.addBlock()
