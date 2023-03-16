@@ -9,8 +9,8 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 from HOPA.QuestManager import QuestManager
 from HOPA.ZoomManager import ZoomManager
-
-from SystemItemPlusScene import SystemItemPlusScene
+from HOPA.SpellsManager import SpellsManager, SPELL_AMULET_TYPE
+from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
 
 
 class SystemDebugShowUsageItem(System):
@@ -24,15 +24,15 @@ class SystemDebugShowUsageItem(System):
         self.Inventory = None
 
         self.Use = False
-        pass
+
+        self._spell_amulet_quest_type = None
 
     def _onRun(self):
-        super(SystemDebugShowUsageItem, self)._onRun()
+        self._spell_amulet_quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
 
         self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
 
         return True
-        pass
 
     def __onGlobalHandleKeyEvent(self, event):
         if not Mengine.hasOption('cheats'):
@@ -73,13 +73,10 @@ class SystemDebugShowUsageItem(System):
         if SystemItemPlusScene.Open_Zoom is not None:
             sceneName = SystemItemPlusScene.Open_Zoom[1]
             groupName = SystemItemPlusScene.Open_Zoom[0].getName()
-            pass
         elif zoomGroupName is not None:
             groupName = zoomGroupName
-            pass
         else:
             groupName = SceneManager.getSceneMainGroupName(sceneName)
-            pass
 
         quests = QuestManager.getActiveItemQuests(sceneName, groupName, SystemDebugShowUsageItem.QuestCheckTypes)
 
@@ -88,15 +85,32 @@ class SystemDebugShowUsageItem(System):
             for elem in quests:
                 if elem.questType == "UseRune":
                     if elem.active:
-                        self.__generate_rune(elem)
+                        self._generate_magic_glove_rune(elem)
+                if elem.questType == self._spell_amulet_quest_type:
+                    self._generate_spell_amulet_rune(elem)
             return
 
         for quest in quests:
             self.generateDebugOverview(quest)
-            pass
-        pass
 
-    def __generate_rune(self, quest):
+    def _generate_spell_amulet_rune(self, quest):
+        self.Use = True
+
+        DemonSpellAmulet = DemonManager.getDemon("SpellAmulet")
+        PowerType = quest.params["PowerType"]
+
+        with TaskManager.createTaskChain(Cb=self.__endShowUsageItem) as tc:
+            amulet_button = DemonSpellAmulet.getSpellAmuletButton(PowerType)
+
+            if amulet_button.getLocked() is True:
+                tc.addNotify(Notificator.onSpellAmuletAddPower, PowerType, False, False)
+                tc.addNotify(Notificator.onSpellUISpellUpdate, SPELL_AMULET_TYPE)
+
+            tc.addScope(DemonSpellAmulet.scopeOpenAmulet)
+
+    def _generate_magic_glove_rune(self, quest):
+        self.Use = True
+
         DemonMagicGlove = DemonManager.getDemon('MagicGlove')
         RuneID = quest.params['Rune_ID']
         if RuneID in DemonMagicGlove.getParam("Runes"):
