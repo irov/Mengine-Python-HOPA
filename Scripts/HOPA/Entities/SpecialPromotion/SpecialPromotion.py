@@ -130,29 +130,28 @@ class SpecialPromotion(BaseEntity):
             return text
 
         texts = {  # alias: [text_id, *args]
-            self.ALIAS_TITLE: [params.id_title],
-            self.ALIAS_DESCRIPTION: [params.id_descr],
-            self.ALIAS_NEW_PRICE: [params.id_new_price, with_currency(params.price)],
-            self.ALIAS_OLD_PRICE: [params.id_old_price, with_currency(params.old_price)]
-        }
-        self.__setTexts(texts)
-
-    def _setRewardsPlate(self, tag):
-        if self.object.hasPrototype("Movie2_Rewards") is False:
-            return
-
-        params = self.params[tag]
-
-        if params.use_reward_plate is False:
-            return
-
-        texts = {
+            self.ALIAS_TITLE:
+                [params.id_title],
+            self.ALIAS_DESCRIPTION:
+                [params.id_descr],
+            self.ALIAS_NEW_PRICE:
+                [params.id_new_price, with_currency(params.price)],
+            self.ALIAS_OLD_PRICE:
+                [params.id_old_price, with_currency(params.old_price)],
             self.ALIAS_REWARD_GOLD:
                 [params.id_reward_gold, MonetizationManager.getProductReward(params.id, "Gold")],
             self.ALIAS_REWARD_ENERGY:
                 [params.id_reward_energy, MonetizationManager.getProductReward(params.id, "Energy")]
         }
         self.__setTexts(texts)
+
+    def _setRewardsPlate(self, tag):
+        if self.object.hasPrototype("Movie2_Rewards") is False:
+            return False
+
+        params = self.params[tag]
+        if params.use_reward_plate is False:
+            return False
 
         movie = self.object.generateObjectUnique("Movie2_Rewards", "Movie2_Rewards")
 
@@ -162,6 +161,8 @@ class SpecialPromotion(BaseEntity):
 
         self.content["rewards"] = rewards
         self._attach("window", "rewards", "rewards")
+
+        return True
 
     def setup(self, tag):
         if tag not in self.params:
@@ -206,8 +207,12 @@ class SpecialPromotion(BaseEntity):
             self.__setText("", alias, *args)
 
     def __setText(self, env, alias, text_id, *args):
+        if text_id is None:
+            return
+
         Mengine.removeTextAliasArguments(env, alias)
         Mengine.setTextAlias(env, alias, text_id)
+
         text_args = [arg for arg in args if arg is not None]
         if len(text_args) > 0 and "%s" in Mengine.getTextFromID(text_id):
             Mengine.setTextAliasArguments(env, alias, *text_args)
