@@ -269,7 +269,7 @@ class HintManager(object):
 
             hintActions.append(hintAction)
 
-        if Mengine.hasOption("hintdebug") is True and _DEVELOPMENT is True:
+        if _DEVELOPMENT is True and "hint" in Mengine.getOptionValues("debug"):
             if len(hintActions) != 0:
                 _hintActions = [(hint_action.__class__.__name__, hint_action.Quest.questType) for hint_action in hintActions]
                 Trace.msg("[Hint debug] Found next hint actions: {}".format(_hintActions))

@@ -122,7 +122,7 @@ class MacroCommand(Initializer):
         pass
 
     def addQuest(self, source, questType, **Params):
-        if _DEVELOPMENT is True and Mengine.hasOption("hintdebug"):
+        if _DEVELOPMENT is True and "hint" in Mengine.getOptionValues("debug"):
             Params["FromMacroCommand"] = self.__class__.__name__
             Params["__INDEX"] = self.Index
         Quest = QuestManager.createScenarioQuest(questType, self.isTechnical, **Params)
