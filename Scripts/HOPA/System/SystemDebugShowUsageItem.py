@@ -37,15 +37,13 @@ class SystemDebugShowUsageItem(System):
 
     def __onGlobalHandleKeyEvent(self, event):
         if not Mengine.hasOption('cheats'):
-            return
+            return None
 
         if SceneManager.isCurrentGameScene() is False:
             return None
-            pass
 
         if ArrowManager.emptyArrowAttach() is False:
             return None
-            pass
 
         if SystemManager.hasSystem("SystemEditBox"):
             system_edit_box = SystemManager.getSystem("SystemEditBox")
@@ -59,13 +57,12 @@ class SystemDebugShowUsageItem(System):
                     return None
             elif event.code != key:
                 return None
+
             self.beginDebugShow()
 
             return None
-            pass
 
         return None
-        pass
 
     def beginDebugShow(self):
         sceneName = SceneManager.getCurrentSceneName()
@@ -104,11 +101,12 @@ class SystemDebugShowUsageItem(System):
         with TaskManager.createTaskChain(Cb=self.__endShowUsageItem) as tc:
             amulet_button = DemonSpellAmulet.getSpellAmuletButton(PowerType)
 
+            tc.addScope(DemonSpellAmulet.scopeOpenAmulet)
+
             if amulet_button.getLocked() is True:
                 tc.addNotify(Notificator.onSpellAmuletAddPower, PowerType, False, False)
-                tc.addNotify(Notificator.onSpellUISpellUpdate, SPELL_AMULET_TYPE)
 
-            tc.addScope(DemonSpellAmulet.scopeOpenAmulet)
+            tc.addNotify(Notificator.onSpellUISpellUpdate, SPELL_AMULET_TYPE, updateStatePlay=False)
 
     def _generate_magic_glove_rune(self, quest):
         self.Use = True
