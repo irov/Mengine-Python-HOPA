@@ -456,7 +456,7 @@ class SystemSpells(System):
             # visual
             with tc.addRaceTask(2) as (interrupt, source):
                 # if we have new update event on same spell_type, shut down previous tc
-                interrupt.addListener(notificator_caller, Filter=lambda _spell_type, *_: _spell_type == spell_type)
+                interrupt.addListener(notificator_caller, Filter=lambda _spell_type, *_, **__: _spell_type == spell_type)
 
                 # update anim if spell is unlocked
                 if spell_ui_component.getLocked() is False:
