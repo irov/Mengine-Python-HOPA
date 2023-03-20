@@ -15,6 +15,12 @@ class SystemRateUs(System):
     s_rate_accepted = False
     s_app_rated = False
 
+    showed_rate_us_scenes = []
+
+    def _onParams(self, params):
+        super(SystemRateUs, self)._onParams(params)
+        self.__scene_triggers = DefaultManager.getDefaultTuple("RateUsTriggerScenes", [], valueType=str)
+
     def _onRun(self):
         if Mengine.hasTouchpad() is False:
             return True
@@ -32,6 +38,8 @@ class SystemRateUs(System):
 
         self.addObserver(Notificator.onGameComplete, self._onChapterDone)
         self.addObserver(Notificator.onAppRated, self._onAppRated)
+        if len(self.__scene_triggers) > 0:
+            self.addObserver(Notificator.onSceneActivate, self._onSceneActivate)
 
         SystemAnalytics.addAnalytic("app_rated", Notificator.onAppRated)
         return True
@@ -50,17 +58,35 @@ class SystemRateUs(System):
             self.askRate()
             return False
 
-        if TaskManager.existTaskChain("RateUsPrepare"):
-            TaskManager.cancelTaskChain("RateUsPrepare")
-        with TaskManager.createTaskChain(Name="RateUsPrepare") as tc:
-            tc.addListener(Notificator.onSceneActivate, Filter=lambda scene_name: scene_name == "Menu")
-            tc.addFunction(self.askRate)
+        self._prepareToShow()
 
         return False
 
     def _onAppRated(self):
         SystemRateUs.s_app_rated = True
         return True
+
+    def _onSceneActivate(self, scene_name):
+        if self.isAppRated() is True:
+            return True
+
+        if scene_name not in self.__scene_triggers:
+            return False
+
+        if scene_name in SystemRateUs.showed_rate_us_scenes is True:
+            return False
+
+        SystemRateUs.showed_rate_us_scenes.append(scene_name)
+        self.askRate()
+
+        return False
+
+    def _prepareToShow(self):
+        if TaskManager.existTaskChain("RateUsPrepare"):
+            TaskManager.cancelTaskChain("RateUsPrepare")
+        with TaskManager.createTaskChain(Name="RateUsPrepare") as tc:
+            tc.addListener(Notificator.onSceneActivate, Filter=lambda scene_name: scene_name == "Menu")
+            tc.addFunction(self.askRate)
 
     @staticmethod
     def askRate():
@@ -76,7 +102,8 @@ class SystemRateUs(System):
         if TaskManager.existTaskChain("RateUs") is True:
             return
         if GroupManager.hasGroup("RateUs") is False:
-            Trace.log("System", 0, "SystemRateUs can't show `RateUs` - group 'RateUs' not found")
+            if _DEVELOPMENT:
+                Trace.log("System", 0, "SystemRateUs can't show `RateUs` - group 'RateUs' not found")
             SystemRateUs.showRate()
             return
 
@@ -173,9 +200,14 @@ class SystemRateUs(System):
     # --- Save\Load
 
     def _onSave(self):
-        save_dict = {"rate_accepted": SystemRateUs.s_rate_accepted, "app_rated": SystemRateUs.s_app_rated}
+        save_dict = {
+            "rate_accepted": SystemRateUs.s_rate_accepted,
+            "app_rated": SystemRateUs.s_app_rated,
+            "showed_rate_us_scenes": SystemRateUs.showed_rate_us_scenes,
+        }
         return save_dict
 
     def _onLoad(self, save_dict):
         SystemRateUs.s_rate_accepted = save_dict.get("rate_accepted", False)
-        SystemRateUs.s_rate_accepted = save_dict.get("app_rated", False)
+        SystemRateUs.s_app_rated = save_dict.get("app_rated", False)
+        SystemRateUs.showed_rate_us_scenes = save_dict.get("showed_rate_us_scenes", [])
