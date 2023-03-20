@@ -3,12 +3,9 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
-from Foundation.Systems.SystemAnalytics import SystemAnalytics
-from Foundation.Systems.SystemAppleServices import SystemAppleServices
-from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
+from Foundation.Providers.RatingAppProvider import RatingAppProvider
 from Foundation.TaskManager import TaskManager
-from Foundation.Utils import getCurrentPlatform, getCurrentBusinessModel
-from Notification import Notification
+from Foundation.Utils import getCurrentBusinessModel
 
 
 class SystemRateUs(System):
@@ -149,6 +146,8 @@ class SystemRateUs(System):
 
             if _DEVELOPMENT is True:
                 Trace.log("System", 0, "SystemRateUs not found text id {!r}. Check it all: {}".format(text_id, texts))
+
+            SystemRateUs.showRate()
             return
 
         with TaskManager.createTaskChain(Name="RateUs") as tc:
@@ -170,16 +169,7 @@ class SystemRateUs(System):
     @staticmethod
     def showRate():
         """ shows RateUs OS interface """
-        if getCurrentPlatform() == "IOS":
-            SystemAppleServices.rateApp()
-        elif getCurrentPlatform() == "Android":
-            SystemGoogleServices.rateApp()
-        else:
-            if _DEVELOPMENT:
-                Trace.msg_err("Sent onAppRated for developer, but module for RateApp not found")
-                Notification.notify(Notificator.onAppRated)
-            else:
-                Trace.msg_err("Not found module to show Rate interface :'(")
+        RatingAppProvider.rateApp()
 
     # --- utils
 
