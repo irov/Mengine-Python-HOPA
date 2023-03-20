@@ -3,6 +3,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
+from Foundation.Systems.SystemAnalytics import SystemAnalytics
 from Foundation.Providers.RatingAppProvider import RatingAppProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentBusinessModel
