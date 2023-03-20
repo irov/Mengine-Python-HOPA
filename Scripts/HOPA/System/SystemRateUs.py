@@ -71,7 +71,7 @@ class SystemRateUs(System):
         if scene_name not in self.__scene_triggers:
             return False
 
-        if scene_name in SystemRateUs.showed_rate_us_scenes is True:
+        if scene_name in SystemRateUs.showed_rate_us_scenes:
             return False
 
         SystemRateUs.showed_rate_us_scenes.append(scene_name)
