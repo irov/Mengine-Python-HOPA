@@ -11,6 +11,7 @@ class RestorePurchases(BaseEntity):
     def __init__(self):
         super(RestorePurchases, self).__init__()
         self.button = None
+        self._active = False
 
     @staticmethod
     def callRestorePurchases():
@@ -28,6 +29,13 @@ class RestorePurchases(BaseEntity):
 
         self.button = self.object.getObject(BUTTON_NAME)
 
+        is_active = self._prepareEnable()
+        self.button.setEnable(is_active)
+
+    def _onActivate(self):
+        if self.button is None or self._active is False:
+            return
+
         with TaskManager.createTaskChain(Name="RestorePurchasesButton", Repeat=True) as tc:
             tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.button)
             tc.addFunction(self.callRestorePurchases)
@@ -37,3 +45,10 @@ class RestorePurchases(BaseEntity):
             TaskManager.cancelTaskChain("RestorePurchasesButton")
 
         self.button = None
+
+    def _prepareEnable(self):
+        is_mobile = Mengine.hasTouchpad() is True
+        is_enable = Mengine.getConfigBool("Monetization", "RestorePurchases", True) is True
+        self._active = is_mobile and is_enable
+
+        return self._active
