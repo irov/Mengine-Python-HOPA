@@ -17,7 +17,7 @@ class RestorePurchases(BaseEntity):
 
     def _onPreparation(self):
         with TaskManager.createTaskChain(Name="RestorePurchasesButton", Repeat=True) as tc:
-            tc.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Restore")
+            tc.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_RestorePurchases")
             tc.addFunction(self.callRestorePurchases)
 
     def _onDeactivate(self):
