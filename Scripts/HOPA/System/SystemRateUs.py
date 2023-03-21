@@ -88,6 +88,9 @@ class SystemRateUs(System):
 
     @staticmethod
     def askRate():
+        if TaskManager.existTaskChain("RateUs") is True:
+            return
+
         if DefaultManager.getDefaultBool("DefaultRateUsUseOwnGroup", False) is True:
             SystemRateUs._askRateWithRateUs()
         else:
@@ -97,8 +100,6 @@ class SystemRateUs(System):
     def _askRateWithRateUs():
         """ show group RateUs """
 
-        if TaskManager.existTaskChain("RateUs") is True:
-            return
         if GroupManager.hasGroup("RateUs") is False:
             if _DEVELOPMENT:
                 Trace.log("System", 0, "SystemRateUs can't show `RateUs` - group 'RateUs' not found")
@@ -124,8 +125,6 @@ class SystemRateUs(System):
     def _askRateWithDialogWindow():
         """ show `DialogWindow` - ask RateUs, then calls `showRate` """
 
-        if TaskManager.existTaskChain("RateUs") is True:
-            return
         if DemonManager.hasDemon("DialogWindow") is False:
             if _DEVELOPMENT:
                 Trace.log("System", 0, "Can't show `RateUs` window, coz demon `DialogWindow` not found")
