@@ -20,6 +20,7 @@ class MacroSpellAmuletWaitState(MacroCommand):
         self.target = values[0]
         self.state = values[1]
         self.power_type = values[2] if len(values) > 2 else None
+        self.isTechnical = True
 
     def _onInitialize(self, *args, **kwargs):
         if _DEVELOPMENT is True:
@@ -69,11 +70,15 @@ class MacroSpellAmuletWaitState(MacroCommand):
         return True
 
     def _onGenerate(self, source):
-        if self.target == "amulet":
-            source.addListener(Notificator.onSpellAmuletStateChange, Filter=self.__filterAmuletStateUpdate)
-        elif self.target == "stone":
-            source.addListener(Notificator.onSpellAmuletPowerButtonStateChange, Filter=self.__filterSpellUIStateUpdate)
-        else:
-            source.addDummy()
+        quest = self.addQuest(source, "SpellAmuletWaitState", SceneName=self.SceneName, GroupName=self.GroupName,
+                              Target=self.target, PowerType=self.power_type, State=self.state)
+
+        with quest as tc_quest:
+            if self.target == "amulet":
+                tc_quest.addListener(Notificator.onSpellAmuletStateChange,
+                                     Filter=self.__filterAmuletStateUpdate)
+            elif self.target == "stone":
+                tc_quest.addListener(Notificator.onSpellAmuletPowerButtonStateChange,
+                                     Filter=self.__filterSpellUIStateUpdate)
 
         # source.addPrint("------ COMPLETE {} : {} {}".format(self.target, self.state, self.power_type))
