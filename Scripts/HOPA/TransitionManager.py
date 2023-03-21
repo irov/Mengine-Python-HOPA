@@ -152,16 +152,26 @@ class TransitionManager(object):
         pass
 
     @staticmethod
+    def _setupTransitionBackObject():
+        if Mengine.hasTouchpad():
+            demon_name = "Navigation"
+            object_name = "Movie2Button_NavGoBack"
+        else:
+            demon_name = "TransitionBack"
+            object_name = "Transition_Back"
+
+        if DemonManager.hasDemon(demon_name) is False:
+            Trace.log("Manager", 0, "TransitionManager.loadTransitionBack: invalid demon {}".format(demon_name))
+            return
+
+        Demon_TransitionBack = DemonManager.getDemon(demon_name)
+        TransitionManager.s_transitionBackObject = Demon_TransitionBack.getObject(object_name)
+
+    @staticmethod
     def loadTransitionBack(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
 
-        if DemonManager.hasDemon("TransitionBack") is False:
-            Trace.log("Manager", 0, "TransitionManager.loadTransitionBack: invalid demon TransitionBack")
-            return
-            pass
-
-        Demon_TransitionBack = DemonManager.getDemon("TransitionBack")
-        TransitionManager.s_transitionBackObject = Demon_TransitionBack.getObject("Transition_Back")
+        TransitionManager._setupTransitionBackObject()
 
         for record in records:
             SceneFrom = record.get("SceneFrom")

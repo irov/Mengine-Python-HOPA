@@ -877,7 +877,7 @@ class Hint(BaseEntity):
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     tc_quest.addTask("TaskSceneLeave", SceneName=currentSceneName)
 
-        if TransitionObject.getName() == "Transition_Back":
+        if TransitionObject.getName() in ["Transition_Back", "Movie2Button_NavGoBack"]:
             if Mengine.hasTouchpad() is True:
                 HintAction = HintManager.createHintAction("HintActionTransitionBackMobile", Quest, **Params)
             else:

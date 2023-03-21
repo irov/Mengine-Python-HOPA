@@ -251,6 +251,9 @@ class SystemNavigation(System):
         return False
 
     def __createButtonClickTaskChain(self):
+        button_back = self.getNavGoBackButton()
+        button_back.setInteractive(True)
+
         with self.createTaskChain(Name="Navigation_ButtonClick", Global=False, Repeat=True) as tc:
             with tc.addRaceTask(2) as (race_0, race_1):
                 if self.__use_movie2buttons__:
@@ -258,14 +261,14 @@ class SystemNavigation(System):
                     race_0.addTask("TaskMovie2ButtonClick", Movie2Button=self.getNavTransitionButton())
                     race_0.addNotify(Notificator.onNavigationButtonPressed)
 
-                    race_1.addTask("TaskMovie2ButtonClick", Movie2Button=self.getNavGoBackButton())
+                    race_1.addTask("TaskMovie2ButtonClick", Movie2Button=button_back)
                     race_1.addNotify(Notificator.onButtonBackPressed)
                 else:
                     # HANDLE DEPRECATED BUTTONS
                     race_0.addTask("TaskButtonClick", Button=self.getNavTransitionButton())
                     race_0.addNotify(Notificator.onNavigationButtonPressed)
 
-                    race_1.addTask("TaskButtonClick", Button=self.getNavGoBackButton())
+                    race_1.addTask("TaskButtonClick", Button=button_back)
                     race_1.addNotify(Notificator.onButtonBackPressed)
 
     def __handleBlockStateGoBackButton(self, sceneName):
