@@ -154,6 +154,7 @@ class SystemEnergy(System):
     def _onStop(self):
         if self._balance_change_observer is not None:
             EVENT_CHANGED_BALANCE.removeObserver(self._balance_change_observer)
+        self.removeTimer()
 
     # === Enigma handling ==============================================================================================
 
