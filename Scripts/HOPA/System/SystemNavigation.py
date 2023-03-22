@@ -17,6 +17,7 @@ class SystemNavigation(System):
 
     s_highlight = {}
     s_show_warnings = True
+    s_transitionBackObject = None
 
     def _onParams(self, params):
         super(SystemNavigation, self)._onParams(params)
@@ -30,6 +31,7 @@ class SystemNavigation(System):
 
     def _onStop(self):
         self.__destroyTransHighlightMovies()
+        self.__destroyTransitionBack()
         super(SystemNavigation, self)._onStop()
 
     def _onRun(self):
@@ -43,6 +45,7 @@ class SystemNavigation(System):
             self.addObserver(Notificator.onSceneEnter, self.__sceneEnterObserver)
             self.addObserver(Notificator.onSceneLeave, self.__sceneLeaveObserver)
 
+            self.__prepareTransitionBack()
             self.__createButtonClickTaskChain()
 
         else:
@@ -97,6 +100,10 @@ class SystemNavigation(System):
 
         if navDemon.hasObject("Button_Back"):
             return navDemon.getObject("Button_Back")
+
+    @staticmethod
+    def getTransitionBackObject():
+        return SystemNavigation.s_transitionBackObject
 
     def __disableNavigationButtons(self):
         navDemon = GroupManager.getObject("Navigation", "Demon_Navigation")
@@ -250,10 +257,21 @@ class SystemNavigation(System):
 
         return False
 
-    def __createButtonClickTaskChain(self):
+    def __prepareTransitionBack(self):
         button_back = self.getNavGoBackButton()
         button_back.setInteractive(True)
 
+        if SystemNavigation.getTransitionBackObject() is not None:
+            return
+
+        demon = GroupManager.getObject("Navigation", "Demon_Navigation")
+        transition_back = demon.createObject("Transition", Name="Transition_Back", Polygon=[], Interactive=True)
+        transition_back.onInitialize()
+
+        SystemNavigation.s_transitionBackObject = transition_back
+        TransitionManager.s_transitionBackObject = transition_back
+
+    def __createButtonClickTaskChain(self):
         with self.createTaskChain(Name="Navigation_ButtonClick", Global=False, Repeat=True) as tc:
             with tc.addRaceTask(2) as (race_0, race_1):
                 if self.__use_movie2buttons__:
@@ -261,14 +279,14 @@ class SystemNavigation(System):
                     race_0.addTask("TaskMovie2ButtonClick", Movie2Button=self.getNavTransitionButton())
                     race_0.addNotify(Notificator.onNavigationButtonPressed)
 
-                    race_1.addTask("TaskMovie2ButtonClick", Movie2Button=button_back)
+                    race_1.addTask("TaskMovie2ButtonClick", Movie2Button=self.getNavGoBackButton())
                     race_1.addNotify(Notificator.onButtonBackPressed)
                 else:
                     # HANDLE DEPRECATED BUTTONS
                     race_0.addTask("TaskButtonClick", Button=self.getNavTransitionButton())
                     race_0.addNotify(Notificator.onNavigationButtonPressed)
 
-                    race_1.addTask("TaskButtonClick", Button=button_back)
+                    race_1.addTask("TaskButtonClick", Button=self.getNavGoBackButton())
                     race_1.addNotify(Notificator.onButtonBackPressed)
 
     def __handleBlockStateGoBackButton(self, sceneName):
@@ -300,6 +318,13 @@ class SystemNavigation(System):
             movie.removeFromParent()
             movie.onDestroy()
         self.__activeTransitionHighlightCache = []
+
+    def __destroyTransitionBack(self):
+        transition_back = SystemNavigation.getTransitionBackObject()
+        if transition_back is not None:
+            transition_back.removeFromParent()
+            transition_back.onDestroy()
+            SystemNavigation.s_transitionBackObject = None
 
     def __sceneLeaveObserver(self, sceneName):
         currentScene = SceneManager.getCurrentSceneName()
