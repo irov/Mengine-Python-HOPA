@@ -1473,8 +1473,7 @@ def onInitialize():
 
             Mengine.setFixedDisplayResolution(Widescreen)
 
-        Widescreen = Mengine.getFixedDisplayResolution()
-
+        Widescreen = Mengine.getGameParamBool("Widescreen", Mengine.getFixedDisplayResolution())
         Mengine.addCurrentAccountSetting("Widescreen", unicode(Widescreen), __changeWidescreen)
 
         # - sound ---------------------------------------------------------
