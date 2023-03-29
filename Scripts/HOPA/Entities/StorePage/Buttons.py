@@ -2,6 +2,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.SystemManager import SystemManager
+from Foundation.Providers.PaymentProvider import PaymentProvider
 from HOPA.StoreManager import StoreManager
 
 
@@ -213,7 +214,7 @@ class ButtonPurchase(ButtonMixin):
 
     def scopeAction(self, source):
         product_id = self.params.product_id
-        source.addTask("AliasPurchase", ProductID=product_id)
+        source.addFunction(PaymentProvider.pay, product_id)
 
 
 class ButtonAdvert(ButtonMixin):
