@@ -302,8 +302,6 @@ def onInitialize():
         , "AliasScenarioInit"
         , "AliasScenarioEnter"
 
-        , "AliasCurrentProductsCall"
-        , "AliasPurchase"
         , "AliasNotEnoughGold"
         , "AliasNotEnoughEnergy"
 
