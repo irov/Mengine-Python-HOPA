@@ -1,6 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
-from Foundation.Utils import getCurrentPlatform, getCurrentPublisher
+from Foundation.Utils import getCurrentPlatform, getCurrentPublisher, getCurrentBusinessModel
 
 
 class AchievementParam(object):
@@ -110,6 +110,7 @@ class AchievementManager(Manager):
             Append __EXTERNAL_TABLES, that will be used in loadExternalParams
         """
 
+        current_business_model = getCurrentBusinessModel()
         current_platform = getCurrentPlatform()
         current_publisher = getCurrentPublisher()
         if current_publisher is None:
@@ -124,10 +125,15 @@ class AchievementManager(Manager):
             if Platform != current_platform:
                 continue
 
+            BusinessModel = record.get("BusinessModel", "*")
+            if BusinessModel != "*" and BusinessModel != current_business_model:
+                continue
+
             table_name = record.get("ParamTableName", "").format(
                 tag="AchievementsExternal", publisher=Publisher, platform=Platform)
             if table_name == "":
-                Trace.log("Manager", 0, "AchievementManager [{}] [{}] table name can't be empty".format(Publisher, Platform))
+                Trace.log("Manager", 0, "AchievementManager [{}] [{}] [{}] table name can't be empty"
+                          .format(Publisher, Platform, BusinessModel))
                 continue
 
             service = record.get("Service", "")
