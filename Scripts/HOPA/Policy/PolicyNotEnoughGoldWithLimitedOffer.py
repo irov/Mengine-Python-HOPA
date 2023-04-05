@@ -27,7 +27,9 @@ class PolicyNotEnoughGoldWithLimitedOffer(TaskAlias):
         source.addFunction(SpecialPromotion.run, LimitedPromoProductID)
 
         with source.addRaceTask(2) as (done, skip):
-            done.addListener(Notificator.onPaySuccess)
+            with done.addParallelTask(2) as (done_1, done_2):
+                done_1.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == LimitedPromoProductID)
+                done_2.addListener(Notificator.onGameStoreSentRewards)
             done.addFunction(SystemMonetization.payGold, descr=self.Descr)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
