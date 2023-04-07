@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
-from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Task.TaskAlias import TaskAlias
 
 
@@ -19,11 +18,14 @@ class PolicyNotEnoughGoldStoreWithPack(TaskAlias):
 
         source.addFunction(SpecialPromotion.run, PromoPackageProduct.id)
 
-        with source.addRaceTask(2) as (done, skip):
+        with source.addRaceTask(3) as (done, skip, stop):
             done.addListener(Notificator.onPaySuccess)
             done.addFunction(PolicyManager.setPolicy, "NotEnoughGoldAction", None)
             done.addFunction(PolicyManager.setPolicy, "NotEnoughEnergyAction", None)
-            done.addFunction(SystemMonetization.payGold, descr=self.Descr)
+            done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
             skip.addTask(PolicyDefaultAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
+
+            stop.addListener(Notificator.onSceneDeactivate)
+            # prevent pay with no results
