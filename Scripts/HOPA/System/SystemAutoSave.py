@@ -32,7 +32,8 @@ class SystemAutoSave(System):
         return True
 
     def _setMobilePauseAutoSave(self):
-        pause_notifications = [Notificator.oniOSApplicationWillResignActive,  # ios
+        pause_notifications = [
+            Notificator.oniOSApplicationWillResignActive,  # ios
             Notificator.onAndroidActivityPaused  # android
         ]
 
