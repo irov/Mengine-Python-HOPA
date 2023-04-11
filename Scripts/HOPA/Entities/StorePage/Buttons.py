@@ -213,7 +213,7 @@ class ButtonPurchase(ButtonMixin):
     # Scopes
 
     def scopeAction(self, source):
-        product_id = self.params.product_id
+        product_id = MonetizationManager.getProductRealId(self.params.product_id)
         source.addFunction(PaymentProvider.pay, product_id)
 
 
