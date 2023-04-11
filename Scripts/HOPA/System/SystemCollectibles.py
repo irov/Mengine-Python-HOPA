@@ -8,6 +8,7 @@ from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import isCollectorEdition
+from Foundation.Systems.SystemAnalytics import SystemAnalytics
 from HOPA.CollectiblesManager import CollectiblesManager
 from HOPA.HintManager import HintManager
 from HOPA.QuestManager import QuestManager
@@ -104,6 +105,7 @@ class SystemCollectibles(System):
         self.__setObservers()
 
         self.__addDevToDebug()
+        self.__addAnalytics()
         return True
 
     def disableCollectibles(self):
@@ -119,6 +121,10 @@ class SystemCollectibles(System):
 
                 movie = group.getObject(movie_name)
                 movie.setEnable(False)
+
+    def __addAnalytics(self):
+        SystemAnalytics.addAnalytic("collectibles_done", Notificator.onCollectiblesComplete)
+        SystemAnalytics.addAnalytic("collect_collectible", Notificator.onCollectiblesPart, params_method=lambda *_, **__: {})
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:
@@ -312,7 +318,7 @@ class SystemCollectibles(System):
             with tc.addRaceTask(2) as (race_1, race_2):
                 race_1.addListener(Notificator.onSceneDeactivate)  # when player activate transition
                 race_2.addListener(Notificator.onCollectiblesPart,  # force transition when all collectibles founded:
-                                   Filter=lambda scene_name_: SystemCollectibles.__checkCompleteCollectibles(scene_name_))
+                                   Filter=lambda scene_name_, *_: SystemCollectibles.__checkCompleteCollectibles(scene_name_))
                 race_2.addFunction(TransitionManager.changeScene, COLLECTIBLES_SCENE_NAME)
                 race_2.addListener(Notificator.onSceneDeactivate)
 
