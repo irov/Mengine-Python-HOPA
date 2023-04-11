@@ -160,7 +160,7 @@ class SystemAnalytics(SystemAnalyticsBase):
 
         if SceneManager.hasScene("Store"):
             default_analytics["open_store"] = [Notificator.onSceneEnter,
-                lambda scene_name: scene_name == "Store", lambda *_, **__: {}],
+                lambda scene_name: scene_name == "Store", lambda *_, **__: {}]
             default_analytics["store_first_visit"] = [Notificator.onSceneEnter,
                 lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes,
                 lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}]
