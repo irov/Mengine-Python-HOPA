@@ -13,7 +13,8 @@ class SystemAnalytics(SystemAnalyticsBase):
         self.unlocked_zooms = []
         self.unlocked_enigmas = []
         self.used_paragraphs = []
-        self.start_game_timestamp = None
+        self.last_fixed_timestamp = None
+        self._total_played_minutes = 0.0
 
     def _onInitialize(self):
         super(SystemAnalytics, self)._onInitialize()
@@ -28,6 +29,9 @@ class SystemAnalytics(SystemAnalyticsBase):
 
         self.addExtraAnalyticParams(_getExtraParams)
         self._addIgnoreLogList()
+
+        if self.last_fixed_timestamp is None:
+            self.last_fixed_timestamp = Mengine.getTime()
 
     def _onRun(self):
         def _cb(arg, attr, getter):
@@ -45,15 +49,12 @@ class SystemAnalytics(SystemAnalyticsBase):
         return True
 
     def _onSave(self):
-        if self.start_game_timestamp is None:
-            self.start_game_timestamp = Mengine.getTime()
-
         save = {
             "unlocked_enigmas": self.unlocked_enigmas,
             "unlocked_scenes": self.unlocked_scenes,
             "unlocked_zooms": self.unlocked_zooms,
             "used_paragraphs": self.used_paragraphs,
-            "start_game_timestamp": self.start_game_timestamp,
+            "total_played_minutes": self.__getPlayedMinutes(),
         }
         return save
 
@@ -62,20 +63,26 @@ class SystemAnalytics(SystemAnalyticsBase):
         self.unlocked_scenes = save.get("unlocked_scenes", [])
         self.unlocked_zooms = save.get("unlocked_zooms", [])
         self.used_paragraphs = save.get("used_paragraphs", [])
-        self.start_game_timestamp = save.get("start_game_timestamp", Mengine.getTime())
+        self._total_played_minutes = save.get("total_played_minutes", 0.0)
 
     def __getCurrentEnigmaName(self):
         scene_name = SystemItemPlusScene.getOpenItemPlusName() or SceneManager.getCurrentSceneName()
         enigma_name = EnigmaManager.getSceneActiveEnigmaName(scene_name)
         return str(enigma_name)
 
-    def __getPlayedMinutes(self):
-        if self.start_game_timestamp is None:
-            self.start_game_timestamp = Mengine.getTime()
+    def __updateTotalPlayedMinutes(self):
+        if self.last_fixed_timestamp is None:
+            self.last_fixed_timestamp = Mengine.getTime()
 
-        played_seconds = Mengine.getTime() - self.start_game_timestamp
-        played_minutes = round(played_seconds / 60.0, 2)
-        return played_minutes
+        played_seconds = Mengine.getTime() - self.last_fixed_timestamp
+        played_minutes = played_seconds / 60.0
+        self._total_played_minutes += played_minutes
+
+        self.last_fixed_timestamp = Mengine.getTime()
+
+    def __getPlayedMinutes(self):
+        self.__updateTotalPlayedMinutes()
+        return round(self._total_played_minutes, 2)
 
     def addDefaultAnalytics(self):
         super(SystemAnalytics, self).addDefaultAnalytics()
@@ -119,10 +126,6 @@ class SystemAnalytics(SystemAnalyticsBase):
                     lambda paragraph_id: paragraph_id not in self.used_paragraphs,
                     lambda paragraph_id: {"name": paragraph_id}],
             # other -------------
-            "store_first_visit":
-                [Notificator.onSceneEnter,
-                    lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes,
-                    lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
             "scene_first_visit":
                 [Notificator.onSceneEnter,
                     lambda scene_name: scene_name is not None and scene_name not in self.unlocked_scenes,
@@ -131,9 +134,6 @@ class SystemAnalytics(SystemAnalyticsBase):
                 [Notificator.onZoomOpen,
                     lambda group_name: group_name is not None and group_name not in self.unlocked_zooms,
                     lambda group_name: {"name": group_name, "played_minutes": self.__getPlayedMinutes()}],
-            "open_store":
-                [Notificator.onSceneEnter,
-                    lambda scene_name: scene_name == "Store", lambda *_, **__: {}],
             "complete_game":
                 [Notificator.onGameComplete, None,
                     lambda *_, **__: {"played_minutes": self.__getPlayedMinutes()}],
@@ -142,7 +142,8 @@ class SystemAnalytics(SystemAnalyticsBase):
                     lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
             "seen_cutscene":
                 [Notificator.onCutScenePlay, None,
-                    lambda cut_scene_name, _: {"name": cut_scene_name}], }
+                    lambda cut_scene_name, _: {"name": cut_scene_name}],
+        }
 
         if DemonManager.hasDemon("Hint"):
             hint = DemonManager.getDemon("Hint")
@@ -156,6 +157,13 @@ class SystemAnalytics(SystemAnalyticsBase):
                 Notificator.onHintClick, None, lambda _, valid, action_id: {
                     "valid": valid, "action": hint_human_actions.get(action_id, action_id)
                 }]
+
+        if SceneManager.hasScene("Store"):
+            default_analytics["open_store"] = [Notificator.onSceneEnter,
+                lambda scene_name: scene_name == "Store", lambda *_, **__: {}],
+            default_analytics["store_first_visit"] = [Notificator.onSceneEnter,
+                lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes,
+                lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}]
 
         for event_key, (identity, check_method, params_method) in default_analytics.items():
             self.addAnalytic(event_key, identity, check_method=check_method, params_method=params_method)
