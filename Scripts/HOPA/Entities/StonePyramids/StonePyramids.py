@@ -368,6 +368,11 @@ class StonePyramids(Enigma):
         movie_fall_node = movie_fall.getEntityNode()
 
         pyramid = pyramid_holder.get()
+
+        if pyramid is None:
+            Trace.log("Entity", 0, "Can't place stone - pyramid not selected (pyramid_holder is empty)")
+            return
+
         slot = pyramid.getLastSlot()
 
         source.addTask("TaskMovie2Play", Movie2=movie_finish, Wait=True)
