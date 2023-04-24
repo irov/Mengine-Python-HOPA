@@ -1,6 +1,6 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Notificator import Notificator
-from Foundation.PolicyManager import PolicyManager
+from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
@@ -58,14 +58,12 @@ class ExternalAchievement(Achievement):
         self.task = params.task
 
     def increase(self, steps):
-        policy_progress = PolicyManager.getPolicy("ExternalAchieveProgress", "PolicyDummy")
-        TaskManager.runAlias(policy_progress, None, AchieveId=self.id, IncreaseSteps=steps)
+        AchievementsProvider.incrementAchievement(self.id, steps)
         return False
 
     def setComplete(self, value):
-        policy_progress = PolicyManager.getPolicy("ExternalAchieveProgress", "PolicyDummy")
-        if value is True and policy_progress != "PolicyDummy":
-            TaskManager.runAlias(policy_progress, None, AchieveId=self.id, Complete=True)
+        if value is True:
+            AchievementsProvider.unlockAchievement(self.id)
         super(ExternalAchievement, self).setComplete(value)
 
     def onStatUpdate(self, new_stat_value):
@@ -285,11 +283,10 @@ class SystemAchievements(System):
         achievements_params = AchievementManager.getAchievementsParams()
         self.__createAchievements(achievements_params, Achievement, SystemAchievements.s_achievements)
 
-        if PolicyManager.hasPolicy("ExternalAchieveProgress") is False:
+        if AchievementsProvider.hasProvider() is False:
             return
 
-        external_policy = PolicyManager.getPolicy("ExternalAchieveProgress")
-        service = external_policy[29:]  # PolicyExternalAchieveProgress<ServiceName> - we need this ServiceName
+        service = AchievementsProvider.getName()
 
         SystemAchievements.s_external_achievements = {}
         external_achievements_params = AchievementManager.getExternalAchievementsParamsByService(service)
