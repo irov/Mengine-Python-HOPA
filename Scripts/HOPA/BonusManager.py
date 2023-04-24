@@ -43,6 +43,9 @@ class BonusManager(Manager):
                 BonusManager.s_states_default_status[state_id] = status
 
             if transition_button is not None:
+                if scene_to == "Guide" and Mengine.getGameParamBool("Guides", True) is False:
+                    continue
+
                 BonusManager.s_transitions[scene_to] = BonusManager.Transition(transition_button, scene_to)
 
         return True

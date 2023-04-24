@@ -1,4 +1,5 @@
 from Foundation.DefaultManager import DefaultManager
+from Foundation.GroupManager import GroupManager
 from Foundation.DemonManager import DemonManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
@@ -31,13 +32,13 @@ class SystemBonus(System):
         self.addObserver(Notificator.onBonusCutScenePlay, self.__cbCutScenePlay)
         self.addObserver(Notificator.onBonusVideoOpenCutScene, self.__cbBonusVideoOpenCutScene)
 
-        self.__runTaskChains()
+        self._runTaskChains()
 
         return True
 
-    def __runTaskChains(self):
+    def _runTaskChains(self):
         if isCollectorEdition() is False:
-            return
+            return False
 
         with self.createTaskChain(Name="BonusScene", GroupName="Bonus", Global=True, Repeat=True) as tc:
             with tc.addRaceTask(2) as (source_switch_state, source_transition):
@@ -75,14 +76,24 @@ class SystemBonus(System):
         if scene_to is None or scene_to != 'Bonus':
             return False
 
+        self._onBeginBonusTransition()
+
+        return False
+
+    def _onBeginBonusTransition(self):
+        self._toggleDemonStates()
+
+        if Mengine.getGameParamBool("Guides", True) is False:
+            guide_button = GroupManager.getObject("Bonus", "Movie2Button_Guide")
+            guide_button.setEnable(False)
+
+    def _toggleDemonStates(self):
         states = BonusManager.getStates()
         for state in states.values():
             if state.status is True:
                 self.current_state = state.state_id
             demon = DemonManager.getDemon(state.demon_name)
             demon.setEnable(state.status)
-
-        return False
 
     def __cbChangeState(self, state_name):
         current_state = self.demons_change_buttons.get(self.current_state)

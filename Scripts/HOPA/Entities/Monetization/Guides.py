@@ -21,6 +21,8 @@ class Guides(BaseComponent):
         self.default_movie_name = "Movie2Button_Guide"
 
     def _check(self):
+        if Mengine.getGameParamBool("Guides", True) is False:
+            return False
         if self.group is None:
             self._error("Not found group {!r}".format(self.group_name))
             return False

@@ -1,4 +1,5 @@
 from Foundation.PolicyManager import PolicyManager
+from Foundation.GroupManager import GroupManager
 from Foundation.System import System
 from Foundation.Utils import isCollectorEdition
 
@@ -11,6 +12,10 @@ class SystemGuide(System):
 
     def _onRun(self):
         if isCollectorEdition() is False:
+            return True
+        if Mengine.getGameParamBool("Guides", True) is False:
+            button = GroupManager.getObject("GuideOpen", "Movie2Button_Guide")
+            button.setEnable(False)
             return True
 
         SystemGuide.NAVIGATION_FOCUS_PARAM_CACHE = True
