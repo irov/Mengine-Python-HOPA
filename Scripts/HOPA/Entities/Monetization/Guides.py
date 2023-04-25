@@ -21,8 +21,6 @@ class Guides(BaseComponent):
         self.default_movie_name = "Movie2Button_Guide"
 
     def _check(self):
-        if Mengine.getGameParamBool("Guides", True) is False:
-            return False
         if self.group is None:
             self._error("Not found group {!r}".format(self.group_name))
             return False
@@ -31,19 +29,22 @@ class Guides(BaseComponent):
             if MonetizationManager.getGeneralSetting(self._settings["movie"], None) is not None:
                 # if we add setting for another movie - raise error, but run component anyway
                 self._error("Not found movie {!r} in group {!r}".format(self.movie_name, self.group_name))
+        if Mengine.getGameParamBool("Guides", True) is False:
+            self._toggleButton(False)   # disable all buttons
+            return False
         if MonetizationManager.getGeneralSetting("GameStoreName", "GameStore") == "GameStore":
             if DemonManager.hasDemon("SpecialPromotion") is False:
                 self._error("Demon 'SpecialPromotion' not found")
                 return False
         return True
 
-    def _toggleButton(self):
+    def _toggleButton(self, state=True):
         buttons = [movie for movie in self.group.getObjects() if movie.getName().startswith("Movie2Button_")]
 
         # enable only one button
         for button in buttons:
             if button.getName() == self.movie_name:
-                button.setEnable(True)
+                button.setEnable(state)
                 continue
             button.setEnable(False)
 
@@ -54,5 +55,5 @@ class Guides(BaseComponent):
         self.addObserver(Notificator.onStageLoad, self._cbStageRun)
 
     def _cbStageRun(self, stage):
-        self._toggleButton()
+        self._toggleButton(True)
         return False
