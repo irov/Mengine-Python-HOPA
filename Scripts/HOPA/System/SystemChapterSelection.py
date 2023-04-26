@@ -117,6 +117,8 @@ class SystemChapterSelection(System):
         systems_save = list()
 
         for system_name in chapter_param.on_chapter_reset_saved_systems:
+            if SystemManager.hasSystem(system_name) is False:
+                continue
             system = SystemManager.getSystem(system_name)
             save = system._onSave()
             # print '__cbChapterSelectionResetProfile save:', system_name, save
