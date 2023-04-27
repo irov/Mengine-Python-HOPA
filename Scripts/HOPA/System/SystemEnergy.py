@@ -328,12 +328,11 @@ class SystemEnergy(System):
                 self.__saveProgress()
                 return
 
-            time = self._getTimestamp()
             rest_energy = max_energy - self.current_energy
             seconds_to_refill = rest_energy * self.s_settings["refill_time"]
 
             if self.end_refill_timestamp is None:
-                end_refill_timestamp = time + seconds_to_refill
+                end_refill_timestamp = self._getTimestamp() + seconds_to_refill
                 self.end_refill_timestamp = end_refill_timestamp
                 self.startRecharge()
             else:
