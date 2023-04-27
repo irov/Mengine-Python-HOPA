@@ -252,23 +252,23 @@ class SystemAchievements(System):
 
         # check is achievement was unlocked earlier - show or not unlock notification to user
         was_unlocked = achievement.isComplete()
+        # actual name (has basic name as well)
+        actual_achievement_name = achievement.name
 
         achievement.setComplete(True)
-        external_achievement = self.getExternalAchievement(achieve_name=achievement_name)
+
+        external_achievement = self.getExternalAchievement(achieve_name=actual_achievement_name)
         if external_achievement is not None:
             Notification.notify(Notificator.onAchievementExternalUnlocked, external_achievement.id)
 
-        # actual name (has basic name as well)
-        achievement_name = achievement.name
-
         if any([was_unlocked is False,  # it is first time unlock
                 DefaultManager.getDefaultBool("ShowAlreadyCompletedAchievementsNotify", False) is True]):
-            Notification.notify(Notificator.onAddAchievementPlateToQueue, 'Achievements', achievement_name)
+            Notification.notify(Notificator.onAddAchievementPlateToQueue, 'Achievements', actual_achievement_name)
         self.__sendAchievementToSteam(achievement)
 
         Notification.notify(Notificator.onAchievementProgress, "unlocked_achievements", 1)
         if _DEVELOPMENT:
-            Trace.msg("<SystemAchievements> {} is complete!".format(achievement_name))
+            Trace.msg("<SystemAchievements> {} is complete!".format(actual_achievement_name))
 
         return False
 
