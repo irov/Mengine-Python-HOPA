@@ -33,12 +33,14 @@ class Achievement(object):
         if self.task is None or self.params.steps_to_complete is None:
             return False
 
-        if steps == self.params.steps_to_complete:
+        if steps >= self.params.steps_to_complete:
             return True
         return False
 
     def onStatUpdate(self, new_stat_value):
         """ when achievement's progress updated """
+        if self.isComplete() is True:
+            return True
         if self.checkTaskComplete(new_stat_value) is True:
             Notification.notify(Notificator.onAchievementUnlocked, self.name)
             return True
