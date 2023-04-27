@@ -42,7 +42,7 @@ class LimitedOffer(BaseComponent):
         for promo in self.limited_promos:
             product = MonetizationManager.getProductInfo(promo.id)
 
-            if product.only_one_purchase is False:
+            if product.isConsumable() is True:
                 continue
 
             if SystemMonetization.isProductPurchased(product.id) is True:
@@ -51,7 +51,7 @@ class LimitedOffer(BaseComponent):
     def isAvailablePromo(self, promo):
         product = MonetizationManager.getProductInfo(promo.id)
 
-        if product.only_one_purchase is True and SystemMonetization.isProductPurchased(product.id) is True:
+        if product.isConsumable() is False and SystemMonetization.isProductPurchased(product.id) is True:
             # product already purchased and never could be run
             return False
 
@@ -69,7 +69,7 @@ class LimitedOffer(BaseComponent):
 
     def _cbOfferLimitedPack(self, *args):
         """ If player has not enough gold to purchase, we try to offer special limited product.
-            Player could purchase it only once, if product `only_one_purchase` flag is True.
+            Player could purchase it only once, if product is non-consumable.
             If SpecialPromotion has `offer_delay`, then limited offer could not start, if delay not ended """
 
         if self.demon.hasActivePromo() is True:
