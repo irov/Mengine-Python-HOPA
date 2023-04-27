@@ -328,7 +328,7 @@ class SystemEnergy(System):
                 self.__saveProgress()
                 return
 
-            time = SystemEnergy._getTimestamp()
+            time = self._getTimestamp()
             rest_energy = max_energy - self.current_energy
             seconds_to_refill = rest_energy * self.s_settings["refill_time"]
 
@@ -359,7 +359,7 @@ class SystemEnergy(System):
     def startRecharge(self):
         """ Starts recharge """
 
-        if self.cooldown_timestamp is None or (self.cooldown_timestamp - SystemEnergy._getTimestamp()) < 0:
+        if self.cooldown_timestamp is None or (self.cooldown_timestamp - self._getTimestamp()) < 0:
             # if no recharge or cooldown_timestamp is too old - reload it
             self.reloadCooldown()
 
@@ -418,7 +418,7 @@ class SystemEnergy(System):
         if self.end_refill_timestamp is None:
             return None
 
-        time = start_time or SystemEnergy._getTimestamp()
+        time = start_time or self._getTimestamp()
         left_seconds = self.end_refill_timestamp - time
 
         if left_seconds <= 0:
@@ -442,7 +442,7 @@ class SystemEnergy(System):
         Mengine.changeCurrentAccountSetting("Energy", unicode(self.current_energy))
         Mengine.changeCurrentAccountSetting("EnergyRefill", unicode(self.end_refill_timestamp))
         Mengine.changeCurrentAccountSetting("EnergyCooldown", unicode(self.cooldown_timestamp))
-        Mengine.changeCurrentAccountSetting("EnergyLastSave", unicode(SystemEnergy._getTimestamp()))
+        Mengine.changeCurrentAccountSetting("EnergyLastSave", unicode(self._getTimestamp()))
 
         Mengine.saveAccounts()
 
@@ -468,7 +468,7 @@ class SystemEnergy(System):
         try:
             save_time = int(Mengine.getCurrentAccountSetting("EnergyLastSave"))
         except ValueError:
-            save_time = SystemEnergy._getTimestamp()
+            save_time = self._getTimestamp()
         self.chargeOnLoad(save_time)
 
         self._loadPaidEnigmas()
@@ -500,7 +500,7 @@ class SystemEnergy(System):
         self.__loadProgress()
 
     def chargeOnLoad(self, save_time):
-        time = SystemEnergy._getTimestamp()
+        time = self._getTimestamp()
         time_passed = time - save_time
         refill_time = self.s_settings["refill_time"]
         energy_accumulated = int(time_passed // refill_time)
@@ -531,8 +531,7 @@ class SystemEnergy(System):
         self.__saveProgress()
         _Log("{} seconds have passed since the last game: {} energy accumulated".format(time_passed, energy_accumulated))
 
-    @staticmethod
-    def _getTimestamp():
+    def _getTimestamp(self):
         # returns local timestamp from device
         return Mengine.getTimeMs() / 1000
 
