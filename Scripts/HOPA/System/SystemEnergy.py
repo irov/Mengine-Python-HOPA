@@ -532,7 +532,7 @@ class SystemEnergy(System):
 
     def _getTimestamp(self):
         # returns local timestamp from device
-        return Mengine.getTimeMs() / 1000
+        return Mengine.getTime()
 
     # --- DevToDebug & Cheats ------------------------------------------------------------------------------------------
 
