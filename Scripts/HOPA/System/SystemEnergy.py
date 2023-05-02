@@ -332,9 +332,10 @@ class SystemEnergy(System):
             seconds_to_refill = rest_energy * self.s_settings["refill_time"]
 
             if self.end_refill_timestamp is None:
-                end_refill_timestamp = self._getTimestamp() + seconds_to_refill
+                time = self._getTimestamp()
+                end_refill_timestamp = time + seconds_to_refill
                 self.end_refill_timestamp = end_refill_timestamp
-                self.startRecharge()
+                self.startRecharge(time)
             else:
                 self.end_refill_timestamp += seconds_to_refill
 
@@ -355,16 +356,23 @@ class SystemEnergy(System):
         else:
             Notification.notify(Notificator.onEnergyIncrease, energy)
 
-    def startRecharge(self):
-        """ Starts recharge """
+    def startRecharge(self, start_time=None):
+        """ Starts recharge
+            (set end_refill_timestamp before call)
+        """
 
-        if self.cooldown_timestamp is None or (self.cooldown_timestamp - self._getTimestamp()) < 0:
+        time = start_time or self._getTimestamp()
+
+        if self.cooldown_timestamp is None or (self.cooldown_timestamp - time) < 0:
             # if no recharge or cooldown_timestamp is too old - reload it
-            self.reloadCooldown()
+            self.reloadCooldown(start_time)
 
         self.setTimer()
         SystemEnergy.in_recharging = True
         Notification.notify(Notificator.onEnergyRecharge)
+
+        _Log("start recharge [{}] - end at {} ({} seconds left)".format(
+            start_time, self.end_refill_timestamp, self.end_refill_timestamp - start_time))
 
     def onCharged(self):
         """ Called when energy is fully recharged """
@@ -374,6 +382,8 @@ class SystemEnergy(System):
         Notification.notify(Notificator.onEnergyCharged)
         self.end_refill_timestamp = None
         self.cooldown_timestamp = None
+
+        _Log("charge done")
 
     def setTimer(self):
         if self.timer is not None:
@@ -401,7 +411,7 @@ class SystemEnergy(System):
             energy_per_time = self.s_settings["refill_per_time"]
             self.refillEnergy(energy_per_time)
             if self.end_refill_timestamp is not None:
-                self.reloadCooldown()
+                self.reloadCooldown(timestamp)
             self.__cooldown_left_seconds = None
 
         _, hours, minutes, seconds = calcTime(one_time_left)
@@ -446,10 +456,12 @@ class SystemEnergy(System):
         Mengine.saveAccounts()
 
     def __loadProgress(self):
-        params = {  # key: [save_key, default_value, cast_type]
+        params = {
+            # key: [save_key, default_value, cast_type]
             "current_energy": ["Energy", self.getMaxEnergy(), int],
             "end_refill_timestamp": ["EnergyRefill", None, float],
-            "cooldown_timestamp": ["EnergyCooldown", None, float]}
+            "cooldown_timestamp": ["EnergyCooldown", None, float]
+        }
 
         for atr, (save_key, default_value, cast) in params.items():
             save = Mengine.getCurrentAccountSetting(save_key)
@@ -525,7 +537,7 @@ class SystemEnergy(System):
                 self.setEnergy(0)
             else:
                 self.addEnergy(energy_accumulated)
-            self.startRecharge()
+            self.startRecharge(time)
 
         self.__saveProgress()
         _Log("{} seconds have passed since the last game: {} energy accumulated".format(time_passed, energy_accumulated))
