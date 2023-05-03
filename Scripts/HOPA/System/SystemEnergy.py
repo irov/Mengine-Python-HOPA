@@ -274,28 +274,33 @@ class SystemEnergy(System):
             return False
         return True
 
+    def balanceChanger(action):  # noqa
+        def decorate(bound_method):
+            def wrap(self, energy):
+                last_energy = self.current_energy
+                bound_method(self, energy)
+                _Log("{} {}: {}".format(action, energy, self.current_energy))
+                EVENT_CHANGED_BALANCE(last_energy, self.current_energy)
+                return False
+            return wrap
+        return decorate
+
+    @balanceChanger("withdraw")  # noqa
     def withdrawEnergy(self, energy):
-        last_energy = self.current_energy
         if self.current_energy - energy < 0:
             self.current_energy = 0
         else:
             self.current_energy -= energy
-        _Log("withdraw {}: {}".format(energy, self.current_energy))
-        EVENT_CHANGED_BALANCE(last_energy, self.current_energy)
         return False
 
+    @balanceChanger("add")  # noqa
     def addEnergy(self, energy):
-        last_energy = self.current_energy
         self.current_energy += energy
-        _Log("add {}: {}".format(energy, self.current_energy))
-        EVENT_CHANGED_BALANCE(last_energy, self.current_energy)
         return False
 
+    @balanceChanger("set")  # noqa
     def setEnergy(self, energy):
-        last_energy = self.current_energy
         self.current_energy = 0 if energy < 0 else energy
-        _Log("set to {}: {}".format(energy, self.current_energy))
-        EVENT_CHANGED_BALANCE(last_energy, self.current_energy)
         return False
 
     def consume(self, action_name, notify_not_enough_energy=True):
@@ -406,7 +411,7 @@ class SystemEnergy(System):
         one_time_left = self.cooldown_timestamp - timestamp  # for 1 charge
         self.__cooldown_left_seconds = one_time_left
 
-        # print "             left: ", one_time_left, "   (", self.cooldown_timestamp, " - ", timestamp, ")"
+        _Log("    left: {}s  ({} - {})".format(one_time_left, self.cooldown_timestamp, timestamp), optional=True)
 
         if one_time_left <= 0:
             energy_per_time = self.s_settings["refill_per_time"]
