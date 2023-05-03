@@ -74,6 +74,7 @@ class SystemEnergy(System):
         self.__initSaveProgress()
 
     def _onFinalize(self):
+        self.removeTimer()
         self.__remDevToDebug()
 
     def _onRun(self):
@@ -433,10 +434,11 @@ class SystemEnergy(System):
         if left_seconds <= 0:
             return None
 
+        device_time = Mengine.getTime()     # we use device time because timer works with it
         if (left_seconds // self.s_settings["refill_time"]) == 0:
-            cooldown = time + left_seconds
+            cooldown = device_time + left_seconds
         else:
-            cooldown = time + self.s_settings["refill_time"]
+            cooldown = device_time + self.s_settings["refill_time"]
 
         return cooldown
 
