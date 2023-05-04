@@ -53,9 +53,14 @@ class PaidBonusChapter(BaseComponent):
 
     def _prepareText(self):
         params = {"": self.text_id, "extra": self.extra_text_id}
+        is_delayed = SystemMonetization.isPurchaseDelayed(self.product.id)
 
         for env, text_id in params.items():
             if text_id is None:
+                continue
+
+            if is_delayed is True:
+                self._setDelayedText(env, text_id)
                 continue
 
             Mengine.setTextAlias(env, self.alias_id, text_id)
@@ -63,6 +68,12 @@ class PaidBonusChapter(BaseComponent):
             # prepare price every open ChapterSelection (price could change during the game)
             if "%s" in Mengine.getTextFromID(text_id):
                 self.addObserver(Notificator.onLayerGroupEnableBegin, self._cbPreparePrice, env, text_id)
+
+    def _setDelayedText(self, env, text_id):
+        if text_id == self.text_id:
+            Mengine.setTextAlias(env, self.alias_id, "ID_TEXT_RESTORE_PURCHASES")
+        elif text_id == self.extra_text_id:
+            Mengine.setTextAlias(env, self.alias_id, "ID_EMPTY_TEXT")
 
     def _cbSelectAccount(self, account_id):
         if TaskManager.existTaskChain(TC_NAME):
@@ -79,7 +90,9 @@ class PaidBonusChapter(BaseComponent):
         with TaskManager.createTaskChain(Name=TC_NAME) as tc:
             with tc.addRepeatTask() as (repeat, until):
                 repeat.addTask("TaskMovie2ButtonClick", Movie2Button=self.button)
-                repeat.addScope(SystemMonetization.scopePay, prod_id=self.product.id)
+                with repeat.addIfTask(SystemMonetization.isPurchaseDelayed, self.product.id) as (delayed, default):
+                    delayed.addNotify(Notificator.onReleasePurchased, self.product.id)
+                    default.addScope(SystemMonetization.scopePay, prod_id=self.product.id)
 
                 until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.product.id)
 
@@ -94,7 +107,10 @@ class PaidBonusChapter(BaseComponent):
             return False
 
         if SystemMonetization.isProductPurchased(self.product.id) is True:
-            # stop observer
+            return True     # stop observer
+
+        if SystemMonetization.isPurchaseDelayed(self.product.id) is True:
+            self._setDelayedText(env, text_id)
             return True
 
         currency = MonetizationManager.getCurrentCurrencySymbol() or ""
