@@ -84,13 +84,16 @@ class SystemEnergy(System):
         if Mengine.getConfigBool("Energy", "Enable", False) is False:
             return True
 
-        if self.current_energy is None:
-            self.current_energy = SystemEnergy.getMaxEnergy()
+        self._setupInitialCurrentEnergy()
 
         self.setPolicies()
         self.setObservers()
         self.addAnalytics()
         return True
+
+    def _setupInitialCurrentEnergy(self):
+        if self.current_energy is None:
+            self.current_energy = SystemEnergy.getMaxEnergy()
 
     def setObservers(self):
         self.addObserver(Notificator.onGetRemoteConfig, self._cbGetRemoteConfig)
@@ -129,7 +132,7 @@ class SystemEnergy(System):
 
         return False
 
-    def _cbLayerGroupEnable(self, group_name):
+    def _cbLayerGroupEnable(self, group_name):  # todo: remove hardcode notify from this system
         if group_name == "BalanceIndicator":
             self.notifyUpdateBalance()
         return False
@@ -487,6 +490,11 @@ class SystemEnergy(System):
             save_time = int(Mengine.getCurrentAccountSetting("EnergyLastSave"))
         except ValueError:
             save_time = self._getTimestamp()
+
+        if isinstance(self.current_energy, int) is False:
+            Trace.log("System", 0, "SystemEnergy._onLoad current_energy is not integer: {} {}".format(self.current_energy, type(self.current_energy)))
+            self._setupInitialCurrentEnergy()
+
         self.chargeOnLoad(save_time)
 
         self._loadPaidEnigmas()
