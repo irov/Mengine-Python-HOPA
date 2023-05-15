@@ -369,6 +369,9 @@ class SystemEnergy(System):
         """ Starts recharge
             (set end_refill_timestamp before call)
         """
+        if self.end_refill_timestamp is None:
+            Trace.log("System", 0, "can't startRecharge: end_refill_timestamp is None (init it before call)")
+            return
 
         time = start_time or self._getTimestamp()
 
@@ -552,7 +555,9 @@ class SystemEnergy(System):
                 self.setEnergy(0)
             else:
                 self.addEnergy(energy_accumulated)
-            self.startRecharge(time)
+            if self.end_refill_timestamp is not None:
+                # if we add some energy, but it is not enough
+                self.startRecharge(time)
 
         self.__saveProgress()
         _Log("{} seconds have passed since the last game: {} energy accumulated".format(time_passed, energy_accumulated))
