@@ -1,7 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
-from Foundation.Systems.SystemAppleServices import SystemAppleServices
-from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
+from Foundation.Providers.PaymentProvider import PaymentProvider
 
 BUTTON_NAME = "Movie2Button_RestorePurchases"
 
@@ -15,12 +14,7 @@ class RestorePurchases(BaseEntity):
 
     @staticmethod
     def callRestorePurchases():
-        if Utils.getCurrentPlatform() == "IOS":
-            SystemAppleServices.restorePurchases()
-        elif Utils.getCurrentPlatform() == "Android":
-            SystemGoogleServices.restorePurchases()
-        else:
-            Trace.msg_err("Not found module to call Restore Purchases :'(")
+        PaymentProvider.restorePurchases()
 
     def _onPreparation(self):
         if self.object.hasObject(BUTTON_NAME) is False:
