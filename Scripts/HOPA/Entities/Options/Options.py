@@ -6,6 +6,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Options.OptionsCheckSound import CheckSoundController
 from HOPA.Entities.Options.OptionsManager import OptionsManager
 from Notification import Notification
+from MARSDK.MarUtils import MarUtils
 
 
 BUTTON_LANGUAGE_SELECT_NAME = "Movie2Button_LanguageSelect"
@@ -186,16 +187,32 @@ class Options(BaseEntity):
         self.onSliderUpObserver = Notification.addObserver(Notificator.onSliderUp, __onSliderUp)
 
         isMobile = Mengine.hasTouchpad()
+
+        # Full screen mode
         if isMobile is True:
             if self.object.hasObject("Demon_CheckBox_Fullscreen") is True:
                 Demon_CheckBox_Fullscreen = self.object.getObject("Demon_CheckBox_Fullscreen")
                 Demon_CheckBox_Fullscreen.setParam("Enable", False)
 
+        # More options
         if isMobile is True:
             if self.object.getParent().hasObject("Movie2Button_More"):
                 moreOptionsButton = self.object.getParent().getObject("Movie2Button_More")
                 moreOptionsButton.getEntityNode().removeFromParent()
                 moreOptionsButton.onDestroy()
+
+            if MarUtils.isMartianIOS() is True:
+                if self.object.getParent().hasObject("Movie2Button_About"):
+                    aboutButton = self.object.getParent().getObject("Movie2Button_About")
+                    aboutButton.setParam("Enable", True)
+
+                with TaskManager.createTaskChain(Name="Menu_Options_About", Repeat=True) as tc:
+                    tc.addTask("TaskMovie2ButtonClick", GroupName="Options", Movie2ButtonName="Movie2Button_About")
+                    tc.addScope(self.scopeClose, "Options")
+                    tc.addTask("TaskSceneLayerGroupEnable", LayerName="About", Value=True)
+                    tc.addScope(self.scopeOpen, "About")
+                    tc.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=False)
+
         else:
             with TaskManager.createTaskChain(Name='Menu_Options_MoreOptions', Repeat=True) as tc:
                 tc.addTask('TaskMovie2ButtonClick', GroupName="Options", Movie2ButtonName='Movie2Button_More')
@@ -204,6 +221,7 @@ class Options(BaseEntity):
                 tc.addScope(self.scopeOpen, "OptionsMore")
                 tc.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
 
+        # Ok
         with TaskManager.createTaskChain(Name='Menu_Options_Ok', GroupName='Options', Repeat=True) as tc:
             tc.addTask('TaskMovie2ButtonClick', Movie2ButtonName='Movie2Button_OK')
             with tc.addParallelTask(2) as (guard_source_movie, guard_source_fade):
@@ -212,6 +230,7 @@ class Options(BaseEntity):
             tc.addTask('TaskNotify', ID=Notificator.OptionsClose)
             tc.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
 
+        # Cancel
         with TaskManager.createTaskChain(Name='Menu_Options_Cancel', GroupName='Options', Repeat=True) as Cancel:
             Cancel.addTask('TaskMovie2ButtonClick', Movie2ButtonName='Movie2Button_Cancel')
             Cancel.addFunction(self.cancel)
@@ -221,6 +240,7 @@ class Options(BaseEntity):
             Cancel.addTask('TaskNotify', ID=Notificator.OptionsClose)
             Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
 
+        # Socket close
         with TaskManager.createTaskChain(Name='Menu_Options_Click_Out', GroupName='Options', Repeat=True) as Cancel:
             Cancel.addTask('TaskMovie2SocketClick', GroupName="Options", SocketName="close", Movie2Name='Movie2_BG', isDown=True)
             Cancel.addFunction(self.cancel)
@@ -230,6 +250,7 @@ class Options(BaseEntity):
             Cancel.addTask('TaskNotify', ID=Notificator.OptionsClose)
             Cancel.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
 
+        # Music volume
         if self.object.hasObject("Demon_Slider_Music") is True:
             with TaskManager.createTaskChain(Name="Menu_Options_MusicVolume", Group=self.object, Repeat=True) as tc:
                 def __onSliderFilter(slider, value):

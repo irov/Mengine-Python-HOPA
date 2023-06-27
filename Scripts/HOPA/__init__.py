@@ -1352,6 +1352,8 @@ def onInitialize():
         , "Store"
         , "StorePage"
         , "RestorePurchases"
+
+        , "About"
     ]
 
     if Mengine.getGameParamBool("NotUseDefaultEntitiesList", False) is True:
