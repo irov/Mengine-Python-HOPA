@@ -183,7 +183,7 @@ class ButtonPurchase(ButtonMixin):
         product = self.product_params
 
         price_text_id = self._getTextID("price")
-        if "%s" in Mengine.getTextFromID(price_text_id):
+        if "%s" in Mengine.getTextFromId(price_text_id):
             currency = MonetizationManager.getCurrentCurrencySymbol() or ""
             self.setTextArguments("price", self.price_template.format(currency=currency, price=product.price))
 
@@ -192,7 +192,7 @@ class ButtonPurchase(ButtonMixin):
         self.setTextArguments("energy", reward.get("Energy", 0))
 
         discount_text_id = self._getTextID("discount")
-        discount_text = Mengine.getTextFromID(discount_text_id)
+        discount_text = Mengine.getTextFromId(discount_text_id)
         if "%s" in discount_text:
             if "%%" in discount_text:
                 # if our text has '%' - we want to add discount percent

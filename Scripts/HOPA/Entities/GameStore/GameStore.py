@@ -463,7 +463,7 @@ class StoreCardMixin(object):
 
     def _setDescr(self):
         descr_text_id = self.params.descr
-        descr_text = Mengine.getTextFromID(descr_text_id)
+        descr_text = Mengine.getTextFromId(descr_text_id)
         if "%s" in descr_text:
             descr_text = descr_text % self._getRewardArg()
         Mengine.setTextAliasArguments(self.env, self.ALIAS_DESCR, descr_text)
@@ -521,7 +521,7 @@ class StoreCardAdvert(StoreCardMixin):
 
     def _setPrice(self):
         advert_text_id = MonetizationManager.getGeneralSetting("AdvertPriceTextID")
-        advert_text = Mengine.getTextFromID(advert_text_id)
+        advert_text = Mengine.getTextFromId(advert_text_id)
         Mengine.setTextAliasArguments(self.env, self.ALIAS_PRICE, self.PRICE_TEMPLATE.format(text=advert_text))
 
     def _getRewardArg(self):

@@ -57,7 +57,7 @@ class ItemPopUp(BaseEntity):
         self.InventoryItem.setPosition(pos)
 
         ItemName_TextID = PopUpItemManager.getItemTextID(self.ItemName)
-        ItemNameText = Mengine.getTextFromID(ItemName_TextID)
+        ItemNameText = Mengine.getTextFromId(ItemName_TextID)
         text = self.object.getObject("Text_ItemName")
         textEn = text.getEntity()
         textField = textEn.getTextField()

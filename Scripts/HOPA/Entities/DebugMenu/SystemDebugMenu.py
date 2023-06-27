@@ -249,7 +249,7 @@ class SystemDebugMenu(System):
         def _createItemWidget(params):
             item_id = params.itemID
             w_item = Mengine.createDevToDebugWidgetButton(item_id)
-            w_item.setTitle("{} ({})".format(item_id, Mengine.getTextFromID(params.textID)))
+            w_item.setTitle("{} ({})".format(item_id, Mengine.getTextFromId(params.textID)))
             w_item.setClickEvent(_getItem, item_id)
             tab.addWidget(w_item)
 

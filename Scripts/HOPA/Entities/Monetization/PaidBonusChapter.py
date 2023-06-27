@@ -66,7 +66,7 @@ class PaidBonusChapter(BaseComponent):
             Mengine.setTextAlias(env, self.alias_id, text_id)
 
             # prepare price every open ChapterSelection (price could change during the game)
-            if "%s" in Mengine.getTextFromID(text_id):
+            if "%s" in Mengine.getTextFromId(text_id):
                 self.addObserver(Notificator.onLayerGroupEnableBegin, self._cbPreparePrice, env, text_id)
 
     def _setDelayedText(self, env, text_id):

@@ -226,7 +226,7 @@ class SpecialPromotion(BaseEntity):
         Mengine.setTextAlias(env, alias, text_id)
 
         text_args = [arg for arg in args if arg is not None]
-        if len(text_args) > 0 and "%s" in Mengine.getTextFromID(text_id):
+        if len(text_args) > 0 and "%s" in Mengine.getTextFromId(text_id):
             Mengine.setTextAliasArguments(env, alias, *text_args)
 
     # --- effects ------------------------------------------------------------------------------------------------------

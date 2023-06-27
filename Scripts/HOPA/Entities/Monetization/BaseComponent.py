@@ -86,7 +86,7 @@ class BaseComponent(object):
 
         Mengine.setTextAlias(self.env, self.alias_id, self.text_id)
 
-        if self.text_args and "%s" in Mengine.getTextFromID(self.text_id):
+        if self.text_args and "%s" in Mengine.getTextFromId(self.text_id):
             Mengine.setTextAliasArguments(self.env, self.alias_id, *self.text_args)
 
     # utils

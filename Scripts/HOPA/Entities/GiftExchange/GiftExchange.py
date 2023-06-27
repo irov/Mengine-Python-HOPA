@@ -170,7 +170,7 @@ class GiftExchange(BaseEntity):
 
     def __scopeTimeoutWithEffects(self, source, custom_text=None):
         if custom_text is None:
-            message = Mengine.getTextFromID(self.ID_TEXT_LOADING)
+            message = Mengine.getTextFromId(self.ID_TEXT_LOADING)
         else:
             message = custom_text
 
@@ -432,7 +432,7 @@ class Plate(object):
             reward_text_id = GiftExchange.ID_TEXT_SUCCESS_MSGS[reward_type]
 
             Mengine.setTextAlias(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_TEXT, reward_text_id)
-            if "%s" in Mengine.getTextFromID(reward_text_id):
+            if "%s" in Mengine.getTextFromId(reward_text_id):
                 Mengine.setTextAliasArguments(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_TEXT, str(reward_amount))
 
             self._setRewardInfo(reward_type, reward_amount)

@@ -214,7 +214,7 @@ class AchievementsInGameMenu(BaseEntity):
 
         text_id_achievement = SystemAchievements.getAchievement(achievement_name).params.task_id_name
 
-        display_text_achievement_name = Mengine.getTextFromID(str(text_id_achievement))
+        display_text_achievement_name = Mengine.getTextFromId(str(text_id_achievement))
 
         Mengine.removeTextAliasArguments(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT)
         Mengine.setTextAlias(ALIAS_ENV, TEXT_ALIAS_ACHIEVEMENT_PLATE_TEXT,
