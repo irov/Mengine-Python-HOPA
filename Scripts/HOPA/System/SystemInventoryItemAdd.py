@@ -45,7 +45,7 @@ class SystemInventoryItemAdd(System):
         slotText = movieEntity.getMovieSlot("text")
         ItemKey = ItemManager.getInventoryItemKey(slot.item)
         textID = ItemManager.getTextID(ItemKey)
-        textField.setTextID(textID)
+        textField.setTextId(textID)
         slotText.addChild(textField)
 
         textField.setVerticalCenterAlign()

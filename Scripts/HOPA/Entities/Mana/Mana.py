@@ -169,7 +169,7 @@ class Mana(BaseEntity):
         self.Text.setVerticalCenterAlign()
         self.Text.setCenterAlign()
 
-        self.Text.setTextID("ID_Mana")
+        self.Text.setTextId("ID_Mana")
         self.Text.setTextArgs(value)
 
         self.Text.enable()

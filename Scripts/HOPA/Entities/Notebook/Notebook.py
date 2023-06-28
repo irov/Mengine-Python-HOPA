@@ -164,7 +164,7 @@ class Notebook(BaseEntity):
         movieSlot = noteMovieEn.getMovieSlot("text")
         Text = Mengine.createNode("TextField")
         Text.enable()
-        Text.setTextID(textID)
+        Text.setTextId(textID)
         movieSlot.addChild(Text)
 
         sc = "socket"

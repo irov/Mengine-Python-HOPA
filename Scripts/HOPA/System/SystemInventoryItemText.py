@@ -58,7 +58,7 @@ class SystemInventoryItemText(System):
         textField = Mengine.createNode("TextField")
         slotText = movieEntity.getMovieSlot("text")
 
-        textField.setTextID(textID)
+        textField.setTextId(textID)
         slotText.addChild(textField)
 
         textField.setVerticalCenterAlign()

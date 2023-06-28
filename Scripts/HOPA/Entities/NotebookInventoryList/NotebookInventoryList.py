@@ -62,7 +62,7 @@ class NotebookInventoryList(BaseEntity):
         textField.enable()
         noteID = self.openNotes[movieLocalID]
         TextID = NotebookInventoryListManager.getText(noteID)
-        textField.setTextID(TextID)
+        textField.setTextId(TextID)
         self.movieTexts[movieLocalID] = textField
 
     def prepareTasksMovie(self, movie, movieLocalID):

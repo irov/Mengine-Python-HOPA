@@ -60,7 +60,7 @@ class InventoryItemAccumulate(BaseEntity):
         sprite = self.object.getObject("Sprite_Image")
         self.textField = Mengine.createNode("TextField")
 
-        self.textField.setTextID("ID_InventoryCountItem")
+        self.textField.setTextId("ID_InventoryCountItem")
 
         self.textField.setLocalColor((1, 0, 0, 1))
 

@@ -240,7 +240,7 @@ class BombGame(Enigma):
         text.setCenterAlign()
         text.setVerticalCenterAlign()
         text.setFontName(name)
-        text.setTextID("ID_BombGame")
+        text.setTextId("ID_BombGame")
         text.setTextArgs(Value)
         text.setScale((1.5, 1.5, 1.0))
         self.Movie_Layer_3.getEntity().addChild(text)
@@ -257,7 +257,7 @@ class BombGame(Enigma):
         pass
 
     def Update_Gold_Text(self):
-        self.text_Gold.setTextID("ID_BombGameGold")
+        self.text_Gold.setTextId("ID_BombGameGold")
         self.text_Gold.setTextArgs(self.Coint_Count)
         pass
 

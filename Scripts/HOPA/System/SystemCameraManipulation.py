@@ -51,7 +51,7 @@ class DebugHUD(object):
 
         for key in self.dev_hud:
             dev_hud_el = Mengine.createNode("TextField")
-            dev_hud_el.setTextID("__ID_TEXT_CONSOLE")
+            dev_hud_el.setTextId("__ID_TEXT_CONSOLE")
             dev_hud_el.setFontName(font_name)
             dev_hud_el.setHorizontalLeftAlign()
             dev_hud_el.setVerticalCenterAlign()

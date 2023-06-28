@@ -36,12 +36,12 @@ class InventoryCountItem(InventoryItem):
 
         DefaultTextID = DefaultManager.getDefault('DefaultInventoryCountItemTextID', None)
         if DefaultTextID is not None:
-            self.textField.setTextID(DefaultTextID)
+            self.textField.setTextId(DefaultTextID)
         else:
             if self.FontName is not None:
                 self.textField.setFontName(self.FontName)
 
-            self.textField.setTextID("ID_InventoryCountItem")
+            self.textField.setTextId("ID_InventoryCountItem")
             self.textField.setLocalColor((0, 0, 1, 1))
 
         if self.text_Atach(obj) is False:

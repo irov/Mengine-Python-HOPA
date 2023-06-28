@@ -124,7 +124,7 @@ class NotebookInventory(BaseEntity):
             self.textField.setVerticalCenterAlign()
             self.textField.setHorizontalCenterAlign()
 
-            self.textField.setTextID(text_id)
+            self.textField.setTextId(text_id)
             self.textField.enable()
             slot_text.addChild(self.textField)
 
@@ -164,7 +164,7 @@ class NotebookInventory(BaseEntity):
             self.textField.setVerticalCenterAlign()
             self.textField.setHorizontalCenterAlign()
 
-            self.textField.setTextID(text_id)
+            self.textField.setTextId(text_id)
             self.textField.enable()
 
             slot_text = entity.getMovieSlot("text")

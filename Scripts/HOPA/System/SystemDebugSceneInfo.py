@@ -106,7 +106,7 @@ class SystemDebugSceneInfo(System):
 
         if self.textNode is None:
             self.textNode = layer.createChild("TextField")
-            self.textNode.setTextID("__ID_TEXT_CONSOLE")
+            self.textNode.setTextId("__ID_TEXT_CONSOLE")
             self.textNode.setFontName("__CONSOLE_FONT__")
             self.textNode.setHorizontalLeftAlign()
             self.textNode.setVerticalBottomAlign()

@@ -44,7 +44,7 @@ class NotebookDescription(BaseEntity):
         self.Text = Mengine.createNode("TextField")
         self.Text.enable()
 
-        self.Text.setTextID(textID)
+        self.Text.setTextId(textID)
         movieSlot.addChild(self.Text)
 
         self.MovieDescription = movie
