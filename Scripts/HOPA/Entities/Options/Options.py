@@ -6,7 +6,6 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Options.OptionsCheckSound import CheckSoundController
 from HOPA.Entities.Options.OptionsManager import OptionsManager
 from Notification import Notification
-from MARSDK.MarUtils import MarUtils
 
 
 BUTTON_LANGUAGE_SELECT_NAME = "Movie2Button_LanguageSelect"
@@ -200,19 +199,6 @@ class Options(BaseEntity):
                 moreOptionsButton = self.object.getParent().getObject("Movie2Button_More")
                 moreOptionsButton.getEntityNode().removeFromParent()
                 moreOptionsButton.onDestroy()
-
-            if MarUtils.isMartianIOS() is True:
-                if self.object.getParent().hasObject("Movie2Button_About"):
-                    aboutButton = self.object.getParent().getObject("Movie2Button_About")
-                    aboutButton.setParam("Enable", True)
-
-                with TaskManager.createTaskChain(Name="Menu_Options_About", Repeat=True) as tc:
-                    tc.addTask("TaskMovie2ButtonClick", GroupName="Options", Movie2ButtonName="Movie2Button_About")
-                    tc.addScope(self.scopeClose, "Options")
-                    tc.addTask("TaskSceneLayerGroupEnable", LayerName="About", Value=True)
-                    tc.addScope(self.scopeOpen, "About")
-                    tc.addTask("TaskSceneLayerGroupEnable", LayerName="Options", Value=False)
-
         else:
             with TaskManager.createTaskChain(Name='Menu_Options_MoreOptions', Repeat=True) as tc:
                 tc.addTask('TaskMovie2ButtonClick', GroupName="Options", Movie2ButtonName='Movie2Button_More')
