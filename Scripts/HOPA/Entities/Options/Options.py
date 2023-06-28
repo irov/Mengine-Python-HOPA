@@ -445,6 +445,9 @@ class Options(BaseEntity):
         if TaskManager.existTaskChain("Menu_Options_MoreOptions"):
             TaskManager.cancelTaskChain("Menu_Options_MoreOptions")
 
+        if TaskManager.existTaskChain("Menu_Options_About"):
+            TaskManager.cancelTaskChain("Menu_Options_About")
+
         if TaskManager.existTaskChain("Menu_Options_Ok"):
             TaskManager.cancelTaskChain("Menu_Options_Ok")
 
