@@ -935,8 +935,6 @@ def onInitialize():
         , "onAllMorphsPicked"
         , "onMorphsCheatSceneReset"
 
-        , "onAppRated"
-
         , "onDialogWindowConfirm"
         , "onDialogWindowCancel"
 
@@ -954,8 +952,6 @@ def onInitialize():
         , "onStorePageNewActionsEnd"
         , "onStoreTabSectionClickedBack"
         , "onStoreTabSectionClickedTab"
-
-        , "onGetRemoteConfig"
     ]
 
     from Foundation.Notificator import Notificator
