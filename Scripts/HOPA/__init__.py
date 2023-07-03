@@ -599,6 +599,9 @@ def onInitialize():
 
         , "onPlaySplashScreens"
         , "onCutScenePlay"
+        , "onCutSceneSkip"
+        , "onCutSceneComplete"
+        , "onCutSceneStart"
 
         , "onStageAutoSave"
 

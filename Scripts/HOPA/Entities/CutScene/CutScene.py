@@ -44,6 +44,8 @@ class CutScene(BaseEntity):
         cut_scene_skip = PolicyManager.getPolicy("CutSceneSkip", "PolicyCutSceneSkip")
         cut_scene_next = PolicyManager.getPolicy("CutSceneNext", "PolicyCutSceneNext")
 
+        Notification.notify(Notificator.onCutSceneStart, self.CutSceneName)
+
         with TaskManager.createTaskChain(Name="runCutScene", Group=self.object, Cb=self.__cbPlayCutScene) as source:
             with GuardBlockMusicVolumeFade(source, "CutScene", music_fade_cut_scene) as tc:
                 tc.addTask("TaskSceneInit", SceneAny=True)
@@ -95,8 +97,10 @@ class CutScene(BaseEntity):
                                         fade_group_name = slot.getSlotsGroup("Fade")
                                         tc_next.addTask("AliasFadeOut", FadeGroupName=fade_group_name,
                                                         Time=0.25 * 1000)  # speed fix
+                    tc_ok.addNotify(Notificator.onCutSceneComplete, self.CutSceneName)
 
                     tc_skip.addTask(cut_scene_skip, CutSceneName=self.CutSceneName)
+                    tc_skip.addNotify(Notificator.onCutSceneSkip, self.CutSceneName)
 
                     if self.isFade is True:
                         slot = SceneManager.getSceneDescription(
