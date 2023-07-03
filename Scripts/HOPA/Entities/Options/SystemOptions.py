@@ -23,7 +23,7 @@ class SystemOptions(System):
 
     def _onRun(self):
         self.addObserver(Notificator.onFullscreen, self._onFullscreenFilter)
-        self.addObserver(Notificator.onFixedDisplayResolution, self._onWidescreenFilter)
+        self.addObserver(Notificator.onFixedContentResolution, self._onWidescreenFilter)
         self.addObserver(Notificator.onCursorMode, self._onCursorFilter)
         self.addObserver(Notificator.onMute, self._onMuteFilter)
         self.addObserver(Notificator.onMusicVolume, self._onMusicVolumeFilter)

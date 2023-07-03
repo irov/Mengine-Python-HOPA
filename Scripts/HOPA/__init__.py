@@ -688,7 +688,6 @@ def onInitialize():
         , "onCombatSpellSlotClick"
         , "onRemoveAccount"
         , "onReloadAccount"
-        , "onUserEvent"
 
         , "onLightCircleGameCircleClick"
 
@@ -1754,6 +1753,12 @@ def onInitialize():
 
 
 def onFinalize():
+    from Foundation.Utils import isSurvey
+    if isSurvey():
+        survey_url = Mengine.getGameParamUnicode("SurveyUrl")
+        if Mengine.getGameParamBool("SurveyLink", False) is True:
+            Mengine.openUrlInDefaultBrowser(survey_url)
+
     from HOPA.CursorManager import CursorManager
     CursorManager.onFinalize()
 
@@ -1792,4 +1797,3 @@ def onFinalize():
 
     from HOPA.MacroManager import MacroManager
     MacroManager.onFinalize()
-    pass
