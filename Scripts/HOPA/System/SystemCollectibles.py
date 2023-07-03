@@ -8,7 +8,6 @@ from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import isCollectorEdition
-from Foundation.Systems.SystemAnalytics import SystemAnalytics
 from HOPA.CollectiblesManager import CollectiblesManager
 from HOPA.HintManager import HintManager
 from HOPA.QuestManager import QuestManager
@@ -105,7 +104,6 @@ class SystemCollectibles(System):
         self.__setObservers()
 
         self.__addDevToDebug()
-        self.__addAnalytics()
         return True
 
     def disableCollectibles(self):
@@ -121,10 +119,6 @@ class SystemCollectibles(System):
 
                 movie = group.getObject(movie_name)
                 movie.setEnable(False)
-
-    def __addAnalytics(self):
-        SystemAnalytics.addAnalytic("collectibles_done", Notificator.onCollectiblesComplete)
-        SystemAnalytics.addAnalytic("collect_collectible", Notificator.onCollectiblesPart, params_method=lambda *_, **__: {})
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:

@@ -3,7 +3,6 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
-from Foundation.Systems.SystemAnalytics import SystemAnalytics
 from Foundation.Providers.RatingAppProvider import RatingAppProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentBusinessModel
@@ -38,8 +37,6 @@ class SystemRateUs(System):
         self.addObserver(Notificator.onAppRated, self._onAppRated)
         if len(self.__scene_triggers) > 0:
             self.addObserver(Notificator.onSceneActivate, self._onSceneActivate)
-
-        SystemAnalytics.addAnalytic("app_rated", Notificator.onAppRated)
         return True
 
     def _onStop(self):
