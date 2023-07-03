@@ -42,27 +42,18 @@ class SystemAnalytics(SystemAnalyticsBase):
 
         self.addObserver(Notificator.onEnigmaPlay, _cb, "unlocked_enigmas",
                          lambda enigma: enigma.getParam("EnigmaName"))
-        self.addObserver(Notificator.onSceneEnter, _cb, "unlocked_scenes", lambda scene_name: scene_name)
-        self.addObserver(Notificator.onZoomOpen, _cb, "unlocked_zooms", lambda group_name: group_name)
-        self.addObserver(Notificator.onParagraphComplete, _cb, "used_paragraphs", lambda paragraph_id: paragraph_id)
 
         return True
 
     def _onSave(self):
         save = {
             "unlocked_enigmas": self.unlocked_enigmas,
-            "unlocked_scenes": self.unlocked_scenes,
-            "unlocked_zooms": self.unlocked_zooms,
-            "used_paragraphs": self.used_paragraphs,
             "total_played_minutes": self.__getPlayedMinutes(),
         }
         return save
 
     def _onLoad(self, save):
         self.unlocked_enigmas = save.get("unlocked_enigmas", [])
-        self.unlocked_scenes = save.get("unlocked_scenes", [])
-        self.unlocked_zooms = save.get("unlocked_zooms", [])
-        self.used_paragraphs = save.get("used_paragraphs", [])
         self._total_played_minutes = save.get("total_played_minutes", 0.0)
 
     def __getCurrentEnigmaName(self):
@@ -89,60 +80,30 @@ class SystemAnalytics(SystemAnalyticsBase):
 
         # key: [identity, check_method, params_method]
         default_analytics = {
-            # mini-games ---------
+            # mini-games
             "enigma_start":
                 [Notificator.onEnigmaPlay,
                     lambda enigma: enigma.getParam("EnigmaName") not in self.unlocked_enigmas,
                     lambda enigma: {"name": enigma.getParam("EnigmaName")}],
             "enigma_reset":
-                [Notificator.onEnigmaReset, None,
-                    lambda: {"name": self.__getCurrentEnigmaName()}],
+                [Notificator.onEnigmaReset, None, lambda: {"name": self.__getCurrentEnigmaName()}],
             "enigma_skip":
-                [Notificator.onEnigmaSkip, None,
-                    lambda: {"name": self.__getCurrentEnigmaName()}],
+                [Notificator.onEnigmaSkip, None, lambda: {"name": self.__getCurrentEnigmaName()}],
             "enigma_complete":
-                [Notificator.onEnigmaComplete, None,
-                    lambda enigma: {"name": enigma.getParam("EnigmaName")}],
-            "complete_HO":
-                [Notificator.onHOGDragDropComplete, None,
-                    lambda: {"name": str(SceneManager.getCurrentSceneName())}],
-            # items --------------
-            "item_pick":
-                [Notificator.onInventoryAppendInventoryItem, None,
-                    lambda item: {"name": item.getName()}],
-            "item_use":
-                [Notificator.onInventoryItemTake, None,
-                    lambda item: {"name": item.getName()}],
-            "item_invalid_use":
-                [Notificator.onInventoryItemInvalidUse, None,
-                    lambda item, obj: {"name": item.getName(), "invalid_object": obj.getName()}],
-            # paragraphs ---------
-            "paragraph_start":
-                [Notificator.onParagraphRun,
-                    lambda paragraph_id: paragraph_id not in self.used_paragraphs,
-                    lambda paragraph_id: {"name": paragraph_id}],
-            "paragraph_complete":
-                [Notificator.onParagraphComplete,
-                    lambda paragraph_id: paragraph_id not in self.used_paragraphs,
-                    lambda paragraph_id: {"name": paragraph_id}],
-            # other -------------
-            "scene_first_visit":
-                [Notificator.onSceneEnter,
-                    lambda scene_name: scene_name is not None and scene_name not in self.unlocked_scenes,
-                    lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
-            "zoom_first_visit":
-                [Notificator.onZoomOpen,
-                    lambda group_name: group_name is not None and group_name not in self.unlocked_zooms,
-                    lambda group_name: {"name": group_name, "played_minutes": self.__getPlayedMinutes()}],
+                [Notificator.onEnigmaComplete, None, lambda enigma: {"name": enigma.getParam("EnigmaName")}],
+            # other
             "complete_game":
-                [Notificator.onGameComplete, None,
-                    lambda *_, **__: {"played_minutes": self.__getPlayedMinutes()}],
+                [Notificator.onGameComplete, None, lambda *_, **__: {"played_minutes": self.__getPlayedMinutes()}],
             "complete_location":
                 [Notificator.onLocationComplete, None,
                     lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}],
-            "seen_cutscene":
-                [Notificator.onCutScenePlay, None,
-                    lambda cut_scene_name, _: {"name": cut_scene_name}],
+            # cutscene
+            "cutscene_start":
+                [Notificator.onCutSceneStart, None, lambda name: {"name": name}],
+            "cutscene_skip":
+                [Notificator.onCutSceneSkip, None, lambda name: {"name": name}],
+            "cutscene_complete":
+                [Notificator.onCutSceneComplete, None, lambda name: {"name": name}],
         }
 
         if DemonManager.hasDemon("Hint"):
