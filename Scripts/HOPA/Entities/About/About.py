@@ -26,7 +26,6 @@ class About(BaseEntity):
     # ====================== BaseEntity ================================================================================
     def _onPreparation(self):
         self._initContent()
-        self._validateURLButtons()
 
     def _onActivate(self):
         self.runTaskChain()
@@ -41,35 +40,27 @@ class About(BaseEntity):
         if self.object.hasObject(About.BUTTON_QUIT_NAME):
             self.close_buttons["quit"] = self.object.getObject(About.BUTTON_QUIT_NAME)
 
-        if self.object.hasObject(About.BUTTON_PRIVACY_POLICY_NAME):
-            self.url_buttons["privacy_policy"] = self.object.getObject(About.BUTTON_PRIVACY_POLICY_NAME)
-
-        if self.object.hasObject(About.BUTTON_USER_AGREEMENT_NAME):
-            self.url_buttons["user_agreement"] = self.object.getObject(About.BUTTON_USER_AGREEMENT_NAME)
-
-        if self.object.hasObject(About.BUTTON_SOCIAL_BILIBILI_NAME):
-            self.url_buttons["social_bilibili"] = self.object.getObject(About.BUTTON_SOCIAL_BILIBILI_NAME)
-
-        if self.object.hasObject(About.BUTTON_SOCIAL_QQ_NAME):
-            self.url_buttons["social_qq"] = self.object.getObject(About.BUTTON_SOCIAL_QQ_NAME)
-
-        if self.object.hasObject(About.BUTTON_SOCIAL_TIKTOK_NAME):
-            self.url_buttons["social_tiktok"] = self.object.getObject(About.BUTTON_SOCIAL_TIKTOK_NAME)
-
-        if self.object.hasObject(About.BUTTON_SOCIAL_WEIBO_NAME):
-            self.url_buttons["social_weibo"] = self.object.getObject(About.BUTTON_SOCIAL_WEIBO_NAME)
-
-    def _validateURLButtons(self):
-        for (name, button) in self.url_buttons.items():
-            url = self._getURLByName(name)
+        url_buttons = {
+            "privacy_policy": About.BUTTON_PRIVACY_POLICY_NAME,
+            "user_agreement": About.BUTTON_USER_AGREEMENT_NAME,
+            "social_bilibili": About.BUTTON_SOCIAL_BILIBILI_NAME,
+            "social_qq": About.BUTTON_SOCIAL_QQ_NAME,
+            "social_tiktok": About.BUTTON_SOCIAL_TIKTOK_NAME,
+            "social_weibo": About.BUTTON_SOCIAL_WEIBO_NAME,
+        }
+        for key, name in url_buttons.items():
+            if self.object.hasObject(name) is False:
+                continue
+            url = self._getURLByName(key)
             if url is None:
-                button.setEnable(False)
+                continue
+            self.url_buttons[key] = self.object.getObject(name)
 
     def _getURLByName(self, name):
-        url_value = Mengine.getConfigString("About", name+"_url", "")
-        if url_value == "":
+        url = Mengine.getConfigString("About", name+"_url", "")
+        if url == "":
             return None
-        url = unicode(url_value, "utf-8")
+        url = unicode(url, "utf-8")
         return url
 
     # ====================== TaskChain =================================================================================
