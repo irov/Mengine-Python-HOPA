@@ -17,6 +17,7 @@ EVENT_GET_PURCHASED = Event("SuccessPurchaseEvent")
 class SpecialPromotion(BaseEntity):
     ALIAS_NEW_PRICE = "$SpecPromoNewPrice"
     ALIAS_OLD_PRICE = "$SpecPromoOldPrice"
+    ALIAS_DISCOUNT = "$SpecPromoDiscount"
     ALIAS_TITLE = "$SpecPromoTitle"
     ALIAS_DESCRIPTION = "$SpecPromoDescr"
     ALIAS_REWARD_GOLD = "$SpecPromoGoldReward"
@@ -25,6 +26,7 @@ class SpecialPromotion(BaseEntity):
     def __init__(self):
         super(SpecialPromotion, self).__init__()
         self.content = {}
+        self.backgrounds = {}
         self.icons = {}  # tag
         self.effects = {}
         self.params = {}  # tag
@@ -54,8 +56,10 @@ class SpecialPromotion(BaseEntity):
             icon.removeFromParent()
             icon.onDestroy()
         self.icons = {}
-        for movie in self.content.values():
+        for movie in self.content.values() + self.backgrounds.values():
             movie.returnToParent()
+        self.content = {}
+        self.backgrounds = {}
 
         for observer in self._observers:
             Notification.removeObserver(observer)
@@ -81,6 +85,7 @@ class SpecialPromotion(BaseEntity):
             _Log("{}:{} not inited ({} hasn't this object)".format(key, movie_name, self.object.getName()), err=True)
 
     def _loadMovies(self):
+        # init movies
         content = {
             "window": "Movie2_Window",
             "purchase": "Movie2Button_Purchase",
@@ -93,12 +98,19 @@ class SpecialPromotion(BaseEntity):
         }
         self._getMovies(optional_content, self.content, optional=True)
 
+        backgrounds = {
+            tag: param.background_movie_name for tag, param in self.params.items()
+            if param.background_movie_name is not None
+        }
+        self._getMovies(backgrounds, self.backgrounds)
+
         effects = {
             "appear": "Movie2_Appear",
             "disappear": "Movie2_Disappear",
         }
         self._getMovies(effects, self.effects)
 
+        # manage icons
         icon_slot = None
         if self.content["window"].hasSlot("icon") is False:
             Trace.log("Entity", 0, "SpecialPromotion: can't attach icons - add slot 'icon' to window")
@@ -117,13 +129,19 @@ class SpecialPromotion(BaseEntity):
             else:
                 _Log("{}:{} not created ({} hasn't this prototype)".format(tag, proto, self.object.getName()), err=True)
 
-        self._attach("window", "close", "close")
-        self._attach("window", "purchase", "purchase")
+        # attach items
+        self._attachContent("window", "close", "close")
+        self._attachContent("window", "purchase", "purchase")
         if "restore" in self.content:
-            self._attach("window", "purchase", "restore")
+            self._attachContent("window", "purchase", "restore")
+        for background_movie in self.backgrounds.values():
+            background_movie.setEnable(False)
+            self._attachMovie("window", "bg", background_movie)
 
+        # setup effect
         self.attachToEffect("appear")
         self.setEnableWindow(False)
+
         return True
 
     def _updateTexts(self):
@@ -149,6 +167,8 @@ class SpecialPromotion(BaseEntity):
                 [params.id_new_price, with_currency(params.price)],
             self.ALIAS_OLD_PRICE:
                 [params.id_old_price, with_currency(params.old_price)],
+            self.ALIAS_DISCOUNT:
+                [params.id_discount],
             self.ALIAS_REWARD_GOLD:
                 [params.id_reward_gold, MonetizationManager.getProductReward(params.id, "Gold")],
             self.ALIAS_REWARD_ENERGY:
@@ -157,21 +177,22 @@ class SpecialPromotion(BaseEntity):
         self._setTexts(texts)
 
     def _setRewardsPlate(self, tag):
-        if self.object.hasPrototype("Movie2_Rewards") is False:
-            return False
-
         params = self.params[tag]
-        if params.use_reward_plate is False:
+        if params.reward_movie_name is None:
+            return False
+        prototype_name = params.reward_movie_name
+
+        if self.object.hasPrototype(prototype_name) is False:
             return False
 
-        movie = self.object.generateObjectUnique("Movie2_Rewards", "Movie2_Rewards")
+        movie = self.object.generateObjectUnique("RewardPlate", prototype_name)
 
         rewards = RewardPlate(movie)
         rewards.createIcons()
         rewards.setEnable(True)
 
         self.content["rewards"] = rewards
-        self._attach("window", "rewards", "rewards")
+        self._attachContent("window", "rewards", "rewards")
 
         return True
 
@@ -195,16 +216,20 @@ class SpecialPromotion(BaseEntity):
 
     # utils
 
-    def _attach(self, parent_name, slot_name, child_name):
-        if self.content[parent_name].hasMovieSlot(slot_name) is False:
-            Trace.log("Entity", 0, "_loadMovies - not found slot '{}' on '{}'".format(slot_name, parent_name))
-            return False
-        slot = self.content[parent_name].getMovieSlot(slot_name)
-
+    def _attachContent(self, parent_name, slot_name, child_name):
         if child_name not in self.content:
             Trace.log("Entity", 0, "_loadMovies - key '{}' not found".format(child_name))
             return False
         child = self.content[child_name]
+
+        self._attachMovie(parent_name, slot_name, child)
+        return True
+
+    def _attachMovie(self, parent_name, slot_name, child):
+        if self.content[parent_name].hasMovieSlot(slot_name) is False:
+            Trace.log("Entity", 0, "_loadMovies - not found slot '{}' on '{}'".format(slot_name, parent_name))
+            return False
+        slot = self.content[parent_name].getMovieSlot(slot_name)
 
         child_node = child.getEntityNode()
         child_node.removeFromParent()
@@ -232,12 +257,16 @@ class SpecialPromotion(BaseEntity):
     # --- effects ------------------------------------------------------------------------------------------------------
 
     def setEnableWindow(self, state):
-        self.content["window"].setEnable(state)
-        self.content["window"].setLoop(state)
-        self.content["window"].setPlay(state)
-        icon = self.icons.get(self.current_tag)
-        if icon is not None:
-            icon.setEnable(state)
+        def _update(movie):
+            movie.setEnable(state)
+            movie.setLoop(state)
+            movie.setPlay(state)
+
+        _update(self.content["window"])
+        if self.current_tag in self.backgrounds:
+            _update(self.backgrounds[self.current_tag])
+        if self.current_tag in self.icons:
+            _update(self.icons[self.current_tag])
 
     def attachToEffect(self, effect):
         window_movie = self.content["window"]
