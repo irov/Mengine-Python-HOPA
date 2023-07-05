@@ -178,9 +178,9 @@ class SpecialPromotion(BaseEntity):
 
     def _setRewardsPlate(self, tag):
         params = self.params[tag]
-        if params.reward_movie_name is None:
+        if params.reward_prototype_name is None:
             return False
-        prototype_name = params.reward_movie_name
+        prototype_name = params.reward_prototype_name
 
         if self.object.hasPrototype(prototype_name) is False:
             return False
