@@ -30,7 +30,9 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
         TriggerSpecialPacks = SystemMonetization.getComponent(COMPONENT_NAME)
-        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage")
+
+        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
+        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction")
 
         product_id = TriggerSpecialPacks.getPackProductId()
         page_id = self._findPageId(product_id)
@@ -41,7 +43,7 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
             done.addListener(Notificator.onPaySuccess)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
-            skip.addTask(PolicyDefaultAction, PageID=page_id, Action=self.Action)
+            skip.addTask(PolicyOnSkipAction, PageID=page_id, Action=self.Action)
 
             stop.addListener(Notificator.onSceneDeactivate)
             # prevent pay with no results

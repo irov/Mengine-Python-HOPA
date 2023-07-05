@@ -1389,6 +1389,7 @@ def onInitialize():
         , "LimitedOffer"
         , "PromoPackageNotEnoughMoney"
         , "TriggerSpecialPacks"
+        , "AdvertNotEnoughMoney"
     ]
 
     MonetizationManager.importComponents("HOPA.Entities.Monetization", Components)

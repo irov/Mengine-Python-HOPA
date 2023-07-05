@@ -1,35 +1,35 @@
 from Foundation.DemonManager import DemonManager
+from Foundation.MonetizationManager import MonetizationManager
+from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 
 
-class PolicyNotEnoughEnergyWithLimitedOffer(TaskAlias):
-
-    def _onParams(self, params):
-        self.Action = params.get("Action")
-        self.PageID = params.get("PageID")
+class PolicyNotEnoughEnergyRewardedAdvert(TaskAlias):
 
     def _scopeDefaultAction(self, source):
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
         PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction")
         source.addTask(PolicyOnSkipAction, Action=self.Action, PageID=self.PageID)
 
+    def _onParams(self, params):
+        self.Action = params.get("Action")
+        self.PageID = params.get("PageID")
+
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
-        LimitedPromo = DemonManager.getDemon("LimitedPromo")
-        LimitedPromoProductID = LimitedPromo.getActivePromoNow()
+        AdvertProduct = MonetizationManager.getGeneralProductInfo("AdvertProductID")
 
-        if LimitedPromoProductID is None:
+        if SystemMonetization.isAdsEnded() is True:
             source.addScope(self._scopeDefaultAction)
             return
 
-        source.addFunction(SpecialPromotion.run, LimitedPromoProductID)
+        source.addFunction(SpecialPromotion.run, AdvertProduct.id)
 
-        with source.addRaceTask(2) as (done, skip):
-            done.addListener(Notificator.onPaySuccess)
+        with source.addRaceTask(3) as (done, skip, stop):
+            done.addListener(Notificator.onAdvertHidden)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
             skip.addScope(self._scopeDefaultAction)
 
-        source.addFunction(PolicyManager.setPolicy, "NotEnoughGoldAction", None)
-        source.addFunction(PolicyManager.setPolicy, "NotEnoughEnergyAction", None)
+            stop.addListener(Notificator.onSceneDeactivate)

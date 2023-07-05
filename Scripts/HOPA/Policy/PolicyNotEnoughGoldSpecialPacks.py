@@ -25,7 +25,9 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
         TriggerSpecialPacks = SystemMonetization.getComponent(COMPONENT_NAME)
+
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughGoldMessage", "PolicyNotEnoughGoldDialog")
+        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughGoldOnSkipAction", PolicyDefaultAction)
 
         product_id = TriggerSpecialPacks.getPackProductId()
         page_id = self._findPageId(product_id)
@@ -37,7 +39,7 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
             done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
-            skip.addTask(PolicyDefaultAction, Gold=self.Gold, Descr=self.Descr, PageID=page_id)
+            skip.addTask(PolicyOnSkipAction, Gold=self.Gold, Descr=self.Descr, PageID=page_id)
 
             stop.addListener(Notificator.onSceneDeactivate)
             # prevent pay with no results
