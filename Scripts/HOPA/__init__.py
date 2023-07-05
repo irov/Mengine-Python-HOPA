@@ -420,6 +420,8 @@ def onInitialize():
         , "PolicyGuideOpenPaid"
         , "PolicyGuideOpenDefault"
 
+        , "PolicyNotEnoughGoldSpecialPacks"
+        , "PolicyNotEnoughEnergySpecialPacks"
         , "PolicyNotEnoughGoldStoreWithPack"
         , "PolicyNotEnoughEnergyStoreWithPack"
         , "PolicyNotEnoughGoldWithLimitedOffer"
@@ -1386,6 +1388,7 @@ def onInitialize():
         , "PaidBonusChapter"
         , "LimitedOffer"
         , "PromoPackageNotEnoughMoney"
+        , "TriggerSpecialPacks"
     ]
 
     MonetizationManager.importComponents("HOPA.Entities.Monetization", Components)

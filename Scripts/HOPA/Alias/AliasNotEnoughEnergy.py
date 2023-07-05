@@ -11,8 +11,12 @@ class AliasNotEnoughEnergy(TaskAlias):
     def _onGenerate(self, source):
         PolicyMessage = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
         PolicyAction = PolicyManager.getPolicy("NotEnoughEnergyAction")
+        PolicySecondAction = PolicyManager.getPolicy("NotEnoughEnergySecondAction")
 
         if PolicyAction is not None:
             source.addTask(PolicyAction, Action=self.Action, PageID=self.PageID)
         else:
-            source.addTask(PolicyMessage, Action=self.Action, PageID=self.PageID)
+            if PolicySecondAction is not None:
+                source.addTask(PolicySecondAction, Action=self.Action, PageID=self.PageID)
+            else:
+                source.addTask(PolicyMessage, Action=self.Action, PageID=self.PageID)

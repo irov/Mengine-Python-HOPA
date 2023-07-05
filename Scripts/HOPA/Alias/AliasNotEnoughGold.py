@@ -12,8 +12,12 @@ class AliasNotEnoughGold(TaskAlias):
     def _onGenerate(self, source):
         PolicyMessage = PolicyManager.getPolicy("NotEnoughGoldMessage", "PolicyNotEnoughGoldDialog")
         PolicyAction = PolicyManager.getPolicy("NotEnoughGoldAction")
+        PolicySecondAction = PolicyManager.getPolicy("NotEnoughGoldSecondAction")
 
         if PolicyAction is not None:
             source.addTask(PolicyAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
         else:
-            source.addTask(PolicyMessage, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
+            if PolicySecondAction is not None:
+                source.addTask(PolicySecondAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
+            else:
+                source.addTask(PolicyMessage, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
