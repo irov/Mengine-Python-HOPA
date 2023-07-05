@@ -36,7 +36,7 @@ class MenuGreeting(BaseEntity):
         textEn = text.getEntity()
 
         textField = textEn.getTextField()
-        textField.setTextID("ID_MenuGreeting")
+        textField.setTextId("ID_MenuGreeting")
         textField.setTextFormatArgs(Name)
 
         self.object.setEnable(True)
