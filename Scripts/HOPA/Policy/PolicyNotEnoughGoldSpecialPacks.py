@@ -25,7 +25,7 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
         TriggerSpecialPacks = SystemMonetization.getComponent(COMPONENT_NAME)
-        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage")
+        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughGoldMessage", "PolicyNotEnoughGoldDialog")
 
         product_id = TriggerSpecialPacks.getPackProductId()
         page_id = self._findPageId(product_id)
