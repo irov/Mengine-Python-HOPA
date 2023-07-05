@@ -255,3 +255,12 @@ class StoreManager(Manager):
     def getButtonsParamsById(page_id):
         """ return: dict {button_id: ButtonParam}"""
         return StoreManager.s_buttons.get(page_id, {})
+
+    @staticmethod
+    def findPageIdByProductId(product_id):
+        """ returns page id if input product inside this page """
+        for page_id, page_buttons in StoreManager.getButtonsSettings().items():
+            for button in page_buttons.values():
+                if button.product_id == product_id:
+                    return page_id
+        return None
