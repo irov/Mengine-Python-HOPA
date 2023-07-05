@@ -89,6 +89,18 @@ class BaseComponent(object):
         if self.text_args and "%s" in Mengine.getTextFromId(self.text_id):
             Mengine.setTextAliasArguments(self.env, self.alias_id, *self.text_args)
 
+    def save(self):
+        return self._save()
+
+    def _save(self):
+        return {}
+
+    def load(self, save):
+        self._load(save)
+
+    def _load(self, save):
+        return
+
     # utils
 
     def addObserver(self, notificator, fn, *args, **kwargs):
