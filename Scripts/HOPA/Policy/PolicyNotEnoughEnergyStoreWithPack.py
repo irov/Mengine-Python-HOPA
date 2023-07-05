@@ -15,7 +15,7 @@ class PolicyNotEnoughEnergyStoreWithPack(TaskAlias):
         PromoPackageProduct = MonetizationManager.getGeneralProductInfo("PromoPackageProductID")
 
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
-        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction")
+        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
 
         source.addFunction(SpecialPromotion.run, PromoPackageProduct.id)
 

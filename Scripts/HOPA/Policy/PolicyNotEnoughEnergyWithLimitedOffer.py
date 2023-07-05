@@ -11,7 +11,7 @@ class PolicyNotEnoughEnergyWithLimitedOffer(TaskAlias):
 
     def _scopeDefaultAction(self, source):
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
-        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction")
+        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
         source.addTask(PolicyOnSkipAction, Action=self.Action, PageID=self.PageID)
 
     def _onGenerate(self, source):

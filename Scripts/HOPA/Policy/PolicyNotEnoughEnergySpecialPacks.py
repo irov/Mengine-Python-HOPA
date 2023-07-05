@@ -32,7 +32,7 @@ class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
         TriggerSpecialPacks = SystemMonetization.getComponent(COMPONENT_NAME)
 
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
-        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction")
+        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
 
         product_id = TriggerSpecialPacks.getPackProductId()
         page_id = self._findPageId(product_id)
