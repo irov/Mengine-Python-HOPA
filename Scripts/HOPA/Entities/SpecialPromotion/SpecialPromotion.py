@@ -5,7 +5,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from HOPA.Entities.SpecialPromotion.RewardPlate import RewardPlate
-from HOPA.Entities.SpecialPromotion.PurchaseButton import PurchaseButton
+from HOPA.Entities.SpecialPromotion.PurchaseButton import PurchaseButton, DeprecatedPurchaseButton
 from Event import Event
 
 
@@ -200,13 +200,19 @@ class SpecialPromotion(BaseEntity):
 
         if params.purchase_prototype_name is None:
             if self.object.hasObject("Movie2Button_Purchase"):
-                self.content["purchase"] = self.object.getObject("Movie2Button_Purchase")
+                movie = self.object.getObject("Movie2Button_Purchase")
+
+                purchase = DeprecatedPurchaseButton(movie, params.purchase_action)
+                purchase.setEnable(True)
+                self.content["purchase"] = purchase
+
                 self._attachContent("window", "purchase", "purchase")
-                Trace.msg_err("SpecialPromotion [{!r}] DEPRECATED warning: Movie2Button_Purchase is deprecated, "
-                              "add `PurchasePrototypeName` as prototype button".format(tag))
+                if _DEVELOPMENT is True:
+                    Trace.msg_err("SpecialPromotion [{!r}] DEPRECATED warning: Movie2Button_Purchase is deprecated, "
+                                  "add `PurchasePrototypeName` as prototype button".format(tag))
             else:
-                Trace.log("Entity", 0, "SpecialPromotion [{!r}] not found "
-                                       "purchase button - add `PurchasePrototypeName`".format(tag))
+                Trace.log("Entity", 0,
+                          "SpecialPromotion [{!r}] not found purchase button - add `PurchasePrototypeName`".format(tag))
             return False
 
         prototype_name = params.reward_prototype_name
@@ -215,7 +221,7 @@ class SpecialPromotion(BaseEntity):
 
         movie = self.object.generateObjectUnique("PurchaseButton", prototype_name)
 
-        purchase = PurchaseButton(movie)
+        purchase = PurchaseButton(movie, params.purchase_action)
         purchase.setEnable(True)
 
         self.content["purchase"] = purchase
@@ -333,11 +339,7 @@ class SpecialPromotion(BaseEntity):
         if "rewards" in self.content:
             self.content.pop("rewards").cleanUp()
         if "purchase" in self.content:
-            purchase = self.content.pop("purchase")
-            if isinstance(self.content["Purchase"], PurchaseButton):
-                purchase.cleanUp()
-            else:
-                purchase.returnToParent()
+            self.content.pop("purchase").cleanUp()
         self.current_tag = None
         EVENT_WINDOW_CLOSE()
 
@@ -395,9 +397,6 @@ class SpecialPromotion(BaseEntity):
         return True
 
     def _scopePurchaseClick(self, source):
-        def scopeSuccess(src):
-            src.addFunction(EVENT_GET_PURCHASED)
-
         params = self.params[self.current_tag]
         SystemMonetization = SystemManager.getSystem("SystemMonetization")
 
@@ -408,12 +407,17 @@ class SpecialPromotion(BaseEntity):
             source.addBlock()
             return
 
+        def scopeSuccess(src):
+            src.addFunction(EVENT_GET_PURCHASED)
+
         if SystemMonetization.isPurchaseDelayed(product_id) is True:
             if "restore" in self.content:
                 self.content["restore"].setEnable(True)
                 self.content["purchase"].setEnable(False)
+                source.addTask("TaskMovie2ButtonClick", Movie2Button=self.content["restore"])
+            else:
+                source.addScope(self.content["purchase"].scopeClick)
 
-            source.addTask("TaskMovie2ButtonClick", Movie2Button=self.content.get("restore", "purchase"))
             with source.addParallelTask(2) as (purchased, release):
                 purchased.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == product_id)
                 purchased.addScope(scopeSuccess)
@@ -423,6 +427,6 @@ class SpecialPromotion(BaseEntity):
                 self.content["restore"].setEnable(False)
                 self.content["purchase"].setEnable(True)
 
-            source.addTask("TaskMovie2ButtonClick", Movie2Button=self.content["purchase"])
-            source.addScope(SystemMonetization.scopePay, product_id, scopeSuccess=scopeSuccess)
+            source.addScope(self.content["purchase"].scopeClick)
+            source.addScope(self.content["purchase"].scopeActivate, product_id, scopeSuccess=scopeSuccess)
 
