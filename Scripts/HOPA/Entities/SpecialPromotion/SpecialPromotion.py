@@ -5,6 +5,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from HOPA.Entities.SpecialPromotion.RewardPlate import RewardPlate
+from HOPA.Entities.SpecialPromotion.PurchaseButton import PurchaseButton
 from Event import Event
 
 
@@ -88,7 +89,6 @@ class SpecialPromotion(BaseEntity):
         # init movies
         content = {
             "window": "Movie2_Window",
-            "purchase": "Movie2Button_Purchase",
             "close": "Movie2Button_Close",
         }
         self._getMovies(content, self.content)
@@ -131,7 +131,6 @@ class SpecialPromotion(BaseEntity):
 
         # attach items
         self._attachContent("window", "close", "close")
-        self._attachContent("window", "purchase", "purchase")
         if "restore" in self.content:
             self._attachContent("window", "purchase", "restore")
         for background_movie in self.backgrounds.values():
@@ -196,6 +195,34 @@ class SpecialPromotion(BaseEntity):
 
         return True
 
+    def _setPurchaseButton(self, tag):
+        params = self.params[tag]
+
+        if params.purchase_prototype_name is None:
+            if self.object.hasObject("Movie2Button_Purchase"):
+                self.content["purchase"] = self.object.getObject("Movie2Button_Purchase")
+                self._attachContent("window", "purchase", "purchase")
+                Trace.msg_err("SpecialPromotion [{!r}] DEPRECATED warning: Movie2Button_Purchase is deprecated, "
+                              "add `PurchasePrototypeName` as prototype button".format(tag))
+            else:
+                Trace.log("Entity", 0, "SpecialPromotion [{!r}] not found "
+                                       "purchase button - add `PurchasePrototypeName`".format(tag))
+            return False
+
+        prototype_name = params.reward_prototype_name
+        if self.object.hasPrototype(prototype_name) is False:
+            return False
+
+        movie = self.object.generateObjectUnique("PurchaseButton", prototype_name)
+
+        purchase = PurchaseButton(movie)
+        purchase.setEnable(True)
+
+        self.content["purchase"] = purchase
+        self._attachContent("window", "purchase", "purchase")
+
+        return True
+
     def setup(self, tag):
         if tag not in self.params:
             Trace.log("Entity", 0, "SpecialPromotion: wrong tag '{}'".format(tag))
@@ -211,6 +238,8 @@ class SpecialPromotion(BaseEntity):
 
         self._updateTexts()
         self._setRewardsPlate(tag)
+        if self._setPurchaseButton(tag) is False:
+            return False
 
         return True
 
@@ -303,6 +332,12 @@ class SpecialPromotion(BaseEntity):
         self.setEnableWindow(False)
         if "rewards" in self.content:
             self.content.pop("rewards").cleanUp()
+        if "purchase" in self.content:
+            purchase = self.content.pop("purchase")
+            if isinstance(self.content["Purchase"], PurchaseButton):
+                purchase.cleanUp()
+            else:
+                purchase.returnToParent()
         self.current_tag = None
         EVENT_WINDOW_CLOSE()
 
