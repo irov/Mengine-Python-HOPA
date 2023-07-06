@@ -426,6 +426,8 @@ def onInitialize():
         , "PolicyNotEnoughEnergyStoreWithPack"
         , "PolicyNotEnoughGoldWithLimitedOffer"
         , "PolicyNotEnoughEnergyWithLimitedOffer"
+        , "PolicyNotEnoughGoldRewardedAdvert"
+        , "PolicyNotEnoughEnergyRewardedAdvert"
 
         , "PolicyAuthGoogleService"
 
