@@ -215,7 +215,7 @@ class SpecialPromotion(BaseEntity):
                           "SpecialPromotion [{!r}] not found purchase button - add `PurchasePrototypeName`".format(tag))
             return False
 
-        prototype_name = params.reward_prototype_name
+        prototype_name = params.purchase_prototype_name
         if self.object.hasPrototype(prototype_name) is False:
             return False
 
