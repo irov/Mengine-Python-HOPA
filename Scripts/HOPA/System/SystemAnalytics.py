@@ -75,9 +75,7 @@ class SystemAnalytics(SystemAnalyticsBase):
         self.__updateTotalPlayedMinutes()
         return round(self._total_played_minutes, 2)
 
-    def addDefaultAnalytics(self):
-        super(SystemAnalytics, self).addDefaultAnalytics()
-
+    def _addDefaultAnalytics(self):
         # key: [identity, check_method, params_method]
         default_analytics = {
             # mini-games
@@ -120,14 +118,13 @@ class SystemAnalytics(SystemAnalyticsBase):
                 }]
 
         if SceneManager.hasScene("Store"):
-            default_analytics["open_store"] = [Notificator.onSceneEnter,
-                lambda scene_name: scene_name == "Store", lambda *_, **__: {}]
-            default_analytics["store_first_visit"] = [Notificator.onSceneEnter,
-                lambda scene_name: scene_name == "Store" and scene_name not in self.unlocked_scenes,
-                lambda scene_name: {"name": scene_name, "played_minutes": self.__getPlayedMinutes()}]
+            default_analytics["open_store"] = [Notificator.onSceneEnter, lambda name: name == "Store", False]
 
         for event_key, (identity, check_method, params_method) in default_analytics.items():
             self.addAnalytic(event_key, identity, check_method=check_method, params_method=params_method)
+
+        self.addSpecificAnalytic("screen_view", "zoom_open", Notificator.onZoomOpen,
+                                 params_method=lambda name: {"screen_type": "MengineZoom", "screen_name": name})
 
     def _addIgnoreLogList(self):
         ignore_list = ["paragraph_start", "paragraph_complete"]
