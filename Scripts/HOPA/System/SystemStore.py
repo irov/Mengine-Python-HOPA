@@ -133,8 +133,9 @@ class SystemStore(System):
     # === Observers ====================================================================================================
 
     def _addAnalytics(self):
-        SystemAnalytics.addAnalytic("store_open_page", Notificator.onStoreTabSwitched, check_method=None,
-                                    params_method=lambda _, to_page_id: {"page_id": to_page_id})
+        SystemAnalytics.addSpecificAnalytic(
+            "screen_view", "store_open_page", Notificatator.onStoreTabSwitched,
+            params_method=lambda _, to_page_id: {"screen_type": "StorePage", "screen_name": to_page_id})
 
     def _setupObservers(self):
         tab_params = StoreManager.getTabsSettings()
