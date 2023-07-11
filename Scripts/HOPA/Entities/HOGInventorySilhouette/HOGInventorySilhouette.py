@@ -107,7 +107,12 @@ class HOGInventorySilhouette(InventoryBase):
 
     def _onPreparation(self):
         super(HOGInventorySilhouette, self)._onPreparation()
-        self.Movie = self.object.getObject("Movie_SlotPoints")
+        if self.object.hasObject("Movie2_SlotPoints"):
+            self.Movie = self.object.getObject("Movie2_SlotPoints")
+        elif self.object.hasObject("Movie_SlotPoints"):
+            self.Movie = self.object.getObject("Movie_SlotPoints")
+        elif _DEVELOPMENT:
+            Trace.log("Entity", 0, "%s HOGInventorySilhouette missing Movie(2)_SlotPoints" % self.object.getGroupName())
 
         self.setupSlots()
 
