@@ -189,7 +189,8 @@ class HOGSilhouette(Enigma):
             if TaskManager.existTaskChain("HOGFindItem{}".format(itemName)) is True:
                 TaskManager.cancelTaskChain("HOGFindItem{}".format(itemName))
 
-        self.HOGInventory.setParams(FindItems=[], FoundItems=[], HOG=None)
+        if self.HOGInventory is not None:
+            self.HOGInventory.setParams(FindItems=[], FoundItems=[], HOG=None)
 
         if self.completeCheck is True:
             self._enableSceneHogItem()
