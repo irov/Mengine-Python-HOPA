@@ -197,7 +197,7 @@ class InventoryCountItemFX(InventoryItem):
         #     self.textField.setFontName(self.FontName)
         #
         # self.textField.setTextID("ID_InventoryCountItem")
-        # self.textField.setLocalColor((1, 0, 0, 1))  # red
+        # self.textField.setFontColor((1, 0, 0, 1))  # red
         # self.textField.enable()
 
         DefaultTextID = DefaultManager.getDefault('DefaultInventoryCountItemTextID', None)
@@ -209,7 +209,7 @@ class InventoryCountItemFX(InventoryItem):
                 pass
 
             self.textField.setTextId("ID_InventoryCountItem")
-            self.textField.setLocalColor((0, 0, 1, 1))
+            self.textField.setFontColor((1, 1, 1, 1))
             pass
 
         self.textField.enable()

@@ -42,7 +42,7 @@ class InventoryCountItem(InventoryItem):
                 self.textField.setFontName(self.FontName)
 
             self.textField.setTextId("ID_InventoryCountItem")
-            self.textField.setLocalColor((0, 0, 1, 1))
+            self.textField.setFontColor((1, 1, 1, 1))
 
         if self.text_Atach(obj) is False:
             self.addChild(self.textField)  # self.addChild(self.textField)

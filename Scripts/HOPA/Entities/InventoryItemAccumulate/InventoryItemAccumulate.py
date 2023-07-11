@@ -62,7 +62,7 @@ class InventoryItemAccumulate(BaseEntity):
 
         self.textField.setTextId("ID_InventoryCountItem")
 
-        self.textField.setLocalColor((1, 0, 0, 1))
+        self.textField.setFontColor((1, 1, 1, 1))
 
         spriteEntity = sprite.getEntity()
         spriteEntity.addChild(self.textField)
