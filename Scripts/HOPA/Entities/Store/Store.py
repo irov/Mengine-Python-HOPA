@@ -175,6 +175,6 @@ class Store(BaseEntity):
                 cur_page_group_name = self.current_tab.params.group_name
                 tc.addTask("TaskSceneLayerGroupEnable", LayerName=cur_page_group_name, Value=False)
 
-            prev_page_group_name = tab.params.group_name
-            tc.addTask("TaskSceneLayerGroupEnable", LayerName=prev_page_group_name, Value=True)
+            next_page_group_name = tab.params.group_name
+            tc.addTask("TaskSceneLayerGroupEnable", LayerName=next_page_group_name, Value=True)
         return False
