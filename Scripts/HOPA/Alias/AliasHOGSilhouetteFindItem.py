@@ -24,10 +24,7 @@ class AliasHOGSilhouetteFindItem(TaskAlias):
         Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName,
                                               HogGroupName=self.GroupName, ItemName=ItemName, HogItem=hogItem)
         with QuestManager.runQuest(source, Quest) as tc_quest:
-            if ObjectType is "ObjectMovieItem" or ObjectType is "ObjectMovie2Item":
-                tc_quest.addTask("TaskMovieItemClick", MovieItem=ItemObject)
-            else:
-                tc_quest.addTask("TaskItemClick", ItemName=ItemName)
+            tc_quest.addTask("TaskHOGFindItemClick", HOGItem=hogItem, ItemObject=ItemObject)
 
         if ObjectType is "ObjectMovieItem" or ObjectType is "ObjectMovie2Item":
             source.addTask("TaskMovieItemPick", MovieItem=ItemObject)
