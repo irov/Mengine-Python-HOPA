@@ -1,5 +1,6 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DemonManager import DemonManager
+from Foundation.SystemManager import SystemManager
 from Foundation.Task.MixinObjectTemplate import MixinSocket
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
@@ -10,7 +11,6 @@ class TaskHOGFittingItemUseSocket(MixinSocket, MixinObserver, Task):
         super(TaskHOGFittingItemUseSocket, self)._onParams(params)
         self.ItemUseObject = params.get("ItemUseObject")
         self.Inventory = DemonManager.getDemon("HOGInventoryFitting")
-        pass
 
     def _onRun(self):
         self.Socket.setInteractive(True)
@@ -22,28 +22,34 @@ class TaskHOGFittingItemUseSocket(MixinSocket, MixinObserver, Task):
             self.addObserverFilter(Notificator.onSocketClick, self._onSocketFindFilter, self.Socket)
 
         return False
-        pass
 
     def _onSocketFindFilter(self, socket):
         if ArrowManager.emptyArrowAttach() is True:
             return False
-            pass
 
         attach = ArrowManager.getArrowAttach()
 
         if attach is not self.ItemUseObject:
             return False
-            pass
+
+        if self._actionEnergy() is False:
+            return False
 
         inv_Ent = self.Inventory.getEntity()
         inv_Ent.ItemIsValideUse = True
         return True
-        pass
+
+    def _actionEnergy(self):
+        if SystemManager.hasSystem("SystemEnergy") is False:
+            return True
+
+        SystemEnergy = SystemManager.getSystem("SystemEnergy")
+        if SystemEnergy.performAction("FitHO") is True:
+            return True
+
+        return False
 
     def _onFinally(self):
         super(TaskHOGFittingItemUseSocket, self)._onFinally()
 
         self.Socket.setInteractive(False)
-        pass
-
-    pass
