@@ -9,7 +9,7 @@ from Foundation.Task.TaskAlias import TaskAlias
 COMPONENT_NAME = "TriggerSpecialPacks"
 
 
-class PolicyNotEnoughGoldSpecialPacks(TaskAlias):
+class PolicyNotEnoughEnergySpecialPacks(TaskAlias):
 
     def _onParams(self, params):
         self.PageID = params.get("PageID")
