@@ -149,6 +149,7 @@ def onInitialize():
         , "TaskHOGRollingInventoryCrossOut"
         , "TaskHOGFittingItemUse"
         , "TaskHOGFittingItemUseSocket"
+        , "TaskHOGFindItemClick"
         , "TaskFunctionResult"
         , 'TaskDelayPointer'
         , "TaskAnimatableButtonClick"
