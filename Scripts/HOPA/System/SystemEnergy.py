@@ -15,6 +15,14 @@ _Log = SimpleLogger("SystemEnergy")
 
 EVENT_CHANGED_BALANCE = Event("onEnergyBalanceChanged")
 EVENT_UPDATE_TIMER = Event("onEnergyTimerUpdate")
+ACTION_NAMES = [
+    "PickItem"
+    , "CombineItems"
+    , "PlaceItem"
+    , "EnterHOG"
+    , "FindHO"
+    , "FitHO"
+]
 
 
 class SystemEnergy(System):
@@ -53,20 +61,16 @@ class SystemEnergy(System):
         }
 
         actions = {
-            "PickItem": Mengine.getConfigBool("Energy", "PickItem", False),
-            "CombineItems": Mengine.getConfigBool("Energy", "CombineItems", False),
-            "PlaceItem": Mengine.getConfigBool("Energy", "PlaceItem", False),
-            "EnterHOG": Mengine.getConfigBool("Energy", "EnterHOG", False),
+            action: Mengine.getConfigBool("Energy", action, False) for action in ACTION_NAMES
         }
-
-        actions_price = {
+        prices = {
             action: Mengine.getConfigInt("Energy", (action + "Consumption"), settings["default_energy_consumption"])
-            for action in actions.keys()
+            for action in ACTION_NAMES
         }
 
         SystemEnergy.s_settings = settings
         SystemEnergy.s_actions = actions
-        SystemEnergy.s_actions_price = actions_price
+        SystemEnergy.s_actions_price = prices
 
         self.debugCheats()
         self.__addDevToDebug()
