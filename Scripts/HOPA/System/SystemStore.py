@@ -134,7 +134,7 @@ class SystemStore(System):
 
     def _addAnalytics(self):
         SystemAnalytics.addSpecificAnalytic(
-            "screen_view", "store_open_page", Notificatator.onStoreTabSwitched,
+            "screen_view", "store_open_page", Notificator.onStoreTabSwitched,
             params_method=lambda _, to_page_id: {"screen_type": "StorePage", "screen_name": to_page_id})
 
     def _setupObservers(self):
