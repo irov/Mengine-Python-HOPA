@@ -21,12 +21,6 @@ class PolicyNotEnoughEnergySpecialPacks(TaskAlias):
             if component is None:
                 self.initializeFailed("Not found required component {!r}".format(COMPONENT_NAME))
 
-    def _onCheck(self):
-        if _DEVELOPMENT is True:
-            component = MonetizationManager.getComponentType(COMPONENT_NAME)
-            if component.isEnable() is False:
-                self.initializeFailed("Component {!r} is disabled, please enable it in settings".format(COMPONENT_NAME))
-
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
         TriggerSpecialPacks = SystemMonetization.getComponent(COMPONENT_NAME)
