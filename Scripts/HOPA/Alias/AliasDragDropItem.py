@@ -2,6 +2,9 @@ from Event import Event
 from Foundation.Notificator import Notificator
 from Foundation.Task.TaskAlias import TaskAlias
 
+SCALE_TO = 1.1
+SCALE_TIME = 250.0
+
 
 class AliasDragDropItem(TaskAlias):
     def _onParams(self, params):
@@ -10,10 +13,10 @@ class AliasDragDropItem(TaskAlias):
         self.Item = params.get("Item")
         self.SocketObject = params.get("SocketObject", None)
         self.AutoAttach = params.get("AutoAttach", False)
+        self.EventValidClick = Event("onDragDropValidClick")
 
         self.Touchpad = Mengine.hasTouchpad() is True
-        if self.Touchpad is True:
-            self.EventEnd = Event("onDragDropItemEnd")
+        self.EventEnd = Event("onDragDropItemEnd")
 
     def _scopeValidClick(self, source):
         socket_object_type = self.SocketObject.getType()
@@ -21,6 +24,9 @@ class AliasDragDropItem(TaskAlias):
             source.addTask("TaskSocketUseItem", Socket=self.SocketObject, Item=self.ItemObject, Taken=False)
         else:
             source.addTask("TaskItemPlaceItem", SocketItem=self.SocketObject, Item=self.ItemObject)
+        if self.Touchpad is True:
+            source.addFunction(self.EventEnd)
+        source.addTask("AliasEnergyConsume", Action="DragDropItem", Cb=self.EventValidClick)
 
     def _scopeInvalidClick(self, source):
         source.addTask("TaskItemInvalidUse", Item=self.ItemObject)
@@ -69,17 +75,13 @@ class AliasDragDropItem(TaskAlias):
                 # CASE 3: scene leave ----------------------------------------------
                 leave.addScope(self._scopeInterrupt)
 
-            until.addScope(self._scopeValidClick)
+            until.addEvent(self.EventValidClick)
 
         source.addTask("AliasRemoveItemAttach", Item=self.ItemObject)
         source.addDisable(self.ItemObject)
         source.addFunction(self.ItemObject.onEntityRestore)
 
     def forkPlayItemSelectEffect(self, source):
-        # params    todo: move to Defaults
-        ScaleTo = 1.1
-        ScaleTime = 250.0
-
         itemNode = self.ItemObject.getEntityNode()
 
         def _cbStop():
@@ -88,8 +90,8 @@ class AliasDragDropItem(TaskAlias):
 
         with source.addFork() as tc_fork:
             with tc_fork.addRepeatTask() as (repeat, until):
-                repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(ScaleTo, ScaleTo, 1.0), Time=ScaleTime)
-                repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(1.0, 1.0, 1.0), Time=ScaleTime)
+                repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(SCALE_TO, SCALE_TO, 1.0), Time=SCALE_TIME)
+                repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(1.0, 1.0, 1.0), Time=SCALE_TIME)
                 until.addEvent(self.EventEnd)
 
             tc_fork.addFunction(_cbStop)

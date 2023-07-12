@@ -22,6 +22,7 @@ ACTION_NAMES = [
     , "EnterHOG"
     , "FindHO"
     , "FitHO"
+    , "DragDropItem"
 ]
 
 
