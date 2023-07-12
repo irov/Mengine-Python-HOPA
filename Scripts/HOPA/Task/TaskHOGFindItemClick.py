@@ -1,4 +1,3 @@
-from Foundation.SystemManager import SystemManager
 from Foundation.Task.TaskAlias import TaskAlias
 
 
@@ -18,17 +17,11 @@ class TaskHOGFindItemClick(TaskAlias):
             source.addTask("TaskItemClick", ItemName=ItemName)
 
     def _onGenerate(self, source):
-        if SystemManager.hasSystem("SystemEnergy") is False:
-            source.addScope(self._scopeClick)
-            return
-
-        SystemEnergy = SystemManager.getSystem("SystemEnergy")
-        done_event = Event("HOGFindItemClickEnergyDone")
+        done_event = Event("onHOGFindItemClickEnergyDone")
 
         with source.addRepeatTask() as (repeat, until):
             repeat.addScope(self._scopeClick)
-            with repeat.addIfTask(SystemEnergy.performAction, "FindHO") as (true, false):
-                true.addFunction(done_event)
+            repeat.addTask("AliasEnergyConsume", Action="FindHO", Cb=done_event)
 
             until.addEvent(done_event)
 
