@@ -336,6 +336,9 @@ class ZoomManager(object):
 
         Notification.notify(Notificator.onZoomOpen, zoomGroupName)
 
+        if _DEVELOPMENT is True:
+            Trace.msg("<ZoomManager> open zoom '%s'" % zoomGroupName)
+
     @staticmethod
     def closeZoom(zoomGroupName):
         BlockGameScenes = SceneManager.isBlockGameScenes()
