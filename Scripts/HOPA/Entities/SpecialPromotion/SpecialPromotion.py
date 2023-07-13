@@ -87,6 +87,12 @@ class SpecialPromotion(BaseEntity):
 
     def _loadMovies(self):
         # init movies
+        if self.object.hasObject("Movie2Button_Purchase"):
+            deprecated_button = self.object.getObject("Movie2Button_Purchase")
+            deprecated_button.setEnable(False)
+            if _DEVELOPMENT is True:
+                Trace.msg_err("SpecialPromotion found deprecated button Movie2Button_Purchase - use prototype instead")
+
         content = {
             "window": "Movie2_Window",
             "close": "Movie2Button_Close",
