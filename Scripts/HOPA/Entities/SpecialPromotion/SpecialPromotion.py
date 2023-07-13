@@ -219,7 +219,7 @@ class SpecialPromotion(BaseEntity):
             else:
                 Trace.log("Entity", 0,
                           "SpecialPromotion [{!r}] not found purchase button - add `PurchasePrototypeName`".format(tag))
-            return False
+            return True
 
         prototype_name = params.purchase_prototype_name
         if self.object.hasPrototype(prototype_name) is False:
