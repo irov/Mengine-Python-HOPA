@@ -119,7 +119,6 @@ class HintAction(MixinScene, Params, Initializer):
         return None
 
     def Create_Movie(self, name):
-        print(self.__class__.__name__)
         layer = self.getHintLayer()
 
         Group = GroupManager.getGroup("HintEffect")
