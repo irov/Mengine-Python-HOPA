@@ -39,4 +39,5 @@ class DeprecatedPurchaseButton(PurchaseButton):
     def cleanUp(self):
         self.action = None
         self.movie.returnToParent()
+        self.movie.setEnable(False)
         self.movie = None
