@@ -61,7 +61,7 @@ class ItemPopUp(BaseEntity):
         text = self.object.getObject("Text_ItemName")
         textEn = text.getEntity()
         textField = textEn.getTextField()
-        textField.setTextID("ID_ITEM_POPUP_Descriptions")
+        textField.setTextId("ID_ITEM_POPUP_Descriptions")
         textField.setTextFormatArgs(ItemNameText)
 
         self.Socket_Back = self.object.getObject("Socket_Back")
