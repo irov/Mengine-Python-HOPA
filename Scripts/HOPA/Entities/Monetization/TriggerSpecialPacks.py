@@ -19,7 +19,8 @@ class TriggerSpecialPacks(BaseComponent):
     def _createParams(self):
         self.scene_name = self._getMonetizationParam("scene_name")
         self.show_on_not_enough = self._getMonetizationParam("on_not_enough")
-        self.packs = self._getMonetizationParam("packs_order", [])
+        packs = self._getMonetizationParam("packs_order", [])
+        self.packs = [MonetizationManager.getProductRealId(product_id) for product_id in packs]
         self.index = 0
         self.demon_name = "SpecialPromotion"
         self.demon = DemonManager.getDemon(self.demon_name) if DemonManager.hasDemon(self.demon_name) else None
