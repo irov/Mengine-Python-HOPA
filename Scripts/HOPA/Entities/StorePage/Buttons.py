@@ -361,15 +361,31 @@ class ButtonExchange(ButtonMixin):
 
     # Scopes
 
-    def scopeAction(self, source):  # todo
+    def scopeAction(self, source):
         source.addPrint("ButtonExchange scopeAction")     # tmp
-        # check if enough money
-        pass
-        # if enough - buy product
-        pass
-        # else go to store
-        pass
 
+        currency = self.product_params.getCurrency()
+        price = self.product_params.price
+
+        # todo: move to Task
+
+        currency_page_id = MonetizationManager.getGeneralSetting("%sPageID" % currency)
+        if currency == "Gold":
+            with source.addParallelTask(2) as (response, request):
+                with response.addRaceTask(3) as (success, fail, not_enough_money):
+                    success.addListener(Notificator.onGameStorePayGoldSuccess, Filter=lambda gold, *_: gold == price)
+                    success.addNotify(Notificator.onPaySuccess, self.product_params.id)  # send reward
+
+                    fail.addListener(Notificator.onGameStorePayGoldFailed)  # do nothing
+
+                    not_enough_money.addListener(Notificator.onGameStoreNotEnoughGold)
+                    not_enough_money.addNotify(Notificator.onStoreSetPage, currency_page_id)   # open gold shop
+
+                request.addNotify(Notificator.onGameStorePayGold, price, "Exchange")
+        elif currency == "Energy":
+            source.addPrint("not realized...")  # todo
+        else:
+            source.addPrint("!!! not found currency {}".format(currency))
 
 # FACTORY
 

@@ -62,12 +62,18 @@ class SystemMonetization(SystemMonetizationBase):
         self.addObserver(Notificator.onLayerGroupEnable, self._cbLayerGroupEnable)
 
     def _onGameStoreNotEnoughGold(self, gold, descr):
+        if descr == "Exchange":
+            return False
+
         NotEnoughMoneyPageID = MonetizationManager.getGeneralSetting("NotEnoughMoneyPageID")
 
         TaskManager.runAlias("AliasNotEnoughGold", None, Gold=gold, Descr=descr, PageID=NotEnoughMoneyPageID)
         return False
 
     def _onEnergyNotEnough(self, action_name):
+        if action_name == "Exchange":
+            return False
+
         NotEnoughMoneyPageID = MonetizationManager.getGeneralSetting("NotEnoughMoneyPageID")
 
         TaskManager.runAlias("AliasNotEnoughEnergy", None, Action=action_name, PageID=NotEnoughMoneyPageID)
