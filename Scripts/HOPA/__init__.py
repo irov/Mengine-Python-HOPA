@@ -952,6 +952,7 @@ def onInitialize():
         , "onEnergySet"
         , "onIndicatorClicked"
 
+        , "onStoreSetPage"
         , "onStoreTabSwitched"
         , "onStorePageNewActions"
         , "onStorePageNewActionsEnd"

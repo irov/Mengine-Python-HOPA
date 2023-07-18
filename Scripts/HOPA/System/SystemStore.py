@@ -147,6 +147,7 @@ class SystemStore(System):
         self.addObserver(Notificator.onStorePageNewActions, self._cbPageNewActions)
         self.addObserver(Notificator.onStorePageNewActionsEnd, self._cbPageNewActionsEnd)
         self.addObserver(Notificator.onStoreTabSwitched, self._onTabSwitched)
+        self.addObserver(Notificator.onStoreSetPage, self._onStoreSetPage)
         self.addObserver(Notificator.onIndicatorClicked, self._cbIndicatorClicked)
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
@@ -217,6 +218,10 @@ class SystemStore(System):
         if prev_scene == "CutScene":
             prev_scene = "Menu"
         TaskManager.runAlias("AliasTransition", None, SceneName=prev_scene, IgnoreGameScene=True)
+        return False
+
+    def _onStoreSetPage(self, page_id):
+        self.setCurrentPageID(page_id)
         return False
 
     # saves
