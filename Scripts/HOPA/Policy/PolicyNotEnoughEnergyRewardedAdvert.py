@@ -18,7 +18,7 @@ class PolicyNotEnoughEnergyRewardedAdvert(TaskAlias):
 
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
-        AdvertProduct = MonetizationManager.getGeneralProductInfo("AdvertProductID")
+        AdvertProduct = MonetizationManager.getGeneralProductInfo("AdvertNotEnoughProductID")
 
         if SystemMonetization.isAdsEnded() is True:
             source.addScope(self._scopeDefaultAction)
