@@ -270,11 +270,116 @@ class ButtonAdvert(ButtonMixin):
         source.addTask("AliasShowAdvert", AdType="Rewarded")
 
 
+class ButtonExchange(ButtonMixin):
+    aliases = {
+        "price": "$AliasStoreButtonPrice",
+        "title": "$AliasStoreButtonTitle",
+        "descr": "$AliasStoreButtonDescr",
+        "energy": "$AliasStoreEnergyReward",
+        "gold": "$AliasStoreGoldReward",
+        "discount": "$AliasStoreButtonDiscount",
+    }
+    action = "exchange"
+
+    def __init__(self, params, button_movie, icon_movie):
+        self.currency_icon_movie = None
+        super(ButtonExchange, self).__init__(params, button_movie, icon_movie)
+
+    # Texts
+
+    def _getAliasAndTextID(self):
+        alias_param = {
+            self.aliases["price"]: self.params.price_text_id,
+            self.aliases["title"]: self.params.title_text_id,
+            self.aliases["descr"]: self.params.descr_text_id,
+            self.aliases["gold"]: self.params.gold_reward_text_id,
+            self.aliases["energy"]: self.params.energy_reward_text_id,
+            self.aliases["discount"]: self.params.discount_text_id,
+        }
+        return alias_param
+
+    def setText(self):
+        reward = self.product_params.reward
+        if reward is not None:
+            self.setTextArguments("gold", reward.get("Gold", 0))
+            self.setTextArguments("energy", reward.get("Energy", 0))
+
+        self.setTextArguments("price", self.product_params.price)
+
+    # Prepare
+
+    def _getIconProvider(self):
+        provider = MonetizationManager.getGeneralSetting("GameStoreName", "GameStore")
+        if DemonManager.hasDemon(provider):
+            return DemonManager.getDemon(provider)
+        elif GroupManager.hasGroup(provider):
+            return GroupManager.getGroup(provider)
+        return None
+
+    def _generateCurrencyIcon(self, currency):
+        if currency == "Gold":
+            icon_tag = "Coin"
+        elif currency == "Energy":
+            icon_tag = "Energy"
+        else:
+            Trace.log("Entity", 0, "{} [{}] has unknown currency {}".format(self.__class__.__name__, self.id, currency))
+            return None
+
+        icon_provider_object = self._getIconProvider()
+        if icon_provider_object is None:
+            Trace.log("Entity", 0, "{} [{}] not found icon provider".format(self.__class__.__name__, self.id))
+            return None
+
+        icon_name = "Movie2_{}_{}".format(icon_tag, Utils.getCurrentPublisher())
+        object_name = "Movie2_Icon_{}".format(currency)
+        try:
+            icon_movie = icon_provider_object.generateIcon(object_name, icon_name)
+        except AttributeError:
+            icon_movie = icon_provider_object.generateObjectUnique(object_name, icon_name)
+
+        if icon_movie is None:
+            Trace.log("Entity", 0, "{} [{}] icon not created: object_name={}, icon_name={}".format(self.__class__.__name__, self.id, object_name, icon_name))
+
+        return icon_movie
+
+    def _prepare(self):
+        currency = self.product_params.getCurrency()
+        currency_icon_movie = self._generateCurrencyIcon(currency)
+        if currency_icon_movie is None:
+            return
+        self.attach("currency", currency_icon_movie)
+        currency_icon_movie.setEnable(True)
+        self.currency_icon_movie = currency_icon_movie
+
+    def cleanUp(self):
+        if self.currency_icon_movie is not None:
+            self.detach("currency", self.currency_icon_movie)
+            self.currency_icon_movie.onDestroy()
+            self.currency_icon_movie = None
+
+        super(ButtonExchange, self).cleanUp()
+
+    # Scopes
+
+    def scopeAction(self, source):  # todo
+        source.addPrint("ButtonExchange scopeAction")     # tmp
+        # check if enough money
+        pass
+        # if enough - buy product
+        pass
+        # else go to store
+        pass
+
+
 # FACTORY
 
 
 class ButtonFactory(object):
-    allowed_actions = {"purchase": ButtonPurchase, "advert": ButtonAdvert}
+    allowed_actions = {
+        "purchase": ButtonPurchase,
+        "advert": ButtonAdvert,
+        "exchange": ButtonExchange,
+    }
     objects = []  # [ ConcreteButton, ... ]
     page_objects = {}  # { page_id: { button_id: ConcreteButton, ... }, ... }
 
