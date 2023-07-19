@@ -17,6 +17,7 @@ class SystemItemPlusScene(System):
     def __init__(self):
         super(SystemItemPlusScene, self).__init__()
         self.InventoryName = "Inventory"
+        self.ItemPlusDefaultName = "ItemPlusDefault"
         self.items_Inventort = {}
         self.items_Inventort_Keys = {}
         self.items_Scenes_Glob = {}
@@ -294,10 +295,10 @@ class SystemItemPlusScene(System):
             Socket_Scene.setBlock(True)
             Socket_Scene.setInteractive(True)
 
-        if SceneManager.hasLayerScene("ItemPlusDefault") is True:
-            TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName="ItemPlusDefault", Value=True)
+        if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is True:
+            TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName=self.ItemPlusDefaultName, Value=True)
 
-            group = GroupManager.getGroup("ItemPlusDefault")
+            group = GroupManager.getGroup(self.ItemPlusDefaultName)
 
             with self.tc_Fade as source_open:
                 with GuardBlockInput(source_open) as guard_open:
@@ -320,7 +321,7 @@ class SystemItemPlusScene(System):
         GroupZoom = SystemItemPlusScene.Open_Zoom[0]
         ScenePlus = SystemItemPlusScene.Open_Zoom[1]
         GroupLayer = GroupZoom.getMainLayer()
-        ItemPlusDefaultGroup = GroupManager.getGroup("ItemPlusDefault")
+        ItemPlusDefaultGroup = GroupManager.getGroup(self.ItemPlusDefaultName)
         ItemPlusDefaultLayer = ItemPlusDefaultGroup.getMainLayer()
 
         for key in self.items_Inventort:
@@ -332,7 +333,25 @@ class SystemItemPlusScene(System):
                     Item_pos = ItemNode.getWorldPosition()
                     Center = ItemEnt.getSpriteCenter()
 
-                    ItemPlusDefaultLayer.addChild(self.Node_Fade)
+                    content_movie_name = "Movie2_Content"
+                    if ItemPlusDefaultGroup.hasObject(content_movie_name):
+                        content_movie = ItemPlusDefaultGroup.getObject(content_movie_name)
+
+                        content_slot_name = "content"
+                        if content_movie.hasMovieSlot(content_slot_name):
+                            content_node = content_movie.getMovieSlot(content_slot_name)
+                        else:
+                            content_node = content_movie.getEntityNode()
+
+                            if _DEVELOPMENT:
+                                Trace.msg_err("You can add 'slot:%s' in '%s' of '%s' to get more control...",
+                                              content_slot_name, content_movie_name, self.ItemPlusDefaultName)
+
+                        content_node.addChild(self.Node_Fade)
+
+                    else:
+                        ItemPlusDefaultLayer.addChild(self.Node_Fade)
+
                     pos_Node_Fade = self.Node_Fade.getWorldPosition()
                     # print "Center",Center
                     # print "Item_pos", Item_pos
@@ -402,7 +421,7 @@ class SystemItemPlusScene(System):
         if time is None:
             time = self.time_Fade
 
-        if SceneManager.hasLayerScene("ItemPlusDefault") is True:
+        if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is True:
             self.tc_Fade_close = TaskManager.createTaskChain(Repeat=False)
             with self.tc_Fade_close as source_close:
                 with GuardBlockInput(source_close) as guard_close:
@@ -454,14 +473,28 @@ class SystemItemPlusScene(System):
                 self.Node_Fade.removeChild(GroupLayer)
                 GroupZoom.onDisable()
 
-        ItemPlusDefaultGroup = GroupManager.getGroup("ItemPlusDefault")
-        ItemPlusDefaultLayer = ItemPlusDefaultGroup.getMainLayer()
-        ItemPlusDefaultLayer.removeChild(self.Node_Fade)
+        ItemPlusDefaultGroup = GroupManager.getGroup(self.ItemPlusDefaultName)
+
+        content_movie_name = "Movie2_Content"
+        if ItemPlusDefaultGroup.hasObject(content_movie_name):
+            content_movie = ItemPlusDefaultGroup.getObject(content_movie_name)
+
+            content_slot_name = "content"
+            if content_movie.hasMovieSlot(content_slot_name):
+                content_node = content_movie.getMovieSlot(content_slot_name)
+            else:
+                content_node = content_movie.getEntityNode()
+
+            content_node.removeChild(self.Node_Fade)
+
+        else:
+            ItemPlusDefaultLayer = ItemPlusDefaultGroup.getMainLayer()
+            ItemPlusDefaultLayer.removeChild(self.Node_Fade)
 
         self.Plus_Node = None
 
-        if SceneManager.hasLayerScene("ItemPlusDefault") is True:
-            TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName="ItemPlusDefault", Value=False)
+        if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is True:
+            TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName=self.ItemPlusDefaultName, Value=False)
 
     def _onStop(self):
         for items in self.items_Inventort.itervalues():
