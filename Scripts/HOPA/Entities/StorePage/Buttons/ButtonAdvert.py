@@ -50,7 +50,10 @@ class ButtonAdvert(ButtonMixin):
     def updateCounter(self, current, maximum):
         self.setTextArguments("ads_counter", current, maximum)
 
+    def getAdvertName(self):
+        return self.product_params.name
+
     # Scopes
 
     def scopeAction(self, source):
-        source.addTask("AliasShowAdvert", AdType="Rewarded")
+        source.addTask("AliasShowAdvert", AdType="Rewarded", AdUnitName=self.getAdvertName())

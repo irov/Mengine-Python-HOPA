@@ -37,8 +37,10 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         return False
 
     def updateAdvertCounter(self):
-        viewed_ads = int(SystemMonetization.getStorageValue("todayViewedAds"))
-        max_ads = MonetizationManager.getGeneralSetting("AdsPerDay")
+        ad_name = self.button.getAdvertName()
+        key_viewed_ads = SystemMonetization.getAdvertStorageKey(ad_name, "today_viewed_ads")
+        viewed_ads = int(SystemMonetization.getStorageValue(key_viewed_ads))
+        max_ads = MonetizationManager.getGeneralSetting("AdsPerDay")    # todo: make it unique for each ad unit
 
         self.button.updateCounter(viewed_ads, max_ads)
 
@@ -48,13 +50,19 @@ class StorePageAdvertComponent(StorePageBaseComponent):
 
     # --- advert button ------------------------------------------------------------------------------------------------
 
-    def _cbAvailableAdsNew(self, *args):
+    def _cbAvailableAdsNew(self, ad_name):
+        if self.button.getAdvertName() != ad_name:
+            return False
+
         self.updateAdvertCounter()
         self.removeAdvertTimer()
         self.button.setBlock(False)
         return False
 
-    def _cbAvailableAdsEnded(self, *args):
+    def _cbAvailableAdsEnded(self, ad_name):
+        if self.button.getAdvertName() != ad_name:
+            return False
+
         self.updateAdvertCounter()
         self.startAdvertTimer()
         self.button.setBlock(True)

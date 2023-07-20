@@ -152,10 +152,15 @@ class SystemStore(System):
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
 
-    def _cbAvailableAdsNew(self):
-        advert_page_id = MonetizationManager.getGeneralSetting("AdvertPageID")
+    def _cbAvailableAdsNew(self, ad_name):
+        advert_product = MonetizationManager.findProduct(lambda product: product.name == ad_name)
+        if advert_product is None:
+            return False
+
+        advert_page_id = StoreManager.findPageIdByProductId(advert_product.id)
         if advert_page_id is None:
             return False
+
         Notification.notify(Notificator.onStorePageNewActions, advert_page_id)
         return False
 

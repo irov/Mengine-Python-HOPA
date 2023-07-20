@@ -209,10 +209,12 @@ class SpecialPromotion(BaseEntity):
                 movie = self.object.getObject("Movie2Button_Purchase")
 
                 purchase = DeprecatedPurchaseButton(movie, params.purchase_action)
+                purchase.setParams(params)
                 purchase.setEnable(True)
-                self.content["purchase"] = purchase
 
+                self.content["purchase"] = purchase
                 self._attachContent("window", "purchase", "purchase")
+
                 if _DEVELOPMENT is True:
                     Trace.msg_err("SpecialPromotion [{!r}] DEPRECATED warning: Movie2Button_Purchase is deprecated, "
                                   "add `PurchasePrototypeName` as prototype button".format(tag))
@@ -228,6 +230,7 @@ class SpecialPromotion(BaseEntity):
         movie = self.object.generateObjectUnique("PurchaseButton", prototype_name)
 
         purchase = PurchaseButton(movie, params.purchase_action)
+        purchase.setParams(params)
         purchase.setEnable(True)
 
         self.content["purchase"] = purchase
@@ -395,6 +398,7 @@ class SpecialPromotion(BaseEntity):
                 with until.addRaceTask(2) as (close, interrupt):
                     close.addTask("TaskMovie2ButtonClick", Movie2Button=self.content["close"])
                     interrupt.addEvent(EVENT_GET_PURCHASED)
+                    interrupt.addDelay(100)     # fix _scopePurchaseClick ending
 
             with tc.addParallelTask(2) as (tc_close, tc_fade):
                 tc_close.addScope(self.scopeClose)
@@ -434,5 +438,5 @@ class SpecialPromotion(BaseEntity):
                 self.content["purchase"].setEnable(True)
 
             source.addScope(self.content["purchase"].scopeClick)
-            source.addScope(self.content["purchase"].scopeActivate, product_id, scopeSuccess=scopeSuccess)
+            source.addScope(self.content["purchase"].scopeActivate, scopeSuccess=scopeSuccess)
 
