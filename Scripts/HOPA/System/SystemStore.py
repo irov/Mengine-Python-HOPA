@@ -11,6 +11,10 @@ from Notification import Notification
 
 class SystemStore(System):
 
+    def __init__(self):
+        super(SystemStore, self).__init__()
+        self.__prefetchedPages = []
+
     def _onRun(self):
         self._setupObservers()
 
@@ -21,6 +25,9 @@ class SystemStore(System):
         self._addAnalytics()
 
         return True
+
+    def _onStop(self):
+        self.__unfetchPages()
 
     # === Initial ======================================================================================================
 
@@ -151,6 +158,8 @@ class SystemStore(System):
         self.addObserver(Notificator.onIndicatorClicked, self._cbIndicatorClicked)
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
+        # prefetch pages
+        self.addObserver(Notificator.onTransitionBegin, self._cbTransitionBegin)
 
     def _cbAvailableAdsNew(self, ad_name):
         advert_product = MonetizationManager.findProduct(lambda product: product.name == ad_name)
@@ -228,6 +237,35 @@ class SystemStore(System):
     def _onStoreSetPage(self, page_id):
         self.setCurrentPageID(page_id)
         return False
+
+    # prefetch
+
+    def _cbTransitionBegin(self, scene_from=None, scene_to=None, zoom_name=None):
+        if scene_from == "Store":
+            self.__unfetchPages()
+        elif scene_to == "Store":
+            self.__prefetchPages()
+        return False
+
+    def __prefetchPages(self):
+        for tab in StoreManager.getTabsSettings().values():
+            self.__prefetchPage(tab.page_id)
+
+    def __prefetchPage(self, page_id):
+        group_name = StoreManager.getTabParamsById(page_id).group_name
+        if group_name in self.__prefetchedPages:
+            return
+
+        self.__prefetchedPages.append(group_name)
+
+        def _cb(Success, GroupName):
+            pass
+        Mengine.prefetchResources(group_name, _cb, group_name)
+
+    def __unfetchPages(self):
+        for group_name in self.__prefetchedPages:
+            Mengine.unfetchResources(group_name)
+        self.__prefetchedPages = []
 
     # saves
 
