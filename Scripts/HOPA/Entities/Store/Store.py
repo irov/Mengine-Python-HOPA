@@ -5,7 +5,7 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from HOPA.Entities.Store.TabSection import TabSection
-from HOPA.Entities.StorePage.Buttons import ButtonFactory
+from HOPA.Entities.StorePage.ButtonFactory import ButtonFactory
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
 
