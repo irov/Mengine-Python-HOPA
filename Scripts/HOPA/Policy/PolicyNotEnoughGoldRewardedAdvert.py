@@ -9,8 +9,8 @@ class PolicyNotEnoughGoldRewardedAdvert(TaskAlias):
 
     def _scopeDefaultAction(self, source):
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughGoldMessage", "PolicyNotEnoughGoldDialog")
-        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughGoldOnSkipAction", PolicyDefaultAction)
-        source.addTask(PolicyOnSkipAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
+        # PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughGoldOnSkipAction", PolicyDefaultAction)
+        source.addTask(PolicyDefaultAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
 
     def _onParams(self, params):
         self.PageID = params.get("PageID")

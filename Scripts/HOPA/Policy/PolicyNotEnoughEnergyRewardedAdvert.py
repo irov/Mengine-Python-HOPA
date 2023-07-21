@@ -9,8 +9,8 @@ class PolicyNotEnoughEnergyRewardedAdvert(TaskAlias):
 
     def _scopeDefaultAction(self, source):
         PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
-        PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
-        source.addTask(PolicyOnSkipAction, Action=self.Action, PageID=self.PageID)
+        # PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
+        source.addTask(PolicyDefaultAction, Action=self.Action, PageID=self.PageID)
 
     def _onParams(self, params):
         self.Action = params.get("Action")
