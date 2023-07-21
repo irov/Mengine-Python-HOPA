@@ -27,8 +27,6 @@ class AdvertNotEnoughMoney(BaseComponent):
     def _run(self):
         self.addObserver(Notificator.onAvailableAdsEnded, self._onAvailableAdsEnded)
         self.addObserver(Notificator.onAvailableAdsNew, self._onAvailableAdsNew)
-
-        self._setPolicy()
         return True
 
     def _setPolicy(self):
@@ -41,8 +39,10 @@ class AdvertNotEnoughMoney(BaseComponent):
         if self.product.name == ad_name:
             PolicyManager.delPolicy(POLICY_GOLD_NAME)
             PolicyManager.delPolicy(POLICY_ENERGY_NAME)
+        return False
 
     def _onAvailableAdsNew(self, ad_name):
         if self.product.name == ad_name:
             self._setPolicy()
+        return False
 
