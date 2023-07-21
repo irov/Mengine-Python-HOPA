@@ -2,6 +2,9 @@ from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
+POLICY_GOLD_NAME = "NotEnoughGoldOnSkipAction"
+POLICY_ENERGY_NAME = "NotEnoughEnergyOnSkipAction"
+
 
 class AdvertNotEnoughMoney(BaseComponent):
     _settings = {
@@ -22,9 +25,24 @@ class AdvertNotEnoughMoney(BaseComponent):
         return True
 
     def _run(self):
-        if "Gold" in self.product.reward:
-            PolicyManager.setPolicy("NotEnoughGoldOnSkipAction", "PolicyNotEnoughGoldRewardedAdvert")
-        if "Energy" in self.product.reward:
-            PolicyManager.setPolicy("NotEnoughEnergyOnSkipAction", "PolicyNotEnoughEnergyRewardedAdvert")
+        self.addObserver(Notificator.onAvailableAdsEnded, self._onAvailableAdsEnded)
+        self.addObserver(Notificator.onAvailableAdsNew, self._onAvailableAdsNew)
+
+        self._setPolicy()
         return True
+
+    def _setPolicy(self):
+        if "Gold" in self.product.reward:
+            PolicyManager.setPolicy(POLICY_GOLD_NAME, "PolicyNotEnoughGoldRewardedAdvert")
+        if "Energy" in self.product.reward:
+            PolicyManager.setPolicy(POLICY_ENERGY_NAME, "PolicyNotEnoughEnergyRewardedAdvert")
+
+    def _onAvailableAdsEnded(self, ad_name):
+        if self.product.name == ad_name:
+            PolicyManager.delPolicy(POLICY_GOLD_NAME)
+            PolicyManager.delPolicy(POLICY_ENERGY_NAME)
+
+    def _onAvailableAdsNew(self, ad_name):
+        if self.product.name == ad_name:
+            self._setPolicy()
 
