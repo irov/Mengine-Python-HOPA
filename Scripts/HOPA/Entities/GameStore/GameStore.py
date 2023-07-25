@@ -257,7 +257,7 @@ class GameStore(BaseEntity):
 
     # --- Advertisement ------------------------------------------------------------------------------------------------
 
-    def __onAdsEnded(self, ad_name):    # todo: add support for multi ad units
+    def __onAdsEnded(self, ad_name=None):    # todo: add support for multi ad units
         ad_card = self.getAdCard()
         if ad_card is None:
             return True
