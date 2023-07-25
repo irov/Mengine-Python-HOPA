@@ -32,6 +32,7 @@ class SpecialPromotion(BaseEntity):
         self.effects = {}
         self.params = {}  # tag
         self.current_tag = None
+        self._last_tag = None
         self._observers = []
 
     def __loadParams(self):
@@ -50,9 +51,14 @@ class SpecialPromotion(BaseEntity):
 
     def _onActivate(self):
         self._observers.append(Notification.addObserver(Notificator.onProductsUpdateDone, self._onProductsUpdateDone))
+        self._observers.append(Notification.addObserver(Notificator.onCreateNewProfile, self._onCreateNewProfile))
 
     def _onDeactivate(self):
         self._cbCloseEnd()
+
+        if TaskManager.existTaskChain("SpecialPromotion"):
+            TaskManager.cancelTaskChain("SpecialPromotion")
+
         for icon in self.icons.values():
             icon.removeFromParent()
             icon.onDestroy()
@@ -68,6 +74,16 @@ class SpecialPromotion(BaseEntity):
 
     def _onProductsUpdateDone(self):
         self._updateTexts()
+        return False
+
+    def _onCreateNewProfile(self, account_id):
+        if account_id is None:
+            return False
+
+        if TaskManager.existTaskChain("SpecialPromotion"):
+            TaskManager.cancelTaskChain("SpecialPromotion")
+        if self.setup(self._last_tag) is True:
+            self._run()
         return False
 
     # /////////////
@@ -244,6 +260,7 @@ class SpecialPromotion(BaseEntity):
             return False
 
         self.current_tag = tag
+        self._last_tag = tag
 
         icon = self.icons.get(tag)
         if icon is not None:
@@ -387,6 +404,10 @@ class SpecialPromotion(BaseEntity):
         if self.setup(params.tag) is False:
             return False
 
+        self._run()
+        return True
+
+    def _run(self):
         with TaskManager.createTaskChain(Name="SpecialPromotion") as tc:
             with tc.addParallelTask(2) as (tc_show, tc_fade):
                 tc_show.addScope(self.scopeOpen)
@@ -403,8 +424,6 @@ class SpecialPromotion(BaseEntity):
             with tc.addParallelTask(2) as (tc_close, tc_fade):
                 tc_close.addScope(self.scopeClose)
                 tc_fade.addTask("AliasFadeOut", FadeGroupName="FadeUI", From=0.5, Time=250.0)
-
-        return True
 
     def _scopePurchaseClick(self, source):
         params = self.params[self.current_tag]
