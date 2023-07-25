@@ -5,7 +5,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentPublisher
-from HOPA.System.SystemEnergy import SystemEnergy
+from Foundation.SystemManager import SystemManager
 from Notification import Notification
 
 
@@ -38,7 +38,11 @@ class BalanceIndicator(BaseEntity):
         return parent
 
     def _onPreparation(self):
-        self.indicators = {"gold": GoldIndicator(), "energy": EnergyIndicator()}
+        self.indicators = {
+            "gold": GoldIndicator(),
+            "energy": EnergyIndicator(),
+            "advertisement": AdvertisementIndicator(),
+        }
 
         icon_provider_object = self.__getIconProvider()
 
@@ -76,7 +80,7 @@ class IndicatorMixin(object):
     def __init__(self):
         self.bg_movie = None
         self.icon_movie = None
-        self.observer = None
+        self.observers = []
 
     def prepare(self, parent, icon_provider_object):
         Mengine.setTextAlias(ALIAS_ENV, self.text_alias, self.text_id)
@@ -107,11 +111,17 @@ class IndicatorMixin(object):
         self.bg_movie = bg_movie
         self.icon_movie = icon_movie
 
-        self.observer = Notification.addObserver(self.identity, self.refreshIndicatorText)
+        self.observers = [
+            Notification.addObserver(self.identity, self.refreshIndicatorText)
+        ]
 
         return True
 
     def cleanUp(self):
+        for observer in self.observers:
+            Notification.removeObserver(observer)
+        self.observers = []
+
         bg_movie = self.bg_movie
         icon_movie = self.icon_movie
 
@@ -121,9 +131,6 @@ class IndicatorMixin(object):
 
         self.bg_movie = None
         self.icon_movie = None
-
-        Notification.removeObserver(self.observer)
-        self.observer = None
 
     def refreshIndicatorText(self, balance):
         Mengine.setTextAliasArguments(ALIAS_ENV, self.text_alias, str(balance))
@@ -160,9 +167,19 @@ class EnergyIndicator(IndicatorMixin):
     def __init__(self):
         super(EnergyIndicator, self).__init__()
         self.timer_movie = None
-        self.timer_charged_observer = None
-        self.timer_recharge_observer = None
         self.timer_enable = False
+        self.max_energy = None
+
+    def _prepareDisable(self, parent, timer_movie):
+        bg_name = "Movie2Button_{}Indicator".format(self.type)
+        if parent.hasObject(bg_name) is False:
+            return True
+        bg_movie = parent.getObject(bg_name)
+        bg_movie.setEnable(False)
+
+        if timer_movie is not None:
+            timer_movie.setEnable(False)
+        return True
 
     def prepare(self, parent, icon_provider_object):
         timer_name = "Movie2_EnergyTimer"
@@ -170,17 +187,14 @@ class EnergyIndicator(IndicatorMixin):
         if parent.hasObject(timer_name) is True:
             timer_movie = parent.getObject(timer_name)
 
+        if SystemManager.hasSystem("SystemEnergy") is False:
+            return self._prepareDisable(parent, timer_movie)
+
+        SystemEnergy = SystemManager.getSystem("SystemEnergy")
         if SystemEnergy.isEnable() is False:
-            bg_name = "Movie2Button_{}Indicator".format(self.type)
-            if parent.hasObject(bg_name) is False:
-                return True
-            bg_movie = parent.getObject(bg_name)
-            bg_movie.setEnable(False)
+            return self._prepareDisable(parent, timer_movie)
 
-            if timer_movie is not None:
-                timer_movie.setEnable(False)
-            return True
-
+        self.max_energy = SystemEnergy.getMaxEnergy()
         if super(EnergyIndicator, self).prepare(parent, icon_provider_object) is False:
             return False
 
@@ -198,10 +212,13 @@ class EnergyIndicator(IndicatorMixin):
             timer_movie.setEnable(self.timer_enable)
             timer_movie.setAlpha(1.0)
 
-            self.timer_recharge_observer = Notification.addObserver(Notificator.onEnergyRecharge, self._cbRecharge)
-            self.timer_charged_observer = Notification.addObserver(Notificator.onEnergyCharged, self._cbCharged)
+            self.observers = [
+                Notification.addObserver(Notificator.onEnergyRecharge, self._cbRecharge),
+                Notification.addObserver(Notificator.onEnergyCharged, self._cbCharged),
+            ]
         else:
-            Trace.log("Entity", 0, "Indicator {!r} - not found object {!r} in {}".format(self.type, timer_name, parent.getName()))
+            Trace.log("Entity", 0, "Indicator {!r} - not found object {!r} in {}".format(
+                self.type, timer_name, parent.getName()))
 
         return True
 
@@ -231,17 +248,77 @@ class EnergyIndicator(IndicatorMixin):
             self.timer_movie.returnToParent()
             self.timer_movie = None
 
-        if self.timer_recharge_observer is not None:
-            Notification.removeObserver(self.timer_recharge_observer)
-            self.timer_recharge_observer = None
-
-        if self.timer_charged_observer is not None:
-            Notification.removeObserver(self.timer_charged_observer)
-            self.timer_charged_observer = None
-
         super(EnergyIndicator, self).cleanUp()
+        self.max_energy = None
 
     def refreshIndicatorText(self, balance):
-        text = "{}/{}".format(balance, SystemEnergy.getMaxEnergy())
+        text = "{}/{}".format(balance, self.max_energy)
         Mengine.setTextAliasArguments(ALIAS_ENV, self.text_alias, text)
         return False
+
+
+class AdvertisementIndicator(IndicatorMixin):
+    type = "Advertisement"
+    icon_tag = "AdvertisementReady"
+    ad_name = "Rewarded"
+
+    def prepare(self, parent, _):
+        if MonetizationManager.getGeneralSetting("AdvertisementBalanceIndicatorEnable", False) is False:
+            return True
+
+        bg_name = "Movie2Button_{}Indicator".format(self.type)
+        icon_name = "Movie2_{}_{}".format(self.icon_tag, getCurrentPublisher())
+
+        if parent.hasObject(bg_name) is False:
+            Trace.log("Entity", 0, "Indicator {!r} - not found object {!r} in {}".format(self.type, bg_name, parent.getName()))
+            return False
+        if parent.hasPrototype(icon_name) is False:
+            Trace.log("Entity", 0, "Indicator {!r} - not found prototype {!r} in {}".format(self.type, icon_name, parent.getName()))
+            return False
+
+        bg_movie = parent.getObject(bg_name)
+        try:
+            icon_movie = parent.generateIcon("Movie2_{}".format(self.type), icon_name, Enable=True)
+        except AttributeError:
+            icon_movie = parent.generateObjectUnique("Movie2_{}".format(self.type), icon_name, Enable=True)
+
+        icon_node = icon_movie.getEntityNode()
+        icon_node.removeFromParent()
+        # we can't do properly slot check, so just addChild and pray that it would be ok
+        bg_movie.addChildToSlot(icon_node, "icon")
+        bg_movie.setBlock(self._isAdsEnded() is True)
+        bg_movie.setEnable(True)
+
+        self.bg_movie = bg_movie
+        self.icon_movie = icon_movie
+
+        self.observers = [
+            Notification.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew),
+            Notification.addObserver(Notificator.onAvailableAdsEnded, self._cbAvailableAdsEnded),
+        ]
+
+        return True
+
+    def _cbAvailableAdsNew(self, ad_name):
+        if self.ad_name != ad_name:
+            return False
+        self.bg_movie.setBlock(False)
+        return False
+
+    def _cbAvailableAdsEnded(self, ad_name):
+        if self.ad_name != ad_name:
+            return False
+        self.bg_movie.setBlock(True)
+        return False
+
+    @staticmethod
+    def _isAdsEnded():
+        if SystemManager.hasSystem("SystemMonetization") is False:
+            Trace.log("Entity", 0, "SystemMonetization not found to check is Ads Ended!!")
+            return True
+
+        SystemMonetization = SystemManager.getSystem("SystemMonetization")
+        return SystemMonetization.isAdsEnded() is True
+
+    def scopeClick(self, source):
+        source.addBlock()
