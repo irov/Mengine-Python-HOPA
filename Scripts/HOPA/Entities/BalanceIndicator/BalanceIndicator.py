@@ -212,10 +212,10 @@ class EnergyIndicator(IndicatorMixin):
             timer_movie.setEnable(self.timer_enable)
             timer_movie.setAlpha(1.0)
 
-            self.observers = [
+            self.observers.extend([
                 Notification.addObserver(Notificator.onEnergyRecharge, self._cbRecharge),
                 Notification.addObserver(Notificator.onEnergyCharged, self._cbCharged),
-            ]
+            ])
         else:
             Trace.log("Entity", 0, "Indicator {!r} - not found object {!r} in {}".format(
                 self.type, timer_name, parent.getName()))
