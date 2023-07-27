@@ -1,4 +1,3 @@
-from Foundation.MonetizationManager import MonetizationManager
 from Foundation.SystemManager import SystemManager
 from HOPA.Entities.StorePage.Buttons.ButtonMixin import ButtonMixin
 
@@ -40,7 +39,7 @@ class ButtonAdvert(ButtonMixin):
     def hasNotify(self):
         if SystemManager.hasSystem("SystemMonetization") is True:
             SystemMonetization = SystemManager.getSystem("SystemMonetization")
-            if SystemMonetization.isAdsEnded() is False:
+            if SystemMonetization.isAdsEnded(self.getAdvertName()) is False:
                 return True
         return False
 

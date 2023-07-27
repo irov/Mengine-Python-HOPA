@@ -311,14 +311,13 @@ class AdvertisementIndicator(IndicatorMixin):
         self.bg_movie.setBlock(True)
         return False
 
-    @staticmethod
-    def _isAdsEnded():
+    def _isAdsEnded(self):
         if SystemManager.hasSystem("SystemMonetization") is False:
             Trace.log("Entity", 0, "SystemMonetization not found to check is Ads Ended!!")
             return True
 
         SystemMonetization = SystemManager.getSystem("SystemMonetization")
-        return SystemMonetization.isAdsEnded() is True
+        return SystemMonetization.isAdsEnded(self.ad_name) is True
 
     def scopeClick(self, source):
         source.addBlock()
