@@ -50,7 +50,7 @@ class TechnicalSupport(BaseEntity):
         body = u"""----- Please Describe Your Issue Above Here -----
 
         Important Details for our Support Team:
-        * game publisher: {BUILD_VERSION}
+        * game publisher: {PUBLISHER}
         * build version: {BUILD_VERSION}
         * {OS_NAME} version: {OS_VERSION}
         """.format(**kwargs)
