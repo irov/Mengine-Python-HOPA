@@ -77,7 +77,7 @@ class SpecialPromotion(BaseEntity):
         return False
 
     def _onCreateNewProfile(self, account_id):
-        if account_id is None:
+        if account_id is None or self._last_tag is None:
             return False
 
         if TaskManager.existTaskChain("SpecialPromotion"):
