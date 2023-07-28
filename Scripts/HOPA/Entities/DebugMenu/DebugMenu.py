@@ -403,10 +403,7 @@ class DebugMenu(BaseEntity):
             SystemDebugMenu.s_is_showable = False
             sceneName = self.sceneButtons[button]
 
-            if SceneManager.getSceneBase(sceneName) == "CutScene":
-                Trace.msg("<!> can't open CutScene from DebugMenu")
-            else:
-                TransitionManager.changeScene(sceneName, fade=False)
+            TransitionManager.changeScene(sceneName, fade=False)
 
             return False
             pass
