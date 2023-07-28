@@ -537,6 +537,9 @@ class ScenarioParagraph(ScenarioCommands):
 
         return command
 
+    def getAllCommands(self):
+        return self.Preparations + self.Initials + self.Actives
+
     def __enter__(self):
         return self
 
