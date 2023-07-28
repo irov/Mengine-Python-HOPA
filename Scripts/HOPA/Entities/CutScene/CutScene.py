@@ -175,12 +175,11 @@ class CutScene(BaseEntity):
         """
 
         # CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
-        # fixme: can't run with notify already done paragraph
-        paragraph_id = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
-        if paragraph_id is not None:
-            Trace.msg_dev("Found previous paragraph? id = " + str(paragraph_id) + " but can't run it - SKIP CASE 1")
-            # self._forceRunParagraph(paragraph_id)
-        #     return
+        paragraph = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
+        if paragraph is not None:
+            Trace.msg_dev("Found previous paragraph id = " + str(paragraph.Paragraphs[0]) + " - try run")
+            self._manuallyRunCutSceneParagraph(paragraph)
+            return
 
         # CASE 2. Check if we have any open scenes - open map
         if Map2Manager.hasCurrentMapObject() is True and Map2Manager.hasOpenScenes() is True:
@@ -190,22 +189,36 @@ class CutScene(BaseEntity):
         # CASE 3.  Try to run first chapter paragraph or scene
         chapter = self._getValidChapterParams()
         if chapter is not None:
-            # fixme: can't run with notify already done paragraph
-            paragraph_id = chapter.start_paragraph
-            if paragraph_id is not None:
-                Trace.msg_dev("Found start chapter paragraph id = " + str(paragraph_id) + " but can't run it - SKIP")
-            #     self._forceRunParagraph(paragraph_id)
-            #     return
-
+            paragraph = chapter.start_paragraph
+            if paragraph is not None:
+                Trace.msg_dev("Found start chapter paragraph id = " + str(paragraph.Paragraphs[0]) + " - try run")
+                self._manuallyRunCutSceneParagraph(paragraph)
+                return
             if chapter.start_scene is not None:
                 TaskManager.runAlias("AliasTransition", None, SceneName=chapter.start_scene)
                 return
 
         Trace.log("Entity", 0, "CutScene impossible to find exit from this scene")
 
-    def _forceRunParagraph(self, paragraph_id):
-        # todo: check if paragraph is not complete - otherwise run it manually...
-        Notification.notify(Notificator.onParagraphRun, paragraph_id)
+    def _manuallyRunCutSceneParagraph(self, paragraph):
+        paragraph_id = paragraph.Paragraphs[0]
+
+        with TaskManager.createTaskChain(Name="CutSceneManuallyRunParagraph_{}".format(paragraph_id)) as tc:
+            tc.addNotify(Notificator.onParagraphRun, paragraph_id)
+
+            for macro in paragraph.getAllCommands():
+                if macro.CommandType == "PlayCutScene":
+                    tc.addTask("TaskCutScenePlay", CutSceneName=macro.Values[0])
+                elif macro.CommandType == "RunParagraph":
+                    tc.addNotify(Notificator.onParagraphRun, macro.Values[0])
+                elif macro.CommandType == "Transition":
+                    tc.addTask("AliasTransition", SceneName=macro.Values[0])
+                elif macro.CommandType == "JournalAdd":
+                    tc.addNotify(Notificator.onJournalAddPage, macro.Values[0])
+                elif macro.CommandType == "Achievement":
+                    tc.addNotify(Notificator.onAchievementUnlocked, macro.Values[0])
+                elif macro.CommandType == "Notify":
+                    tc.addNotify(Notificator.getIdentity(macro.Values[0]), *macro.Values[1:])
 
     def _getValidChapterParams(self):
         chapter_name = ChapterSelectionManager.getCurrentChapter()
