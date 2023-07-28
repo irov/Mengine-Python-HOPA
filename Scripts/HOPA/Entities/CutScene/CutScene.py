@@ -212,7 +212,10 @@ class CutScene(BaseEntity):
                 elif macro.CommandType == "RunParagraph":
                     tc.addNotify(Notificator.onParagraphRun, macro.Values[0])
                 elif macro.CommandType == "Transition":
-                    tc.addTask("AliasTransition", SceneName=macro.Values[0])
+                    if len(macro.Values) == 1:
+                        tc.addTask("AliasTransition", SceneName=macro.Values[0])
+                    if len(macro.Values) >= 2:
+                        tc.addTask("AliasTransition", SceneName=macro.Values[0], ZoomGroupName=macro.Values[1])
                 elif macro.CommandType == "JournalAdd":
                     tc.addNotify(Notificator.onJournalAddPage, macro.Values[0])
                 elif macro.CommandType == "Achievement":
