@@ -27,6 +27,8 @@ class CutScene(BaseEntity):
         self.clean_scenes = []
 
     def _onDeactivate(self):
+        if TaskManager.existTaskChain("CutSceneBlockProtector") is True:
+            TaskManager.cancelTaskChain("CutSceneBlockProtector")
         self.__checkTaskChain()
 
     def _onActivate(self):
@@ -140,8 +142,6 @@ class CutScene(BaseEntity):
         CutSceneManager.disableAll()
 
     def __checkTaskChain(self):
-        if TaskManager.existTaskChain("CutSceneBlockProtector") is True:
-            TaskManager.cancelTaskChain("CutSceneBlockProtector")
         if TaskManager.existTaskChain("runCutScene") is True:
             TaskManager.cancelTaskChain("runCutScene")
 
