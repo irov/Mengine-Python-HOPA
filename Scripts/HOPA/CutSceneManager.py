@@ -1,5 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
+from HOPA.ScenarioManager import ScenarioManager
 
 
 class CutSceneManager(object):
@@ -166,3 +167,33 @@ class CutSceneManager(object):
         for cutData in CutSceneManager.manager_dict.values():
             movie = cutData.getMovie()
             movie.setEnable(False)
+
+    @staticmethod
+    def findPreviousCutSceneParagraph(cutscene_name):
+        if cutscene_name is None:
+            Trace.log("Manager", 0, "findPreviousCutSceneParagraph failed: cutscene_name is None")
+            return None
+
+        scenarios = ScenarioManager.getSceneRunScenarios("CutScene", "CutScene")
+
+        if len(scenarios) == 0:
+            Trace.log("Manager", 0, "findPreviousCutSceneParagraph [{}]: no scenarios found".format(cutscene_name))
+            return None
+
+        paragraph_id = None
+        for runner in scenarios:
+            scenario = runner.getScenario()
+            for paragraph in scenario.getParagraphs():
+                for macro in paragraph.getAllCommands():
+                    if macro.CommandType != "PlayCutScene":
+                        continue
+                    for value in macro.Values:
+                        if value == cutscene_name:
+                            paragraph_id = paragraph.Paragraphs[0]
+                            break
+
+        if paragraph_id is None:
+            Trace.log("Manager", 0, "findPreviousCutSceneParagraph [{}]: not found any paragraph".format(cutscene_name))
+            return None
+
+        return paragraph_id
