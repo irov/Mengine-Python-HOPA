@@ -760,6 +760,7 @@ def onInitialize():
         , "onMapPointBlock"
         , "onMapPointUnblock"
         , "onMapTransition"
+        , "onMapSilenceOpen"
         , "onMapOpen"
         , "onMapClose"
         # , "onTaskListShow"

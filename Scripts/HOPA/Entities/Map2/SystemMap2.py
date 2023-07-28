@@ -110,12 +110,15 @@ class SystemMap2(System):
 
     @staticmethod
     def __scopeRaceMapOpenTask(source):
-        with source.addRaceTask(2) as (race_thread_1, race_thread_2):
+        with source.addRaceTask(3) as (race_thread_1, race_thread_2, race_thread_3):
             # thread 1 if map scene transition was triggered not through click on "Movie2Button_Map"
             race_thread_1.addTask("TaskListener", ID=Notificator.onMapEntityInit)
 
             race_thread_2.addTask("TaskMovie2ButtonClick", GroupName="OpenMap", Movie2ButtonName="Movie2Button_Map")
             race_thread_2.addTask("TaskScope", Scope=SystemMap2.__scopeMapTransition)
+
+            race_thread_3.addTask("TaskListener", ID=Notificator.onMapSilenceOpen)
+            race_thread_3.addTask("TaskScope", Scope=SystemMap2.__scopeMapTransition)
 
     @staticmethod
     def __scopeRaceMapCloseTask(source):
