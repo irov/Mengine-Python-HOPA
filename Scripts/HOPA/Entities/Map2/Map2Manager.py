@@ -303,6 +303,10 @@ class Map2Manager(object):
         return object
 
     @staticmethod
+    def hasOpenScenes():
+        return len(Map2Manager.s_open_scenes) > 0
+
+    @staticmethod
     def hasCurrentMapObject():
         if Map2Manager.s_current_map is None:
             return False
