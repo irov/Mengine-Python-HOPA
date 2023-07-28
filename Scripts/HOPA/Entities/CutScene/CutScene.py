@@ -5,7 +5,10 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.CutSceneManager import CutSceneManager
-from Notification import Notification
+from HOPA.Entities.Map2.Map2Manager import Map2Manager
+from HOPA.ChapterSelectionManager import ChapterSelectionManager
+
+REPLAY_TIME_DELAY = 5000.0
 
 
 class CutScene(BaseEntity):
@@ -20,12 +23,24 @@ class CutScene(BaseEntity):
     def __init__(self):
         super(CutScene, self).__init__()
 
-        self.skip_time = 2
         self.cut_scenes_list = None
         self.clean_scenes = []
 
     def _onDeactivate(self):
         self.__checkTaskChain()
+
+    def _onActivate(self):
+        if self.Play is True:
+            return
+
+        with TaskManager.createTaskChain(Name="CutSceneBlockProtector") as tc:
+            with tc.addRaceTask(2) as (tc_ok, tc_replay):
+                tc_ok.addListener(Notificator.onCutSceneStart)
+                tc_ok.addPrint(" CUT SCENE OK")
+
+                tc_replay.addDelay(REPLAY_TIME_DELAY)
+                tc_replay.addPrint(" [!!] FOUND BLOCK: REPLAY PREVIOUS PARAGRAPH !!!!!!!")
+                tc_replay.addFunction(self._safeLeaveScene)
 
     def _updatePlay(self, value):
         if value is True:
@@ -125,6 +140,8 @@ class CutScene(BaseEntity):
         CutSceneManager.disableAll()
 
     def __checkTaskChain(self):
+        if TaskManager.existTaskChain("CutSceneBlockProtector") is True:
+            TaskManager.cancelTaskChain("CutSceneBlockProtector")
         if TaskManager.existTaskChain("runCutScene") is True:
             TaskManager.cancelTaskChain("runCutScene")
 
@@ -147,3 +164,57 @@ class CutScene(BaseEntity):
             current_state = CutSceneManager.getNext(current_state)
 
         return list_
+
+    # ----------- SAVE LEAVE CUT SCENE ---------------------------------------------------------------------------------
+
+    def _safeLeaveScene(self):
+        """ call this function to try leave cutscene when its blocked. Ways:
+            CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
+            CASE 2. Check if we have any open scenes - open map
+            CASE 3. Try to run first chapter paragraph or scene
+        """
+
+        # CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
+        # fixme: can't run with notify already done paragraph
+        # paragraph_id = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
+        # if paragraph_id is not None:
+        #     self._forceRunParagraph(paragraph_id)
+        #     return
+
+        # CASE 2. Check if we have any open scenes - open map
+        if Map2Manager.hasCurrentMapObject() is True and Map2Manager.hasOpenScenes() is True:
+            Notification.notify(Notificator.onMapSilenceOpen)
+            return
+
+        # CASE 3.  Try to run first chapter paragraph or scene
+        chapter = self._getValidChapterParams()
+        if chapter is not None:
+            # fixme: can't run with notify already done paragraph
+            # paragraph_id = chapter.start_paragraph
+            # if paragraph_id is not None:
+            #     self._forceRunParagraph(paragraph_id)
+            #     return
+
+            if chapter.start_scene is not None:
+                TaskManager.runAlias("AliasTransition", None, SceneName=chapter.start_scene)
+                return
+
+        Trace.log("Entity", 0, "CutScene impossible to find exit from this scene")
+
+    def _forceRunParagraph(self, paragraph_id):
+        # todo: check if paragraph is not complete - otherwise run it manually...
+        Notification.notify(Notificator.onParagraphRun, paragraph_id)
+
+    def _getValidChapterParams(self):
+        chapter_name = ChapterSelectionManager.getCurrentChapter()
+        if chapter_name is not None:
+            chapter = ChapterSelectionManager.getChapterSelectionParam(chapter_name)
+        else:
+            chapter = ChapterSelectionManager.getFirstValidParam()
+
+        if chapter is None:
+            Trace.log("Entity", 0, "Not found any valid chapter params!!!!!")
+            return None
+
+        return chapter
+
