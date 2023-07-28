@@ -170,30 +170,33 @@ class CutSceneManager(object):
 
     @staticmethod
     def findPreviousCutSceneParagraph(cutscene_name):
+        """ find ScenarioParagraph where we call given cutscene """
+
         if cutscene_name is None:
-            Trace.log("Manager", 4, "findPreviousCutSceneParagraph failed: cutscene_name is None")
+            Trace.log("Manager", 3, "findPreviousCutSceneParagraph failed: cutscene_name is None")
             return None
 
         scenarios = ScenarioManager.getSceneRunScenarios("CutScene", "CutScene")
 
         if len(scenarios) == 0:
-            Trace.log("Manager", 4, "findPreviousCutSceneParagraph [{}]: no scenarios found".format(cutscene_name))
+            Trace.log("Manager", 3, "findPreviousCutSceneParagraph [{}]: no scenarios found".format(cutscene_name))
             return None
 
-        paragraph_id = None
+        paragraph = None
         for runner in scenarios:
             scenario = runner.getScenario()
-            for paragraph in scenario.getParagraphs():
-                for macro in paragraph.getAllCommands():
+            for scenario_paragraph in scenario.getParagraphs():
+                for macro in scenario_paragraph.getAllCommands():
                     if macro.CommandType != "PlayCutScene":
                         continue
                     for value in macro.Values:
                         if value == cutscene_name:
-                            paragraph_id = paragraph.Paragraphs[0]
+                            # paragraph_id = scenario_paragraph.Paragraphs[0]
+                            paragraph = scenario_paragraph
                             break
 
-        if paragraph_id is None:
-            Trace.log("Manager", 4, "findPreviousCutSceneParagraph [{}]: not found any paragraph".format(cutscene_name))
+        if paragraph is None:
+            Trace.log("Manager", 3, "findPreviousCutSceneParagraph [{}]: not found any paragraph".format(cutscene_name))
             return None
 
-        return paragraph_id
+        return paragraph
