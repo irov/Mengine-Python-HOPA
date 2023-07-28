@@ -176,7 +176,8 @@ class CutScene(BaseEntity):
 
         # CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
         # fixme: can't run with notify already done paragraph
-        # paragraph_id = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
+        paragraph_id = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
+        Trace.msg_dev("Found previous paragraph? id = " + str(paragraph_id) + " but can't run it - SKIP CASE 1")
         # if paragraph_id is not None:
         #     self._forceRunParagraph(paragraph_id)
         #     return
@@ -190,8 +191,9 @@ class CutScene(BaseEntity):
         chapter = self._getValidChapterParams()
         if chapter is not None:
             # fixme: can't run with notify already done paragraph
-            # paragraph_id = chapter.start_paragraph
-            # if paragraph_id is not None:
+            paragraph_id = chapter.start_paragraph
+            if paragraph_id is not None:
+                Trace.msg_dev("Found start chapter paragraph id = " + str(paragraph_id) + " but can't run it - SKIP")
             #     self._forceRunParagraph(paragraph_id)
             #     return
 
