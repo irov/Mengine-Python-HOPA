@@ -171,13 +171,13 @@ class CutSceneManager(object):
     @staticmethod
     def findPreviousCutSceneParagraph(cutscene_name):
         if cutscene_name is None:
-            Trace.log("Manager", 0, "findPreviousCutSceneParagraph failed: cutscene_name is None")
+            Trace.log("Manager", 4, "findPreviousCutSceneParagraph failed: cutscene_name is None")
             return None
 
         scenarios = ScenarioManager.getSceneRunScenarios("CutScene", "CutScene")
 
         if len(scenarios) == 0:
-            Trace.log("Manager", 0, "findPreviousCutSceneParagraph [{}]: no scenarios found".format(cutscene_name))
+            Trace.log("Manager", 4, "findPreviousCutSceneParagraph [{}]: no scenarios found".format(cutscene_name))
             return None
 
         paragraph_id = None
@@ -193,7 +193,7 @@ class CutSceneManager(object):
                             break
 
         if paragraph_id is None:
-            Trace.log("Manager", 0, "findPreviousCutSceneParagraph [{}]: not found any paragraph".format(cutscene_name))
+            Trace.log("Manager", 4, "findPreviousCutSceneParagraph [{}]: not found any paragraph".format(cutscene_name))
             return None
 
         return paragraph_id
