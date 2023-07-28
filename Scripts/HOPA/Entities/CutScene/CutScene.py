@@ -177,9 +177,9 @@ class CutScene(BaseEntity):
         # CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
         # fixme: can't run with notify already done paragraph
         paragraph_id = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
-        Trace.msg_dev("Found previous paragraph? id = " + str(paragraph_id) + " but can't run it - SKIP CASE 1")
-        # if paragraph_id is not None:
-        #     self._forceRunParagraph(paragraph_id)
+        if paragraph_id is not None:
+            Trace.msg_dev("Found previous paragraph? id = " + str(paragraph_id) + " but can't run it - SKIP CASE 1")
+            # self._forceRunParagraph(paragraph_id)
         #     return
 
         # CASE 2. Check if we have any open scenes - open map
