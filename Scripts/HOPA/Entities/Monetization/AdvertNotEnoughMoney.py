@@ -1,6 +1,7 @@
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
+from Foundation.Systems.SystemMonetization import SystemMonetization
 
 POLICY_GOLD_NAME = "NotEnoughGoldOnSkipAction"
 POLICY_ENERGY_NAME = "NotEnoughEnergyOnSkipAction"
@@ -25,6 +26,8 @@ class AdvertNotEnoughMoney(BaseComponent):
         return True
 
     def _run(self):
+        if SystemMonetization.isAdsEnded(self.product.name) is False:
+            self._setPolicy()
         self.addObserver(Notificator.onAvailableAdsEnded, self._onAvailableAdsEnded)
         self.addObserver(Notificator.onAvailableAdsNew, self._onAvailableAdsNew)
         return True
