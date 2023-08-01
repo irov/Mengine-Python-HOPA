@@ -104,6 +104,8 @@ class SystemFastStart(System):
         if not self.hasFastStartAppArgs():
             return True
 
+        DefaultManager.addDefault("UseCutSceneBlockProtection", False)
+
         bHasChapterSelection = self.hasChapterSelection()
 
         ChapterParam, SceneName, ZoomGroupName, CutSceneID, DialogID = self._parseFastStartAppArgs()

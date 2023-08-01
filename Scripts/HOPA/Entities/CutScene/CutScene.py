@@ -35,6 +35,9 @@ class CutScene(BaseEntity):
         if self.Play is True:
             return
 
+        if DefaultManager.getDefaultBool("UseCutSceneBlockProtection", True) is False:
+            return
+
         with TaskManager.createTaskChain(Name="CutSceneBlockProtector") as tc:
             with tc.addRaceTask(2) as (tc_ok, tc_replay):
                 tc_ok.addListener(Notificator.onCutSceneStart)
