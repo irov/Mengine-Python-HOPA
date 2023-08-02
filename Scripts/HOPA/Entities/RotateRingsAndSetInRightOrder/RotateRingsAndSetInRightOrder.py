@@ -136,6 +136,9 @@ class RotateRingsAndSetInRightOrder(Enigma):
         self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def __onMousePositionChange(self, touchID, position):
+        if touchID != 0:
+            # allow rotating only with one finger for touchpad devices
+            return
         with TaskManager.createTaskChain(Repeat=False) as tc:
             with tc.addParallelTask(2) as (SoundEffect, RotateCircle):
                 SoundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object, 'RotateRingsAndSetInRightOrder_RotateCircle')
