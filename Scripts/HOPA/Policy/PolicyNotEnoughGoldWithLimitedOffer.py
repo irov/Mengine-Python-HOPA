@@ -28,7 +28,8 @@ class PolicyNotEnoughGoldWithLimitedOffer(TaskAlias):
 
         with source.addRaceTask(3) as (done, skip, stop):
             done.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == LimitedPromoProductID)
-            done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
+            if MonetizationManager.getGeneralSetting("AllowPayGoldAfterPurchase", False) is True:
+                done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
             skip.addScope(self._scopeDefaultAction)

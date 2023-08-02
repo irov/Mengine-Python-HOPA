@@ -24,7 +24,8 @@ class PolicyNotEnoughGoldStoreWithPack(TaskAlias):
             done.addListener(Notificator.onPaySuccess)
             done.addFunction(PolicyManager.setPolicy, "NotEnoughGoldAction", None)
             done.addFunction(PolicyManager.setPolicy, "NotEnoughEnergyAction", None)
-            done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
+            if MonetizationManager.getGeneralSetting("AllowPayGoldAfterPurchase", False) is True:
+                done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
             skip.addTask(PolicyOnSkipAction, Gold=self.Gold, Descr=self.Descr, PageID=self.PageID)
