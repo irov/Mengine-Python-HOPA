@@ -1,4 +1,5 @@
 from Foundation.PolicyManager import PolicyManager
+from Foundation.SceneManager import SceneManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.Utils import SimpleLogger
 from HOPA.EnigmaManager import EnigmaManager
@@ -51,11 +52,17 @@ class SkipPuzzle(BaseComponent):
         if descr != "SkipPuzzle":
             return False
 
-        scene_name = None
+        scene_name = SceneManager.getCurrentSceneName()
         if SystemItemPlusScene.hasOpenItemPlus():
             scene_name = SystemItemPlusScene.getOpenItemPlusName()
 
         enigma_name = EnigmaManager.getSceneActiveEnigmaName(scene_name)
+
+        if enigma_name is None:
+            Trace.log("Entity", 0, "SkipPuzzle - not active enigma at scene {}".format(scene_name))
+            SystemMonetization.rollbackGold(component_tag="SkipPuzzle")
+            return False
+
         enigma_params = EnigmaManager.getEnigma(enigma_name)
         enigma_id = enigma_params.id
         self.addSkippedEnigma(enigma_name, enigma_id)
