@@ -8,24 +8,20 @@ class TaskEnigmaComplete(MixinObserver, Task):
 
     def _onParams(self, params):
         super(TaskEnigmaComplete, self)._onParams(params)
-
         self.EnigmaName = params.get("EnigmaName")
-        pass
 
     def _onInitialize(self):
         super(TaskEnigmaComplete, self)._onInitialize()
-        pass
 
     def _onRun(self):
         EnigmaObject = EnigmaManager.getEnigmaObject(self.EnigmaName)
 
+        if EnigmaObject.getComplete() is True:
+            return True
+
         self.addObserverFilter(Notificator.onEnigmaComplete, self._onEnigmaComplete, EnigmaObject)
 
         return False
-        pass
 
     def _onEnigmaComplete(self, Enigma):
         return True
-        pass
-
-    pass
