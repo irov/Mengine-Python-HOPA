@@ -157,24 +157,27 @@ class MoveChipToCells(Enigma):
                     tc_until.addScope(self.chip.clickUp)
             else:
                 for socket_name, source in tc.addRaceTaskList(self.move_buttons):
-                    source.addTask("TaskMovie2ButtonClick", Movie2Button=self.move_buttons[socket_name], isDown=True)
-                    SocketHolder = Holder()
-                    source.addFunction(SocketHolder.set, socket_name)
-                    source.addScope(self.moveToCellUnderSocket, SocketHolder)
-                    source.addDelay(100)
+                    socket_holder = Holder()
+                    button = self.move_buttons[socket_name]
+
+                    source.addTask("TaskMovie2ButtonClick", Movie2Button=button, isDown=True)
+                    source.addFunction(socket_holder.set, socket_name)
+                    with source.addRepeatTask() as (source_repeat, source_until):
+                        source_repeat.addScope(self.moveToCellUnderSocket, socket_holder)
+                        source_repeat.addDelay(300)  # todo: add default param for speed
+
+                        source_until.addTask("TaskMovie2ButtonClick", Movie2Button=button, isDown=False)
             tc.addFunction(self._checkWin)
-        pass
 
     def scopeDrag(self, source):
         sockets = ['up', 'down', 'right', 'left']
-        SocketHolder = Holder()
+        socket_holder = Holder()
         for socket, race in source.addRaceTaskList(sockets):
             race.addTask("TaskMovie2SocketEnter", Movie2=self.movieMove, SocketName=socket)
             # race.addPrint(" >> {}".format(socket))
-            race.addFunction(SocketHolder.set, socket)
-        source.addScope(self.moveToCellUnderSocket, SocketHolder)
+            race.addFunction(socket_holder.set, socket)
+        source.addScope(self.moveToCellUnderSocket, socket_holder)
         source.addDelay(100)
-        pass
 
     def moveToCellUnderSocket(self, source, holder):
         socketName = holder.get()
