@@ -49,6 +49,7 @@ class PaidBonusChapter(BaseComponent):
     def _run(self):
         self.addObserver(Notificator.onSelectAccount, self._cbSelectAccount)
         self._prepareText()
+        self.addObserver(Notificator.onDelayPurchased, self._cbDelayPurchased)
         return True
 
     def _prepareText(self):
@@ -70,6 +71,7 @@ class PaidBonusChapter(BaseComponent):
                 self.addObserver(Notificator.onLayerGroupEnableBegin, self._cbPreparePrice, env, text_id)
 
     def _setDelayedText(self, env, text_id):
+        Mengine.removeTextAliasArguments(env, self.alias_id)
         if text_id == self.text_id:
             Mengine.setTextAlias(env, self.alias_id, "ID_TEXT_RESTORE_PURCHASES")
         elif text_id == self.extra_text_id:
@@ -120,6 +122,18 @@ class PaidBonusChapter(BaseComponent):
         Mengine.setTextAliasArguments(env, self.alias_id, price_format)
 
         return False
+
+    def _cbDelayPurchased(self, product_id):
+        if product_id != self.product.id:
+            return False
+
+        params = {"": self.text_id, "extra": self.extra_text_id}
+        for env, text_id in params.items():
+            if text_id is None:
+                continue
+            self._setDelayedText(env, text_id)
+
+        return True
 
     def _cleanUp(self):
         if TaskManager.existTaskChain(TC_NAME):
