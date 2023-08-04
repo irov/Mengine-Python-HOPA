@@ -39,6 +39,8 @@ class ButtonPurchase(ButtonMixin):
         if "%s" in Mengine.getTextFromId(price_text_id):
             currency = MonetizationManager.getCurrentCurrencySymbol() or ""
             self.setTextArguments("price", self.price_template.format(currency=currency, price=product.price))
+        else:
+            Mengine.removeTextAliasArguments(self.env, self.aliases["price"])
 
         reward = product.reward
         self.setTextArguments("gold", reward.get("Gold", 0))
