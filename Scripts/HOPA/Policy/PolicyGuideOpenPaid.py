@@ -59,17 +59,20 @@ class PolicyGuideOpenPaid(TaskAlias):
         with source.addIfTask(SystemMonetization.isProductPurchased, self.ProdParams.id) as (show, purchase):
             show.addScope(self._scopeTransition)
 
-            if SystemMonetization.isPurchaseDelayed(self.ProdParams.id) is True:
-                with purchase.addParallelTask(2) as (purchased, release):
-                    purchased.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.ProdParams.id)
-                    release.addNotify(Notificator.onReleasePurchased, self.ProdParams.id)
+            # ---- this part immediately activate delayed purchase -----------------------------------------------------
+            # if SystemMonetization.isPurchaseDelayed(self.ProdParams.id) is True:
+            #     with purchase.addParallelTask(2) as (purchased, release):
+            #         purchased.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.ProdParams.id)
+            #         release.addNotify(Notificator.onReleasePurchased, self.ProdParams.id)
+            # else:
+            # ----------------------------------------------------------------------------------------------------------
+
+            if self._variant == "SpecialPromotion":
+                purchase.addScope(self._scopeSpecialPromotion)
+            elif self._variant == "Store":
+                purchase.addScope(self._scopeStorePage)
             else:
-                if self._variant == "SpecialPromotion":
-                    purchase.addScope(self._scopeSpecialPromotion)
-                elif self._variant == "Store":
-                    purchase.addScope(self._scopeStorePage)
-                else:
-                    Trace.log("Task", 0, "PolicyGuideOpenPaid unknown purchase variant {!r}".format(self._variant))
+                Trace.log("Task", 0, "PolicyGuideOpenPaid unknown purchase variant {!r}".format(self._variant))
 
             with purchase.addIfTask(SystemMonetization.isProductPurchased, self.ProdParams.id) as (transition, fail):
                 transition.addScope(self._scopeTransition)
