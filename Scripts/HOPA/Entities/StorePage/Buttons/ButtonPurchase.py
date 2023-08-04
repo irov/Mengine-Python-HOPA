@@ -1,6 +1,6 @@
 from Foundation.MonetizationManager import MonetizationManager
-from Foundation.Providers.PaymentProvider import PaymentProvider
 from HOPA.Entities.StorePage.Buttons.ButtonMixin import ButtonMixin
+from Foundation.Systems.SystemMonetization import SystemMonetization
 
 
 class ButtonPurchase(ButtonMixin):
@@ -26,6 +26,9 @@ class ButtonPurchase(ButtonMixin):
             self.aliases["energy"]: self.params.energy_reward_text_id,
             self.aliases["discount"]: self.params.discount_text_id,
         }
+        if SystemMonetization.isPurchaseDelayed(self.product_params.id):
+            alias_param[self.aliases["price"]] = self.params.restore_text_id
+
         return alias_param
 
     def setText(self):
@@ -63,5 +66,5 @@ class ButtonPurchase(ButtonMixin):
     # Scopes
 
     def scopeAction(self, source):
-        product_id = MonetizationManager.getProductRealId(self.params.product_id)
-        source.addFunction(PaymentProvider.pay, product_id)
+        # check for delayed, then use PaymentProvider for payment
+        source.addFunction(SystemMonetization.pay, self.params.product_id)

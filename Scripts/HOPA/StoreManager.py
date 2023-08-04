@@ -67,6 +67,7 @@ class StoreManager(Manager):
 
             # texts
             self.price_text_id = StoreManager.getRecordValue(record, "PriceTextID", default="ID_EMPTY")
+            self.restore_text_id = StoreManager.getRecordValue(record, "RestoreTextID", default=self.price_text_id)
             self.title_text_id = StoreManager.getRecordValue(record, "TitleTextID", default="ID_EMPTY")
             self.descr_text_id = StoreManager.getRecordValue(record, "DescrTextID", default="ID_EMPTY")
             self.gold_reward_text_id = StoreManager.getRecordValue(record, "GoldRewardTextID", default="ID_EMPTY")
