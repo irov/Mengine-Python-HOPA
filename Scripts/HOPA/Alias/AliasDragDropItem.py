@@ -1,12 +1,14 @@
 from Event import Event
 from Foundation.Notificator import Notificator
 from Foundation.Task.TaskAlias import TaskAlias
+from Foundation.TaskManager import TaskManager
 
 SCALE_TO = 1.1
 SCALE_TIME = 250.0
 
 
 class AliasDragDropItem(TaskAlias):
+
     def _onParams(self, params):
         super(AliasDragDropItem, self)._onParams(params)
         self.ItemName = params.get("ItemName", None)
@@ -17,6 +19,7 @@ class AliasDragDropItem(TaskAlias):
 
         self.Touchpad = Mengine.hasTouchpad() is True
         self.EventEnd = Event("onDragDropItemEnd")
+        self.SelectEffectTCName = None
 
     def _scopeValidClick(self, source):
         socket_object_type = self.SocketObject.getType()
@@ -54,13 +57,16 @@ class AliasDragDropItem(TaskAlias):
         else:
             self.ItemObject = self.Item
 
+        if self.Touchpad is True:
+            self.SelectEffectTCName = "AliasDragDropItem_SelectEffect_{}".format(self.ItemObject.getName())
+
         if self.AutoAttach is True:
             source.addTask("AliasItemAttach", Item=self.ItemObject, AutoAttach=True)
 
         with source.addRepeatTask() as (repeat, until):
             if self.Touchpad is True:
                 repeat.addTask("AliasItemAttach", Item=self.ItemObject, AddArrowChild=False)
-                repeat.addScope(self.forkPlayItemSelectEffect)
+                repeat.addFunction(self.playItemSelectEffect)
             else:
                 repeat.addTask("AliasItemAttach", Item=self.ItemObject)
             repeat.addNotify(Notificator.onSoundEffectOnObject, self.SocketObject, "DragDropItem_PressOnItem")
@@ -81,17 +87,23 @@ class AliasDragDropItem(TaskAlias):
         source.addDisable(self.ItemObject)
         source.addFunction(self.ItemObject.onEntityRestore)
 
-    def forkPlayItemSelectEffect(self, source):
+    def playItemSelectEffect(self):
+        if TaskManager.existTaskChain(self.SelectEffectTCName) is True:
+            TaskManager.cancelTaskChain(self.SelectEffectTCName)
+
         itemNode = self.ItemObject.getEntityNode()
 
-        def _cbStop():
+        def _cbStop(isSkip):
             itemNode.scaleStop()
             itemNode.setScale((1.0, 1.0, 1.0))
 
-        with source.addFork() as tc_fork:
-            with tc_fork.addRepeatTask() as (repeat, until):
+        with TaskManager.createTaskChain(Name=self.SelectEffectTCName, Cb=_cbStop) as tc:
+            with tc.addRepeatTask() as (repeat, until):
                 repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(SCALE_TO, SCALE_TO, 1.0), Time=SCALE_TIME)
                 repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(1.0, 1.0, 1.0), Time=SCALE_TIME)
                 until.addEvent(self.EventEnd)
 
-            tc_fork.addFunction(_cbStop)
+    def _onFinalize(self):
+        super(AliasDragDropItem, self)._onFinalize()
+        if self.SelectEffectTCName is not None and TaskManager.existTaskChain(self.SelectEffectTCName) is True:
+            TaskManager.cancelTaskChain(self.SelectEffectTCName)
