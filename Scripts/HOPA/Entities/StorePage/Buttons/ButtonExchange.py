@@ -102,6 +102,9 @@ class ButtonExchange(ButtonMixin):
         # todo: move to Task
 
         currency_page_id = MonetizationManager.getGeneralSetting("%sPageID" % currency)
+        if currency_page_id is None:
+            currency_page_id = MonetizationManager.getGeneralSetting("NotEnoughMoneyPageID")
+
         if currency == "Gold":
             with source.addParallelTask(2) as (response, request):
                 with response.addRaceTask(3) as (success, fail, not_enough_money):
