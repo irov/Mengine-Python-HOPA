@@ -96,8 +96,6 @@ class ButtonExchange(ButtonMixin):
     # Scopes
 
     def scopeAction(self, source):
-        source.addPrint("ButtonExchange scopeAction")     # tmp
-
         currency = self.product_params.getCurrency()
         price = self.product_params.price
 
@@ -111,6 +109,7 @@ class ButtonExchange(ButtonMixin):
                     success.addNotify(Notificator.onPaySuccess, self.product_params.id)  # send reward
 
                     fail.addListener(Notificator.onGameStorePayGoldFailed)  # do nothing
+                    fail.addDelay(0)
 
                     not_enough_money.addListener(Notificator.onGameStoreNotEnoughGold)
                     not_enough_money.addNotify(Notificator.onStoreSetPage, currency_page_id)   # open gold shop
