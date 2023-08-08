@@ -1071,6 +1071,7 @@ def onInitialize():
         , 'HintActionItemCollectOpen'
         , 'HintActionCollectibleItem'
         , 'HintActionSpellAmuletUsePower'
+        , "HintActionElementalMagic"
     ]
 
     HintManager.importHintActions("HOPA.HintActions", hintActions)
@@ -1360,6 +1361,8 @@ def onInitialize():
 
         , "About"
         , "TechnicalSupport"
+
+        , "ElementalMagic"
     ]
 
     if Mengine.getGameParamBool("NotUseDefaultEntitiesList", False) is True:
