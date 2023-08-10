@@ -59,8 +59,11 @@ class ExternalAchievement(Achievement):
         self.id = params.id
         self.task = params.task
 
-    def increase(self, steps):
-        AchievementsProvider.incrementAchievement(self.id, steps)
+    def increase(self, steps, current_stat_value):
+        if AchievementsProvider.hasMethod("incrementAchievement"):
+            AchievementsProvider.incrementAchievement(self.id, steps)
+        else:
+            AchievementsProvider.setAchievementProgress(self.id, current_stat_value, self.params.steps_to_complete)
         return False
 
     def setComplete(self, value):
@@ -71,7 +74,7 @@ class ExternalAchievement(Achievement):
     def onStatUpdate(self, new_stat_value):
         """ when achievement's progress updated """
         if self.params.incremented is True:
-            self.increase(1)
+            self.increase(1, new_stat_value)
         if self.checkTaskComplete(new_stat_value) is True:
             Notification.notify(Notificator.onAchievementExternalUnlocked, self.id)
             return True
