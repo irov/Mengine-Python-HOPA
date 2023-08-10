@@ -46,7 +46,7 @@ class ElementalMagic(BaseEntity):
         if movie is None:
             return
 
-        tc.addFunction(self.detachFromButton, movie)
+        tc.addFunction(self.detachFromSlot, movie)
         tc.addFunction(self.attachToCursor, movie)
 
     def scopeReturnMagic(self, tc, movie):
@@ -71,7 +71,7 @@ class ElementalMagic(BaseEntity):
         movie_node = movie.getEntityNode()
         self.slot_magic.addChild(movie_node)
 
-    def detachFromButton(self, movie):
+    def detachFromSlot(self, movie):
         movie_node = movie.getEntityNode()
         self.slot_magic.removeChild(movie_node)
 
