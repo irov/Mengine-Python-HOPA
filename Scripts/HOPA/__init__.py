@@ -957,6 +957,7 @@ def onInitialize():
         , "onStoreTabSwitched"
         , "onStorePageNewActions"
         , "onStorePageNewActionsEnd"
+        , "onStorePageButtonClick"
         , "onStoreTabSectionClickedBack"
         , "onStoreTabSectionClickedTab"
     ]

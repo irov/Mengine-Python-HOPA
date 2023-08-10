@@ -54,5 +54,5 @@ class ButtonAdvert(ButtonMixin):
 
     # Scopes
 
-    def scopeAction(self, source):
+    def _scopeAction(self, source):
         source.addTask("AliasShowAdvert", AdType="Rewarded", AdUnitName=self.getAdvertName())

@@ -95,7 +95,7 @@ class ButtonExchange(ButtonMixin):
 
     # Scopes
 
-    def scopeAction(self, source):
+    def _scopeAction(self, source):
         currency = self.product_params.getCurrency()
         price = self.product_params.price
 

@@ -67,6 +67,6 @@ class ButtonPurchase(ButtonMixin):
 
     # Scopes
 
-    def scopeAction(self, source):
+    def _scopeAction(self, source):
         # check for delayed, then use PaymentProvider for payment
         source.addFunction(SystemMonetization.pay, self.params.product_id)

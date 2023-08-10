@@ -143,6 +143,11 @@ class SystemStore(System):
         SystemAnalytics.addSpecificAnalytic(
             "screen_view", "store_open_page", Notificator.onStoreTabSwitched,
             params_method=lambda _, to_page_id: {"screen_type": "MengineStorePage", "screen_name": to_page_id})
+        SystemAnalytics.addAnalytic("store_click", Notificator.onStorePageButtonClick, params_method=lambda button: {
+            "action": button.action,
+            "product_id": button.product_params.id,
+            "button_id": button.id,
+        })
 
     def _setupObservers(self):
         tab_params = StoreManager.getTabsSettings()

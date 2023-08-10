@@ -142,7 +142,14 @@ class ButtonMixin(object):
     # Scopes
 
     def scopeClick(self, source):
+        source.addScope(self._scopeClick)
+        source.addNotify(Notificator.onStorePageButtonClick, self)
+
+    def _scopeClick(self, source):
         source.addTask("TaskMovie2ButtonClick", isDown=False, Movie2Button=self.movie)
 
     def scopeAction(self, source):
+        source.addScope(self._scopeAction)
+
+    def _scopeAction(self, source):
         source.addBlock()
