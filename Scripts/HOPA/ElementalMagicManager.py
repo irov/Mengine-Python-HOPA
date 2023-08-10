@@ -1,5 +1,5 @@
 from Foundation.Manager import Manager
 
 
-class MagicGloveManager(Manager):
+class ElementalMagicManager(Manager):
     pass
