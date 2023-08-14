@@ -1,9 +1,10 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
+from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Foundation.SceneManager import SceneManager
 from HOPA.Entities.BalanceIndicator.BalanceIndicator import ALIAS_ENV
-from HOPA.Entities.BalanceIndicator.BalanceIndicator import EnergyIndicator, GoldIndicator
+from HOPA.Entities.BalanceIndicator.BalanceIndicator import EnergyIndicator, GoldIndicator, AdvertisementIndicator
 from HOPA.System.SystemEnergy import EVENT_UPDATE_TIMER
 
 
@@ -20,6 +21,15 @@ class SystemBalanceIndicator(System):
         self.__hide_on_Tip = DefaultManager.getDefaultBool("BalanceIndicatorHideOnTip", False) is True
         self.__show_on_Change = DefaultManager.getDefaultBool("BalanceIndicatorShowOnBalanceChange", False) is True
         self.__show_time = DefaultManager.getDefaultFloat("BalanceIndicatorShowTime", 1500.0) + self.__alpha_time
+
+        self.__whitelist = {}
+        self.__blacklist = {}
+        indicator_types = (EnergyIndicator.type, GoldIndicator.type, AdvertisementIndicator.type)
+        for _type in indicator_types:
+            self.__whitelist[_type] = DefaultManager.getDefaultTuple("{}IndicatorWhitelist".format(_type),
+                                                                     default=(), valueType=str)
+            self.__blacklist[_type] = DefaultManager.getDefaultTuple("{}IndicatorBlacklist".format(_type),
+                                                                     default=(), valueType=str)
 
     def _onRun(self):
         if GroupManager.hasGroup("BalanceIndicator") is False:
@@ -45,6 +55,26 @@ class SystemBalanceIndicator(System):
         if self.__show_on_Change is True:
             self.addObserver(GoldIndicator.identity, self._cbShowOnAction)
             self.addObserver(EnergyIndicator.identity, self._cbShowOnAction)
+            self.addObserver(AdvertisementIndicator.identity, self._cbShowOnAction)
+
+        BalanceIndicator = DemonManager.getDemon("BalanceIndicator")
+
+        for indicator_type, group_list in self.__whitelist.items():
+            if len(group_list) == 0:
+                continue
+            BalanceIndicator.setParam("Show" + indicator_type, False)
+            self.addObserver(Notificator.onLayerGroupEnable, self._cbWhiteBlackListLayerGroupEnable,
+                             group_list, indicator_type, "whitelist")
+            self.addObserver(Notificator.onLayerGroupDisable, self._cbWhiteBlackListLayerGroupDisable,
+                             group_list, indicator_type, "whitelist")
+
+        for indicator_type, group_list in self.__blacklist.items():
+            if len(group_list) == 0:
+                continue
+            self.addObserver(Notificator.onLayerGroupEnable, self._cbWhiteBlackListLayerGroupEnable,
+                             group_list, indicator_type, "blacklist")
+            self.addObserver(Notificator.onLayerGroupDisable, self._cbWhiteBlackListLayerGroupDisable,
+                             group_list, indicator_type, "blacklist")
 
         return True
 
@@ -106,6 +136,42 @@ class SystemBalanceIndicator(System):
 
     def _cbShowOnAction(self, *args, **kwargs):
         self.tempShowIfPossible()
+        return False
+
+    def _cbWhiteBlackListLayerGroupEnable(self, group_name, target_groups_name, indicator_type, mode):
+        """ mode = blacklist || whitelist """
+
+        if group_name not in target_groups_name:
+            return False
+
+        BalanceIndicator = DemonManager.getDemon("BalanceIndicator")
+
+        if mode == "blacklist":
+            BalanceIndicator.setParam("Show" + indicator_type, False)
+        elif mode == "whitelist":
+            BalanceIndicator.setParam("Show" + indicator_type, True)
+        else:
+            Trace.log("System", 0, "{} [{}] ERROR: unknown mode: {}".format(indicator_type, target_groups_name, mode))
+            return True
+
+        return False
+
+    def _cbWhiteBlackListLayerGroupDisable(self, group_name, target_groups_name, indicator_type, mode):
+        """ mode = blacklist || whitelist """
+
+        if group_name not in target_groups_name:
+            return False
+
+        BalanceIndicator = DemonManager.getDemon("BalanceIndicator")
+
+        if mode == "blacklist":
+            BalanceIndicator.setParam("Show" + indicator_type, True)
+        elif mode == "whitelist":
+            BalanceIndicator.setParam("Show" + indicator_type, False)
+        else:
+            Trace.log("System", 0, "{} [{}] ERROR: unknown mode: {}".format(indicator_type, target_groups_name, mode))
+            return True
+
         return False
 
     # utils

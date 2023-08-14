@@ -14,6 +14,16 @@ ALIAS_ENV = ""
 
 class BalanceIndicator(BaseEntity):
 
+    @staticmethod
+    def declareORM(Type):
+        BaseEntity.declareORM(Type)
+        Type.addAction(Type, "ShowGold",
+                       Update=Functor(BalanceIndicator._cbUpdateShowIndicator, GoldIndicator.type.lower()))
+        Type.addAction(Type, "ShowEnergy",
+                       Update=Functor(BalanceIndicator._cbUpdateShowIndicator, EnergyIndicator.type.lower()))
+        Type.addAction(Type, "ShowAdvertisement",
+                       Update=Functor(BalanceIndicator._cbUpdateShowIndicator, AdvertisementIndicator.type.lower()))
+
     def __init__(self):
         super(BalanceIndicator, self).__init__()
         self.indicators = {}
@@ -48,6 +58,7 @@ class BalanceIndicator(BaseEntity):
 
         for indicator in self.indicators.values():
             indicator.prepare(self.object, icon_provider_object)
+            indicator.setShow(self.object.getParam("Show" + indicator.type.title()))
 
     def _onActivate(self):
         self.tc = TaskManager.createTaskChain(Name="BalanceIndicatorHandler", Repeat=True)
@@ -63,7 +74,12 @@ class BalanceIndicator(BaseEntity):
 
         for indicator in self.indicators.values():
             indicator.cleanUp()
-        self.indicators = None
+        self.indicators = {}
+
+    def _cbUpdateShowIndicator(self, state, indicator_type):
+        indicator = self.indicators.get(indicator_type)
+        if indicator is not None:
+            indicator.setShow(state)
 
 
 class IndicatorMixin(object):
@@ -81,6 +97,12 @@ class IndicatorMixin(object):
         self.bg_movie = None
         self.icon_movie = None
         self.observers = []
+
+    def setShow(self, state):
+        self.bg_movie.setEnable(state)
+
+    def isShow(self):
+        return self.bg_movie.getEnable() is True
 
     def prepare(self, parent, icon_provider_object):
         Mengine.setTextAlias(ALIAS_ENV, self.text_alias, self.text_id)
@@ -106,7 +128,7 @@ class IndicatorMixin(object):
         icon_node.removeFromParent()
         # we can't do properly slot check, so just addChild and pray that it would be ok
         bg_movie.addChildToSlot(icon_node, "icon")
-        bg_movie.setEnable(True)
+        # setShow will be called later
 
         self.bg_movie = bg_movie
         self.icon_movie = icon_movie
@@ -225,19 +247,25 @@ class EnergyIndicator(IndicatorMixin):
     def _cbRecharge(self):
         """ Observer when energy start recharge """
         self.timer_enable = True
-        with TaskManager.createTaskChain(Name="BalanceIndicator_EnergyTimerHide") as tc:
-            tc.addEnable(self.timer_movie)
-            tc.addTask("AliasMovie2AlphaTo", Movie2=self.timer_movie, From=0.0, To=1.0, Time=350.0)
+        if self.isShow() is True:
+            with TaskManager.createTaskChain(Name="BalanceIndicator_EnergyTimerHide") as tc:
+                tc.addEnable(self.timer_movie)
+                tc.addTask("AliasMovie2AlphaTo", Movie2=self.timer_movie, From=0.0, To=1.0, Time=350.0)
+        else:
+            self.timer_movie.setEnable(True)
         return False
 
     def _cbCharged(self):
         """ Observer when energy start charged """
         if self.timer_enable is False:
             return False
-        with TaskManager.createTaskChain(Name="BalanceIndicator_EnergyTimerHide") as tc:
-            tc.addEnable(self.timer_movie)
-            tc.addTask("AliasMovie2AlphaTo", Movie2=self.timer_movie, From=1.0, To=0.0, Time=350.0)
-            tc.addDisable(self.timer_movie)
+        if self.isShow() is True:
+            with TaskManager.createTaskChain(Name="BalanceIndicator_EnergyTimerHide") as tc:
+                tc.addEnable(self.timer_movie)
+                tc.addTask("AliasMovie2AlphaTo", Movie2=self.timer_movie, From=1.0, To=0.0, Time=350.0)
+                tc.addDisable(self.timer_movie)
+        else:
+            self.timer_movie.setEnable(False)
         self.timer_enable = False
         return False
 
@@ -261,6 +289,7 @@ class AdvertisementIndicator(IndicatorMixin):
     type = "Advertisement"
     icon_tag = "AdvertisementReady"
     ad_name = "Rewarded"
+    identity = Notificator.onAvailableAdsNew
 
     def prepare(self, parent, _):
         if MonetizationManager.getGeneralSetting("AdvertisementBalanceIndicatorEnable", False) is False:
