@@ -48,6 +48,16 @@ class SystemDebugMenu(System):
 
     # ---- Mobile -----------------------------------------
 
+    @staticmethod
+    def isDebugMenuBlocked(sceneName=None):
+        if sceneName is None:
+            sceneName = SceneManager.getCurrentSceneName()
+
+        block = DefaultManager.getDefaultTuple("DebugMenuBlockedScenes",
+            default=["Menu", "PreIntro", "SplashScreen", "Dialog"], divider=", ")
+
+        return sceneName in block
+
     def __createMobileDebugButton(self):
         scene = SceneManager.getCurrentScene()
         if scene is None:
@@ -93,7 +103,7 @@ class SystemDebugMenu(System):
         return True
 
     def __onSceneActivate(self, sceneName):
-        if SceneManager.isDebugMenuBlocked(sceneName) is True:
+        if self.isDebugMenuBlocked(sceneName) is True:
             return False
         self.__resetClicksCounter()
         self.__createMobileDebugButton()
@@ -438,7 +448,7 @@ class SystemDebugMenu(System):
     # -----------
 
     def __resolveDebugMenu(self):
-        if SceneManager.isDebugMenuBlocked():
+        if self.isDebugMenuBlocked():
             return
         if SystemDebugMenu.s_is_showable:
             SystemDebugMenu.s_is_showable = False
