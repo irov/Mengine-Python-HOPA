@@ -99,10 +99,14 @@ class IndicatorMixin(object):
         self.observers = []
 
     def setShow(self, state):
-        self.bg_movie.setEnable(state)
+        if self.bg_movie is not None:
+            self.bg_movie.setEnable(state)
 
     def isShow(self):
-        return self.bg_movie.getEnable() is True
+        if self.bg_movie is not None:
+            return self.bg_movie.getEnable() is True
+        else:
+            return False
 
     def prepare(self, parent, icon_provider_object):
         Mengine.setTextAlias(ALIAS_ENV, self.text_alias, self.text_id)
