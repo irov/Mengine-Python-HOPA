@@ -3,6 +3,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 from Foundation.Utils import getCurrentPlatformParams, getCurrentPublisher
+from Foundation.MonetizationManager import MonetizationManager
 
 
 class StoreManager(Manager):
@@ -87,7 +88,7 @@ class StoreManager(Manager):
 
     @staticmethod
     def checkTabParams():
-        def trace(msg):
+        def _trace(msg):
             Trace.log("System", 0, "SystemStore found error on checkTabParams: {}".format(msg))
 
         selected_tabs = []  # page ids with selected=True
@@ -101,7 +102,7 @@ class StoreManager(Manager):
 
             # Check Page exist
             if GroupManager.hasGroup(tab.group_name) is False:
-                trace("Tab with id {!r} has non-exist group {!r}".format(tab.page_id, tab.group_name))
+                _trace("Tab with id {!r} has non-exist group {!r}".format(tab.page_id, tab.group_name))
                 StoreManager.s_tabs.pop(tab.page_id)
 
         if len(StoreManager.s_tabs) == 0:
@@ -112,39 +113,10 @@ class StoreManager(Manager):
 
     @staticmethod
     def loadButtons(records):
-        from Foundation.MonetizationManager import MonetizationManager
-
-        def trace(params, msg):
-            Trace.log("System", 0, "SystemStore got error while load buttons: [{}:{}] {}".format(params.page_id, params.button_id, msg))
-
-        _current_locale = Mengine.getLocale()
-
         for record in records:
             params = StoreManager.ButtonParam(record)
 
-            group_name = params.prototype_group
-            manager = DemonManager if group_name.startswith("Demon_") else GroupManager
-
-            prototypes_ok = True
-            for param_name, prototype_name in params.getPrototypesNames():
-                if prototype_name is None:
-                    continue
-                if manager.hasPrototype(group_name, prototype_name) is False:
-                    trace(params, "Group {} has no prototype {!r} [{}]".format(group_name, prototype_name, param_name))
-                    prototypes_ok = False
-            if prototypes_ok is False:
-                continue
-
-            texts_ok = True
-            for text_id in params.getTextIds():
-                if Mengine.existText(text_id) is False:
-                    trace(params, "TextID {!r} not found for locale '{}'".format(text_id, _current_locale))
-                    texts_ok = False
-            if texts_ok is False:
-                continue
-
-            if params.action == "purchase" and MonetizationManager.getProductInfo(params.product_id) is None:
-                trace(params, "product id {} not found".format(params.product_id))
+            if StoreManager._validateButton(params) is False:
                 continue
 
             if params.page_id not in StoreManager.s_buttons:
@@ -153,15 +125,74 @@ class StoreManager(Manager):
             StoreManager.s_buttons[params.page_id][params.button_id] = params
 
     @staticmethod
+    def _validateButton(params):
+        if _DEVELOPMENT is False:
+            return True
+
+        def _trace(btn, msg):
+            Trace.log("System", 0, "SystemStore got error while load buttons: [{}:{}] {}".format(btn.page_id, btn.button_id, msg))
+
+        # --- check prototypes (is exists)
+
+        group_name = params.prototype_group
+        manager = DemonManager if group_name.startswith("Demon_") else GroupManager
+
+        prototypes_ok = True
+        for param_name, prototype_name in params.getPrototypesNames():
+            if prototype_name is None:
+                continue
+            if manager.hasPrototype(group_name, prototype_name) is False:
+                _trace(params, "Group {} has no prototype {!r} [{}]".format(group_name, prototype_name, param_name))
+                prototypes_ok = False
+        if prototypes_ok is False:
+            return False
+
+        # --- check texts (is exists)
+
+        current_locale = Mengine.getLocale()
+
+        texts_ok = True
+        for text_id in params.getTextIds():
+            if Mengine.existText(text_id) is False:
+                _trace(params, "TextID {!r} not found for locale '{}'".format(text_id, current_locale))
+                texts_ok = False
+        if texts_ok is False:
+            return False
+
+        # --- check product params (is correct and exists)
+
+        product_info = MonetizationManager.getProductInfo(params.product_id)
+        if product_info is None:
+            _trace(params, "product id {!r} not found".format(params.product_id))
+            return False
+
+        real_currency_name = "Real"
+        advert_currency_name = "Advert"
+
+        if params.action == "purchase" and product_info.getCurrency() != real_currency_name:
+            _trace(params, "product {!r} currency must be {!r}, because action is 'purchase'".format(params.product_id, real_currency_name))
+            return False
+        elif params.action == "exchange" and product_info.getCurrency() == real_currency_name:
+            _trace(params, "product {!r} currency can't be {!r}, because action is 'exchange'".format(params.product_id, real_currency_name))
+            return False
+        elif params.action == "advert" and product_info.getCurrency() != advert_currency_name:
+            _trace(params, "product {!r} currency must be {!r}, because action is 'advert'".format(params.product_id, advert_currency_name))
+            return False
+
+        return True
+
+    @staticmethod
     def loadTabs(records):
-        def trace(msg):
+        def _trace(msg):
             Trace.log("System", 0, "SystemStore got error while load tabs: {}".format(msg))
 
         for i, record in enumerate(records):
             params = StoreManager.TabParam(record)
             params.index = i
+
             if params.page_id in StoreManager.s_tabs:
-                trace("Use only unique ids - {!r} already used".format(params.page_id))
+                _trace("Use only unique ids - {!r} already used".format(params.page_id))
+
             StoreManager.s_tabs[params.page_id] = params
 
     @staticmethod
