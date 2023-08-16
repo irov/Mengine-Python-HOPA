@@ -1,5 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
+from Foundation.MonetizationManager import MonetizationManager
 from Foundation.Task.TaskAlias import TaskAlias
 
 
