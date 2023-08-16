@@ -326,6 +326,11 @@ class GameStore(BaseEntity):
         PolicyAuth = PolicyManager.getPolicy("Authorize", "PolicyDummy")
         TaskManager.runAlias(PolicyAuth, None)
 
+        with source.addParallelTask(2) as (source_open, source_fade):
+            source_open.addScope(self._scopeOpenStore)
+            source_fade.addTask("AliasFadeIn", FadeGroupName="FadeUI", To=0.5, Time=250.0, ReturnItem=False)
+
+    def _scopeOpenStore(self, source):
         appear_effect = self.effects.get("appear", None)
         disappear_effect = self.effects.get("disappear", None)
 
@@ -340,6 +345,11 @@ class GameStore(BaseEntity):
             source.addFunction(self.attachToEffect, "disappear")
 
     def scopeCloseStore(self, source):
+        with source.addParallelTask(2) as (source_close, source_fade):
+            source_close.addScope(self._scopeCloseStore)
+            source_fade.addTask("AliasFadeOut", FadeGroupName="FadeUI", From=0.5, Time=250.0)
+
+    def _scopeCloseStore(self, source):
         appear_effect = self.effects.get("appear", None)
         disappear_effect = self.effects.get("disappear", None)
 
