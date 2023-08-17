@@ -1346,6 +1346,7 @@ def onInitialize():
 
         , "LanguageSelect"
         , "LoadingScene"
+        , "AdvertisingScene"
         , "TrialMobile"
 
         , "GiftExchange"
