@@ -5,6 +5,11 @@ from HOPA.StageManager import StageManager
 from Notification import Notification
 
 
+IGNORE_SAVE_SCENES = ["Advertising"]
+NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store"]
+ALWAYS_SAVE_SCENES = ["CutScene"]
+
+
 class SystemAutoSave(System):
     def _onParams(self, params):
         super(SystemAutoSave, self)._onParams(params)
@@ -13,7 +18,6 @@ class SystemAutoSave(System):
         self.saveReady = False
 
         self.scheduleId = 0
-        pass
 
     def _onRun(self):
         AutoTransitionSave = DefaultManager.getDefaultBool("AutoTransitionSave", False)
@@ -53,14 +57,16 @@ class SystemAutoSave(System):
         tab.addWidget(widget)
 
     def _forceSave(self):
-        ignore_scenes = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store"]
         cur_scene = Mengine.getCurrentScene()
-        if cur_scene is not None and cur_scene.getName() in ignore_scenes:
+
+        if cur_scene is None:
+            self.__cheatAutoSave()
+            return False
+        elif cur_scene.getName() in NO_RESTART_FORCE_SAVE_SCENES:
             self.__cheatAutoSave()
             return False
 
         def _cbRestart(scene, isActive, isError):
-            print("cb restart", scene.sceneName if scene else None, isActive, isError)
             if scene is None:
                 self.__cheatAutoSave()
                 return
@@ -70,6 +76,7 @@ class SystemAutoSave(System):
         Notification.notify(Notificator.onSceneRestartBegin)
         Mengine.restartCurrentScene(True, _cbRestart)
         Notification.notify(Notificator.onSceneRestartEnd)
+
         return False
 
     def __cheatAutoSave(self):
@@ -79,69 +86,54 @@ class SystemAutoSave(System):
         return False
 
     def _schedule(self):
-        SystemSaveDelayTime = DefaultManager.getDefaultFloat("SystemSaveDelayTime", 60)
-        SystemSaveDelayTime *= 1000  # speed fix
-        self.scheduleId = Mengine.scheduleGlobal(SystemSaveDelayTime, self._onSchedule)
-        pass
+        save_delay = DefaultManager.getDefaultFloat("AutoTransitionSaveDelaySeconds", 60)
+        save_delay *= 1000  # convert to ms
+        self.scheduleId = Mengine.scheduleGlobal(save_delay, self._onSchedule)
 
     def _onSchedule(self, ID, isRemoved):
         if self.scheduleId != ID:
             return
-            pass
 
         self.scheduleId = 0
-
         self.saveReady = True
-        pass
 
     def _onStop(self):
         if self.scheduleId != 0:
             Mengine.scheduleGlobalRemove(self.scheduleId)
             self.scheduleId = 0
-            pass
 
         AutoTransitionSave = DefaultManager.getDefaultBool("AutoTransitionSave", False)
         if AutoTransitionSave is False:
             return
-            pass
-        pass
 
     def __onSceneRemoved(self, SceneName):
-        if SceneName == "CutScene":
+        if SceneName in ALWAYS_SAVE_SCENES:
             self.saveReady = True
+        elif SceneName in IGNORE_SAVE_SCENES:
+            return False
 
         if self.saveReady is False:
             return False
-            pass
 
         if self.scheduleId != 0:
             if Mengine.scheduleGlobalRemove(self.scheduleId) is False:
                 Trace.trace()
-                pass
-            pass
 
         self._autoSave()
         self._schedule()
 
         return False
-        pass
 
     def _autoSave(self):
         if self.AutoSave is False:
             return
-            pass
 
         currentStage = StageManager.getCurrentStage()
 
         if currentStage is None:
             return
-            pass
 
         if SessionManager.saveSession() is False:
             Trace.log("System", 0, "SystemAutoSave _save: invalid save Session")
-            pass
 
         self.saveReady = False
-        pass
-
-    pass
