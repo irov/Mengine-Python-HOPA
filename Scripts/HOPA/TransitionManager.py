@@ -5,10 +5,11 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
-from Graph import Graph
+from Foundation.PolicyManager import PolicyManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
+from Graph import Graph
 
 
 class TransitionManager(object):
@@ -35,16 +36,12 @@ class TransitionManager(object):
             self.sceneNameTo = sceneNameTo
             self.cursorMode = cursorMode
             self.sceneNameShow = sceneNameShow
-            pass
-
-        pass
 
     @staticmethod
     def onInitialize():
         TransitionManager.onTransitionMouseEnterObserver = Notification.addObserver(Notificator.onTransitionMouseEnter, TransitionManager.__transitionMouseEnter)
         TransitionManager.onTransitionClickObserver = Notification.addObserver(Notificator.onTransitionClick, TransitionManager.__transitionClick)
         TransitionManager.onTransitionMouseLeaveObserver = Notification.addObserver(Notificator.onTransitionMouseLeave, TransitionManager.__transitionMouseLeave)
-        pass
 
     @staticmethod
     def onFinalize():
@@ -301,7 +298,6 @@ class TransitionManager(object):
 
         if SceneNameTo is None:
             return
-            pass
 
         CurrentSceneName = SceneManager.getCurrentSceneName()
 
@@ -312,22 +308,18 @@ class TransitionManager(object):
         transitionName = transition.getName()
         if TransitionManager.hasInMovie(transitionGroupName, transitionName) is True:
             MovieInObject = TransitionManager.getInMovie(transitionGroupName, transitionName)
-            pass
 
         MovieOutObject = None
         transitionGroupName = transition.getGroupName()
         transitionName = transition.getName()
         if TransitionManager.hasOutMovie(transitionGroupName, transitionName) is True:
             MovieOutObject = TransitionManager.getOutMovie(transitionGroupName, transitionName)
-            pass
 
         if MovieOutObject is None:
             DefaultFadeOutGroup = DefaultManager.getDefault("TransitionFadeOutGroup", None)
             TransitionFadeOutMovie = DefaultManager.getDefault("TransitionFadeOutMovie", None)
             if DefaultFadeOutGroup is not None and TransitionFadeOutMovie is not None:
                 MovieOutObject = GroupManager.getObject(DefaultFadeOutGroup, TransitionFadeOutMovie)
-                pass
-            pass
 
         TransitionBackObject = TransitionManager.getTransitionBackObject()
 
@@ -335,18 +327,24 @@ class TransitionManager(object):
             scene_to = TransitionManager.getTransitionSceneTo(transition)
             transition_to = TransitionManager.findTransitionObjectToScene(scene_to, CurrentSceneName)
 
-            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName,
-                                 MovieIn=MovieInObject, MovieOut=MovieInObject,
-                                 ZoomEffectTransitionBackObject=transition_to)
+            transition_params = dict(SceneName=SceneNameTo, ZoomGroupName=openZoomName, MovieIn=MovieInObject,
+                                     MovieOut=MovieInObject, ZoomEffectTransitionBackObject=transition_to)
         else:
-            TaskManager.runAlias("AliasTransition", None, SceneName=SceneNameTo, ZoomGroupName=openZoomName,
-                                 MovieIn=MovieInObject, MovieOut=MovieOutObject, ZoomEffectTransitionObject=transition)
+            transition_params = dict(SceneName=SceneNameTo, ZoomGroupName=openZoomName, MovieIn=MovieInObject,
+                                     MovieOut=MovieOutObject, ZoomEffectTransitionObject=transition)
+
+        PolicyTransition = PolicyManager.getPolicy("Transition", "AliasTransition")
+        TaskManager.runAlias(PolicyTransition, None, **transition_params)
 
     @staticmethod
     def changeScene(sceneName, zoomGroupName=None, fade=True, Cb=None):
         if sceneName is None:
             Trace.log("Manager", 0, "TransitionManager.changeScene sceneName is None!!!!!")
-        TaskManager.runAlias("AliasTransition", Cb, SceneName=sceneName, ZoomGroupName=zoomGroupName, Fade=fade)
+
+        transition_params = dict(SceneName=sceneName, ZoomGroupName=zoomGroupName, Fade=fade)
+
+        PolicyTransition = PolicyManager.getPolicy("Transition", "AliasTransition")
+        TaskManager.runAlias(PolicyTransition, Cb, **transition_params)
 
     @staticmethod
     def changeToGameScene(fade=True):
