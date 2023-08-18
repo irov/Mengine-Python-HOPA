@@ -22,6 +22,7 @@ class AliasTransition(TaskAlias):
         self.CheckToScene = params.get("CheckToScene", True)
 
         self.IgnoreGameScene = params.get("IgnoreGameScene", False)
+        self.Bypass = params.get("Bypass", False)
 
         self.Fade = params.get("Fade", True)
 
@@ -148,8 +149,9 @@ class AliasTransition(TaskAlias):
             GameScene = SceneManager.isGameScene(self.SceneName)
 
         # please, research why we can't force transition to non-game scenes and add description
-        source.addTask("TaskTransitionUnblock", IsGameScene=GameScene)
-        source.addTask("TaskTransitionBlock", Value=True, IsGameScene=GameScene)
+        if self.Bypass is False:
+            source.addTask("TaskTransitionUnblock", IsGameScene=GameScene)
+            source.addTask("TaskTransitionBlock", Value=True, IsGameScene=GameScene)
 
         with GuardBlockInput(source, self.BlockInput) as guard_source:
             guard_source.addNotify(Notificator.onTransitionBegin, CurrentSceneName, self.SceneName, self.ZoomGroupName)
@@ -212,7 +214,8 @@ class AliasTransition(TaskAlias):
                         guard_source.addTask("TaskMoviePlay", Movie=self.MovieOut, Wait=True, LastFrame=False)
                         guard_source.addTask("TaskEnable", Object=self.MovieOut, Value=False)
 
-        source.addTask("TaskTransitionBlock", Value=False, IsGameScene=GameScene)
+        if self.Bypass is False:
+            source.addTask("TaskTransitionBlock", Value=False, IsGameScene=GameScene)
 
         source.addTask("TaskNotify", ID=Notificator.onTransitionEnd,
                        Args=(CurrentSceneName, self.SceneName, self.ZoomGroupName))
