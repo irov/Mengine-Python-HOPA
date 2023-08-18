@@ -20,11 +20,9 @@ class ObjectAdvertisingScene(DemonObject):
 
     def setTransitionData(self, data):
         self.transition_data = data.copy()
-        print "******* setTransitionData", data
 
     def runNextTransition(self):
         """ do transition on next scene as planned """
-        print "******* runNextTransition"
         if self.transition_data is not None:
             TaskManager.runAlias("AliasTransition", None, **self.transition_data)
             return True
@@ -32,26 +30,23 @@ class ObjectAdvertisingScene(DemonObject):
         Trace.log("Object", 0, "Can't do next transition - transition data is None")
         return False
 
-    def runAdvertTransition(self):
+    def runAdvertTransition(self, callback=None):
         """ do transition on advert scene if True, else (if False) - make default transition """
-        print "******* runAdvertTransition"
 
         if self.transition_data is None:
             Trace.log("Object", 0, "You forgot to set transition data!!!!!!")
             return False
 
         if self.getParam("CacheNoAds") is True:
-            print "!!!!!!!!!!!!!! no ads"
             return False
 
         if self.transition_data.get("SceneName") in self.ignore_scenes:
-            print "!!!!!!!!!!!!!! SceneName", self.transition_data.get("SceneName"), "in", self.ignore_scenes
             return False
 
         MovieIn = self.transition_data.pop("MovieIn", None)
         ZoomEffectTransitionObject = self.transition_data.pop("ZoomEffectTransitionObject", None)
 
-        TaskManager.runAlias("AliasTransition", None, SceneName="Advertising",
+        TaskManager.runAlias("AliasTransition", callback, SceneName="Advertising",
                              MovieIn=MovieIn, ZoomEffectTransitionObject=ZoomEffectTransitionObject)
         return True
 
