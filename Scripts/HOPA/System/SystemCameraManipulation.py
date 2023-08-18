@@ -450,7 +450,8 @@ class SystemCameraManipulation(System):
         self.virtual_area.on_scale += self._on_scale
         self.virtual_area.on_drag += self._on_drag
 
-        self.virtual_area.set_content_size(0, 0, self.bounds["end"].x, self.bounds["end"].y)
+        self.virtual_area.set_content_size(self.bounds["begin"].x, self.bounds["begin"].y,
+                                           self.bounds["end"].x, self.bounds["end"].y)
 
         if self.isBlocked() is True:
             self.setEnableHotspot(False)
