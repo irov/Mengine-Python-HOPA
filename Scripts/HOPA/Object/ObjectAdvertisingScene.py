@@ -18,8 +18,8 @@ class ObjectAdvertisingScene(DemonObject):
         self.initConst("AdvertSceneName", params, "Advertising")
         self.initParam("CacheNoAds", params, False)
 
-    def setTransitionData(self, **data):
-        self.transition_data = data
+    def setTransitionData(self, data):
+        self.transition_data = data.copy()
         print "******* setTransitionData", data
 
     def runNextTransition(self):
@@ -48,9 +48,11 @@ class ObjectAdvertisingScene(DemonObject):
             print "!!!!!!!!!!!!!! SceneName", self.transition_data.get("SceneName"), "in", self.ignore_scenes
             return False
 
-        MovieIn = self.transition_data.get("MovieIn")
+        MovieIn = self.transition_data.pop("MovieIn", None)
+        ZoomEffectTransitionObject = self.transition_data.pop("ZoomEffectTransitionObject", None)
 
-        TaskManager.runAlias("AliasTransition", None, SceneName="Advertising", MovieIn=MovieIn)
+        TaskManager.runAlias("AliasTransition", None, SceneName="Advertising",
+                             MovieIn=MovieIn, ZoomEffectTransitionObject=ZoomEffectTransitionObject)
         return True
 
 
