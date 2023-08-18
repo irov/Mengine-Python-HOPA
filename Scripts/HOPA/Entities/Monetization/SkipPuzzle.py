@@ -9,7 +9,7 @@ from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
 from HOPA.System.SystemTutorialFade import SystemTutorialFade
 
 
-_Log = SimpleLogger("PaidSkipPuzzle")
+_Log = SimpleLogger("PaidSkipPuzzle", option="monetization")
 
 
 class SkipPuzzle(BaseComponent):
@@ -71,7 +71,7 @@ class SkipPuzzle(BaseComponent):
 
     def _skipPurchasedEnigma(self, enigma):
         """ used for fast skip MG if player bought skip earlier (fix save bug) """
-        _Log("force skip MG - start")
+        _Log("force skip MG - start", optional=True)
         enigma_name = enigma.getEnigmaName()
         enigma_params = EnigmaManager.getEnigma(enigma_name)
         enigma_id = enigma_params.id
@@ -90,7 +90,7 @@ class SkipPuzzle(BaseComponent):
 
         is_skipped = enigma_id in items or enigma_name in items
 
-        _Log("-- isEnigmaWasSkipped {!r} [{}] in {}: {}".format(enigma_name, enigma_id, items, is_skipped))
+        _Log("-- isEnigmaWasSkipped {!r} [{}] in {}: {}".format(enigma_name, enigma_id, items, is_skipped), optional=True)
 
         return is_skipped
 
