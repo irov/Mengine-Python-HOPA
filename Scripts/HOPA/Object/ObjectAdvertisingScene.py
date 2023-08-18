@@ -24,7 +24,7 @@ class ObjectAdvertisingScene(DemonObject):
     def runNextTransition(self):
         """ do transition on next scene as planned """
         if self.transition_data is not None:
-            TaskManager.runAlias("AliasTransition", None, **self.transition_data)
+            TaskManager.runAlias("AliasTransition", None, Bypass=True, **self.transition_data)
             return True
 
         Trace.log("Object", 0, "Can't do next transition - transition data is None")

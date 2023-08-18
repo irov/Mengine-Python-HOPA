@@ -28,7 +28,11 @@ class AdvertisingScene(BaseEntity):
 
         with self.tc as tc:
             tc.addScope(self._scopeAds)
-            tc.addTask("TaskTransitionUnblock", IsGameScene=False)
+
+            # ---- to use this task, set Bypass to False at object.runNextTransition method
+            # tc.addTask("TaskTransitionUnblock", IsGameScene=False)
+            tc.addDelay(1)
+
             tc.addFunction(self.object.runNextTransition)
 
     def _scopeAds(self, source):
