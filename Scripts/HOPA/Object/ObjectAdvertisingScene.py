@@ -1,5 +1,6 @@
 from Foundation.Object.DemonObject import DemonObject
 from Foundation.TaskManager import TaskManager
+from Foundation.SystemManager import SystemManager
 
 
 class ObjectAdvertisingScene(DemonObject):
@@ -41,6 +42,15 @@ class ObjectAdvertisingScene(DemonObject):
             return False
 
         if self.transition_data.get("SceneName") in self.ignore_scenes:
+            return False
+
+        SystemAdvertising = SystemManager.getSystem("SystemAdvertising")
+
+        if SystemAdvertising.isDisabledForever() is True:
+            self.setParam("CacheNoAds", True)
+            return False
+
+        if SystemAdvertising.isReadyToView() is False:
             return False
 
         MovieIn = self.transition_data.pop("MovieIn", None)

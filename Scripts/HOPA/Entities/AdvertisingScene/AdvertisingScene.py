@@ -41,12 +41,7 @@ class AdvertisingScene(BaseEntity):
 
         SystemAdvertising = SystemManager.getSystem("SystemAdvertising")
 
-        if SystemAdvertising.isDisabledForever() is True:
-            self.object.setParam("CacheNoAds", True)
-            return
-
-        if SystemAdvertising.isReadyToView() is False:
-            return
+        # did check ready early before activate (in AdvertScene object.runAdvertTransition)
 
         with source.addParallelTask(2) as (response, request):
             with response.addRaceTask(2) as (hidden, fail):
