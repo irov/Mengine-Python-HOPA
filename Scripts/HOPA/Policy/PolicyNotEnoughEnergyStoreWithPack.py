@@ -21,8 +21,6 @@ class PolicyNotEnoughEnergyStoreWithPack(TaskAlias):
 
         with source.addRaceTask(2) as (done, skip):
             done.addListener(Notificator.onPaySuccess)
-            done.addFunction(PolicyManager.setPolicy, "NotEnoughEnergyAction", None)
-            done.addFunction(PolicyManager.setPolicy, "NotEnoughGoldAction", None)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
             skip.addTask(PolicyOnSkipAction, PageID=self.PageID, Action=self.Action)

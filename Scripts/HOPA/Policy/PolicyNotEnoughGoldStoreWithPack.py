@@ -22,8 +22,6 @@ class PolicyNotEnoughGoldStoreWithPack(TaskAlias):
 
         with source.addRaceTask(3) as (done, skip, stop):
             done.addListener(Notificator.onPaySuccess)
-            done.addFunction(PolicyManager.setPolicy, "NotEnoughGoldAction", None)
-            done.addFunction(PolicyManager.setPolicy, "NotEnoughEnergyAction", None)
             if MonetizationManager.getGeneralSetting("AllowPayGoldAfterPurchase", False) is True:
                 done.addNotify(Notificator.onGameStorePayGold, descr=self.Descr)
 

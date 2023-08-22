@@ -29,10 +29,22 @@ class PromoPackageNotEnoughMoney(BaseComponent):
 
     def _run(self):
         self.addObserver(Notificator.onSelectAccount, self._cbSelectAccount)
+        self.addObserver(Notificator.onPaySuccess, self._cbPaySuccess)
         return True
 
     def _cbSelectAccount(self, account_id):
         if SystemMonetization.isProductPurchased(self.product.id) is False:
             PolicyManager.setPolicy("NotEnoughGoldAction", "PolicyNotEnoughGoldStoreWithPack")
             PolicyManager.setPolicy("NotEnoughEnergyAction", "PolicyNotEnoughEnergyStoreWithPack")
+        return False
+
+    def _cbPaySuccess(self, prod_id):
+        if prod_id != self.getProductId():
+            return False
+
+        if PolicyManager.getPolicy("NotEnoughGoldAction") == "PolicyNotEnoughGoldStoreWithPack":
+            PolicyManager.setPolicy("NotEnoughGoldAction", None)
+        if PolicyManager.getPolicy("NotEnoughEnergyAction") == "PolicyNotEnoughEnergyStoreWithPack":
+            PolicyManager.setPolicy("NotEnoughEnergyAction", None)
+
         return False
