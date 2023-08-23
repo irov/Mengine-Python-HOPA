@@ -11,7 +11,7 @@ from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
 
 
-_Log = SimpleLogger("SystemEnergy")
+_Log = SimpleLogger("SystemEnergy", option="energy")
 
 EVENT_CHANGED_BALANCE = Event("onEnergyBalanceChanged")
 EVENT_UPDATE_TIMER = Event("onEnergyTimerUpdate")
@@ -24,6 +24,7 @@ ACTION_NAMES = [
     , "FitHO"
     , "DragDropItem"
 ]
+ENERGY_INFINITY_CODE = "inf"
 
 
 class SystemEnergy(System):
@@ -32,7 +33,8 @@ class SystemEnergy(System):
     s_actions_price = {}  # { action_name: int price } - how many energy would be withdrawn
 
     in_recharging = False
-    in_free_mode = False  # consume method always return True if free mode is True
+    in_free_mode = False        # consume method always return True if free mode is True
+    in_infinity_mode = False    # free mode, but shows it for user
 
     s_paid_enigmas = SecureStringValue("EnergyPaidEnigmas", "")
 
@@ -218,8 +220,8 @@ class SystemEnergy(System):
 
         is_paid = enigma_name in paid_enigmas or enigma_id in paid_enigmas
 
-        if _DEVELOPMENT is True:
-            _Log("-- isEnigmaPaid {!r} [{}] in {}: {}".format(enigma_name, enigma_id, paid_enigmas, is_paid))
+        _Log("-- isEnigmaPaid {!r} [{}] in {}: {}"
+             .format(enigma_name, enigma_id, paid_enigmas, is_paid), optional=True)
 
         return is_paid
 
@@ -240,7 +242,8 @@ class SystemEnergy(System):
         save = str(Mengine.getCurrentAccountSetting("EnergyPaidEnigmas"))
         SystemEnergy.s_paid_enigmas.loadSave(save)
 
-        _Log("------- EnergyPaidEnigmas: {!r} ({})".format(SystemEnergy.s_paid_enigmas.getValue(), save))
+        _Log("------- EnergyPaidEnigmas: {!r} ({})"
+             .format(SystemEnergy.s_paid_enigmas.getValue(), save), optional=True)
 
     # === Energy =======================================================================================================
 
@@ -248,9 +251,17 @@ class SystemEnergy(System):
     def setFreeMode(state):
         SystemEnergy.in_free_mode = bool(state)
 
+    def setInfinityMode(self, state):
+        SystemEnergy.in_infinity_mode = state
+        self.notifyUpdateBalance()
+        if state is True:
+            self.onCharged()
+        Mengine.changeCurrentAccountSettingBool("EnergyInfinity", state)
+        Mengine.saveAccounts()
+
     @staticmethod
     def isFreeMode():
-        return SystemEnergy.in_free_mode is True
+        return SystemEnergy.in_free_mode is True or SystemEnergy.in_infinity_mode is True
 
     @staticmethod
     def getMaxEnergy():
@@ -277,7 +288,8 @@ class SystemEnergy(System):
 
     def isEnoughEnergy(self, energy):
         energy_left = self.current_energy - energy
-        _Log("isEnoughEnergy [{}] {} - {} = {}".format(energy_left >= 0, self.current_energy, energy, energy_left))
+        _Log("isEnoughEnergy [{}] {} - {} = {}"
+             .format(energy_left >= 0, self.current_energy, energy, energy_left), optional=True)
         if energy_left < 0:
             return False
         return True
@@ -308,6 +320,9 @@ class SystemEnergy(System):
 
     @balanceChanger("set")  # noqa
     def setEnergy(self, energy):
+        if energy == ENERGY_INFINITY_CODE:
+            self.setInfinityMode(True)
+            return False
         self.current_energy = 0 if energy < 0 else energy
         return False
 
@@ -359,6 +374,9 @@ class SystemEnergy(System):
         self.__saveProgress()
 
     def notifyUpdateBalance(self):
+        if self.in_infinity_mode is True:
+            Notification.notify(Notificator.onUpdateEnergyBalance, ENERGY_INFINITY_CODE)
+            return
         Notification.notify(Notificator.onUpdateEnergyBalance, self.current_energy)
 
     # === Refill =======================================================================================================
@@ -503,7 +521,11 @@ class SystemEnergy(System):
             Trace.log("System", 0, "SystemEnergy._onLoad current_energy is not integer: {} {}".format(self.current_energy, type(self.current_energy)))
             self._setupInitialCurrentEnergy()
 
-        self.chargeOnLoad(save_time)
+        if Mengine.getCurrentAccountSettingBool("EnergyInfinity") is True:
+            SystemEnergy.in_infinity_mode = True
+            self.current_energy = max(self.current_energy, self.getMaxEnergy())
+        else:
+            self.chargeOnLoad(save_time)
 
         self._loadPaidEnigmas()
 
@@ -516,6 +538,7 @@ class SystemEnergy(System):
             Mengine.addCurrentAccountSetting("EnergyRefill", u'', None)
             Mengine.addCurrentAccountSetting("EnergyCooldown", u'', None)
             Mengine.addCurrentAccountSetting("EnergyLastSave", u'', None)
+            Mengine.addCurrentAccountSetting("EnergyInfinity", u'', None)
 
         from Foundation.AccountManager import AccountManager
         AccountManager.addCreateAccountExtra(__addExtraAccountSettings)
@@ -565,7 +588,8 @@ class SystemEnergy(System):
                 self.startRecharge(time)
 
         self.__saveProgress()
-        _Log("{} seconds have passed since the last game: {} energy accumulated".format(time_passed, energy_accumulated))
+        _Log("{} seconds have passed since the last game: {} energy accumulated"
+             .format(time_passed, energy_accumulated), optional=True)
 
     def _getTimestamp(self):
         # returns local timestamp from device

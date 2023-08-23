@@ -88,6 +88,7 @@ class IndicatorMixin(object):
     text_alias = None
     text_id = None
     identity = None
+    prepare_load_text = "..."
 
     if _DEVELOPMENT is True:
         def __repr__(self):
@@ -110,7 +111,7 @@ class IndicatorMixin(object):
 
     def prepare(self, parent, icon_provider_object):
         Mengine.setTextAlias(ALIAS_ENV, self.text_alias, self.text_id)
-        self.refreshIndicatorText("load...")
+        self.refreshIndicatorText(self.prepare_load_text)
 
         bg_name = "Movie2Button_{}Indicator".format(self.type)
         icon_name = "Movie2_{}_{}".format(self.icon_tag, getCurrentPublisher())
@@ -185,6 +186,8 @@ class EnergyIndicator(IndicatorMixin):
     icon_tag = "Energy"
     text_alias = "$AliasEnergyBalance"
     text_id = "ID_TEXT_ENERGY_BALANCE"
+    infinity_text_id = "ID_TEXT_ENERGY_INFINITY"
+    prepare_load_text = ".../..."
 
     timer_text_id = "ID_TEXT_ENERGY_TIMER"
     timer_text_alias = "$AliasEnergyTimer"
@@ -284,6 +287,10 @@ class EnergyIndicator(IndicatorMixin):
         self.max_energy = None
 
     def refreshIndicatorText(self, balance):
+        if balance == "inf":
+            Mengine.setTextAliasArguments(ALIAS_ENV, self.text_alias, Mengine.getTextFromId(self.infinity_text_id))
+            return True
+
         text = "{}/{}".format(balance, self.max_energy)
         Mengine.setTextAliasArguments(ALIAS_ENV, self.text_alias, text)
         return False
