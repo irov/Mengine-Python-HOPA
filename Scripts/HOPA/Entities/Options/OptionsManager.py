@@ -31,7 +31,14 @@ class OptionsManager(object):
     def loadParams(module, param):
         SlidersName = ['Voice', 'Music', 'Sound']
         for name in SlidersName:
-            slider = GroupManager.getObject('Options', 'Movie2Scrollbar_{}'.format(name))
+            slider_name = 'Movie2Scrollbar_{}'.format(name)
+
+            if GroupManager.hasObject('Options', slider_name) is False:
+                if _DEVELOPMENT is True:
+                    Trace.log("Manager", 0, "OptionsManager can't find slider {!r}".format(slider_name))
+                continue
+
+            slider = GroupManager.getObject('Options', slider_name)
             Volume = DefaultManager.getDefaultFloat('Default{}Volume'.format(name), 0.5)
             OptionsManager.s_scrollBars[name] = [Volume, slider]
 
@@ -47,6 +54,12 @@ class OptionsManager(object):
                 playButton = record.get("PlayButtonPrototype")
                 stopButton = record.get("StopButtonPrototype")
                 checkSoundList = record.get("CheckSoundTracklist", [])
+
+                if slider not in OptionsManager.s_scrollBars:
+                    msg = "[Warning] OptionsManager cant find {!r} slider. Impossible to setup sound checker."
+                    msg = msg.format(slider)
+                    Trace.log("Manager", 0, msg)
+                    continue
 
                 param = SoundCheckParam(soundType, slider, slot, playButton, stopButton, checkSoundList)
                 params.append(param)
