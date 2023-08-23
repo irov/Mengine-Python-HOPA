@@ -144,7 +144,7 @@ class NotebookInventoryListManager(Manager):
                 return None
 
             Position = Movie.getPosition()
-            difference = DefaultManager.getDefaultFloat("TasksShowIntervel", 100.0)
+            difference = DefaultManager.getDefaultFloat("TasksShowInterval", 100.0)
             Position = (Position[0], Position[1] + difference * (Value - 1), Position[2])
             Movie.setPosition(Position)
 
