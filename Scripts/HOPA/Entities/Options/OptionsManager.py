@@ -3,9 +3,6 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 
 
-XlsxOptionsSoundVolumeCheck = "OptionsSoundVolumeCheck"
-
-
 class SoundCheckParam(object):
     def __init__(self, soundType, sliderMovieName, sliderMovieSlotName, playButtonPrototype, stopButtonPrototype,
                  checkSoundTracklist):
@@ -29,6 +26,15 @@ class OptionsManager(object):
 
     @staticmethod
     def loadParams(module, param):
+        if param == "Options":
+            OptionsManager._loadScrollBarParams(module, param)
+        elif param == "OptionsSoundVolumeCheck":
+            OptionsManager._loadSoundCheckParams(module, param)
+
+        return True
+
+    @staticmethod
+    def _loadScrollBarParams(module, param):
         SlidersName = ['Voice', 'Music', 'Sound']
         for name in SlidersName:
             slider_name = 'Movie2Scrollbar_{}'.format(name)
@@ -42,36 +48,38 @@ class OptionsManager(object):
             Volume = DefaultManager.getDefaultFloat('Default{}Volume'.format(name), 0.5)
             OptionsManager.s_scrollBars[name] = [Volume, slider]
 
-        """ SoundType SliderbarMovie SliderbarMovie_Slot PlayButtonPrototype StopButtonPrototype [CheckSoundTracklist] """
-        records = DatabaseManager.getDatabaseRecords(module, XlsxOptionsSoundVolumeCheck)
-        if records is not None:
-            params = []
+    @staticmethod
+    def _loadSoundCheckParams(module, param):
+        records = DatabaseManager.getDatabaseRecords(module, param)
 
-            for record in records:
-                soundType = record.get("SoundType")
-                slider = record.get("SliderbarMovie")
-                slot = record.get("SliderbarMovie_Slot")
-                playButton = record.get("PlayButtonPrototype")
-                stopButton = record.get("StopButtonPrototype")
-                checkSoundList = record.get("CheckSoundTracklist", [])
-
-                if slider not in OptionsManager.s_scrollBars:
-                    msg = "[Warning] OptionsManager cant find {!r} slider. Impossible to setup sound checker."
-                    msg = msg.format(slider)
-                    Trace.log("Manager", 0, msg)
-                    continue
-
-                param = SoundCheckParam(soundType, slider, slot, playButton, stopButton, checkSoundList)
-                params.append(param)
-
-            OptionsManager.s_soundCheckParams = params
-
-        else:
+        if records is None:
             msg = "[Warning] OptionsManager cant find {} database. Please, consider to add one"
-            msg = msg.format(XlsxOptionsSoundVolumeCheck)
+            msg = msg.format(param)
             Trace.log("Manager", 0, msg)
+            return
 
-        return True
+        params = []
+
+        for record in records:
+            """ SoundType SliderbarMovie SliderbarMovie_Slot PlayButtonPrototype StopButtonPrototype [CheckSoundTracklist] """
+
+            soundType = record.get("SoundType")
+            slider = record.get("SliderbarMovie")
+            slot = record.get("SliderbarMovie_Slot")
+            playButton = record.get("PlayButtonPrototype")
+            stopButton = record.get("StopButtonPrototype")
+            checkSoundList = record.get("CheckSoundTracklist", [])
+
+            if slider not in OptionsManager.s_scrollBars:
+                msg = "[Warning] OptionsManager cant find {!r} slider. Impossible to setup sound checker."
+                msg = msg.format(slider)
+                Trace.log("Manager", 0, msg)
+                continue
+
+            param = SoundCheckParam(soundType, slider, slot, playButton, stopButton, checkSoundList)
+            params.append(param)
+
+        OptionsManager.s_soundCheckParams = params
 
     @staticmethod
     def getSoundCheckParams():
