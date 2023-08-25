@@ -1,10 +1,10 @@
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.System import System
-from Foundation.Utils import SimpleLogger
+# from Foundation.Utils import SimpleLogger
 from Notification import Notification
 
 
-_Log = SimpleLogger("SystemProductGroups")
+# _Log = SimpleLogger("SystemProductGroups")
 
 
 class SystemProductGroups(System):
@@ -210,7 +210,9 @@ class SystemProductGroups(System):
             else:
                 date = Mengine.getLocalDateStructFromTimeMs(group.timestamp_start_progress)
                 res = cls.compareDateStructs(today_date_struct, date)
-            _Log("(filter) [{}] {} => {}".format(group.id, group.timestamp_start_progress, res))
+
+            # _Log("(filter) [{}] {} => {}".format(group.id, group.timestamp_start_progress, res))
+
             return res
 
         update_groups = filter(_filterCheckDate, cls.data.values())
@@ -221,7 +223,7 @@ class SystemProductGroups(System):
         if len(update_groups) != 0:
             Mengine.saveAccounts()
 
-        _Log("Updated {} groups: {}".format(len(update_groups), [group.id for group in update_groups]))
+        # _Log("Updated {} groups: {}".format(len(update_groups), [group.id for group in update_groups]))
 
     # Save \ Load
 
