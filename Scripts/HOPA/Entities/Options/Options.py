@@ -200,18 +200,7 @@ class Options(BaseEntity):
                 Demon_CheckBox_Fullscreen.setParam("Enable", False)
 
         # More options
-        if isMobile is True:
-            if self.object.getParent().hasObject("Movie2Button_More"):
-                moreOptionsButton = self.object.getParent().getObject("Movie2Button_More")
-                moreOptionsButton.getEntityNode().removeFromParent()
-                moreOptionsButton.onDestroy()
-        else:
-            with TaskManager.createTaskChain(Name='Menu_Options_MoreOptions', Repeat=True) as tc:
-                tc.addTask('TaskMovie2ButtonClick', GroupName="Options", Movie2ButtonName='Movie2Button_More')
-                tc.addScope(self.scopeClose, "Options")
-                tc.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=True)
-                tc.addScope(self.scopeOpen, "OptionsMore")
-                tc.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
+        self.activateMoreOptions(isMobile)
 
         # Ok
         with TaskManager.createTaskChain(Name='Menu_Options_Ok', GroupName='Options', Repeat=True) as tc:
@@ -353,6 +342,24 @@ class Options(BaseEntity):
             else:
                 Trace.log("Entity", 4, "%s has not found %s. Please add to Options.aep, Options.psd if you need." % (
                     self.__class__.__name__, BUTTON_LANGUAGE_SELECT_NAME))
+
+    def activateMoreOptions(self, isMobile):
+        options = GroupManager.getGroup("Options")
+
+        if options.hasObject("Movie2Button_More") is False:
+            return
+
+        if isMobile is True:
+            moreOptionsButton = options.getObject("Movie2Button_More")
+            moreOptionsButton.setEnable(False)
+            return
+
+        with TaskManager.createTaskChain(Name='Menu_Options_MoreOptions', Repeat=True) as tc:
+            tc.addTask('TaskMovie2ButtonClick', GroupName="Options", Movie2ButtonName='Movie2Button_More')
+            tc.addScope(self.scopeClose, "Options")
+            tc.addTask('TaskSceneLayerGroupEnable', LayerName='OptionsMore', Value=True)
+            tc.addScope(self.scopeOpen, "OptionsMore")
+            tc.addTask('TaskSceneLayerGroupEnable', LayerName='Options', Value=False)
 
     def scopeOpen(self, source, GropName):
         MovieName = "Movie2_Open"
