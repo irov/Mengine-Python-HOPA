@@ -40,8 +40,8 @@ class OptionsManager(object):
             slider_name = 'Movie2Scrollbar_{}'.format(name)
 
             if GroupManager.hasObject('Options', slider_name) is False:
-                if _DEVELOPMENT is True:
-                    Trace.log("Manager", 0, "OptionsManager can't find slider {!r}".format(slider_name))
+                # if _DEVELOPMENT is True:
+                #     Trace.log("Manager", 0, "OptionsManager can't find slider {!r}".format(slider_name))
                 continue
 
             slider = GroupManager.getObject('Options', slider_name)
