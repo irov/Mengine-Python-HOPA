@@ -70,9 +70,9 @@ class OptionsManager(object):
             stopButton = record.get("StopButtonPrototype")
             checkSoundList = record.get("CheckSoundTracklist", [])
 
-            if slider not in OptionsManager.s_scrollBars:
-                msg = "[Warning] OptionsManager cant find {!r} slider. Impossible to setup sound checker."
-                msg = msg.format(slider)
+            if soundType not in OptionsManager.s_scrollBars:
+                msg = "[Warning] OptionsManager cant find slider option for {!r}. Impossible to setup sound checker."
+                msg = msg.format(soundType)
                 Trace.log("Manager", 0, msg)
                 continue
 
