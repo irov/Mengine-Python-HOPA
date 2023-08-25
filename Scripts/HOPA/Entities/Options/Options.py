@@ -49,9 +49,12 @@ class Options(BaseEntity):
         Options.startMusicVolumeValue = Mengine.getCurrentAccountSettingFloat('MusicVolume')
         Options.startSoundVolumeValue = Mengine.getCurrentAccountSettingFloat('SoundVolume')
         Options.startVoiceVolumeValue = Mengine.getCurrentAccountSettingFloat('VoiceVolume')
-        self.Sliders['Music'][0] = Options.startMusicVolumeValue
-        self.Sliders['Sound'][0] = Options.startSoundVolumeValue
-        self.Sliders['Voice'][0] = Options.startVoiceVolumeValue
+        if 'Music' is self.Sliders:
+            self.Sliders['Music'][0] = Options.startMusicVolumeValue
+        if 'Sound' is self.Sliders:
+            self.Sliders['Sound'][0] = Options.startSoundVolumeValue
+        if 'Voice' is self.Sliders:
+            self.Sliders['Voice'][0] = Options.startVoiceVolumeValue
 
         Options.s_start_volume_values = [
             Options.startMusicVolumeValue,
@@ -165,9 +168,12 @@ class Options(BaseEntity):
         self.object.setParam('SoundVolume', Options.startSoundVolumeValue)
         self.object.setParam('VoiceVolume', Options.startVoiceVolumeValue)
 
-        self.Sliders['Music'][0] = float(Options.startMusicVolumeValue)
-        self.Sliders['Sound'][0] = float(Options.startSoundVolumeValue)
-        self.Sliders['Voice'][0] = float(Options.startVoiceVolumeValue)
+        if 'Music' in self.Sliders:
+            self.Sliders['Music'][0] = float(Options.startMusicVolumeValue)
+        if 'Sound' in self.Sliders:
+            self.Sliders['Sound'][0] = float(Options.startSoundVolumeValue)
+        if 'Voice' in self.Sliders:
+            self.Sliders['Voice'][0] = float(Options.startVoiceVolumeValue)
 
     def _onActivate(self):
         super(Options, self)._onActivate()
