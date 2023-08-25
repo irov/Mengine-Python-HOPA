@@ -1,4 +1,4 @@
-from HOPA.Entities.Options.OptionsManager import OptionsManager, XlsxOptionsSoundVolumeCheck
+from HOPA.Entities.Options.OptionsManager import OptionsManager
 from Notification import Notification
 
 
@@ -15,8 +15,8 @@ class CheckSoundController(object):
             barMovie = scrollbar.entity.getBarMovie()
 
             if (len(param.checkSoundTracklist) == 0):
-                msg = "Please add at least one sound to test to {} for slider bar movie '{}'"
-                msg = msg.format(XlsxOptionsSoundVolumeCheck, param.sliderMovieName)
+                msg = "Please add at least one sound to test for slider bar movie '{}'"
+                msg = msg.format(param.sliderMovieName)
                 Trace.log("Entity", 0, msg)
 
             if barMovie.hasSlot(param.sliderMovieSlotName):
@@ -33,8 +33,8 @@ class CheckSoundController(object):
                     checkAudioButton = CheckMusicButton(*args)
                     CheckAudioButtonsList.append(checkAudioButton)
                 else:
-                    msg = "Options Entity wrong SoundType in {}, should be 'Sound', 'Voice' or 'Music'"
-                    msg = msg.format(XlsxOptionsSoundVolumeCheck)
+                    msg = "Options Entity wrong SoundType {!r}, should be 'Sound', 'Voice' or 'Music'"
+                    msg = msg.format(param.soundType)
                     Trace.log("Entity", 0, msg)
 
             else:
