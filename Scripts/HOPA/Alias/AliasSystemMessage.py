@@ -76,7 +76,8 @@ class AliasSystemMessage(TaskAlias):
         source.addTask("TaskSceneLayerGroupEnable", LayerName="SystemMessage", Value=True)
         source.addScope(self.scopeOpen, "SystemMessage")
 
-        source.addTask("TaskInteractive", GroupName="SystemMessage", ObjectName="Socket_Block", Value=True)
+        if GroupManager.hasObject("SystemMessage", "Socket_Block") is True:
+            source.addTask("TaskInteractive", GroupName="SystemMessage", ObjectName="Socket_Block", Value=True)
 
         with source.addRaceTask(2) as (tc_button, tc_socket):
             tc_button.addTask('TaskMovie2ButtonClick', GroupName='SystemMessage', Movie2ButtonName='Movie2Button_Ok')
