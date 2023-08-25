@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Foundation.SystemManager import SystemManager
+from Foundation.SceneManager import SceneManager
 
 
 class AdvertisingScene(BaseEntity):
@@ -8,6 +9,7 @@ class AdvertisingScene(BaseEntity):
     def __init__(self):
         super(AdvertisingScene, self).__init__()
         self.tc = None
+        self.prev_scene_name = None
 
     @staticmethod
     def declareORM(Type):
@@ -17,8 +19,10 @@ class AdvertisingScene(BaseEntity):
 
     def _onActivate(self):
         self.__runTaskChain()
+        self.prev_scene_name = SceneManager.getPrevSceneName()
 
     def _onDeactivate(self):
+        SceneManager.s_prevSceneName = self.prev_scene_name
         if self.tc is not None:
             self.tc.cancel()
             self.tc = None
