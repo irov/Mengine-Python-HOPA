@@ -19,7 +19,7 @@ class MacroAddInventoryItem(MacroCommand):
     def _onGenerate(self, source):
         # print "MacroAddInventoryItem", self.ItemName
         Inventory = DemonManager.getDemon("Inventory")
-        InventoryEntity = Inventory.getEntity()
+
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
 
         source.addFunction(Inventory.BlockButtons)
