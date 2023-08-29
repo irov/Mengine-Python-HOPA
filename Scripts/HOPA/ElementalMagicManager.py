@@ -81,18 +81,18 @@ class ElementalMagicManager(Manager):
 
         if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["config"]:
             ElementalMagicManager.loadConfig(records)
-            print(ElementalMagicManager.s_configs)
+            # print(ElementalMagicManager.s_configs)
 
         if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["elements"]:
             ElementalMagicManager.loadElements(records)
-            print(ElementalMagicManager.s_elements)
+            # print(ElementalMagicManager.s_elements)
 
         if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["macro_usage"]:
             ElementalMagicManager.loadMacroUsage(records)
-            print(ElementalMagicManager.s_macro_usages)
+            # print(ElementalMagicManager.s_macro_usages)
 
         if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["movies"]:
             ElementalMagicManager.loadMovies(records)
-            print(ElementalMagicManager.s_movies)
+            # print(ElementalMagicManager.s_movies)
 
         return True
