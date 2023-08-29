@@ -68,19 +68,19 @@ class SystemOptions(System):
         return False
 
     def _onFullscreenFilter(self, value):
-        self.Demon_Options.setParam("Fullscreen", value)
+        # self.Demon_Options.setParam("Fullscreen", value)
         return False
 
     def _onWidescreenFilter(self, value):
-        self.Demon_Options.setParam("Widescreen", value)
+        # self.Demon_Options.setParam("Widescreen", value)
         return False
 
     def _onCursorFilter(self, value):
-        self.Demon_Options.setParam("Cursor", value)
+        # self.Demon_Options.setParam("Cursor", value)
         return False
 
     def _onMuteFilter(self, value):
-        self.Demon_Options.setParam("Mute", value)
+        # self.Demon_Options.setParam("Mute", value)
         return False
 
     def _onMusicVolumeFilter(self, value):
