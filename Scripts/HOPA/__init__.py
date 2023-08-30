@@ -164,6 +164,8 @@ def onInitialize():
         , "TaskMusicFadeOut"
 
         , "TaskMacroCommandRun"
+
+        , "TaskSocketUseElementalMagic"
     ]
 
     TaskManager.importTasks("HOPA.Task", tasks)
