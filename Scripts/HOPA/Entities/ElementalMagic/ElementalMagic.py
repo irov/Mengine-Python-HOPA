@@ -29,6 +29,9 @@ class ElementalMagic(BaseEntity):
         slot = content.getMovieSlot("ring")
         return slot
 
+    def getRing(self):
+        return self.ring
+
     def _updateElement(self, element):
         if self.ring is None:
             return

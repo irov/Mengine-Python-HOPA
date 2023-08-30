@@ -8,7 +8,7 @@ from HOPA.Entities.ElementalMagic.MagicEffect import MagicEffect
 class InvalidClick(object):
     Miss = 0
     WrongElement = 1
-    WrongPlace = 2
+    EmptyRing = 2
 
 
 class Ring(Initializer):
@@ -28,14 +28,22 @@ class Ring(Initializer):
         slot = owner.getRingSlot()
         # this node will be attached to cursor
         root = Mengine.createNode("Interender")
+        root.setName("ElementalMagicRing")
         slot.addChild(root)
         self._root = root
 
-        for state, movie_name in ElementalMagicManager.getRingUIStates().items():
+        for state, [movie_name, play, loop] in ElementalMagicManager.getRingMovieParams().items():
+            if movie_name is None:
+                continue
+
+            if self._owner.object.hasObject(movie_name) is False:
+                Trace.log("Entity", 0, "Ring._onInitialize: not found movie %s for state %s" % (movie_name, state))
+                continue
+
             movie = self._owner.object.getObject(movie_name)
             movie.setEnable(False)
-            movie.setPlay(True)
-            movie.setLoop(True)
+            movie.setPlay(play)
+            movie.setLoop(loop)
             movie.setInteractive(True)
 
             node = movie.getEntityNode()
@@ -44,7 +52,7 @@ class Ring(Initializer):
 
             self.Movies[state] = movie
 
-        self.magic.onInitialize()
+        self.magic.onInitialize(slot=self._root)
 
         if current_element is not None:
             self.magic.setElement(current_element)
@@ -92,8 +100,9 @@ class Ring(Initializer):
         self.state = state
 
     def __stateIdle(self, source, Movie):
-        source.addFunction(self.magic.setState, "Idle")
-        source.addEnable(Movie)
+        with source.addParallelTask(2) as (parallel_0, parallel_1):
+            parallel_0.addEnable(Movie)
+            parallel_1.addFunction(self.magic.setState, "Idle")
 
         with source.addRaceTask(2) as (source_attach, source_ready):
             source_attach.addTask("TaskMovie2Click", Movie2=Movie)
@@ -105,11 +114,16 @@ class Ring(Initializer):
         source.addDisable(Movie)
 
     def __stateReady(self, source, Movie):
-        source.addFunction(self.magic.setState, "Ready")
-        source.addEnable(Movie)
+        with source.addParallelTask(2) as (parallel_0, parallel_1):
+            parallel_0.addFunction(self.magic.setState, "Ready")
+            parallel_1.addEnable(Movie)
 
-        source.addTask("TaskMovie2Click", Movie2=Movie)
-        source.addFunction(self.__setState, "Attach")
+        with source.addRaceTask(2) as (source_attach, source_idle):
+            source_attach.addTask("TaskMovie2Click", Movie2=Movie)
+            source_attach.addFunction(self.__setState, "Attach")
+
+            source_idle.addListener(Notificator.onElementalMagicReadyEnd)       # todo
+            source_idle.addFunction(self.__setState, "Idle")
 
         source.addDisable(Movie)
         pass
@@ -126,16 +140,19 @@ class Ring(Initializer):
         else:
             source.addEnable(MovieReady)
 
-        with source.addRaceTask(3) as (source_use, source_pick, source_invalid):
+        with source.addRaceTask(4) as (source_use, source_pick, source_invalid, source_miss):
             source_use.addListener(Notificator.onElementalMagicUse)     # from macro
             source_use.addFunction(self.__setState, "Use")
 
             source_pick.addListener(Notificator.onElementalMagicPick)     # from macro
             source_pick.addFunction(self.__setState, "Pick")
 
-            source_invalid.addTask("TaskMouseButtonClick", isDown=False)
-            source_invalid.addNotify(Notificator.onElementalMagicInvalidClick, InvalidClick.Miss)
+            source_invalid.addListener(Notificator.onElementalMagicInvalidClick)
             source_invalid.addFunction(self.__setState, "Return")
+
+            source_miss.addTask("TaskMouseButtonClick", isDown=False)
+            source_miss.addNotify(Notificator.onElementalMagicInvalidClick, InvalidClick.Miss)
+            source_miss.addFunction(self.__setState, "Return")
 
         if Movie is not None:
             source.addDisable(Movie)
@@ -170,6 +187,8 @@ class Ring(Initializer):
         with source.addParalellTask(2) as (parallel_0, parallel_1):
             parallel_0.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
             parallel_1.addFunction(self.magic.setState, "Release")
+            parallel_1.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
+            parallel_1.addFunction(self.magic.removeElement)
 
         source.addFunction(self.__setState, "Return")
 
@@ -219,15 +238,15 @@ class Ring(Initializer):
         slot = self._owner.getRingSlot()
         slot.addChild(self._root)
 
-    def _attachToCursor(self, node):
+    def _attachToCursor(self):
         arrow = ArrowManager.getArrow()
-        ArrowManager.attachArrow(node)
-        arrow.addChildFront(node)
+        ArrowManager.attachArrow(self._root)
+        arrow.addChildFront(self._root)
 
-    def _detachFromCursor(self, node):
+    def _detachFromCursor(self):
         arrow_attach = ArrowManager.getArrowAttach()
-        if arrow_attach != node:
-            node.removeFromParent()     # fixme: remove from parent, but it wasn't on arrow
+        if arrow_attach != self._root:
+            self._root.removeFromParent()     # fixme: remove from parent, but it wasn't on arrow
             return
         arrow_attach.removeFromParent()
         ArrowManager.removeArrowAttach()

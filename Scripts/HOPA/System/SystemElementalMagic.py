@@ -9,6 +9,9 @@ class SystemElementalMagic(System):
         pass
 
     def _onRun(self):
+        # todo: toggle ready mode for ring - onElementalMagicReadyEnd
+
+        self.addObserver(Notificator.onSceneActivate, self._cbSceneActivate)
         self.addObserver(Notificator.onElementalMagicReady, self._cbMagicReady)
         self.addObserver(Notificator.onElementalMagicUse, self._cbMagicUse)
         self.addObserver(Notificator.onElementalMagicPick, self._cbMagicPick)
@@ -19,6 +22,12 @@ class SystemElementalMagic(System):
         return True
 
     # observers
+
+    def _cbSceneActivate(self, scene_name):
+        quest = ElementalMagicManager.getMagicUseQuest()
+        if quest is not None:
+            Notification.notify(Notificator.onElementalMagicReady, quest.ElementType)
+        return False
 
     def _cbMagicReady(self, element):
         return False
@@ -37,7 +46,7 @@ class SystemElementalMagic(System):
             pass # todo: show mind
         elif status == InvalidClick.WrongElement:
             pass # todo: show mind
-        elif status == InvalidClick.WrongPlace:
+        elif status == InvalidClick.EmptyRing:
             pass # todo: show mind
         return False
 

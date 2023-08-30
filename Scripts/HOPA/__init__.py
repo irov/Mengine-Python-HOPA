@@ -964,6 +964,7 @@ def onInitialize():
         , "onStoreTabSectionClickedTab"
 
         , "onElementalMagicReady"
+        , "onElementalMagicReadyEnd"
         , "onElementalMagicUse"
         , "onElementalMagicPick"
         , "onElementalMagicInvalidClick"

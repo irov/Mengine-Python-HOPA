@@ -1,146 +1,224 @@
 from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
+from HOPA.QuestManager import QuestManager
+from Foundation.SceneManager import SceneManager
+from HOPA.ZoomManager import ZoomManager
+
+
+QUEST_USE_MAGIC_NAME = "ElementalMagicUse"
+QUEST_GET_ELEMENT_NAME = "ElementalMagicGet"
 
 
 class ElementalMagicManager(Manager):
-    __PARAMS_TABLE_NAMES = {
-        "config": "ElementalMagic_Config",
-        "elements": "ElementalMagic_Elements",
-        "macro_usage": "ElementalMagic_MacroUsage",
-        "movies": "ElementalMagic_Movies",
-    }
 
-    s_configs = {}
-    s_elements = {}
-    s_macro_usages = {}
-    s_movies = {}
+    s_demon_name = None
+    s_config = None
+    s_magic = {}            # technical params
+    s_elements = {}         # ui params
 
     class Params(object):
         if _DEVELOPMENT:
             def __repr__(self):
                 return "<{}: {}>".format(self.__class__.__name__, self.__dict__)
 
-    class ConfigParams(Params):
+    class GeneralConfig(Params):
+        """ general elemental magic params """
         def __init__(self, records):
-            self.config = {}
+            self._params = {}
 
             for record in records:
                 key = record.get("Key")
                 value = record.get("Value")
+                self._params[key] = value
 
-                if key is not None:
-                    self.config[key] = value
+        def get(self, key, default=None):
+            return self._params.get(key, default)
+
+    class MagicParams(Params):
+        """ technical params, used for Macro commands """
+        def __init__(self, record):
+            self.id = ElementalMagicManager.getRecordValue(record, "MagicId", required=True)
+            self.element = ElementalMagicManager.getRecordValue(record, "ElementType", required=True)
+            self.mind_get = ElementalMagicManager.getRecordValue(record, "Mind_Get_Element")
+            self.mind_use = ElementalMagicManager.getRecordValue(record, "Mind_Use_Element")
 
     class ElementsParams(Params):
+        """ user interface params for each element type """
         def __init__(self, record):
-            self.element = ElementalMagicManager.getRecordValue(record, "Element")
-
-    class MacroUsageParams(Params):
-        def __init__(self, record):
-            self.elemental_magic_id = ElementalMagicManager.getRecordValue(record, "ElementalMagic_ID")
-            self.element = ElementalMagicManager.getRecordValue(record, "Element")
-            self.limited = ElementalMagicManager.getRecordValue(record, "Limited")
-
-    class MoviesParams(Params):
-        def __init__(self, record):
-            self.element = ElementalMagicManager.getRecordValue(record, "Element")
-            self.movie2_appear = ElementalMagicManager.getRecordValue(record, "Movie2_Appear")
-            self.movie2_idle = ElementalMagicManager.getRecordValue(record, "Movie2_Idle")
-            self.movie2_use = ElementalMagicManager.getRecordValue(record, "Movie2_Use")
-            self.movie2_disappear = ElementalMagicManager.getRecordValue(record, "Movie2_Disappear")
+            self.element = ElementalMagicManager.getRecordValue(record, "ElementType", required=True)
+            self.group_name = ElementalMagicManager.getRecordValue(record, "GroupName", required=True)
+            self.state_Appear = ElementalMagicManager.getRecordValue(record, "PrototypeAppear")
+            self.state_Idle = ElementalMagicManager.getRecordValue(record, "PrototypeIdle", required=True)
+            self.state_Ready = ElementalMagicManager.getRecordValue(record, "PrototypeReady", required=True)
+            self.state_Release = ElementalMagicManager.getRecordValue(record, "PrototypeRelease")
 
     @staticmethod
     def loadConfig(records):
-        params = ElementalMagicManager.ConfigParams(records)
-        ElementalMagicManager.s_configs = params.config
+        params = ElementalMagicManager.GeneralConfig(records)
+
+        if _DEVELOPMENT is True:
+            required_params = [
+                "RingStateIdle"
+                "RingStateReady"
+            ]
+
+            _check_failed = False
+            for key in required_params:
+                if params.get(key) is None:
+                    Trace.log("Manager", 0, "ElementalMagicManager.loadConfig: required param {!r} not found".format(key))
+                    _check_failed = True
+
+            if _check_failed is True:
+                return False
+
+        ElementalMagicManager.s_config = params
+
+        ElementalMagicManager.s_demon_name = ElementalMagicManager.getConfig("DemonName", default="ElementalMagic")
+
+    @staticmethod
+    def loadMagic(records):
+        magic_id_example = "01_Fire_1"
+
+        for record in records:
+            param = ElementalMagicManager.MagicParams(record)
+
+            if _DEVELOPMENT is True:
+                # check if magic id is valid
+                id_split = param.id.split("_")
+                if len(id_split) != 3:
+                    Trace.log("Manager", 0, "Magic id {!r} is invalid - example: {!r}".format(param.id, magic_id_example))
+                    return False
+
+                if id_split[0].isdigit() is False:
+                    Trace.log("Manager", 0, "Magic id {!r} is invalid 1st part must be a digit - example: {!r}".format(param.id, magic_id_example))
+                    return False
+                if id_split[1].lower() != param.element.lower():
+                    Trace.log("Manager", 0, "Magic id {!r} is invalid 2nd part must be an element type - example: {!r}".format(param.id, magic_id_example))
+                    return False
+                if id_split[2].isdigit() is False:
+                    Trace.log("Manager", 0, "Magic id {!r} is invalid 3rd part must be an element type - example: {!r}".format(param.id, magic_id_example))
+                    return False
+
+                # check duplicates
+                if param.id in ElementalMagicManager.s_magic:
+                    Trace.log("Manager", 0, "Magic id {!r} is duplicated - please update its id".format(param.id))
+                    return False
+
+            ElementalMagicManager.s_magic[param.id] = param
 
     @staticmethod
     def loadElements(records):
         for record in records:
             param = ElementalMagicManager.ElementsParams(record)
-            if param.element is not None:
-                ElementalMagicManager.s_elements[param.element] = param
 
-    @staticmethod
-    def loadMacroUsage(records):
-        for record in records:
-            param = ElementalMagicManager.MacroUsageParams(record)
-            if param.elemental_magic_id is not None:
-                ElementalMagicManager.s_macro_usages[param.elemental_magic_id] = param
+            if _DEVELOPMENT is True:
+                if param.element not in ElementalMagicManager.s_elements:
+                    Trace.log("Manager", 0, "Element {!r} is duplicated! Remove it and try again".format(param.element))
+                    return False
 
-    @staticmethod
-    def loadMovies(records):
-        for record in records:
-            param = ElementalMagicManager.MoviesParams(record)
-            if param.element is not None:
-                ElementalMagicManager.s_movies[param.element] = param
+            ElementalMagicManager.s_elements[param.element] = param
 
     @staticmethod
     def loadParams(module, name):
         records = DatabaseManager.getDatabaseRecords(module, name)
 
-        if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["config"]:
+        if name == "ElementalMagic_Config":
             ElementalMagicManager.loadConfig(records)
-            # print(ElementalMagicManager.s_configs)
-
-        if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["elements"]:
+        elif name == "ElementalMagic_Magic":
+            ElementalMagicManager.loadMagic(records)
+        elif name == "ElementalMagic_Elements":
             ElementalMagicManager.loadElements(records)
-            # print(ElementalMagicManager.s_elements)
-
-        if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["macro_usage"]:
-            ElementalMagicManager.loadMacroUsage(records)
-            # print(ElementalMagicManager.s_macro_usages)
-
-        if name == ElementalMagicManager.__PARAMS_TABLE_NAMES["movies"]:
-            ElementalMagicManager.loadMovies(records)
-            # print(ElementalMagicManager.s_movies)
 
         return True
 
+    # --- getters ------------------------------------------------------------------------------------------------------
+
     @staticmethod
-    def getRingUIStates():
-        # todo: load from params
-        return {
-            "Idle": "Movie2_Ring_Idle",
-            "Ready": "Movie2_Ring_Ready",      # готов к применению
-            "Attach": "Movie2_Ring_Attach",    # висит на курсоре
-            "Return": "Movie2_Ring_Return",    # возвращается после Pick, Use или invalid click
-            "Pick": "Movie2_Ring_Pick",        # подобрал магию (например, кольцо засветится)
-            "Use": "Movie2_Ring_Use",          # использует магию (например, колько затреслось)
-        }
+    def getConfigs():
+        """ returns GeneralConfig """
+        return ElementalMagicManager.s_config
+
+    @staticmethod
+    def getElementsParams():
+        """ returns dict {ElementType: ElementParams} """
+        return ElementalMagicManager.s_elements
+
+    @staticmethod
+    def getMagicsParams():
+        """ returns dict {MagicId: MagicParam} """
+        return ElementalMagicManager.s_magic
+
+    # specific
+
+    @staticmethod
+    def getConfig(key, default=None):
+        return ElementalMagicManager.s_config.get(key, default)
+
+    @staticmethod
+    def getElementParams(element):
+        return ElementalMagicManager.s_elements.get(element)
 
     @staticmethod
     def isElementExists(element):
-        # todo: check if element exists in params
-        return True
+        return element in ElementalMagicManager.getElementsParams()
 
     @staticmethod
-    def getMagicElementStates(element):
-        """ returns dict of states and corresponding movies """
-        # элементы на UI кольце
-        # todo: load from params
+    def getMagicParams(magic_id):
+        return ElementalMagicManager.s_magic.get(magic_id)
+
+    @staticmethod
+    def getMagicsByElement(element):
+        magics = [magic for magic in ElementalMagicManager.getMagicsParams().values()
+                  if magic.element == element]
+        return magics
+
+    @staticmethod
+    def getRingMovieParams():
+        config = ElementalMagicManager.getConfigs()
         return {
-            "Appear": "Movie2_Element_{}_Appear".format(element),    # после получения в кольцо
-            "Idle": "Movie2_Element_{}_Idle".format(element),
-            "Ready": "Movie2_Element_{}_Ready".format(element),      # можно применить магию
-            "Release": "Movie2_Element_{}_Release".format(element),  # после применения
+            "Idle": [config.get("RingStateIdle"), True, True],
+            "Ready": [config.get("RingStateReady"), True, False],
+            "Attach": [config.get("RingStateAttach"), True, True],
+            "Return": [config.get("RingStateReturn"), True, True],
+            "Pick": [config.get("RingStatePick"), True, False],
+            "Use": [config.get("RingStateUse"), True, False],
         }
+
+    # --- user interaction ---------------------------------------------------------------------------------------------
 
     @staticmethod
     def getPlayerElement():
-        demon = DemonManager.getDemon("ElementalMagic")
-        element = "Fire" # demon.getPlayerElement()
+        demon = DemonManager.getDemon(ElementalMagicManager.s_demon_name)
+        element = demon.getPlayerElement()
         return element
 
     @staticmethod
     def setPlayerElement(element):
-        demon = DemonManager.getDemon("ElementalMagic")
+        demon = DemonManager.getDemon(ElementalMagicManager.s_demon_name)
         demon.setPlayerElement(element)
 
     @staticmethod
+    def getMagicRing():
+        demon = DemonManager.getDemon(ElementalMagicManager.s_demon_name)
+        ring = demon.getRing()
+        return ring
+
+    @staticmethod
+    def getMagicUseQuest():
+        scene_name = SceneManager.getCurrentSceneName()
+        zoom_name = ZoomManager.getCurrentGameZoomName()
+
+        if zoom_name is not None:
+            group_name = zoom_name
+        else:
+            group_name = SceneManager.getSceneMainGroupName(scene_name)
+
+        quest = QuestManager.getSceneQuest(scene_name, group_name, QUEST_USE_MAGIC_NAME)
+
+        return quest
+
+    @staticmethod
     def isMagicReady():
-        # todo
-        #   check if player has magic on the ring
-        #   check if scene/zoom has ElementMagicUse quest with this element
-        return True
+        quest = ElementalMagicManager.getMagicUseQuest()
+        return quest is not None
