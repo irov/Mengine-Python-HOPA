@@ -1,5 +1,6 @@
 from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
+from Foundation.DemonManager import DemonManager
 
 
 class ElementalMagicManager(Manager):
@@ -95,4 +96,51 @@ class ElementalMagicManager(Manager):
             ElementalMagicManager.loadMovies(records)
             # print(ElementalMagicManager.s_movies)
 
+        return True
+
+    @staticmethod
+    def getRingUIStates():
+        # todo: load from params
+        return {
+            "Idle": "Movie2_Ring_Idle",
+            "Ready": "Movie2_Ring_Ready",      # готов к применению
+            "Attach": "Movie2_Ring_Attach",    # висит на курсоре
+            "Return": "Movie2_Ring_Return",    # возвращается после Pick, Use или invalid click
+            "Pick": "Movie2_Ring_Pick",        # подобрал магию (например, кольцо засветится)
+            "Use": "Movie2_Ring_Use",          # использует магию (например, колько затреслось)
+        }
+
+    @staticmethod
+    def isElementExists(element):
+        # todo: check if element exists in params
+        return True
+
+    @staticmethod
+    def getMagicElementStates(element):
+        """ returns dict of states and corresponding movies """
+        # элементы на UI кольце
+        # todo: load from params
+        return {
+            "Appear": "Movie2_Element_{}_Appear".format(element),    # после получения в кольцо
+            "Idle": "Movie2_Element_{}_Idle".format(element),
+            "Ready": "Movie2_Element_{}_Ready".format(element),      # можно применить магию
+            "Release": "Movie2_Element_{}_Release".format(element),  # после применения
+        }
+
+    @staticmethod
+    def getPlayerElement():
+        demon = DemonManager.getDemon("ElementalMagic")
+        element = "Fire" # demon.getPlayerElement()
+        return element
+
+    @staticmethod
+    def setPlayerElement(element):
+        demon = DemonManager.getDemon("ElementalMagic")
+        demon.setPlayerElement(element)
+
+    @staticmethod
+    def isMagicReady():
+        # todo
+        #   check if player has magic on the ring
+        #   check if scene/zoom has ElementMagicUse quest with this element
         return True

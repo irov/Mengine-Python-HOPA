@@ -962,6 +962,11 @@ def onInitialize():
         , "onStorePageButtonClick"
         , "onStoreTabSectionClickedBack"
         , "onStoreTabSectionClickedTab"
+
+        , "onElementalMagicReady"
+        , "onElementalMagicUse"
+        , "onElementalMagicPick"
+        , "onElementalMagicInvalidClick"
     ]
 
     from Foundation.Notificator import Notificator
