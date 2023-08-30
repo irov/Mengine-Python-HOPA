@@ -21,6 +21,10 @@ class MagicEffect(Initializer):
         self.element = None
         self.Movies = {}
         self.state = None
+        self._slot = None
+
+    def _onInitialize(self, slot):
+        self._slot = slot
 
     def getElement(self):
         return self.element
@@ -42,6 +46,9 @@ class MagicEffect(Initializer):
             movie.setLoop(True)
             movie.setInteractive(False)
 
+            node = movie.getEntityNode()
+            self._slot.addChild(node)
+
             self.Movies[state] = movie
 
     def setState(self, state):
@@ -54,5 +61,11 @@ class MagicEffect(Initializer):
         self.Movies[state].setEnable(True)
         self.state = state
 
+    def getCurrentMovie(self):
+        if self.state is None:
+            return None
+        return self.Movies[self.state]
+
     def _onFinalize(self):
+        self._slot = None
         self.removeElement()

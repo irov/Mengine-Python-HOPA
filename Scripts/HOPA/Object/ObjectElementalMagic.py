@@ -12,7 +12,7 @@ class ObjectElementalMagic(DemonObject):
     def _onParams(self, params):
         super(ObjectElementalMagic, self)._onParams(params)
 
-        self.initParam("Element", params, 0)
+        self.initParam("Element", params)
 
     def getPlayerElement(self):
         return self.getParam("Element")

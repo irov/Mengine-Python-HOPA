@@ -19,7 +19,7 @@ class Ring(Initializer):
         self.state = "Idle"
         self._root = None
         self.Movies = {}
-        self.element = MagicEffect()
+        self.magic = MagicEffect()
         self.tc = None
 
     def _onInitialize(self, owner, current_element=None):
@@ -29,7 +29,6 @@ class Ring(Initializer):
         # this node will be attached to cursor
         root = Mengine.createNode("Interender")
         slot.addChild(root)
-
         self._root = root
 
         for state, movie_name in ElementalMagicManager.getRingUIStates().items():
@@ -45,10 +44,10 @@ class Ring(Initializer):
 
             self.Movies[state] = movie
 
-        self.element.onInitialize()
+        self.magic.onInitialize()
 
         if current_element is not None:
-            self.element.setElement(current_element)
+            self.magic.setElement(current_element)
 
         if ElementalMagicManager.isMagicReady():
             self.state = "Ready"
@@ -61,8 +60,8 @@ class Ring(Initializer):
             self.tc.cancel()
             self.tc = None
 
-        self.element.onFinalize()
-        self.element = None
+        self.magic.onFinalize()
+        self.magic = None
 
         for movie in self.Movies.values():
             movie.returnToParent()
@@ -93,7 +92,7 @@ class Ring(Initializer):
         self.state = state
 
     def __stateIdle(self, source, Movie):
-        source.addFunction(self.element.setState, "Idle")
+        source.addFunction(self.magic.setState, "Idle")
         source.addEnable(Movie)
 
         with source.addRaceTask(2) as (source_attach, source_ready):
@@ -106,7 +105,7 @@ class Ring(Initializer):
         source.addDisable(Movie)
 
     def __stateReady(self, source, Movie):
-        source.addFunction(self.element.setState, "Ready")
+        source.addFunction(self.magic.setState, "Ready")
         source.addEnable(Movie)
 
         source.addTask("TaskMovie2Click", Movie2=Movie)
@@ -170,7 +169,7 @@ class Ring(Initializer):
         # maybe I should detach from cursor and attach to temp node at mouse position
         with source.addParalellTask(2) as (parallel_0, parallel_1):
             parallel_0.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-            parallel_1.addFunction(self.element.setState, "Release")
+            parallel_1.addFunction(self.magic.setState, "Release")
 
         source.addFunction(self.__setState, "Return")
 
@@ -179,13 +178,19 @@ class Ring(Initializer):
 
     def __statePick(self, source, Movie):
         if Movie is None:
+            source.addFunction(self.magic.setState, "Appear")
+            source.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
             source.addFunction(self.__setState, "Return")
             return
 
         source.addEnable(Movie)
 
         # maybe I should detach from cursor and attach to temp node at mouse position
-        source.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
+        with source.addParallelTask(2) as (parallel_0, parallel_1):
+            parallel_0.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
+            parallel_1.addFunction(self.magic.setState, "Appear")
+            parallel_1.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
+
         source.addFunction(self.__setState, "Return")
 
         source.addDisable(Movie)

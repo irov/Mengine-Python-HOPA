@@ -24,15 +24,19 @@ class ElementalMagic(BaseEntity):
     def _onDeactivate(self):
         self.ring.onFinalize()
 
+    def getRingSlot(self):
+        content = self.object.getObject("Movie2_Content")
+        slot = content.getMovieSlot("ring")
+        return slot
+
     def _updateElement(self, element):
         if self.ring is None:
             return
 
-        current_ui_element = self.ring.element.getElement()
-
+        current_ui_element = self.ring.magic.getElement()
         if current_ui_element == element:
             return
 
         if current_ui_element is not None:
-            self.ring.element.removeElement()
-        self.ring.element.setElement(element)
+            self.ring.magic.removeElement()
+        self.ring.magic.setElement(element)
