@@ -40,8 +40,6 @@ class ElementalMagicManager(Manager):
         def __init__(self, record):
             self.id = ElementalMagicManager.getRecordValue(record, "MagicId", required=True)
             self.element = ElementalMagicManager.getRecordValue(record, "ElementType", required=True)
-            self.mind_get = ElementalMagicManager.getRecordValue(record, "Mind_Get_Element")
-            self.mind_use = ElementalMagicManager.getRecordValue(record, "Mind_Use_Element")
 
     class ElementsParams(Params):
         """ user interface params for each element type """
@@ -59,8 +57,9 @@ class ElementalMagicManager(Manager):
 
         if _DEVELOPMENT is True:
             required_params = [
-                "RingStateIdle"
-                "RingStateReady"
+                "RingStateIdle",
+                "RingStateReady",
+                "DemonName",
             ]
 
             _check_failed = False
