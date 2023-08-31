@@ -37,10 +37,7 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
     def _onSocketClickFilter(self, socket):
         attach = ArrowManager.getArrowAttach()
 
-        if attach is None:
-            return False
-
-        if attach.getName() != "ElementalMagicRing":
+        if attach is None or attach.getName() != "ElementalMagicRing":
             return False
 
         ring = ElementalMagicManager.getMagicRing()

@@ -16,11 +16,16 @@ class Ring(Initializer):
     def __init__(self):
         super(Ring, self).__init__()
         self._owner = None
+
         self.state = "Idle"
+        self._prev_state = None
+        self.tc = None
+
         self._root = None
         self.Movies = {}
         self.magic = MagicEffect()
-        self.tc = None
+
+        self.EventUpdateState = Event("onStateUpdate")
 
     def _onInitialize(self, owner, current_element=None):
         self._owner = owner
@@ -99,19 +104,31 @@ class Ring(Initializer):
 
     def __setState(self, state):
         print "    Ring: set state", self.state, "->", state
+        self._prev_state = self.state
         self.state = state
+        self.EventUpdateState(self._prev_state, self.state)
+
+    def __scopeTryStateAttach(self, source, Movie):
+        with source.addRepeatTask() as (repeat, until):
+            repeat.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
+            with repeat.addIfTask(ArrowManager.emptyArrowAttach) as (repeat_true, repeat_false):
+                repeat_true.addFunction(self.__setState, "Attach")
+
+            until.addEvent(self.EventUpdateState, lambda _, new_state: new_state == "Attach")
 
     def __stateIdle(self, source, Movie):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addEnable(Movie)
             parallel_1.addFunction(self.magic.setState, "Idle")
 
-        with source.addRaceTask(2) as (source_attach, source_ready):
-            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
-            source_attach.addFunction(self.__setState, "Attach")
+        with source.addRaceTask(3) as (source_attach, source_ready, source_pick):
+            source_attach.addScope(self.__scopeTryStateAttach, Movie)
 
             source_ready.addListener(Notificator.onElementalMagicReady)
             source_ready.addFunction(self.__setState, "Ready")
+
+            source_pick.addListener(Notificator.onElementalMagicPick)
+            source_pick.addFunction(self.__setState, "Pick")
 
         source.addDisable(Movie)
 
@@ -121,18 +138,14 @@ class Ring(Initializer):
             parallel_1.addEnable(Movie)
 
         with source.addRaceTask(2) as (source_attach, source_idle):
-            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
-            source_attach.addFunction(self.__setState, "Attach")
+            source_attach.addScope(self.__scopeTryStateAttach, Movie)
 
             source_idle.addListener(Notificator.onElementalMagicReadyEnd)       # todo
             source_idle.addFunction(self.__setState, "Idle")
 
         source.addDisable(Movie)
-        pass
 
     def __stateAttach(self, source, Movie):
-        MovieReady = self.Movies["Ready"]
-
         # attach root to arrow
         source.addFunction(self._root.removeFromParent)
         source.addFunction(self._attachToCursor)
@@ -140,7 +153,7 @@ class Ring(Initializer):
         if Movie is not None:
             source.addEnable(Movie)
         else:
-            source.addEnable(MovieReady)
+            source.addEnable(self.Movies[self._prev_state])
 
         with source.addRaceTask(4) as (source_use, source_pick, source_invalid, source_miss):
             source_use.addListener(Notificator.onElementalMagicUse)     # from macro
@@ -159,7 +172,7 @@ class Ring(Initializer):
         if Movie is not None:
             source.addDisable(Movie)
         else:
-            source.addDisable(MovieReady)
+            source.addDisable(self.Movies[self._prev_state])
 
     def __stateReturn(self, source, Movie):
         if Movie is None:
@@ -220,10 +233,10 @@ class Ring(Initializer):
     # utils
 
     def __scopeReturnToParent(self, source):
+        source.addFunction(self._detachFromCursor)
         """
         # todo: fly to toolbar - ref PolicyEffectInventoryAddInventoryItemWithItemPopup
         node = Mengine.createNode("Interender")
-        self._detachFromCursor(self._root)
         node.addChild(self._root)
 
         Point1 = ArrowManager.getArrow().getWorldPosition()
@@ -236,7 +249,9 @@ class Ring(Initializer):
         source.addFunction(self._returnRingToParent)
 
     def _returnRingToParent(self):
-        self._root.removeFromParent()
+        """ add root to the Ring slot (please check if root is detached from arrow) """
+        if _DEVELOPMENT is True:
+            assert ArrowManager.getArrowAttach() != self._root, "Can't return root, because it attached to arrow"
         slot = self._owner.getRingSlot()
         slot.addChild(self._root)
 
@@ -247,9 +262,8 @@ class Ring(Initializer):
 
     def _detachFromCursor(self):
         arrow_attach = ArrowManager.getArrowAttach()
-        if arrow_attach != self._root:
-            self._root.removeFromParent()     # fixme: remove from parent, but it wasn't on arrow
-            return
+        if _DEVELOPMENT is True:
+            assert arrow_attach == self._root, "You tried detach root from arrow, but arrow_attach {} != root {}".format(arrow_attach, self._root)
         arrow_attach.removeFromParent()
         ArrowManager.removeArrowAttach()
 

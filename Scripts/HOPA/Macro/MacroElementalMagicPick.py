@@ -1,5 +1,5 @@
 from HOPA.Macro.MacroCommand import MacroCommand
-from HOPA.ElementalMagicManager import ElementalMagicManager
+from HOPA.ElementalMagicManager import ElementalMagicManager, QUEST_PICK_ELEMENT_NAME
 from HOPA.TipManager import TipManager
 
 
@@ -35,7 +35,7 @@ class MacroElementalMagicPick(MacroCommand):
         isRepeat = self.isRepeatScenario()
 
         if isRepeat is False:
-            Quest = self.addQuest(source, "ElementalMagicPick", SceneName=self.SceneName, GroupName=self.GroupName,
+            Quest = self.addQuest(source, QUEST_PICK_ELEMENT_NAME, SceneName=self.SceneName, GroupName=self.GroupName,
                                   Object=self.SocketObject, MagicId=self.MagicId, Element=magic_params.element)
 
             with Quest as tc_quest:

@@ -1,6 +1,7 @@
 from Foundation.System import System
 from HOPA.ElementalMagicManager import ElementalMagicManager
 from HOPA.Entities.ElementalMagic.Ring import InvalidClick
+from HOPA.TipManager import TipManager
 
 
 class SystemElementalMagic(System):
@@ -30,25 +31,34 @@ class SystemElementalMagic(System):
             Notification.notify(Notificator.onElementalMagicReadyEnd)
         return False
 
-    def _cbMagicReady(self, element):
+    def _cbMagicReady(self):
+        if ElementalMagicManager.getConfig("SoundEffectOnReady", False) is True:
+            pass # todo: play sound effect
         return False
 
     def _cbMagicUse(self, element):
-        # todo: play sound effect
+        if ElementalMagicManager.getConfig("SoundEffectOnUse", False) is True:
+            pass # todo: play sound effect
         return False
 
     def _cbMagicPick(self, element):
-        # todo: play sound effect
+        if ElementalMagicManager.getConfig("SoundEffectOnPick", False) is True:
+            pass # todo: play sound effect
+        ElementalMagicManager.setPlayerElement(element)
         return False
 
     def _cbMagicInvalidClick(self, status):
-        # todo: play sound effect
+        if ElementalMagicManager.getConfig("SoundEffectOnInvalidClick", False) is True:
+            pass # todo: play sound effect
+
         if status == InvalidClick.Miss:
             pass # todo: show mind
         elif status == InvalidClick.WrongElement:
-            pass # todo: show mind
+            tip_id = ElementalMagicManager.getConfig("TipInvalidClickWrongElement", "ID_Tip_Magic_WrongElement")
+            TipManager.showTip(tip_id)
         elif status == InvalidClick.EmptyRing:
-            pass # todo: show mind
+            tip_id = ElementalMagicManager.getConfig("TipInvalidClickEmptyRing", "ID_Tip_Magic_EmptyRing")
+            TipManager.showTip(tip_id)
         return False
 
     # serialization
