@@ -79,3 +79,8 @@ class TipManager(object):
     @staticmethod
     def addTipID(tipId, textId):
         TipManager.s_tips[tipId] = textId
+
+    @staticmethod
+    def showTip(tipId):
+        Notification.notify(Notificator.onBlackBarRelease, tipId)
+        Notification.notify(Notificator.onTipShow, tipId)

@@ -130,8 +130,7 @@ class SystemTip(System):
             Trace.log("System", 0, "SystemTip._onObjectClick: Error, %s in objects but not in activeTips!!!" % (clickObject.getName()))
             return False
 
-        Notification.notify(Notificator.onBlackBarRelease, currentTip.tipID)
-        Notification.notify(Notificator.onTipShow, currentTip.tipID)
+        TipManager.showTip(currentTip.tipID)
 
         return False
 
