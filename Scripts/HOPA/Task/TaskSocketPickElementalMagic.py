@@ -5,11 +5,11 @@ from Foundation.Task.Task import Task
 from HOPA.ElementalMagicManager import ElementalMagicManager
 
 
-class TaskSocketGetElementalMagic(MixinSocket, MixinObserver, Task):
+class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
     Skiped = False
 
     def _onParams(self, params):
-        super(TaskSocketGetElementalMagic, self)._onParams(params)
+        super(TaskSocketPickElementalMagic, self)._onParams(params)
 
         self.AutoEnable = params.get("AutoEnable", True)
         self.Element = params.get("Element")
@@ -26,7 +26,7 @@ class TaskSocketGetElementalMagic(MixinSocket, MixinObserver, Task):
         return False
 
     def _onFinally(self):
-        super(TaskSocketGetElementalMagic, self)._onFinally()
+        super(TaskSocketPickElementalMagic, self)._onFinally()
 
         if self.AutoEnable is True:
             self.Socket.setInteractive(False)

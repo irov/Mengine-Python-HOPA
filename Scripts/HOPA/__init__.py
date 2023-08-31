@@ -166,7 +166,7 @@ def onInitialize():
         , "TaskMacroCommandRun"
 
         , "TaskSocketUseElementalMagic"
-        , "TaskSocketGetElementalMagic"
+        , "TaskSocketPickElementalMagic"
     ]
 
     TaskManager.importTasks("HOPA.Task", tasks)

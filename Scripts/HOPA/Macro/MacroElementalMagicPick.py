@@ -3,7 +3,7 @@ from HOPA.ElementalMagicManager import ElementalMagicManager
 from HOPA.TipManager import TipManager
 
 
-class MacroElementalMagicGet(MacroCommand):
+class MacroElementalMagicPick(MacroCommand):
     def _onValues(self, values):
         self.SocketName = values[0]
         self.MagicId = values[1]
@@ -35,16 +35,16 @@ class MacroElementalMagicGet(MacroCommand):
         isRepeat = self.isRepeatScenario()
 
         if isRepeat is False:
-            Quest = self.addQuest(source, "ElementalMagicGet", SceneName=self.SceneName, GroupName=self.GroupName,
+            Quest = self.addQuest(source, "ElementalMagicPick", SceneName=self.SceneName, GroupName=self.GroupName,
                                   Object=self.SocketObject, MagicId=self.MagicId, Element=magic_params.element)
 
             with Quest as tc_quest:
-                tc_quest.addTask("TaskSocketGetElementalMagic", SocketName=self.SocketName,
+                tc_quest.addTask("TaskSocketPickElementalMagic", SocketName=self.SocketName,
                                  Element=magic_params.element, TipName=self.TipName)
 
         else:
 
-            source.addTask("TaskSocketGetElementalMagic", SocketName=self.SocketName,
+            source.addTask("TaskSocketPickElementalMagic", SocketName=self.SocketName,
                            Element=magic_params.element, TipName=self.TipName)
 
 

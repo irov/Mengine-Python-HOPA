@@ -7,7 +7,7 @@ from HOPA.ZoomManager import ZoomManager
 
 
 QUEST_USE_MAGIC_NAME = "ElementalMagicUse"
-QUEST_GET_ELEMENT_NAME = "ElementalMagicGet"
+QUEST_PICK_ELEMENT_NAME = "ElementalMagicPick"
 
 
 class ElementalMagicManager(Manager):
