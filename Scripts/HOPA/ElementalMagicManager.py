@@ -210,16 +210,19 @@ class ElementalMagicManager(Manager):
         if scene_name is None:
             return
 
-        zoom_name = ZoomManager.getCurrentGameZoomName()
-
-        if zoom_name is not None:
-            group_name = zoom_name
-        else:
+        group_name = ZoomManager.getCurrentGameZoomName()
+        if group_name is None:
             group_name = SceneManager.getSceneMainGroupName(scene_name)
 
-        quest = QuestManager.getSceneQuest(scene_name, group_name, QUEST_USE_MAGIC_NAME)
+        quests = QuestManager.getSceneQuests(scene_name, group_name)
 
-        return quest
+        for quest in quests:
+            if quest.getType() != QUEST_USE_MAGIC_NAME:
+                continue
+            if quest.isActive():
+                return quest
+
+        return None
 
     @staticmethod
     def isMagicReady():
