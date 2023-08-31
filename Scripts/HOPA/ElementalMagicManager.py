@@ -174,14 +174,18 @@ class ElementalMagicManager(Manager):
 
     @staticmethod
     def getRingMovieParams():
-        config = ElementalMagicManager.getConfigs()
+        configs = ElementalMagicManager.getConfigs()
+        if configs is None:
+            Trace.log("Manager", 0, "ElementalMagicManager.getRingMovieParams: config is None")
+            return {}
         return {
-            "Idle": [config.get("RingStateIdle"), True, True],
-            "Ready": [config.get("RingStateReady"), True, False],
-            "Attach": [config.get("RingStateAttach"), True, True],
-            "Return": [config.get("RingStateReturn"), True, True],
-            "Pick": [config.get("RingStatePick"), True, False],
-            "Use": [config.get("RingStateUse"), True, False],
+            # state: [prototype, play, loop]
+            "Idle": [configs.get("RingStateIdle"), True, True],
+            "Ready": [configs.get("RingStateReady"), True, False],
+            "Attach": [configs.get("RingStateAttach"), True, True],
+            "Return": [configs.get("RingStateReturn"), True, True],
+            "Pick": [configs.get("RingStatePick"), True, False],
+            "Use": [configs.get("RingStateUse"), True, False],
         }
 
     # --- user interaction ---------------------------------------------------------------------------------------------
@@ -203,28 +207,59 @@ class ElementalMagicManager(Manager):
         ring = demon.getRing()
         return ring
 
-    @staticmethod
-    def getMagicUseQuest():
-        scene_name = SceneManager.getCurrentSceneName()
+    # --- quests -------------------------------------------------------------------------------------------------------
 
+    @staticmethod
+    def getMagicUseQuests():
+        """ returns list of active magic use quests (global) """
+        quests = QuestManager.getGlobalQuests()
+
+        found_quests = []
+        for quest in quests:
+            if quest.getType() != QUEST_USE_MAGIC_NAME:
+                continue
+            if quest.isActive() is False:
+                continue
+            found_quests.append(quest)
+
+        return found_quests
+
+    @staticmethod
+    def getSceneMagicUseQuests(scene_name, group_name):
+        """ returns list of active magic use quests on given scene """
+        found_quests = []
+
+        quests = ElementalMagicManager.getMagicUseQuests()
+        for quest in quests:
+            if quest.params["SceneName"] != scene_name:
+                continue
+            if quest.params["GroupName"] != group_name:
+                continue
+            found_quests.append(quest)
+
+        return found_quests
+
+    @staticmethod
+    def isMagicReady():
+        """ returns True if player can use magic on current scene/zoom """
+
+        scene_name = SceneManager.getCurrentSceneName()
         if scene_name is None:
-            return
+            return False
 
         group_name = ZoomManager.getCurrentGameZoomName()
         if group_name is None:
             group_name = SceneManager.getSceneMainGroupName(scene_name)
 
-        quests = QuestManager.getSceneQuests(scene_name, group_name)
+        quests = ElementalMagicManager.getSceneMagicUseQuests(scene_name, group_name)
+
+        if len(quests) == 0:
+            return False
+
+        player_element = ElementalMagicManager.getPlayerElement()
 
         for quest in quests:
-            if quest.getType() != QUEST_USE_MAGIC_NAME:
-                continue
-            if quest.isActive():
-                return quest
+            if quest.params["Element"] == player_element:
+                return True
 
-        return None
-
-    @staticmethod
-    def isMagicReady():
-        quest = ElementalMagicManager.getMagicUseQuest()
-        return quest is not None
+        return False

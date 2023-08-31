@@ -9,7 +9,6 @@ class SystemElementalMagic(System):
         pass
 
     def _onRun(self):
-        self.addObserver(Notificator.onSceneChange, self._cbUpdateReadyState)
         self.addObserver(Notificator.onZoomEnter, self._cbUpdateReadyState)
         self.addObserver(Notificator.onZoomLeave, self._cbUpdateReadyState)
 
@@ -25,9 +24,8 @@ class SystemElementalMagic(System):
     # observers
 
     def _cbUpdateReadyState(self, *_, **__):
-        quest = ElementalMagicManager.getMagicUseQuest()
-        if quest is not None:
-            Notification.notify(Notificator.onElementalMagicReady, quest.ElementType)
+        if ElementalMagicManager.isMagicReady() is True:
+            Notification.notify(Notificator.onElementalMagicReady)
         else:
             Notification.notify(Notificator.onElementalMagicReadyEnd)
         return False

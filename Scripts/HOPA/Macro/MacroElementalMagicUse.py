@@ -6,38 +6,38 @@ from HOPA.TipManager import TipManager
 class MacroElementalMagicUse(MacroCommand):
 
     def _onValues(self, values):
-        self.socket_name = values[0]
-        self.magic_id = values[1]
-        self.tip_id = values[2]
+        self.SocketName = values[0]
+        self.MagicId = values[1]
+        self.TipName = values[2]
 
-        self.socket_obj = None
+        self.SocketObject = None
 
     def _onInitialize(self):
         if _DEVELOPMENT is True:
             # check socket
-            if self.hasObject(self.socket_name) is False:
+            if self.hasObject(self.SocketName) is False:
                 self.initializeFailed("{!r} not found object {!r} in group {!r}".format(
-                    self.CommandType, self.socket_name, self.GroupName))
+                    self.CommandType, self.SocketName, self.GroupName))
 
             # check magic
-            magic_params = ElementalMagicManager.getMagicParams(self.magic_id)
+            magic_params = ElementalMagicManager.getMagicParams(self.MagicId)
             if magic_params is None:
-                self.initializeFailed("Magic with id {!r} not found".format(self.magic_id))
+                self.initializeFailed("Magic with id {!r} not found".format(self.MagicId))
 
             # check tip
-            if TipManager.hasTip(self.tip_id) is False:
-                self.initializeFailed("Tip {!r} not found".format(self.tip_id))
+            if TipManager.hasTip(self.TipName) is False:
+                self.initializeFailed("Tip {!r} not found".format(self.TipName))
 
-        _, self.socket_obj = self.findObject(self.socket_name)
+        _, self.SocketObject = self.findObject(self.SocketName)
 
     def _onGenerate(self, source):
-        magic_params = ElementalMagicManager.getMagicParams(self.magic_id)
+        magic_params = ElementalMagicManager.getMagicParams(self.MagicId)
 
         Quest = self.addQuest(source, "ElementalMagicUse", SceneName=self.SceneName, GroupName=self.GroupName,
-                              Object=self.socket_obj, MagicId=self.magic_id, Element=magic_params.element)
+                              Object=self.SocketObject, MagicId=self.MagicId, Element=magic_params.element)
 
         with Quest as tc_quest:
-            tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.socket_obj, self.tip_id)
-            tc_quest.addTask("TaskSocketUseElementalMagic", Object=self.socket_obj, SocketName=self.socket_name,
-                             Element=magic_params.element, TipName=self.tip_id)
-            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.tip_id)
+            tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
+            tc_quest.addTask("TaskSocketUseElementalMagic", Object=self.SocketObject, SocketName=self.SocketName,
+                             Element=magic_params.element)
+            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
