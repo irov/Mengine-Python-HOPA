@@ -105,7 +105,7 @@ class Ring(Initializer):
             parallel_1.addFunction(self.magic.setState, "Idle")
 
         with source.addRaceTask(2) as (source_attach, source_ready):
-            source_attach.addTask("TaskMovie2Click", Movie2=Movie)
+            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie)
             source_attach.addFunction(self.__setState, "Attach")
 
             source_ready.addListener(Notificator.onElementalMagicReady)
@@ -119,7 +119,7 @@ class Ring(Initializer):
             parallel_1.addEnable(Movie)
 
         with source.addRaceTask(2) as (source_attach, source_idle):
-            source_attach.addTask("TaskMovie2Click", Movie2=Movie)
+            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie)
             source_attach.addFunction(self.__setState, "Attach")
 
             source_idle.addListener(Notificator.onElementalMagicReadyEnd)       # todo
