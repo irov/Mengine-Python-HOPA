@@ -8,6 +8,9 @@ from Foundation.Task.Task import Task
 from HOPA.QuestManager import QuestManager
 
 
+ALLOWED_OBJECT_TYPES = ["ObjectInventoryItem", "ObjectInventoryItemAccumulate", "ObjectInventoryCountItem"]
+
+
 class TaskSocketPlaceInventoryItem(MixinSocket, MixinObserver, Task):
     Skiped = False
 
@@ -46,10 +49,7 @@ class TaskSocketPlaceInventoryItem(MixinSocket, MixinObserver, Task):
             return False
 
         attachType = attach.getType()
-        if attachType == "ObjectMovie":
-            return False
-
-        if attachType == "ObjectItem":
+        if attachType not in ALLOWED_OBJECT_TYPES:
             return False
 
         if self.InventoryItem is not attach:

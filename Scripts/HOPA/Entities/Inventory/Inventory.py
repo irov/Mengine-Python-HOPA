@@ -451,15 +451,15 @@ class Inventory(InventoryBase):
     def combineInventoryItem(self, slotId):
         slot = self.slots[slotId]
 
-        InventoryItem = ArrowManager.getArrowAttach()
+        attach = ArrowManager.getArrowAttach()
 
-        if InventoryItem is None or InventoryItem.getType() not in ["InventoryItem", "InventoryItemAccumulate"]:
+        if attach is None or attach.getType() not in ["ObjectInventoryItem", "ObjectInventoryItemAccumulate"]:
             return
 
-        InventoryItemEntity = InventoryItem.getEntity()
+        InventoryItemEntity = attach.getEntity()
         InventoryItemEntity.tryCombine()
 
-        Notification.notify(Notificator.onInventoryCombineInventoryItem, self.object, InventoryItem, slot.item)
+        Notification.notify(Notificator.onInventoryCombineInventoryItem, self.object, attach, slot.item)
 
     def setupPoints(self):
         Sprite_InventoryPanel = self.object.getObject("Sprite_InventoryPanel")
