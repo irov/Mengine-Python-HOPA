@@ -206,6 +206,10 @@ class ElementalMagicManager(Manager):
     @staticmethod
     def getMagicUseQuest():
         scene_name = SceneManager.getCurrentSceneName()
+
+        if scene_name is None:
+            return
+
         zoom_name = ZoomManager.getCurrentGameZoomName()
 
         if zoom_name is not None:
