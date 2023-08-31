@@ -112,7 +112,8 @@ class ElementalMagicManager(Manager):
             param = ElementalMagicManager.ElementsParams(record)
 
             if _DEVELOPMENT is True:
-                if param.element not in ElementalMagicManager.s_elements:
+                # check duplicates
+                if param.element in ElementalMagicManager.s_elements:
                     Trace.log("Manager", 0, "Element {!r} is duplicated! Remove it and try again".format(param.element))
                     return False
 
@@ -215,6 +216,10 @@ class ElementalMagicManager(Manager):
         quests = QuestManager.getGlobalQuests()
 
         found_quests = []
+
+        if quests is None:
+            return found_quests
+
         for quest in quests:
             if quest.getType() != QUEST_USE_MAGIC_NAME:
                 continue
