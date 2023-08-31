@@ -120,10 +120,10 @@ class SystemTip(System):
         if clickObject not in self.objects:
             return False
 
+        currentTip = None
         for tip in self.activeTips:
             if tip.object != clickObject:
                 continue
-
             currentTip = tip
 
         if currentTip is None:
