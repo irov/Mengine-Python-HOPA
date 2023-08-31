@@ -42,4 +42,6 @@ class ElementalMagic(BaseEntity):
 
         if current_ui_element is not None:
             self.ring.magic.removeElement()
-        self.ring.magic.setElement(element)
+
+        if element is not None:
+            self.ring.magic.setElement(element)
