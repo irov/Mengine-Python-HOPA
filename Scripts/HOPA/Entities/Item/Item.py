@@ -67,10 +67,6 @@ class Item(Interaction):
         Mengine.destroyNode(self.staticPure)
         self.staticPure = None
 
-    def tryCombine(self):
-        # fix for https://wonderland-games.atlassian.net/browse/HO2-683
-        return False
-
     def onDestroyStaticPure(self):
         self.sprite.enable()
 

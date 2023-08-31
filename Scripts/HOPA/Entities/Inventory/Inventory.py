@@ -452,6 +452,10 @@ class Inventory(InventoryBase):
         slot = self.slots[slotId]
 
         InventoryItem = ArrowManager.getArrowAttach()
+
+        if InventoryItem is None or InventoryItem.getType() not in ["InventoryItem", "InventoryItemAccumulate"]:
+            return
+
         InventoryItemEntity = InventoryItem.getEntity()
         InventoryItemEntity.tryCombine()
 

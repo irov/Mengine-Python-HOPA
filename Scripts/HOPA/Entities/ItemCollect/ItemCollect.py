@@ -404,10 +404,6 @@ class ItemCollect(BaseEntity):
         source.addFunction(self._resolveSocketClick, slot_holder, allowed_slot_holder, allowed_slot_used)
         source.addScope(self._socketClickResult, slot_holder, allowed_slot_holder, result_holder, allowed_slot_used)
 
-    def tryCombine(self):
-        # fix for https://wonderland-games.atlassian.net/browse/HO2-683
-        return False
-
     def checkComplete(self):
         flag = True
         for slot in self.itemSlots.values():
