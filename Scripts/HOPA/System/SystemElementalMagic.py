@@ -9,9 +9,10 @@ class SystemElementalMagic(System):
         pass
 
     def _onRun(self):
-        # todo: toggle ready mode for ring - onElementalMagicReadyEnd
+        self.addObserver(Notificator.onSceneChange, self._cbUpdateReadyState)
+        self.addObserver(Notificator.onZoomEnter, self._cbUpdateReadyState)
+        self.addObserver(Notificator.onZoomLeave, self._cbUpdateReadyState)
 
-        self.addObserver(Notificator.onSceneActivate, self._cbSceneActivate)
         self.addObserver(Notificator.onElementalMagicReady, self._cbMagicReady)
         self.addObserver(Notificator.onElementalMagicUse, self._cbMagicUse)
         self.addObserver(Notificator.onElementalMagicPick, self._cbMagicPick)
@@ -23,10 +24,12 @@ class SystemElementalMagic(System):
 
     # observers
 
-    def _cbSceneActivate(self, scene_name):
+    def _cbUpdateReadyState(self, *_, **__):
         quest = ElementalMagicManager.getMagicUseQuest()
         if quest is not None:
             Notification.notify(Notificator.onElementalMagicReady, quest.ElementType)
+        else:
+            Notification.notify(Notificator.onElementalMagicReadyEnd)
         return False
 
     def _cbMagicReady(self, element):
