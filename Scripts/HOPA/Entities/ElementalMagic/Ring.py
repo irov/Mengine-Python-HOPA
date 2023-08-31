@@ -92,11 +92,13 @@ class Ring(Initializer):
 
         with self.tc as tc:
             def __states(isSkip, cb):
+                print "    Ring: run state", self.state
                 cb(isSkip, self.state)
 
             tc.addScopeSwitch(Scopes, __states)
 
     def __setState(self, state):
+        print "    Ring: set state", self.state, "->", state
         self.state = state
 
     def __stateIdle(self, source, Movie):
@@ -105,7 +107,7 @@ class Ring(Initializer):
             parallel_1.addFunction(self.magic.setState, "Idle")
 
         with source.addRaceTask(2) as (source_attach, source_ready):
-            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie)
+            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
             source_attach.addFunction(self.__setState, "Attach")
 
             source_ready.addListener(Notificator.onElementalMagicReady)
@@ -119,7 +121,7 @@ class Ring(Initializer):
             parallel_1.addEnable(Movie)
 
         with source.addRaceTask(2) as (source_attach, source_idle):
-            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie)
+            source_attach.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
             source_attach.addFunction(self.__setState, "Attach")
 
             source_idle.addListener(Notificator.onElementalMagicReadyEnd)       # todo
@@ -133,7 +135,7 @@ class Ring(Initializer):
 
         # attach root to arrow
         source.addFunction(self._root.removeFromParent)
-        source.addFunction(self._attachToCursor, self._root)
+        source.addFunction(self._attachToCursor)
 
         if Movie is not None:
             source.addEnable(Movie)
