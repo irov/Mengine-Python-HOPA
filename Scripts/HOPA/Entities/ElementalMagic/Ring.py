@@ -18,14 +18,14 @@ class Ring(Initializer):
         self._owner = None
 
         self.state = "Idle"
-        self._prev_state = None
+        self.SemaphoreReady = Semaphore(False, "RingReady")
         self.tc = None
 
         self._root = None
         self.Movies = {}
         self.magic = MagicEffect()
 
-        self.EventUpdateState = Event("onStateUpdate")
+        self.EventUpdateState = Event("onRingStateUpdate")
 
     def _onInitialize(self, owner, current_element=None):
         self._owner = owner
@@ -37,7 +37,7 @@ class Ring(Initializer):
         slot.addChild(root)
         self._root = root
 
-        for state, [movie_name, play, loop] in ElementalMagicManager.getRingMovieParams().items():
+        for state, (movie_name, play, loop) in ElementalMagicManager.getRingMovieParams().items():
             if movie_name is None:
                 continue
 
@@ -64,6 +64,7 @@ class Ring(Initializer):
 
         if ElementalMagicManager.isMagicReady():
             self.state = "Ready"
+            self.SemaphoreReady.setValue(True)
 
     def onActivate(self):
         self._runTaskChain()
@@ -83,6 +84,8 @@ class Ring(Initializer):
         Mengine.destroyNode(self._root)
         self._root = None
 
+        self.state = None
+
     def _runTaskChain(self):
         Scopes = dict(
             Idle=Functor(self.__stateIdle, self.Movies.get("Idle")),
@@ -97,34 +100,26 @@ class Ring(Initializer):
 
         with self.tc as tc:
             def __states(isSkip, cb):
-                print "    Ring: run state", self.state
+                Trace.msg_dev("    Ring: run state {}".format(self.state))
                 cb(isSkip, self.state)
 
             tc.addScopeSwitch(Scopes, __states)
 
     def __setState(self, state):
-        print "    Ring: set state", self.state, "->", state
-        self._prev_state = self.state
+        prev_state = self.state
         self.state = state
-        self.EventUpdateState(self._prev_state, self.state)
-
-    def __scopeTryStateAttach(self, source, Movie):
-        with source.addRepeatTask() as (repeat, until):
-            repeat.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
-            with repeat.addIfTask(ArrowManager.emptyArrowAttach) as (repeat_true, repeat_false):
-                repeat_true.addFunction(self.__setState, "Attach")
-
-            until.addEvent(self.EventUpdateState, lambda _, new_state: new_state == "Attach")
+        self.EventUpdateState(prev_state, state)
 
     def __stateIdle(self, source, Movie):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addEnable(Movie)
             parallel_1.addFunction(self.magic.setState, "Idle")
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Loop=True)
 
         with source.addRaceTask(3) as (source_attach, source_ready, source_pick):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
 
-            source_ready.addListener(Notificator.onElementalMagicReady)
+            source_ready.addSemaphore(self.SemaphoreReady, From=True)
             source_ready.addFunction(self.__setState, "Ready")
 
             source_pick.addListener(Notificator.onElementalMagicPick)
@@ -134,13 +129,14 @@ class Ring(Initializer):
 
     def __stateReady(self, source, Movie):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
-            parallel_0.addFunction(self.magic.setState, "Ready")
-            parallel_1.addEnable(Movie)
+            parallel_0.addEnable(Movie)
+            parallel_1.addFunction(self.magic.setState, "Ready")
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Loop=True)
 
         with source.addRaceTask(2) as (source_attach, source_idle):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
 
-            source_idle.addListener(Notificator.onElementalMagicReadyEnd)       # todo
+            source_idle.addSemaphore(self.SemaphoreReady, From=False)
             source_idle.addFunction(self.__setState, "Idle")
 
         source.addDisable(Movie)
@@ -150,10 +146,7 @@ class Ring(Initializer):
         source.addFunction(self._root.removeFromParent)
         source.addFunction(self._attachToCursor)
 
-        if Movie is not None:
-            source.addEnable(Movie)
-        else:
-            source.addEnable(self.Movies[self._prev_state])
+        source.addEnable(self.getBaseStateMovie() or Movie)
 
         with source.addRaceTask(4) as (source_use, source_pick, source_invalid, source_miss):
             source_use.addListener(Notificator.onElementalMagicUse)     # from macro
@@ -169,15 +162,16 @@ class Ring(Initializer):
             source_miss.addNotify(Notificator.onElementalMagicInvalidClick, InvalidClick.Miss)
             source_miss.addFunction(self.__setState, "Return")
 
-        if Movie is not None:
-            source.addDisable(Movie)
-        else:
-            source.addDisable(self.Movies[self._prev_state])
+        source.addDisable(self.getBaseStateMovie() or Movie)
 
     def __stateReturn(self, source, Movie):
         if Movie is None:
+            source.addEnable(self.getBaseStateMovie())
+
             source.addScope(self.__scopeReturnToParent)
             source.addFunction(self.__setState, "Idle")
+
+            source.addDisable(self.getBaseStateMovie())
             return
 
         source.addEnable(Movie)
@@ -189,11 +183,16 @@ class Ring(Initializer):
         source.addFunction(self.__setState, "Idle")
 
         source.addDisable(Movie)
-        pass
 
     def __stateUse(self, source, Movie):
         if Movie is None:
+            source.addEnable(self.getBaseStateMovie())
+
+            source.addFunction(self.magic.setState, "Release")
+            source.addScope(self.magic.scopePlayCurrentState, Wait=True)
             source.addFunction(self.__setState, "Return")
+
+            source.addDisable(self.getBaseStateMovie())
             return
 
         source.addEnable(Movie)
@@ -202,19 +201,22 @@ class Ring(Initializer):
         with source.addParalellTask(2) as (parallel_0, parallel_1):
             parallel_0.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
             parallel_1.addFunction(self.magic.setState, "Release")
-            parallel_1.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=True)
             parallel_1.addFunction(self.magic.removeElement)
 
         source.addFunction(self.__setState, "Return")
 
         source.addDisable(Movie)
-        pass
 
     def __statePick(self, source, Movie):
         if Movie is None:
+            source.addEnable(self.getBaseStateMovie())
+
             source.addFunction(self.magic.setState, "Appear")
-            source.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
+            source.addScope(self.magic.scopePlayCurrentState, Wait=True)
             source.addFunction(self.__setState, "Return")
+
+            source.addDisable(self.getBaseStateMovie())
             return
 
         source.addEnable(Movie)
@@ -223,14 +225,21 @@ class Ring(Initializer):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
             parallel_1.addFunction(self.magic.setState, "Appear")
-            parallel_1.addTask("TaskMovie2Play", Movie2=self.magic.getCurrentMovie(), Wait=True)
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=True)
 
         source.addFunction(self.__setState, "Return")
 
         source.addDisable(Movie)
-        pass
 
-    # utils
+    # scopes
+
+    def __scopeTryStateAttach(self, source, Movie):
+        with source.addRepeatTask() as (repeat, until):
+            repeat.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
+            with repeat.addIfTask(ArrowManager.emptyArrowAttach) as (repeat_true, repeat_false):
+                repeat_true.addFunction(self.__setState, "Attach")
+
+            until.addEvent(self.EventUpdateState, lambda _, new_state: new_state == "Attach")
 
     def __scopeReturnToParent(self, source):
         source.addFunction(self._detachFromCursor)
@@ -247,6 +256,17 @@ class Ring(Initializer):
         source.addTask("TaskNodeDestroy", Node=node)
         """
         source.addFunction(self._returnRingToParent)
+
+    # utils
+
+    def setReady(self, state):
+        self.SemaphoreReady.setValue(state)
+
+    def getBaseStateMovie(self):
+        if self.SemaphoreReady.getValue() is True:
+            return self.Movies["Ready"]
+        else:
+            return self.Movies["Idle"]
 
     def _returnRingToParent(self):
         """ add root to the Ring slot (please check if root is detached from arrow) """

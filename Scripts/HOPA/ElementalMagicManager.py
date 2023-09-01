@@ -1,6 +1,7 @@
 from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
+from Foundation.GroupManager import GroupManager
 from HOPA.QuestManager import QuestManager
 from Foundation.SceneManager import SceneManager
 from HOPA.ZoomManager import ZoomManager
@@ -46,10 +47,10 @@ class ElementalMagicManager(Manager):
         def __init__(self, record):
             self.element = ElementalMagicManager.getRecordValue(record, "ElementType", required=True)
             self.group_name = ElementalMagicManager.getRecordValue(record, "GroupName", required=True)
-            self.state_Appear = ElementalMagicManager.getRecordValue(record, "PrototypeAppear")
+            self.state_Appear = ElementalMagicManager.getRecordValue(record, "PrototypeAppear", required=True)
             self.state_Idle = ElementalMagicManager.getRecordValue(record, "PrototypeIdle", required=True)
             self.state_Ready = ElementalMagicManager.getRecordValue(record, "PrototypeReady", required=True)
-            self.state_Release = ElementalMagicManager.getRecordValue(record, "PrototypeRelease")
+            self.state_Release = ElementalMagicManager.getRecordValue(record, "PrototypeRelease", required=True)
 
     @staticmethod
     def loadConfig(records):
@@ -117,6 +118,26 @@ class ElementalMagicManager(Manager):
                     Trace.log("Manager", 0, "Element {!r} is duplicated! Remove it and try again".format(param.element))
                     return False
 
+                # check group exist
+                if GroupManager.hasGroup(param.group_name) is False:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - group {!r} not found".format(param.element, param.group_name))
+                    return False
+
+                # check prototypes
+                group = GroupManager.getGroup(param.group_name)
+                if group.hasPrototype(param.state_Appear) is False:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - prototype Appear {!r} not found".format(param.element, param.state_Appear))
+                    return False
+                if group.hasPrototype(param.state_Idle) is False:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - prototype Idle {!r} not found".format(param.element, param.state_Idle))
+                    return False
+                if group.hasPrototype(param.state_Ready) is False:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - prototype Ready {!r} not found".format(param.element, param.state_Ready))
+                    return False
+                if group.hasPrototype(param.state_Release) is False:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - prototype Release {!r} not found".format(param.element, param.state_Release))
+                    return False
+
             ElementalMagicManager.s_elements[param.element] = param
 
     @staticmethod
@@ -157,7 +178,7 @@ class ElementalMagicManager(Manager):
 
     @staticmethod
     def getElementParams(element):
-        return ElementalMagicManager.s_elements.get(element)
+        return ElementalMagicManager.s_elements[element]
 
     @staticmethod
     def isElementExists(element):

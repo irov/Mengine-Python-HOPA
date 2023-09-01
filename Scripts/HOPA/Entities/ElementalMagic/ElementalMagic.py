@@ -16,13 +16,30 @@ class ElementalMagic(BaseEntity):
         self._observers = []
 
     def _onPreparation(self):
+        self._observers = [
+            Notification.addObserver(Notificator.onElementalMagicReady, self._cbMagicReady),
+            Notification.addObserver(Notificator.onElementalMagicReadyEnd, self._cbMagicReadyEnd),
+        ]
+
         self.ring.onInitialize(self, current_element=self.Element)
 
     def _onActivate(self):
         self.ring.onActivate()
 
     def _onDeactivate(self):
+        for observer in self._observers:
+            Notification.removeObserver(observer)
+        self._observers = []
+
         self.ring.onFinalize()
+
+    def _cbMagicReady(self, element):
+        self.ring.setReady(True)
+        return False
+
+    def _cbMagicReadyEnd(self):
+        self.ring.setReady(False)
+        return False
 
     def getRingSlot(self):
         content = self.object.getObject("Movie2_Content")
@@ -43,5 +60,4 @@ class ElementalMagic(BaseEntity):
         if current_ui_element is not None:
             self.ring.magic.removeElement()
 
-        if element is not None:
-            self.ring.magic.setElement(element)
+        self.ring.magic.setElement(element)

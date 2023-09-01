@@ -12,14 +12,10 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSocketPickElementalMagic, self)._onParams(params)
 
-        self.AutoEnable = params.get("AutoEnable", True)
         self.Element = params.get("Element")
         self.TipName = params.get("TipName")
 
     def _onRun(self):
-        if self.AutoEnable is True:
-            self.Socket.setInteractive(True)
-
         if Mengine.hasTouchpad():
             self.addObserverFilter(Notificator.onSocketClickUp, self._onSocketClickFilter, self.Socket)
         else:
@@ -29,9 +25,6 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
 
     def _onFinally(self):
         super(TaskSocketPickElementalMagic, self)._onFinally()
-
-        if self.AutoEnable is True:
-            self.Socket.setInteractive(False)
 
     def _onSocketClickFilter(self, socket):
         attach = ArrowManager.getArrowAttach()
@@ -48,17 +41,19 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
         player_element = ElementalMagicManager.getPlayerElement()
 
         if player_element is not None:
+            Trace.msg_dev("<DEV> Can't get element {}, because user already has element {}".format(self.Element, player_element))
             TipManager.showTip(self.TipName)
             return False
 
         # check if user has quest on this magic
         quests = ElementalMagicManager.getMagicUseQuests()
         for quest in quests:
-            if quest.params["Element"] == player_element:
-                Trace.msg_dev("<DEV> Allow to get element, because user has Use quest at ({}, {}) [{}]".format(quest.params["SceneName"], quest.params["GroupName"], quest.params["MagicId"]))
+            if quest.params["Element"] == self.Element:
+                Notification.notify(Notificator.onElementalMagicPick, self.Element)
+                Trace.msg_dev("<DEV> Allow to get element {}, because user has Use quest at ({}, {}) [{}]".format(self.Element, quest.params["SceneName"], quest.params["GroupName"], quest.params["MagicId"]))
                 return True
 
         TipManager.showTip(self.TipName)
-        Trace.msg_dev("<DEV> Can't get this element, because user hasn't Use quest for element [{}] (total quests {})".format(player_element, len(quests)))
+        Trace.msg_dev("<DEV> Can't get element {}, because user hasn't Use quest for element {} (total quests {})\n{}".format(self.Element, player_element, len(quests), quests))
 
         return False

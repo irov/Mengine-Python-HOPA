@@ -39,12 +39,18 @@ class SystemElementalMagic(System):
     def _cbMagicUse(self, element):
         if ElementalMagicManager.getConfig("SoundEffectOnUse", False) is True:
             pass # todo: play sound effect
+        ElementalMagicManager.setPlayerElement(None)
         return False
 
     def _cbMagicPick(self, element):
         if ElementalMagicManager.getConfig("SoundEffectOnPick", False) is True:
             pass # todo: play sound effect
+
+        if ElementalMagicManager.isElementExists(element) is False:
+            Trace.log("System", 0, "Can't pick element {} because it doesn't exist".format(element))
+            return False
         ElementalMagicManager.setPlayerElement(element)
+
         return False
 
     def _cbMagicInvalidClick(self, status):

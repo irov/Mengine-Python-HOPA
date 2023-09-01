@@ -1,6 +1,5 @@
 from Foundation.Initializer import Initializer
 from HOPA.ElementalMagicManager import ElementalMagicManager
-from Foundation.ObjectManager import ObjectManager
 from Foundation.GroupManager import GroupManager
 
 
@@ -37,11 +36,6 @@ class MagicEffect(Initializer):
         self.params = ElementalMagicManager.getElementParams(element)
 
         for state, movie in self.generateMagicEffects():
-            movie.setEnable(False)
-            movie.setPlay(True)
-            movie.setLoop(True)
-            movie.setInteractive(False)
-
             node = movie.getEntityNode()
             self._slot.addChild(node)
 
@@ -51,11 +45,17 @@ class MagicEffect(Initializer):
         if state not in self.Movies:
             return
 
-        current_movie = self.Movies[self.state]
-        current_movie.setEnable(False)
+        if self.state is not None:
+            current_movie = self.Movies[self.state]
+            current_movie.setEnable(False)
 
         self.Movies[state].setEnable(True)
         self.state = state
+
+    def scopePlayCurrentState(self, source, **params):
+        if self.getCurrentMovie() is None:
+            return
+        source.addTask("TaskMovie2Play", Movie2=self.getCurrentMovie(), **params)
 
     def getCurrentMovie(self):
         if self.state is None:
@@ -64,14 +64,17 @@ class MagicEffect(Initializer):
 
     def generateMagicEffects(self):
         states = {
-            "Appear": self.params.state_Appear,
-            "Idle": self.params.state_Idle,
-            "Ready": self.params.state_Ready,
-            "Release": self.params.state_Release,
+            "Appear": [self.params.state_Appear, True, False],
+            "Idle": [self.params.state_Idle, True, True],
+            "Ready": [self.params.state_Ready, True, True],
+            "Release": [self.params.state_Release, True, False],
         }
         group = GroupManager.getGroup(self.params.group_name)
 
-        for state, prototype_name in states.items():
+        for state, (prototype_name, play, loop) in states.items():
             movie_name = "Movie2_Element_%s" % state
-            movie = ObjectManager.createObjectUnique(movie_name, prototype_name, group)
+
+            movie = group.generateObjectUnique(movie_name, prototype_name,
+                Enable=False, Play=play, Loop=loop, Interactive=False)
+
             yield state, movie
