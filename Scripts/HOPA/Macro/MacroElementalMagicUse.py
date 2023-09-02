@@ -10,6 +10,7 @@ class MacroElementalMagicUse(MacroCommand):
         self.MagicId = values[1]
         self.TipName = values[2]
 
+        self.Element = None
         self.SocketObject = None
 
     def _onInitialize(self):
@@ -30,14 +31,20 @@ class MacroElementalMagicUse(MacroCommand):
 
         _, self.SocketObject = self.findObject(self.SocketName)
 
-    def _onGenerate(self, source):
         magic_params = ElementalMagicManager.getMagicParams(self.MagicId)
+        self.Element = magic_params.element
 
+    def _tryNotifyReady(self, source):
+        if ElementalMagicManager.getPlayerElement() == self.Element:
+            source.addNotify(Notificator.onElementalMagicReady)
+
+    def _onGenerate(self, source):
         Quest = self.addQuest(source, QUEST_USE_MAGIC_NAME, SceneName=self.SceneName, GroupName=self.GroupName,
-                              Object=self.SocketObject, MagicId=self.MagicId, Element=magic_params.element)
+                              Object=self.SocketObject, MagicId=self.MagicId, Element=self.Element)
 
         with Quest as tc_quest:
+            tc_quest.addScope(self._tryNotifyReady)
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
             tc_quest.addTask("TaskSocketUseElementalMagic", Object=self.SocketObject, SocketName=self.SocketName,
-                             Element=magic_params.element)
+                             Element=self.Element)
             tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
