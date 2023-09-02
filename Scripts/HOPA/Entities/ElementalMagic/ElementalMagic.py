@@ -12,7 +12,7 @@ class ElementalMagic(BaseEntity):
 
     def __init__(self):
         super(ElementalMagic, self).__init__()
-        self.ring = Ring()
+        self.ring = None
         self._observers = []
 
     def _onPreparation(self):
@@ -21,6 +21,7 @@ class ElementalMagic(BaseEntity):
             Notification.addObserver(Notificator.onElementalMagicReadyEnd, self._cbMagicReadyEnd),
         ]
 
+        self.ring = Ring()
         self.ring.onInitialize(self, current_element=self.Element)
 
     def _onActivate(self):
@@ -32,8 +33,9 @@ class ElementalMagic(BaseEntity):
         self._observers = []
 
         self.ring.onFinalize()
+        self.ring = None
 
-    def _cbMagicReady(self, element):
+    def _cbMagicReady(self):
         self.ring.setReady(True)
         return False
 
@@ -60,4 +62,5 @@ class ElementalMagic(BaseEntity):
         if current_ui_element is not None:
             self.ring.magic.removeElement()
 
-        self.ring.magic.setElement(element)
+        if element is not None:
+            self.ring.magic.setElement(element)
