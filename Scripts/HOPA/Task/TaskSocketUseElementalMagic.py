@@ -15,12 +15,16 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
         super(TaskSocketUseElementalMagic, self)._onParams(params)
 
         self.Element = params.get("Element")
+        self.AutoEnable = params.get("AutoEnable", True)
 
     def _onRun(self):
         if Mengine.hasTouchpad():
             self.addObserverFilter(Notificator.onSocketClickUp, self._onSocketClickFilter, self.Socket)
         else:
             self.addObserverFilter(Notificator.onSocketClick, self._onSocketClickFilter, self.Socket)
+
+        if self.AutoEnable is True:
+            self.Socket.setInteractive(True)
 
         player_element = ElementalMagicManager.getPlayerElement()
         if player_element == self.Element:
@@ -30,6 +34,8 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
 
     def _onFinally(self):
         super(TaskSocketUseElementalMagic, self)._onFinally()
+        if self.AutoEnable is True:
+            self.Socket.setInteractive(False)
 
     def _onSocketClickFilter(self, socket):
         attach = ArrowManager.getArrowAttach()

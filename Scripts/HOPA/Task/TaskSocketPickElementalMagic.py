@@ -14,6 +14,7 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
 
         self.Element = params.get("Element")
         self.TipName = params.get("TipName")
+        self.AutoEnable = params.get("AutoEnable", True)
 
     def _onRun(self):
         if Mengine.hasTouchpad():
@@ -21,10 +22,14 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
         else:
             self.addObserverFilter(Notificator.onSocketClick, self._onSocketClickFilter, self.Socket)
 
+        if self.AutoEnable is True:
+            self.Socket.setInteractive(True)
         return False
 
     def _onFinally(self):
         super(TaskSocketPickElementalMagic, self)._onFinally()
+        if self.AutoEnable is True:
+            self.Socket.setInteractive(False)
 
     def _onSocketClickFilter(self, socket):
         attach = ArrowManager.getArrowAttach()
@@ -45,15 +50,12 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
             TipManager.showTip(self.TipName)
             return False
 
-        # check if user has quest on this magic
-        quests = ElementalMagicManager.getMagicUseQuests()
-        for quest in quests:
-            if quest.params["Element"] == self.Element:
-                Notification.notify(Notificator.onElementalMagicPick, self.Element)
-                Trace.msg_dev("<DEV> Allow to get element {}, because user has Use quest at ({}, {}) [{}]".format(self.Element, quest.params["SceneName"], quest.params["GroupName"], quest.params["MagicId"]))
-                return True
+        if ElementalMagicManager.hasUseQuestOnElement(self.Element) is False:
+            Trace.msg_dev("<DEV> Can't get element {}, because user hasn't Use quest for element {}".format(self.Element, player_element))
+            TipManager.showTip(self.TipName)
+            return True
 
-        TipManager.showTip(self.TipName)
-        Trace.msg_dev("<DEV> Can't get element {}, because user hasn't Use quest for element {} (total quests {})\n{}".format(self.Element, player_element, len(quests), quests))
+        Notification.notify(Notificator.onElementalMagicPick, self.Element)
+        Trace.msg_dev("<DEV> Allow to get element {}, because user has Use quest for this element".format(self.Element))
 
         return False
