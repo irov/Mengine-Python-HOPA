@@ -273,7 +273,7 @@ class ElementalMagicManager(Manager):
         if scene_name is None:
             return False
 
-        group_name = ZoomManager.getCurrentGameZoomName()
+        group_name = ZoomManager.getZoomOpenGroupName()
         if group_name is None:
             group_name = SceneManager.getSceneMainGroupName(scene_name)
 
