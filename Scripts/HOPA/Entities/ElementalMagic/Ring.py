@@ -11,6 +11,9 @@ class InvalidClick(object):
     EmptyRing = 2
 
 
+# fixme: ring not respond while element is on the ring
+
+
 class Ring(Initializer):
 
     def __init__(self):
@@ -23,7 +26,7 @@ class Ring(Initializer):
 
         self._root = None
         self.Movies = {}
-        self.magic = MagicEffect()
+        self.magic = None
 
         self.EventUpdateState = Event("onRingStateUpdate")
 
@@ -57,6 +60,7 @@ class Ring(Initializer):
 
             self.Movies[state] = movie
 
+        self.magic = MagicEffect()
         self.magic.onInitialize(slot=self._root)
 
         if current_element is not None:
@@ -69,7 +73,7 @@ class Ring(Initializer):
     def onActivate(self):
         self._runTaskChain()
 
-    def onFinalize(self):
+    def _onFinalize(self):
         if self.tc is not None:
             self.tc.cancel()
             self.tc = None
@@ -86,6 +90,9 @@ class Ring(Initializer):
 
         self.state = None
 
+        self.SemaphoreReady = None
+        self.EventUpdateState = None
+
     def _runTaskChain(self):
         Scopes = dict(
             Idle=Functor(self.__stateIdle, self.Movies.get("Idle")),
@@ -96,7 +103,7 @@ class Ring(Initializer):
             Use=Functor(self.__stateUse, self.Movies.get("Use")),
         )
 
-        self.tc = TaskManager.createTaskChain(Repeat=True, NoCheckAntiStackCycle=True)
+        self.tc = TaskManager.createTaskChain(Name="ElementalMagicRing", Repeat=True, NoCheckAntiStackCycle=True)
 
         with self.tc as tc:
             def __states(isSkip, cb):
@@ -267,6 +274,9 @@ class Ring(Initializer):
             return self.Movies["Ready"]
         else:
             return self.Movies["Idle"]
+
+    def getRootNode(self):
+        return self._root
 
     def _returnRingToParent(self):
         """ add root to the Ring slot (please check if root is detached from arrow) """
