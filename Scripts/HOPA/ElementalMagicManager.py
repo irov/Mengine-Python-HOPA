@@ -289,3 +289,11 @@ class ElementalMagicManager(Manager):
                 return True
 
         return False
+
+    @staticmethod
+    def hasUseQuestOnElement(element):
+        quests = ElementalMagicManager.getMagicUseQuests()
+        for quest in quests:
+            if quest.params["Element"] == element:
+                return True
+        return False

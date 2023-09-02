@@ -1083,7 +1083,8 @@ def onInitialize():
         , 'HintActionItemCollectOpen'
         , 'HintActionCollectibleItem'
         , 'HintActionSpellAmuletUsePower'
-        , "HintActionElementalMagic"
+        , "HintActionElementalMagicUse"
+        , "HintActionElementalMagicPick"
     ]
 
     HintManager.importHintActions("HOPA.HintActions", hintActions)
