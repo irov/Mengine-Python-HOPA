@@ -53,9 +53,9 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
         if ElementalMagicManager.hasUseQuestOnElement(self.Element) is False:
             Trace.msg_dev("<DEV> Can't get element {}, because user hasn't Use quest for element {}".format(self.Element, player_element))
             TipManager.showTip(self.TipName)
-            return True
+            return False
 
         Notification.notify(Notificator.onElementalMagicPick, self.Element)
         Trace.msg_dev("<DEV> Allow to get element {}, because user has Use quest for this element".format(self.Element))
 
-        return False
+        return True
