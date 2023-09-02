@@ -29,7 +29,7 @@ class HintActionElementalMagicUse(MixinObject, HintActionMultiTarget):
         PositionTo1 = node.getWorldPosition()
 
         ObjectEntity = self.Object.getEntity()
-        Sprite = ObjectEntity.getSprite()
-        PositionTo2 = Sprite.getWorldImageCenter()
+        HotSpot = ObjectEntity.getHotSpot()
+        PositionTo2 = HotSpot.getWorldPolygonCenter()
 
         return PositionTo1, PositionTo2
