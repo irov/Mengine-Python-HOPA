@@ -52,6 +52,8 @@ class MagicEffect(Initializer):
         self.Movies[state].setEnable(True)
         self.state = state
 
+        Trace.msg_dev("    Ring.MagicEffect: run state {}".format(self.state))
+
     def scopePlayCurrentState(self, source, **params):
         if self.getCurrentMovie() is None:
             return

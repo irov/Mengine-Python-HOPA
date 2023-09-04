@@ -11,9 +11,6 @@ class InvalidClick(object):
     EmptyRing = 2
 
 
-# fixme: ring not respond while element is on the ring
-
-
 class Ring(Initializer):
 
     def __init__(self):
@@ -121,7 +118,7 @@ class Ring(Initializer):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addEnable(Movie)
             parallel_1.addFunction(self.magic.setState, "Idle")
-            parallel_1.addScope(self.magic.scopePlayCurrentState, Loop=True)
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=False, Loop=True)
 
         with source.addRaceTask(3) as (source_attach, source_ready, source_pick):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
@@ -138,7 +135,7 @@ class Ring(Initializer):
         with source.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addEnable(Movie)
             parallel_1.addFunction(self.magic.setState, "Ready")
-            parallel_1.addScope(self.magic.scopePlayCurrentState, Loop=True)
+            parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=False, Loop=True)
 
         with source.addRaceTask(2) as (source_attach, source_idle):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
