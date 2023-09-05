@@ -77,7 +77,8 @@ class ItemPopUp(BaseEntity):
 
             with tc.addRaceTask(4) as (tc_scene, tc_button, tc_esc, tc_back):
                 tc_scene.addListener(Notificator.onTransitionBegin)
-                tc_button.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok")
+
+                tc_button.addScope(self._scopeClickOk)
 
                 if PopUpItemEscClose is True:
                     tc_esc.addTask("TaskActiveLayerEsc", LayerName="ItemPopUp")
@@ -97,6 +98,17 @@ class ItemPopUp(BaseEntity):
             tc.addNotify(Notificator.onItemPopUpEnd, self.ItemName)
 
             tc.addScope(self.scopeClose, "ItemPopUp")
+
+    def _scopeClickOk(self, source):
+        if self.object.hasObject("Movie2Button_Ok"):
+            source.addTask("TaskMovie2ButtonClick", Movie2ButtonName="Movie2Button_Ok")
+        elif self.object.hasObject("Button_Ok"):
+            source.addTask("TaskButtonClick", ButtonName="Button_Ok")
+            if _DEVELOPMENT is True:
+                Trace.msg_err("ItemPopUp: Button_Ok is deprecated, use Movie2Button_Ok instead")
+        else:
+            source.addDelay(1000)
+            Trace.log("Entity", 0, "ItemPopUp._openItemPopUp: not found button Movie2Button_Ok")
 
     def scopeOpen(self, source, GropName):
         MovieName = "Movie2_Open"
