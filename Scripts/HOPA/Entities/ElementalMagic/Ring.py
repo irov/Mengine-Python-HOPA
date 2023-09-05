@@ -18,7 +18,7 @@ class Ring(Initializer):
         super(Ring, self).__init__()
         self._owner = None
 
-        self.state = "Idle"
+        self.__state = "Idle"
         self.SemaphoreReady = Semaphore(False, "RingReady")
         self.tc = None
 
@@ -65,7 +65,7 @@ class Ring(Initializer):
             self.magic.setElement(current_element)
 
         if ElementalMagicManager.isMagicReady():
-            self.state = "Ready"
+            self.__state = "Ready"
             self.SemaphoreReady.setValue(True)
 
     def onActivate(self):
@@ -86,7 +86,7 @@ class Ring(Initializer):
         Mengine.destroyNode(self._root)
         self._root = None
 
-        self.state = None
+        self.__state = None
 
         self.SemaphoreReady = None
         self.EventUpdateState = None
@@ -105,14 +105,17 @@ class Ring(Initializer):
 
         with self.tc as tc:
             def __states(isSkip, cb):
-                Trace.msg_dev("    Ring: run state {}".format(self.state))
-                cb(isSkip, self.state)
+                Trace.msg_dev("    Ring: run state {}".format(self.__state))
+                cb(isSkip, self.__state)
 
             tc.addScopeSwitch(Scopes, __states)
 
+    def getState(self):
+        return self.__state
+
     def __setState(self, state):
-        prev_state = self.state
-        self.state = state
+        prev_state = self.__state
+        self.__state = state
         self.EventUpdateState(prev_state, state)
 
     def __stateIdle(self, source, Movie):
@@ -195,6 +198,7 @@ class Ring(Initializer):
 
             source.addFunction(self.magic.setState, "Release")
             source.addScope(self.magic.scopePlayCurrentState, Wait=True)
+            source.addNotify(Notificator.onElementalMagicRelease, self.magic.getElement())
             source.addFunction(self.__setState, "Return")
 
             source.addDisable(self.getBaseStateMovie())
