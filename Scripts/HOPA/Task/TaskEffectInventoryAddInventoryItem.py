@@ -34,8 +34,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         self.easing = params.get("Easing", default_easing)
 
     def _onGenerate(self, source):
-        """Choose method depended on Params, Validate
-        """
+        """ Choose method depended on Params, Validate """
 
         if not self.Inventory.isActive():
             msg = 'TaskEffectInventoryAddInventoryItem Inventory is not active'
@@ -102,8 +101,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
     def __ObjectMovie2ItemEffect(self, source):
         """ Main Task Action method for Object Type: Movie2Item
-        effect of Bezier_move Movie2Item to inventory
-        """
+        effect of Bezier_move Movie2Item to inventory """
 
         if self.ItemName is None:
             self.ItemName = self.InventoryItem.name
@@ -139,7 +137,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             elif PickEffectMovie.hasSocket('socket') is True:
                 Offset = PickEffectMovie.getSocket('socket').getWorldPolygonCenter()
 
-            scaleTo = self.calcItemScaleTo(PickEffectMovie)
+            scaleTo = self.calcMovieItemScaleTo(PickEffectMovie)
 
             PickEffectMoveEntityNode = PickEffectMovie.entity.node
             PickEffectMoveEntityNode.setWorldPosition(Offset)
@@ -242,8 +240,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
     def __ObjectItemEffect(self, source):
         """ Main Task Action method for Object Type: Item
-        effect of Bezier_move Item to inventory
-        """
+        effect of Bezier_move Item to inventory """
 
         Camera = Mengine.getRenderCamera2D()
         Item = ItemManager.getItemObject(self.ItemName)
@@ -256,8 +253,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         layer = self._getAttachLayer()
         layer.addChild(sprite)
         sprite.setLocalPosition(P0)
-        size = sprite.getSurfaceSize()
-        scaleTo = self.calcItemScaleTo(size)
+        scaleTo = self.calcItemScaleTo(sprite)
 
         Speed, Time = self.calcSpeedAndTimeForItemScale(Point1, P2)
 
@@ -273,8 +269,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
     @staticmethod
     def calcSpeedAndTimeForItemScale(pos_1, pos_2):
-        """Helper
-        """
+        """ Helper """
 
         speed = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000) * 0.001  # speed fix
         time = Mengine.length_v2_v2(pos_1, pos_2) / speed
@@ -282,9 +277,8 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         return speed, time
 
     @staticmethod
-    def calcItemScaleTo(PickEffectMovie):
-        """Helper
-        """
+    def calcMovieItemScaleTo(PickEffectMovie):
+        """ Helper for MovieItem\Movie2Item """
 
         if PickEffectMovie.hasSocket('socket') is True:
             socket = PickEffectMovie.getSocket('socket')
@@ -304,9 +298,22 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         return scaleTo
 
     @staticmethod
+    def calcItemScaleTo(sprite):
+        """ Helper for Item """
+
+        InventorySlotSize = DefaultManager.getDefaultFloat("InventorySlotSize", 70)
+        node_size = sprite.getSurfaceSize()
+
+        scaleToX = InventorySlotSize / node_size.x
+        scaleToY = InventorySlotSize / node_size.y
+
+        scaleTo = min(scaleToX, scaleToY)
+
+        return scaleTo
+
+    @staticmethod
     def calcMovieItemPositionFrom(MovieItem):
-        """Helper
-        """
+        """ Helper for MovieItem\Movie2Item """
 
         ItemSpriteCenter = MovieItem.entity.getSpriteCenter()
 
@@ -322,8 +329,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
                              PointItemCameraPosition.y - ItemSpriteCenter.y)
 
     def __CreateNodes(self):
-        """Helper
-        """
+        """ Helper """
 
         self.PickEffectNode = Mengine.createNode("Interender")
         self.nodeFollow = Mengine.createNode("Interender")
