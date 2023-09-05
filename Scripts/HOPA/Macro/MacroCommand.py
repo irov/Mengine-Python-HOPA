@@ -185,7 +185,7 @@ class MacroCommand(Initializer):
                 Object = GroupManager.getObject(OverFrameGroupName, name)
                 return "GroupManager", Object
 
-        self.initializeFailed("%s findObject: %s not found object '%s'" % (self.CommandType, self.GroupName, name))
+        self.initializeFailed("%s findObject: not found object '%s' at Group %s" % (self.CommandType, name, self.GroupName))
         return None
 
     def filterObject(self, name, filters):
