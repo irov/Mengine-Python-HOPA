@@ -88,10 +88,8 @@ class PolicyEffectInventoryAddInventoryItemParticles(TaskAlias):
             if effect is not None:
                 with source.addFork() as source_fork:
                     source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
+                    source_fork.addTask("TaskNodeRemoveFromParent", Node=effectEntityNode)
                     source_fork.addTask("TaskObjectDestroy", Object=effect)
-
-            source.addTask("TaskNodeRemoveFromParent", Node=effectEntityNode)
-            pass
 
         source.addTask("TaskNodeEnable", Node=sprite, Value=False)
         source.addTask("TaskNodeRemoveFromParent", Node=sprite)
