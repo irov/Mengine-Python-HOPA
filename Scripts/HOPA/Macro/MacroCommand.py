@@ -30,84 +30,68 @@ class MacroCommand(Initializer):
 
     def setCommandType(self, CommandType):
         self.CommandType = CommandType
-        pass
 
     def getCommandType(self):
         return self.CommandType
-        pass
 
     def setIndex(self, Index):
         self.Index = Index
-        pass
 
     def getIndex(self):
         return self.Index
-        pass
 
     def setCommandId(self, ID):
         self.ID = ID
-        pass
 
     def getCommandId(self):
         return self.ID
-        pass
 
     def setGroupName(self, GroupName):
         self.GroupName = GroupName
-        pass
 
     def getGroupName(self):
         return self.GroupName
-        pass
 
     def setSceneName(self, ScenName):
         self.SceneName = ScenName
-        pass
 
     def setScenarioRunner(self, ScenarioRunner):
         self.ScenarioRunner = ScenarioRunner
-        pass
 
     def setScenarioChapter(self, ScenarioChapter):
         self.ScenarioChapter = ScenarioChapter
-        pass
 
     def setScenarioCommands(self, ScenarioCommands):
         self.ScenarioCommands = ScenarioCommands
-        pass
 
     def getScenarioCommands(self):
         return self.ScenarioCommands
-        pass
 
     def setScenarioQuests(self, ScenarioQuests):
         self.ScenarioQuests = ScenarioQuests
-        pass
 
     def setRepeatScenario(self, Value):
         self.RepeatScenario = Value
-        pass
 
     def isRepeatScenario(self):
         return self.RepeatScenario
-        pass
 
     def onParams(self, params):
         if len(params) == 0:
-            self.initializeFailed("Macro %s not add any param, group %s:%s" % (self.CommandType, self.GroupName, self.Index))
-            pass
+            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) ERROR: params is empty" %
+                                  (self.CommandType, self.GroupName, self.Index))
 
         try:
             self._onParams(params)
         except Exception as ex:
             traceback.print_exc()
 
-            self.initializeFailed("Macro %s group %s:%s except params: %s" % (self.CommandType, self.GroupName, self.Index, ex))
+            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) params %s ERROR: %s" %
+                                  (self.CommandType, self.GroupName, self.Index, params, ex))
 
     def _onParams(self, params):
         self.GroupName = params["GroupName"]
         self.SceneName = params["SceneName"]
-        pass
 
     def onValues(self, values):
         try:
@@ -115,7 +99,7 @@ class MacroCommand(Initializer):
         except Exception as ex:
             traceback.print_exc()
 
-            Trace.log("Command", 0, "MacroCommand.onValues: command %s group %s index %d values %s except: '%s'" % (
+            Trace.log("Command", 0, "MacroCommand '%s' Group '%s' index %d values %s ERROR: '%s'" % (
                 self.CommandType, self.GroupName, self.Index, values, ex))
 
     def _onValues(self, values):
@@ -128,16 +112,15 @@ class MacroCommand(Initializer):
         Quest = QuestManager.createScenarioQuest(questType, self.isTechnical, **Params)
 
         if Quest is None:
-            Trace.log("Command", 0, "MacroCommand.addQuest: createScenarioQuest questType %s is None" % (questType))
+            Trace.log("Command", 0, "MacroCommand '%s' [%s] createScenarioQuest questType %s is None" %
+                                    (self.CommandType, self.GroupName, questType))
             return None
-            pass
 
         QuestWith = QuestManager.runQuest(source, Quest)
 
         self.ScenarioQuests.append(Quest)
 
         return QuestWith
-        pass
 
     def onGenerate(self, source):
         self._onGenerate(source)
@@ -146,14 +129,16 @@ class MacroCommand(Initializer):
         pass
 
     def _onInitializeFailed(self, msg):
-        Trace.log("Command", 0, "MacroCommand initialize failed %s macro %s:%d failed %s" % (
-            self.CommandType, self.GroupName, self.Index, msg))
-        pass
+        description = "MacroCommand '%s' initialize failed at Group '%s' (index %d) failed with error: %s" % (
+            self.CommandType, self.GroupName, self.Index, msg)
+
+        Trace.log("Command", 0, description)
 
     def _onFinalizeFailed(self, msg):
-        Trace.log("Command", 0, "MacroCommand finalize failed %s macro %s:%d failed %s" % (
-            self.CommandType, self.GroupName, self.Index, msg))
-        pass
+        description = "MacroCommand '%s' finalize failed at Group '%s' (index %d) failed with error: %s" % (
+            self.CommandType, self.GroupName, self.Index, msg)
+
+        Trace.log("Command", 0, description)
 
     def hasObject(self, name, filter=None):
         FinderType, Object = MacroManager.findObject(name, filter)
@@ -183,17 +168,15 @@ class MacroCommand(Initializer):
             if Object.getType() is "ObjectItem":
                 ItemGroupName = Object.getGroupName()
                 if self.GroupName != ItemGroupName:
-                    Trace.log("Command", 0, "MacroCommand.findObject: Item %s in ItemManager has any group - %s, not %s!!!!!!" % (
-                              Object.name, ItemGroupName, self.GroupName))
+                    Trace.log("Command", 0, "MacroCommand '%s' findObject: Item '%s' in ItemManager has group '%s', not '%s' as expected" %
+                                            (self.CommandType, Object.name, ItemGroupName, self.GroupName))
                     return None, None
 
             return FinderType, Object
-            pass
 
         if GroupManager.hasObject(self.GroupName, name) is True:
             Object = GroupManager.getObject(self.GroupName, name)
             return "GroupManager", Object
-            pass
 
         Zoom = ZoomManager.getZoom(self.GroupName)
         if Zoom is not None:
@@ -201,11 +184,9 @@ class MacroCommand(Initializer):
             if OverFrameGroupName is not None and GroupManager.hasObject(OverFrameGroupName, name) is True:
                 Object = GroupManager.getObject(OverFrameGroupName, name)
                 return "GroupManager", Object
-                pass
 
-        self.initializeFailed("%s findObject: %s not found %s" % (self.CommandType, self.GroupName, name))
+        self.initializeFailed("%s findObject: %s not found object '%s'" % (self.CommandType, self.GroupName, name))
         return None
-        pass
 
     def filterObject(self, name, filters):
         FinderType, Object = self.findObject(self.ObjectName)
