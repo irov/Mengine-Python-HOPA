@@ -1,6 +1,7 @@
 from Foundation.Initializer import Initializer
 from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
+from Foundation.SceneManager import SceneManager
 from HOPA.ElementalMagicManager import ElementalMagicManager
 from HOPA.Entities.ElementalMagic.MagicEffect import MagicEffect
 
@@ -246,20 +247,29 @@ class Ring(Initializer):
             until.addEvent(self.EventUpdateState, lambda _, new_state: new_state == "Attach")
 
     def __scopeReturnToParent(self, source):
-        source.addFunction(self._detachFromCursor)
-        """
-        # todo: fly to toolbar - ref PolicyEffectInventoryAddInventoryItemWithItemPopup
-        node = Mengine.createNode("Interender")
-        node.addChild(self._root)
-
-        Point1 = ArrowManager.getArrow().getWorldPosition()
+        Point1 = ArrowManager.getArrow().getCursorNode().getWorldPosition()
         ring_slot = self._owner.getRingSlot()
         Point2 = ring_slot.getWorldPosition()
 
-        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2, Speed=0.5)
+        scene = SceneManager.getCurrentScene()
+        layer = scene.getSlot("InventoryItemEffect")
+
+        if layer is None:
+            source.addFunction(self._detachFromCursor)
+            source.addFunction(self._returnRingToParent)
+            return
+
+        node = Mengine.createNode("Interender")
+        node.setLocalPosition(Point1)
+
+        layer.addChild(node)
+
+        self._detachFromCursor()
+        node.addChild(self._root)
+
+        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2, Speed=1)
+        source.addFunction(self._returnRingToParent, True)
         source.addTask("TaskNodeDestroy", Node=node)
-        """
-        source.addFunction(self._returnRingToParent)
 
     # utils
 
@@ -275,10 +285,10 @@ class Ring(Initializer):
     def getRootNode(self):
         return self._root
 
-    def _returnRingToParent(self):
+    def _returnRingToParent(self, with_remove=False):
         """ add root to the Ring slot (please check if root is detached from arrow) """
-        if _DEVELOPMENT is True:
-            assert ArrowManager.getArrowAttach() != self._root, "Can't return root, because it attached to arrow"
+        if with_remove is True:
+            self._root.removeFromParent()
         slot = self._owner.getRingSlot()
         slot.addChild(self._root)
 
