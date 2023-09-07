@@ -198,7 +198,7 @@ class Ring(Initializer):
 
             source.addFunction(self.magic.setState, "Release")
             source.addScope(self.magic.scopePlayCurrentState, Wait=True)
-            source.addNotify(Notificator.onElementalMagicRelease, self.magic.getElement())
+            # source.addNotify(Notificator.onElementalMagicRelease, self.magic.getElement())
             source.addFunction(self.__setState, "Return")
 
             source.addDisable(self.getBaseStateMovie())
