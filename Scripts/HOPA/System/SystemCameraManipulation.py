@@ -473,6 +473,9 @@ class SystemCameraManipulation(System):
             return False
 
         scene = SceneManager.getCurrentScene()
+        if scene is None:
+            Trace.log("System", 0, "createHotspot failed: scene is None!")
+            return False
         layer = scene.getMainLayer()
 
         hotspot = Mengine.createNode("HotSpotPolygon")
