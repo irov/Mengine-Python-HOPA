@@ -1,9 +1,0 @@
-{
-    "GAME_FONTS":{
-        "Font": ["__CONSOLE_FONT__"]
-    },
-    "__CONSOLE_FONT__":{
-        "Glyph": "Fonts/lucida_console_regular_14.xml",
-        "Image": "Fonts/lucida_console_regular_14.png"
-    }
-}
