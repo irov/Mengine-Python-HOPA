@@ -47,33 +47,33 @@ class DebugMenu(BaseEntity):
 
         self.NextButton = self.object.getObject("Button_NextPage")
         self.NextButton.setInteractive(True)
-        self.NextButton.setFont("__CONSOLE_FONT__")
+        # self.NextButton.setFont("__CONSOLE_FONT__")
         self.NextButton.setTextID("ID_DebugMenuNextPage")
 
         self.LastButton = self.object.getObject("Button_BackPage")
         self.LastButton.setInteractive(True)
-        self.LastButton.setFont("__CONSOLE_FONT__")
+        # self.LastButton.setFont("__CONSOLE_FONT__")
         self.LastButton.setTextID("ID_DebugMenuBackPage")
 
         self.ParagraphButton = self.object.getObject("Button_ParagraphMenu")
         self.ParagraphButton.setInteractive(True)
         self.ParagraphButton.setTextID("ID_DebugMenuParagraphs")
-        self.ParagraphButton.setFont("__CONSOLE_FONT__")
+        # self.ParagraphButton.setFont("__CONSOLE_FONT__")
 
         self.ItemButton = self.object.getObject("Button_ItemMenu")
         self.ItemButton.setInteractive(True)
-        self.ItemButton.setFont("__CONSOLE_FONT__")
+        # self.ItemButton.setFont("__CONSOLE_FONT__")
         self.ItemButton.setTextID("ID_DebugMenuItems")
 
         self.SceneButton = self.object.getObject("Button_SceneMenu")
         self.SceneButton.setInteractive(True)
-        self.SceneButton.setFont("__CONSOLE_FONT__")
+        # self.SceneButton.setFont("__CONSOLE_FONT__")
         self.SceneButton.setTextID("ID_DebugMenuScenes")
 
         if self.object.hasObject("Button_StageMenu") is True:
             self.StageButton = self.object.getObject("Button_StageMenu")
             self.StageButton.setInteractive(True)
-            self.StageButton.setFont("__CONSOLE_FONT__")
+            # self.StageButton.setFont("__CONSOLE_FONT__")
             self.StageButton.setTextID("ID_DebugMenuStages")
             pass
 
@@ -143,7 +143,7 @@ class DebugMenu(BaseEntity):
                 button.setParam("RGB", (1.0, 1.0, 1.0, 1.0))
             ######
 
-            button.setFont("__CONSOLE_FONT__")
+            # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuScene")
 
             button.setTextArgs(sceneName)
@@ -214,7 +214,7 @@ class DebugMenu(BaseEntity):
 
         for id in values:
             button = self.object.generateObject("Button_%s" % (id), "Button_Scene")
-            button.setFont("__CONSOLE_FONT__")
+            # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuScene")
             button.setTextArgs(id)
             button.setFontRGBA((0, 0, 0, 1))
@@ -286,7 +286,7 @@ class DebugMenu(BaseEntity):
                 pass
 
             button = self.object.generateObject("Button_%s" % (itemName), "Button_Scene")
-            button.setFont("__CONSOLE_FONT__")
+            # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuItem")
             button.setTextArgs(itemName)
             button.setFontRGBA((0, 0, 0, 1))
@@ -327,7 +327,7 @@ class DebugMenu(BaseEntity):
 
         for stage, label in stages.iteritems():
             button = self.object.generateObject("Button_%s" % (stage), "Button_Scene")
-            button.setFont("__CONSOLE_FONT__")
+            # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuScene")
             button.setTextArgs(label)
             button.setFontRGBA((0, 0, 0, 1))

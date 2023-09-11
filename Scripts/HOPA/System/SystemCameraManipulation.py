@@ -47,12 +47,12 @@ class DebugHUD(object):
             "global_block": None,
         }
 
-        font_name = "IUWindowText" if Mengine.hasFont("IUWindowText") else "__CONSOLE_FONT__"
+        # font_name = "IUWindowText" if Mengine.hasFont("IUWindowText") else "__CONSOLE_FONT__"
 
         for key in self.dev_hud:
             dev_hud_el = Mengine.createNode("TextField")
             dev_hud_el.setTextId("__ID_TEXT_CONSOLE")
-            dev_hud_el.setFontName(font_name)
+            # dev_hud_el.setFontName(font_name)
             dev_hud_el.setHorizontalLeftAlign()
             dev_hud_el.setVerticalCenterAlign()
             dev_hud_el.setScale((self.scale, self.scale, 1))
