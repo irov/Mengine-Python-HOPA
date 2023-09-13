@@ -84,7 +84,7 @@ class AliasHOGRollingItemFoundEffect(TaskAlias):
             itemSpriteSize = pure.getLocalImageCenter()
             effectEntityNode.setLocalPosition((itemSpriteSize.x, itemSpriteSize.y))
 
-            node.addChildrFront(effectEntityNode)
+            node.addChildFront(effectEntityNode)
 
             source.addTask("TaskEnable", Object=effect, Value=True)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
