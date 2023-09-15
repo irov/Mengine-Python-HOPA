@@ -1,6 +1,8 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
+from Foundation.Providers.AuthProvider import AuthProvider
+from Foundation.SceneManager import SceneManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
 
@@ -47,13 +49,22 @@ class TriggerSpecialPacks(BaseComponent):
 
     def _run(self):
         self.addObserver(Notificator.onSceneActivate, self._cbSceneActivate)
+        self.addObserver(Notificator.onUserLoggedIn, self._cbUserLoggedIn)
         if self.show_on_not_enough is True:
             PolicyManager.setPolicy("NotEnoughGoldSecondAction", "PolicyNotEnoughGoldSpecialPacks")
             PolicyManager.setPolicy("NotEnoughEnergySecondAction", "PolicyNotEnoughEnergySpecialPacks")
         return True
 
     def _cbSceneActivate(self, scene_name):
-        if scene_name is not self.scene_name:
+        if scene_name != self.scene_name:
+            return False
+        if AuthProvider.isLoggedIn() is False:
+            return False
+        self.showPack()
+        return False
+
+    def _cbUserLoggedIn(self):
+        if SceneManager.getCurrentSceneName() != self.scene_name:
             return False
         self.showPack()
         return False
@@ -63,6 +74,9 @@ class TriggerSpecialPacks(BaseComponent):
         return show_product_id
 
     def showPack(self):
+        if self.demon.isShowing() is True:
+            return
+
         show_product_id = self.getPackProductId()
         self._nextIndex()
         self.demon.run(show_product_id)

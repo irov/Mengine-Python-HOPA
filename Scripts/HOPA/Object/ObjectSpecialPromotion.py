@@ -55,3 +55,6 @@ class ObjectSpecialPromotion(DemonObject):
 
         self._addToShowQueue(special_prod_id)
         self._waitMoment()
+
+    def isShowing(self):
+        return TaskManager.existTaskChain("SpecialPromotion")
