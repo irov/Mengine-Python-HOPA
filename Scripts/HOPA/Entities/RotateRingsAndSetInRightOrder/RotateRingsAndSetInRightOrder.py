@@ -247,8 +247,8 @@ class RotateRingsAndSetInRightOrder(Enigma):
         self.param = None
 
         for ring in self.rings.values():
-            if ring.movie.getEnable() is False:
-                ring.movie.setEnable(True)
+            # if ring.movie.getEnable() is False:
+            #     ring.movie.setEnable(True)
             ring.movie.returnToParent()
             Mengine.destroyNode(ring.node)
         self.rings = {}
