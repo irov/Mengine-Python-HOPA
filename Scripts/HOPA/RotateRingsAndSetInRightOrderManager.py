@@ -6,8 +6,9 @@ class RotateRingsAndSetInRightOrderManager(Manager):
     s_puzzles = {}
 
     class RotateRingsAndSetInRightOrderParam(object):
-        def __init__(self, ringParam):
+        def __init__(self, ringParam, SlotsMovie):
             self.Rings = ringParam
+            self.SlotsMovie = SlotsMovie
 
     @staticmethod
     def loadParams(module, param):
@@ -17,10 +18,11 @@ class RotateRingsAndSetInRightOrderManager(Manager):
             '''
                 EnigmaName  RingParam  
             '''
-            EnigmaName = record.get('EnigmaName')
-            RingParam = record.get('RingParam')
+            EnigmaName = record.get("EnigmaName")
+            RingParam = record.get("RingParam")
+            SlotsMovie = record.get("SlotsMovie", "Movie_BG")
 
-            result = RotateRingsAndSetInRightOrderManager.addParam(EnigmaName, module, RingParam)
+            result = RotateRingsAndSetInRightOrderManager.addParam(EnigmaName, module, RingParam, SlotsMovie)
 
             if result is False:
                 error_msg = "RotateRingsAndSetInRightOrderManager invalid addParam {}".format(EnigmaName)
@@ -29,7 +31,7 @@ class RotateRingsAndSetInRightOrderManager(Manager):
             return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, RingParam):
+    def addParam(EnigmaName, Module, RingParam, SlotsMovie):
         if EnigmaName in RotateRingsAndSetInRightOrderManager.s_puzzles:
             error_msg = "RotateRingsAndSetInRightOrderManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -47,13 +49,13 @@ class RotateRingsAndSetInRightOrderManager(Manager):
             '''
                 RingID MovieName
             '''
-            RingID = record.get('RingID')
-            MovieName = record.get('MovieName')
+            RingID = record.get("RingID")
+            MovieName = record.get("MovieName")
 
             ringParam[RingID] = MovieName
         # ==============================================================================================================
 
-        new_param = RotateRingsAndSetInRightOrderManager.RotateRingsAndSetInRightOrderParam(ringParam)
+        new_param = RotateRingsAndSetInRightOrderManager.RotateRingsAndSetInRightOrderParam(ringParam, SlotsMovie)
         RotateRingsAndSetInRightOrderManager.s_puzzles[EnigmaName] = new_param
         return True
 

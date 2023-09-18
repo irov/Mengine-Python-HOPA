@@ -12,18 +12,16 @@ class RotateRingsAndSetInRightOrder(Enigma):
         def __init__(self, id, movie, slotOnBG):
             self.id = id
             self.movie = movie
-            self.node = Mengine.createNode('Interender')
+            self.node = Mengine.createNode("Interender")
             entityNode = self.movie.getEntityNode()
             self.node.addChild(entityNode)
             slotOnBG.addChild(self.node)
-            self.Pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
-            self.angleTo = (self.Pi * 2 / 10)
             self.flagRotate = 0
 
         def rotateTo(self, source, toAngle, timeTo):
             self.flagRotate += toAngle
             rotateTo = self.flagRotate
-            source.addTask('TaskNodeRotateTo', Node=self.node, Time=timeTo, To=-rotateTo)
+            source.addTask("TaskNodeRotateTo", Node=self.node, Time=timeTo, To=-rotateTo)
 
         def calculateAngle(self, X, Y):
             def distanceBetweenPoints(A, B):
@@ -50,7 +48,10 @@ class RotateRingsAndSetInRightOrder(Enigma):
             pass
 
         def scopeClickDown(self, source):
-            source.addTask("TaskMovieSocketClick", Movie=self.movie, SocketName="ring", isDown=True)
+            if self.movie.getEntityType() is "Movie2":
+                source.addTask("TaskMovie2SocketClick", Movie2=self.movie, SocketName="ring", isDown=True)
+            else:
+                source.addTask("TaskMovieSocketClick", Movie=self.movie, SocketName="ring", isDown=True)
 
         def scopeClickUp(self, source):
             source.addTask("TaskMouseButtonClick", isDown=False)
@@ -97,11 +98,12 @@ class RotateRingsAndSetInRightOrder(Enigma):
     def _setup(self):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
-        self.BG = Group.getObject('Movie_BG')
+        self.BG = Group.getObject(self.param.SlotsMovie)
+
 
         for (RingID, movieName) in self.param.Rings.iteritems():
             movie = Group.getObject(movieName)
-            slot = self.BG.getMovieSlot('slot')
+            slot = self.BG.getMovieSlot("slot")
             ring = RotateRingsAndSetInRightOrder.Ring(RingID, movie, slot)
             # slot.addChild(ring.node)
             self.rings[RingID] = ring
@@ -141,7 +143,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             return
         with TaskManager.createTaskChain(Repeat=False) as tc:
             with tc.addParallelTask(2) as (SoundEffect, RotateCircle):
-                SoundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object, 'RotateRingsAndSetInRightOrder_RotateCircle')
+                SoundEffect.addNotify(Notificator.onSoundEffectOnObject, self.object, "RotateRingsAndSetInRightOrder_RotateCircle")
                 RotateCircle.addScope(self.updateCirclePos, position.x, position.y)
 
     def removeMouseProvider(self):
@@ -199,8 +201,8 @@ class RotateRingsAndSetInRightOrder(Enigma):
             if ringTemp is None:
                 ringTemp = ring
                 continue
-            slotRing = ring.movie.getMovieSlot('checkSlot_{}'.format(ringTemp.id))
-            slotTempRing = ringTemp.movie.getMovieSlot('checkSlot_{}'.format(ring.id))
+            slotRing = ring.movie.getMovieSlot("checkSlot_{}".format(ringTemp.id))
+            slotTempRing = ringTemp.movie.getMovieSlot("checkSlot_{}".format(ring.id))
             slotRingPos = slotRing.getWorldPosition()
             slotTempRingPos = slotTempRing.getWorldPosition()
 
@@ -219,12 +221,12 @@ class RotateRingsAndSetInRightOrder(Enigma):
 
     def setOnWinPosition(self, source):
         def getRingPos(ring):
-            ringPos = ring.movie.getMovieSlot('winPos').getWorldPosition()
+            ringPos = ring.movie.getMovieSlot("winPos").getWorldPosition()
             return ringPos
 
         def getAlphaTo(ring):
             ringPos = getRingPos(ring)
-            slotPos = self.BG.getMovieSlot('winPos').getWorldPosition()
+            slotPos = self.BG.getMovieSlot("winPos").getWorldPosition()
             alphaTo = ring.calculateAngle(ringPos, slotPos)
             return alphaTo
 
