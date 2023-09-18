@@ -5,14 +5,20 @@ from Foundation.Manager import Manager
 class ChangeScreenOnClickManager(Manager):
     s_puzzles = {}
 
+    class BoardCell(object):
+        TYPE_PASSAGE = "."
+        TYPE_WALL = "X"
+        TYPE_START = "S"
+        TYPE_FINISH = "F"
+
     class Param(object):
         def __init__(self, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
-                     PrototypeArrowRight, StateNames, EnvironmentNames, Diractions, Board):
+                     PrototypeArrowRight, StateNames, EnvironmentNames, Directions, Board):
             self.MapName = MapName
             self.HandName = HandName
             self.StateNames = StateNames
             self.EnvironmentNames = EnvironmentNames
-            self.Diractions = Diractions
+            self.Directions = Directions
             self.Board = Board
             self.PrototypeArrowUp = PrototypeArrowUp
             self.PrototypeArrowDown = PrototypeArrowDown
@@ -70,14 +76,14 @@ class ChangeScreenOnClickManager(Manager):
             StateName = record.get("StateName", None)
             EnvironmentName = record.get("EnvironmentName", None)
 
-            if StateName != None:
+            if StateName is not None:
                 StateNames.append(StateName)
-            if EnvironmentName != None:
+            if EnvironmentName is not None:
                 EnvironmentNames.append(EnvironmentName)
 
         records_Graph = DatabaseManager.getDatabaseRecords(Module, ParamGraph)
 
-        Diractions = []
+        Directions = []
         Board = []
 
         for record in records_Graph:
@@ -87,7 +93,7 @@ class ChangeScreenOnClickManager(Manager):
 
         NewParam = ChangeScreenOnClickManager.Param(MapName, HandName, PrototypeArrowUp, PrototypeArrowDown,
                                                     PrototypeArrowLeft, PrototypeArrowRight, StateNames,
-                                                    EnvironmentNames, Diractions, Board)
+                                                    EnvironmentNames, Directions, Board)
 
         ChangeScreenOnClickManager.s_puzzles[EnigmaName] = NewParam
         return True

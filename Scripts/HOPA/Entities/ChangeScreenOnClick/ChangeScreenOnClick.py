@@ -19,11 +19,11 @@ class ChangeScreenOnClick(Enigma):
         self.Environments_Movies = []
         self.Environments_Composition = {}
         self.Cur_pos = None
-        self.Player_Diraction = 0
+        self.Player_Direction = 0
         self.Map = None
         self.Hand = None
         self.Time = 250.0
-        self.Back_Track_Diraction = []
+        self.Back_Track_Direction = []
         self.End = False
         self.Start = True
         self.SceneScale = 1.0
@@ -171,72 +171,71 @@ class ChangeScreenOnClick(Enigma):
         Button = btn_holder.get()
         index_arrow = self.Arrows.index(Button)
 
-        Diraction = abs(self.Player_Diraction % 4)
+        Direction = abs(self.Player_Direction % 4)
         self.getCur_Pos()
-        self.Rotate_Board(Diraction)
+        self.Rotate_Board(Direction)
         self.Move_Cur_Player(index_arrow)
 
         self._IsGameEnd()
-        self.setCur_Pos(Diraction)
+        self.setCur_Pos(Direction)
         self.getCur_Pos()
-        Diraction = abs(self.Player_Diraction % 4)
-        self.Rotate_Board(Diraction)
+        Direction = abs(self.Player_Direction % 4)
+        self.Rotate_Board(Direction)
 
     def Bonus_Move(self):
-        Block = "X"
+        Block = ChangeScreenOnClickManager.BoardCell.TYPE_WALL
         if self.Cur_pos[1][0] == Block and self.Cur_pos[1][2] == Block and self.Cur_pos[0][1] != Block:
             click_hold = Holder()
             click_hold.set(self.Arrows[0])
             self.Move_Player(click_hold)
 
-    def setCur_Pos(self, Diraction):
-        revert_Diraction = (4 - Diraction) % 4
-        self.Rotate_Board(revert_Diraction)
+    def setCur_Pos(self, Direction):
+        revert_Direction = (4 - Direction) % 4
+        self.Rotate_Board(revert_Direction)
         self.getCur_Pos(False)
 
     def Move_Cur_Player(self, index_arrow):
         if index_arrow == 0:
-            self.Player_Diraction += 0
-            self.Back_Track_Diraction.append(0)
+            self.Player_Direction += 0
+            self.Back_Track_Direction.append(0)
 
             self.Cur_pos[1][1], self.Cur_pos[0][1] = self.Cur_pos[0][1], self.Cur_pos[1][1]
 
         elif index_arrow == 3:
-            self.Player_Diraction += self.Back_Track_Diraction.pop(-1)
+            self.Player_Direction += self.Back_Track_Direction.pop(-1)
             self.Cur_pos[1][1], self.Cur_pos[2][1] = self.Cur_pos[2][1], self.Cur_pos[1][1]
 
-
         elif index_arrow == 1:
-            self.Player_Diraction += 1
-            self.Back_Track_Diraction.append(-1)
+            self.Player_Direction += 1
+            self.Back_Track_Direction.append(-1)
 
             self.Cur_pos[1][1], self.Cur_pos[1][0] = self.Cur_pos[1][0], self.Cur_pos[1][1]
 
         elif index_arrow == 2:
-            self.Player_Diraction += -1
-            self.Back_Track_Diraction.append(1)
+            self.Player_Direction += -1
+            self.Back_Track_Direction.append(1)
 
             self.Cur_pos[1][1], self.Cur_pos[1][2] = self.Cur_pos[1][2], self.Cur_pos[1][1]
 
-    def Rotate_Board(self, Diraction):
+    def Rotate_Board(self, Direction):
         temp_Array = [[None] * (3) for i in range(3)]
-        if Diraction == 0:
+        if Direction == 0:
             return
 
         for i in range(3):
             for j in range(3):
                 temp_Array[i][j] = self.Cur_pos[i][j]
 
-        if Diraction == 2:
+        if Direction == 2:
             for i in range(3):
                 for j in range(3):
                     self.Cur_pos[i][j] = temp_Array[2 - i][2 - j]
 
-        elif Diraction == 1:
+        elif Direction == 1:
             for i in range(3):
                 for j in range(3):
                     self.Cur_pos[i][j] = temp_Array[2 - j][i]
-        elif Diraction == 3:
+        elif Direction == 3:
             for i in range(3):
                 for j in range(3):
                     self.Cur_pos[i][j] = temp_Array[j][2 - i]
@@ -244,7 +243,7 @@ class ChangeScreenOnClick(Enigma):
     def getCur_Pos(self, Gett=True):
         for i in range(len(self.Board)):
             for j in range(len(self.Board[i])):
-                if self.Board[i][j] == 'S':
+                if self.Board[i][j] == ChangeScreenOnClickManager.BoardCell.TYPE_START:
                     Player_Pos = (i, j)
                     break
         if Gett:
@@ -298,12 +297,11 @@ class ChangeScreenOnClick(Enigma):
             self.Environments_Composition[j] = temp_Env
 
     def _setup_Board(self):
-        Passage = '.'
         self.Board = [[None] * (len(self.param.Board)) for k in range(len(self.param.Board[0]))]
         for i in range(len(self.param.Board)):
             for j in range(len(self.param.Board[i])):
                 self.Board[i][j] = self.param.Board[i][j]
-                if self.Board[i][j] == Passage:
+                if self.Board[i][j] == ChangeScreenOnClickManager.BoardCell.TYPE_PASSAGE:
                     self.Board[i][j] = Mengine.rand(9)
 
         self.Cur_pos = [[None] * (3) for i in range(3)]
@@ -317,7 +315,7 @@ class ChangeScreenOnClick(Enigma):
         self.Arrows.append(Arrow)
 
     def _IsGameEnd(self):
-        if self.Cur_pos[1][1] == "F":
+        if self.Cur_pos[1][1] == ChangeScreenOnClickManager.BoardCell.TYPE_FINISH:
             self.End = True
         pass
 
@@ -361,11 +359,11 @@ class ChangeScreenOnClick(Enigma):
         self.Board = []
         self.Environments_Composition = {}
         self.Cur_pos = None
-        self.Player_Diraction = 0
-        if self.Map != None:
+        self.Player_Direction = 0
+        if self.Map is not None:
             self.Map.onDestroy()
         self.Map = None
-        if self.Hand != None:
+        if self.Hand is not None:
             self.Hand.onDestroy()
         self.Hand = None
         self.speed = 600.0
