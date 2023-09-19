@@ -1,66 +1,16 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ChangeScreenOnClickManager import ChangeScreenOnClickManager
 from HOPA.ChangeScreenOnClickManager import BoardCell
+from HOPA.Entities.ChangeScreenOnClick.Cell import Cell
+from HOPA.Entities.ChangeScreenOnClick.Direction import Direction
+from HOPA.Entities.ChangeScreenOnClick.GateHandler import GateHandler
 
 Enigma = Mengine.importEntity("Enigma")
 
 
-class Direction(object):
-    Up = 0
-    Left = 1
-    Right = 2
-    Down = 3
-
-    @staticmethod
-    def get(number):
-        return abs(number % 4)
-
-    @staticmethod
-    def getReverted(number):
-        return abs((4 - number) % 4)
-
-
-class Cell(object):
-    def __init__(self):
-        self.type = None
-        self.params = None
-        self.env = None
-
-    def setup(self, value):
-        simple_types = [BoardCell.Passage, BoardCell.Wall, BoardCell.Start, BoardCell.Finish]
-
-        for simple_type in simple_types:
-            if value == simple_type:
-                self.type = simple_type
-                self.params = None
-                return True
-
-        for gate_type in [BoardCell.Gate, BoardCell.Lever]:
-            if value[0] == gate_type:
-                self.type = gate_type
-                target_number = value[1:]
-                self.params = {"target": int(target_number)}
-                return True
-
-        Trace.log("Entity", 0, "ChangeScreenOnClick unknown cell type {!r}".format(value))
-
-        self.type = BoardCell.Wall
-        self.params = None
-        return False
-
-    def equalTo(self, board_type):
-        return self.type == board_type
-
-    def isEmpty(self):
-        return self.type is None
-
-    def __repr__(self):
-        return str(self.type)
-
-
 class ChangeScreenOnClick(Enigma):
 
-    def __printMap(self):   # todo: delete after gates integration
+    def __printMap(self):
         if _DEVELOPMENT is False:
             return
 
@@ -90,6 +40,7 @@ class ChangeScreenOnClick(Enigma):
         self.Movies_actual = []
         self.Environments_Movies = []
         self.Environments_Composition = {}
+        self.GateHandler = None
         self.Cur_pos = []
         self.Player_Direction = Direction.Up
         self.Map = None
@@ -121,8 +72,11 @@ class ChangeScreenOnClick(Enigma):
         self.param = ChangeScreenOnClickManager.getParam(self.EnigmaName)
 
     def _setup(self):
+        self.GateHandler = GateHandler()
+
         self._setupMovies()
         self._setupBoard()
+        self.GateHandler.onInitialize(self)
 
         if self.param.MapName is not None:
             self.Map = self.object.generateObject(self.param.MapName, self.param.MapName)
@@ -152,18 +106,11 @@ class ChangeScreenOnClick(Enigma):
 
         for j in range(total_envs):
             ii = Mengine.rand(10000)
-            # count = Mengine.rand(total_envs - 4) + 2
-            #
-            # for i in range(count):   # fixme
-            #     temp_Env = []
-            #     temp_Env.append(self.Environments_Movies[ii % total_envs])
-
             temp_Env = [self.Environments_Movies[ii % total_envs]]
 
             self.Environments_Composition[j] = temp_Env
 
     def _setupBoard(self):
-        # self.Board = [[None] * (len(self.param.Board)) for _ in range(len(self.param.Board[0]))]
         self.Board = []
 
         total_envs = len(self.Environments_Movies)
@@ -176,7 +123,6 @@ class ChangeScreenOnClick(Enigma):
 
                 if cell.equalTo(BoardCell.Wall) is False:
                     cell.env = Mengine.rand(total_envs)
-                # cell.env = Mengine.rand(total_envs)
 
                 self.Board[i].append(cell)
 
@@ -201,6 +147,8 @@ class ChangeScreenOnClick(Enigma):
         with self.tc as tc:
             tc.addScope(self.scopeMainActivity)
             tc.addFunction(self.setStarted)
+
+        self.GateHandler.onActivate()
 
     def _skipEnigma(self):
         self._cleanFull()
@@ -239,33 +187,41 @@ class ChangeScreenOnClick(Enigma):
 
     def createScene(self):
         """ update scene each frame """
-        block = BoardCell.Wall
+        # self.__printMap()
+        wall = BoardCell.Wall
 
         self.Movies_actual.append(self.Movies[0])  # main
         self.Movies_actual.append(self.Movies[2])  # right door
         self.Movies_actual.append(self.Movies[3])  # left door
 
-        if self.Cur_pos[0][1].equalTo(block):     # top
+        if self.Cur_pos[0][1].equalTo(wall):     # top
             self.Movies_actual.append(self.Movies[1])
-            self.Current_Arrows.remove(self.Arrows[0])
-        if self.Cur_pos[1][2].equalTo(block):     # right
+            self.removeCurrentArrow(Direction.Up)
+        if self.Cur_pos[1][2].equalTo(wall):     # right
             self.Movies_actual.remove(self.Movies[2])
-            self.Current_Arrows.remove(self.Arrows[2])
-        if self.Cur_pos[1][0].equalTo(block):     # left
+            self.removeCurrentArrow(Direction.Right)
+        if self.Cur_pos[1][0].equalTo(wall):     # left
             self.Movies_actual.remove(self.Movies[3])
-            self.Current_Arrows.remove(self.Arrows[1])
-        if self.Cur_pos[2][1].equalTo(block):     # bottom
-            self.Current_Arrows.remove(self.Arrows[3])
+            self.removeCurrentArrow(Direction.Left)
+        if self.Cur_pos[2][1].equalTo(wall):     # bottom
+            self.removeCurrentArrow(Direction.Down)
 
-        if len(self.Current_Arrows) == 1 and self.Cur_pos[0][1].equalTo(block):
+        if len(self.Current_Arrows) == 1 and self.Cur_pos[0][1].equalTo(wall):
             self.Movies_actual.append(self.Movies[4])   # deadlock
 
-        if self.Cur_pos[2][1].equalTo(block) is False:     # bottom
+        # gate_movies = self.GateHandler.getActualMovies(self.Cur_pos)
+        # self.Movies_actual.extend(gate_movies)
+
+        if self.Cur_pos[2][1].equalTo(wall) is False:     # bottom
             for movie in self.Environments_Composition[self.Cur_pos[2][1].env]:
                 self.Movies_actual.append(movie)
 
+        self.GateHandler.createScene()
+        # if self.GateHandler.canGoUp(self.Cur_pos):
+        #     if self.Arrows[Direction.Up] in self.Current_Arrows:
+        #         self.Current_Arrows.remove(self.Arrows[Direction.Up])
+
     def scopeMainActivity(self, source):
-        self.__printMap()
         click_holder = Holder()
 
         if self.Start is False:
@@ -313,7 +269,8 @@ class ChangeScreenOnClick(Enigma):
             self.SceneScale = 1
 
         with source.addParallelTask(3) as (tc_hand, tc_labyrinth, tc_buttons):
-            tc_hand.addTask("TaskMovie2Play", Movie2=self.Hand, Wait=False)
+            if self.Hand is not None:
+                tc_hand.addTask("TaskMovie2Play", Movie2=self.Hand, Wait=False)
             tc_labyrinth.addScope(self.scopeHideMovie, self.Movies_actual)
             tc_buttons.addScope(self.scopeHideArrows, self.Current_Arrows)
 
@@ -330,6 +287,9 @@ class ChangeScreenOnClick(Enigma):
             source_1.addTask("AliasObjectAlphaTo", Object=movie, Time=self.Time, To=0.0)
 
     def scopeSpeedChanger(self, source):
+        if self.Hand is None:
+            source.addBlock()
+            return
         source.addTask("TaskSubMovie2Play", Movie2=self.Hand, SubMovie2Name="Lantern_Idle")
 
     def returnMovies(self, array):
@@ -447,6 +407,11 @@ class ChangeScreenOnClick(Enigma):
 
         return position
 
+    def removeCurrentArrow(self, direction):
+        arrow = self.Arrows[direction]
+        if arrow in self.Current_Arrows:
+            self.Current_Arrows.remove(arrow)
+
     # ---- Cleaning ----------------------------------------------------------------------------------------------------
 
     def _cleanFull(self):
@@ -458,6 +423,10 @@ class ChangeScreenOnClick(Enigma):
             self.tc_2 = None
 
         self.param = None
+
+        if self.GateHandler is not None:
+            self.GateHandler.onFinalize()
+            self.GateHandler = None
 
         self._destroyMovies(self.Arrows)
         self.Arrows = []

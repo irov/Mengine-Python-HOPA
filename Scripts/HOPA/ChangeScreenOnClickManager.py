@@ -16,14 +16,15 @@ class ChangeScreenOnClickManager(Manager):
 
     class Param(object):
         def __init__(self, MapName, HandName, PrototypeArrowUp, PrototypeArrowDown, PrototypeArrowLeft,
-                     PrototypeArrowRight, StateNames, EnvironmentNames, Board, GateNames, LeverNames):
+                     PrototypeArrowRight, StateNames, EnvironmentNames, Board, GateCloseNames, GateOpenNames, LeverNames):
             self.MapName = MapName
             self.HandName = HandName
             # map
             self.StateNames = StateNames
             self.EnvironmentNames = EnvironmentNames
             self.Board = Board
-            self.GateNames = GateNames
+            self.GateCloseNames = GateCloseNames
+            self.GateOpenNames = GateOpenNames
             self.LeverNames = LeverNames
             # arrows
             self.PrototypeArrowUp = PrototypeArrowUp
@@ -77,26 +78,30 @@ class ChangeScreenOnClickManager(Manager):
 
         StateNames = []
         EnvironmentNames = []
-        GateNames = []
+        GateOpenNames = []
+        GateCloseNames = []
         LeverNames = []
 
         for record in records_Movie:
             StateName = record.get("StateName", None)
             EnvironmentName = record.get("EnvironmentName", None)
-            GateName = record.get("GateName", None)
+            GateOpenName = record.get("GateOpenName", None)
+            GateCloseName = record.get("GateCloseName", None)
             LeverName = record.get("LeverName", None)
 
             if StateName is not None:
                 StateNames.append(StateName)
             if EnvironmentName is not None:
                 EnvironmentNames.append(EnvironmentName)
-            if GateName is not None:
-                GateNames.append(GateName)
+            if GateOpenName is not None:
+                GateOpenNames.append(GateOpenName)
+            if GateCloseName is not None:
+                GateCloseNames.append(GateCloseName)
             if LeverName is not None:
                 LeverNames.append(LeverName)
 
         if _DEVELOPMENT is True:
-            if len(GateNames) != len(LeverNames):
+            if len(GateOpenNames) != len(GateCloseNames) != len(LeverNames):
                 Trace.log("Manager", 0, "ChangeScreenOnClickManager size of GateNames != LeverNames")
                 return False
             if len(StateNames) != 6:
@@ -137,7 +142,7 @@ class ChangeScreenOnClickManager(Manager):
 
         NewParam = ChangeScreenOnClickManager.Param(MapName, HandName, PrototypeArrowUp, PrototypeArrowDown,
                                                     PrototypeArrowLeft, PrototypeArrowRight, StateNames,
-                                                    EnvironmentNames, Board, GateNames, LeverNames)
+                                                    EnvironmentNames, Board, GateCloseNames, GateOpenNames, LeverNames)
 
         ChangeScreenOnClickManager.s_puzzles[EnigmaName] = NewParam
         return True
