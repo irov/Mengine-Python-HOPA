@@ -50,6 +50,9 @@ class ObjectAdvertisingScene(DemonObject):
             self.setParam("CacheNoAds", True)
             return False
 
+        if SystemAdvertising.canViewAdOnScene(self.transition_data["SceneName"]) is False:
+            return False
+
         if SystemAdvertising.isReadyToView() is False:
             return False
 
