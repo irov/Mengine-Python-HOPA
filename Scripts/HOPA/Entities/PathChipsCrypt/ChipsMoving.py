@@ -139,7 +139,7 @@ class ChipsMoving(object):
 
     def getMovieData(self):
         resourceMovieName = self.movie.ResourceMovie
-        nullObjectsData = Mengine.getNullObjectsFromResourceVideo(resourceMovieName)
+        nullObjectsData = Mengine.getNullObjectsFromResourceMovie(resourceMovieName)
         self.movieData = nullObjectsData["move"]
         pass
 

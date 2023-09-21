@@ -139,7 +139,6 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
     def __onGlobalMouseMove(self, event):
         if self.onMove is False:
             return
-            pass
 
         if len(self.game.movingFragments) == 0:
             self.ddx += event.dx
@@ -147,7 +146,6 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
 
             if -5 < self.ddx < 5 and -5 < self.ddy < 5:
                 return
-                pass
 
             self.dxx = self.ddx
             self.dyy = self.ddy
@@ -157,28 +155,21 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
 
             if ddx > ddy:
                 self.h = True
-                pass
             else:
                 self.h = False
-                pass
 
             self.ddx = 0
             self.ddy = 0
-            pass
         else:
             self.dxx += event.dx
             self.dyy += event.dy
-            pass
 
         if self.h is True:
-            if dx != 0.0:
-                self.game.onMoveFragment(self, dx, 0)
-                pass
+            if event.dx != 0.0:
+                self.game.onMoveFragment(self, event.dx, 0)
         else:
-            if dy != 0.0:
-                self.game.onMoveFragment(self, 0, dy)
-                pass
-            pass
+            if event.dy != 0.0:
+                self.game.onMoveFragment(self, 0, event.dy)
 
         if (self.h is True and self.dxx == 0) or (self.h is False and self.dyy == 0):
             self.game.refresh()
@@ -187,7 +178,6 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
             self.dxx = 0
             self.dyy = 0
             self.h = False
-            pass
 
         if self.moving.isEndMoving() is True:
             self.game.onEndMovingFragment()
@@ -197,10 +187,8 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
             self.dxx = 0
             self.dyy = 0
             self.h = False
-            pass
 
         return
-        pass
 
     def __onGlobalMouseButtonEvent(self, event):
         if self.moving is None:

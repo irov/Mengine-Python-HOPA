@@ -25,7 +25,7 @@ class PathChipsTransporter(BaseEntity):
 
     #    def getMovieData(self):
     #        resourceMovieName = self.movie.getResourceMovie()
-    #        nullObjectsData = Mengine.getNullObjectsFromResourceVideo(resourceMovieName)
+    #        nullObjectsData = Mengine.getNullObjectsFromResourceMovie(resourceMovieName)
     #        movieData = nullObjectsData["move"]
     #        self.lastTiming = movieData[len(movieData) - 1]["time"]
     #        self.firstTiming = movieData[0]["time"]
