@@ -11,10 +11,10 @@ class Lever(object):
         self.use = None
         self.done = None
 
-    def onCreate(self, generator, name):
-        self.idle = generator(name + "_Idle")
-        self.use = generator(name + "_Use")
-        self.done = generator(name + "_Done")
+    def onCreate(self, generator, identity, name):
+        self.idle = generator(name + ("_%s" % identity) + "_Idle")
+        self.use = generator(name + ("_%s" % identity) + "_Use")
+        self.done = generator(name + ("_%s" % identity) + "_Done")
 
     def onDestroy(self):
         self.idle.onDestroy()
@@ -51,7 +51,7 @@ class GateHandler(Initializer):
             gate_open_movie = self._generate(open_name)
             gate_close_movie = self._generate(close_name)
             lever_movie = Lever()
-            lever_movie.onCreate(self._generate, lever_name)
+            lever_movie.onCreate(self._generate, i, lever_name)
 
             gate_open_movie.setEnable(False)
 
