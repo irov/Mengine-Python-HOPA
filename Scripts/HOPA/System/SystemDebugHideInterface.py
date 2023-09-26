@@ -78,3 +78,9 @@ class SystemDebugHideInterface(System):
 
     def getInterfaceState(self):
         return self.interface_state
+
+    def _onStop(self):
+        super(SystemDebugHideInterface, self)._onStop()
+        if self.handler:
+            Mengine.removeGlobalHandler(self.handler)
+            self.handler = None
