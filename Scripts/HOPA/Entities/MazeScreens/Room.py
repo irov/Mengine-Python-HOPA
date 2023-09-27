@@ -1,5 +1,4 @@
 from Foundation.Initializer import Initializer
-from Foundation.TaskManager import TaskManager
 from HOPA.MazeScreensManager import MazeScreensManager
 from HOPA.MazeScreensManager import MSObject
 from HOPA.Entities.MazeScreens.Gate import Gate
@@ -13,77 +12,79 @@ class Room(Initializer):
         super(Room, self).__init__()
         self.id = None
         self.params = None      # RoomParam
-        self.__game = None
+        self.game = None        # MazeScreens entity
         self._objects = []
-        self.tc = None
 
         self.root = None
         self.content_movie = None
-        self.environment_movie = None
 
     def _onInitialize(self, game, params):
-        self.__game = game
+        self.game = game
         self.params = params
         self.id = params.id
 
     def onPreparation(self):
         root = Mengine.createNode("Interender")
         root.setName("Room_{}".format(self.id))
+        self.game.object.addChild(root)
         self.root = root
 
-        environment_movie = self.__game.object.generateObject("Environment", self.params.environment_name)
-        root.addChild(environment_movie)
-        self.environment_movie = environment_movie
+        content_movie = self.game.object.generateObject("Content", self.params.content_name)
+        content_movie.setLoop(True)
+        content_movie.setPlay(True)
+        root.addChild(content_movie.getEntityNode())
+        self.content_movie = content_movie
 
-        content_slots_movie = self.__game.object.generateObject("ContentSlots", self.params.content_name)
-        root.addChild(content_slots_movie)
-        self.content_movie = content_slots_movie
-
-        for params in MazeScreensManager.getContentSlots(self.__game.EnigmaName, self.params.content_name):
-            slot = content_slots_movie.getMovieSlot(params.name)
+        for params in MazeScreensManager.getContentSlots(self.game.EnigmaName, self.params.content_name):
+            slot = content_movie.getMovieSlot(params.name)
             obj = self._generateObject(slot, params)
             self._objects.append(obj)
 
-        # todo
+        self.setEnable(False)
 
     def onActivate(self):
         for obj in self._objects:
             obj.onActivate()
-        # todo: activate all objects ?
-        self.runTaskChain()
-
-    def runTaskChain(self):
-        self.tc = TaskManager.createTaskChain(Name="MazeScreensRoom{}Handler".format(self.params.id))
-        with self.tc as tc:
-            pass
 
     def onDeactivate(self):
-        # todo: deactivate all objects, hide them and wait for next activation
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
-
         for obj in self._objects:
             obj.onDeactivate()
 
     def _onFinalize(self):
-        self.onDeactivate()
         for obj in self._objects:
             obj.onFinalize()
         self._objects = []
-        # todo: finalize objects
+
+        if self.content_movie is not None:
+            self.content_movie.removeFromParent()
+            self.content_movie.onDestroy()
+            self.content_movie = None
+
+        if self.root is not None:
+            self.root.removeFromParent()
+            Mengine.destroyNode(self.root)
+            self.root = None
 
     def _generateObject(self, slot, params):
-        movie = self.__game.object.generateObject(params.prototype_name, params.prototype_name)
-
         Types = {
             MSObject.Lever: Lever,
             MSObject.Gate: Gate,
             MSObject.Transition: Transition,
         }
+        Type = Types[params.object_type]
 
-        Object = Types[params.object_type]()
-        Object.onInitialize(movie, params)
+        Object = Type()
+        Object.onInitialize(slot, self.game, params)
 
         return Object
+
+    def setEnable(self, state):
+        if self.root is None:
+            Trace.log("Enigma", 0, "Room [id {!r}] setEnable: root is None".format(self.id))
+            return
+
+        if state is True:
+            self.root.enable()
+        else:
+            self.root.disable()
 

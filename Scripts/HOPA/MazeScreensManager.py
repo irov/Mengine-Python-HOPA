@@ -8,10 +8,11 @@ class MSTransition(object):
     Down = "down"
     Right = "right"
     Left = "left"
+    Win = "win"
 
     @staticmethod
     def isValid(type_):
-        if type_ in (MSTransition.Up, MSTransition.Down, MSTransition.Right, MSTransition.Left):
+        if type_ in (MSTransition.Up, MSTransition.Down, MSTransition.Right, MSTransition.Left, MSTransition.Win):
             return True
         return False
 
@@ -44,12 +45,12 @@ class MazeScreensManager(Manager):
         def __init__(self, record):
             '''
                 RoomId – числовой идентификатор комнаты
-                EnvironmentName – имя муви2, который будет основой комнаты.
-                ContentName – имя муви2 со слотами.
+                ContentName – имя муви2 со слотами и задним фоном (можно анимировать)
+                IsStart - является ли комната стартовой позицией
             '''
             self.id = MazeScreensManager.getRecordValue(record, "RoomId", cast=str, required=True)
-            self.environment_name = MazeScreensManager.getRecordValue(record, "EnvironmentName", required=True)
             self.content_name = MazeScreensManager.getRecordValue(record, "ContentName", required=True)
+            self.is_start = MazeScreensManager.getRecordValue(record, "IsStart", cast=bool, default=False)
 
     class SlotParam(object):
         def __init__(self, record):
@@ -177,6 +178,12 @@ class MazeScreensManager(Manager):
                 continue
 
             rooms[param.id] = param
+
+        if _DEVELOPMENT is True:
+            start_rooms_count = len([room for room in rooms.values() if room.is_start is True])
+            if start_rooms_count != 1:
+                Trace.log("Manager", 0, "MazeScreensManager only 1 room should be as start! Found {} rooms".format(start_rooms_count))
+                return None
 
         return rooms
 
