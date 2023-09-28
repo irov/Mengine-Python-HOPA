@@ -4,6 +4,7 @@ from HOPA.MazeScreensManager import MSObject
 from HOPA.Entities.MazeScreens.Gate import Gate
 from HOPA.Entities.MazeScreens.Lever import Lever
 from HOPA.Entities.MazeScreens.Transition import Transition
+from HOPA.System.SystemNavigation import SystemNavigation
 
 
 class Room(Initializer):
@@ -43,10 +44,16 @@ class Room(Initializer):
         self.setEnable(False)
 
     def onActivate(self):
+        if self.params.is_start is True:
+            self.toggleNavBackButton(False)
+
         for obj in self._objects:
             obj.onActivate()
 
     def onDeactivate(self):
+        if self.params.is_start is True:
+            self.toggleNavBackButton(True)
+
         for obj in self._objects:
             obj.onDeactivate()
 
@@ -88,3 +95,7 @@ class Room(Initializer):
         else:
             self.root.disable()
 
+    def toggleNavBackButton(self, state):
+        """ toggle transition back button interactive """
+        button = SystemNavigation.getNavGoBackButton()
+        button.setInteractive(state)
