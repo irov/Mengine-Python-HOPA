@@ -1,51 +1,24 @@
 from HOPA.MazeScreensManager import MazeScreensManager
 from HOPA.MazeScreensManager import MSTransition
 from HOPA.Entities.MazeScreens.Room import Room
+from Foundation.TaskManager import TaskManager
+from Foundation.GuardBlockInput import GuardBlockInput
 
 
 Enigma = Mengine.importEntity("Enigma")
+FADE_TIME = 150.0
 
 
 class MazeScreens(Enigma):
-
-    # ORM things
-
-    @staticmethod
-    def declareORM(Type):
-        Enigma.declareORM(Type)
-        Type.addActionActivate(Type, "CurrentRoom",
-                               Update=MazeScreens._updateCurrentRoom)
-        Type.addActionActivate(Type, "DoneGroups",
-                               Append=MazeScreens._appendDoneGroups)
-
-    def _updateCurrentRoom(self, room_id):
-        if room_id is None:
-            return
-        if room_id not in self._rooms:
-            Trace.log("Enigma", 0, "MazeScreens._updateCurrentRoom: not found room %s" % (room_id))
-            return
-
-        if self.current_room is not None:
-            self.current_room.onDeactivate()
-
-        room = self._rooms[room_id]
-        room.onActivate()
-        self.current_room = room
-
-        return
-
-    def _appendDoneGroups(self, index, group_id):
-        Notification.notify(Notificator.onMazeScreensGroupDone, group_id)
-
-    # entity things
 
     def __init__(self):
         super(MazeScreens, self).__init__()
         self.params = None
         self._rooms = {}    # {room_id: Room}
-        self.current_room = None
+        self.__current_room = None
         self.board = None
         self.player_position = None
+        self.__done_groups = []
 
     def _onPreparation(self):
         self._prepare()
@@ -59,25 +32,30 @@ class MazeScreens(Enigma):
     # enigma handling
 
     def _playEnigma(self):
-        self.current_room.onActivate()
+        self.__current_room.onActivate()
 
     def _skipEnigma(self):
-        self._complete()
+        self.setComplete()
 
     def _restoreEnigma(self):
         self._playEnigma()
 
     def _resetEnigma(self):
-        # todo: show fade
+        TaskManager.runAlias("AliasFadeIn", None, FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
         self._cleanFull()
         self._prepare()
-        # todo: hide fade
+        TaskManager.runAlias("AliasFadeOut", None, FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
         self._playEnigma()
 
     # enigma flow
 
     def _prepare(self):
         self.params = MazeScreensManager.getSettings(self.EnigmaName)
+
+        if self.params.win_movie_name is not None:
+            win_movie = self.object.getObject(self.params.win_movie_name)
+            win_movie.setEnable(False)
+
         self._setupRooms()
         self._setupBoard()
 
@@ -88,6 +66,9 @@ class MazeScreens(Enigma):
             room.onPreparation()
 
             self._rooms[room_params.id] = room
+
+            if room_params.is_start is True:
+                self.__current_room = room
 
     def _setupBoard(self):
         graph = self.params.graph
@@ -108,22 +89,62 @@ class MazeScreens(Enigma):
         for room in self._rooms.values():
             room.onFinalize()
         self._rooms = {}
-        self.current_room = None
+        self.__current_room = None
+        self.__done_groups = []
         self.board = []
 
         self.params = None
 
     def setComplete(self):
+        if self.params.win_movie_name is not None:
+            self._completeWithAnimation()
+            return
+
         self._cleanFull()
         self.enigmaComplete()
 
+    def _completeWithAnimation(self):
+        movie = self.object.getObject(self.params.win_movie_name)
+
+        with TaskManager.createTaskChain(Name="MazeScreensWinAnimation") as tc:
+            with GuardBlockInput(tc) as guard_source:
+                with guard_source.addParallelTask(2) as (guard_animation, guard_cleanup):
+                    guard_animation.addEnable(movie)
+                    guard_animation.addPlay(movie, Wait=True)
+                    guard_cleanup.addFunction(self._cleanFull)
+
+            tc.addFunction(self.enigmaComplete)
+
     # public methods
+
+    def setCurrentRoom(self, room_id):
+        if room_id is None:
+            return
+        if room_id not in self._rooms:
+            Trace.log("Enigma", 0, "MazeScreens.setCurrentRoom: not found room with id %s" % room_id)
+            return
+
+        TaskManager.runAlias("AliasFadeIn", None, FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
+        if self.__current_room is not None:
+            self.__current_room.onDeactivate()
+
+        room = self._rooms[room_id]
+        room.onActivate()
+        TaskManager.runAlias("AliasFadeOut", None, FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
+        self.__current_room = room
+
+    def getCurrentRoom(self):
+        return self.__current_room
 
     def isGroupDone(self, group_id):
         return group_id in self.DoneGroups
 
     def setGroupDone(self, group_id):
-        self.object.appendParam("DoneGroups", group_id)
+        if group_id in self.__done_groups:
+            Trace.log("Enigma", 0, "Group with id {!r} already done".format(group_id))
+            return
+        self.__done_groups.append(group_id)
+        Notification.notify(Notificator.onMazeScreensGroupDone, group_id)
 
     def movePlayer(self, way):
         if way == MSTransition.Win:
@@ -141,7 +162,7 @@ class MazeScreens(Enigma):
             Trace.log("Enigma", 0, "MazeScreens impossible to move player {!r} - None on this position {}".format(way, position))
             return
 
-        self.object.setParam("CurrentRoom", room.id)
+        self.setCurrentRoom(room.id)
         self.player_position = position
 
     def getDirection(self, way):

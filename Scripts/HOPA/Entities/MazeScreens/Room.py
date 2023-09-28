@@ -36,7 +36,7 @@ class Room(Initializer):
         root.addChild(content_movie.getEntityNode())
         self.content_movie = content_movie
 
-        for params in MazeScreensManager.getContentSlots(self.game.EnigmaName, self.params.content_name):
+        for params in MazeScreensManager.getRoomSlots(self.game.EnigmaName, self.params.id):
             slot = content_movie.getMovieSlot(params.name)
             obj = self._generateObject(slot, params)
             self._objects.append(obj)

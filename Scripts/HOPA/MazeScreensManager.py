@@ -12,7 +12,8 @@ class MSTransition(object):
 
     @staticmethod
     def isValid(type_):
-        if type_ in (MSTransition.Up, MSTransition.Down, MSTransition.Right, MSTransition.Left, MSTransition.Win):
+        types = [t for t in dir(MSTransition) if t.startswith("__") is False]
+        if type_ in types:
             return True
         return False
 
@@ -24,7 +25,8 @@ class MSObject(object):
 
     @staticmethod
     def isValid(type_):
-        if type_ in (MSObject.Lever, MSObject.Gate, MSObject.Transition):
+        types = [t for t in dir(MSTransition) if t.startswith("__") is False]
+        if type_ in types:
             return True
         return False
 
@@ -35,11 +37,12 @@ class MazeScreensManager(Manager):
     s_enigmas = {}  # { enigma_name: Settings }
 
     class Settings(object):
-        def __init__(self, EnigmaName, Graph, Rooms, ContentSlots):
+        def __init__(self, EnigmaName, Graph, Rooms, RoomSlots, WinMovieName):
             self.enigma_name = EnigmaName
             self.graph = Graph              # GraphParam
             self.rooms = Rooms              # { room_id: RoomParam }
-            self.contents = ContentSlots    # { content_name: SlotParam[] }
+            self.slots = RoomSlots          # { room_id: SlotParam[] }
+            self.win_movie_name = WinMovieName
 
     class RoomParam(object):
         def __init__(self, record):
@@ -55,7 +58,7 @@ class MazeScreensManager(Manager):
     class SlotParam(object):
         def __init__(self, record):
             '''
-                ContentName – имя “наполнителя” комнаты (муви2 со слотами).
+                RoomId – id комнаты
                 SlotName – имя слота на этом контенте.
                 ObjectType – тип привязанного объекта (влияет на поведение).
                     lever – рычаг
@@ -72,7 +75,7 @@ class MazeScreensManager(Manager):
                     right
                     left
             '''
-            self.content_name = MazeScreensManager.getRecordValue(record, "ContentName", required=True)
+            self.room_id = MazeScreensManager.getRecordValue(record, "RoomId", required=True)
             self.name = MazeScreensManager.getRecordValue(record, "SlotName", required=True)
             self.object_type = MazeScreensManager.getRecordValue(record, "ObjectType", required=True)
             self.prototype_name = MazeScreensManager.getRecordValue(record, "PrototypeName", required=True)
@@ -98,7 +101,7 @@ class MazeScreensManager(Manager):
         for record in records:
             EnigmaName = record["EnigmaName"]
 
-            result = MazeScreensManager.loadParam(module, EnigmaName, record)
+            result = MazeScreensManager._loadParam(module, EnigmaName, record)
 
             if result is False:
                 Trace.log("Manager", 0, "MazeScreensManager fail to load params for {!r}".format(EnigmaName))
@@ -107,18 +110,21 @@ class MazeScreensManager(Manager):
         return True
 
     @staticmethod
-    def loadParam(module, enigma_name, record):
+    def _loadParam(module, enigma_name, record):
+        """ load all settings for given Enigma """
 
-        RoomParamsName = record.get("RoomParams")
+        RoomParamsName = record["RoomParams"]
         RoomParams = MazeScreensManager._loadRoomParams(module, RoomParamsName, enigma_name)
 
-        SlotParamsName = record.get("SlotParams")
+        SlotParamsName = record["SlotParams"]
         SlotParams = MazeScreensManager._loadSlotParams(module, SlotParamsName, enigma_name)
 
-        GraphParamsName = record.get("GraphParams")
+        GraphParamsName = record["GraphParams"]
         GraphParams = MazeScreensManager._loadGraphParams(module, GraphParamsName, enigma_name)
 
-        settings = MazeScreensManager.Settings(enigma_name, GraphParams, RoomParams, SlotParams)
+        WinMovieName = record.get("WinMovieName")
+
+        settings = MazeScreensManager.Settings(enigma_name, GraphParams, RoomParams, SlotParams, WinMovieName)
 
         if MazeScreensManager._checkObjects(settings) is False:
             return False
@@ -193,45 +199,83 @@ class MazeScreensManager(Manager):
         if records is None:
             return None
 
-        content_slots = {}
+        room_slots = {}
         for record in records:
             param = MazeScreensManager.SlotParam(record)
 
-            is_valid = True
-
-            if MSObject.isValid(param.object_type) is False:
-                Trace.log("Manager", 0, "MazeScreensManager invalid object_type {!r}".format(param.object_type))
-                is_valid = False
-
-            if param.transition_way is not None:
-                if MSTransition.isValid(param.transition_way) is False:
-                    Trace.log("Manager", 0, "MazeScreensManager invalid transition_way {!r}".format(param.transition_way))
-                    is_valid = False
-
-            if is_valid is False:
+            if MazeScreensManager._checkSlotParam(param, enigma_name) is False:
                 continue
 
-            content_slots.setdefault(param.content_name, []).append(param)
+            room_slots.setdefault(param.room_id, []).append(param)
 
-        return content_slots
+        return room_slots
+
+    # load validation
 
     @staticmethod
     def _checkObjects(settings):
         if _DEVELOPMENT is False:
             return True
 
+        is_valid = True
         demon = EnigmaManager.getEnigmaObject(settings.enigma_name)
 
+        if settings.win_movie_name is not None and demon.hasObject(settings.win_movie_name) is False:
+            Trace.log("Manager", 0, "MazeScreensManager [err] Win Movie2 (not prototype) {!r} not found in demon".format(settings.win_movie_name))
+
         for room in settings.rooms.values():
-            if demon.hasPrototype(room.environment_movie) is False:
-                Trace.log("Manager", 0, "MazeScreensManager room {!r}: environment prototype {!r} not found"
-                          .format(room.id, room.environment_movie))
+            if demon.hasPrototype(room.content_movie) is False:
+                Trace.log("Manager", 0, "MazeScreensManager [err] room {!r}: content prototype {!r} not found"
+                          .format(room.id, room.content_movie))
+                is_valid = False
 
-        for content_name in settings.contents.keys():
-            if demon.hasPrototype(content_name) is False:
-                Trace.log("Manager", 0, "MazeScreensManager content with name {!r} not found prototype".format(content_name))
+        for room_id, slots in settings.slots.items():
+            if room_id not in settings.rooms:
+                Trace.log("Manager", 0, "MazeScreensManager [warn] some slots attached to unknown room {!r}"
+                          .format(room_id))
 
-        return True
+            for slot in slots:
+                if MazeScreensManager._checkSlotParam(slot, demon) is False:
+                    is_valid = False
+
+        return is_valid
+
+    @staticmethod
+    def _checkSlotParam(param, demon):
+        is_valid = True
+
+        if MSObject.isValid(param.object_type) is False:
+            Trace.log("Manager", 0, "MazeScreensManager [err] SlotParam invalid object_type {!r}".format(param.object_type))
+            is_valid = False
+
+        if param.transition_way is not None:
+            if MSTransition.isValid(param.transition_way) is False:
+                Trace.log("Manager", 0, "MazeScreensManager [err] SlotParam invalid transition_way {!r}".format(param.transition_way))
+                is_valid = False
+
+        def _hasPrototype(prototype_name):
+            if demon.hasPrototype(prototype_name) is False:
+                Trace.log("Manager", 0, "MazeScreensManger [err] SlotParam not found Prototype {!r} in {!r}".format(prototype_name, demon.getName()))
+                return False
+            return True
+
+        def _checkLever(name):
+            return all([_hasPrototype(name + "_" + state) for state in ("Ready", "Use", "Done")])
+        def _checkGate(name):
+            return all([_hasPrototype(name + "_" + state) for state in ("Close", "Opening", "Open")])
+        def _checkTransition(name):
+            return _hasPrototype(name)
+
+        checkers = {
+            MSObject.Lever: _checkLever,
+            MSObject.Gate: _checkGate,
+            MSObject.Transition: _checkTransition,
+        }
+        checker = checkers[param.object_type]
+        if checker(param.prototype_name) is False:
+            is_valid = False
+
+        return is_valid
 
     # public
 
@@ -251,15 +295,15 @@ class MazeScreensManager(Manager):
         return room
 
     @staticmethod
-    def getEnigmaContents(enigma_name):
+    def getEnigmaSlots(enigma_name):
         settings = MazeScreensManager.getSettings(enigma_name)
-        return settings.contents
+        return settings.slots
 
     @staticmethod
-    def getContentSlots(enigma_name, content_name):
+    def getRoomSlots(enigma_name, room_id):
         settings = MazeScreensManager.getSettings(enigma_name)
-        content_slots = settings.contents.get(content_name)
-        return content_slots
+        slots = settings.slots.get(room_id)
+        return slots
 
     @staticmethod
     def getEnigmaGraph(enigma_name):

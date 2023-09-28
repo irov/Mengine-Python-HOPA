@@ -119,9 +119,9 @@ class Lever(Initializer):
 
     def _generateMovies(self, game_object):
         states = {
-            "Close": [self._params.prototype_name + "_Close", True, True],
-            "Opening": [self._params.prototype_name + "_Opening", True, False],
-            "Open": [self._params.prototype_name + "_Open", True, True],
+            "Ready": [self._params.prototype_name + "_Ready", True, True],
+            "Use": [self._params.prototype_name + "_Use", True, False],
+            "Done": [self._params.prototype_name + "_Done", True, True],
         }
 
         for state, (prototype_name, play, loop) in states.items():

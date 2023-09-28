@@ -971,6 +971,8 @@ def onInitialize():
         , "onElementalMagicUse"
         , "onElementalMagicPick"
         , "onElementalMagicInvalidClick"
+
+        , "onMazeScreensGroupDone"
     ]
 
     from Foundation.Notificator import Notificator
@@ -1325,6 +1327,7 @@ def onInitialize():
         , 'SwapAndRotateSegments'
         , 'ChipGravitySlider'
         , 'ChangeScreenOnClick'
+        , 'MazeScreens'
         , "Credits"
         , "InventoryBase"
 
