@@ -2,8 +2,6 @@ from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 from HOPA.TipManager import TipManager
 
-# todo: add arrow enter\leave effect for state Close
-
 
 class Gate(Initializer):
 
@@ -69,7 +67,7 @@ class Gate(Initializer):
         )
 
         tc_name = "MazeScreens_{}".format(self.id)
-        self.tc = TaskManager.createTaskChain(tc_name, Repeat=True, NoCheckAntiStackCycle=True)
+        self.tc = TaskManager.createTaskChain(Name=tc_name, Repeat=True, NoCheckAntiStackCycle=True)
 
         with self.tc as tc:
             def __states(isSkip, cb):
@@ -128,6 +126,6 @@ class Gate(Initializer):
             movie_name = "%s_%s" % (prototype_name, state)
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)
-            movie = game_object.generateObject(movie_name, prototype_name, movie_params)
+            movie = game_object.generateObjectUnique(movie_name, prototype_name, **movie_params)
 
             yield state, movie

@@ -4,10 +4,10 @@ from HOPA.EnigmaManager import EnigmaManager
 
 
 class MSTransition(object):
-    Up = "up"
-    Down = "down"
-    Right = "right"
-    Left = "left"
+    Up = 0
+    Left = 1
+    Right = 2
+    Down = 3
     Win = "win"
 
     @staticmethod
@@ -16,6 +16,18 @@ class MSTransition(object):
         if type_ in types:
             return True
         return False
+
+    @staticmethod
+    def convert(key):
+        if key == "up":
+            return MSTransition.Up
+        elif key == "left":
+            return MSTransition.Left
+        elif key == "right":
+            return MSTransition.Right
+        elif key == "down":
+            return MSTransition.Down
+        return key
 
 
 class MSObject(object):
@@ -37,46 +49,23 @@ class MazeScreensManager(Manager):
     s_enigmas = {}  # { enigma_name: Settings }
 
     class Settings(object):
-        def __init__(self, EnigmaName, Graph, Rooms, ContentSlots, Contents, WinMovieName):
+        def __init__(self, EnigmaName, Graph, Rooms, ContentSlots, Contents, Cursor, WinMovieName):
             self.enigma_name = EnigmaName
             self.graph = Graph              # GraphParam
             self.rooms = Rooms              # { room_id: RoomParam }
             self.contents = Contents        # { content_id: content_name }
             self.slots = ContentSlots       # { content_id: SlotParam[] }
+            self.cursor = Cursor
             self.win_movie_name = WinMovieName
-            self.should_rotate_board = True
 
     class RoomParam(object):
         def __init__(self, record):
-            '''
-                RoomId – числовой идентификатор комнаты
-                ContentId – id контента - имя муви2 со слотами и задним фоном (можно анимировать)
-                IsStart - является ли комната стартовой позицией
-            '''
             self.id = MazeScreensManager.getRecordValue(record, "RoomId", cast=str, required=True)
             self.content_id = MazeScreensManager.getRecordValue(record, "ContentId", cast=str, required=True)
             self.is_start = MazeScreensManager.getRecordValue(record, "IsStart", cast=bool, default=False)
 
     class SlotParam(object):
         def __init__(self, record):
-            '''
-                ContentId – id контента комнаты
-                SlotName – имя слота на этом контенте.
-                ObjectType – тип привязанного объекта (влияет на поведение).
-                    lever – рычаг
-                    gate – ворота
-                    transition – проход
-                PrototypeName – имя прототипа, который привязывается на слот.
-                GroupId – идентификатор группы, к которой принадлежит объект.
-                    Например, чтобы рычаг был связан с воротами, надо указать один идентификатор.
-                    Тогда при использовании рычага группы 1 – все ворота
-                    с такой же группой перейдут в состояние “открыто”.
-                TransitionWay (только если ObjectType = transition) – направление прохода
-                    up
-                    down
-                    right
-                    left
-            '''
             self.content_id = MazeScreensManager.getRecordValue(record, "ContentId", cast=str, required=True)
             self.name = MazeScreensManager.getRecordValue(record, "SlotName", cast=str, required=True)
             self.object_type = MazeScreensManager.getRecordValue(record, "ObjectType", required=True)
@@ -87,12 +76,21 @@ class MazeScreensManager(Manager):
 
             is_way_required = self.object_type == "transition"
             self.transition_way = MazeScreensManager.getRecordValue(record, "TransitionWay", required=is_way_required)
+            self.transition_way = MSTransition.convert(self.transition_way)
 
     class GraphParam(object):
         def __init__(self, graph):
             self.data = graph
             self.width = len(graph[0])
             self.height = len(graph)
+
+    class CursorParam(object):
+        def __init__(self, record):
+            self.transition_up = record.get("CursorTransitionUp", "TransitionUp")
+            self.transition_down = record.get("CursorTransitionDown", "TransitionBack")
+            self.transition_left = record.get("CursorTransitionLeft", "TransitionLeft")
+            self.transition_right = record.get("CursorTransitionRight", "TransitionRight")
+            self.use_lever = record.get("CursorUseLever", "Interaction")
 
     @staticmethod
     def loadParams(module, param):
@@ -127,7 +125,10 @@ class MazeScreensManager(Manager):
 
         WinMovieName = record.get("WinMovieName")
 
-        settings = MazeScreensManager.Settings(enigma_name, GraphParams, RoomParams, SlotParams, ContentParams, WinMovieName)
+        CursorParams = MazeScreensManager._loadCursorParams(record)
+
+        settings = MazeScreensManager.Settings(enigma_name, GraphParams, RoomParams, SlotParams,
+                                               ContentParams, CursorParams, WinMovieName)
 
         if MazeScreensManager._checkGraph(settings) is False:
             return False
@@ -207,6 +208,11 @@ class MazeScreensManager(Manager):
             content_slots.setdefault(param.content_id, []).append(param)
 
         return content_slots
+
+    @staticmethod
+    def _loadCursorParams(record):
+        param = MazeScreensManager.CursorParam(record)
+        return param
 
     # load validation
 

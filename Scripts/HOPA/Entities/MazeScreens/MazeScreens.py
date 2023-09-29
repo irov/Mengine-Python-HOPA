@@ -11,6 +11,18 @@ FADE_TIME = 150.0
 
 class MazeScreens(Enigma):
 
+    def __printMap(self):
+        if _DEVELOPMENT is False:
+            return
+
+        print " BOARD ".center(15, "-")
+        for i in range(len(self.board)):
+            line = ""
+            for j in range(len(self.board[i])):
+                line += str(self.board[i][j] if self.board[i][j] else "X").ljust(4, " ")
+            print line
+        print " Player position ", self.player_position, self.player_direction, self.board[self.player_position[0]][self.player_position[1]]
+
     def __init__(self):
         super(MazeScreens, self).__init__()
         self.params = None
@@ -18,6 +30,7 @@ class MazeScreens(Enigma):
         self.__current_room = None
         self.board = None
         self.player_position = None
+        self.player_direction = None
         self.__done_groups = []
 
     def _onPreparation(self):
@@ -32,6 +45,7 @@ class MazeScreens(Enigma):
     # enigma handling
 
     def _playEnigma(self):
+        self.__printMap()
         self.__current_room.onActivate()
 
     def _skipEnigma(self):
@@ -74,16 +88,23 @@ class MazeScreens(Enigma):
         graph = self.params.graph
         self.board = []
 
-        for i in range(graph.width):
+        for i in range(graph.height):
             self.board.append([])
-            for j in range(graph.height):
+            for j in range(graph.width):
 
                 cell = graph.data[i][j]
                 if cell == MazeScreensManager.CELL_TYPE_WALL:
-                    self.board[i][j] = None
-                else:
-                    room = self._rooms[cell]
-                    self.board[i][j] = room
+                    self.board[i].append(None)
+                    continue
+
+                room = self._rooms[cell]
+                self.board[i].append(room)
+
+                if room == self.__current_room:
+                    self.player_position = (i, j)
+                    print "Initial player position: {} ({})".format(self.player_position, room.id)
+
+        self.player_direction = MSTransition.Up
 
     def _cleanFull(self):
         for room in self._rooms.values():
@@ -121,7 +142,7 @@ class MazeScreens(Enigma):
         if room_id is None:
             return
         if room_id not in self._rooms:
-            Trace.log("Enigma", 0, "MazeScreens.setCurrentRoom: not found room with id %s" % room_id)
+            Trace.log("Entity", 0, "MazeScreens.setCurrentRoom: not found room with id %s" % room_id)
             return
 
         TaskManager.runAlias("AliasFadeIn", None, FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
@@ -141,7 +162,7 @@ class MazeScreens(Enigma):
 
     def setGroupDone(self, group_id):
         if group_id in self.__done_groups:
-            Trace.log("Enigma", 0, "Group with id {!r} already done".format(group_id))
+            Trace.log("Entity", 0, "Group with id {!r} already done".format(group_id))
             return
         self.__done_groups.append(group_id)
         Notification.notify(Notificator.onMazeScreensGroupDone, group_id)
@@ -151,7 +172,13 @@ class MazeScreens(Enigma):
             self.setComplete()
             return 
 
-        direction = self.getDirection(way)
+        if way == MSTransition.Down:
+            move_direction = self.getRevertedDirection(self.player_direction)
+        else:
+            move_direction = (way + self.player_direction) % 4
+            self.rotatePlayer(way)
+
+        direction = self.getDirectionVector(move_direction)
         position = (
             self.player_position[0] + direction[0],
             self.player_position[1] + direction[1],
@@ -159,33 +186,45 @@ class MazeScreens(Enigma):
         room = self.board[position[0]][position[1]]
 
         if room is None:
-            Trace.log("Enigma", 0, "MazeScreens impossible to move player {!r} - None on this position {}".format(way, position))
+            Trace.log("Entity", 0, "MazeScreens impossible to move player {!r} - None on this position {}".format(way, position))
             return
 
         self.setCurrentRoom(room.id)
 
-        if self.params.should_rotate_board is True:
-            self.rotateBoard(way)
+        self.player_position = self.getCurrentRoomPosition()
+        self.__printMap()
 
-        self.player_position = position
+    def getDirectionVector(self, direction):
+        vector = (0, 0)
+        if direction == MSTransition.Up:
+            vector = (-1, 0)
+        elif direction == MSTransition.Down:
+            vector = (1, 0)
+        elif direction == MSTransition.Right:
+            vector = (0, 1)
+        elif direction == MSTransition.Left:
+            vector = (0, -1)
+        return vector
 
     def getDirection(self, way):
-        direction = (0, 0)
-        if way == MSTransition.Up:
-            direction = (1, 0)
-        elif way == MSTransition.Down:
-            direction = (-1, 0)
-        elif way == MSTransition.Right:
-            direction = (0, 1)
-        elif way == MSTransition.Left:
-            direction = (0, -1)
-        return direction
+        return abs(way % 4)
 
-    def rotateBoard(self, direction):
-        if direction == "right":
-            self.board = [list(row) for row in zip(*self.board[::-1])]
-        elif direction == "left":
-            self.board = [list(row) for row in zip(*self.board)]
+    def getRevertedDirection(self, way):
+        return abs((4 - way) % 4)
+
+    def rotatePlayer(self, way):
+        self.player_direction = self.getDirection(self.player_direction + MSTransition.convert(way))
+
+    def getCurrentRoomPosition(self):
+        position = (0, 0)
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j] == self.__current_room:
+                    position = (i, j)
+                    break
+        return position
+
+
 
 
 

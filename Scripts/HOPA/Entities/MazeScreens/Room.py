@@ -4,10 +4,13 @@ from HOPA.MazeScreensManager import MSObject
 from HOPA.Entities.MazeScreens.Gate import Gate
 from HOPA.Entities.MazeScreens.Lever import Lever
 from HOPA.Entities.MazeScreens.Transition import Transition
-from HOPA.System.SystemNavigation import SystemNavigation
+from HOPA.TransitionManager import TransitionManager
 
 
 class Room(Initializer):
+
+    def __repr__(self):
+        return str(self.id)
 
     def __init__(self):
         super(Room, self).__init__()
@@ -30,10 +33,9 @@ class Room(Initializer):
         self.game.addChild(root)
         self.root = root
 
+        content_params = dict(Enable=True, Loop=True, Play=True)
         content_name = MazeScreensManager.getContentName(self.game.EnigmaName, self.params.content_id)
-        content_movie = self.game.object.generateObject("Content", content_name)   # fixme
-        content_movie.setLoop(True)
-        content_movie.setPlay(True)
+        content_movie = self.game.object.generateObjectUnique("Content", content_name, **content_params)
         root.addChild(content_movie.getEntityNode())
         self.content_movie = content_movie
 
@@ -45,18 +47,20 @@ class Room(Initializer):
         self.setEnable(False)
 
     def onActivate(self):
-        if self.params.is_start is True:
+        if self.params.is_start is False:
             self.toggleNavBackButton(False)
 
         for obj in self._objects:
             obj.onActivate()
+        self.root.enable()
 
     def onDeactivate(self):
-        if self.params.is_start is True:
+        if self.params.is_start is False:
             self.toggleNavBackButton(True)
 
         for obj in self._objects:
             obj.onDeactivate()
+        self.root.disable()
 
     def _onFinalize(self):
         for obj in self._objects:
@@ -88,7 +92,7 @@ class Room(Initializer):
 
     def setEnable(self, state):
         if self.root is None:
-            Trace.log("Enigma", 0, "Room [id {!r}] setEnable: root is None".format(self.id))
+            Trace.log("Entity", 0, "Room [id {!r}] setEnable: root is None".format(self.id))
             return
 
         if state is True:
@@ -98,5 +102,5 @@ class Room(Initializer):
 
     def toggleNavBackButton(self, state):
         """ toggle transition back button interactive """
-        button = SystemNavigation.getNavGoBackButton()
-        button.setInteractive(state)
+        TransitionManager.s_transitionBackObject.setInteractive(state)
+

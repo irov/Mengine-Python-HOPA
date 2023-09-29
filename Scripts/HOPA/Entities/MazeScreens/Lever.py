@@ -1,8 +1,7 @@
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 from HOPA.TipManager import TipManager
-
-# todo: add arrow enter\leave effect for state Idle
+from HOPA.CursorManager import CursorManager
 
 
 class Lever(Initializer):
@@ -63,13 +62,13 @@ class Lever(Initializer):
 
     def runTaskChain(self):
         Scopes = dict(
-            Idle=Functor(self.__stateIdle, self.Movies.get("Idle")),
+            Idle=Functor(self.__stateReady, self.Movies.get("Ready")),
             Use=Functor(self.__stateUse, self.Movies.get("Use")),
             Done=Functor(self.__stateDone, self.Movies.get("Done")),
         )
 
         tc_name = "MazeScreens_{}".format(self.id)
-        self.tc = TaskManager.createTaskChain(tc_name, Repeat=True, NoCheckAntiStackCycle=True)
+        self.tc = TaskManager.createTaskChain(Name=tc_name, Repeat=True, NoCheckAntiStackCycle=True)
 
         with self.tc as tc:
             def __states(isSkip, cb):
@@ -78,11 +77,19 @@ class Lever(Initializer):
 
             tc.addScopeSwitch(Scopes, __states)
 
-    def __stateIdle(self, source, Movie):
+    # states
+
+    def __stateReady(self, source, Movie):
+        cursor = self.room.game.params.cursor
+        cursor_mode = cursor.use_lever
+
         source.addEnable(Movie)
 
-        source.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
-        source.addFunction(self.setState, "Use")
+        with source.addRaceTask(2) as (tc_click, tc_cursor):
+            tc_click.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
+            tc_click.addFunction(self.setState, "Use")
+
+            tc_cursor.addScope(self._scopeCursorHandler, Movie, cursor_mode)
 
         source.addDisable(Movie)
 
@@ -105,6 +112,31 @@ class Lever(Initializer):
         # maybe delete all unused states here
         source.addBlock()
 
+    # cursor handler
+
+    def _scopeCursorHandler(self, source, Movie, cursor_mode):
+        print "_scopeCursorHandler", cursor_mode
+        with source.addRepeatTask() as (source_repeat, source_until):
+            source_repeat.addTask("TaskMovie2SocketEnter", Movie2=Movie, SocketName="socket")
+            source_repeat.addPrint("   lever mouse Enter")
+            source_repeat.addFunction(self._mouseEnter, Movie, cursor_mode)
+
+            source_repeat.addTask("TaskMovie2SocketLeave", Movie2=Movie, SocketName="socket")
+            source_repeat.addPrint("   lever mouse Leave")
+            source_repeat.addFunction(self._mouseLeave, Movie)
+
+            source_until.addEvent(self.EventUpdateState)
+            source_until.addFunction(self._mouseLeave, Movie)
+
+    def _mouseEnter(self, Movie, cursor_mode):
+        CursorManager._arrowEnterFilter(Movie, cursor_mode)
+        # CursorManager.setCursorMode(cursor_mode, True)
+
+    def _mouseLeave(self, Movie):
+        CursorManager._arrowLeaveFilter(Movie)
+
+    # public
+
     def setState(self, state):
         if state not in self.Movies:
             return
@@ -117,6 +149,8 @@ class Lever(Initializer):
         self.room.game.setGroupDone(self._params.group_id)
         TipManager.showTip("ID_Tip_MazeScreens_LeverUsed")
 
+    # utils
+
     def _generateMovies(self, game_object):
         states = {
             "Ready": [self._params.prototype_name + "_Ready", True, True],
@@ -128,6 +162,6 @@ class Lever(Initializer):
             movie_name = "%s_%s" % (prototype_name, state)
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)
-            movie = game_object.generateObject(movie_name, prototype_name, movie_params)
+            movie = game_object.generateObjectUnique(movie_name, prototype_name, **movie_params)
 
             yield state, movie
