@@ -1,6 +1,5 @@
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
-from HOPA.TipManager import TipManager
 
 # todo: add arrow enter\leave effect depending on way (up, down, right, left)
 
@@ -16,7 +15,7 @@ class Transition(Initializer):
         self.movie = None
         self.tc = None
 
-    def _onInitialize(self, slot, game, room, params):
+    def _onInitialize(self, slot, room, params):
         self._params = params
         self.room = room
         self.__slot = slot
@@ -26,8 +25,8 @@ class Transition(Initializer):
         prototype_name = self._params.prototype_name
         movie_name = self._params.prototype_name
 
-        movie = game.object.generateObject(movie_name, prototype_name, Interactive=True,
-                                           Enable=False, Play=False, Loop=False)
+        movie_params = dict(Interactive=True, Enable=False, Play=False, Loop=False)
+        movie = room.game.object.generateObject(movie_name, prototype_name, movie_params)
 
         slot.addChild(movie.getEntityNode())
         self.movie = movie

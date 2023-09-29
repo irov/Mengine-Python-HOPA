@@ -60,9 +60,9 @@ class MazeScreens(Enigma):
         self._setupBoard()
 
     def _setupRooms(self):
-        for room_params in self.params.rooms:
+        for room_params in self.params.rooms.values():
             room = Room()
-            room.onInitialize(room_params)
+            room.onInitialize(self, room_params)
             room.onPreparation()
 
             self._rooms[room_params.id] = room
@@ -163,6 +163,10 @@ class MazeScreens(Enigma):
             return
 
         self.setCurrentRoom(room.id)
+
+        if self.params.should_rotate_board is True:
+            self.rotateBoard(way)
+
         self.player_position = position
 
     def getDirection(self, way):
@@ -176,6 +180,12 @@ class MazeScreens(Enigma):
         elif way == MSTransition.Left:
             direction = (0, -1)
         return direction
+
+    def rotateBoard(self, direction):
+        if direction == "right":
+            self.board = [list(row) for row in zip(*self.board[::-1])]
+        elif direction == "left":
+            self.board = [list(row) for row in zip(*self.board)]
 
 
 

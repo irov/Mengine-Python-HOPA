@@ -27,16 +27,17 @@ class Room(Initializer):
     def onPreparation(self):
         root = Mengine.createNode("Interender")
         root.setName("Room_{}".format(self.id))
-        self.game.object.addChild(root)
+        self.game.addChild(root)
         self.root = root
 
-        content_movie = self.game.object.generateObject("Content", self.params.content_name)
+        content_name = MazeScreensManager.getContentName(self.game.EnigmaName, self.params.content_id)
+        content_movie = self.game.object.generateObject("Content", content_name)   # fixme
         content_movie.setLoop(True)
         content_movie.setPlay(True)
         root.addChild(content_movie.getEntityNode())
         self.content_movie = content_movie
 
-        for params in MazeScreensManager.getRoomSlots(self.game.EnigmaName, self.params.id):
+        for params in MazeScreensManager.getContentSlots(self.game.EnigmaName, self.params.content_id):
             slot = content_movie.getMovieSlot(params.name)
             obj = self._generateObject(slot, params)
             self._objects.append(obj)
@@ -81,7 +82,7 @@ class Room(Initializer):
         Type = Types[params.object_type]
 
         Object = Type()
-        Object.onInitialize(slot, self.game, params)
+        Object.onInitialize(slot, self, params)
 
         return Object
 

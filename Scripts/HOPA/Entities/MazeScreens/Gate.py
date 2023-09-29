@@ -18,14 +18,14 @@ class Gate(Initializer):
         self.EventUpdateState = None
         self.tc = None
 
-    def _onInitialize(self, slot, game, room, params):
+    def _onInitialize(self, slot, room, params):
         self._params = params
         self.room = room
         self.__slot = slot
 
         self.id = "{}_{}_{}".format("Gate", self.room.id, self.__slot.getName())
 
-        for state, movie in self._generateMovies(game.object):
+        for state, movie in self._generateMovies(room.game.object):
             node = movie.getEntityNode()
             slot.addChild(node)
             self.Movies[state] = movie
@@ -127,7 +127,7 @@ class Gate(Initializer):
         for state, (prototype_name, play, loop) in states.items():
             movie_name = "%s_%s" % (prototype_name, state)
 
-            movie = game_object.generateObject(movie_name, prototype_name, Interactive=True,
-                                               Enable=False, Play=play, Loop=loop)
+            movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)
+            movie = game_object.generateObject(movie_name, prototype_name, movie_params)
 
             yield state, movie
