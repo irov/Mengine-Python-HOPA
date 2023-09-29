@@ -11,6 +11,8 @@ FADE_TIME = 350.0
 
 class MazeScreens(Enigma):
 
+    """ Doc: https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/2146369537/MazeScreens """
+
     def __printMap(self):
         if _DEVELOPMENT is False:
             return
