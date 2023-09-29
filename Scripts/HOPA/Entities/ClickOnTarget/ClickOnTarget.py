@@ -177,13 +177,22 @@ class ClickOnTarget(Enigma):
             Trace.log("Entity", 0, msg)
 
     def setup(self):
-        # create socket click
-        scene = SceneManager.getCurrentScene()
-        layer = scene.getMainLayer()
-        click_polygon = Utils.createPolygonScene(layer, 0, 0)
+        self.loadParam()
 
-        self.socket_click = layer.createChild("HotSpotPolygon")
-        self.socket_click.setPolygon(click_polygon)
+        # create socket click
+
+        if self.params.socket_click is not None:
+            socket_click = self.object.getObject(self.params.socket_click)
+            self.socket_click = socket_click.getHotSpot()
+        else:
+            scene = SceneManager.getCurrentScene()
+            layer = scene.getMainLayer()
+            click_polygon = Utils.createPolygonScene(layer, 0, 0)
+
+            self.socket_click = layer.createChild("HotSpotPolygon")
+            self.socket_click.setPolygon(click_polygon)
+            self.socket_click.setName("ClickOnTarget_Socket_Click")
+
         self.socket_click.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
         self.socket_click.enable()
 
@@ -283,9 +292,11 @@ class ClickOnTarget(Enigma):
 
         if self.filler is not None:
             self.filler.returnToParent()
+            self.filler = None
 
         if self.target_fill is not None:
             self.target_fill.returnToParent()
+            self.target_fill = None
 
         if self.target_fill_affector is not None:
             Mengine.removeAffector(self.target_fill_affector)
@@ -304,7 +315,11 @@ class ClickOnTarget(Enigma):
 
         self.setTargetFillActive(False)  # force disable block socket
 
-        Mengine.destroyNode(self.socket_click)
+        if self.params.socket_click is None:
+            Mengine.destroyNode(self.socket_click)
+        self.socket_click = None
+
+        self.params = None
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def moveFillerOnCursorChangePos(self, _touchID, pos):
@@ -637,7 +652,6 @@ class ClickOnTarget(Enigma):
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):
         super(ClickOnTarget, self)._onPreparation()
-        self.loadParam()
         self.setup()
 
     def _onActivate(self):

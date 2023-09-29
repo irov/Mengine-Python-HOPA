@@ -10,7 +10,7 @@ from Foundation.Manager import Manager
 class ClickOnTargetParam(object):
     def __init__(self, filler, target_fill, target_charge_anim, target_appear_anim, target_disappear_anim,
                  filler_rand_accel_min, filler_rand_accel_max, filler_max_speed, movie_in_group_with_target_mg_slot,
-                 target_idle, target_down, target_hit_list, target_miss_list):
+                 target_idle, target_down, target_hit_list, target_miss_list, socket_click):
         self.filler = filler
         self.target_fill = target_fill
 
@@ -28,6 +28,8 @@ class ClickOnTargetParam(object):
         self.target_down = target_down
         self.target_hit_list = target_hit_list
         self.target_miss_list = target_miss_list
+
+        self.socket_click = socket_click
 
 
 class ClickOnTargetManager(Manager):
@@ -68,11 +70,13 @@ class ClickOnTargetManager(Manager):
             target_miss_xlsx = record.get('MissMoviesXlsx')
             target_hit_list = record.get('Movie2TargetHit')
 
+            socket_click = record.get('SocketClick')
+
             result = ClickOnTargetManager.addParam(enigma_name, module, filler, target_fill, target_charge_anim,
                                                    target_appear_anim, target_disappear_anim, filler_rand_accel_min,
                                                    filler_rand_accel_max, filler_max_speed,
                                                    movie_in_group_with_target_mg_slot, target_idle, target_down,
-                                                   target_miss_xlsx, target_hit_list)
+                                                   target_miss_xlsx, target_hit_list, socket_click)
 
             if result is False:
                 error_msg = "ClickOnTargetManager invalid addParam {}".format(enigma_name)
@@ -83,7 +87,8 @@ class ClickOnTargetManager(Manager):
     @staticmethod
     def addParam(enigma_name, module, filler, target_fill, target_charge_anim, target_appear_anim,
                  target_disappear_anim, filler_rand_accel_min, filler_rand_accel_max, filler_max_speed,
-                 movie_in_group_with_target_mg_slot, target_idle, target_down, target_miss_xlsx, target_hit_list):
+                 movie_in_group_with_target_mg_slot, target_idle, target_down, target_miss_xlsx, target_hit_list,
+                 socket_click):
         if enigma_name in ClickOnTargetManager.s_params:
             error_msg = "ClickOnTargetManager already have param for {}".format(enigma_name)
             Trace.log("Manager", 0, error_msg)
@@ -102,7 +107,7 @@ class ClickOnTargetManager(Manager):
         param = ClickOnTargetParam(filler, target_fill, target_charge_anim, target_appear_anim, target_disappear_anim,
                                    filler_rand_accel_min, filler_rand_accel_max, filler_max_speed,
                                    movie_in_group_with_target_mg_slot, target_idle, target_down, target_hit_list,
-                                   target_miss_list)
+                                   target_miss_list, socket_click)
 
         ClickOnTargetManager.s_params[enigma_name] = param
 
