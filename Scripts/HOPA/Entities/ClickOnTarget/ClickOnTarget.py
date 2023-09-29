@@ -183,7 +183,7 @@ class ClickOnTarget(Enigma):
 
         if self.params.socket_click is not None:
             socket_click = self.object.getObject(self.params.socket_click)
-            self.socket_click = socket_click.getHotSpot()
+            self.socket_click = socket_click.entity.getHotSpot()
         else:
             scene = SceneManager.getCurrentScene()
             layer = scene.getMainLayer()
