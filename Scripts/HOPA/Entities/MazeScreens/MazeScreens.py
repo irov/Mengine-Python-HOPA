@@ -6,7 +6,7 @@ from Foundation.GuardBlockInput import GuardBlockInput
 
 
 Enigma = Mengine.importEntity("Enigma")
-FADE_TIME = 150.0
+FADE_TIME = 350.0
 
 
 class MazeScreens(Enigma):
@@ -19,9 +19,9 @@ class MazeScreens(Enigma):
         for i in range(len(self.board)):
             line = ""
             for j in range(len(self.board[i])):
-                line += str(self.board[i][j] if self.board[i][j] else "X").ljust(4, " ")
+                line += str(self.board[i][j] if self.board[i][j] else MazeScreensManager.CELL_TYPE_WALL).ljust(4, " ")
             print line
-        print " Player position ", self.player_position, self.player_direction, self.board[self.player_position[0]][self.player_position[1]]
+        print " Player position is", self.player_position, "room", self.board[self.player_position[0]][self.player_position[1]]
 
     def __init__(self):
         super(MazeScreens, self).__init__()
@@ -30,7 +30,6 @@ class MazeScreens(Enigma):
         self.__current_room = None
         self.board = None
         self.player_position = None
-        self.player_direction = None
         self.__done_groups = []
 
     def _onPreparation(self):
@@ -41,6 +40,13 @@ class MazeScreens(Enigma):
 
     def _onDeactivate(self):
         self._cleanFull()
+
+        if TaskManager.existTaskChain("MazeScreensReset") is True:
+            TaskManager.cancelTaskChain("MazeScreensReset")
+        if TaskManager.existTaskChain("MazeScreensWinAnimation") is True:
+            TaskManager.cancelTaskChain("MazeScreensWinAnimation")
+        if TaskManager.existTaskChain("MazeScreensChangeRoom") is True:
+            TaskManager.cancelTaskChain("MazeScreensChangeRoom")
 
     # enigma handling
 
@@ -55,11 +61,16 @@ class MazeScreens(Enigma):
         self._playEnigma()
 
     def _resetEnigma(self):
-        TaskManager.runAlias("AliasFadeIn", None, FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
-        self._cleanFull()
-        self._prepare()
-        TaskManager.runAlias("AliasFadeOut", None, FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
-        self._playEnigma()
+        def _reset():
+            self._cleanFull()
+            self._prepare()
+            self._playEnigma()
+
+        with TaskManager.createTaskChain(Name="MazeScreensReset") as tc:
+            with GuardBlockInput(tc) as guard_source:
+                guard_source.addTask("AliasFadeIn", FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
+                guard_source.addFunction(_reset)
+                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
 
     # enigma flow
 
@@ -145,20 +156,26 @@ class MazeScreens(Enigma):
             Trace.log("Entity", 0, "MazeScreens.setCurrentRoom: not found room with id %s" % room_id)
             return
 
-        TaskManager.runAlias("AliasFadeIn", None, FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
-        if self.__current_room is not None:
-            self.__current_room.onDeactivate()
+        def _update():
+            if self.__current_room is not None:
+                self.__current_room.onDeactivate()
 
-        room = self._rooms[room_id]
-        room.onActivate()
-        TaskManager.runAlias("AliasFadeOut", None, FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
-        self.__current_room = room
+            room = self._rooms[room_id]
+            room.onActivate()
+
+            self.__current_room = room
+
+        with TaskManager.createTaskChain(Name="MazeScreensChangeRoom") as tc:
+            with GuardBlockInput(tc) as guard_source:
+                guard_source.addTask("AliasFadeIn", FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
+                guard_source.addFunction(_update)
+                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
 
     def getCurrentRoom(self):
         return self.__current_room
 
     def isGroupDone(self, group_id):
-        return group_id in self.DoneGroups
+        return group_id in self.__done_groups
 
     def setGroupDone(self, group_id):
         if group_id in self.__done_groups:
@@ -170,15 +187,9 @@ class MazeScreens(Enigma):
     def movePlayer(self, way):
         if way == MSTransition.Win:
             self.setComplete()
-            return 
+            return
 
-        if way == MSTransition.Down:
-            move_direction = self.getRevertedDirection(self.player_direction)
-        else:
-            move_direction = (way + self.player_direction) % 4
-            self.rotatePlayer(way)
-
-        direction = self.getDirectionVector(move_direction)
+        direction = self.getDirectionVector(way)
         position = (
             self.player_position[0] + direction[0],
             self.player_position[1] + direction[1],
@@ -191,29 +202,20 @@ class MazeScreens(Enigma):
 
         self.setCurrentRoom(room.id)
 
-        self.player_position = self.getCurrentRoomPosition()
+        self.player_position = position
         self.__printMap()
 
-    def getDirectionVector(self, direction):
+    def getDirectionVector(self, way):
         vector = (0, 0)
-        if direction == MSTransition.Up:
+        if way == MSTransition.Up:
             vector = (-1, 0)
-        elif direction == MSTransition.Down:
+        elif way == MSTransition.Down:
             vector = (1, 0)
-        elif direction == MSTransition.Right:
+        elif way == MSTransition.Right:
             vector = (0, 1)
-        elif direction == MSTransition.Left:
+        elif way == MSTransition.Left:
             vector = (0, -1)
         return vector
-
-    def getDirection(self, way):
-        return abs(way % 4)
-
-    def getRevertedDirection(self, way):
-        return abs((4 - way) % 4)
-
-    def rotatePlayer(self, way):
-        self.player_direction = self.getDirection(self.player_direction + MSTransition.convert(way))
 
     def getCurrentRoomPosition(self):
         position = (0, 0)

@@ -72,7 +72,6 @@ class Lever(Initializer):
 
         with self.tc as tc:
             def __states(isSkip, cb):
-                Trace.msg_dev("    {}: run state {}".format(self.id, self.__state))
                 cb(isSkip, self.__state)
 
             tc.addScopeSwitch(Scopes, __states)
@@ -80,8 +79,7 @@ class Lever(Initializer):
     # states
 
     def __stateReady(self, source, Movie):
-        cursor = self.room.game.params.cursor
-        cursor_mode = cursor.use_lever
+        cursor_mode = self._params.cursor_mode
 
         source.addEnable(Movie)
 
@@ -94,6 +92,8 @@ class Lever(Initializer):
         source.addDisable(Movie)
 
     def __stateUse(self, source, Movie):
+        source.addFunction(self._mouseLeave, Movie)
+
         if Movie is None:
             source.addFunction(self.doneGroup)
             source.addFunction(self.setState, "Done")
@@ -115,22 +115,17 @@ class Lever(Initializer):
     # cursor handler
 
     def _scopeCursorHandler(self, source, Movie, cursor_mode):
-        print "_scopeCursorHandler", cursor_mode
         with source.addRepeatTask() as (source_repeat, source_until):
             source_repeat.addTask("TaskMovie2SocketEnter", Movie2=Movie, SocketName="socket")
-            source_repeat.addPrint("   lever mouse Enter")
             source_repeat.addFunction(self._mouseEnter, Movie, cursor_mode)
 
             source_repeat.addTask("TaskMovie2SocketLeave", Movie2=Movie, SocketName="socket")
-            source_repeat.addPrint("   lever mouse Leave")
             source_repeat.addFunction(self._mouseLeave, Movie)
 
             source_until.addEvent(self.EventUpdateState)
-            source_until.addFunction(self._mouseLeave, Movie)
 
     def _mouseEnter(self, Movie, cursor_mode):
         CursorManager._arrowEnterFilter(Movie, cursor_mode)
-        # CursorManager.setCursorMode(cursor_mode, True)
 
     def _mouseLeave(self, Movie):
         CursorManager._arrowLeaveFilter(Movie)

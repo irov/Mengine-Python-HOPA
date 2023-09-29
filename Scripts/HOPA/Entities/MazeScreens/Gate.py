@@ -49,6 +49,9 @@ class Gate(Initializer):
         self.__state = None
 
     def onActivate(self):
+        if self.room.game.isGroupDone(self._params.group_id) is True:
+            self.__state = "Open"
+
         self.runTaskChain()
 
     def onDeactivate(self):
@@ -71,7 +74,6 @@ class Gate(Initializer):
 
         with self.tc as tc:
             def __states(isSkip, cb):
-                Trace.msg_dev("    {}: run state {}".format(self.id, self.__state))
                 cb(isSkip, self.__state)
 
             tc.addScopeSwitch(Scopes, __states)
