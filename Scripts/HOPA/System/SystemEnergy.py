@@ -154,10 +154,10 @@ class SystemEnergy(System):
 
         SystemAnalytics.addExtraAnalyticParams(_getExtraParams)
 
-        SystemAnalytics.addSpecificAnalytic("earn_currency", "refill_energy", Notificator.onEnergyIncrease, None,
-                                            lambda amount: {'name': 'energy', 'amount': amount})
-        SystemAnalytics.addSpecificAnalytic("spent_currency", "consume_energy", Notificator.onEnergyConsumed, None,
-                                            lambda action, amount: {'amount': amount, 'description': action, 'name': 'energy'})
+        SystemAnalytics.addAnalytic("refill_energy", Notificator.onEnergyIncrease, service_key="earn_currency",
+                                    params_method=lambda amount: {'name': 'energy', 'amount': amount})
+        SystemAnalytics.addAnalytic("consume_energy", Notificator.onEnergyConsumed, service_key="spent_currency",
+                                    params_method=lambda action, amount: {'amount': amount, 'description': action, 'name': 'energy'})
 
         SystemAnalytics.addAnalytic("not_enough_energy", Notificator.onEnergyNotEnough, None,
                                     lambda action: {"action": action, "price": self.getActionEnergy(action)})

@@ -552,9 +552,9 @@ class SystemAchievements(System):
                 tc_true.addFunction(self.__cheatCompleteRandomAchievement)
 
     def _addAnalytics(self):
-        SystemAnalytics.addSpecificAnalytic("unlock_achievement", "unlock_external_achievement",
-                                            Notificator.onAchievementExternalUnlocked, None,
-                                            lambda achieve_id: {'achievement_id': achieve_id})
+        SystemAnalytics.addAnalytic("unlock_external_achievement", Notificator.onAchievementExternalUnlocked,
+                                    service_key="unlock_achievement",
+                                    params_method=lambda achieve_id: {'achievement_id': achieve_id})
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:
