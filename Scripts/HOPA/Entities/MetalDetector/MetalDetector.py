@@ -1,6 +1,6 @@
-from Foundation.ArrowManager import ArrowManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from HOPA.ItemManager import ItemManager
+from HOPA.CursorManager import CursorManager
 from HOPA.MetalDetectorManager import MetalDetectorManager
 from Notification import Notification
 
@@ -38,7 +38,7 @@ class MetalDetector(BaseEntity):
         self.MovieCold.setEnable(False)
         self.position = self.object.getParam("DetectPoint")
 
-        MainLayer = self.getParent()
+        MainLayer = self.object.getParent()
         centre = MainLayer.getSize()
         origin = (centre[0] / 2, centre[1] / 2)
         self.MovieHot.getEntity().setOrigin(origin)
@@ -55,7 +55,7 @@ class MetalDetector(BaseEntity):
 
         Notification.removeObserver(self.Attach)
         Notification.removeObserver(self.DeAttach)
-        ArrowManager.setBlockCursorUpdate(block=False)
+        CursorManager.setBlockCursorUpdate(block=False)
         if self.MouseMove:
             Notification.removeObserver(self.MouseMove)
             pass
@@ -65,7 +65,7 @@ class MetalDetector(BaseEntity):
         if self.InventoryItem is atach:
             self.__setParams()
             self.InventoryItem.setEnable(False)
-            ArrowManager.setBlockCursorUpdate(block=True)
+            CursorManager.setBlockCursorUpdate(block=True)
             pass
         return False
         pass
@@ -77,13 +77,13 @@ class MetalDetector(BaseEntity):
         self.CurrentMovie.setPlay(False)
         self.CurrentMovie.setEnable(False)
         Notification.removeObserver(self.MouseMove)
-        ArrowManager.setBlockCursorUpdate(block=False)
-        currentCursor = ArrowManager.getCursorChildren()
+        CursorManager.setBlockCursorUpdate(block=False)
+        currentCursor = CursorManager.getCursorChildren()
         if currentCursor is None:
             return
             pass
         currentCursor.setEnable(True)
-        ArrowManager.setCursorMode("Default")
+        CursorManager.setCursorMode("Default")
 
         self.MouseMove = None
         return False
@@ -111,11 +111,11 @@ class MetalDetector(BaseEntity):
         MovieEn = Movie.getEntity()
         #        arrow.addChild(MovieEn)
 
-        arrow = ArrowManager.getArrow()
+        arrow = CursorManager.getArrow()
         itemNode = arrow.getCursorNode()
         itemNode.addChild(MovieEn)
 
-        currentCursor = ArrowManager.getCursorChildren()
+        currentCursor = CursorManager.getCursorChildren()
         if currentCursor is None:
             return
             pass

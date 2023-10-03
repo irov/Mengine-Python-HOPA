@@ -1,4 +1,4 @@
-from Foundation.ArrowManager import ArrowManager
+from HOPA.CursorManager import CursorManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
@@ -163,7 +163,7 @@ class Reagents(BaseEntity):
         pass
 
     def __changeCursor(self, value):
-        currentCursor = ArrowManager.getCursorChildren()
+        currentCursor = CursorManager.getCursorChildren()
         if currentCursor is None:
             return
             pass

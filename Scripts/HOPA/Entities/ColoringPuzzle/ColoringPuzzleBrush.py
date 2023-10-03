@@ -1,4 +1,4 @@
-from Foundation.ArrowManager import ArrowManager
+from HOPA.CursorManager import CursorManager
 
 
 class ColoringPuzzleBrush(object):
@@ -21,12 +21,12 @@ class ColoringPuzzleBrush(object):
         pos = slotOffset.getLocalPosition()
         self.movieObject.setOrigin(pos)
 
-        arrow = ArrowManager.getArrow()
+        arrow = CursorManager.getArrow()
         itemNode = arrow.getCursorNode()
         # itemNode.removeAllChild()
         itemNode.addChild(movieEntityNode)
 
-        currentCursor = ArrowManager.getCursorChildren()
+        currentCursor = CursorManager.getCursorChildren()
         if currentCursor is None:
             return
             pass
@@ -39,7 +39,7 @@ class ColoringPuzzleBrush(object):
         movieEntity.removeFromParent()
         self.movieObject.setEnable(False)
 
-        currentCursor = ArrowManager.getCursorChildren()
+        currentCursor = CursorManager.getCursorChildren()
         if currentCursor is None:
             return
             pass

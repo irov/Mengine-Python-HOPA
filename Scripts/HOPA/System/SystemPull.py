@@ -1,4 +1,4 @@
-from Foundation.ArrowManager import ArrowManager
+from HOPA.CursorManager import CursorManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.PullManager import PullManager
@@ -43,12 +43,12 @@ class SystemPull(System):
 
         direction = self.watched_sockets[socket]
         PullCursorMode = PullManager.getCursorMode(direction)
-        currentCursor = ArrowManager.getCursorMode()
+        currentCursor = CursorManager.getCursorMode()
         if currentCursor == PullCursorMode:
             return False
             pass
 
-        ArrowManager.setCursorMode(PullCursorMode)
+        CursorManager.setCursorMode(PullCursorMode)
         return False
         pass
 
@@ -59,12 +59,12 @@ class SystemPull(System):
 
         direction = self.watched_sockets[socket]
         PullCursorMode = PullManager.getCursorMode(direction)
-        currentCursor = ArrowManager.getCursorMode()
+        currentCursor = CursorManager.getCursorMode()
         if currentCursor != PullCursorMode:
             return False
             pass
 
-        ArrowManager.setCursorMode("Default")
+        CursorManager.setCursorMode("Default")
         return False
         pass
 

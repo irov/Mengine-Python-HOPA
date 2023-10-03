@@ -1,4 +1,4 @@
-from Foundation.ArrowManager import ArrowManager
+from HOPA.CursorManager import CursorManager
 from Foundation.Task.Task import Task
 
 
@@ -13,6 +13,6 @@ class TaskSetCursorMode(Task):
         pass
 
     def _onRun(self):
-        ArrowManager.setCursorMode(self.cursorMode)
+        CursorManager.setCursorMode(self.cursorMode)
         return True
         pass
