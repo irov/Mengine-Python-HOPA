@@ -123,10 +123,21 @@ class SystemAnalytics(SystemAnalyticsBase):
         for event_key, (identity, check_method, params_method) in default_analytics.items():
             self.addAnalytic(event_key, identity, check_method=check_method, params_method=params_method)
 
-        self.addAnalytic("zoom_open", Notificator.onZoomOpen, service_key="screen_view",
-                         params_method=lambda name: {"screen_type": "MengineZoom", "screen_name": name})
+        self._addScreenViewZoom()
 
     def _addIgnoreLogList(self):
         ignore_list = ["paragraph_start", "paragraph_complete"]
         for event_key in ignore_list:
             self.addIgnoreLogEventKey(event_key)
+
+    def _addScreenViewZoom(self):
+        def _onOpen(name):
+            return {"screen_type": "MengineZoom", "screen_name": name}
+        def _onCheckClose(name):
+            return SceneManager.getCurrentSceneName() is not None
+        def _onClose(name):
+            return {"screen_type": "MengineScene", "screen_name": SceneManager.getCurrentSceneName()}
+
+        self.addSpecificAnalytic("screen_view", "zoom_open", Notificator.onZoomOpen, params_method=_onOpen)
+        self.addSpecificAnalytic("screen_view", "zoom_close", Notificator.onZoomClose,
+                                 check_method=_onCheckClose, params_method=_onClose)
