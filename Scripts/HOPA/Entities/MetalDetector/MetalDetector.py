@@ -78,10 +78,11 @@ class MetalDetector(BaseEntity):
         self.CurrentMovie.setEnable(False)
         Notification.removeObserver(self.MouseMove)
         CursorManager.setBlockCursorUpdate(block=False)
-        currentCursor = CursorManager.getCursorChildren()
-        if currentCursor is None:
+        cursorChildren = CursorManager.getCursorChildren()
+        if len(cursorChildren) == 0:
             return
-            pass
+
+        currentCursor = cursorChildren[0]
         currentCursor.setEnable(True)
         CursorManager.setCursorMode("Default")
 
@@ -115,10 +116,11 @@ class MetalDetector(BaseEntity):
         itemNode = arrow.getCursorNode()
         itemNode.addChild(MovieEn)
 
-        currentCursor = CursorManager.getCursorChildren()
-        if currentCursor is None:
+        cursorChildren = CursorManager.getCursorChildren()
+        if len(cursorChildren) == 0:
             return
-            pass
+
+        currentCursor = cursorChildren[0]
         currentCursor.setEnable(False)
 
         #        speeedFactor = self.Range/(distanse+10)

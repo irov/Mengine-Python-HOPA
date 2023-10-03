@@ -26,22 +26,21 @@ class ColoringPuzzleBrush(object):
         # itemNode.removeAllChild()
         itemNode.addChild(movieEntityNode)
 
-        currentCursor = CursorManager.getCursorChildren()
-        if currentCursor is None:
+        cursorChildren = CursorManager.getCursorChildren()
+        if len(cursorChildren) == 0:
             return
-            pass
 
+        currentCursor = cursorChildren[0]
         currentCursor.setEnable(False)
-        pass
 
     def hide(self):
         movieEntity = self.movieObject.getEntity()
         movieEntity.removeFromParent()
         self.movieObject.setEnable(False)
 
-        currentCursor = CursorManager.getCursorChildren()
-        if currentCursor is None:
+        cursorChildren = CursorManager.getCursorChildren()
+        if len(cursorChildren) == 0:
             return
-            pass
 
+        currentCursor = cursorChildren[0]
         currentCursor.setEnable(True)

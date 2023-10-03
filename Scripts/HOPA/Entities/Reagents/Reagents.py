@@ -163,10 +163,11 @@ class Reagents(BaseEntity):
         pass
 
     def __changeCursor(self, value):
-        currentCursor = CursorManager.getCursorChildren()
-        if currentCursor is None:
+        cursorChildren = CursorManager.getCursorChildren()
+        if len(cursorChildren) == 0:
             return
-            pass
+
+        currentCursor = cursorChildren[0]
         currentCursor.setEnable(value)
         pass
 
