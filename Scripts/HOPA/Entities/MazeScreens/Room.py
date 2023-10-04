@@ -4,7 +4,6 @@ from HOPA.MazeScreensManager import MSObject
 from HOPA.Entities.MazeScreens.Gate import Gate
 from HOPA.Entities.MazeScreens.Lever import Lever
 from HOPA.Entities.MazeScreens.Transition import Transition
-from HOPA.TransitionManager import TransitionManager
 
 
 class Room(Initializer):
@@ -48,7 +47,7 @@ class Room(Initializer):
 
     def onActivate(self):
         if self.params.is_start is False:
-            self.toggleNavBackButton(False)
+            self.game.toggleNavBackButton(False)
 
         for obj in self._objects:
             obj.onActivate()
@@ -56,7 +55,7 @@ class Room(Initializer):
 
     def onDeactivate(self):
         if self.params.is_start is False:
-            self.toggleNavBackButton(True)
+            self.game.toggleNavBackButton(True)
 
         for obj in self._objects:
             obj.onDeactivate()
@@ -99,8 +98,4 @@ class Room(Initializer):
             self.root.enable()
         else:
             self.root.disable()
-
-    def toggleNavBackButton(self, state):
-        """ toggle transition back button interactive """
-        TransitionManager.s_transitionBackObject.setInteractive(state)
 

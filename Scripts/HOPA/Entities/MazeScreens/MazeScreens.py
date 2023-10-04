@@ -3,6 +3,7 @@ from HOPA.MazeScreensManager import MSTransition
 from HOPA.Entities.MazeScreens.Room import Room
 from Foundation.TaskManager import TaskManager
 from Foundation.GuardBlockInput import GuardBlockInput
+from HOPA.TransitionManager import TransitionManager
 
 
 Enigma = Mengine.importEntity("Enigma")
@@ -49,6 +50,8 @@ class MazeScreens(Enigma):
             TaskManager.cancelTaskChain("MazeScreensWinAnimation")
         if TaskManager.existTaskChain("MazeScreensChangeRoom") is True:
             TaskManager.cancelTaskChain("MazeScreensChangeRoom")
+
+        self.toggleNavBackButton(True)
 
     # enigma handling
 
@@ -227,6 +230,10 @@ class MazeScreens(Enigma):
                     position = (i, j)
                     break
         return position
+
+    def toggleNavBackButton(self, state):
+        """ toggle transition back button interactive """
+        TransitionManager.s_transitionBackObject.setInteractive(state)
 
 
 
