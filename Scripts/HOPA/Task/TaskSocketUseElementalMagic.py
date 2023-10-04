@@ -28,7 +28,7 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
 
         player_element = ElementalMagicManager.getPlayerElement()
         if player_element == self.Element:
-            Notification.notify(Notificator.onElementalMagicReady, player_element)
+            Notification.notify(Notificator.onElementalMagicReady)
 
         return False
 
