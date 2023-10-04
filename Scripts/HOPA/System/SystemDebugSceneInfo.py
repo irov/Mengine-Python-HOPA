@@ -1,5 +1,6 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.SceneManager import SceneManager
+from Foundation.Params import Params
 from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
@@ -97,7 +98,7 @@ class SystemDebugSceneInfo(System):
 
         if arrowItem is not None:
             text += '\nItems on Arrow: '
-            if arrowItem.hasParam("FoundItems"):
+            if isinstance(arrowItem, Params) is True and arrowItem.hasParam("FoundItems"):
                 ItemsOnArrow = arrowItem.getParam('FoundItems')
                 for itemName in ItemsOnArrow:
                     text += itemName
