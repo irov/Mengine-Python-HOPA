@@ -132,37 +132,33 @@ class SystemJournal(System):
 
         with self.createTaskChain(Name="JournalAppend", Global=True, Repeat=True, GroupName="Open_Journal") as tc:
             tc.addTask("TaskListener", ID=Notificator.onJournalAddPage)
-
-            tc.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=True)
-
-            tc.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=False)
-            tc.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=False)
-
-            tc.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Activate", Wait=True)
-            tc.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=False)
-
-            tc.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=True)
-            tc.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Llight_loop", Wait=False, Loop=True)
-            tc.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=True)
+            tc.addScope(self._scopeJournalAppend)
 
             with tc.addRepeatTask() as (tc_new, tc_open):
                 tc_new.addTask("TaskListener", ID=Notificator.onJournalAddPage)
-                tc_new.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=True)
-
-                tc_new.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=False)
-                tc_new.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=False)
-
-                tc_new.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Activate", Wait=True)
-                tc_new.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=False)
-
-                tc_new.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=True)
-                tc_new.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Llight_loop", Wait=False, Loop=True)
-
-                tc_new.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=True)
+                tc_new.addScope(self._scopeJournalAppend)
 
                 tc_open.addTask("TaskListener", ID=Notificator.onJournalOpen)
                 tc_open.addTask("TaskSetParam", ObjectName="Movie2_Env_Llight_loop", Param="Loop", Value=False)
                 tc_open.addTask("TaskMovie2Stop", Movie2Name="Movie2_Env_Llight_loop")
+
+    def _scopeJournalAppend(self, source):
+        group = GroupManager.getGroup("Open_Journal")
+        if group.isActive() is False:
+            source.addListener(Notificator.onLayerGroupEnable, Filter=lambda name: name == "Open_Journal")
+
+        source.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=True)
+
+        source.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=False)
+        source.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=False)
+
+        source.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Activate", Wait=True)
+        source.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=False)
+
+        source.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=True)
+        source.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Llight_loop", Wait=False, Loop=True)
+
+        source.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=True)
 
     def __cutScenePlay(self):
         self.movie2button_play = self.demon_journal.getObject("Movie2Button_Play")
