@@ -7,6 +7,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.CutSceneManager import CutSceneManager
 from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.ChapterSelectionManager import ChapterSelectionManager
+from Foundation.Systems.SystemAnalytics import SystemAnalytics
 
 REPLAY_TIME_DELAY = 5000.0
 
@@ -172,15 +173,25 @@ class CutScene(BaseEntity):
             CASE 3. Try to run first chapter paragraph or scene
         """
 
+        def _sendAnalytics(case, paragraph_id):
+            SystemAnalytics.sendCustomAnalytic("cutscene_safe_leave", {
+                "case": case,
+                "paragraph_id": paragraph_id,
+                "current_cutscene_name": str(self.CutSceneName),
+            })
+
         # CASE 1. Try to find previous paragraph by last CutScene name - and run it if possible
         paragraph = CutSceneManager.findPreviousCutSceneParagraph(self.CutSceneName)
         if paragraph is not None:
-            Trace.msg_dev("Found previous paragraph id = " + str(paragraph.Paragraphs[0]) + " - try run")
+            last_paragraph_id = str(paragraph.Paragraphs[0])
+            _sendAnalytics(1, last_paragraph_id)
+            Trace.msg_dev("Found previous paragraph id = " + last_paragraph_id + " - try run")
             self._manuallyRunCutSceneParagraph(paragraph)
             return
 
         # CASE 2. Check if we have any open scenes - open map
         if Map2Manager.hasCurrentMapObject() is True and Map2Manager.hasOpenScenes() is True:
+            _sendAnalytics(2, "unknown")
             Notification.notify(Notificator.onMapSilenceOpen)
             return
 
@@ -189,10 +200,13 @@ class CutScene(BaseEntity):
         if chapter is not None:
             paragraph = chapter.start_paragraph
             if paragraph is not None:
+                start_paragraph_id = str(paragraph.Paragraphs[0])
+                _sendAnalytics(3, start_paragraph_id)
                 Trace.msg_dev("Found start chapter paragraph id = " + str(paragraph.Paragraphs[0]) + " - try run")
                 self._manuallyRunCutSceneParagraph(paragraph)
                 return
             if chapter.start_scene is not None:
+                _sendAnalytics(3, "unknown")
                 TaskManager.runAlias("AliasTransition", None, SceneName=chapter.start_scene)
                 return
 
