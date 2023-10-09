@@ -32,20 +32,15 @@ class CutScene(BaseEntity):
         self.__checkTaskChain()
 
     def _onActivate(self):
-        if self.Play is True:
-            return
-
         if DefaultManager.getDefaultBool("UseCutSceneBlockProtection", True) is False:
             return
 
-        with TaskManager.createTaskChain(Name="CutSceneBlockProtector") as tc:
-            with tc.addRaceTask(2) as (tc_ok, tc_replay):
-                tc_ok.addListener(Notificator.onCutSceneStart)
-                tc_ok.addPrint(" CUT SCENE OK")
+        cut_scene_skip = PolicyManager.getPolicy("CutSceneSkip", "PolicyCutSceneSkip")
 
-                tc_replay.addDelay(REPLAY_TIME_DELAY)
-                tc_replay.addPrint(" [!!] FOUND BLOCK: REPLAY PREVIOUS PARAGRAPH !!!!!!!")
-                tc_replay.addFunction(self._safeLeaveScene)
+        with TaskManager.createTaskChain(Name="CutSceneBlockProtector", Replay=True) as tc:
+            tc.addTask(cut_scene_skip)
+            with tc.addIfTask(lambda: self.Play is True) as (tc_play_true, tc_play_false):
+                tc_play_false.addFunction(self._safeLeaveScene)
 
     def _updatePlay(self, value):
         if value is True:
