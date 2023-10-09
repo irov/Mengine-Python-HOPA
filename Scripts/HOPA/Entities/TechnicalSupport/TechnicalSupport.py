@@ -40,19 +40,24 @@ class TechnicalSupport(BaseEntity):
     def getSupportMessageBody(self):
         kwargs = dict(
             BUILD_VERSION=_BUILD_VERSION,
+            BUILD_NUMBER=_BUILD_VERSION_NUMBER,
             PUBLISHER=Utils.getCurrentPublisher(),
             OS_NAME=Utils.getCurrentPlatform(),
-            OS_VERSION="?",
+            OS_VERSION="unknown",
+            SESSION_ID="unknown",
         )
         if _ANDROID:
             kwargs["OS_VERSION"] = Mengine.androidStringMethod("Application", "getOSVersion")
+            kwargs["SESSION_ID"] = Mengine.androidStringMethod("Application", "getSessionId")
 
         body = u"""----- Please Describe Your Issue Above Here -----
 
         Important Details for our Support Team:
         * game publisher: {PUBLISHER}
         * build version: {BUILD_VERSION}
+        * build number: {BUILD_NUMBER}
         * {OS_NAME} version: {OS_VERSION}
+        * session id: {SESSION_ID}
         """.format(**kwargs)
 
         return body
