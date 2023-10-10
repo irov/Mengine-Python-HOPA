@@ -126,7 +126,7 @@ class ClickOnTarget(Enigma):
         # target filling
         self.filler = None
         self.target_fill = None
-        self.event_target_fill_charged = Event("onTargetFillCharged")
+        self.event_target_fill_charged = None
 
         self.target_fill_charged_anim = None
         self.target_fill_appear_anim = None
@@ -158,11 +158,11 @@ class ClickOnTarget(Enigma):
         self.max_speed = 120.0  # param
         self.velocity = Mengine.vec2f(0.0, 0.0)
 
-        self.semaphore_block_click = Semaphore(False, "ButtonClickBlock")
+        self.semaphore_block_click = None
 
         # first click socket
         self.socket_click = None
-        self.event_socket_click = Event("onSocketClick")
+        self.event_socket_click = None
 
         # visual target
         self.target = None
@@ -178,6 +178,10 @@ class ClickOnTarget(Enigma):
 
     def setup(self):
         self.loadParam()
+
+        self.event_target_fill_charged = Event("onTargetFillCharged")
+        self.semaphore_block_click = Semaphore(False, "ButtonClickBlock")
+        self.event_socket_click = Event("onSocketClick")
 
         # create socket click
 
@@ -318,6 +322,10 @@ class ClickOnTarget(Enigma):
         if self.params.socket_click is None:
             Mengine.destroyNode(self.socket_click)
         self.socket_click = None
+
+        self.semaphore_block_click = None
+        self.event_socket_click = None
+        self.event_target_fill_charged = None
 
         self.params = None
 
