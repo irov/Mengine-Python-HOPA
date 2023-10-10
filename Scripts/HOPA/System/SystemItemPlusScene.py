@@ -1,8 +1,9 @@
+from Foundation.System import System
+from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
-from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 from HOPA.QuestManager import QuestManager
@@ -16,8 +17,6 @@ class SystemItemPlusScene(System):
 
     def __init__(self):
         super(SystemItemPlusScene, self).__init__()
-        self.InventoryName = "Inventory"
-        self.ItemPlusDefaultName = "ItemPlusDefault"
         self.items_Inventort = {}
         self.items_Inventort_Keys = {}
         self.items_Scenes_Glob = {}
@@ -27,8 +26,23 @@ class SystemItemPlusScene(System):
         self.Node_Fade.setName("ItemPlus_Fade_Node")
         self.posTo = [0.0, 0.0]
         self.posFrom = [0.0, 0.0]
-        self.Plus_Node = None
-        self.time_Fade = 700
+
+        # Defaults
+        self.ItemPlusInventoryName = DefaultManager.getDefault("ItemPlusInventoryName", "Inventory")
+        self.ItemPlusDefaultName = DefaultManager.getDefault("ItemPlusDefaultName", "ItemPlusDefault")
+        self.ItemPlusFadeGroup = DefaultManager.getDefault("ItemPlusFadeGroup", "FadeZoom")
+        self.ItemPlusFadeValue = DefaultManager.getDefaultFloat("ItemPlusFadeValue", 0.60)
+
+        self.ItemPlusOpenFadeTime = DefaultManager.getDefaultFloat("ItemPlusOpenFadeTime", 700.0)
+        self.ItemPlusOpenMoveTime = DefaultManager.getDefaultFloat("ItemPlusOpenMoveTime", 700.0)
+        self.ItemPlusOpenScaleTime = DefaultManager.getDefaultFloat("ItemPlusOpenScaleTime", 700.0)
+        self.ItemPlusOpenAlphaTime = DefaultManager.getDefaultFloat("ItemPlusOpenAlphaTime", 700.0 * 0.33)
+
+        self.ItemPlusCloseFadeTime = DefaultManager.getDefaultFloat("ItemPlusCloseFadeTime", 700.0)
+        self.ItemPlusCloseMoveTime = DefaultManager.getDefaultFloat("ItemPlusCloseMoveTime", 700.0)
+        self.ItemPlusCloseScaleTime = DefaultManager.getDefaultFloat("ItemPlusCloseScaleTime", 700.0)
+        self.ItemPlusCloseAlphaTime = DefaultManager.getDefaultFloat("ItemPlusCloseAlphaTime", 700.0 * 0.33)
+        self.ItemPlusCloseAlphaDelay = DefaultManager.getDefaultFloat("ItemPlusCloseAlphaDelay", 700.0 * 0.66)
 
     def _onRun(self):
         self.addObserver(Notificator.onGetItem, self._itemGet)
@@ -204,7 +218,7 @@ class SystemItemPlusScene(System):
 
                 # print 'ItemPlus Fix Fired'
 
-        if SceneManager.hasLayerScene(self.InventoryName) is False:
+        if SceneManager.hasLayerScene(self.ItemPlusInventoryName) is False:
             return False
 
         for key, val in self.items_Inventort.iteritems():
@@ -214,7 +228,7 @@ class SystemItemPlusScene(System):
         return False
 
     def _AddChildren(self, Scene):
-        if SceneManager.hasLayerScene(self.InventoryName) is False:
+        if SceneManager.hasLayerScene(self.ItemPlusInventoryName) is False:
             return False
 
         for key, val in self.items_Inventort.iteritems():
@@ -285,9 +299,6 @@ class SystemItemPlusScene(System):
         else:
             Trace.log("System", 0, "Something wrong with your item+ {!r} - scene is already activated!!")
 
-        FadeGroup = "FadeZoom"
-        time_Out_From = 0.60
-
         self.tc_Fade = TaskManager.createTaskChain(Repeat=False)
 
         if GroupZoom.hasObject("Socket_Scene") is True:
@@ -302,16 +313,19 @@ class SystemItemPlusScene(System):
 
             with self.tc_Fade as source_open:
                 with GuardBlockInput(source_open) as guard_open:
-                    with guard_open.addParallelTask(4) as (tc1, tc2, tc3, tc4):
-                        tc1.addTask("AliasFadeOut", FadeGroupName=FadeGroup, From=0.75, Time=0.02)
-                        tc1.addTask("AliasFadeIn", FadeGroupName=FadeGroup, To=time_Out_From, Time=self.time_Fade, ReturnItem=False)
+                    with guard_open.addParallelTask(4) as (tc_fade, tc_move, tc_scale, tc_alpha):
+                        tc_fade.addTask("AliasFadeIn", FadeGroupName=self.ItemPlusFadeGroup, ReturnItem=False,
+                                        To=self.ItemPlusFadeValue, Time=self.ItemPlusOpenFadeTime)
 
-                        tc2.addFunction(self._posSeter)
-                        tc2.addTask("TaskNodeMoveTo", Node=self.Node_Fade, To=self.posTo, Time=self.time_Fade)
+                        tc_move.addFunction(self._posSeter)
+                        tc_move.addTask("TaskNodeMoveTo", Node=self.Node_Fade, To=self.posTo,
+                                        Time=self.ItemPlusOpenMoveTime)
 
-                        tc3.addTask("TaskNodeScaleTo", Node=self.Node_Fade, From=(0.04, 0.04, 1.0), To=(1.0, 1.0, 1.0), Time=self.time_Fade)
+                        tc_scale.addTask("TaskNodeScaleTo", Node=self.Node_Fade, From=(0.0, 0.0, 1.0),
+                                         To=(1.0, 1.0, 1.0), Time=self.ItemPlusOpenScaleTime)
 
-                        tc4.addTask("TaskNodeAlphaTo", Node=self.Node_Fade, From=0.0, To=1.0, Time=self.time_Fade * 0.33)
+                        tc_alpha.addTask("TaskNodeAlphaTo", Node=self.Node_Fade, From=0.0, To=1.0,
+                                         Time=self.ItemPlusOpenAlphaTime)
 
             self.enableObjects(group)
         else:
@@ -405,8 +419,8 @@ class SystemItemPlusScene(System):
     def _CloseZoomEnd(self, GroupZoom, ScenePlus, point=None, b_remove_from_inv=False, b_point_to_bezier=False, time=None):
         Notification.notify(Notificator.onGroupDisable, ScenePlus)
 
-        FadeGroup = "FadeZoom"
-        time_Out_From = 0.60
+        if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is False:
+            return
 
         Scenarios = ScenarioManager.getSceneRunScenarios(ScenePlus, ScenePlus)
 
@@ -419,39 +433,50 @@ class SystemItemPlusScene(System):
             task_node_move_to = "TaskNodeMoveTo"
 
         if time is None:
-            time = self.time_Fade
+            fade_time = self.ItemPlusCloseFadeTime
+            move_tome = self.ItemPlusCloseMoveTime
+            scale_time = self.ItemPlusCloseScaleTime
+            alpha_time = self.ItemPlusCloseAlphaTime
+            alpha_delay = self.ItemPlusCloseAlphaDelay
+        else:
+            fade_time = time
+            move_tome = time
+            scale_time = time
+            alpha_time = time * 0.33
+            alpha_delay = time * 0.66
 
-        if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is True:
-            self.tc_Fade_close = TaskManager.createTaskChain(Repeat=False)
-            with self.tc_Fade_close as source_close:
-                with GuardBlockInput(source_close) as guard_close:
-                    # close effect
-                    with guard_close.addParallelTask(4) as (tc1, tc2, tc3, tc4):
-                        tc1.addTask("AliasFadeOut", FadeGroupName=FadeGroup, From=time_Out_From, Time=time)
-                        tc2.addTask(task_node_move_to, Node=self.Node_Fade, To=point, Time=time)
-                        tc3.addTask("TaskNodeScaleTo", Node=self.Node_Fade, To=(0.04, 0.04, 1.0), Time=time)
+        self.tc_Fade_close = TaskManager.createTaskChain(Repeat=False)
+        with self.tc_Fade_close as source_close:
+            with GuardBlockInput(source_close) as guard_close:
+                # close effect
+                with guard_close.addParallelTask(4) as (tc_fade, tc_move, tc_scale, tc_alpha):
+                    tc_fade.addTask("AliasFadeOut", FadeGroupName=self.ItemPlusFadeGroup, Time=fade_time,
+                                    From=self.ItemPlusFadeValue)
 
-                        tc4.addDelay(time * 0.66)
-                        tc4.addTask("TaskNodeAlphaTo", Node=self.Node_Fade, To=0.0, Time=time * 0.33)
-                    #
+                    tc_move.addTask(task_node_move_to, Node=self.Node_Fade, To=point, Time=move_tome)
 
-                    if b_remove_from_inv:  # remove from inventory
-                        guard_close.addScope(self.remove_from_inventory, ScenePlus)
-                        guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
+                    tc_scale.addTask("TaskNodeScaleTo", Node=self.Node_Fade, To=(0.0, 0.0, 1.0), Time=scale_time)
 
-                    else:  # if no remove item from inventory, then clean itemPlus
-                        guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
+                    tc_alpha.addDelay(alpha_delay)
+                    tc_alpha.addTask("TaskNodeAlphaTo", Node=self.Node_Fade, To=0.0, Time=alpha_time)
 
-                        for ScenarioRunner in Scenarios:
-                            guard_close.addFunction(ScenarioRunner.skip)
+                if b_remove_from_inv:  # remove from inventory
+                    guard_close.addScope(self.remove_from_inventory, ScenePlus)
+                    guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
 
-                    guard_close.addNotify(Notificator.onSceneLeave, ScenePlus)
+                else:  # if no remove item from inventory, then clean itemPlus
+                    guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
+
+                    for ScenarioRunner in Scenarios:
+                        guard_close.addFunction(ScenarioRunner.skip)
+
+                guard_close.addNotify(Notificator.onSceneLeave, ScenePlus)
 
     def remove_from_inventory(self, source, ScenePlus):
         Item = ItemManager.findItemByScenePlus(ScenePlus)
 
         if Item is not None:
-            Inventory = DemonManager.getDemon(self.InventoryName)
+            Inventory = DemonManager.getDemon(self.ItemPlusInventoryName)
             InventoryItem = Item.getInventoryItem()
             source.addTask("AliasInventoryRemoveInventoryItem", Inventory=Inventory, InventoryItem=InventoryItem)
         else:
@@ -490,8 +515,6 @@ class SystemItemPlusScene(System):
         else:
             ItemPlusDefaultLayer = ItemPlusDefaultGroup.getMainLayer()
             ItemPlusDefaultLayer.removeChild(self.Node_Fade)
-
-        self.Plus_Node = None
 
         if SceneManager.hasLayerScene(self.ItemPlusDefaultName) is True:
             TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName=self.ItemPlusDefaultName, Value=False)
