@@ -14,11 +14,10 @@ class HintActionTransitionBackMobile(HintActionDefault):
 
     def _getHintPosition(self, Object):
         SystemNavigation = SystemManager.getSystem("SystemNavigation")
-        button = SystemNavigation.getNavGoBackButton()
 
-        if button is not None:
-            Position = button.getCurrentMovieSocketCenter()
-            return Position
+        position = SystemNavigation.getNavGoBackHintPoint()
+        if position is not None:
+            return position
 
         return 0.0, 0.0, 0.0
 

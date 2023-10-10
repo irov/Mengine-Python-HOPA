@@ -102,6 +102,24 @@ class SystemNavigation(System):
             return navDemon.getObject("Button_Back")
 
     @staticmethod
+    def getNavGoBackHintPoint():
+        button = SystemNavigation.getNavGoBackButton()
+
+        if button is None:
+            Trace.log("System", 0, "Not found NavGoBackButton to get hint position")
+            return 0.0, 0.0, 0.0
+
+        point = None
+        if button.getType() == "Movie2Button":
+            point = button.getCurrentMovieSocketCenter()
+        elif button.getType() == "Button":
+            point = button.calcWorldHintPoint()
+
+        if point is not None:
+            return point
+        return 0.0, 0.0, 0.0
+
+    @staticmethod
     def getTransitionBackObject():
         return SystemNavigation.s_transitionBackObject
 
