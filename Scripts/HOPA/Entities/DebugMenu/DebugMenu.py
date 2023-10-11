@@ -1,6 +1,7 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
+from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioManager import ScenarioManager
@@ -380,11 +381,20 @@ class DebugMenu(BaseEntity):
         pass
 
     def addItem(self, itemName):
-        self.Inventory.addItem(itemName)
+        itemData = ItemManager.getItem(itemName)
 
-        InventoryItem = ItemManager.getItemInventoryItem(itemName)
-        InventoryItem.appendParam("FoundItems", itemName)
-        pass
+        if itemData.PlusScene is None:  # not a ItemPlus
+            self.Inventory.addItem(itemName)
+            InventoryItem = ItemManager.getItemInventoryItem(itemName)
+            InventoryItem.appendParam("FoundItems", itemName)
+            return
+
+        tc_name = "DebugAddItem_{}".format(itemName)
+        if TaskManager.existTaskChain(tc_name) is True:
+            return
+        with TaskManager.createTaskChain(Name=tc_name) as tc:
+            tc.addListener(Notificator.onSceneActivate, Filter=lambda name: SceneManager.isGameScene(name) is True)
+            tc.addTask("AliasInventoryAddInventoryItem", Inventory=self.Inventory, ItemName=itemName)
 
     def _onActivate(self):
         super(DebugMenu, self)._onActivate()
