@@ -31,6 +31,9 @@ class ClickOnTargetParam(object):
 
         self.socket_click = socket_click
 
+        self.cache_fill_radius = None
+        self.cache_fill_border_radius = None
+
 
 class ClickOnTargetManager(Manager):
     s_params = {}

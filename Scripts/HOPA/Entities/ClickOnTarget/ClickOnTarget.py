@@ -260,17 +260,27 @@ class ClickOnTarget(Enigma):
         target_fill_local_center = self.target_fill_slot_center.getWorldPosition()
         filler_en.setLocalPosition(target_fill_local_center)
 
+        # cache used for fix this bug: https://wonderland-games.atlassian.net/browse/C3-329
+
         # initialize target fill radius with slots
-        self.f_target_fill_radius = Mengine.length_v2_v2(
-            self.target_fill_slot_center.getWorldPosition(),
-            self.target_fill_slot_fill_radius.getWorldPosition()
-        )
+        if self.params.cache_fill_radius is None:
+            self.f_target_fill_radius = Mengine.length_v2_v2(
+                self.target_fill_slot_center.getWorldPosition(),
+                self.target_fill_slot_fill_radius.getWorldPosition()
+            )
+            self.params.cache_fill_radius = self.f_target_fill_radius
+        else:
+            self.f_target_fill_radius = self.params.cache_fill_radius
 
         # initialize target border radius with slots
-        self.f_target_fill_border_radius = Mengine.length_v2_v2(
-            self.target_fill_slot_center.getWorldPosition(),
-            self.target_fill_slot_border_radius.getWorldPosition()
-        )
+        if self.params.cache_fill_border_radius is None:
+            self.f_target_fill_border_radius = Mengine.length_v2_v2(
+                self.target_fill_slot_center.getWorldPosition(),
+                self.target_fill_slot_border_radius.getWorldPosition()
+            )
+            self.params.cache_fill_border_radius = self.f_target_fill_border_radius
+        else:
+            self.f_target_fill_border_radius = self.params.cache_fill_border_radius
 
         # set target appear anim on start
         self.target_fill_appear_anim.setLastFrame(False)
