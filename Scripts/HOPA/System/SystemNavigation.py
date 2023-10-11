@@ -110,9 +110,9 @@ class SystemNavigation(System):
             return 0.0, 0.0, 0.0
 
         point = None
-        if button.getType() == "Movie2Button":
+        if button.getType() == "ObjectMovie2Button":
             point = button.getCurrentMovieSocketCenter()
-        elif button.getType() == "Button":
+        elif button.getType() == "ObjectButton":
             point = button.calcWorldHintPoint()
 
         if point is not None:
