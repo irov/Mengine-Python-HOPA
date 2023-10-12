@@ -1,6 +1,6 @@
 from Foundation.Initializer import Initializer
-from HOPA.ElementalMagicManager import ElementalMagicManager
 from Foundation.GroupManager import GroupManager
+from HOPA.ElementalMagicManager import ElementalMagicManager
 
 
 class MagicEffect(Initializer):
@@ -10,26 +10,54 @@ class MagicEffect(Initializer):
         self.element = None
         self.params = None
         self.Movies = {}
-        self.state = None
+        self.__state = None
         self._slot = None
+
+        self.EventUpdateState = None
+        self._releaseObserverId = None
 
     def _onInitialize(self, slot):
         self._slot = slot
+        self.EventUpdateState = Event("onMagicEffectStateUpdate")
 
     def _onFinalize(self):
         self._slot = None
+        if self._releaseObserverId is not None:
+            self.EventUpdateState.removeObserver(self._releaseObserverId)
+            self._releaseObserverId = None
+        self.EventUpdateState = None
         self.removeElement()
 
     def getElement(self):
         return self.element
 
+    def releaseElement(self):
+        if self._releaseObserverId is not None:
+            Trace.log("Entity", 1, "Already setup release observer")
+            return
+
+        if self.getState() == "Idle":
+            self.removeElement()
+            return
+
+        def _cb(prev_state, new_state):
+            if new_state == "Idle":
+                self.removeElement()
+                self.EventUpdateState.removeObserver(self._releaseObserverId)
+                self._releaseObserverId = None
+                return True
+            return False
+
+        self._releaseObserverId = self.EventUpdateState.addObserver(_cb)
+
     def removeElement(self):
         self.element = None
+        self.params = None
         for movie in self.Movies.values():
             movie.removeFromParent()
             movie.onDestroy()
         self.Movies = {}
-        self.state = None
+        self.__state = None
 
     def setElement(self, element):
         self.element = element
@@ -41,18 +69,25 @@ class MagicEffect(Initializer):
 
             self.Movies[state] = movie
 
+    def getState(self):
+        return self.__state
+
     def setState(self, state):
         if state not in self.Movies:
             return
 
-        if self.state is not None:
-            current_movie = self.Movies[self.state]
+        prev_state = self.__state
+
+        if self.__state is not None:
+            current_movie = self.Movies[self.__state]
             current_movie.setEnable(False)
 
         self.Movies[state].setEnable(True)
-        self.state = state
+        self.__state = state
 
-        Trace.msg_dev("    Ring.MagicEffect: run state {}".format(self.state))
+        self.EventUpdateState(prev_state, state)
+
+        Trace.msg_dev("    Ring.MagicEffect: run state {}".format(self.__state))
 
     def scopePlayCurrentState(self, source, **params):
         if self.getCurrentMovie() is None:
@@ -60,9 +95,9 @@ class MagicEffect(Initializer):
         source.addTask("TaskMovie2Play", Movie2=self.getCurrentMovie(), **params)
 
     def getCurrentMovie(self):
-        if self.state is None:
+        if self.__state is None:
             return None
-        return self.Movies[self.state]
+        return self.Movies[self.__state]
 
     def generateMagicEffects(self):
         states = {

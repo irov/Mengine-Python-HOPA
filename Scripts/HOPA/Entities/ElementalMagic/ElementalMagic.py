@@ -60,6 +60,12 @@ class ElementalMagic(BaseEntity):
             return
 
         if current_ui_element is not None:
+            if element is None:
+                # remove element after deactivate or play Release
+                self.ring.magic.releaseElement()
+                return
+
+            # remove element immediately
             self.ring.magic.removeElement()
 
         if element is not None:
