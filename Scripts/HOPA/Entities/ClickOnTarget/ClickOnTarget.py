@@ -699,13 +699,16 @@ class ClickOnTarget(Enigma):
         self.runTaskChains()
 
     def _skipEnigmaScope(self, skip_source):
-        self.tc_main.cancel()
+        if self.tc_main is not None:
+            self.tc_main.cancel()
+            self.tc_main = None
 
         def scopeDisableTargetFill(source):
             self.setTargetFillActive(False)
 
             if self.tc_play_target_fill_anim is not None:
                 self.tc_play_target_fill_anim.cancel()
+                self.tc_play_target_fill_anim = None
 
             target_disappear_slot = self.target_fill_disappear_anim.getMovieSlot("target")
             target_fill_en = self.target_fill.getEntityNode()
