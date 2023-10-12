@@ -118,9 +118,12 @@ class Movie2Item(BaseEntity):
         Movie.setLoop(False)
         Movie.setLastFrame(True)
 
+        removable_layers = ["Shadow", "Mask"]
         resource_movie = Movie.getResourceMovie()
-        if resource_movie.hasCompositionLayer(CompositionName, "Shadow"):
-            Movie.appendParam("DisableLayers", "Shadow")
+
+        for layer in removable_layers:
+            if resource_movie.hasCompositionLayer(CompositionName, layer):
+                Movie.appendParam("DisableLayers", layer)
 
         MovieEntityNode = Movie.getEntityNode()
         AttachNode.addChild(MovieEntityNode)
