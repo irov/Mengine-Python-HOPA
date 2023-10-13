@@ -103,7 +103,7 @@ class SystemDebugSceneInfo(System):
                 for itemName in ItemsOnArrow:
                     text += itemName
             else:
-                text += arrowItem.getName()
+                text += str(arrowItem.getName())    # fix for ConstString
 
         if self.textNode is None:
             self.textNode = layer.createChild("TextField")
