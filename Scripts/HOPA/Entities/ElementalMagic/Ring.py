@@ -158,7 +158,7 @@ class Ring(Initializer):
     def __stateAttach(self, source, Movie):
         # attach root to arrow
         source.addFunction(self._root.removeFromParent)
-        # source.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
+        source.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
         source.addFunction(self._attachToCursor)
 
         source.addEnable(self.getBaseStateMovie() or Movie)
@@ -180,6 +180,8 @@ class Ring(Initializer):
         source.addDisable(self.getBaseStateMovie() or Movie)
 
     def __stateReturn(self, source, Movie):
+        source.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
+
         if Movie is None:
             source.addEnable(self.getBaseStateMovie())
 
