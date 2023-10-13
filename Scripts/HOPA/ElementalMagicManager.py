@@ -51,6 +51,7 @@ class ElementalMagicManager(Manager):
             self.state_Idle = ElementalMagicManager.getRecordValue(record, "PrototypeIdle", required=True)
             self.state_Ready = ElementalMagicManager.getRecordValue(record, "PrototypeReady", required=True)
             self.state_Release = ElementalMagicManager.getRecordValue(record, "PrototypeRelease", required=True)
+            self.tooltip_text_id = ElementalMagicManager.getRecordValue(record, "TooltipTextID")
 
     @staticmethod
     def loadConfig(records):
@@ -109,6 +110,8 @@ class ElementalMagicManager(Manager):
 
     @staticmethod
     def loadElements(records):
+        is_enable_tooltips = ElementalMagicManager.getConfig("EnableTooltips", True)
+
         for record in records:
             param = ElementalMagicManager.ElementsParams(record)
 
@@ -136,6 +139,10 @@ class ElementalMagicManager(Manager):
                     return False
                 if group.hasPrototype(param.state_Release) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - prototype Release {!r} not found".format(param.element, param.state_Release))
+                    return False
+
+                if is_enable_tooltips is True and param.tooltip_text_id is None:
+                    Trace.log("Manager", 0, "Element {!r} is invalid - tooltip text id is None or set EnableTooltips to False".format(param.element))
                     return False
 
             ElementalMagicManager.s_elements[param.element] = param
