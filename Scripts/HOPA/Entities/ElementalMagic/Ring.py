@@ -26,6 +26,8 @@ class Ring(Initializer):
         self.Movies = {}
         self.magic = None
 
+        self._easing = ElementalMagicManager.getConfig("RingReturnTween", "easyLinear")
+
         self.EventUpdateState = Event("onRingStateUpdate")
 
     def _onInitialize(self, owner, current_element=None):
@@ -285,7 +287,7 @@ class Ring(Initializer):
         self._detachFromCursor()
         node.addChild(self._root)
 
-        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2, Speed=1)
+        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2, Speed=1, Easing=self._easing)
         source.addFunction(self._returnRingToParent, True)
         source.addTask("TaskNodeDestroy", Node=node)
 
