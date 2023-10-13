@@ -971,6 +971,8 @@ def onInitialize():
         , "onElementalMagicUse"
         , "onElementalMagicPick"
         , "onElementalMagicInvalidClick"
+        , "onElementalMagicRingMouseEnter"
+        , "onElementalMagicRingMouseLeave"
 
         , "onMazeScreensGroupDone"
     ]

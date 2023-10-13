@@ -124,8 +124,10 @@ class Ring(Initializer):
             parallel_1.addFunction(self.magic.setState, "Idle")
             parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=False, Loop=True)
 
-        with source.addRaceTask(3) as (source_attach, source_ready, source_pick):
+        with source.addRaceTask(4) as (source_attach, source_mouse, source_ready, source_pick):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
+
+            source_mouse.addScope(self.__scopeMouseOverHandler, Movie)
 
             source_ready.addSemaphore(self.SemaphoreReady, From=True)
             source_ready.addFunction(self.__setState, "Ready")
@@ -141,8 +143,10 @@ class Ring(Initializer):
             parallel_1.addFunction(self.magic.setState, "Ready")
             parallel_1.addScope(self.magic.scopePlayCurrentState, Wait=False, Loop=True)
 
-        with source.addRaceTask(2) as (source_attach, source_idle):
+        with source.addRaceTask(3) as (source_attach, source_mouse, source_idle):
             source_attach.addScope(self.__scopeTryStateAttach, Movie)
+
+            source_mouse.addScope(self.__scopeMouseOverHandler, Movie)
 
             source_idle.addSemaphore(self.SemaphoreReady, From=False)
             source_idle.addFunction(self.__setState, "Idle")
@@ -152,6 +156,7 @@ class Ring(Initializer):
     def __stateAttach(self, source, Movie):
         # attach root to arrow
         source.addFunction(self._root.removeFromParent)
+        # source.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
         source.addFunction(self._attachToCursor)
 
         source.addEnable(self.getBaseStateMovie() or Movie)
@@ -249,6 +254,15 @@ class Ring(Initializer):
                 repeat_true.addFunction(self.__setState, "Attach")
 
             until.addEvent(self.EventUpdateState, lambda _, new_state: new_state == "Attach")
+
+    def __scopeMouseOverHandler(self, source, Movie):
+        with source.addRepeatTask() as (repeat, until):
+            repeat.addTask("TaskMovie2SocketEnter", SocketName="socket", Movie2=Movie)
+            repeat.addNotify(Notificator.onElementalMagicRingMouseEnter, self)
+            repeat.addTask("TaskMovie2SocketLeave", SocketName="socket", Movie2=Movie)
+            repeat.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
+
+            until.addBlock()
 
     def __scopeReturnToParent(self, source):
         Point1 = ArrowManager.getArrow().getCursorNode().getWorldPosition()
