@@ -88,10 +88,13 @@ class SystemElementalMagic(System):
     def _cbRingMouseEnter(self, ring):
         current_magic_element = ring.magic.getElement()
 
+        text_id = None
+
         if current_magic_element is not None:
             elemental_data = ElementalMagicManager.getElementParams(current_magic_element)
             text_id = elemental_data.tooltip_text_id
-        else:
+
+        if text_id is None:
             text_id = ElementalMagicManager.getConfig("DefaultTooltip", "ID_TooltipElementalMagicRing")
 
         self._setTooltip(text_id)

@@ -51,7 +51,7 @@ class ElementalMagicManager(Manager):
             self.state_Idle = ElementalMagicManager.getRecordValue(record, "PrototypeIdle", required=True)
             self.state_Ready = ElementalMagicManager.getRecordValue(record, "PrototypeReady", required=True)
             self.state_Release = ElementalMagicManager.getRecordValue(record, "PrototypeRelease", required=True)
-            self.tooltip_text_id = ElementalMagicManager.getRecordValue(record, "TooltipTextID")
+            self.tooltip_text_id = ElementalMagicManager.getRecordValue(record, "TooltipTextId")
 
     @staticmethod
     def loadConfig(records):
@@ -89,22 +89,22 @@ class ElementalMagicManager(Manager):
                 id_split = param.id.split("_")
                 if len(id_split) != 3:
                     Trace.log("Manager", 0, "Magic id {!r} is invalid - example: {!r}".format(param.id, magic_id_example))
-                    return False
+                    continue
 
                 if id_split[0].isdigit() is False:
                     Trace.log("Manager", 0, "Magic id {!r} is invalid 1st part must be a digit - example: {!r}".format(param.id, magic_id_example))
-                    return False
+                    continue
                 if id_split[1].lower() != param.element.lower():
                     Trace.log("Manager", 0, "Magic id {!r} is invalid 2nd part must be an element type - example: {!r}".format(param.id, magic_id_example))
-                    return False
+                    continue
                 if id_split[2].isdigit() is False:
                     Trace.log("Manager", 0, "Magic id {!r} is invalid 3rd part must be an element type - example: {!r}".format(param.id, magic_id_example))
-                    return False
+                    continue
 
                 # check duplicates
                 if param.id in ElementalMagicManager.s_magic:
                     Trace.log("Manager", 0, "Magic id {!r} is duplicated - please update its id".format(param.id))
-                    return False
+                    continue
 
             ElementalMagicManager.s_magic[param.id] = param
 
@@ -119,31 +119,30 @@ class ElementalMagicManager(Manager):
                 # check duplicates
                 if param.element in ElementalMagicManager.s_elements:
                     Trace.log("Manager", 0, "Element {!r} is duplicated! Remove it and try again".format(param.element))
-                    return False
+                    continue
 
                 # check group exist
                 if GroupManager.hasGroup(param.group_name) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - group {!r} not found".format(param.element, param.group_name))
-                    return False
+                    continue
 
                 # check prototypes
                 group = GroupManager.getGroup(param.group_name)
                 if group.hasPrototype(param.state_Appear) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - prototype Appear {!r} not found".format(param.element, param.state_Appear))
-                    return False
+                    continue
                 if group.hasPrototype(param.state_Idle) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - prototype Idle {!r} not found".format(param.element, param.state_Idle))
-                    return False
+                    continue
                 if group.hasPrototype(param.state_Ready) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - prototype Ready {!r} not found".format(param.element, param.state_Ready))
-                    return False
+                    continue
                 if group.hasPrototype(param.state_Release) is False:
                     Trace.log("Manager", 0, "Element {!r} is invalid - prototype Release {!r} not found".format(param.element, param.state_Release))
-                    return False
+                    continue
 
                 if is_enable_tooltips is True and param.tooltip_text_id is None:
-                    Trace.log("Manager", 0, "Element {!r} is invalid - tooltip text id is None or set EnableTooltips to False".format(param.element))
-                    return False
+                    Trace.log("Manager", 0, "Element {!r} warning - tooltip text id is None or set EnableTooltips to False".format(param.element))
 
             ElementalMagicManager.s_elements[param.element] = param
 
