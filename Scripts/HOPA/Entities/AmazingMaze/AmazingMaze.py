@@ -562,12 +562,12 @@ class AmazingMaze(Enigma):
                 parallel_1.addDummy()
 
     def _scopeUpdateTargetPositionPC(self, source):
-        source.addTask("TaskMovie2SocketClick", SocketName="click_area", Movie2Name="Movie2_maze", Group=self.object)
+        source.addTask("TaskMovie2SocketClick", SocketName="click_area", Movie2Name=self.param.Maze, Group=self.object)
         source.addFunction(self.__updateTargetPosition)
 
     def _scopeUpdateTargetPositionMobile(self, source):
         source.addTask("TaskMovie2SocketClick", isDown=True, SocketName="click_area",
-                       Movie2Name="Movie2_maze", Group=self.object)
+                       Movie2Name=self.param.Maze, Group=self.object)
         source.addFunction(self.__updateTargetPosition)
 
         with source.addRepeatTask() as (repeat, until):
