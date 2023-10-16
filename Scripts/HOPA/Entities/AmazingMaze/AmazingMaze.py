@@ -329,13 +329,15 @@ class AmazingMaze(Enigma):
 
         self._target_pos = None
 
-        self.completeEvent = Event("AmazingMazeComplete")
+        self.semaphore_complete = None
 
     # -------------- Preparation ---------------------------------------------------------------------------------------
     def _loadParam(self):
         self.param = AmazingMazeManager.getParam(self.EnigmaName)
 
     def _setup(self):
+        self.semaphore_complete = Semaphore(False, "AmazingMazeComplete")
+
         self.movie_hero = self.object.getObject(self.param.HeroNode)
         self._hero_node = self.movie_hero.getEntityNode()
         self._hero_node.setLocalPosition(self.param.HeroSpawnPoint)
@@ -412,6 +414,8 @@ class AmazingMaze(Enigma):
         if self._tc_complete is not None:
             self._tc_complete.cancel()
             self._tc_complete = None
+
+        self.semaphore_complete = None
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def __computeMovePosition(self, from_pos, to_pos, delta_time):
@@ -521,11 +525,16 @@ class AmazingMaze(Enigma):
             return False
 
         if Mengine.testHotspot(self._hero_node_collider, self._finish_hotspot):
-            self.completeEvent()
+            self.semaphore_complete.setValue(True)       # start complete process in tc
             return True
         return False
 
     def __tickAffector(self, delta_time):
+        if self.semaphore_complete.getValue() is True:
+            # if in previous call semaphore_complete was set to True, then remove affector
+            self._tick_affector = None
+            return True
+
         hero_pos = self._hero_node.getWorldPosition()
         target_pos = self._target_pos if self._target_pos is not None else hero_pos
 
@@ -587,14 +596,14 @@ class AmazingMaze(Enigma):
             else:
                 tc.addScope(self._scopeUpdateTargetPositionPC)
 
+        self.semaphore_complete.setValue(False)
         if self._tc_complete is not None:
             self._tc_complete.cancel()
 
         self._tc_complete = TaskManager.createTaskChain()
         with self._tc_complete as tc:
-            tc.addEvent(self.completeEvent)
+            tc.addSemaphore(self.semaphore_complete, From=True)
             tc.addFunction(self._tc_main.cancel)
-            tc.addFunction(self._removeTickAffector)
             tc.addScope(self.__scopePlayFinishFX)
             tc.addFunction(self.enigmaComplete)
 
