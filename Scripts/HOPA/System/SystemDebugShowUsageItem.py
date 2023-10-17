@@ -11,6 +11,7 @@ from HOPA.QuestManager import QuestManager
 from HOPA.ZoomManager import ZoomManager
 from HOPA.SpellsManager import SpellsManager, SPELL_AMULET_TYPE
 from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
+from HOPA.ElementalMagicManager import QUEST_USE_MAGIC_NAME as ELEMENTAL_MAGIC_QUEST_USE_NAME
 
 
 class SystemDebugShowUsageItem(System):
@@ -79,18 +80,13 @@ class SystemDebugShowUsageItem(System):
         quests = QuestManager.getActiveItemQuests(sceneName, groupName, SystemDebugShowUsageItem.QuestCheckTypes)
 
         if len(quests) == 0:
-            quests = QuestManager.getSceneQuests(sceneName, groupName)
-            for elem in quests:
-                if elem.questType == "UseRune":
-                    if elem.active:
-                        self._generate_magic_glove_rune(elem)
-                if self._spell_amulet_quest_type is not None:
-                    if elem.questType == self._spell_amulet_quest_type:
-                        self._generate_spell_amulet_rune(elem)
+            all_quests = QuestManager.getSceneQuests(sceneName, groupName)
+            for quest in all_quests:
+                self.generateOtherDebugOverview(quest)
             return
 
         for quest in quests:
-            self.generateDebugOverview(quest)
+            self.generateItemDebugOverview(quest)
 
     def _generate_spell_amulet_rune(self, quest):
         self.Use = True
@@ -122,11 +118,21 @@ class SystemDebugShowUsageItem(System):
 
             source.addFunction(_give_rune)
 
+    def _generate_elemental_magic_elem(self, quest):
+        self.Use = True
+
+        magic_id = quest.params["MagicId"]
+        element = quest.params["Element"]
+
+        Notification.notify(Notificator.onElementalMagicPick, element, magic_id)
+
+        self.Use = False
+
     def __endShowUsageItem(self, isSkip):
         self.Use = False
         pass
 
-    def generateDebugOverview(self, quest):
+    def generateItemDebugOverview(self, quest):
         if self.Use is True:
             return
             pass
@@ -181,13 +187,22 @@ class SystemDebugShowUsageItem(System):
             source.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
             source.addTask("AliasInventoryItemAttach", InventoryItem=self.InventoryItem)
             source.addFunction(self.Inventory.UnBlockButtons)
-            pass
-        pass
+
+    def generateOtherDebugOverview(self, quest):
+        if quest.active is False:
+            return
+
+        quest_type = quest.questType
+
+        if quest_type == "UseRune":
+            self._generate_magic_glove_rune(quest)
+
+        if self._spell_amulet_quest_type is not None and quest_type == self._spell_amulet_quest_type:
+            self._generate_spell_amulet_rune(quest)
+
+        if quest_type == ELEMENTAL_MAGIC_QUEST_USE_NAME:
+            self._generate_elemental_magic_elem(quest)
 
     def _onStop(self):
         super(SystemDebugShowUsageItem, self)._onStop()
-
         Mengine.removeGlobalHandler(self.Handler)
-        pass
-
-    pass
