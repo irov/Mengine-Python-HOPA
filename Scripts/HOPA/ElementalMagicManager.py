@@ -18,6 +18,9 @@ class ElementalMagicManager(Manager):
     s_magic = {}            # technical params
     s_elements = {}         # ui params
 
+    s_picked_magic = []
+    s_used_magic = []
+
     class Params(object):
         if _DEVELOPMENT:
             def __repr__(self):
@@ -235,6 +238,32 @@ class ElementalMagicManager(Manager):
         ring = demon.getRing()
         return ring
 
+    @staticmethod
+    def setCache(picked_magic, used_magic):
+        ElementalMagicManager.s_picked_magic = picked_magic
+        ElementalMagicManager.s_used_magic = used_magic
+
+    @staticmethod
+    def isMagicPicked(magic_id):
+        return magic_id in ElementalMagicManager.s_picked_magic
+
+    @staticmethod
+    def isMagicUsed(magic_id):
+        return magic_id in ElementalMagicManager.s_used_magic
+
+    @staticmethod
+    def addMagicPicked(magic_id):
+        ElementalMagicManager.s_picked_magic.append(magic_id)
+
+    @staticmethod
+    def addMagicUsed(magic_id):
+        ElementalMagicManager.s_used_magic.append(magic_id)
+
+    @staticmethod
+    def resetCache():
+        ElementalMagicManager.s_picked_magic = []
+        ElementalMagicManager.s_used_magic = []
+
     # --- quests -------------------------------------------------------------------------------------------------------
 
     @staticmethod
@@ -303,3 +332,4 @@ class ElementalMagicManager(Manager):
             if quest.params["Element"] == element:
                 return True
         return False
+

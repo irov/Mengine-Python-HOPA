@@ -11,6 +11,8 @@ class SystemElementalMagic(System):
         pass
 
     def _onRun(self):
+        ElementalMagicManager.resetCache()
+
         self.addObserver(Notificator.onZoomEnter, self._cbUpdateReadyState)
         self.addObserver(Notificator.onZoomLeave, self._cbUpdateReadyState)
 
@@ -41,20 +43,29 @@ class SystemElementalMagic(System):
             pass  # todo: play sound effect
         return False
 
-    def _cbMagicUse(self, element):
+    def _cbMagicUse(self, element, magic_id):
         if ElementalMagicManager.getConfig("SoundEffectOnUse", False) is True:
             pass  # todo: play sound effect
+
         ElementalMagicManager.setPlayerElement(None)
+        ElementalMagicManager.addMagicUsed(magic_id)
+
         return False
 
-    def _cbMagicPick(self, element):
+    def _cbMagicPick(self, element, magic_id):
         if ElementalMagicManager.getConfig("SoundEffectOnPick", False) is True:
             pass  # todo: play sound effect
 
         if ElementalMagicManager.isElementExists(element) is False:
-            Trace.log("System", 0, "Can't pick element {} because it doesn't exist".format(element))
+            Trace.log("System", 0, "Can't pick element {!r} because it doesn't exist".format(element))
             return False
-        ElementalMagicManager.setPlayerElement(element)
+
+        if ElementalMagicManager.isMagicUsed(magic_id) is False:
+            # it could have been used before pick if user with cheats,
+            #   so we don't need to get element to prevent game stuck
+            ElementalMagicManager.setPlayerElement(element)
+
+        ElementalMagicManager.addMagicPicked(magic_id)
 
         return False
 
@@ -108,9 +119,14 @@ class SystemElementalMagic(System):
 
     def _onSave(self):
         save = {
-            "player_element": ElementalMagicManager.getPlayerElement()
+            "player_element": ElementalMagicManager.getPlayerElement(),
+            "picked_magic": ElementalMagicManager.s_picked_magic,
+            "used_magic": ElementalMagicManager.s_used_magic,
         }
         return save
 
     def _onLoad(self, save):
         ElementalMagicManager.setPlayerElement(save.get("player_element"))
+        picked_magic = save.get("picked_magic", [])
+        used_magic = save.get("used_magic", [])
+        ElementalMagicManager.setCache(picked_magic, used_magic)

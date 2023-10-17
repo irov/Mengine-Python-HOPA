@@ -46,5 +46,5 @@ class MacroElementalMagicUse(MacroCommand):
             tc_quest.addScope(self._tryNotifyReady)
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
             tc_quest.addTask("TaskSocketUseElementalMagic", Object=self.SocketObject, SocketName=self.SocketName,
-                             Element=self.Element)
+                             Element=self.Element, MagicId=self.MagicId)
             tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)

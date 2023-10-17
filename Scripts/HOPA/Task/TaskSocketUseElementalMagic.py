@@ -14,7 +14,8 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSocketUseElementalMagic, self)._onParams(params)
 
-        self.Element = params.get("Element")
+        self.Element = params["Element"]
+        self.MagicId = params["MagicId"]
         self.AutoEnable = params.get("AutoEnable", True)
 
     def _onRun(self):
@@ -61,7 +62,7 @@ class TaskSocketUseElementalMagic(MixinSocket, MixinObserver, Task):
         if self._actionEnergy() is False:
             return False
 
-        Notification.notify(Notificator.onElementalMagicUse, player_element)
+        Notification.notify(Notificator.onElementalMagicUse, self.Element, self.MagicId)
 
         return True
 

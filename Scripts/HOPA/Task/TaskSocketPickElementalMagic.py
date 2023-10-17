@@ -12,7 +12,8 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskSocketPickElementalMagic, self)._onParams(params)
 
-        self.Element = params.get("Element")
+        self.Element = params["Element"]
+        self.MagicId = params["MagicId"]
         self.TipName = params.get("TipName")
         self.AutoEnable = params.get("AutoEnable", True)
 
@@ -46,16 +47,26 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
         player_element = ElementalMagicManager.getPlayerElement()
 
         if player_element is not None:
-            Trace.msg_dev("<DEV> Can't get element {}, because user already has element {}".format(self.Element, player_element))
+            Trace.msg_dev("<DEV> Can't get element {!r} [{}], because user already has element {!r}".format(
+                self.Element, self.MagicId, player_element))
             TipManager.showTip(self.TipName)
             return False
 
-        if ElementalMagicManager.hasUseQuestOnElement(self.Element) is False:
-            Trace.msg_dev("<DEV> Can't get element {}, because user hasn't Use quest for element {}".format(self.Element, player_element))
+        if self.hasActiveUseQuest() is False:
+            Trace.msg_dev("<DEV> Can't get element {!r} [{}], because user hasn't Use quest for element {!r}".format(
+                self.Element, self.MagicId, player_element))
             TipManager.showTip(self.TipName)
             return False
 
-        Notification.notify(Notificator.onElementalMagicPick, self.Element)
-        Trace.msg_dev("<DEV> Allow to get element {}, because user has Use quest for this element".format(self.Element))
+        Notification.notify(Notificator.onElementalMagicPick, self.Element, self.MagicId)
+        Trace.msg_dev("<DEV> Allow to get element {!r} [{}], because user has Use quest for this element".format(
+            self.Element, self.MagicId))
 
         return True
+
+    def hasActiveUseQuest(self):
+        if ElementalMagicManager.isMagicUsed(self.MagicId) is True:
+            Trace.msg_dev("<DEV> Element {!r} [{}] was used earlier - allow pick action to prevent game stuck".format(
+                self.Element, self.MagicId))
+            return True
+        return ElementalMagicManager.hasUseQuestOnElement(self.Element) is True

@@ -40,12 +40,12 @@ class MacroElementalMagicPick(MacroCommand):
 
             with Quest as tc_quest:
                 tc_quest.addTask("TaskSocketPickElementalMagic", SocketName=self.SocketName,
-                                 Element=magic_params.element, TipName=self.TipName)
+                                 Element=magic_params.element, MagicId=self.MagicId, TipName=self.TipName)
 
         else:
 
             source.addTask("TaskSocketPickElementalMagic", SocketName=self.SocketName,
-                           Element=magic_params.element, TipName=self.TipName)
+                           Element=magic_params.element, MagicId=self.MagicId, TipName=self.TipName)
 
 
 
