@@ -85,6 +85,9 @@ class Ring(Initializer):
             movie.returnToParent()
         self.Movies = {}
 
+        if self.isAttachedToCursor() is True:
+            self._detachFromCursor()
+
         Mengine.destroyNode(self._root)
         self._root = None
 
@@ -180,6 +183,10 @@ class Ring(Initializer):
         source.addDisable(self.getBaseStateMovie() or Movie)
 
     def __stateReturn(self, source, Movie):
+        if self.isAttachedToCursor() is False:
+            source.addFunction(self.__setState, "Idle")
+            return
+
         source.addNotify(Notificator.onElementalMagicRingMouseLeave, self)
 
         if Movie is None:
@@ -322,7 +329,10 @@ class Ring(Initializer):
     def _detachFromCursor(self):
         arrow_attach = ArrowManager.getArrowAttach()
         if _DEVELOPMENT is True:
-            assert arrow_attach == self._root, "You tried detach root from arrow, but arrow_attach {} != root {}".format(arrow_attach, self._root)
+            assert self.isAttachedToCursor(), "You tried detach root from arrow, but arrow_attach {} != root {}".format(arrow_attach, self._root)
         arrow_attach.removeFromParent()
         ArrowManager.removeArrowAttach()
 
+    def isAttachedToCursor(self):
+        arrow_attach = ArrowManager.getArrowAttach()
+        return arrow_attach == self._root
