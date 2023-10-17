@@ -282,7 +282,12 @@ class RopeManager(object):
         if node.hasParent():
             node.removeFromParent()
 
-        Mengine.removeAffector(self.__affector)
+        self._removeAffector()
+
+    def _removeAffector(self):
+        if self.__affector is not None:
+            Mengine.removeAffector(self.__affector)
+            self.__affector = None
 
     def createAndAttachRope(self, cb_get_wheel):
         """
@@ -321,6 +326,7 @@ class RopeManager(object):
     def cleanUp(self):
         for rope in self.__ropes:
             rope.cleanUp()
+        self._removeAffector()
 
 
 class Wheel(object):
