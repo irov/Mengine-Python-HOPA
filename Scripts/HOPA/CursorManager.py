@@ -543,7 +543,7 @@ class CursorManager(object):
         CursorManager.__removeCursorChildren()
 
         if currentMovie.isActive() is False:
-            if _DEVELOPMENT is True:
+            if _DEVELOPMENT is True and Mengine.getCurrentScene() is not None:
                 Trace.log("Manager", 0, "CursorManager.updateArrowCursor movie {!r} is not active!!!"
                                         " Check if group exists".format(currentMovie.getName()))
             return True
