@@ -517,6 +517,7 @@ class CursorManager(object):
 
         SystemCursor = Mengine.getCursorMode()
         CursorSystemAttachX = None
+        CursorSystemAttachY = None
         if SystemCursor is True:
             if CursorManager.s_currentCursorModeName not in CursorManager.s_systemAttach:
                 item = ArrowManager.getArrowAttach()
@@ -542,11 +543,17 @@ class CursorManager(object):
         CursorManager.__removeCursorChildren()
 
         if currentMovie.isActive() is False:
+            if _DEVELOPMENT is True:
+                Trace.log("Manager", 0, "CursorManager.updateArrowCursor movie {!r} is not active!!!"
+                                        " Check if group exists".format(currentMovie.getName()))
             return True
 
         currentMovieGroup = currentMovie.getGroup()
 
         if currentMovieGroup.getEnable() is False:
+            if _DEVELOPMENT is True:
+                Trace.log("Manager", 0, "CursorManager.updateArrowCursor movie {!r} is not enable!!!"
+                          .format(currentMovie.getName()))
             return True
 
         # if TaskManager.existTaskChain("CursorShow"):
@@ -561,7 +568,7 @@ class CursorManager(object):
         if movieEntity.hasMovieSlot("offset"):
             slotOffset = movieEntity.getMovieSlot("offset")
             pos = slotOffset.getLocalPosition()
-            if CursorSystemAttachX is not None:
+            if CursorSystemAttachX is not None and CursorSystemAttachY is not None:
                 pos = (pos.x + CursorSystemAttachX, pos.y + CursorSystemAttachY, pos.z)
 
             currentMovie.setOrigin(pos)
