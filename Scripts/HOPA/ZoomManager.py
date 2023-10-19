@@ -325,12 +325,14 @@ class ZoomManager(object):
             return
 
         ZoomItemOpen = DefaultManager.getDefaultBool("ZoomItemOpen", False)
+        arrow_attach_object = ArrowManager.getArrowAttach()
 
-        if ZoomItemOpen is True and ArrowManager.emptyArrowAttach() is False:
-            InventoryItem = ArrowManager.getArrowAttach()
-            if type(InventoryItem) in ZoomManager.allow_types or len(ZoomManager.allow_types) == 0:
-                InventoryItemEntity = InventoryItem.getEntity()
+        if ZoomItemOpen is True and arrow_attach_object is not None:
+            if type(arrow_attach_object) in ZoomManager.allow_types or len(ZoomManager.allow_types) == 0:
+                InventoryItemEntity = arrow_attach_object.getEntity()
                 InventoryItemEntity.place()
+            elif arrow_attach_object.getName() == "ElementalMagicRing":
+                pass
             else:
                 return
 

@@ -176,9 +176,7 @@ class Ring(Initializer):
             source_invalid.addListener(Notificator.onElementalMagicInvalidClick)
             source_invalid.addFunction(self.__setState, "Return")
 
-            source_miss.addTask("TaskMouseButtonClick", isDown=False)
-            source_miss.addNotify(Notificator.onElementalMagicInvalidClick, InvalidClick.Miss)
-            source_miss.addFunction(self.__setState, "Return")
+            source_miss.addScope(self.__scopeMissClickHandler)
 
         source.addDisable(self.getBaseStateMovie() or Movie)
 
@@ -257,6 +255,17 @@ class Ring(Initializer):
         source.addDisable(Movie)
 
     # scopes
+
+    def __scopeMissClickHandler(self, source):
+        with source.addRepeatTask() as (repeat, until):
+            repeat.addTask("TaskMouseButtonClick", isDown=True)
+            with repeat.addRaceTask(2) as (zoom, miss):
+                zoom.addListener(Notificator.onZoomOpen)
+                miss.addDelay(10)
+                miss.addNotify(Notificator.onElementalMagicInvalidClick, InvalidClick.Miss)
+                miss.addFunction(self.__setState, "Return")
+
+            until.addBlock()    # onElementalMagicInvalidClick updates state
 
     def __scopeTryStateAttach(self, source, Movie):
         with source.addRepeatTask() as (repeat, until):
