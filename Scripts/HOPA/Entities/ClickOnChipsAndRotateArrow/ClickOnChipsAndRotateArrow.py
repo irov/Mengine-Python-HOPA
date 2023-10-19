@@ -1,3 +1,5 @@
+import math
+
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipsAndRotateArrowManager import ClickOnChipsAndRotateArrowManager
@@ -33,8 +35,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
             self.onChip = onChip
             self.startChip = onChip
             self.numOfChips = numOfChips
-            Pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
-            self.angleTo = (Pi * 2 / numOfChips)
+            self.angleTo = (math.pi * 2 / numOfChips)
             self.timeOnChip = 200  # time of passing one chip
             self.rotateAngle = 0
 
@@ -93,14 +94,14 @@ class ClickOnChipsAndRotateArrow(Enigma):
             chip = ClickOnChipsAndRotateArrow.Chip(chipID, movieCommonState, movieFailState, movieRightState)
             self.chips[chipID] = chip
 
-        BG = Group.getObject('Movie_BGforMG')
+        BG = Group.getObject(self.param.ArrowSlotMovie)
         slot = BG.getMovieSlot('circle')
         for (arrowName, startPosition) in self.param.Arrow.iteritems():
             Arrow = Group.getObject(arrowName)
             self.arrow = ClickOnChipsAndRotateArrow.Arrow(Arrow, len(self.chips), self.chips[startPosition])
             slot.addChild(self.arrow.node)
 
-        self.movieSlots = Group.getObject('Movie_Slots')
+        self.movieSlots = Group.getObject(self.param.SlotsMovie)
 
     def _runTaskChain(self):
         self.tc = TaskManager.createTaskChain(Repeat=True)
@@ -110,7 +111,10 @@ class ClickOnChipsAndRotateArrow(Enigma):
     def _scopeClickOnChip(self, source):
         clickOnChip = Holder()
         for (chipID, chip), race in source.addRaceTaskList(self.chips.iteritems()):
-            race.addTask('TaskMovieSocketClick', Movie=self.movieSlots, SocketName='socket_{}'.format(chipID))
+            if self.movieSlots.getEntityType() is "Movie2":
+                race.addTask("TaskMovie2SocketClick", Movie2=self.movieSlots, SocketName="socket_{}".format(chipID))
+            else:
+                race.addTask('TaskMovieSocketClick', Movie=self.movieSlots, SocketName='socket_{}'.format(chipID))
             race.addFunction(clickOnChip.set, chip)
 
         def holder_scopeClick(source, holder):
@@ -121,7 +125,10 @@ class ClickOnChipsAndRotateArrow(Enigma):
 
     def _failClick(self, source, chip):
         chip.failState.setEnable(False)
-        source.addTask('TaskMoviePlay', Movie=chip.failState, Wait=True)
+        if chip.failState.getEntityType() is "Movie2":
+            source.addTask("TaskMovie2Play", Movie2=chip.failState, Wait=True)
+        else:
+            source.addTask('TaskMoviePlay', Movie=chip.failState, Wait=True)
         chip.failState.setEnable(True)
 
     def _scopeClick(self, source, chip):
@@ -178,11 +185,11 @@ class ClickOnChipsAndRotateArrow(Enigma):
     def _cleanUp(self):
         if self.tc is not None:
             self.tc.cancel()
-        self.tc = None
+            self.tc = None
         self.param = None
         if self.arrow is not None:
             self.arrow.node.removeFromParent()
-        self.arrow = None
+            self.arrow = None
         self.chips = {}
         self.movieSlots = None
         self.nextSymb = 0

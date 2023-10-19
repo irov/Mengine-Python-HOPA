@@ -6,10 +6,13 @@ class ClickOnChipsAndRotateArrowManager(Manager):
     s_puzzles = {}
 
     class ClickOnChipsAndRotateArrowParam(object):
-        def __init__(self, chip_dict, winsComb, arrowParam):
+        def __init__(self, chip_dict, winsComb, arrowParam, SlotsMovie, ArrowSlotMovie):
             self.Chips = chip_dict
             self.winsComb = winsComb
             self.Arrow = arrowParam
+
+            self.SlotsMovie = SlotsMovie
+            self.ArrowSlotMovie = ArrowSlotMovie
 
     @staticmethod
     def loadParams(module, param):
@@ -17,7 +20,7 @@ class ClickOnChipsAndRotateArrowManager(Manager):
 
         for record in records:
             '''
-                EnigmaName	ChipParam	WinsParam   ArrowParam
+                EnigmaName	ChipParam	WinsParam   ArrowParam   SlotsMovie
 
             '''
             EnigmaName = record.get('EnigmaName')
@@ -25,7 +28,10 @@ class ClickOnChipsAndRotateArrowManager(Manager):
             ArrowParam = record.get('ArrowParam')
             WinsParam = record.get('WinsParam')
 
-            result = ClickOnChipsAndRotateArrowManager.addParam(EnigmaName, module, ChipParam, ArrowParam, WinsParam)
+            SlotsMovie = record.get("SlotsMovie", "Movie_Slots")
+            ArrowSlotMovie = record.get("ArrowSlotMovie", "Movie_BGforMG")
+
+            result = ClickOnChipsAndRotateArrowManager.addParam(EnigmaName, module, ChipParam, ArrowParam, WinsParam, SlotsMovie, ArrowSlotMovie)
             if result is False:
                 error_msg = "ClickOnChipsAndRotateArrowManager invalid addParam {}".format(EnigmaName)
                 Trace.log("Manager", 0, error_msg)
@@ -33,7 +39,7 @@ class ClickOnChipsAndRotateArrowManager(Manager):
         return True
 
     @staticmethod
-    def addParam(EnigmaName, Module, ChipParam, ArrowParam, WinsParam):
+    def addParam(EnigmaName, Module, ChipParam, ArrowParam, WinsParam, SlotsMovie, ArrowSlotMovie):
         if EnigmaName in ClickOnChipsAndRotateArrowManager.s_puzzles:
             error_msg = "ClickOnChipsAndRotateArrowManager already have param for {}".format(EnigmaName)
             Trace.log("Manager", 0, error_msg)
@@ -92,7 +98,7 @@ class ClickOnChipsAndRotateArrowManager(Manager):
             arrowParam[MovieName] = StartPosition
         # ==============================================================================================================
 
-        new_param = ClickOnChipsAndRotateArrowManager.ClickOnChipsAndRotateArrowParam(chip_dict, winsComb, arrowParam)
+        new_param = ClickOnChipsAndRotateArrowManager.ClickOnChipsAndRotateArrowParam(chip_dict, winsComb, arrowParam, SlotsMovie, ArrowSlotMovie)
 
         ClickOnChipsAndRotateArrowManager.s_puzzles[EnigmaName] = new_param
 
