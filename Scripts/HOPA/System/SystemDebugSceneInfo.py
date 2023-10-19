@@ -97,13 +97,13 @@ class SystemDebugSceneInfo(System):
             text += "\nZoom: " + zoomOpenGroupName
 
         if arrowItem is not None:
-            text += '\nItems on Arrow: '
+            text += '\nArrow attachment: '
             if isinstance(arrowItem, Params) is True and arrowItem.hasParam("FoundItems"):
                 ItemsOnArrow = arrowItem.getParam('FoundItems')
                 for itemName in ItemsOnArrow:
-                    text += itemName
+                    text += "\n  " + itemName
             else:
-                text += str(arrowItem.getName())    # fix for ConstString
+                text += "\n  " + str(arrowItem.getName())    # fix for ConstString
 
         if self.textNode is None:
             self.textNode = layer.createChild("TextField")
