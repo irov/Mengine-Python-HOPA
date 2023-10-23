@@ -66,7 +66,7 @@ class SystemNavigation(System):
         navDemon = GroupManager.getObject("Navigation", "Demon_Navigation")
 
         # CHECK NEW MOVIE 2 BUTTONS
-        if navDemon.hasObject("Movie2Button_NavShowTransitions") and navDemon.hasObject("Movie2Button_NavShowTransitions"):
+        if navDemon.hasObject("Movie2Button_NavShowTransitions") and navDemon.hasObject("Movie2Button_NavGoBack"):
             SystemNavigation.__use_movie2buttons__ = True
             return True
 
