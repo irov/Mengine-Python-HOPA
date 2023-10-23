@@ -174,7 +174,7 @@ class MazeScreens(Enigma):
             with GuardBlockInput(tc) as guard_source:
                 guard_source.addTask("AliasFadeIn", FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
                 guard_source.addFunction(_update)
-                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
+                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=1.0, Time=FADE_TIME)
 
     def getCurrentRoom(self):
         return self.__current_room
