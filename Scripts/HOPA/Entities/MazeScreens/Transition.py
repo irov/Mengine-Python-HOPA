@@ -79,10 +79,10 @@ class Transition(Initializer):
     def _scopeCursorHandler(self, source, Movie, cursor_mode):
         with source.addRepeatTask() as (source_repeat, source_until):
             source_repeat.addTask("TaskMovie2SocketEnter", Movie2=Movie, SocketName="socket")
-            source_repeat.addFunction(self._mouseEnter, Movie, cursor_mode)
+            source_repeat.addFunction(self._mouseEnter, self, cursor_mode)
 
             source_repeat.addTask("TaskMovie2SocketLeave", Movie2=Movie, SocketName="socket")
-            source_repeat.addFunction(self._mouseLeave, Movie)
+            source_repeat.addFunction(self._mouseLeave, self)
 
             source_until.addEvent(self.EventClick)
 

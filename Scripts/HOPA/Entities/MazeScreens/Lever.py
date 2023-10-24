@@ -92,7 +92,7 @@ class Lever(Initializer):
         source.addDisable(Movie)
 
     def __stateUse(self, source, Movie):
-        source.addFunction(self._mouseLeave, Movie)
+        source.addFunction(self._mouseLeave, self)
 
         if Movie is None:
             source.addFunction(self.doneGroup)
@@ -117,10 +117,10 @@ class Lever(Initializer):
     def _scopeCursorHandler(self, source, Movie, cursor_mode):
         with source.addRepeatTask() as (source_repeat, source_until):
             source_repeat.addTask("TaskMovie2SocketEnter", Movie2=Movie, SocketName="socket")
-            source_repeat.addFunction(self._mouseEnter, Movie, cursor_mode)
+            source_repeat.addFunction(self._mouseEnter, self, cursor_mode)
 
             source_repeat.addTask("TaskMovie2SocketLeave", Movie2=Movie, SocketName="socket")
-            source_repeat.addFunction(self._mouseLeave, Movie)
+            source_repeat.addFunction(self._mouseLeave, self)
 
             source_until.addEvent(self.EventUpdateState)
 
