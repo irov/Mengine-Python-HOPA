@@ -154,7 +154,7 @@ class Lever(Initializer):
         }
 
         for state, (prototype_name, play, loop) in states.items():
-            movie_name = "%s_%s" % (prototype_name, state)
+            movie_name = "Lever_%s" % state
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)
             movie = game_object.generateObjectUnique(movie_name, prototype_name, **movie_params)

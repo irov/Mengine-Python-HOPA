@@ -85,12 +85,16 @@ class Gate(Initializer):
             tc_open.addListener(Notificator.onMazeScreensGroupDone, Filter=lambda g_id: g_id == self._params.group_id)
             tc_open.addFunction(self.setState, "Opening")
 
-            with tc_tip.addRepeatTask() as (tc_tip_repeat, tc_tip_until):
-                tc_tip_repeat.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
-                tc_tip_repeat.addFunction(TipManager.showTip, "ID_Tip_MazeScreens_GateClosed")
-                tc_tip_until.addBlock()
+            tc_tip.addScope(self._scopeHandleCloseClickTip, Movie)
 
         source.addDisable(Movie)
+
+    def _scopeHandleCloseClickTip(self, source, Movie):
+        with source.addRepeatTask() as (repeat, until):
+            repeat.addTask("TaskMovie2SocketClick", Movie2=Movie, SocketName="socket")
+            repeat.addFunction(TipManager.showTip, "ID_Tip_MazeScreens_GateClosed")
+
+            until.addBlock()
 
     def __stateOpening(self, source, Movie):
         if Movie is None:
@@ -125,7 +129,7 @@ class Gate(Initializer):
         }
 
         for state, (prototype_name, play, loop) in states.items():
-            movie_name = "%s_%s" % (prototype_name, state)
+            movie_name = "Gate_%s" % state
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)
             movie = game_object.generateObjectUnique(movie_name, prototype_name, **movie_params)
