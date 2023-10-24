@@ -26,7 +26,8 @@ class Ring(Initializer):
         self.Movies = {}
         self.magic = None
 
-        self._easing = ElementalMagicManager.getConfig("RingReturnTween", "easyLinear")
+        self._easing_mode = ElementalMagicManager.getConfig("RingReturnTween", "easyLinear")
+        self._easing_speed = ElementalMagicManager.getConfig("RingReturnSpeed", 1.0)
 
         self.EventUpdateState = Event("onRingStateUpdate")
 
@@ -289,8 +290,14 @@ class Ring(Initializer):
         ring_slot = self._owner.getRingSlot()
         Point2 = ring_slot.getWorldPosition()
 
+        effect_layer_name = "InventoryItemEffect"
         scene = SceneManager.getCurrentScene()
-        layer = scene.getSlot("InventoryItemEffect")
+        if scene.hasSlot(effect_layer_name):
+            layer = scene.getSlot(effect_layer_name)
+        else:
+            if _DEVELOPMENT is True:
+                Trace.log("Entity", 2, "ElementalMagic Ring: Not found slot {!r} to make bezier return effect".format(effect_layer_name))
+            layer = self._owner
 
         if layer is None:
             source.addFunction(self._detachFromCursor)
@@ -305,7 +312,8 @@ class Ring(Initializer):
         self._detachFromCursor()
         node.addChild(self._root)
 
-        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2, Speed=1, Easing=self._easing)
+        source.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=Point2,
+                       Speed=self._easing_speed, Easing=self._easing_mode)
         source.addFunction(self._returnRingToParent, True)
         source.addTask("TaskNodeDestroy", Node=node)
 
