@@ -19,6 +19,14 @@ FindNewCruiseDelay = DefaultManager.getDefaultFloat("CruiseControlFindNewCruiseD
 CruiseRestartDelay = DefaultManager.getDefaultFloat("CruiseControlRestartDelay", 1000.0)
 CruiseControlCursorSpeed = DefaultManager.getDefaultFloat("CruiseControlCursorSpeed", 700.0)
 
+CruiseControlActivateKey = DefaultManager.getDefaultKey("CruiseControlActivate", "VK_W")
+CruiseControlDeactivateKey = DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")
+
+Autoplay = DefaultManager.getDefaultBool("Autoplay", False)
+
+CruiseControlTestHint = DefaultManager.getDefaultBool("CruiseControlTestHint", False)
+
+
 # todo: add variable to control if cruise skips cutscenes
 # todo: add random cruise action picking
 
@@ -62,7 +70,6 @@ class SystemCruiseControl(System):
 
         # todo: hack make popup window ignore block input
 
-        Autoplay = DefaultManager.getDefaultBool("Autoplay", False)
         if Autoplay is False:
             return True
 
@@ -84,21 +91,19 @@ class SystemCruiseControl(System):
                 return False
 
         if isDown is True:
-            if key == DefaultManager.getDefaultKey("CruiseControlActivate", "VK_W") and self.isTurnOn is False:
+            if key == CruiseControlActivateKey and self.isTurnOn is False:
                 self.isTurnOn = True
 
                 self.__restartCruiseControl_Delayed()
 
-                self._debugCruisetLog("Cruise activated (Press {!r} to Deactivate)".format(
-                    DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")))
+                self._debugCruisetLog("Cruise activated (Press {!r} to Deactivate)".format(CruiseControlDeactivateKey))
 
-            elif key == DefaultManager.getDefaultKey("CruiseControlDeactivate", "VK_E") and self.isTurnOn is True:
+            elif key == CruiseControlDeactivateKey and self.isTurnOn is True:
                 self.isTurnOn = False
 
                 self.__stopCruiseControl()
 
-                self._debugCruisetLog("Cruise deactivated (Press {!r} to Activate)".format(
-                    DefaultManager.getDefaultKeyName("CruiseControlActivate", "VK_W")))
+                self._debugCruisetLog("Cruise deactivated (Press {!r} to Activate)".format(CruiseControlActivateKey))
 
         return False
 
@@ -285,7 +290,7 @@ class SystemCruiseControl(System):
             if self.currentAction.onCheck():
                 cb(isSkip, 1)
 
-                if DefaultManager.getDefaultBool('CruiseControlTestHint', False):
+                if CruiseControlTestHint:
                     SystemManager.getSystem("SystemHint").showHintEvent(cb=self.currentAction.onAction)
                 else:
                     self.currentAction.onAction()
