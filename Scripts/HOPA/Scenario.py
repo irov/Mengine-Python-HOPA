@@ -704,6 +704,14 @@ class Scenario(object):
 
         return waitParagraphs
 
+    def getActiveParagraphs(self):
+        """ returns list of paragraphs which status is not COMPLETE """
+        paragraphs = []
+        for paragraph in self.paragraphs:
+            if paragraph.Status != PARAGRAPH_COMPLETE:
+                paragraphs.append(paragraph)
+        return paragraphs
+
     def addRepeat(self, Index, *Paragraphs):
         repeat = ScenarioRepeat(self.GroupName, self.SceneName, Index, Paragraphs)
 
