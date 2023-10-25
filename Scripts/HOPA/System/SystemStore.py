@@ -7,6 +7,9 @@ from Foundation.Systems.SystemMonetization import SystemMonetization
 from Foundation.TaskManager import TaskManager
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
+from Foundation.Utils import SimpleLogger
+
+_Log = SimpleLogger("SystemStore")
 
 
 class SystemStore(System):
@@ -109,7 +112,11 @@ class SystemStore(System):
     def hidePageID(page_id):
         """ hide page - it won't be created after init Store or removed tab + switch page if you are in Store"""
         Store = DemonManager.getDemon("Store")
-        if page_id in Store.getParam("HiddenPagesID"):
+        pages = Store.getParam("HiddenPagesID")
+        if pages is None:
+            _Log("hidePageID {!r} fail - Store is not initialized".format(page_id), err=True)
+            return
+        if page_id in pages:
             return
         Store.appendParam("HiddenPagesID", page_id)
 
@@ -117,7 +124,11 @@ class SystemStore(System):
     def showPageID(page_id):
         """ show page, but user should re-enter to the Store """
         Store = DemonManager.getDemon("Store")
-        if page_id not in Store.getParam("HiddenPagesID"):
+        pages = Store.getParam("HiddenPagesID")
+        if pages is None:
+            _Log("showPageID {!r} fail - Store is not initialized".format(page_id), err=True)
+            return
+        if page_id not in pages:
             return
         Store.delParam("HiddenPagesID", page_id)
 
@@ -125,7 +136,11 @@ class SystemStore(System):
     def addPageNotify(page_id):
         """ add red dot near page tab (notify that something interesting inside) """
         Store = DemonManager.getDemon("Store")
-        if page_id in Store.getParam("UnvisitedPagesID"):
+        pages = Store.getParam("UnvisitedPagesID")
+        if pages is None:
+            _Log("addPageNotify {!r} fail - Store is not initialized".format(page_id), err=True)
+            return
+        if page_id in pages:
             return
         Store.appendParam("UnvisitedPagesID", page_id)
 
@@ -133,7 +148,11 @@ class SystemStore(System):
     def removePageNotify(page_id):
         """ remove red dot near page tab """
         Store = DemonManager.getDemon("Store")
-        if page_id not in Store.getParam("UnvisitedPagesID"):
+        pages = Store.getParam("UnvisitedPagesID")
+        if pages is None:
+            _Log("removePageNotify {!r} fail - Store is not initialized".format(page_id), err=True)
+            return
+        if page_id not in pages:
             return
         Store.delParam("UnvisitedPagesID", page_id)
 
@@ -169,10 +188,12 @@ class SystemStore(System):
     def _cbAvailableAdsNew(self, ad_name):
         advert_product = MonetizationManager.findProduct(lambda product: product.name == ad_name)
         if advert_product is None:
+            _Log("_cbAvailableAdsNew: New available ads {!r}, but not found its product".format(ad_name), err=True)
             return False
 
         advert_page_id = StoreManager.findPageIdByProductId(advert_product.id)
         if advert_page_id is None:
+            _Log("_cbAvailableAdsNew: New available ads {!r}, but not found page for it".format(ad_name), err=True)
             return False
 
         Notification.notify(Notificator.onStorePageNewActions, advert_page_id)
