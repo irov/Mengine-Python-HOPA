@@ -109,7 +109,7 @@ class StoreManager(Manager):
             return
 
         if len(selected_tabs) != 1:
-            trace("You must set Selected=True to only one of your tab. You has 1 != {} [] selected tab!".format(len(selected_tabs), selected_tabs))
+            _trace("You must set Selected=True to only one of your tab. You has 1 != {} [] selected tab!".format(len(selected_tabs), selected_tabs))
 
     @staticmethod
     def loadButtons(records):
