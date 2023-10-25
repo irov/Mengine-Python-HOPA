@@ -32,24 +32,36 @@ class CutScene(BaseEntity):
             TaskManager.cancelTaskChain("CutSceneBlockProtector")
         self.__checkTaskChain()
 
-    def _onActivate(self):
+    def _toggleCutSceneBlockProtection(self, state):
         if DefaultManager.getDefaultBool("UseCutSceneBlockProtection", True) is False:
             return
 
-        cut_scene_skip = PolicyManager.getPolicy("CutSceneSkip", "PolicyCutSceneSkip")
+        if state is False:
+            if TaskManager.existTaskChain("CutSceneBlockProtector") is True:
+                TaskManager.cancelTaskChain("CutSceneBlockProtector")
+        else:
+            if TaskManager.existTaskChain("CutSceneBlockProtector") is True:
+                return
 
-        with TaskManager.createTaskChain(Name="CutSceneBlockProtector", Repeat=True) as tc:
-            tc.addTask(cut_scene_skip)
-            with tc.addIfTask(lambda: self.Play is True) as (tc_play_true, tc_play_false):
-                tc_play_false.addFunction(self._safeLeaveScene)
+            cut_scene_skip = PolicyManager.getPolicy("CutSceneSkip", "PolicyCutSceneSkip")
+            cut_scene_next = PolicyManager.getPolicy("CutSceneNext", "PolicyCutSceneNext")
+
+            with TaskManager.createTaskChain(Name="CutSceneBlockProtector", Repeat=True) as tc:
+                with tc.addRaceTask(2) as (tc_skip, tc_next):
+                    tc_skip.addTask(cut_scene_skip)
+                    tc_next.addTask(cut_scene_next)
+
+                with tc.addIfTask(lambda: self.Play is True) as (tc_play_true, tc_play_false):
+                    tc_play_false.addFunction(self._safeLeaveScene)
 
     def _updatePlay(self, value):
         if value is True:
+            self._toggleCutSceneBlockProtection(False)
             self.__checkTaskChain()
-
             self.cut_scenes_list = self.__getMoveList(self.CutSceneName)
-
             self.__runTaskChain()
+        else:
+            self._toggleCutSceneBlockProtection(True)
 
     def __runTaskChain(self):
         music_fade_cut_scene = DefaultManager.getDefault("MusicFadeCutScene", 0.25)
