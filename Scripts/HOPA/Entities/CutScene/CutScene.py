@@ -38,7 +38,7 @@ class CutScene(BaseEntity):
 
         cut_scene_skip = PolicyManager.getPolicy("CutSceneSkip", "PolicyCutSceneSkip")
 
-        with TaskManager.createTaskChain(Name="CutSceneBlockProtector", Replay=True) as tc:
+        with TaskManager.createTaskChain(Name="CutSceneBlockProtector", Repeat=True) as tc:
             tc.addTask(cut_scene_skip)
             with tc.addIfTask(lambda: self.Play is True) as (tc_play_true, tc_play_false):
                 tc_play_false.addFunction(self._safeLeaveScene)
