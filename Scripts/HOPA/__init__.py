@@ -1131,6 +1131,8 @@ def onInitialize():
         , "CruiseActionItemCollect"
         , "CruiseActionHint"
         , "CruiseActionSpellAmuletUseRune"
+        , "CruiseActionElementalMagicUse"
+        , "CruiseActionElementalMagicPick"
     ]
 
     CruiseControlManager.importCruiseActions("HOPA.CruiseActions", cruiseActions)
