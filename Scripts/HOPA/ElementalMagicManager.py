@@ -21,6 +21,10 @@ class ElementalMagicManager(Manager):
     s_picked_magic = []
     s_used_magic = []
 
+    s_use_quests = []
+    onQuestRunObserver = None
+    onQuestEndObserver = None
+
     class Params(object):
         if _DEVELOPMENT:
             def __repr__(self):
@@ -259,31 +263,49 @@ class ElementalMagicManager(Manager):
     def addMagicUsed(magic_id):
         ElementalMagicManager.s_used_magic.append(magic_id)
 
+    # --- technical things ---------------------------------------------------------------------------------------------
+
+    @classmethod
+    def _onInitialize(cls, *args):
+        ElementalMagicManager.onQuestRunObserver = Notification.addObserver(Notificator.onQuestRun, ElementalMagicManager._cbElementalMagicQuestRun)
+        ElementalMagicManager.onQuestEndObserver = Notification.addObserver(Notificator.onQuestEnd, ElementalMagicManager._cbElementalMagicQuestEnd)
+
+    @classmethod
+    def _onFinalize(cls):
+        if ElementalMagicManager.onQuestRunObserver is not None:
+            Notification.removeObserver(ElementalMagicManager.onQuestRunObserver)
+            ElementalMagicManager.onQuestRunObserver = None
+        if ElementalMagicManager.onQuestEndObserver is not None:
+            Notification.removeObserver(ElementalMagicManager.onQuestEndObserver)
+            ElementalMagicManager.onQuestEndObserver = None
+
     @staticmethod
     def resetCache():
         ElementalMagicManager.s_picked_magic = []
         ElementalMagicManager.s_used_magic = []
+        ElementalMagicManager.s_use_quests = []
+
+    @staticmethod
+    def _cbElementalMagicQuestRun(quest):
+        if quest is None or quest.questType != QUEST_USE_MAGIC_NAME:
+            return False
+        ElementalMagicManager.s_use_quests.append(quest)
+        return False
+
+    @staticmethod
+    def _cbElementalMagicQuestEnd(quest):
+        if quest is None or quest.questType != QUEST_USE_MAGIC_NAME:
+            return False
+        if quest in ElementalMagicManager.s_use_quests:
+            ElementalMagicManager.s_use_quests.remove(quest)
+        return False
 
     # --- quests -------------------------------------------------------------------------------------------------------
 
     @staticmethod
     def getMagicUseQuests():
-        """ returns list of active magic use quests (global) """
-        quests = QuestManager.getGlobalQuests()
-
-        found_quests = []
-
-        if quests is None:
-            return found_quests
-
-        for quest in quests:
-            if quest.getType() != QUEST_USE_MAGIC_NAME:
-                continue
-            if quest.isActive() is False:
-                continue
-            found_quests.append(quest)
-
-        return found_quests
+        """ returns list of active magic use quests """
+        return ElementalMagicManager.s_use_quests
 
     @staticmethod
     def getSceneMagicUseQuests(scene_name, group_name):
