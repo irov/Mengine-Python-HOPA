@@ -30,8 +30,7 @@ class MacroZoomInterrupt(MacroCommand):
         """ check if this zoom Scenario could be closed forever
             if we have PickItem active macro commands here - we can't close it
         """
-        if _DEVELOPMENT is True:
-            return True
+        return True
         # fixme: after re-enter game - it forget that some of paragraphs were completed
 
         pick_item_macro_commands = [
