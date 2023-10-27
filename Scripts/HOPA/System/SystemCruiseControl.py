@@ -20,7 +20,9 @@ CruiseRestartDelay = DefaultManager.getDefaultFloat("CruiseControlRestartDelay",
 CruiseControlCursorSpeed = DefaultManager.getDefaultFloat("CruiseControlCursorSpeed", 700.0)
 
 CruiseControlActivateKey = DefaultManager.getDefaultKey("CruiseControlActivate", "VK_W")
-CruiseControlDeactivateKey = DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")
+CruiseControlActivateKeyName = DefaultManager.getDefaultKeyName("CruiseControlActivate", "VK_W")
+CruiseControlDeactivateKey = DefaultManager.getDefaultKey("CruiseControlDeactivate", "VK_E")
+CruiseControlDeactivateKeyName = DefaultManager.getDefaultKeyName("CruiseControlDeactivate", "VK_E")
 
 Autoplay = DefaultManager.getDefaultBool("Autoplay", False)
 
@@ -67,7 +69,6 @@ class SystemCruiseControl(System):
     def _onRun(self):
         # todo: on popup restart fix cruise blocker (probably block input counter)
         # todo: make force restart on block input if time > 10 sec
-
         # todo: hack make popup window ignore block input
 
         if Autoplay is False:
@@ -93,18 +94,15 @@ class SystemCruiseControl(System):
         if isDown is True:
             if key == CruiseControlActivateKey and self.isTurnOn is False:
                 self.isTurnOn = True
-
                 self.__restartCruiseControl_Delayed()
-
-                self._debugCruisetLog("Cruise activated (Press {!r} to Deactivate)".format(CruiseControlDeactivateKey))
+                self._debugCruisetLog(
+                    "Cruise Activated. Press {!r} to Deactivate.".format(CruiseControlDeactivateKeyName))
 
             elif key == CruiseControlDeactivateKey and self.isTurnOn is True:
                 self.isTurnOn = False
-
                 self.__stopCruiseControl()
-
-                self._debugCruisetLog("Cruise deactivated (Press {!r} to Activate)".format(CruiseControlActivateKey))
-
+                self._debugCruisetLog(
+                    "Cruise Deactivated. Press {!r} to Activate.".format(CruiseControlActivateKeyName))
         return False
 
     def __PopupMessageShowObserver(self, text_id):
