@@ -50,7 +50,7 @@ class TechnicalSupport(BaseEntity):
         if _ANDROID:
             kwargs["OS_VERSION"] = Mengine.androidStringMethod("Application", "getOSVersion")
             kwargs["SESSION_ID"] = Mengine.androidStringMethod("Application", "getSessionId")
-            kwargs["BUILD_VERSION_CODE"] = Mengine.androidIntegerMethod("Application", "getSessionId")
+            kwargs["BUILD_VERSION_CODE"] = Mengine.androidIntegerMethod("Application", "getVersionCode")
 
         body = u"""----- Please Describe Your Issue Above Here -----
 
