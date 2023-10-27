@@ -141,11 +141,9 @@ class SystemCruiseControl(System):
             restart cruise tc on scene change
         """
         if self.isTurnOn:
-            print("__SceneChangeObserver __stopCruiseControl")
             self.__stopCruiseControl()
 
             def _onSceneEnterRestartCruise(_sceneName):
-                print("_onSceneEnterRestartCruise, __restartCruiseControl_Delayed")
                 self.__restartCruiseControl_Delayed()
 
                 return True
