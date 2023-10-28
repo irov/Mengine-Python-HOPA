@@ -36,12 +36,14 @@ class MazeScreens(Enigma):
         self.__done_groups = []
 
     def _onPreparation(self):
+        super(MazeScreens, self)._onPreparation()
         self._prepare()
 
     def _onActivate(self):
-        pass
+        super(MazeScreens, self)._onActivate()
 
     def _onDeactivate(self):
+        super(MazeScreens, self)._onDeactivate()
         self._cleanFull()
 
         if TaskManager.existTaskChain("MazeScreensReset") is True:
@@ -50,8 +52,6 @@ class MazeScreens(Enigma):
             TaskManager.cancelTaskChain("MazeScreensWinAnimation")
         if TaskManager.existTaskChain("MazeScreensChangeRoom") is True:
             TaskManager.cancelTaskChain("MazeScreensChangeRoom")
-
-        self.toggleNavBackButton(True)
 
     # enigma handling
 
@@ -75,7 +75,7 @@ class MazeScreens(Enigma):
             with GuardBlockInput(tc) as guard_source:
                 guard_source.addTask("AliasFadeIn", FadeGroupName="Fade", To=1.0, Time=FADE_TIME)
                 guard_source.addFunction(_reset)
-                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=0.0, Time=FADE_TIME)
+                guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=1.0, Time=FADE_TIME)
 
     # enigma flow
 
@@ -131,6 +131,7 @@ class MazeScreens(Enigma):
         self.board = []
 
         self.params = None
+        self.toggleNavBackButton(True)
 
     def setComplete(self):
         if self.params.win_movie_name is not None:
@@ -148,6 +149,7 @@ class MazeScreens(Enigma):
                 with guard_source.addParallelTask(2) as (guard_animation, guard_cleanup):
                     guard_animation.addEnable(movie)
                     guard_animation.addPlay(movie, Wait=True)
+                    guard_animation.addDelay(1000)
                     guard_cleanup.addFunction(self._cleanFull)
 
             tc.addFunction(self.enigmaComplete)
