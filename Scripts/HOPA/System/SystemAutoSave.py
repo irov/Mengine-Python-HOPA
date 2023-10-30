@@ -36,13 +36,7 @@ class SystemAutoSave(System):
         return True
 
     def _setMobilePauseAutoSave(self):
-        pause_notifications = [
-            Notificator.oniOSApplicationWillResignActive,  # ios
-            Notificator.onAndroidActivityPaused  # android
-        ]
-
-        for notificator in pause_notifications:
-            self.addObserver(notificator, self._forceSave)
+        self.addObserver(Notificator.onApplicationWillResignActive, self._forceSave)
 
     def __addDevToDebug(self):
         if Mengine.isAvailablePlugin("DevToDebug") is False:

@@ -560,7 +560,7 @@ class SystemDebugMenu(System):
                 return
 
         if event.code == DefaultManager.getDefaultKey("DevCheatSaveGame", "VK_J"):
-            Notification.notify(Notificator.oniOSApplicationWillResignActive)
+            Notification.notify(Notificator.onApplicationWillResignActive)
         elif event.code == DefaultManager.getDefaultKey("DevCheatShowDebugMenu", "VK_TAB"):
             self.__resolveDebugMenu()
         elif event.code == DefaultManager.getDefaultKey("DevCheatPrintCursorPos", "VK_Z"):
