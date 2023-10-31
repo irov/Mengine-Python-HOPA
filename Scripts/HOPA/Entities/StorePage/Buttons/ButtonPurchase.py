@@ -13,7 +13,7 @@ class ButtonPurchase(ButtonMixin):
         "discount": "$AliasStoreButtonDiscount",
     }
     action = "purchase"
-    price_template = "{currency}{value}"
+    price_template = "{currency}{price}"
 
     # Texts
 
