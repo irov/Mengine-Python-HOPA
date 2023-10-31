@@ -337,7 +337,7 @@ class Options(BaseEntity):
         def _createDemonCheckBoxTask(tc_name, demon_name, param_name):   # deprecated
             with TaskManager.createTaskChain(Name=tc_name, Group=self.object, Repeat=True) as tc:
                 def __onCheckBoxFilter(checkbox, value):
-                    Mengine.changeCurrentAccountSetting(param_name, unicode(value))
+                    self.object.setParam(param_name, value)
                     return True
                 tc.addTask("TaskFilter", ObjectName=demon_name, ID=Notificator.onCheckBox, Filter=__onCheckBoxFilter)
         def _createMovie2CheckBoxTask(tc_name, checkbox_name, param_name):
@@ -346,58 +346,57 @@ class Options(BaseEntity):
                     self.object.setParam(param_name, value)
                     return True
                 tc.addTask("TaskFilter", ObjectName=checkbox_name, ID=Notificator.onMovie2CheckBox, Filter=__onCheckBoxFilter)
+        def _createTask(tc_name, movie2_name, demon_name, param_name):
+            if self.object.hasObject(demon_name) is True:  # !!!!! deprecated
+                _createDemonCheckBoxTask(tc_name, demon_name, param_name)
+            elif GroupManager.hasObject("Options", movie2_name) is True:
+                _createMovie2CheckBoxTask(tc_name, movie2_name, param_name)
+            else:
+                if _DEVELOPMENT is True:
+                    Trace.log("Entity", 0, "Options not found %s inside 'Demon_Option' or %s inside group 'Options'." % (demon_name, movie2_name))
 
         # Mute mode
-        if self.object.hasObject("Demon_CheckBox_Mute") is True:  # !!!!! deprecated
-            _createDemonCheckBoxTask("Menu_Options_Mute", "Demon_CheckBox_Mute", "Mute")
-        elif GroupManager.hasObject("Options", "Movie2CheckBox_Mute") is True:
-            _createMovie2CheckBoxTask("Menu_Options_Mute", "Movie2CheckBox_Mute", "Mute")
+        _createTask("Menu_Options_Mute", "Movie2CheckBox_Mute", "Demon_CheckBox_Mute", "Mute")
 
         # Disable screen settings in mobile mode
         if isMobile is True:
             DemonNames = ["Demon_CheckBox_Arrow", "Demon_CheckBox_Fullscreen", "Demon_CheckBox_WideScreen"]  # !!!!! deprecated
             Movie2CheckBoxes = ["Movie2CheckBox_Arrow", "Movie2CheckBox_FullScreen", "Movie2CheckBox_WideScreen"]
 
-            for DemonName in DemonNames + Movie2CheckBoxes:
+            if Mengine.getGameParamBool("Widescreen", False) is True:
+                DemonNames.remove("Demon_CheckBox_WideScreen")
+                Movie2CheckBoxes.remove("Movie2CheckBox_WideScreen")
+                _createTask("Menu_Options_WideScreen", "Movie2CheckBox_WideScreen", "Demon_CheckBox_WideScreen", "Widescreen")
+
+            for DemonName in DemonNames:
                 if self.object.hasObject(DemonName) is True:
                     Demon = self.object.getObject(DemonName)
                     Demon.setParam("Enable", False)
+            for Movie2CheckBoxName in Movie2CheckBoxes:
+                if GroupManager.hasObject("Options", Movie2CheckBoxName) is True:
+                    Movie2CheckBox = GroupManager.getObject("Options", Movie2CheckBoxName)
+                    Movie2CheckBox.setParam("Enable", False)
 
             TextNames = ["Text_OptionsSystemCursor", "Text_OptionsFullscreen", "Text_OptionsWideScreen", "Text_OptionsMute"]
             for TextName in TextNames:
-                Group = self.object.getGroup()
-                if Group.hasObject(TextName) is True:
-                    Text = Group.getObject(TextName)
+                if GroupManager.hasObject("Options", TextName) is True:
+                    Text = GroupManager.getObject("Options", TextName)
                     Text.setParam("Enable", False)
-
             return
 
         # System cursor
-        if self.object.hasObject("Demon_CheckBox_Arrow") is True:  # !!!!! deprecated
-            _createDemonCheckBoxTask("Menu_Options_Arrow", "Demon_CheckBox_Arrow", "Cursor")
-        elif GroupManager.hasObject("Options", "Movie2CheckBox_Arrow") is True:
-            _createMovie2CheckBoxTask("Menu_Options_Arrow", "Movie2CheckBox_Arrow", "Cursor")
-
+        _createTask("Menu_Options_Arrow", "Movie2CheckBox_Arrow", "Demon_CheckBox_Arrow", "Cursor")
         # Fullscreen
-        if self.object.hasObject("Demon_CheckBox_Fullscreen") is True:  # !!!!! deprecated
-            _createDemonCheckBoxTask("Menu_Options_Fullscreen", "Demon_CheckBox_Fullscreen", "Fullscreen")
-        elif GroupManager.hasObject("Options", "Movie2CheckBox_FullScreen") is True:
-            _createMovie2CheckBoxTask("Menu_Options_Fullscreen", "Movie2CheckBox_FullScreen", "Fullscreen")
-
+        _createTask("Menu_Options_Fullscreen", "Movie2CheckBox_FullScreen", "Demon_CheckBox_Fullscreen", "Fullscreen")
         # Widescreen
-        if self.object.hasObject("Demon_CheckBox_WideScreen") is True:  # !!!!! deprecated
-            _createDemonCheckBoxTask("Menu_Options_WideScreen", "Demon_CheckBox_WideScreen", "Widescreen")
-        elif GroupManager.hasObject("Options", "Movie2CheckBox_WideScreen") is True:
-            _createMovie2CheckBoxTask("Menu_Options_WideScreen", "Movie2CheckBox_WideScreen", "Widescreen")
+        _createTask("Menu_Options_WideScreen", "Movie2CheckBox_WideScreen", "Demon_CheckBox_WideScreen", "Widescreen")
 
     def activateMoreOptions(self):
-        options = GroupManager.getGroup("Options")
-
-        if options.hasObject("Movie2Button_More") is False:
+        if GroupManager.hasObject("Options", "Movie2Button_More") is False:
             return
 
         if Mengine.hasTouchpad() is True:
-            moreOptionsButton = options.getObject("Movie2Button_More")
+            moreOptionsButton = GroupManager.getObject("Options", "Movie2Button_More")
             moreOptionsButton.setEnable(False)
             return
 
