@@ -52,7 +52,9 @@ class TechnicalSupport(BaseEntity):
             kwargs["SESSION_ID"] = Mengine.androidStringMethod("Application", "getSessionId")
             kwargs["BUILD_VERSION_CODE"] = Mengine.androidIntegerMethod("Application", "getVersionCode")
 
-        body = u"""----- Please Describe Your Issue Above Here -----
+        body = u"""
+        
+----- Please Describe Your Issue Above Here -----
 
         Important Details for our Support Team:
         * game publisher: {PUBLISHER}
