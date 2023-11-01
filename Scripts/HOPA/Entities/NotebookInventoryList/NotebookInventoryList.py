@@ -205,9 +205,16 @@ class NotebookInventoryList(BaseEntity):
         scope.addScope(self.__tasksPlay)
 
     def runTaskChain(self):
+        trigger_obj_type = self.Trigger.getType()
+
         self.tc = TaskManager.createTaskChain(Name="NotebookInventoryList", Repeat=True)
         with self.tc as tc:
-            tc.addTask('TaskMovie2ButtonClick', Movie2Button=self.Trigger)
+            if trigger_obj_type is "ObjectMovie2Button":
+                tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.Trigger)
+
+            elif trigger_obj_type is "ObjectSocket":
+                tc.addTask("TaskSocketClick", Socket=self.Trigger)
+
             with tc.addIfTask(self.checkValidate) as (true_source, false_source):
                 true_source.addScope(self.__waitEnter)
 
