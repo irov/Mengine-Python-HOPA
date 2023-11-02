@@ -358,12 +358,14 @@ class Options(BaseEntity):
         # Mute mode
         _createTask("Menu_Options_Mute", "Movie2CheckBox_Mute", "Demon_CheckBox_Mute", "Mute")
 
+        allow_widescreen_mode = Mengine.getGameParamBool("Widescreen", False) or Mengine.getGameParamBool("WidescreenOption", False)
+
         # Disable screen settings in mobile mode
         if isMobile is True:
             DemonNames = ["Demon_CheckBox_Arrow", "Demon_CheckBox_Fullscreen", "Demon_CheckBox_WideScreen"]  # !!!!! deprecated
             Movie2CheckBoxes = ["Movie2CheckBox_Arrow", "Movie2CheckBox_FullScreen", "Movie2CheckBox_WideScreen"]
 
-            if Mengine.getGameParamBool("Widescreen", False) is True:
+            if allow_widescreen_mode is True:
                 DemonNames.remove("Demon_CheckBox_WideScreen")
                 Movie2CheckBoxes.remove("Movie2CheckBox_WideScreen")
                 _createTask("Menu_Options_WideScreen", "Movie2CheckBox_WideScreen", "Demon_CheckBox_WideScreen", "Widescreen")
