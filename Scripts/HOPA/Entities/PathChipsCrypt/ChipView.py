@@ -34,6 +34,7 @@ class ChipView(Initializer):
         polygon.append((self.size.x, self.size.y))
         polygon.append((0.0, self.size.y))
         self.hotSpot.setPolygon(polygon)
+        self.hotSpot.enable()
         self.entity.addChild(self.hotSpot)
         # self.hotSpot.setInteractive(True)
         pass
