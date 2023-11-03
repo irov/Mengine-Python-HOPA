@@ -351,9 +351,6 @@ class Options(BaseEntity):
                 _createDemonCheckBoxTask(tc_name, demon_name, param_name)
             elif GroupManager.hasObject("Options", movie2_name) is True:
                 _createMovie2CheckBoxTask(tc_name, movie2_name, param_name)
-            else:
-                if _DEVELOPMENT is True:
-                    Trace.log("Entity", 0, "Options not found %s inside 'Demon_Option' or %s inside group 'Options'." % (demon_name, movie2_name))
 
         # Mute mode
         _createTask("Menu_Options_Mute", "Movie2CheckBox_Mute", "Demon_CheckBox_Mute", "Mute")
