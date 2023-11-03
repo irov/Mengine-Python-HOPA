@@ -84,15 +84,17 @@ class SystemInGameMenuCall(System):
             tc_options.addTask("AliasFadeIn", FadeGroupName="FadeUI", Time=250.0, To=self.MenuFade)
             tc_options.addScope(self.__scopeOpen, "InGameMenu")
 
-            tc_difficulty.addTask('TaskMovie2ButtonClick', GroupName='InGameMenu',
-                                  Movie2ButtonName='Movie2Button_Difficulty')
-            tc_difficulty.addScope(self.__scopeClose, "InGameMenu")
-            tc_difficulty.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=False)
-            tc_difficulty.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=True)
-            tc_difficulty.addScope(self.__scopeOpen, "Difficulty")
-            tc_difficulty.addTask('TaskListener', ID=Notificator.onSelectedDifficulty)
-            tc_difficulty.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=True)
-            tc_difficulty.addScope(self.__scopeOpen, "InGameMenu")
+            with tc_difficulty.addIfTask(lambda: GroupManager.hasObject("InGameMenu", "Movie2Button_Difficulty")) as (true, false):
+                true.addTask('TaskMovie2ButtonClick', GroupName='InGameMenu', Movie2ButtonName='Movie2Button_Difficulty')
+                true.addScope(self.__scopeClose, "InGameMenu")
+                true.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=False)
+                true.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=True)
+                true.addScope(self.__scopeOpen, "Difficulty")
+                true.addTask('TaskListener', ID=Notificator.onSelectedDifficulty)
+                true.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=True)
+                true.addScope(self.__scopeOpen, "InGameMenu")
+
+                false.addBlock()
 
     def _scopeResume(self, source, movie2_button_menu):
         source.addTask("TaskMovie2ButtonClick", GroupName='InGameMenu', Movie2ButtonName="Movie2Button_Continue")
