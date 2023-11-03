@@ -279,6 +279,8 @@ class PathChipsCrypt(Enigma):
         self.resetPositions()
 
         for chip in self.chipElements:
+            if chip.isInitialized():
+                continue
             chip.onInitialize()
             pass
 
