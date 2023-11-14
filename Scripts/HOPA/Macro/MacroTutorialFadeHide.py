@@ -12,4 +12,5 @@ class MacroTutorialFadeHide(MacroCommand):
 
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onTutorialFadeHide)
+        source.addListener(Notificator.onTutorialFadeHideEnd)
         pass

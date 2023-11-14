@@ -1,12 +1,9 @@
+from Foundation.System import System
+from HOPA.TutorialFadesManager import TutorialFadesManager
 from Foundation.GroupManager import GroupManager
+from Foundation.TaskManager import TaskManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
-from Foundation.System import System
-from Foundation.TaskManager import TaskManager
-from HOPA.TutorialFadesManager import TutorialFadesManager
-
-
-_debug = False
 
 
 class SystemTutorialFade(System):
@@ -15,18 +12,50 @@ class SystemTutorialFade(System):
 
     def __init__(self):
         super(SystemTutorialFade, self).__init__()
-        self.param = None
-        self.tc = None
+        # Manager params
+        self.fades = {}
+        self.config = {}
+
+        # Config param variables
+        self.show_hide_group = None
+        self.fade_group = None
+        self.window_group = None
+        self.skip_group = None
+
+        self.fade_slot = None
+        self.window_slot = None
+        self.skip_slot = None
+
+        self.window_alias = None
+
+        self.skip_button_name = None
+
+        # Other variables
         self.movie_show = None
-        self.movie_fade = None
+        self.movie_hide = None
         self.fade_id = None
         self.is_skipped = False
         self.current_scene = None
 
     def _onRun(self):
-        self.param = TutorialFadesManager.getParam()
-        self.button = GroupManager.getObject("SkipTutorial", "Movie2Button_Skip")
+        # Fill global variables
+        self.fades = TutorialFadesManager.getFades().getParams()
+        self.config = TutorialFadesManager.getConfig()
 
+        self.show_hide_group = self.config.get("ShowHideGroup", "FadeTutorial")
+        self.fade_group = self.config.get("FadeGroup", None)
+        self.window_group = self.config.get("WindowGroup", None)
+        self.skip_group = self.config.get("SkipGroup", "SkipTutorial")
+
+        self.fade_slot = self.config.get("FadeSlot", None)
+        self.window_slot = self.config.get("WindowSlot", None)
+        self.skip_slot = self.config.get("SkipSlot", "slot")
+
+        self.window_alias = self.config.get("WindowAlias", None)
+
+        self.skip_button_name = self.config.get("SkipButton", "Movie2Button_Skip")
+
+        # Set observers
         self.__setObservers()
 
         return True
@@ -39,12 +68,13 @@ class SystemTutorialFade(System):
         self.addObserver(Notificator.onTutorialSkipEnd, self.__cbTutorialSkip)
         self.addObserver(Notificator.onTransitionEnd, self.__cbTransitionEnd)
         self.addObserver(Notificator.onSceneActivate, self._reloadFade)
-        self.addObserver(Notificator.onSceneDeactivate, self.starterClinner)
+        self.addObserver(Notificator.onSceneDeactivate, self.cleanUp)
         self.addObserver(Notificator.onTutorialBlockScreen, self.notifySpicke)
 
     def __cbTutorialComplete(self):
         TutorialFadesManager.completeTutorial()
         TutorialFadesManager.setActiveTutorialState(False)
+
         return False
 
     def __cbSelectedDifficulty(self):
@@ -53,15 +83,17 @@ class SystemTutorialFade(System):
 
         difficulty_tutorial_value = Mengine.getCurrentAccountSettingBool("DifficultyCustomTutorial")
         TutorialFadesManager.setActiveTutorialState(difficulty_tutorial_value)
+
         return False
 
     def __cbTutorialSkip(self, some_args=None, some_other_args=None):
-        self.starterClinner()
+        self.cleanUp()
         self.is_skipped = True
 
         TutorialFadesManager.setActiveTutorialState(False)
         SystemTutorialFade.setWorking(False)
         SystemTutorialFade.setEnabled(False)
+
         return False
 
     def __cbTransitionEnd(self, sceneFrom, sceneTo, zoomName):
@@ -84,123 +116,230 @@ class SystemTutorialFade(System):
             if current_scene_name is not None:
                 if current_scene_name == self.current_scene:
                     slot = SceneManager.getSceneDescription(current_scene_name)
-                    if slot.hasSlotsGroup("FadeTutorial"):
+                    if slot.hasSlotsGroup(self.fade_group):
                         self.__cbTutorialFadeShow(self.fade_id)
                 else:
-                    self.starterClinner()
+                    self.cleanUp()
         else:
-            self.starterClinner()
+            self.cleanUp()
 
         return False
 
-    def starterClinner(self, some_args=None, some_other_args=None):
+    def cleanUp(self, some_args=None, some_other_args=None):
+        """
+        Disable and return to parent objects for every fade record in fades
+        """
+
         if self.is_skipped:
             return False
 
-        for key in self.param:
-            fade_data = self.param[key]
-            show_name = fade_data.showName
-            hide_name = fade_data.hideName
-            movie_group_name = fade_data.groupName
+        for fade_id in self.fades:
+            show, hide, fade, window, window_text, skip = self.getFadeObjects(fade_id)
 
-            self.movie_show = GroupManager.getObject(movie_group_name, show_name)
-            if self.movie_show is not None:
-                self.movie_show.setEnable(False)
+            if show is not None:
+                show.setEnable(False)
 
-            self.movie_fade = GroupManager.getObject(movie_group_name, hide_name)
-            if self.movie_fade is not None:
-                self.movie_fade.setEnable(False)
+            if hide is not None:
+                hide.setEnable(False)
 
-        self.button.returnToParent()
+            if fade is not None:
+                fade.setEnable(False)
+                fade.returnToParent()
+
+            if window is not None:
+                window.setEnable(False)
+                window.returnToParent()
+
+            if skip is not None:
+                skip.setEnable(False)
+                skip.returnToParent()
 
         return False
 
+    def getFadeObjects(self, fade_id):
+        """
+        Get objects variables (default=None) from fade data by custom fade id
+        """
+
+        if fade_id not in self.fades:
+            return
+
+        fade_data = self.fades.get(fade_id)
+
+        show = None
+        show_name = fade_data.get("showName", None)
+        if show_name is not None and self.show_hide_group is not None:
+            show = GroupManager.getObject(self.show_hide_group, show_name)
+
+        hide = None
+        hide_name = fade_data.get("hideName", None)
+        if hide_name is not None and self.show_hide_group is not None:
+            hide = GroupManager.getObject(self.show_hide_group, hide_name)
+
+        fade = None
+        fade_name = fade_data.get("fade_movie", None)
+        if fade_name is not None and self.fade_group is not None:
+            fade = GroupManager.getObject(self.fade_group, fade_name)
+
+        window = None
+        window_name = fade_data.get("window_movie", None)
+        if window_name is not None and self.window_group is not None:
+            window = GroupManager.getObject(self.window_group, window_name)
+
+        window_text = fade_data.get("window_text", None)
+
+        skip = None
+        if self.skip_button_name is not None and self.skip_group is not None:
+            skip = GroupManager.getObject(self.skip_group, self.skip_button_name)
+
+        return show, hide, fade, window, window_text, skip
+
     def __cbTutorialFadeShow(self, fade_id):
+        """
+        Show tutorial fade with attached 'components' (fade, window, skip) by custom fade id
+        """
+
         SystemTutorialFade.setEnabled(True)
         SystemTutorialFade.setWorking(True)
         self.fade_id = fade_id
-        self.starterClinner()
+        self.cleanUp()
 
-        if _debug:
-            print("__cbTutorialFadeShow | self.fade_id={!r}".format(self.fade_id))
-
-        if fade_id not in self.param:
+        if fade_id not in self.fades:
             return False
 
         self.current_scene = SceneManager.getCurrentSceneName()
-        fade_data = self.param[fade_id]
-        show_name = fade_data.showName
 
-        movie_group_name = fade_data.groupName
-        movie_group = GroupManager.getGroup(movie_group_name)
-        self.movie_show = GroupManager.getObject(movie_group_name, show_name)
+        # Create local variables by custom fade_id
+        self.movie_show, _, fade, window, window_text, skip = self.getFadeObjects(fade_id)
 
-        with TaskManager.createTaskChain(Name="TutorialFade", Group=movie_group) as tc:
+        if TaskManager.existTaskChain("TutorialFadeShow"):
+            TaskManager.cancelTaskChain("TutorialFadeShow")
+
+        with TaskManager.createTaskChain(Name="TutorialFadeShow", GroupName=self.show_hide_group) as tc:
             with GuardBlockInput(tc) as guard_source:
-                if _debug:
-                    guard_source.addPrint("      show: ...fade start show | fade_id={!r}, self={!r}".format(fade_id, self.fade_id))
-                guard_source.addTask("TaskEnable", ObjectName=show_name, Value=True)
-                guard_source.addFunction(self.buttonAttach, self.movie_show)
-                guard_source.addTask("TaskMoviePlay", MovieName=show_name)
-                if _debug:
-                    guard_source.addPrint("      show: fade start end... | fade_id={!r}, self={!r}".format(fade_id, self.fade_id))
+                guard_source.addTask("TaskEnable", Object=self.movie_show, Value=True)
+
+                guard_source.addFunction(self.objAttach, self.movie_show, fade, self.fade_slot)
+                guard_source.addFunction(self.setTextAlias, self.window_alias, window_text)
+                guard_source.addFunction(self.objAttach, self.movie_show, window, self.window_slot)
+                guard_source.addFunction(self.objAttach, self.movie_show, skip, self.skip_slot)
+
+                guard_source.addTask("TaskMoviePlay", Movie=self.movie_show)
+
+                guard_source.addNotify(Notificator.onTutorialFadeShowEnd, fade_id)
 
         return False
 
     def __cbTutorialFadeHide(self, fade_id=None):
+        """
+        Hide tutorial fade with attached 'components' (fade, window, skip) by custom fade id
+        """
+
         SystemTutorialFade.setEnabled(False)
         SystemTutorialFade.setWorking(False)
         self.current_scene = None
 
-        if _debug:
-            print("__cbTutorialFadeHide | self.fade_id={!r}".format(self.fade_id))
-
         if self.fade_id is None:
             return False
 
-        fade_data = self.param[self.fade_id]
-        show_name = fade_data.showName
-        hide_name = fade_data.hideName
-        movie_group_name = fade_data.groupName
-        movie_group = GroupManager.getGroup(movie_group_name)
+        # Create local variables by custom fade_id
+        show, self.movie_hide, fade, window, window_text, skip = self.getFadeObjects(self.fade_id)
 
-        self.movie_fade = GroupManager.getObject(movie_group_name, hide_name)
+        if TaskManager.existTaskChain("TutorialFadeHide"):
+            TaskManager.cancelTaskChain("TutorialFadeHide")
 
-        with TaskManager.createTaskChain(Name="TutorialFadeHide", Group=movie_group) as tc:
+        with TaskManager.createTaskChain(Name="TutorialFadeHide", GroupName=self.show_hide_group) as tc:
             with GuardBlockInput(tc) as guard_source_Hide:
-                if _debug:
-                    guard_source_Hide.addPrint("      hide: ...fade start hide | self fade_id={!r}".format(self.fade_id))
-                guard_source_Hide.addTask("TaskEnable", ObjectName=show_name, Value=False)
-                guard_source_Hide.addFunction(self.buttonAttach, self.movie_fade)
-                guard_source_Hide.addTask("TaskEnable", ObjectName=hide_name, Value=True)
+                guard_source_Hide.addTask("TaskEnable", Object=show, Value=False)
+                guard_source_Hide.addTask("TaskEnable", Object=self.movie_hide, Value=True)
 
-                guard_source_Hide.addTask("TaskMoviePlay", MovieName=hide_name)
-                guard_source_Hide.addTask("TaskEnable", ObjectName=hide_name, Value=False)
-                guard_source_Hide.addFunction(self.buttonDeAttach)
-                if _debug:
-                    guard_source_Hide.addPrint("      hide: fade end hide... |  self fade_id={!r}".format(self.fade_id))
+                guard_source_Hide.addFunction(self.objAttach, self.movie_hide, fade, self.fade_slot)
+                guard_source_Hide.addFunction(self.setTextAlias, self.window_alias, window_text)
+                guard_source_Hide.addFunction(self.objAttach, self.movie_hide, window, self.window_slot)
+                guard_source_Hide.addFunction(self.objAttach, self.movie_hide, skip, self.skip_slot)
+
+                guard_source_Hide.addTask("TaskMoviePlay", Movie=self.movie_hide)
+                guard_source_Hide.addTask("TaskEnable", Object=self.movie_hide, Value=False)
+
+                guard_source_Hide.addFunction(self.objDetach, skip)
+                guard_source_Hide.addFunction(self.removeTextAlias, self.window_alias)
+                guard_source_Hide.addFunction(self.objDetach, window)
+                guard_source_Hide.addFunction(self.objDetach, fade)
+
+                guard_source_Hide.addNotify(Notificator.onTutorialFadeHideEnd, fade_id)
 
         self.fade_id = None
 
         return False
 
-    def buttonAttach(self, movie):
-        self.button.setEnable(True)
-        self.button.returnToParent()
+    def setTextAlias(self, alias, text_id):
+        """
+        Set text to alias
+        Check if text is None, if True then set 'ID_EMPTY'
+        """
 
-        node = self.button.getEntityNode()
+        if alias is None:
+            return
 
-        slot = movie.getMovieSlot("slot")
+        if text_id is None:
+            Mengine.setTextAlias("", alias, "ID_EMPTY")
+        else:
+            Mengine.setTextAlias("", alias, text_id)
+
+    def removeTextAlias(self, alias):
+        """
+        Simple remove alias arguments
+        """
+
+        if alias is None:
+            return
+
+        Mengine.removeTextAliasArguments("", alias)
+
+    def objAttach(self, movie, obj, slot_name):
+        """
+        Attach object to movie on slot_name and enable
+        Check all arguments if any argument is None
+        """
+
+        args = [
+            movie,
+            obj,
+            slot_name
+        ]
+
+        for arg in args:
+            if arg is None:
+                return
+
+        if movie.hasMovieSlot(slot_name) is False:
+            return
+
+        obj.setEnable(True)
+        obj.returnToParent()
+
+        node = obj.getEntityNode()
+
+        slot = movie.getMovieSlot(slot_name)
         slot.addChild(node)
 
-    def buttonDeAttach(self):
-        self.button.returnToParent()
+    def objDetach(self, obj):
+        """
+        Detach object from parent and disable
+        Check if object is None
+        """
+
+        if obj is None:
+            return
+
+        obj.setEnable(False)
+        obj.returnToParent()
 
     def notifySpicke(self, name, enabler):
         if name is None:
             return False
 
-        obj = GroupManager.getObject("FadeTutorial", name)
+        obj = GroupManager.getObject(self.fade_group, name)
 
         if enabler == "Enable":
             obj.setEnable(True)
@@ -210,15 +349,15 @@ class SystemTutorialFade(System):
 
         return False
 
-    def tcEnd(self, arg=None):
-        if TaskManager.existTaskChain("TutorialFadeHide"):
-            TaskManager.cancelTaskChain("TutorialFadeHide")
-
-        if TaskManager.existTaskChain("TutorialFade"):
-            TaskManager.cancelTaskChain("TutorialFade")
-
     def _onStop(self):
-        self.tcEnd()
+        tcs = [
+            "TutorialFadeShow",
+            "TutorialFadeHide"
+        ]
+
+        for tc in tcs:
+            if TaskManager.existTaskChain(tc):
+                TaskManager.cancelTaskChain(tc)
 
     def _onSave(self):
         data_save = (self.fade_id, self.is_skipped, self.is_working, self.current_scene)

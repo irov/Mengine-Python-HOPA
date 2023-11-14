@@ -827,7 +827,9 @@ def onInitialize():
         , "onMagicGloveClick"
         , "onSetReloading"
         , "onTutorialFadeShow"
+        , "onTutorialFadeShowEnd"
         , "onTutorialFadeHide"
+        , "onTutorialFadeHideEnd"
 
         , "onItemCollectInit"
         , "onFinishItemCollect"

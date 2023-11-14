@@ -3,35 +3,74 @@ from Foundation.Manager import Manager
 
 
 class TutorialFadesManager(Manager):
-    s_data = {}
+    s_config = {}
+    s_fades = {}
     s_is_active_tutorial = True
     s_tutorial_complete = False
 
-    class Param(object):
-        def __init__(self, fade_show_name, fade_hide_name, fade_id, group_name):
-            self.fadeID = fade_id
-            self.showName = fade_show_name
-            self.hideName = fade_hide_name
-            self.groupName = group_name
+    class Config(object):
+        def __init__(self, records):
+            self._params = {}
+
+            for record in records:
+                key = record.get("Key")
+                value = record.get("Value")
+                self._params[key] = value
+
+        def get(self, key, default=None):
+            return self._params.get(key, default)
+
+    class Fades(object):
+        def __init__(self, records):
+            self._params = {}
+
+            for record in records:
+                fadeID = record.get("FadeID")
+                fade_params = {
+                    "showName": record.get("FadeShowName"),
+                    "hideName": record.get("FadeHideName"),
+
+                    "window_text": record.get("WindowTextID"),
+                    "fade_movie": record.get("FadeMovie"),
+                    "window_movie": record.get("WindowMovie")
+                }
+
+                self._params[fadeID] = fade_params
+
+        def get(self, key, default=None):
+            return self._params.get(key, default)
+
+        def getParams(self):
+            return self._params
 
     @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
 
-        for record in records:
-            fade_id = record.get("FadeID")
-            fade_show_name = record.get("FadeShowName")
-            fade_hide_name = record.get("FadeHideName")
-            group_name = record.get("GroupName")
-
-            new_param = TutorialFadesManager.Param(fade_show_name, fade_hide_name, fade_id, group_name)
-            TutorialFadesManager.s_data[fade_id] = new_param
+        if param == "TutorialFades":
+            TutorialFadesManager.loadFades(records)
+        elif param == "TutorialConfig":
+            TutorialFadesManager.loadConfig(records)
 
         return True
 
     @staticmethod
-    def getParam():
-        return TutorialFadesManager.s_data
+    def loadFades(records):
+        params = TutorialFadesManager.Fades(records)
+        TutorialFadesManager.s_fades = params
+
+    @staticmethod
+    def loadConfig(records):
+        params = TutorialFadesManager.Config(records)
+        TutorialFadesManager.s_config = params
+
+    @staticmethod
+    def getFades():
+        return TutorialFadesManager.s_fades
+
+    @staticmethod
+    def getConfig():
+        return TutorialFadesManager.s_config
 
     @staticmethod
     def setActiveTutorialState(value):

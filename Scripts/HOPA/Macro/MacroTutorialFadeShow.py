@@ -12,4 +12,5 @@ class MacroTutorialFadeShow(MacroCommand):
 
     def _onGenerate(self, source):
         source.addTask("TaskNotify", ID=Notificator.onTutorialFadeShow, Args=(self.MovieID,))
+        source.addListener(Notificator.onTutorialFadeShowEnd, Filter=lambda movie_id: movie_id == self.MovieID)
         pass
