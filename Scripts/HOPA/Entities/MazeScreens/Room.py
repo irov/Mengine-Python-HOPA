@@ -16,8 +16,8 @@ class Room(Initializer):
         self.id = None
         self.params = None      # RoomParam
         self.game = None        # MazeScreens entity
-        self._objects = []
 
+        self._objects = []
         self.root = None
         self.content_movie = None
 
@@ -75,6 +75,10 @@ class Room(Initializer):
             self.root.removeFromParent()
             Mengine.destroyNode(self.root)
             self.root = None
+
+        self.id = None
+        self.params = None
+        self.game = None
 
     def _generateObject(self, slot, params):
         Types = {

@@ -18,13 +18,13 @@ class MazeScreens(Enigma):
         if _DEVELOPMENT is False:
             return
 
-        print " BOARD ".center(15, "-")
+        Trace.msg(" BOARD ".center(15, "-"))
         for i in range(len(self.board)):
             line = ""
             for j in range(len(self.board[i])):
                 line += str(self.board[i][j] if self.board[i][j] else MazeScreensManager.CELL_TYPE_WALL).ljust(4, " ")
-            print line
-        print " Player position is", self.player_position, "room", self.board[self.player_position[0]][self.player_position[1]]
+            Trace.msg(line)
+        Trace.msg(" Player position is", self.player_position, "room", self.board[self.player_position[0]][self.player_position[1]])
 
     def __init__(self):
         super(MazeScreens, self).__init__()
@@ -118,7 +118,7 @@ class MazeScreens(Enigma):
 
                 if room == self.__current_room:
                     self.player_position = (i, j)
-                    print "Initial player position: {} ({})".format(self.player_position, room.id)
+                    Trace.msg_dev("Initial player position: {} ({})".format(self.player_position, room.id))  # todo: remove print
 
         self.player_direction = MSTransition.Up
 

@@ -2,7 +2,6 @@ from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
-from HOPA.QuestManager import QuestManager
 from Foundation.SceneManager import SceneManager
 from HOPA.ZoomManager import ZoomManager
 
