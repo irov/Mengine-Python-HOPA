@@ -312,7 +312,7 @@ class SystemTutorialFade(System):
             if arg is None:
                 return
 
-        if movie.hasMovieSlot(slot_name) is False:
+        if movie.hasSlot(slot_name) is False:
             return
 
         obj.setEnable(True)
