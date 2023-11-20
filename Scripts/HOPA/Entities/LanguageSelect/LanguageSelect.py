@@ -75,6 +75,9 @@ class LanguageSelect(BaseEntity):
 
     @staticmethod
     def __setLanguage(scene_name, lang):
+        if SceneManager.getCurrentScene() is not None:
+            SceneManager.disableCurrentScene()
+
         def cbOnSceneRestartChangeLocale(scene, isActive, isError):  # CB for actual changing game localization
             if scene is None:
                 Mengine.setLocale(lang)  # set locale can only work when current scene is None
