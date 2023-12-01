@@ -245,7 +245,7 @@ class LimitedPromo(BaseEntity):
         icon = self.icons.get(tag)
 
         if icon is None:
-            _Log("scopeClick blocked [{}]: no icon to click", err=True)
+            Trace.log("Entity", 0, "scopeClick blocked: can't find icon for tag '{}'".format(tag))
             source.addBlock()
             return
 
