@@ -142,6 +142,9 @@ class SystemMusic2(System):
             return False
             pass
 
+        if self.musics.get(MusicResource) is None:
+            return False
+
         Desc = self.musics[MusicResource]
         PosMs = Mengine.musicGetPosMs()
 
