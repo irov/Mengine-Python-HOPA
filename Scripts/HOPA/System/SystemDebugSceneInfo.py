@@ -5,12 +5,14 @@ from Foundation.System import System
 from HOPA.ZoomManager import ZoomManager
 
 
+SCHEDULE_NOT_ACTIVE = 0
+
+
 class SystemDebugSceneInfo(System):
-    SCHEDULE_NOT_INIT = -1
 
     def __init__(self):
         super(SystemDebugSceneInfo, self).__init__()
-        self._scheduleId = SystemDebugSceneInfo.SCHEDULE_NOT_INIT
+        self._scheduleId = SCHEDULE_NOT_ACTIVE
 
     def _onParams(self, params):
         super(SystemDebugSceneInfo, self)._onParams(params)
@@ -29,22 +31,20 @@ class SystemDebugSceneInfo(System):
         return True
 
     def __removeSchedule(self):
-        if self.isOnSchedule() is False:
-            return False
+        if self._scheduleId == SCHEDULE_NOT_ACTIVE:
+            return
 
         if self.textNode is not None and self.enable is False:
             self.__destroyNode()
 
-        if Mengine.scheduleRemove(self._scheduleId) is False:
-            Trace.trace()
+        self._scheduleId = SCHEDULE_NOT_ACTIVE
 
-        self._scheduleId = SystemDebugSceneInfo.SCHEDULE_NOT_INIT
+        if Mengine.scheduleRemove(self._scheduleId) is False:
+            Trace.log("System", 0, "Failed to remove local schedule with id {}".format(self._scheduleId))
 
     def __attachSchedule(self, reloadTime):
+        self.__removeSchedule()
         self._scheduleId = Mengine.schedule(reloadTime, self.__onSchedule)
-
-    def isOnSchedule(self):
-        return self._scheduleId != SystemDebugSceneInfo.SCHEDULE_NOT_INIT
 
     def __destroyNode(self):
         if self.textNode is not None:
@@ -52,12 +52,11 @@ class SystemDebugSceneInfo(System):
             Mengine.destroyNode(self.textNode)
             self.textNode = None
 
-    def __onSchedule(self, ID, isRemoved):
+    def __onSchedule(self, ID, isComplete):
         if self._scheduleId != ID:
             return
 
-        if isRemoved is True:
-            self._scheduleId = SystemDebugSceneInfo.SCHEDULE_NOT_INIT
+        self._scheduleId = SCHEDULE_NOT_ACTIVE
 
         if self.enable is True:
             self.__attachSchedule(self.timingViewTime)

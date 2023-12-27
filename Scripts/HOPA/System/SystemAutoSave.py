@@ -74,29 +74,26 @@ class SystemAutoSave(System):
         return False
 
     def _schedule(self):
+        self._removeSchedule()
         save_delay = DefaultManager.getDefaultFloat("AutoTransitionSaveDelaySeconds", 60)
         save_delay *= 1000  # convert to ms
-        self._removeSchedule()
         self.scheduleId = Mengine.scheduleGlobal(save_delay, self._onSchedule)
 
     def _removeSchedule(self):
         if self.scheduleId == SCHEDULE_NOT_ACTIVE:
             return
-        remove_schedule_id = self.scheduleId
+        if Mengine.scheduleGlobalRemove(self.scheduleId) is False:
+            Trace.log("System", 0, "Failed to remove global schedule with id {}".format(self.scheduleId))
         self.scheduleId = SCHEDULE_NOT_ACTIVE
-        if Mengine.scheduleGlobalRemove(remove_schedule_id) is False:
-            Trace.log("System", 0, "Failed to remove global schedule with id {}".format(remove_schedule_id))
 
-    def _onSchedule(self, scheduleId, isRemoved):
+    def _onSchedule(self, scheduleId, isComplete):
         if self.scheduleId != scheduleId:
             return
 
-        self.setSaveReady(True)
+        if isComplete is True:
+            self.setSaveReady(True)
 
-        if isRemoved is True:
-            self.scheduleId = SCHEDULE_NOT_ACTIVE
-        else:
-            self._removeSchedule()
+        self.scheduleId = SCHEDULE_NOT_ACTIVE
 
     def __onSceneRemoved(self, SceneName):
         if SceneName in ALWAYS_SAVE_SCENES:
@@ -106,8 +103,6 @@ class SystemAutoSave(System):
 
         if self.isSaveReady() is False:
             return False
-
-        self._removeSchedule()
 
         self._autoSave()
         self._schedule()
