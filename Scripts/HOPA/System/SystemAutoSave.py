@@ -9,25 +9,31 @@ IGNORE_SAVE_SCENES = ["Advertising"]
 NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store"]
 ALWAYS_SAVE_SCENES = ["CutScene"]
 
+SCHEDULE_NOT_ACTIVE = 0
+
 
 class SystemAutoSave(System):
-    def _onParams(self, params):
-        super(SystemAutoSave, self)._onParams(params)
 
-        self.AutoSave = True
+    """
+        saves game automatically:
+            - AutoTransitionSave is True: after scene removed if ready (every AutoTransitionSaveDelaySeconds seconds)
+            - Every time game was hidden on mobile device
+            - When onCheatAutoSave (use -cheats)
+    """
+
+    def __init__(self):
+        super(SystemAutoSave, self).__init__()
+
         self.saveReady = False
-
-        self.scheduleId = 0
+        self.scheduleId = SCHEDULE_NOT_ACTIVE
 
     def _onRun(self):
-        AutoTransitionSave = DefaultManager.getDefaultBool("AutoTransitionSave", False)
-
         self.addObserver(Notificator.onCheatAutoSave, self.__cheatAutoSave)
 
         if Mengine.hasTouchpad() is True:
-            self._setMobilePauseAutoSave()
+            self.addObserver(Notificator.onApplicationWillResignActive, self._forceSave)
 
-        if AutoTransitionSave is True:
+        if DefaultManager.getDefaultBool("AutoTransitionSave", False) is True:
             self.addObserver(Notificator.onSceneRemoved, self.__onSceneRemoved)
             self._schedule()
 
@@ -35,20 +41,8 @@ class SystemAutoSave(System):
 
         return True
 
-    def _setMobilePauseAutoSave(self):
-        self.addObserver(Notificator.onApplicationWillResignActive, self._forceSave)
-
-    def __addDevToDebug(self):
-        if Mengine.isAvailablePlugin("DevToDebug") is False:
-            return
-
-        tab = Mengine.getDevToDebugTab("Cheats") or Mengine.addDevToDebugTab("Cheats")
-
-        widget = Mengine.createDevToDebugWidgetButton("save_game")
-        widget.setTitle("Save game")
-        widget.setClickEvent(Notification.notify, Notificator.onCheatAutoSave)
-
-        tab.addWidget(widget)
+    def _onStop(self):
+        self._removeSchedule()
 
     def _forceSave(self):
         cur_scene = Mengine.getCurrentScene()
@@ -82,36 +76,38 @@ class SystemAutoSave(System):
     def _schedule(self):
         save_delay = DefaultManager.getDefaultFloat("AutoTransitionSaveDelaySeconds", 60)
         save_delay *= 1000  # convert to ms
+        self._removeSchedule()
         self.scheduleId = Mengine.scheduleGlobal(save_delay, self._onSchedule)
 
-    def _onSchedule(self, ID, isRemoved):
-        if self.scheduleId != ID:
+    def _removeSchedule(self):
+        if self.scheduleId == SCHEDULE_NOT_ACTIVE:
+            return
+        remove_schedule_id = self.scheduleId
+        self.scheduleId = SCHEDULE_NOT_ACTIVE
+        if Mengine.scheduleGlobalRemove(remove_schedule_id) is False:
+            Trace.log("System", 0, "Failed to remove global schedule with id {}".format(remove_schedule_id))
+
+    def _onSchedule(self, scheduleId, isRemoved):
+        if self.scheduleId != scheduleId:
             return
 
-        self.scheduleId = 0
-        self.saveReady = True
+        self.setSaveReady(True)
 
-    def _onStop(self):
-        if self.scheduleId != 0:
-            Mengine.scheduleGlobalRemove(self.scheduleId)
-            self.scheduleId = 0
-
-        AutoTransitionSave = DefaultManager.getDefaultBool("AutoTransitionSave", False)
-        if AutoTransitionSave is False:
-            return
+        if isRemoved is True:
+            self.scheduleId = SCHEDULE_NOT_ACTIVE
+        else:
+            self._removeSchedule()
 
     def __onSceneRemoved(self, SceneName):
         if SceneName in ALWAYS_SAVE_SCENES:
-            self.saveReady = True
+            self.setSaveReady(True)
         elif SceneName in IGNORE_SAVE_SCENES:
             return False
 
-        if self.saveReady is False:
+        if self.isSaveReady() is False:
             return False
 
-        if self.scheduleId != 0:
-            if Mengine.scheduleGlobalRemove(self.scheduleId) is False:
-                Trace.trace()
+        self._removeSchedule()
 
         self._autoSave()
         self._schedule()
@@ -119,9 +115,6 @@ class SystemAutoSave(System):
         return False
 
     def _autoSave(self):
-        if self.AutoSave is False:
-            return
-
         currentStage = StageManager.getCurrentStage()
 
         if currentStage is None:
@@ -130,4 +123,22 @@ class SystemAutoSave(System):
         if SessionManager.saveSession() is False:
             Trace.log("System", 0, "SystemAutoSave _save: invalid save Session")
 
-        self.saveReady = False
+        self.setSaveReady(False)
+
+    def setSaveReady(self, state):
+        self.saveReady = state
+
+    def isSaveReady(self):
+        return self.saveReady is True
+
+    def __addDevToDebug(self):
+        if Mengine.isAvailablePlugin("DevToDebug") is False:
+            return
+
+        tab = Mengine.getDevToDebugTab("Cheats") or Mengine.addDevToDebugTab("Cheats")
+
+        widget = Mengine.createDevToDebugWidgetButton("save_game")
+        widget.setTitle("Save game")
+        widget.setClickEvent(Notification.notify, Notificator.onCheatAutoSave)
+
+        tab.addWidget(widget)
