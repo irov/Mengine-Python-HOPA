@@ -24,12 +24,19 @@ class PolicyNotEnoughEnergyRewardedAdvert(TaskAlias):
             source.addScope(self._scopeDefaultAction)
             return
 
+        semaphore_rewarded_ok = Semaphore(False, "AdvertRewardedStatus")
+
         source.addFunction(SpecialPromotion.run, AdvertProduct.id)
 
         with source.addRaceTask(3) as (done, skip, stop):
-            done.addListener(Notificator.onAdvertHidden)
+            with done.addParallelTask(2) as (rewarded, hidden):
+                rewarded.addListener(Notificator.onAdvertRewarded)
+                rewarded.addSemaphore(semaphore_rewarded_ok, To=True)
+                hidden.addListener(Notificator.onAdvertHidden)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
+            skip.addDelay(100)
+            skip.addSemaphore(semaphore_rewarded_ok, From=False)
             skip.addScope(self._scopeDefaultAction)
 
             stop.addListener(Notificator.onSceneDeactivate)

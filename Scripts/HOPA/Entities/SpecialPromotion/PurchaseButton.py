@@ -45,14 +45,20 @@ class PurchaseButton(object):
         source.addScope(SystemMonetization.scopePay, self.product.id, scopeSuccess=scopeSuccess)
 
     def _activateAdvert(self, source, scopeSuccess):
+        semaphore_rewarded_ok = Semaphore(False, "AdvertRewardedStatus")
+
         def _scopeWhileView(src):
             with src.addRaceTask(2) as (ok, skip):
                 ok.addListener(Notificator.onAdvertRewarded, Filter=lambda name, *_: name == self.product.name)
-                ok.addScope(scopeSuccess)
+                ok.addSemaphore(semaphore_rewarded_ok, To=True)
                 skip.addListener(Notificator.onAdvertSkipped, Filter=lambda _, ad_name: ad_name == self.product.name)
 
         source.addTask("AliasShowAdvert", AdType="Rewarded",
                        AdUnitName=self.product.name, WhileShowScope=_scopeWhileView)
+
+        # wait until alias done (when ad hidden), then call success scope
+        with source.addIfSemaphore(semaphore_rewarded_ok, True) as (tc_was_rewarded, tc_not_rewarded):
+            tc_was_rewarded.addScope(scopeSuccess)
 
 
 class DeprecatedPurchaseButton(PurchaseButton):
