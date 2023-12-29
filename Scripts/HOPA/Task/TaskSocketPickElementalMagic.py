@@ -69,4 +69,4 @@ class TaskSocketPickElementalMagic(MixinSocket, MixinObserver, Task):
             Trace.msg_dev("<DEV> Element {!r} [{}] was used earlier - allow pick action to prevent game stuck".format(
                 self.Element, self.MagicId))
             return True
-        return ElementalMagicManager.hasUseQuestOnElement(self.Element) is True
+        return ElementalMagicManager.hasUseQuestOnElement(self.MagicId) is True

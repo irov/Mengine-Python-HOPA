@@ -288,6 +288,7 @@ class ElementalMagicManager(Manager):
     def _cbElementalMagicQuestRun(quest):
         if quest is None or quest.questType != QUEST_USE_MAGIC_NAME:
             return False
+        # print "* ElementalMagicManager._cbElementalMagicQuestRun", quest.params
         ElementalMagicManager.s_use_quests.append(quest)
         return False
 
@@ -297,6 +298,7 @@ class ElementalMagicManager(Manager):
             return False
         if quest in ElementalMagicManager.s_use_quests:
             ElementalMagicManager.s_use_quests.remove(quest)
+        # print "* ElementalMagicManager._cbElementalMagicQuestEnd", quest.params
         return False
 
     # --- quests -------------------------------------------------------------------------------------------------------
@@ -347,10 +349,10 @@ class ElementalMagicManager(Manager):
         return False
 
     @staticmethod
-    def hasUseQuestOnElement(element):
+    def hasUseQuestOnElement(magic_id):
         quests = ElementalMagicManager.getMagicUseQuests()
         for quest in quests:
-            if quest.params["Element"] == element:
+            if quest.params["MagicId"] == magic_id:
                 return True
         return False
 

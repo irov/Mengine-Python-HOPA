@@ -11,12 +11,13 @@ class HintActionElementalMagicPick(MixinObject, HintActionMultiTarget):
 
         self.Ring = ElementalMagicManager.getMagicRing()
         self.Element = params["Element"]
+        self.MagicId = params["MagicId"]
 
     def _getHintObject(self):
         return self.Object
 
     def _onCheck(self):
-        if ElementalMagicManager.hasUseQuestOnElement(self.Element) is False:
+        if ElementalMagicManager.hasUseQuestOnElement(self.MagicId) is False:
             return False
         if ElementalMagicManager.getPlayerElement() is not None:
             return False
