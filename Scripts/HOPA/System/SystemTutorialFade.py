@@ -43,7 +43,7 @@ class SystemTutorialFade(System):
         self.config = TutorialFadesManager.getConfig()
 
         self.show_hide_group = self.config.get("ShowHideGroup", "FadeTutorial")
-        self.fade_group = self.config.get("FadeGroup", None)
+        self.fade_group = self.config.get("FadeGroup", "FadeTutorial")
         self.window_group = self.config.get("WindowGroup", None)
         self.skip_group = self.config.get("SkipGroup", "SkipTutorial")
 
