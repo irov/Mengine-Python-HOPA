@@ -32,9 +32,33 @@ class SystemDebugShowUsageItem(System):
         if SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE) is not None:
             self._spell_amulet_quest_type = SpellsManager.getSpellsUIButtonParam(SPELL_AMULET_TYPE).spell_use_quest
 
-        self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        if Mengine.hasTouchpad() is True:
+            self._addMobileHandler()
+        else:
+            self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
 
         return True
+
+    def _addMobileHandler(self):
+        if TaskManager.existTaskChain("SystemDebugShowUsageItem") is True:
+            TaskManager.cancelTaskChain("SystemDebugShowUsageItem")
+
+        event_click_ok = Event("onClickSuccess")
+        delay = DefaultManager.getDefaultFloat("CheatsGetUsageItemMobileClickDelaySeconds", 1) * 1000.0
+        click_count = DefaultManager.getDefaultInt("CheatsGetUsageItemMobileClickCount", 5)
+
+        with TaskManager.createTaskChain(Name="SystemDebugShowUsageItem", Repeat=True) as tc:
+            with tc.addRepeatTask() as (repeat, until):
+                with repeat.addRaceTask(2) as (race1, race2):
+                    for i in range(click_count):
+                        race1.addTask("TaskMouseButtonClick")
+                    race1.addFunction(event_click_ok)
+
+                    race2.addTask("TaskMouseButtonClick")   # anti stack cycle fix
+                    race2.addDelay(delay)
+                until.addEvent(event_click_ok)
+
+            tc.addFunction(self.beginDebugShow)
 
     def __onGlobalHandleKeyEvent(self, event):
         if not Mengine.hasOption('cheats'):
@@ -205,4 +229,10 @@ class SystemDebugShowUsageItem(System):
 
     def _onStop(self):
         super(SystemDebugShowUsageItem, self)._onStop()
-        Mengine.removeGlobalHandler(self.Handler)
+
+        if self.Handler is not None:
+            Mengine.removeGlobalHandler(self.Handler)
+            self.Handler = None
+
+        if TaskManager.existTaskChain("SystemDebugShowUsageItem") is True:
+            TaskManager.cancelTaskChain("SystemDebugShowUsageItem")
