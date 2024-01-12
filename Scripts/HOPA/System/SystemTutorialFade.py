@@ -341,6 +341,9 @@ class SystemTutorialFade(System):
 
         obj = GroupManager.getObject(self.fade_group, name)
 
+        if obj is None:
+            return False
+
         if enabler == "Enable":
             obj.setEnable(True)
 
