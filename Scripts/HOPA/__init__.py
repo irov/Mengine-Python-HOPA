@@ -1460,7 +1460,6 @@ def onInitialize():
         Mengine.addCurrentAccountSetting('DifficultyCustomIndicatorsOnMap', u'True', None)
         Mengine.addCurrentAccountSetting('DifficultyCustomChangeIconOnActiveAreas', u'True', __changeDifficulty_Cursore)
 
-        Mengine.addCurrentAccountSetting("InvalidLoad", u"False", None)
         Mengine.addCurrentAccountSetting("SurveyComplete", u"False", None)
         Mengine.addCurrentAccountSetting("GameComplete", u"False", None)
         Mengine.addCurrentAccountSetting("IsBonusChapter", u"0", None)
