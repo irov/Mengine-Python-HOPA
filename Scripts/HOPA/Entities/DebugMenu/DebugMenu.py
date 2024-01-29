@@ -92,14 +92,17 @@ class DebugMenu(BaseEntity):
             pass
 
         sceneNameArray = sorted(SceneManager.getScenes())
-
+        print(sceneNameArray)
         y = -30
         x = -250
 
+        resolutionX = Mengine.getContentResolution().getWidth()
         resolutionY = Mengine.getContentResolution().getHeight()
+        print(resolutionX, resolutionY)
         resolutionOffset = resolutionY * 0.2
+        print("OFFSET=", resolutionOffset)
         Buttons_per_page = 40
-
+        print("")
         for i in range(len(sceneNameArray)):
             iterator = i + Buttons_per_page * self.Page
             if i + 1 > Buttons_per_page or iterator > (len(sceneNameArray) - 1):
@@ -156,12 +159,19 @@ class DebugMenu(BaseEntity):
             if self.Font is not None:
                 button.setFont(self.Font)
                 pass
+            print("X=", x)
+            print("Y=", y)
             y += 65  # 50
+            print("Y=", y)
+            print("diff", resolutionY - resolutionOffset)
             if y >= (resolutionY - resolutionOffset):
                 y = 0
                 x += 228 * 1.4
+                print("X=", x)
+                print("Y=", y)
                 pass
             self.sceneButtons[button] = sceneName
+            print("")
             pass
         pass
 
