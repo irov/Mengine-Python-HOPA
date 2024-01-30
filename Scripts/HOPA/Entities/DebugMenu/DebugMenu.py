@@ -2,13 +2,13 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
+from Foundation.DefaultManager import DefaultManager
 from HOPA.ItemManager import ItemManager
 from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioManager import ScenarioManager
 from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
-
 from SystemDebugMenu import SystemDebugMenu
 
 
@@ -17,10 +17,8 @@ class DebugMenu(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-
         Type.addAction(Type, "Font")
         Type.addAction(Type, "Zoom")
-        pass
 
     def __init__(self):
         super(DebugMenu, self).__init__()
@@ -40,7 +38,6 @@ class DebugMenu(BaseEntity):
         self.generatedNodes = {}
         self.Page = 0
         self.PreviosButtonSetup = self.setupSceneButtons
-        pass
 
     def _onPreparation(self):
         super(DebugMenu, self)._onPreparation()
@@ -76,33 +73,25 @@ class DebugMenu(BaseEntity):
             self.StageButton.setInteractive(True)
             # self.StageButton.setFont("__CONSOLE_FONT__")
             self.StageButton.setTextID("ID_DebugMenuStages")
-            pass
 
         self.setupSceneButtons()
-        pass
 
     def setupSceneButtons(self):
         self.destroyButtons()
-
         self.ItemButton.setEnable(True)
         self.ParagraphButton.setEnable(True)
         self.SceneButton.setEnable(False)
         if self.StageButton is not None:
             self.StageButton.setEnable(True)
-            pass
 
-        sceneNameArray = sorted(SceneManager.getScenes())
-        print(sceneNameArray)
         y = -30
         x = -250
 
-        resolutionX = Mengine.getContentResolution().getWidth()
         resolutionY = Mengine.getContentResolution().getHeight()
-        print(resolutionX, resolutionY)
         resolutionOffset = resolutionY * 0.2
-        print("OFFSET=", resolutionOffset)
-        Buttons_per_page = 40
-        print("")
+        Buttons_per_page = DefaultManager.getDefaultInt("DebugMenuScenesPageButtons", 40)
+
+        sceneNameArray = sorted(SceneManager.getScenes())
         for i in range(len(sceneNameArray)):
             iterator = i + Buttons_per_page * self.Page
             if i + 1 > Buttons_per_page or iterator > (len(sceneNameArray) - 1):
@@ -112,7 +101,7 @@ class DebugMenu(BaseEntity):
 
             # for sceneName in curChapterGameScenes:
 
-            ###### Button differentiation feature
+            # Button differentiation feature
             ScenarioID = ScenarioManager.getScenarioIdBySceneName(sceneName)
             if ScenarioID is None:
                 Scene_is_ItemPlus = False
@@ -146,34 +135,23 @@ class DebugMenu(BaseEntity):
             else:
                 button.setParam("RGB", (1.0, 1.0, 1.0, 1.0))
             ######
-
             # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuScene")
-
             button.setTextArgs(sceneName)
-
             button.setFontRGBA((0, 0, 0, 1))
             button.setPosition((self.buttonPos[0] + x, self.buttonPos[1] + y))
             button.setEnable(True)
             button.setInteractive(True)
+
             if self.Font is not None:
                 button.setFont(self.Font)
-                pass
-            print("X=", x)
-            print("Y=", y)
+
             y += 65  # 50
-            print("Y=", y)
-            print("diff", resolutionY - resolutionOffset)
             if y >= (resolutionY - resolutionOffset):
                 y = 0
                 x += 228 * 1.4
-                print("X=", x)
-                print("Y=", y)
-                pass
+
             self.sceneButtons[button] = sceneName
-            print("")
-            pass
-        pass
 
     def setupParagraphButtons(self):
         self.destroyButtons()
@@ -182,29 +160,25 @@ class DebugMenu(BaseEntity):
         self.SceneButton.setEnable(True)
         if self.StageButton is not None:
             self.StageButton.setEnable(True)
-            pass
+
         SceneName = SceneManager.getPrevSceneName()
         GroupName = self.Zoom
         if GroupName is None:
             GroupName = SceneManager.getSceneMainGroupName(SceneName)
-            pass
         # GroupName = SceneManager.getSceneMainGroupName(SceneName)
 
         curStage = StageManager.getCurrentStage()
         if curStage.getTag() is not "FX":
             return False
-            pass
 
+        scenarioParagraphs = []
         Scenario = curStage.getScenarioChapter()
         curScenarios = ScenarioChapter.findSceneScenarios(Scenario, SceneName)
 
-        scenarioParagraphs = []
         for sc in curScenarios:
             if sc.GroupName == GroupName:
                 scenario = sc
                 scenarioParagraphs.append(scenario.Scenario.getWaitParagraphs())
-                pass
-            pass
 
         values = []
         for waitParagraphs in scenarioParagraphs:
@@ -212,11 +186,8 @@ class DebugMenu(BaseEntity):
                 for id in pr.Paragraphs:
                     if id in values:
                         continue
-                        pass
+
                     values.append(id)
-                    pass
-                pass
-            pass
 
         y = -30
         x = -150
@@ -232,17 +203,16 @@ class DebugMenu(BaseEntity):
             button.setPosition((self.buttonPos[0] + x, self.buttonPos[1] + y))
             button.setEnable(True)
             button.setInteractive(True)
+
             if self.Font is not None:
                 button.setFont(self.Font)
-                pass
+
             y += 45  # 50
             if y >= (resolutionY - resolutionOffset):
                 y = 0
                 x += 330  # 460 #228
-                pass
+
             self.paragraphButtons[button] = id
-            pass
-        pass
 
     def setupItemButtons(self):
         self.destroyButtons()
@@ -251,16 +221,16 @@ class DebugMenu(BaseEntity):
         self.SceneButton.setEnable(True)
         if self.StageButton is not None:
             self.StageButton.setEnable(True)
-            pass
 
         itemNameArray = []
         items = ItemManager.getAllItems()
+
         y = -30
         x = -250
         resolutionY = Mengine.getContentResolution().getHeight()
         resolutionOffset = resolutionY * 0.2
 
-        Buttons_per_page = 40
+        Buttons_per_page = DefaultManager.getDefaultInt("DebugMenuItemsPageButtons", 41)
 
         for itemName in items:
             itemNameArray.append(itemName)
@@ -269,73 +239,72 @@ class DebugMenu(BaseEntity):
             splitted_name = item_name.split("_")
             return int(splitted_name[-1])
 
-        itemNameArray.sort(key=items_sort)
+        items_sort_bool = DefaultManager.getDefaultBool("DebugMenuItemsSort", True)
+        if items_sort_bool is True:
+            itemNameArray.sort(key=items_sort)
 
         for i in range(len(itemNameArray)):
             iterator = i + Buttons_per_page * self.Page
-            if i > Buttons_per_page or iterator > (len(itemNameArray) - 1):
+            if i + 1 > Buttons_per_page or iterator > (len(itemNameArray) - 1):
                 return
+
             itemName = itemNameArray[iterator]
 
             # for itemName in items:
             InventoryItem = ItemManager.getItemInventoryItem(itemName)
             if self.Inventory.hasInventoryItem(InventoryItem) is True:
                 continue
-                pass
 
             def __generateSpriteCopy(InventoryItem, position):
                 name = InventoryItem.getName()
-                SpriteResourceName = InventoryItem.getSpriteResourceName()
 
+                SpriteResourceName = InventoryItem.getSpriteResourceName()
                 if SpriteResourceName is None:
                     return None
 
                 node = Mengine.createSprite(name, SpriteResourceName)
                 node.setLocalPosition(position)
-
                 return node
-                pass
 
             button = self.object.generateObject("Button_%s" % (itemName), "Button_Scene")
             # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuItem")
             button.setTextArgs(itemName)
+            button_text_align = DefaultManager.getDefault("DebugMenuItemsButtonTextAlign", "Center")
+            button.setTextAlign(button_text_align)
             button.setFontRGBA((0, 0, 0, 1))
             button.setPosition((self.buttonPos[0] + x, self.buttonPos[1] + y))
             button.setEnable(True)
             button.setInteractive(True)
-            node = __generateSpriteCopy(InventoryItem, (self.buttonPos[0] + x + 200, self.buttonPos[1] + y))  # -15 +15
 
+            node = __generateSpriteCopy(InventoryItem, (self.buttonPos[0] + x + 200, self.buttonPos[1] + y))  # -15 +15
             if node is not None:
-                self.addChild(node)
+                self.addChildFront(node)
+
             if self.Font is not None:
                 button.setFont(self.Font)
-                pass
+
             y += 90  # 75
             if y >= (resolutionY - resolutionOffset):
                 y = 0
                 x += 228 * 1.4  # /2#480 #150
-                pass
+
             self.itemButtons[button] = itemName
             self.generatedNodes[button] = node
-            pass
-        pass
 
     def setupStageButtons(self):
         self.destroyButtons()
-
         self.ItemButton.setEnable(True)
         self.ParagraphButton.setEnable(True)
         self.SceneButton.setEnable(True)
-
         self.StageButton.setEnable(False)
 
-        stages = StageManager.getStageLabels()
         y = 0
         x = 0
         resolutionY = Mengine.getContentResolution().getHeight()
         resolutionOffset = resolutionY * 0.2
 
+        stages = StageManager.getStageLabels()
         for stage, label in stages.iteritems():
             button = self.object.generateObject("Button_%s" % (stage), "Button_Scene")
             # button.setFont("__CONSOLE_FONT__")
@@ -345,54 +314,42 @@ class DebugMenu(BaseEntity):
             button.setPosition((self.buttonPos[0] + x, self.buttonPos[1] + y))
             button.setEnable(True)
             button.setInteractive(True)
+
             if self.Font is not None:
                 button.setFont(self.Font)
-                pass
+
             y += 50
             if y >= (resolutionY - resolutionOffset):
                 y = 0
                 x += 228
-                pass
+
             self.stageButtons[button] = stage
-            pass
-        pass
 
     def destroyButtons(self):
         for node in self.generatedNodes.values():
             if node is None:
                 continue
             Mengine.destroyNode(node)
-            pass
-
         self.generatedNodes = {}
 
         for button in self.sceneButtons:
             button.onDestroy()
-            pass
         self.sceneButtons = {}
 
         for button in self.itemButtons:
             button.onDestroy()
-            pass
-
         self.itemButtons = {}
 
         for button in self.paragraphButtons:
             button.onDestroy()
-            pass
-
         self.paragraphButtons = {}
 
         for button in self.stageButtons:
             button.onDestroy()
-            pass
-
         self.stageButtons = {}
-        pass
 
     def addItem(self, itemName):
         itemData = ItemManager.getItem(itemName)
-
         if itemData.PlusScene is None:  # not a ItemPlus
             self.Inventory.addItem(itemName)
             InventoryItem = ItemManager.getItemInventoryItem(itemName)
@@ -409,7 +366,6 @@ class DebugMenu(BaseEntity):
     def _onActivate(self):
         super(DebugMenu, self)._onActivate()
         self.ButtonObserver = Notification.addObserver(Notificator.onButtonClick, self.__onButtonClick)
-        pass
 
     def __onButtonClick(self, button):
         if button in self.stageButtons:
@@ -418,26 +374,26 @@ class DebugMenu(BaseEntity):
             StageManager.runStage(stage)
             self.setupSceneButtons()
             return False
-            pass
+
         if button in self.sceneButtons:
             SystemDebugMenu.s_is_showable = False
             sceneName = self.sceneButtons[button]
-
             TransitionManager.changeScene(sceneName, fade=False)
-
             return False
-            pass
+
         if button in self.itemButtons:
             itemName = self.itemButtons[button]
             del self.itemButtons[button]
             button.onDestroy()
+
             node = self.generatedNodes[button]
             del self.generatedNodes[button]
             if node is not None:
                 node.removeFromParent()
+
             self.addItem(itemName)
             return False
-            pass
+
         if button in self.paragraphButtons:
             paragraphID = self.paragraphButtons[button]
             del self.paragraphButtons[button]
@@ -471,7 +427,6 @@ class DebugMenu(BaseEntity):
             self.PreviosButtonSetup()
 
         return False
-        pass
 
     def change_Page(self, value):
         self.Page += value
@@ -482,6 +437,3 @@ class DebugMenu(BaseEntity):
         super(DebugMenu, self)._onDeactivate()
         Notification.removeObserver(self.ButtonObserver)
         self.destroyButtons()
-        pass
-
-    pass
