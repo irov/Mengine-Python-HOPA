@@ -77,6 +77,8 @@ class SystemCruiseControl(System):
         self.addObserver(Notificator.onTransitionBegin, self.__TransitionBeginObserver)
         # self.addObserver(Notificator.onTaskGuardUpdate, self.__TaskGuardUpdateObserver)
 
+        self.__addDevToDebug()
+
         return True
 
     def __ButtonPressedObserver(self, key, _x, _y, isDown, _isRepeating):
@@ -89,18 +91,28 @@ class SystemCruiseControl(System):
                 return False
 
         if isDown is True:
-            if key == CruiseControlActivateKey and self.isTurnOn is False:
-                self.isTurnOn = True
-                self.__restartCruiseControl_Delayed()
-                self._debugCruisetLog(
-                    "Cruise Activated. Press {!r} to Deactivate.".format(CruiseControlDeactivateKeyName))
+            if key == CruiseControlActivateKey:
+                self.turnOn()
+            elif key == CruiseControlDeactivateKey:
+                self.turnOff()
 
-            elif key == CruiseControlDeactivateKey and self.isTurnOn is True:
-                self.isTurnOn = False
-                self.__stopCruiseControl()
-                self._debugCruisetLog(
-                    "Cruise Deactivated. Press {!r} to Activate.".format(CruiseControlActivateKeyName))
         return False
+
+    def turnOn(self):
+        if self.isTurnOn is False:
+            return
+
+        self.isTurnOn = True
+        self.__restartCruiseControl_Delayed()
+        self._debugCruisetLog("Cruise Activated. Press {!r} to Deactivate.".format(CruiseControlDeactivateKeyName))
+
+    def turnOff(self):
+        if self.isTurnOn is True:
+            return
+
+        self.isTurnOn = False
+        self.__stopCruiseControl()
+        self._debugCruisetLog("Cruise Deactivated. Press {!r} to Activate.".format(CruiseControlActivateKeyName))
 
     def __PopupMessageShowObserver(self, text_id):
         if self.isTurnOn:
@@ -668,3 +680,24 @@ class SystemCruiseControl(System):
                     tc_scene.addTask("TaskSceneLeave", SceneName=currentSceneName)
 
         return CruiseControlManager.createCruiseAction("CruiseActionZoomOut", Quest)
+
+    # -------- DEV TO DEBUG --------------------------------------------------------------------------------------------
+
+    def __addDevToDebug(self):
+        if Mengine.isAvailablePlugin("DevToDebug") is False:
+            return
+
+        tab = Mengine.getDevToDebugTab("Cheats") or Mengine.addDevToDebugTab("Cheats")
+
+        w_on = Mengine.createDevToDebugWidgetButton("cruise_control_on")
+        w_on.setTitle("Cruise Control - ON")
+        w_on.setClickEvent(self.turnOn)
+
+        tab.addWidget(w_on)
+
+        w_off = Mengine.createDevToDebugWidgetButton("cruise_control_off")
+        w_off.setTitle("Cruise Control - OFF")
+        w_off.setClickEvent(self.turnOff)
+
+        tab.addWidget(w_off)
+        
