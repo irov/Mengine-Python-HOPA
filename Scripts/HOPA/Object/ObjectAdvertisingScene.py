@@ -34,6 +34,9 @@ class ObjectAdvertisingScene(DemonObject):
     def runAdvertTransition(self, callback=None):
         """ do transition on advert scene if True, else (if False) - make default transition """
 
+        if Mengine.hasOption("noads") is True:
+            return False
+
         if self.transition_data is None:
             Trace.log("Object", 0, "You forgot to set transition data!!!!!!")
             return False
