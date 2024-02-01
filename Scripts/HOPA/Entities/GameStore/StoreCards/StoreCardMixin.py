@@ -53,7 +53,12 @@ class StoreCardMixin(object):
         self.params = None
 
     def setEnable(self, state):
+        if state is True:
+            self._onEnable()
         self.movie_card.setEnable(state)
+
+    def _onEnable(self):
+        return
 
     def setBlock(self, state):
         self.movie_card.setBlock(state)

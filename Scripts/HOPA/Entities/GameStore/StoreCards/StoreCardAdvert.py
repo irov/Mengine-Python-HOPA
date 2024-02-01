@@ -1,6 +1,7 @@
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.SystemManager import SystemManager
 from Foundation.Utils import calcTime
+from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 from HOPA.Entities.GameStore.StoreCards.StoreCardMixin import StoreCardMixin
 
 
@@ -17,6 +18,16 @@ class StoreCardAdvert(StoreCardMixin):
         super(StoreCardAdvert, self).init(card_id, card_movie, image_movie, params)
 
         self.refreshTimeBlock()
+
+    def _onEnable(self):
+        if AdvertisementProvider.isAdvertAvailable("Rewarded") is True:
+            # check if already blocked by time delay,
+            # but if not - we can unblock it
+            if self.timer is None:
+                self.setBlock(False)
+        else:
+            # no available ads - block button
+            self.setBlock(True)
 
     def _setPrice(self):
         advert_text_id = MonetizationManager.getGeneralSetting("AdvertPriceTextID")
