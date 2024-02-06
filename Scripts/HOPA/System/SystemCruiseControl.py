@@ -689,17 +689,19 @@ class SystemCruiseControl(System):
 
         tab = Mengine.getDevToDebugTab("Cheats") or Mengine.addDevToDebugTab("Cheats")
 
-        if tab.findWidget("cruise_control_on") is None:
-            w_on = Mengine.createDevToDebugWidgetButton("cruise_control_on")
-            w_on.setTitle("Cruise Control - ON")
-            w_on.setClickEvent(self.turnOn)
+        if tab.findWidget("cruise_control") is not None:
+            return
 
-            tab.addWidget(w_on)
+        def _cb(state):
+            if state is True:
+                self.turnOn()
+            else:
+                self.turnOff()
 
-        if tab.findWidget("cruise_control_off") is None:
-            w_off = Mengine.createDevToDebugWidgetButton("cruise_control_off")
-            w_off.setTitle("Cruise Control - OFF")
-            w_off.setClickEvent(self.turnOff)
+        w_checkbox = Mengine.createDevToDebugWidgetCheckbox("cruise_control")
+        w_checkbox.setTitle("Toggle Cruise Control")
+        w_checkbox.setValue(self.isTurnOn)
+        w_checkbox.setChangeEvent(_cb)
 
-            tab.addWidget(w_off)
+        tab.addWidget(w_checkbox)
         
