@@ -99,7 +99,7 @@ class SystemCruiseControl(System):
         return False
 
     def turnOn(self):
-        if self.isTurnOn is False:
+        if self.isTurnOn is True:
             return
 
         self.isTurnOn = True
@@ -107,7 +107,7 @@ class SystemCruiseControl(System):
         self._debugCruisetLog("Cruise Activated. Press {!r} to Deactivate.".format(CruiseControlDeactivateKeyName))
 
     def turnOff(self):
-        if self.isTurnOn is True:
+        if self.isTurnOn is False:
             return
 
         self.isTurnOn = False
