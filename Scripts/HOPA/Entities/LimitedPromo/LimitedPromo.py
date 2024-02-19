@@ -288,15 +288,12 @@ class LimitedPromo(BaseEntity):
         Mengine.removeChronometer(self.timer)
         self.timer = None
 
-    def _onTimer(self, timer_id, timestamp):
-        if timer_id != self.timer:
-            return
+    def _onTimer(self, time):
+        time_left = self.unblock_timestamp - Mengine.getTime()
 
-        timestamp /= 1000
-
-        _, hours, min, sec = calcTime(self.unblock_timestamp - timestamp)
+        _, hours, min, sec = calcTime(time_left)
         Mengine.setTextAliasArguments("", self.ALIAS_TIMER, "{}:{}:{}".format(hours, min, sec))
-        if self.unblock_timestamp - timestamp <= 0:
+        if time_left <= 0:
             self.timeout()
 
     def timeout(self):

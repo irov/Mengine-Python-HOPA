@@ -425,17 +425,14 @@ class SystemEnergy(System):
             Mengine.removeChronometer(self.timer)
         self.timer = Mengine.addChronometer(self._onTimer)
 
-    def _onTimer(self, timer_id, timestamp):
-        if timer_id != self.timer:
-            return
-
+    def _onTimer(self, time):
         if self.cooldown_timestamp is None or self.end_refill_timestamp is None:
             Trace.log("System", 0, "SystemEnergy start timer, but cooldown_timestamp [{}] or end_refill_timestamp [{}] is None".format(
                 self.cooldown_timestamp, self.end_refill_timestamp))
             self.onCharged()
             return
 
-        timestamp /= 1000
+        timestamp = Mengine.getTime()
 
         one_time_left = self.cooldown_timestamp - timestamp  # for 1 charge
         self.__cooldown_left_seconds = one_time_left

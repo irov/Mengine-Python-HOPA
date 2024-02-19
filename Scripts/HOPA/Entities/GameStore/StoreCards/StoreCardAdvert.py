@@ -52,15 +52,13 @@ class StoreCardAdvert(StoreCardMixin):
         else:
             self.setTimeBlock(True)
 
-    def _onTimer(self, timer_id, timestamp):
-        if timer_id != self.timer:
-            return
-        timestamp /= 1000
+    def _onTimer(self, time):
+        time_left = self.unblock_timestamp - Mengine.getTime()
 
-        _, hours, min, sec = calcTime(self.unblock_timestamp - timestamp)
+        _, hours, min, sec = calcTime(time_left)
 
         Mengine.setTextAliasArguments(self.env, self.ALIAS_PRICE, "{}:{}:{}".format(hours, min, sec))
-        if self.unblock_timestamp - timestamp <= 0:
+        if time_left <= 0:
             self.setTimeBlock(False)
 
     def setTimeBlock(self, state):

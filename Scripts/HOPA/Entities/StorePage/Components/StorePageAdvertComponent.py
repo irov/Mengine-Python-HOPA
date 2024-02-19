@@ -86,7 +86,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         time = Mengine.getLocalDateStruct()
         hours, min, sec = time.hour, time.minute, time.second
 
-        unblock_timestamp = Mengine.getTimeMs() / 1000
+        unblock_timestamp = Mengine.getTime()
         unblock_timestamp += (23 - hours) * 60 * 60
         unblock_timestamp += (59 - min) * 60
         unblock_timestamp += (60 - sec)
@@ -123,16 +123,12 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         text = "{}h {}m {}s".format(h, m, s)
         self.button.updateTimer(text)
 
-    def _onTimer(self, timer_id, timestamp):
-        if timer_id != self.timer:
-            return
-        timestamp /= 1000
-
-        time_left = self.reset_timestamp - timestamp
+    def _onTimer(self, time):
+        time_left = self.reset_timestamp - Mengine.getTime()
 
         if time_left <= 0:
             self.removeAdvertTimer()
             return
 
-        _, hours, min, sec = calcTime(time_left)
-        self.updateTimerText(hours, min, sec)
+        _, hours, minutes, seconds = calcTime(time_left)
+        self.updateTimerText(hours, minutes, seconds)
