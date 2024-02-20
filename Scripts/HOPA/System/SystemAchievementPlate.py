@@ -7,11 +7,7 @@ from Foundation.Utils import isCollectorEdition
 class SystemAchievementPlate(System):
 
     def _onRun(self):
-        if isCollectorEdition() is False:
-            return True
-
-        ConfigAchievement = Mengine.getGameParamBool("Achievements", False)
-        if ConfigAchievement is False:
+        if self.__checkEnable() is False:
             return True
 
         if DemonManager.hasDemon("AchievementsInGameMenu"):
@@ -22,6 +18,21 @@ class SystemAchievementPlate(System):
         self.askWait = False
         self.queue = []
 
+        self._setObservers()
+
+        return True
+
+    def __checkEnable(self):
+        config_achievement = Mengine.getGameParamBool("Achievements", False)
+        if config_achievement is False:
+            return False
+
+        if isCollectorEdition() is False:
+            return False
+
+        return True
+
+    def _setObservers(self):
         self.addObserver(Notificator.onAddAchievementPlateToQueue, self.__cbAddAchievementsPlateToQueue)
         self.addObserver(Notificator.onZoomClick, self.__cbCloseAchievementsPlate)
         self.addObserver(Notificator.onTransitionClick, self.__cbCloseAchievementsPlate)
@@ -30,8 +41,6 @@ class SystemAchievementPlate(System):
         self.addObserver(Notificator.onItemClick, self.__cbCloseAchievementsPlate)
         self.addObserver(Notificator.onSceneChange, self.__cbAskAchievementsPlateToWait)
         self.addObserver(Notificator.onSceneInit, self.__cbAskAchievementsPlateToResume)
-
-        return True
 
     def __cbAddAchievementsPlateToQueue(self, type_, name):
         if type_ == "Achievements":
