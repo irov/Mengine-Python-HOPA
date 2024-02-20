@@ -10,7 +10,7 @@ class SystemAchievementPlate(System):
         if isCollectorEdition() is False:
             return True
 
-        ConfigAchievement = Mengine.getConfigBool("Framework", "Achievement", True)
+        ConfigAchievement = Mengine.getGameParamBool("Achievements", False)
         if ConfigAchievement is False:
             return True
 

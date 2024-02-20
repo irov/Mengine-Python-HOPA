@@ -252,7 +252,7 @@ class SystemAchievements(System):
     def _cbAchievementUnlocked(self, achievement_name):
         achievement = SystemAchievements.getAchievement(achievement_name)
         if achievement is None:
-            Trace.log("Manager", 0, "SystemAchievement has no achievement with name: \"%s\"" % achievement_name)
+            Trace.log("Manager", 0, "SystemAchievement has no achievement {!r}".format(achievement_name))
             return False
 
         # check is achievement was unlocked earlier - show or not unlock notification to user
@@ -273,7 +273,7 @@ class SystemAchievements(System):
 
         Notification.notify(Notificator.onAchievementProgress, "unlocked_achievements", 1)
         if _DEVELOPMENT:
-            Trace.msg("<SystemAchievements> {} is complete!".format(actual_achievement_name))
+            Trace.msg("<SystemAchievements> {!r} is complete!".format(actual_achievement_name))
 
         return False
 
