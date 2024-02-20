@@ -63,6 +63,7 @@ class AchievementsInGameMenu(BaseEntity):
         self.tc_open_close = None
         self.tc_show_plate = None
         self.tc_click_buttons = None
+        self.tc_click_sockets = None
 
         self.content_plate = None
         self.content_plate_entity_node = None
