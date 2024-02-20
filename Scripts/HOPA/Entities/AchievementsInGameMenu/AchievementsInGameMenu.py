@@ -140,6 +140,7 @@ class AchievementsInGameMenu(BaseEntity):
         if self.achievement_movie_node is not None:
             self.achievement_movie_node.removeFromParent()
             self.achievement_movie_node = None
+
         if self.achievement_movie is not None:
             self.achievement_movie.onDestroy()
             self.achievement_movie = None
@@ -147,6 +148,7 @@ class AchievementsInGameMenu(BaseEntity):
         if self.default_movie_node is not None:
             self.default_movie_node.removeFromParent()
             self.default_movie_node = None
+
         if self.default_movie is not None:
             self.default_movie.onDestroy()
             self.default_movie = None
@@ -433,43 +435,50 @@ class AchievementsInGameMenu(BaseEntity):
     def __cleanUp(self):
         if self.tc_show_plate is not None:
             self.tc_show_plate.cancel()
-        self.tc_show_plate = None
+            self.tc_show_plate = None
 
         if self.tc_open_close is not None:
             self.tc_open_close.cancel()
-        self.tc_open_close = None
+            self.tc_open_close = None
 
         if self.tc_click_buttons is not None:
             self.tc_click_buttons.cancel()
-        self.tc_click_buttons = None
+            self.tc_click_buttons = None
 
         if self.tc_click_sockets is not None:
             self.tc_click_sockets.cancel()
-        self.tc_click_sockets = None
+            self.tc_click_sockets = None
 
-        self.button_plate.getEntityNode().removeFromParent()
-        self.button_achievement.getEntityNode().removeFromParent()
-        self.button_collectibles.getEntityNode().removeFromParent()
-        self.setup_text_scene_effect_first_part.getEntityNode().removeFromParent()
-        self.setup_text_scene_effect_second_part.getEntityNode().removeFromParent()
+        if self.button_plate is not None:
+            self.button_plate.getEntityNode().removeFromParent()
+            self.button_plate = None
 
-        self.content_plate_entity_node.removeFromParent()
+        if self.button_achievement is not None:
+            self.button_achievement.getEntityNode().removeFromParent()
+            self.button_achievement = None
+
+        if self.button_collectibles is not None:
+            self.button_collectibles.getEntityNode().removeFromParent()
+            self.button_collectibles = None
+
+        if self.setup_text_scene_effect_first_part is not None:
+            self.setup_text_scene_effect_first_part.getEntityNode().removeFromParent()
+            self.setup_text_scene_effect_first_part = None
+
+        if self.setup_text_scene_effect_second_part is not None:
+            self.setup_text_scene_effect_second_part.getEntityNode().removeFromParent()
+            self.setup_text_scene_effect_second_part = None
+
+        if self.content_plate_entity_node is not None:
+            self.content_plate_entity_node.removeFromParent()
+            self.content_plate_entity_node = None
 
         self.content_plate = None
-        self.content_plate_entity_node = None
 
         self.__cleanAchievementMovie()
 
-        self.button_plate = None
-        self.button_achievement = None
-        self.button_collectibles = None
-
         self.scene_effect_open = None
         self.scene_effect_close = None
-
         self.current_scene_effect = None
-
-        self.setup_text_scene_effect_first_part = None
-        self.setup_text_scene_effect_second_part = None
 
         self.semaphore_play_scene_effect = None
