@@ -5,8 +5,10 @@ from HOPA.Entities.Difficulty.DifficultyManager import DifficultyManager
 
 
 class Difficulty(BaseEntity):
-
     def _onActivate(self):
+        self.__runTaskChain()
+
+    def __runTaskChain(self):
         AccountName = Mengine.getCurrentAccountName()
         Difficulty = Mengine.getAccountSetting(AccountName, "Difficulty")
 
