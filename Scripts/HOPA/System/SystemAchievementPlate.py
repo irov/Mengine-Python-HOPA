@@ -23,14 +23,14 @@ class SystemAchievementPlate(System):
         return True
 
     def __checkEnable(self):
-        config_achievement = Mengine.getGameParamBool("Achievements", False)
-        if config_achievement is False:
-            return False
+        """ returns True if CE or state from param `Achievements` """
+        if Mengine.hasGameParam("Achievements") is True:
+            return Mengine.getGameParamBool("Achievements", False) is True
 
-        if isCollectorEdition() is False:
-            return False
+        if _DEVELOPMENT is True:
+            Trace.msg_err("DEPRECATED warning: add param 'Achievements' to config to handling achievements")
 
-        return True
+        return isCollectorEdition() is True
 
     def _setObservers(self):
         self.addObserver(Notificator.onAddAchievementPlateToQueue, self.__cbAddAchievementsPlateToQueue)
