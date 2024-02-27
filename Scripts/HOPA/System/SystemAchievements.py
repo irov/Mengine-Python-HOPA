@@ -131,8 +131,8 @@ class SystemAchievements(System):
 
     def __checkEnable(self):
         config_achievement = Mengine.getGameParamBool("Achievements", False)
-        if config_achievement is False:
-            return False
+        if config_achievement is True:
+            return True
 
         if isCollectorEdition() is False:
             return False
