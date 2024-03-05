@@ -28,7 +28,7 @@ class SystemAchievementPlate(System):
             return Mengine.getGameParamBool("Achievements", False) is True
 
         if _DEVELOPMENT is True:
-            Trace.msg_err("DEPRECATED warning: add param 'Achievements' to config to handling achievements")
+            Trace.log("System", 3, "DEPRECATED warning: add param 'Achievements' to config to handling achievements")
 
         return isCollectorEdition() is True
 
