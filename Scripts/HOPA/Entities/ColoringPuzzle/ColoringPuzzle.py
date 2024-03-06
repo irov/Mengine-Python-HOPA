@@ -40,7 +40,7 @@ class ColoringPuzzle(Enigma):
         self.colors = {}
         self.currentColor = None
         self.currentBrush = None
-        self.onPaintSoundMovieName = "Movie_OnPaintSound"
+        self.onPaintSoundMovieName = "Movie2_OnPaintSound"
         self.BlockCursorSocketName = "Socket_BlockCursor"
 
         self.onSocketBlockCursorEnterObserver = None
@@ -177,7 +177,7 @@ class ColoringPuzzle(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="ColoringPuzzle_OnPaintSound", Group=self.object) as tc:
-            tc.addTask("TaskMoviePlay", MovieName=self.onPaintSoundMovieName)
+            tc.addTask("TaskMovie2Play", Movie2Name=self.onPaintSoundMovieName)
             pass
         pass
 
