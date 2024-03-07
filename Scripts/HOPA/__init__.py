@@ -1384,6 +1384,7 @@ def onInitialize():
 
         , "About"
         , "TechnicalSupport"
+        , "ConsentFlow"
 
         , "ElementalMagic"
     ]
