@@ -89,7 +89,7 @@ class Newspaper(BaseEntity):
                 tc.addTask("TaskNotify", ID=Notificator.onNewspaperOpen, Args=(self.NewspaperID,))
 
                 with tc.addParallelTask(2) as (tc1, tc2):
-                    tc1.addTask("TaskMoviePlay", Movie=self.newspaper.movie_Open, Wait=True)
+                    tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Open, Wait=True)
                     tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=NewspaperFade, Time=0.25 * 1000)  # speed fix
                     pass
                 tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=True)
@@ -108,7 +108,7 @@ class Newspaper(BaseEntity):
                 tc.addTask("TaskNodeAddChild", ParentNode=slotClose, ChildNode=layerAttachGroupEntity)
 
                 with tc.addParallelTask(2) as (tc1, tc2):
-                    tc1.addTask("TaskMoviePlay", Movie=self.newspaper.movie_Close, Wait=True)
+                    tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Close, Wait=True)
                     tc2.addTask("AliasFadeOut", FadeGroupName="FadeDialog", Time=0.25 * 1000, From=NewspaperFade)  # speed fix
                     pass
 
@@ -125,7 +125,7 @@ class Newspaper(BaseEntity):
                 tc.addTask("TaskNotify", ID=Notificator.onNewspaperOpen, Args=(self.NewspaperID,))
 
                 with tc.addParallelTask(2) as (tc1, tc2):
-                    tc1.addTask("TaskMoviePlay", Movie=self.newspaper.movie_Open, Wait=True)
+                    tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Open, Wait=True)
                     tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=NewspaperFade, Time=0.25 * 1000)  # speed fix
                     pass
                 tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=True)
@@ -143,7 +143,7 @@ class Newspaper(BaseEntity):
                 tc.addTask("TaskEnable", Object=self.newspaper.movie_Close, Value=True)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotClose, ChildNode=layerAttachGroupEntity)
                 with tc.addParallelTask(2) as (tc1, tc2):
-                    tc1.addTask("TaskMoviePlay", Movie=self.newspaper.movie_Close, Wait=True)
+                    tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Close, Wait=True)
                     tc2.addTask("AliasFadeOut", FadeGroupName="FadeDialog", Time=0.25 * 1000, From=NewspaperFade)  # speed fix
                     pass
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)

@@ -73,18 +73,18 @@ class NewspaperManager(Manager):
         Socket_Close = GroupManager.getObject(defaultGroupName, "Socket_Close")
         Socket_BlockClose = GroupManager.getObject(attachGroupName, "Socket_BlockClose")
 
-        if demon.hasObject("Movie_OpenNewspaper"):
-            Movie_Open = demon.getObject("Movie_OpenNewspaper")
+        if demon.hasObject("Movie2_OpenNewspaper"):
+            Movie_Open = demon.getObject("Movie2_OpenNewspaper")
             pass
         else:
-            Movie_Open = GroupManager.getObject(defaultGroupName, "Movie_OpenNewspaper")
+            Movie_Open = GroupManager.getObject(defaultGroupName, "Movie2_OpenNewspaper")
             pass
 
-        if demon.hasObject("Movie_CloseNewspaper"):
-            Movie_Close = demon.getObject("Movie_CloseNewspaper")
+        if demon.hasObject("Movie2_CloseNewspaper"):
+            Movie_Close = demon.getObject("Movie2_CloseNewspaper")
             pass
         else:
-            Movie_Close = GroupManager.getObject(defaultGroupName, "Movie_CloseNewspaper")
+            Movie_Close = GroupManager.getObject(defaultGroupName, "Movie2_CloseNewspaper")
             pass
 
         NewspaperManager.s_newspaperIds[(groupName, demonName)] = newspaperID
