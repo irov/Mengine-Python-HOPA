@@ -1,5 +1,7 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
+from Foundation.DefaultManager import DefaultManager
+from Foundation.GroupManager import GroupManager
 
 
 class SystemOverclick(System):
@@ -19,20 +21,36 @@ class SystemOverclick(System):
         time = Mengine.getTime()
         self.timeClick.append(time)
 
-        if self.__checkOverclick() is True:
-            with TaskManager.createTaskChain(Name="Overclick", GroupName="Overclick") as tc:
-                tc.addTask("TaskNotify", ID=Notificator.onOverClick)
-                tc.addTask("TaskSceneLayerGroupEnable", LayerName="Overclick", Value=True)
-                tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=True)
+        group_name = "Overclick"
+        socket_block = "Socket_Block"
+        movie_name = DefaultManager.getDefault("OverclickMovie", "Movie_Hypnotoad")
 
-                tc.addTask("TaskMoviePlay", MovieName="Movie_Hypnotoad", Wait=True)
+        if GroupManager.hasObject(group_name, movie_name):
+            movie = GroupManager.getObject(group_name, movie_name)
+            movie_type = movie.getType()
+        else:
+            Trace.msg_err("Group {!r} doesn't have object with name {!r}!".format(group_name, movie_name))
+            movie_name = "Movie_Hypnotoad"
+            movie_type = "ObjectMovie"
+
+        if self.__checkOverclick() is True:
+            with TaskManager.createTaskChain(Name="Overclick", GroupName=group_name) as tc:
+                tc.addTask("TaskNotify", ID=Notificator.onOverClick)
+                tc.addTask("TaskSceneLayerGroupEnable", LayerName=group_name, Value=True)
+                tc.addTask("TaskInteractive", ObjectName=socket_block, Value=True)
+
+                if movie_type == "ObjectMovie":
+                    tc.addTask("TaskMoviePlay", MovieName=movie_name, Wait=True)
+                elif movie_type == "ObjectMovie2":
+                    tc.addTask("TaskMovie2Play", Movie2Name=movie_name, Wait=True)
+
                 # with tc.addParallelTask(2) as (tc1,tc2):
                 #     tc1.addTask("TaskMoviePlay",  MovieName = "Movie_Hypnotoad", Wait = True)
                 #     tc2.addTask("TaskSoundEffect", SoundName = "HypnoToad", Wait = True)
                 #     pass
 
-                tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)
-                tc.addTask("TaskSceneLayerGroupEnable", LayerName="Overclick", Value=False)
+                tc.addTask("TaskInteractive", ObjectName=socket_block, Value=False)
+                tc.addTask("TaskSceneLayerGroupEnable", LayerName=group_name, Value=False)
                 pass
 
             pass
