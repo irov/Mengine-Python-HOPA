@@ -23,19 +23,21 @@ class RotateAndSwapChipsConnection(object):
         pass
 
     def move(self, callback):
-        name = self.movieObject.getName()
-        taskName = "%s_PLAY" % (name)
-        if TaskManager.existTaskChain(taskName) is True:
-            TaskManager.cancelTaskChain(taskName)
-            pass
+        movie_name = self.movieObject.getName()
+        movie_type = self.movieObject.getType()
+        movie_group = self.movieObject.getGroup()
+        task_name = "%s_PLAY" % movie_name
 
-        group = self.movieObject.getGroup()
-        with TaskManager.createTaskChain(Name=taskName, Group=group) as tc:
-            tc.addTask("TaskMovieLastFrame", MovieName=name, Value=False)
-            tc.addTask("TaskMoviePlay", MovieName=name)
+        if TaskManager.existTaskChain(task_name) is True:
+            TaskManager.cancelTaskChain(task_name)
+
+        with TaskManager.createTaskChain(Name=task_name, Group=movie_group) as tc:
+            tc.addTask("TaskMovieLastFrame", MovieName=movie_name, Value=False)
+
+            if movie_type == "ObjectMovie":
+                tc.addTask("TaskMoviePlay", MovieName=movie_name)
+            elif movie_type == "ObjectMovie2":
+                tc.addTask("TaskMovie2Play", Movie2Name=movie_name)
+
             # tc.addTask("TaskMovieLastFrame", MovieName = name, Value = False)
             tc.addTask("TaskFunction", Fn=callback)
-            pass
-        pass
-
-    pass

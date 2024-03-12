@@ -113,9 +113,22 @@ class RotateAndSwapChips(Enigma):
         super(RotateAndSwapChips, self)._onActivate()
         self.GameData = RotateAndSwapChipsManager.getGame(self.EnigmaName)
 
-        gridMovieObject = self.object.getObject("Movie_Grid")
-        gridMovieObject.setEnable(True)
-        self.gridMovie = gridMovieObject.getEntity()
+        grid_movie2 = "Movie2_Grid"
+        grid_movie1 = "Movie_Grid"
+
+        if self.object.hasObject(grid_movie2) is True:
+            grid_movie_object = self.object.getObject(grid_movie2)
+        elif self.object.hasObject(grid_movie1) is True:
+            grid_movie_object = self.object.getObject(grid_movie1)
+        else:
+            group = self.object.getGroup()
+            group_name = group.getName()
+            Trace.log("Entity", 0,
+                      "Not found {!r} or {!r} objects in {!r} group!".format(grid_movie2, grid_movie1, group_name))
+            return
+
+        grid_movie_object.setEnable(True)
+        self.gridMovie = grid_movie_object.getEntity()
 
         for slotId, slotData in self.GameData.slots.items():
             MovieSlotName = slotData["MovieSlotName"]
