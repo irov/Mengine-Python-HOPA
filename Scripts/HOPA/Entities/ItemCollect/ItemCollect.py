@@ -90,7 +90,7 @@ class ItemCollect(BaseEntity):
         radius = self.object.getParam('Radius')
 
         for ItemName in ItemsList:
-            itemMovie = self.object.tryGenerateObjectUnique('SmallCircle_{}'.format(ItemName), 'Movie_SmallCircle', Enable=True)
+            itemMovie = self.object.tryGenerateObjectUnique('SmallCircle_{}'.format(ItemName), "Movie2_SmallCircle", Enable=True)
             Icon = SystemItemCollect.getItemCollect(ItemName)
             itemPlace = ItemCollect.Slot(ItemName, itemMovie, Icon)
 
