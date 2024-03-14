@@ -120,6 +120,8 @@ class RotateCirclesWithChips(Enigma):
     def setup(self):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
+        door_movie2 = "Movie2_door_closed"
+        door_movie1 = "Movie_door_closed"
 
         for (ChipID, MovieName) in self.param.chips_dict.iteritems():
             Movie = Group.getObject(MovieName)
@@ -127,7 +129,15 @@ class RotateCirclesWithChips(Enigma):
             self.chips.append(chip)
 
         for (CircleID, circleValue) in self.param.circles_dict.iteritems():
-            Movie_door_closed = Group.getObject('Movie_door_closed')
+            if Group.hasObject(door_movie2):
+                Movie_door_closed = Group.getObject(door_movie2)
+            elif Group.hasObject(door_movie1):
+                Movie_door_closed = Group.getObject(door_movie1)
+            else:
+                Trace.log("Entity", 0,
+                          "Not found {!r} or {!r} objects in {!r} group!".format(door_movie2, door_movie1, GroupName))
+                continue
+
             slotOnBG = Movie_door_closed.getMovieSlot(CircleID)
 
             Movie = Group.getObject(circleValue[0])
@@ -171,7 +181,13 @@ class RotateCirclesWithChips(Enigma):
     def _scopeClickOnCircle(self, source):
         clickCircle = Holder()
         for circle, tc_race in source.addRaceTaskList(self.circles):
-            tc_race.addTask('TaskMovieSocketClick', Movie=circle.movie, SocketName='circle')
+            movie_type = circle.movie.getType()
+
+            if movie_type == "ObjectMovie2":
+                tc_race.addTask("TaskMovie2SocketClick", Movie2=circle.movie, SocketName="circle")
+            elif movie_type == "ObjectMovie":
+                tc_race.addTask('TaskMovieSocketClick', Movie=circle.movie, SocketName='circle')
+
             tc_race.addFunction(clickCircle.set, circle)
 
         def holder_scopeClick(source, holder):
