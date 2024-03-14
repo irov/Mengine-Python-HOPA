@@ -93,6 +93,8 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     def setup(self):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = self.object
+        bg_movie2 = "Movie2_BG_Slots"
+        bg_movie1 = "Movie_BG_Slots"
 
         def searchSlot(slotID):
             for slot in self.slots:
@@ -100,7 +102,15 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
                     return slot
 
         for (slotID, movieName) in self.param.slotDict.iteritems():
-            MovieBG = Group.getObject('Movie_BG_Slots')
+            if Group.hasObject(bg_movie2):
+                MovieBG = Group.getObject(bg_movie2)
+            elif Group.hasObject(bg_movie1):
+                MovieBG = Group.getObject(bg_movie1)
+            else:
+                Trace.log("Entity", 0,
+                          "Not found {!r} or {!r} objects in {!r} group!".format(bg_movie2, bg_movie1, GroupName))
+                continue
+
             slotOnBG = MovieBG.getMovieSlot('slot_{}'.format(slotID))
             Movie = Group.getObject(movieName)
             slot = SwapChipsSwitchEnableAndDisable.Slot(slotID, Movie, slotOnBG)
@@ -164,7 +174,12 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     def scopeClick(self, source):
         clickSlotHolder = Holder()
         for slot, tc_race in source.addRaceTaskList(self.slots):
-            tc_race.addTask('TaskMovieSocketClick', Movie=slot.movie, SocketName='slot')
+            movie_type = slot.movie.getType()
+            if movie_type == "ObjectMovie2":
+                tc_race.addTask("TaskMovie2SocketClick", Movie2=slot.movie, SocketName="slot")
+            elif movie_type == "ObjectMovie":
+                tc_race.addTask("TaskMovieSocketClick", Movie=slot.movie, SocketName="slot")
+
             tc_race.addFunction(clickSlotHolder.set, slot)
 
         def holder_scopeClick(source, holder):
@@ -195,12 +210,24 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
             with source_true.addIfTask(lambda: chip.selected is True) as (true, false):
                 true.addFunction(chipSelected, False)
                 true.addFunction(self.setChipInLastFrame, chip, False)
-                true.addTask("TaskMoviePlay", Movie=chip.movie, Wait=True, Loop=False)
+
+                movie_type_true = chip.movie.getType()
+                if movie_type_true == "ObjectMovie2":
+                    true.addTask("TaskMovie2Play", Movie2=chip.movie, Wait=True, Loop=False)
+                elif movie_type_true == "ObjectMovie":
+                    true.addTask("TaskMoviePlay", Movie=chip.movie, Wait=True, Loop=False)
+
                 # true.addNotify(Notificator.onSoundEffectOnObject, self.object,
                 #                "SwapChipsSwitchEnableAndDisable_PutBack")
 
                 false.addFunction(chipSelected, True)
-                false.addTask("TaskMoviePlay", Movie=selectedList[slot.id].movie, Wait=True, Loop=False)
+
+                movie_type_false = selectedList[slot.id].movie.getType()
+                if movie_type_false == "ObjectMovie2":
+                    false.addTask("TaskMovie2Play", Movie2=selectedList[slot.id].movie, Wait=True, Loop=False)
+                elif movie_type_false == "ObjectMovie":
+                    false.addTask("TaskMoviePlay", Movie=selectedList[slot.id].movie, Wait=True, Loop=False)
+
                 false.addFunction(self.setIsSelectedChips)
                 false.addScope(self.changeAlpha, 1.0, 0.0)
                 false.addNotify(Notificator.onSoundEffectOnObject, self.object, "SwapChipsSwitchEnableAndDisable_SwapChips")
@@ -209,7 +236,12 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
                 false.addScope(self.playMovie)
 
             source_false.addFunction(chipSelected, True)
-            source_false.addTask("TaskMoviePlay", Movie=selectedList[slot.id].movie, Wait=True, Loop=False)
+
+            movie_type_false2 = selectedList[slot.id].movie.getType()
+            if movie_type_false2 == "ObjectMovie2":
+                source_false.addTask("TaskMovie2Play", Movie2=selectedList[slot.id].movie, Wait=True, Loop=False)
+            elif movie_type_false2 == "ObjectMovie":
+                source_false.addTask("TaskMoviePlay", Movie=selectedList[slot.id].movie, Wait=True, Loop=False)
 
     def setIsSelectedChips(self):
         def isSelectedChips():
@@ -229,14 +261,27 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     def playMovie(self, source):
         Chip_1 = self.visibleChips[len(self.visibleChips) - 1]
         Chip_2 = self.visibleChips[len(self.visibleChips) - 2]
+
+        movie_type_chip1 = Chip_1.movie.getType()
+        movie_type_chip2 = Chip_2.movie.getType()
+
         with source.addParallelTask(2) as (parallel_1, parallel_2):
             # parallel_1.addTask("TaskMovieLastFrame", Movie=Chip_1.movie, Value=False)
             parallel_1.addNotify(Notificator.onSoundEffectOnObject, self.object, "SwapChipsSwitchEnableAndDisable_PutBack")
-            parallel_1.addTask("TaskMoviePlay", Movie=Chip_1.movie)
+
+            if movie_type_chip1 == "ObjectMovie2":
+                parallel_1.addTask("TaskMovie2Play", Movie2=Chip_1.movie)
+            elif movie_type_chip1 == "ObjectMovie":
+                parallel_1.addTask("TaskMoviePlay", Movie=Chip_1.movie)
 
             # parallel_2.addTask("TaskMovieLastFrame", Movie=Chip_2.movie, Value=False)
             parallel_2.addNotify(Notificator.onSoundEffectOnObject, self.object, "SwapChipsSwitchEnableAndDisable_PutBack")
-            parallel_2.addTask("TaskMoviePlay", Movie=Chip_2.movie)
+
+            if movie_type_chip2 == "ObjectMovie2":
+                parallel_2.addTask("TaskMovie2Play", Movie2=Chip_2.movie)
+            elif movie_type_chip2 == "ObjectMovie":
+                parallel_2.addTask("TaskMoviePlay", Movie=Chip_2.movie)
+
 
     def disableNotUsedChips(self):
         def disable(list):
