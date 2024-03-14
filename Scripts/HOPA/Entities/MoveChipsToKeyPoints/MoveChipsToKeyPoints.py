@@ -88,7 +88,17 @@ class MoveChipsToKeyPoints(Enigma):
     def _setup(self):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
-        self.BG = Group.getObject('Movie_BGforMG')
+        bg_movie2 = "Movie2_BGforMG"
+        bg_movie1 = "Movie_BGforMG"
+
+        if Group.hasObject(bg_movie2):
+            self.BG = Group.getObject(bg_movie2)
+        elif Group.hasObject(bg_movie1):
+            self.BG = Group.getObject(bg_movie1)
+        else:
+            Trace.log("Entity", 0,
+                      "Not found {!r} or {!r} objects in {!r} group!".format(bg_movie2, bg_movie1, GroupName))
+            return
 
         for (ChipID, movieName) in self.param.Chips.iteritems():
             MovieChip = Group.getObject(movieName)
@@ -109,9 +119,14 @@ class MoveChipsToKeyPoints(Enigma):
 
     def _resolveClick(self, source):
         ClickHolder = Holder()
+        movie_type = self.BG.getType()
 
         for i, race in source.addRaceTaskList(range(1, 5)):
-            race.addTask('TaskMovieSocketClick', SocketName='socket_{}'.format(i), Movie=self.BG)
+            if movie_type == "ObjectMovie2":
+                race.addTask("TaskMovie2SocketClick", SocketName="socket_{}".format(i), Movie2=self.BG)
+            elif movie_type == "ObjectMovie":
+                race.addTask("TaskMovieSocketClick", SocketName="socket_{}".format(i), Movie=self.BG)
+
             race.addFunction(ClickHolder.set, i)
 
         def holder_scopeClick(source, holder):
