@@ -19,8 +19,12 @@ class LeversPuzzle(Enigma):
             return self.checkbox.getValue()
 
         def scopeClick(self, source):
-            source.addListener(Notificator.onMovieCheckBox, Filter=(lambda o, v: o is self.checkbox))
-            pass
+            movie_type = self.checkbox.getType()
+
+            if movie_type == "ObjectMovie2CheckBox":
+                source.addListener(Notificator.onMovie2CheckBox, Filter=(lambda o, v: o is self.checkbox))
+            elif movie_type == "ObjectMovieCheckBox":
+                source.addListener(Notificator.onMovieCheckBox, Filter=(lambda o, v: o is self.checkbox))
 
     class Chip(object):
         def __init__(self, ChipID, MovieOff, MovieOn, StartState, WinState, LeverIDs):
@@ -61,17 +65,29 @@ class LeversPuzzle(Enigma):
             source.addFunction(self.changeState)
 
         def scopeSwitchOn(self, source):
+            movie_type = self.movie_on.getType()
+
             source.addPlay(self.movie_on)
             source.addDisable(self.movie_on)
 
-            source.addTask('TaskMovieRewind', Movie=self.movie_on)
+            if movie_type == "ObjectMovie2":
+                source.addTask("TaskMovie2Rewind", Movie2=self.movie_on)
+            elif movie_type == "ObjectMovie":
+                source.addTask('TaskMovieRewind', Movie=self.movie_on)
+
             source.addEnable(self.movie_off)
 
         def scopeSwitchOff(self, source):
+            movie_type = self.movie_off.getType()
+
             source.addPlay(self.movie_off)
             source.addDisable(self.movie_off)
 
-            source.addTask('TaskMovieRewind', Movie=self.movie_off)
+            if movie_type == "ObjectMovie2":
+                source.addTask("TaskMovie2Rewind", Movie2=self.movie_off)
+            elif movie_type == "ObjectMovie":
+                source.addTask('TaskMovieRewind', Movie=self.movie_off)
+
             source.addEnable(self.movie_on)
 
         def isWinState(self):
