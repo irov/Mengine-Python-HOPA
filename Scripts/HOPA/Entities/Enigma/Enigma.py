@@ -122,11 +122,16 @@ class Enigma(BaseEntity):
             self.__onEnigmaComplete()
             return
 
-        Movie = Enigma.getMovieWinObject()
+        movie = Enigma.getMovieWinObject()
+        movie_type = movie.getType()
 
         with TaskManager.createTaskChain() as tc:
             with GuardBlockInput(tc) as guard_source:
-                guard_source.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
+                if movie_type == "ObjectMovie2":
+                    guard_source.addTask("TaskMovie2Play", Movie2=movie, Wait=True)
+                elif movie_type == "ObjectMovie":
+                    guard_source.addTask("TaskMoviePlay", Movie=movie, Wait=True)
+
                 guard_source.addTask("TaskFunction", Fn=self.__onEnigmaComplete)
 
     def __onEnigmaComplete(self):
