@@ -24,7 +24,7 @@ class PathChipsCrypt(Enigma):
         self.completeEffects = {}
         self.chipCounter = 0
         self.generatedObjects = []
-        self.movieSoundMoveChipName = "Movie_Sound_MoveChip"
+        self.movieSoundMoveChipName = "Movie2_Sound_MoveChip"
         pass
 
     def finalise(self):

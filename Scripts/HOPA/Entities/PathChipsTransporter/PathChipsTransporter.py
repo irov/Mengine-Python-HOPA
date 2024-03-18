@@ -3,6 +3,12 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from Notification import Notification
 
+MOV_TRANSPORTER = "Movie2_Transporter"
+MOV_TRANSPORTER_REV = "Movie2_Transporter_Reverse"
+MOV_TRANSPORTER_SOUND = "Movie2_Sound_Transporter"
+SOCKET_TRANSPORTER = "Socket_Transporter"
+SLOT_MOVE = "move"
+
 
 class PathChipsTransporter(BaseEntity):
     def __init__(self):
@@ -35,18 +41,18 @@ class PathChipsTransporter(BaseEntity):
         super(PathChipsTransporter, self)._onInitialize(*args, **kwargs)
         self.attachNode = Mengine.createNode("Interender")
 
-        self.socket = self.object.getObject("Socket_Transporter")
-        self.socket.setInteractive(True)
+        # self.socket = self.object.getObject(SOCKET_TRANSPORTER)
+        # self.socket.setInteractive(True)
         pass
 
     def _onActivate(self):
         super(PathChipsTransporter, self)._onActivate()
-        self.movie = self.object.getObject("Movie_Transporter")
-        self.movieReverse = self.object.getObject("Movie_Transporter_Reverse")
+        self.movie = self.object.getObject(MOV_TRANSPORTER)
+        self.movieReverse = self.object.getObject(MOV_TRANSPORTER_REV)
 
         self.attachToForwardMovie()
 
-        self.socket = self.object.getObject("Socket_Transporter")
+        self.socket = self.object.getObject(SOCKET_TRANSPORTER)
         self.socket.setInteractive(True)
         pass
 
@@ -112,7 +118,7 @@ class PathChipsTransporter(BaseEntity):
         movieForwardEntity = self.movie.getEntity()
         self.movie.setLastFrame(False)
 
-        movieSlotForward = movieForwardEntity.getMovieSlot("move")
+        movieSlotForward = movieForwardEntity.getMovieSlot(SLOT_MOVE)
 
         self.attachNode.removeFromParent()
 
@@ -126,7 +132,7 @@ class PathChipsTransporter(BaseEntity):
         movieBackwardEntity = self.movieReverse.getEntity()
         self.movieReverse.setLastFrame(False)
 
-        movieSlotBackward = movieBackwardEntity.getMovieSlot("move")
+        movieSlotBackward = movieBackwardEntity.getMovieSlot(SLOT_MOVE)
 
         self.attachNode.removeFromParent()
 
@@ -143,10 +149,10 @@ class PathChipsTransporter(BaseEntity):
         with TaskManager.createTaskChain(Name="TRANSPORTER_FORWARD", Group=self.object) as tc:
             with tc.addParallelTask(2) as (tc_transporter, tc_sound):
                 # tc_transporter.addTask("TaskMovieReverse", MovieName = "Movie_Transporter", Reverse = False)
-                tc_transporter.addTask("TaskMoviePlay", MovieName="Movie_Transporter")
+                tc_transporter.addTask("TaskMovie2Play", Movie2=self.movie)
                 # tc_transporter.addTask("TaskMovieLastFrame", MovieName = "Movie_Transporter", Value = True)
 
-                tc_sound.addTask("TaskMoviePlay", MovieName="Movie_Sound_Transporter")
+                tc_sound.addTask("TaskMovie2Play", Movie2Name=MOV_TRANSPORTER_SOUND)
             pass
             tc.addTask("TaskFunction", Fn=callback)
         pass
@@ -161,10 +167,10 @@ class PathChipsTransporter(BaseEntity):
         with TaskManager.createTaskChain(Name="TRANSPORTER_BACKWARD", Group=self.object) as tc:
             with tc.addParallelTask(2) as (tc_transporter, tc_sound):
                 # tc_transporter.addTask("TaskMovieReverse", MovieName = "Movie_Transporter", Reverse = True)
-                tc_transporter.addTask("TaskMoviePlay", MovieName="Movie_Transporter_Reverse")
+                tc_transporter.addTask("TaskMovie2Play", Movie2=self.movieReverse)
 
                 # tc_transporter.addTask("TaskMovieLastFrame", MovieName = "Movie_Transporter", Value = True)
-                tc_sound.addTask("TaskMoviePlay", MovieName="Movie_Sound_Transporter")
+                tc_sound.addTask("TaskMovie2Play", Movie2Name=MOV_TRANSPORTER_SOUND)
             tc.addTask("TaskFunction", Fn=callback)
             pass
         pass

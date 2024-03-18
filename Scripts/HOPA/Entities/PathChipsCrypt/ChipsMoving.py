@@ -67,12 +67,12 @@ class ChipsMoving(object):
         group = self.movieObject.getGroup()
         with TaskManager.createTaskChain(Name=taskName, Group=group) as tc:
             with tc.addParallelTask(2) as (tc_chip, tc_sound):
-                tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=False)
-                tc_chip.addTask("TaskMoviePlay", MovieName=name)
+                # tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=False)
+                tc_chip.addTask("TaskMovie2Play", Movie2Name=name)
                 # tc_chip.addTask("TaskMovieLastFrame", MovieName = name, Value = True)
                 tc_chip.addTask("TaskFunction", Fn=callback)
 
-                tc_sound.addTask("TaskMoviePlay", MovieName=self.soundMovieName)
+                tc_sound.addTask("TaskMovie2Play", Movie2Name=self.soundMovieName)
             pass
         pass
 
@@ -86,12 +86,12 @@ class ChipsMoving(object):
         group = self.movieObject.getGroup()
         with TaskManager.createTaskChain(Name=taskName, Group=group) as tc:
             with tc.addParallelTask(2) as (tc_chip, tc_sound):
-                tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=True)
-                tc_chip.addTask("TaskMoviePlay", MovieName=name)
+                # tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=True)
+                tc_chip.addTask("TaskMovie2Play", Movie2Name=name)
                 # tc_chip.addTask("TaskMovieLastFrame", MovieName = name, Value = True)
                 tc_chip.addTask("TaskFunction", Fn=callback)
 
-                tc_sound.addTask("TaskMoviePlay", MovieName=self.soundMovieName)
+                tc_sound.addTask("TaskMovie2Play", Movie2Name=self.soundMovieName)
             pass
         pass
 
@@ -138,10 +138,11 @@ class ChipsMoving(object):
         pass
 
     def getMovieData(self):
-        resourceMovieName = self.movie.ResourceMovie
-        nullObjectsData = Mengine.getNullObjectsFromResourceMovie(resourceMovieName)
-        self.movieData = nullObjectsData["move"]
-        pass
+        movie_res = self.movie.ResourceMovie
+        movie_comp_name = self.movie.CompositionName
+        # null_objects_data = Mengine.getNullObjectsFromResourceMovie(movie_res)    # old method for movie1
+        null_objects_data = Mengine.getNullObjectsFromResourceMovie2(movie_res, movie_comp_name)
+        self.movieData = null_objects_data["move"]
 
     def setFrame(self, index):
         # print "setFrame",index,self.lastIndex
@@ -157,7 +158,7 @@ class ChipsMoving(object):
         point = self.movieData[index]
         # print "SETFRAME",self
         # print "point",point
-        self.movie.setTiming(point["time"])
+        self.movie.setTiming(point["time"] * 1000)  # time param fix for movie2
         # self.movie.movie.update(0)
         pass
 
