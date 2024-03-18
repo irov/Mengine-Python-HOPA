@@ -89,17 +89,17 @@ class FragmentsRollMoving(object):
             pass
 
         curPoint = self.getPoint(self.currentIndex)
-        curTime = curPoint["time"]
+        curTime = curPoint["time"] * 1000  # time param fix for movie2
 
         self.movieObject.setParam("StartTiming", curTime)
 
         with TaskManager.createTaskChain(Name=taskName, Group=None) as tc:
             with tc.addParallelTask(2) as (tc_element, tc_sound):
                 tc_element.addTask("TaskMovieLastFrame", Movie=self.movieObject, Value=False)
-                tc_element.addTask("TaskMoviePlay", Movie=self.movieObject, StartTiming=curTime)
+                tc_element.addTask("TaskMovie2Play", Movie2=self.movieObject, StartTiming=curTime)
                 tc_element.addTask("TaskFunction", Fn=callback)
 
-                tc_sound.addTask("TaskMoviePlay", Movie=self.soundMovie)
+                tc_sound.addTask("TaskMovie2Play", Movie2=self.soundMovie)
             pass
         pass
 
@@ -113,7 +113,7 @@ class FragmentsRollMoving(object):
         curPoint = self.getPoint(self.currentIndex)
         movieReverseEntity = self.movieObjectReverse.getEntity()
         duration = movieReverseEntity.getDuration()
-        curTime = duration - curPoint["time"]
+        curTime = duration - (curPoint["time"] * 1000)  # time param fix for movie2
 
         self.attachToBackwardMovie()
 
@@ -122,20 +122,21 @@ class FragmentsRollMoving(object):
             with tc.addParallelTask(2) as (tc_element, tc_sound):
                 tc_element.addTask("TaskMovieLastFrame", Movie=self.movieObjectReverse, Value=False)
                 # tc_element.addTask("TaskMovieReverse", Movie = self.movieObject, Reverse = True)
-                tc_element.addTask("TaskMoviePlay", Movie=self.movieObjectReverse, StartTiming=curTime)
+                tc_element.addTask("TaskMovie2Play", Movie2=self.movieObjectReverse, StartTiming=curTime)
                 tc_element.addFunction(self.attachToForwardMovie)
                 tc_element.addTask("TaskFunction", Fn=callback)
 
-                tc_sound.addTask("TaskMoviePlay", Movie=self.soundMovie)
+                tc_sound.addTask("TaskMovie2Play", Movie2=self.soundMovie)
 
             pass
         pass
 
     def getMovieData(self):
-        resourceMovieName = self.movie.ResourceMovie
-        nullObjectsData = Mengine.getNullObjectsFromResourceMovie(resourceMovieName)
-        self.movieData = nullObjectsData["move"]
-        pass
+        movie_res = self.movie.ResourceMovie
+        movie_comp_name = self.movie.CompositionName
+        # null_objects_data = Mengine.getNullObjectsFromResourceMovie(movie_res)    # old method for movie1
+        null_objects_data = Mengine.getNullObjectsFromResourceMovie2(movie_res, movie_comp_name)
+        self.movieData = null_objects_data["move"]
 
     def moveForwardOneFrame(self):
         frame = self.currentIndex + 1
@@ -157,8 +158,8 @@ class FragmentsRollMoving(object):
             pass
 
         self.currentIndex = index
-        point = self.movieData[index]
-        self.movie.setTiming(point["time"])
+        point = self.getPoint(index)
+        self.movie.setTiming(point["time"] * 1000)  # time param fix for movie2
         pass
 
     def getPoint(self, index):

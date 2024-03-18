@@ -53,15 +53,15 @@ class FragmentsRoll(Enigma):
 
         self.onFocusObserver = None
 
-        self.gridMovieName = "Movie_Grid"
+        self.gridMovieName = "Movie2_Grid"
 
-        self.horizontalForwardMovieName = "Movie_MoveRight"
-        self.horizontalBackwardMovieName = "Movie_MoveLeft"
-        self.verticalForwardMovieName = "Movie_MoveDown"
-        self.verticalBackwardMovieName = "Movie_MoveUp"
+        self.horizontalForwardMovieName = "Movie2_MoveRight"
+        self.horizontalBackwardMovieName = "Movie2_MoveLeft"
+        self.verticalForwardMovieName = "Movie2_MoveDown"
+        self.verticalBackwardMovieName = "Movie2_MoveUp"
 
-        self.soundOnMoveMovieName = "Movie_Sound_OnMove"
-        self.soundOnEndMovingMovieName = "Movie_Sound_OnEndMoving"
+        self.soundOnMoveMovieName = "Movie2_Sound_OnMove"
+        self.soundOnEndMovingMovieName = "Movie2_Sound_OnEndMoving"
 
         self.currentShift = FragmentsRollShift(0, 0, 0, 0)
         pass
@@ -296,7 +296,7 @@ class FragmentsRoll(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="FragmentsRoll_SoundEndMoving", Group=self.object) as tc:
-            tc.addTask("TaskMoviePlay", MovieName=self.soundOnEndMovingMovieName)
+            tc.addTask("TaskMovie2Play", Movie2Name=self.soundOnEndMovingMovieName)
             pass
         pass
 
