@@ -138,6 +138,8 @@ class DebugMenu(BaseEntity):
             # button.setFont("__CONSOLE_FONT__")
             button.setTextID("ID_DebugMenuScene")
             button.setTextArgs(sceneName)
+            button_text_align = DefaultManager.getDefault("DebugMenuScenesButtonTextAlign", "Center")
+            button.setTextAlign(button_text_align)
             button.setFontRGBA((0, 0, 0, 1))
             button.setPosition((self.buttonPos[0] + x, self.buttonPos[1] + y))
             button.setEnable(True)
