@@ -2,6 +2,7 @@ from Event import Event
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
+from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.TaskManager import TaskManager
 
 
@@ -9,6 +10,7 @@ class InGameMenu(BaseEntity):
     def __init__(self):
         super(InGameMenu, self).__init__()
         self.auth_buttons = {}
+        self.achievements_button = None
 
     def _onActivate(self):
         socket_block = self.object.getObject("Socket_Block")
@@ -19,6 +21,9 @@ class InGameMenu(BaseEntity):
     def _onPreparation(self):
         if self._initGoogleAuthButtons() is True:
             self._runAuthTaskChain()
+
+        if self._initGoogleAchievements() is True:
+            self._runAchievementsTaskChain()
 
     def _initGoogleAuthButtons(self):
         if Mengine.hasTouchpad() is False:
@@ -90,3 +95,34 @@ class InGameMenu(BaseEntity):
             tc.addFunction(self._cbManageAuthButtons)
             tc.addDelay(1.0)
             tc.addFunction(done_event)
+
+    def _initGoogleAchievements(self):
+        if Mengine.getGameParamBool("Achievements", False) is False:
+            return False
+        if Mengine.hasTouchpad() is False:
+            return False
+        if Utils.getCurrentPlatform() != "Android":
+            return False
+        if GroupManager.hasObject("InGameMenu", "Movie2Button_GoogleAchievements") is False:
+            return False
+
+        achieve_btn = GroupManager.getObject("InGameMenu", "Movie2Button_GoogleAchievements")
+        achieve_btn.setInteractive(True)
+        achieve_btn.setEnable(True)
+        self.achievements_button = achieve_btn
+        return True
+
+    def _runAchievementsTaskChain(self):
+        if TaskManager.existTaskChain("InGameMenuGoogleAchievements") is True:
+            TaskManager.cancelTaskChain("InGameMenuGoogleAchievements")
+
+        with TaskManager.createTaskChain(Name="InGameMenuGoogleAchievements", Repeat=True) as tc:
+            tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.achievements_button, SocketName="socket")
+            tc.addScope(self._scopeOpenAchievements)
+
+    def _scopeOpenAchievements(self, source):
+        if AchievementsProvider.hasMethod("showAchievements") is False:
+            Trace.msg_err("[!] showAchievements impossible to show - provider failed")
+
+        source.addDelay(300)  # fix for part services spamming
+        source.addFunction(AchievementsProvider.showAchievements)
