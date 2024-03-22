@@ -45,7 +45,8 @@ class ColoringPuzzle(Enigma):
 
         self.onSocketBlockCursorEnterObserver = None
         self.onSocketBlockCursorLeaveObserver = None
-        pass
+
+        self.arrow_radius_saved = None
 
     def finalize(self):
         for paletteId, palette in self.palette.items():
@@ -77,7 +78,12 @@ class ColoringPuzzle(Enigma):
             self.onSocketBlockCursorLeaveObserver = None
             pass
 
-        pass
+        arrow = Mengine.getArrow()
+        arrow_radius_curr = arrow.node.getRadius()
+
+        if arrow_radius_curr != self.arrow_radius_saved and self.arrow_radius_saved is not None:
+            arrow.node.setRadius(self.arrow_radius_saved)
+        self.arrow_radius_saved = None
 
     def _autoWin(self):
         self.finalize()
@@ -133,7 +139,13 @@ class ColoringPuzzle(Enigma):
             brush = ColoringPuzzleBrush(movieObject)
             self.brushes[brushId] = brush
             pass
-        pass
+
+        arrow = Mengine.getArrow()
+        arrow_radius_curr = arrow.node.getRadius()
+
+        if arrow_radius_curr != self.GameData.arrow_radius:
+            arrow.node.setRadius(self.GameData.arrow_radius)
+            self.arrow_radius_saved = arrow_radius_curr
 
     def _onDeactivate(self):
         super(ColoringPuzzle, self)._onDeactivate()

@@ -1,11 +1,12 @@
 from Foundation.DatabaseManager import DatabaseManager
+from Foundation.DefaultManager import DefaultManager
 
 
 class ColoringPuzzleManager(object):
     s_games = {}
 
     class ColoringPuzzleGame(object):
-        def __init__(self, brushes, fragments, coloringRules, palette, colors, brushesToColor, startColorId):
+        def __init__(self, brushes, fragments, coloringRules, palette, colors, brushesToColor, startColorId, ArrowRadius):
             self.brushes = brushes
             self.fragments = fragments
             self.coloringRules = coloringRules
@@ -13,10 +14,16 @@ class ColoringPuzzleManager(object):
             self.colors = colors
             self.brushesToColor = brushesToColor
             self.startColorId = startColorId
+            self.arrow_radius = ArrowRadius
 
     @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
+
+        if Mengine.hasTouchpad() is True:
+            default_arrow_radius = DefaultManager.getDefaultFloat("DefaultMobileArrowRadius", 15.0)
+        else:
+            default_arrow_radius = DefaultManager.getDefaultFloat("DefaultArrowRadius", 10.0)
 
         for record in records:
             Name = record.get("Name")
@@ -27,9 +34,10 @@ class ColoringPuzzleManager(object):
             Fragments = record.get("Fragments")
             Palette = record.get("Palette")
             StartColorId = record.get("StartColorId")
+            ArrowRadius = record.get("ArrowRadius", default_arrow_radius)
 
             ColoringPuzzleManager.loadGame(module, Name, StartColorId, Brushes, ColoringRules, Fragments, Palette,
-                                           Colors, BrushesToColor)
+                                           Colors, BrushesToColor, ArrowRadius)
             pass
 
         return True
@@ -37,7 +45,7 @@ class ColoringPuzzleManager(object):
 
     @staticmethod
     def loadGame(module, name, StartColorId, BrushesParam, ColoringRulesParam, FragmentsParam, PaletteParam,
-                 ColorsParam, BrushesToColorParam):
+                 ColorsParam, BrushesToColorParam, ArrowRadius):
         brushes = ColoringPuzzleManager.loadGameBrushes(module, BrushesParam)
         fragments = ColoringPuzzleManager.loadGameFragments(module, FragmentsParam)
         coloringRules = ColoringPuzzleManager.loadGameColoringRules(module, ColoringRulesParam)
@@ -46,7 +54,7 @@ class ColoringPuzzleManager(object):
         brushesToColor = ColoringPuzzleManager.loadGameBrushesToColor(module, BrushesToColorParam)
 
         game = ColoringPuzzleManager.ColoringPuzzleGame(brushes, fragments, coloringRules, palette, colors,
-                                                        brushesToColor, StartColorId)
+                                                        brushesToColor, StartColorId, ArrowRadius)
 
         ColoringPuzzleManager.s_games[name] = game
         return game
