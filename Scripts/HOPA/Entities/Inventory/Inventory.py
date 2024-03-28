@@ -462,6 +462,8 @@ class Inventory(InventoryBase):
         Notification.notify(Notificator.onInventoryCombineInventoryItem, self.object, attach, slot.item)
 
     def setupPoints(self):
+        items_attach_order = DefaultManager.getDefault("InventoryItemsAttachOrder", "above")
+
         Sprite_InventoryPanel = self.object.getObject("Sprite_InventoryPanel")
         Sprite_InventoryPanelEntity = Sprite_InventoryPanel.getEntity()
 
@@ -481,7 +483,11 @@ class Inventory(InventoryBase):
             delta = (point_position[0] - leftTop[0], point_position[1] - leftTop[1])
             point_node.setLocalPosition(delta)
             point_node.addChild(hotspot_node)
-            Sprite_InventoryPanelEntity.addChild(point_node)
+
+            if items_attach_order == "above":
+                Sprite_InventoryPanelEntity.addChild(point_node)
+            elif items_attach_order == "under":
+                Sprite_InventoryPanelEntity.addChildFront(point_node)
 
             slot = InventorySlot(self.object, index, point_node, hotspot_node)
             self.slots.append(slot)
