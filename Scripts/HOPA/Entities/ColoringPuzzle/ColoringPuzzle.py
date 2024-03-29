@@ -194,8 +194,13 @@ class ColoringPuzzle(Enigma):
         pass
 
     def _onClickFragment(self, fragment):
-        color = self.getColor(self.currentColor)
-        fragment.setColor(color)
+        fragment_color = fragment.getColor()
+        brush_color = self.getColor(self.currentColor)
+
+        if fragment_color == brush_color:
+            return
+
+        fragment.setColor(brush_color)
         self.playOnPaintSoundMovie()
         self._checkComplete()
         pass

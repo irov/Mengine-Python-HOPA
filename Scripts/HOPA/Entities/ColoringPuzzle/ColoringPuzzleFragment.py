@@ -12,7 +12,7 @@ class ColoringPuzzleFragment(object):
 
     def initialize(self, callback):
         self.socketObject.setInteractive(True)
-        self.onSocketClickObserver = Notification.addObserver(Notificator.onSocketClick, self._onSocketClick, self.socketObject, callback)
+        self.onSocketClickObserver = Notification.addObserver(Notificator.onSocketClickEndUp, self._onSocketClick, self.socketObject, callback)
         pass
 
     def finalize(self):
