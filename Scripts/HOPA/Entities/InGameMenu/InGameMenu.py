@@ -4,26 +4,45 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
 from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.TaskManager import TaskManager
+from HOPA.TransitionManager import TransitionManager
+from HOPA.StageManager import StageManager
 
 
 class InGameMenu(BaseEntity):
     def __init__(self):
         super(InGameMenu, self).__init__()
+        self._tcs = []
         self.auth_buttons = {}
         self.achievements_button = None
+        self.store_button = None
 
-    def _onActivate(self):
+    def _onPreparation(self):
         socket_block = self.object.getObject("Socket_Block")
         socket_block.setInteractive(True)
 
-    # Google Auth
-
-    def _onPreparation(self):
+    def _onActivate(self):
         if self._initGoogleAuthButtons() is True:
             self._runAuthTaskChain()
 
         if self._initGoogleAchievements() is True:
             self._runAchievementsTaskChain()
+
+        if self._initStoreButton() is True:
+            self._runStoreButtonTaskChain()
+
+    def _onDeactivate(self):
+        for tc in self._tcs:
+            tc.cancel()
+        self._tcs = []
+
+        self.auth_buttons = {}
+        self.achievements_button = None
+        self.store_button = None
+
+    def _createTaskChain(self, Name, **params):
+        tc = TaskManager.createTaskChain(Name=Name, **params)
+        self._tcs.append(tc)
+        return tc
 
     def _initGoogleAuthButtons(self):
         if Mengine.hasTouchpad() is False:
@@ -75,7 +94,7 @@ class InGameMenu(BaseEntity):
         # def _logout():
         #     SystemGoogleServices.login_data = None
 
-        with TaskManager.createTaskChain(Name="InGameMenuAuth", Repeat=True) as tc:
+        with self._createTaskChain(Name="InGameMenuAuth", Repeat=True) as tc:
             with tc.addIfTask(SystemGoogleServices.isLoggedIn) as (tc_logout, tc_login):
                 tc_logout.addTask("TaskMovie2SocketClick", Movie2=self.auth_buttons["logout"], SocketName="socket")
                 tc_logout.addFunction(SystemGoogleServices.signOut)
@@ -88,7 +107,7 @@ class InGameMenu(BaseEntity):
                 # tc_login.addFunction(SystemGoogleServices.login_event, True)
             tc.addEvent(done_event)
 
-        with TaskManager.createTaskChain(Name="InGameMenuAuthUpdater", Repeat=True) as tc:
+        with self._createTaskChain(Name="InGameMenuAuthUpdater", Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_login, tc_logout):
                 tc_login.addEvent(SystemGoogleServices.login_event)
                 tc_logout.addEvent(SystemGoogleServices.logout_event)
@@ -116,7 +135,7 @@ class InGameMenu(BaseEntity):
         if TaskManager.existTaskChain("InGameMenuGoogleAchievements") is True:
             TaskManager.cancelTaskChain("InGameMenuGoogleAchievements")
 
-        with TaskManager.createTaskChain(Name="InGameMenuGoogleAchievements", Repeat=True) as tc:
+        with self._createTaskChain(Name="InGameMenuGoogleAchievements", Repeat=True) as tc:
             tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.achievements_button, SocketName="socket")
             tc.addScope(self._scopeOpenAchievements)
 
@@ -126,3 +145,25 @@ class InGameMenu(BaseEntity):
 
         source.addDelay(300)  # fix for part services spamming
         source.addFunction(AchievementsProvider.showAchievements)
+
+    def _initStoreButton(self):
+        if Mengine.hasTouchpad() is False:
+            return False
+        if StageManager.hasCurrentStage() is False:
+            return False
+        if GroupManager.hasObject("InGameMenu", "Movie2Button_Store") is False:
+            return False
+
+        store_btn = GroupManager.getObject("InGameMenu", "Movie2Button_Store")
+        store_btn.setInteractive(True)
+        store_btn.setEnable(True)
+        self.store_button = store_btn
+        return True
+
+    def _runStoreButtonTaskChain(self):
+        if TaskManager.existTaskChain("InGameMenuStoreButton") is True:
+            TaskManager.cancelTaskChain("InGameMenuStoreButton")
+
+        with self._createTaskChain(Name="InGameMenuStoreButton", Repeat=True) as tc:
+            tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.store_button)
+            tc.addFunction(TransitionManager.changeScene, "Store")
