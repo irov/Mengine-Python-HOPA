@@ -94,13 +94,13 @@ class CutScene(BaseEntity):
                         with tc_ok.addRaceTask(3) as (tc_play, tc_text, tc_next):
                             tc_play.addTask("TaskEnable", Object=movie_obj)
                             tc_play.addTask("TaskFunction", Fn=self.__addToLayer, Args=(movie_obj, "CutScene_Movie",))
-                            tc_play.addTask("TaskMoviePlay", Movie=movie_obj, Wait=True, ValidationGroupEnable=False)
+                            tc_play.addTask("TaskMoviePlay", Movie=movie_obj, Wait=True, ValidationParentEnable=False)
 
                             if movie_text is not None:
                                 tc_text.addTask("TaskEnable", Object=movie_text)
                                 tc_text.addTask("TaskFunction", Fn=self.__addToLayer,
                                                 Args=(movie_text, "CutScene_Movie_Text",))
-                                tc_text.addTask("TaskMoviePlay", Movie=movie_text, Wait=True, ValidationGroupEnable=False)
+                                tc_text.addTask("TaskMoviePlay", Movie=movie_text, Wait=True, ValidationParentEnable=False)
                             else:
                                 tc_text.addBlock()
 
