@@ -115,6 +115,11 @@ class BaseComponent(object):
             return self.product.id
         return None
 
+    def getProductCurrency(self):
+        if self.product is not None:
+            return self.product.currency
+        return None
+
     def getProductPrice(self):
         if self.product is not None:
             return self.product.price

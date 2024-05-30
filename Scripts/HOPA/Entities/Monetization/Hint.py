@@ -31,7 +31,8 @@ class Hint(BaseComponent):
             Hint.ACTION_MIND_USE: MonetizationManager.getGeneralSetting("HintRollbackIfMind", True),
             Hint.ACTION_NO_RELOAD_USE: MonetizationManager.getGeneralSetting("HintRollbackIfNoReload", False)}
 
-        self.coin = Coin(self)
+        currency = self.getProductCurrency()
+        self.coin = Coin(self, currency)
 
     def _check(self):
         if self.product is None:

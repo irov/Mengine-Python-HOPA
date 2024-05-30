@@ -5,11 +5,20 @@ from Foundation.Utils import getCurrentPublisher
 
 class Coin(object):
 
-    def __init__(self, parent):
+    def __init__(self, parent, currency):
         self.parent = parent
         self.store = DemonManager.getDemon(SystemMonetization.game_store_name)
-        self.prototype_name = "Movie2_Coin_{}".format(getCurrentPublisher())
         self.movie = None
+
+        prototype_template = {
+            "Gold": "Movie2_Coin_{publisher}",
+            "default": "Movie2_{currency}_{publisher}",
+        }
+        prototype_name = prototype_template.get(currency, prototype_template["default"]).format(
+            publisher=getCurrentPublisher(),
+            currency=currency
+        )
+        self.prototype_name = prototype_name
 
     def initialize(self):
         if self.store.hasPrototype(self.prototype_name) is True:
