@@ -42,7 +42,7 @@ class IndicatorMixin(object):
 
     def _prepareDisable(self, parent):
         bg_name = self._getBackgroundName()
-        if parent.hasObject(bg_name) is False:
+        if parent.hasObject(bg_name) is True:
             bg_movie = parent.getObject(bg_name)
             bg_movie.setEnable(False)
         return True
