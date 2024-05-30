@@ -3,7 +3,6 @@ from Foundation.GroupManager import GroupManager
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Foundation.SceneManager import SceneManager
-from HOPA.Entities.BalanceIndicator.BalanceIndicator import ALIAS_ENV
 from HOPA.Entities.BalanceIndicator.BalanceIndicator import EnergyIndicator, GoldIndicator, AdvertisementIndicator
 from HOPA.System.SystemEnergy import EVENT_UPDATE_TIMER
 
@@ -203,5 +202,5 @@ class SystemBalanceIndicator(System):
 
     def _cbUpdateTimer(self, hours=0, minutes=0, seconds=0):
         timer = self.__timer_template % (hours, minutes, seconds)
-        Mengine.setTextAliasArguments(ALIAS_ENV, EnergyIndicator.timer_text_alias, timer)
+        Mengine.setTextAliasArguments(EnergyIndicator.alias_env, EnergyIndicator.timer_text_alias, timer)
         return False
