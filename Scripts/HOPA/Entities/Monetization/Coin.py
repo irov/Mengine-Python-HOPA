@@ -5,11 +5,12 @@ from Foundation.Utils import getCurrentPublisher
 
 class Coin(object):
 
-    def __init__(self, parent, currency):
+    def __init__(self, parent):
         self.parent = parent
         self.store = DemonManager.getDemon(SystemMonetization.game_store_name)
         self.movie = None
 
+        currency = self.parent.getProductCurrency()
         prototype_template = {
             "Gold": "Movie2_Coin_{publisher}",
             "default": "Movie2_{currency}_{publisher}",
