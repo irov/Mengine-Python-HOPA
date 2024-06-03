@@ -25,7 +25,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
         self.falseClick = False
         self.tc_Before = None
         self.tc = None
-        self.onZoomLeave = None
+        self.onZoomCloseId = None
 
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):
@@ -44,6 +44,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
 
     def _onDeactivate(self):
         super(ClickOnChipsInTheRightOrder, self)._onDeactivate()
+        self._cleanUp()
 
     @staticmethod
     def declareORM(Type):
@@ -59,7 +60,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
         self.disableMovieLight()
         self.tc_Before = TaskManager.createTaskChain(Repeat=False)
         with self.tc_Before as tc:
-            tc.addScope(self.playHint)
+            tc.addScope(self.scopePlayHint)
             tc.addFunction(self._runTaskChain)
 
     def _restoreEnigma(self):
@@ -82,7 +83,7 @@ class ClickOnChipsInTheRightOrder(Enigma):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
 
-        self.onZoomLeave = Notification.addObserver(Notificator.onZoomLeave, self._onZoomLeave)
+        self.onZoomCloseId = Notification.addObserver(Notificator.onZoomClose, self._onZoomClose)
 
         def setupObj(dict, objDict):
             for (slotID, movieName) in dict.iteritems():
@@ -114,27 +115,27 @@ class ClickOnChipsInTheRightOrder(Enigma):
             tc.addScope(self.scopeClick)
             pass
 
-    def playHint(self, source):
+    def scopePlayHint(self, source):
         for id in self.winsComb[self.flagComb]:
-            source.addScope(self.playMovie, self.chips[id])
+            source.addScope(self._scopePlayMovie, self.chips[id])
 
             DelayTime = DefaultManager.getDefaultFloat('ClickOnChipsInTheRightOrderDelayTime', 300)
             # source.addDelay(DelayTime)
 
     def scopeClick(self, source):
-        clickOnSlot = Holder()
+        slot_id_holder = Holder()
         for (slotID, slot), tc_race in source.addRaceTaskList(self.slots.iteritems()):
             tc_race.addTask('TaskMovie2SocketClick', Movie2=slot.movie, SocketName='slot')
-            tc_race.addFunction(clickOnSlot.set, slotID)
+            tc_race.addFunction(slot_id_holder.set, slotID)
 
-        def holder_scopeClick(source, holder):
-            clickOnSlotID = holder.get()
-            source.addScope(self.playMovie, self.chips[clickOnSlotID])
-            source.addScope(self.chekcRightOrderClick, clickOnSlotID)
+        def _play_with_holder(_source, holder):
+            slot_id = holder.get()
+            _source.addScope(self._scopePlayMovie, self.chips[slot_id])
 
-        source.addScope(holder_scopeClick, clickOnSlot)
+        source.addScope(_play_with_holder, slot_id_holder)
+        source.addScope(self._scopeCheckRightOrderClick, slot_id_holder)
 
-    def playMovie(self, source, chip):
+    def _scopePlayMovie(self, source, chip):
         source.addFunction(self.changeEnable, chip)
         source.addTask("TaskMovie2Play", Movie2=chip.movie, Wait=True, Loop=False)
         source.addFunction(self.changeEnable, chip)
@@ -142,14 +143,15 @@ class ClickOnChipsInTheRightOrder(Enigma):
     def changeEnable(self, chip):
         chip.movie.setEnable(not chip.movie.getEnable())
 
-    def onLight(self, source):
+    def _scopeLight(self, source):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
         movieGreen = Group.getObject('Movie2_Light_green_{}'.format(self.flagComb - 1))
         movieGreen.setEnable(True)
         source.addTask("TaskMovie2Play", Movie2=movieGreen, Wait=True, Loop=False)
 
-    def chekcRightOrderClick(self, source, slotID):
+    def _scopeCheckRightOrderClick(self, source, slot_id_holder):
+        slot_id = slot_id_holder.get()
         lisComb = self.winsComb[self.flagComb]
 
         def setFlagCheckRightOrder(value):
@@ -161,18 +163,18 @@ class ClickOnChipsInTheRightOrder(Enigma):
         def setFlagComb(value):
             self.flagComb = value
 
-        with source.addIfTask(lambda: lisComb[self.flagCheckRightOrder] == slotID) as (source_true, source_false):
+        with source.addIfTask(lambda: lisComb[self.flagCheckRightOrder] == slot_id) as (source_true, source_false):
             source_true.addFunction(setFlagCheckRightOrder, self.flagCheckRightOrder + 1)
             source_true.addFunction(setFalseClick, True)
 
             with source_true.addIfTask(lambda: self.flagCheckRightOrder == len(lisComb)) as (source_true_true, source_true_false):
                 source_true_true.addFunction(setFlagComb, self.flagComb + 1)
-                source_true_true.addScope(self.onLight)
+                source_true_true.addScope(self._scopeLight)
                 source_true_true.addFunction(setFlagCheckRightOrder, 0)
 
                 with source_true_true.addIfTask(lambda: self.flagComb > len(self.winsComb)) as (source_true_true_true, source_true_true_false):
                     source_true_true_true.addFunction(self.complete)
-                    source_true_true_false.addScope(self.playHint)
+                    source_true_true_false.addScope(self.scopePlayHint)
 
             source_false.addFunction(setFlagCheckRightOrder, 0)
             source_false.addFunction(setFalseClick, False)
@@ -185,20 +187,21 @@ class ClickOnChipsInTheRightOrder(Enigma):
 
         with source.addIfTask(lambda: checkCond()) as (true, false):
             # true.addScope(self.playHint)
-            true.addScope(self.failClick)
+            true.addScope(self._scopeFailClick)
             true.addFunction(setFalseClick, False)
 
-    def failClick(self, source):
+    def _scopeFailClick(self, source):
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
         Group = GroupManager.getGroup(GroupName)
-        movieGreen = Group.getObject('Movie2_Light_green_{}'.format(self.flagComb))
-        movieGreen.setEnable(False)
-        movieRed = Group.getObject('Movie2_Light_red_{}'.format(self.flagComb))
-        movieRed.setEnable(True)
 
+        movieGreen = Group.getObject('Movie2_Light_green_{}'.format(self.flagComb))
+        movieRed = Group.getObject('Movie2_Light_red_{}'.format(self.flagComb))
+
+        source.addDisable(movieGreen)
+        source.addEnable(movieRed)
         source.addTask("TaskMovie2Play", Movie2=movieRed, Wait=True, Loop=False)
 
-        source.addScope(self.playHint)
+        source.addScope(self.scopePlayHint)
 
     def complete(self):
         self.disableSockets()
@@ -212,11 +215,10 @@ class ClickOnChipsInTheRightOrder(Enigma):
     # ==================================================================================================================
 
     # -------------- _cleanUp ------------------------------------------------------------------------------------------
-    def _onZoomLeave(self, zoomGroupName):
+    def _onZoomClose(self, zoomGroupName):
         self._cleanUp()
 
         return False
-        pass
 
     def _cleanUp(self):
         if self.tc is not None:
@@ -226,6 +228,9 @@ class ClickOnChipsInTheRightOrder(Enigma):
         if self.tc_Before is not None:
             self.tc_Before.cancel()
             self.tc_Before = None
+
+        if self.onZoomCloseId is not None:
+            Notification.removeObserver(self.onZoomCloseId)
 
         TaskManager.cancelTaskChain('Hint', False)
 
