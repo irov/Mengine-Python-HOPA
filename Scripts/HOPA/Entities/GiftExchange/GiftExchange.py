@@ -7,6 +7,10 @@ from Foundation.Utils import getCurrentPublisher, SimpleLogger
 
 _Log = SimpleLogger("GiftExchange", enable=False)
 
+PLATE_STATE_INPUT = 0
+PLATE_STATE_FAIL = 1
+PLATE_STATE_SUCCESS = 2
+
 
 class GiftExchange(BaseEntity):
     # Aliases
@@ -21,9 +25,11 @@ class GiftExchange(BaseEntity):
     ID_TEXT_SUCCESS_TITLE = "ID_TEXT_GIFTEXCHANGE_SUCCESS_TITLE"
     ID_TEXT_SUCCESS_MSGS = {
         "MysteryChapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
+        "chapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
         "golds": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GOLD",
         "energy": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_ENERGY",
         "guide": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GUIDE",
+        "add_item": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_RECEIVE_ITEM",
     }
     ID_TEXT_FAIL_TITLE = "ID_TEXT_GIFTEXCHANGE_FAIL_TITLE"
     ID_TEXT_FAIL_MSG = "ID_TEXT_GIFTEXCHANGE_FAIL_MSG"
@@ -112,19 +118,19 @@ class GiftExchange(BaseEntity):
         interact_button = self.plate.content["interact"]
 
         # input or other plate
-        with source.addIfTask(lambda: self.plate.state == 0) as (input, other):
-            other.addFunction(self.setActiveEditBox, False)
-            other.addFunction(interact_button.setBlock, False)
+        with source.addIfTask(lambda: self.plate.state == PLATE_STATE_INPUT) as (tc_input, tc_other):
+            tc_other.addFunction(self.setActiveEditBox, False)
+            tc_other.addFunction(interact_button.setBlock, False)
 
             ###############################################
 
-            input.addFunction(self.setActiveEditBox, True)
-            input.addFunction(interact_button.setBlock, True)
+            tc_input.addFunction(self.setActiveEditBox, True)
+            tc_input.addFunction(interact_button.setBlock, True)
 
             # input.addFunction(self.demon.setParam, "Value", u"")
 
             # editbox handler
-            with input.addRepeatTask() as (repeat, until):
+            with tc_input.addRepeatTask() as (repeat, until):
                 # react on input
                 repeat.addScope(self.__scopeInputHandler)
 
@@ -133,15 +139,15 @@ class GiftExchange(BaseEntity):
                     enter.addTask("TaskMovie2ButtonClick", Movie2Button=interact_button)
                     click.addTask("TaskKeyPress", Keys=[Mengine.KC_RETURN], isDown=True)
 
-            input.addFunction(self.setActiveEditBox, False)
-            input.addFunction(interact_button.setBlock, True)
+            tc_input.addFunction(self.setActiveEditBox, False)
+            tc_input.addFunction(interact_button.setBlock, True)
 
             # request-respond handler
-            input.addScope(self.__scopeRequestRespondHandler)
+            tc_input.addScope(self.__scopeRequestRespondHandler)
 
             # click back button
-            input.addFunction(interact_button.setBlock, False)
-            input.addTask("TaskMovie2ButtonClick", Movie2Button=interact_button)
+            tc_input.addFunction(interact_button.setBlock, False)
+            tc_input.addTask("TaskMovie2ButtonClick", Movie2Button=interact_button)
 
     # ///// Private Scopes /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -234,7 +240,10 @@ class GiftExchange(BaseEntity):
     ######################################################
 
     def __onKeyboardFilter(self, state):
-        pos_list = {True: (0.0, -180.0), False: (0.0, 0.0)}
+        pos_list = {
+            True: (0.0, -180.0),
+            False: (0.0, 0.0)
+        }
         pos = pos_list.get(state, None)
         _Log("get push from Keyboard: {} -> {}".format(state, pos))
 
@@ -243,7 +252,7 @@ class GiftExchange(BaseEntity):
             return False
 
         if pos is not None:
-            # all UI (except editbox) attached to that movie when GiftExchange is enable
+            # all UI (except editbox) attached to that movie when GiftExchange is enabled
             disappear_effect = self.plate.effects["disappear"]
             disappear_effect.setPosition(pos)
             self.demon.setPosition(pos)  # <--- editbox
@@ -283,7 +292,8 @@ class GiftExchange(BaseEntity):
 
     def _sendRequest(self):
         """ method must send request and get respond as listener to onGiftExchangeRedeemResult """
-        pass
+        code = self._getInputCode()
+        Notification.notify(Notificator.onRequestPromoCodeResult, code)
 
     def __gotRespondFilter(self, reward_type, reward_amount):
         if reward_type is None:
@@ -408,7 +418,7 @@ class Plate(object):
         input_help = Mengine.getTextByKey(GiftExchange.ID_TEXT_INPUT_HELP)
         Mengine.setTextAliasArguments(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_INPUT, input_help)
 
-        self.state = 0
+        self.state = PLATE_STATE_INPUT
 
     def setFail(self):
         self.content["input"].setEnable(False)
@@ -418,7 +428,7 @@ class Plate(object):
         Mengine.setTextAlias(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_TEXT, GiftExchange.ID_TEXT_FAIL_MSG)
         Mengine.setTextAlias(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_BUTTON, GiftExchange.ID_TEXT_INTERACT_BACK)
 
-        self.state = 1
+        self.state = PLATE_STATE_FAIL
 
     def setSuccess(self, reward_type=None, reward_amount=None):
         self.content["input"].setEnable(False)
@@ -440,7 +450,7 @@ class Plate(object):
 
         Mengine.setTextAlias(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_BUTTON, GiftExchange.ID_TEXT_INTERACT_BACK)
 
-        self.state = 2
+        self.state = PLATE_STATE_SUCCESS
 
     def _setRewardInfo(self, reward_type, reward_amount):
         if reward_type is None:
@@ -456,13 +466,17 @@ class Plate(object):
         game_store_name = MonetizationManager.getGeneralSetting("GameStoreName", "GameStore")
         GameStore = DemonManager.getDemon(game_store_name)
 
-        icon_reference = {"golds": "Movie2_Coin_{}", "energy": "Movie2_Energy_{}"}
+        icon_references = {
+            "golds": "Movie2_Coin_{}",
+            "energy": "Movie2_Energy_{}"
+        }
 
-        if reward_type not in icon_reference:
+        if reward_type not in icon_references:
             Trace.log("Entity", 3, "GiftExchange._setRewardInfo doesn't know reward_type {!r}".format(reward_type))
             return
 
-        icon = GameStore.generateIcon("Icon", icon_reference[reward_type].format(getCurrentPublisher()))
+        icon_name = icon_references[reward_type].format(getCurrentPublisher())
+        icon = GameStore.generateIcon("Icon", icon_name)
         icon_slot = self.icon_movie.getMovieSlot("icon")
         icon_slot.addChild(icon.getEntityNode())
         self.icon = icon

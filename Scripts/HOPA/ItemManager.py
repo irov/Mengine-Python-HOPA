@@ -13,7 +13,7 @@ class ItemManager(Manager):
 
     class Item(object):
         def __init__(self, itemID, itemGroupName, itemName, invItemGroupName, invItemName, textID, PlusScene,
-                     PartSubMovieName, ItemPartsCount):
+                     PartSubMovieName, ItemPartsCount, promoID):
             self.itemID = itemID
             self.itemGroupName = itemGroupName
             self.itemName = itemName
@@ -25,6 +25,8 @@ class ItemManager(Manager):
 
             self.PartSubMovieName = PartSubMovieName
             self.ItemPartsCount = ItemPartsCount
+
+            self.promoID = promoID
 
         def getItem(self):
             if self.itemName is None:
@@ -98,12 +100,13 @@ class ItemManager(Manager):
             PlusScene = record.get("PlusScene", None)
             PartSubMovieName = record.get("PartSubMovieName", None)
             ItemPartsCount = record.get("ItemPartsCount", None)
+            ItemPromoID = record.get("PromoID", None)
 
             result = ItemManager.addItem(Name, GroupName, ObjectName, StroreGroupName, StoreObjectName, TextID,
-                                         PlusScene, PartSubMovieName, ItemPartsCount)
+                                         PlusScene, PartSubMovieName, ItemPartsCount, ItemPromoID)
 
             if result is False:
-                Trace.log("Manager", 0, "ItemManager inavlid loadInventoryItems item %s" % Name)
+                Trace.log("Manager", 0, "ItemManager invalid loadInventoryItems item %s" % Name)
 
                 successful = False
 
@@ -112,7 +115,7 @@ class ItemManager(Manager):
 
     @staticmethod
     def addItem(name, groupName, objectName, inventoryItemGroupName, inventoryItemName, TextID, PlusScene,
-                PartSubMovieName, ItemPartsCount):
+                PartSubMovieName, ItemPartsCount, ItemPromoID):
         if name in ItemManager.s_items:
             Trace.log("Manager", 0, "ItemManager addItem: item %s already exist" % (name))
             return False
@@ -140,7 +143,7 @@ class ItemManager(Manager):
             return False
 
         item = ItemManager.Item(name, groupName, objectName, inventoryItemGroupName, inventoryItemName, TextID,
-                                PlusScene, PartSubMovieName, ItemPartsCount)
+                                PlusScene, PartSubMovieName, ItemPartsCount, ItemPromoID)
 
         ItemManager.s_items[name] = item
 
