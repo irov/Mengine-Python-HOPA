@@ -50,11 +50,11 @@ class Options(BaseEntity):
         Options.startMusicVolumeValue = Mengine.getCurrentAccountSettingFloat('MusicVolume')
         Options.startSoundVolumeValue = Mengine.getCurrentAccountSettingFloat('SoundVolume')
         Options.startVoiceVolumeValue = Mengine.getCurrentAccountSettingFloat('VoiceVolume')
-        if 'Music' is self.Sliders:
+        if 'Music' in self.Sliders:
             self.Sliders['Music'][0] = Options.startMusicVolumeValue
-        if 'Sound' is self.Sliders:
+        if 'Sound' in self.Sliders:
             self.Sliders['Sound'][0] = Options.startSoundVolumeValue
-        if 'Voice' is self.Sliders:
+        if 'Voice' in self.Sliders:
             self.Sliders['Voice'][0] = Options.startVoiceVolumeValue
 
         Options.s_start_volume_values = [
