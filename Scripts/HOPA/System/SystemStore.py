@@ -63,9 +63,12 @@ class SystemStore(System):
                 continue
 
             # Do not forget to check real id, not alias !
-            product = MonetizationManager.getProductInfo(params.trigger_hide_product_id)
-            if SystemMonetization.isProductPurchased(product.id) is True:
-                self.hidePageID(page_id)
+            for trigger in params.trigger_hide_product_id:
+                product = MonetizationManager.getProductInfo(trigger)
+                
+                if SystemMonetization.isProductPurchased(product.id) is True:
+                    self.hidePageID(page_id)
+                    break
 
     def _setupHiddenPagesID(self):
         Store = DemonManager.getDemon("Store")
@@ -219,10 +222,13 @@ class SystemStore(System):
         if params.trigger_hide_product_id is not None:
             def _cbPaySuccess(prod_id):
                 product = MonetizationManager.getProductInfo(prod_id)
-                if params.trigger_hide_product_id not in [prod_id, product.alias_id]:
-                    return False
-                SystemStore.hidePageID(params.page_id)
-                return True
+
+                for trigger in params.trigger_hide_product_id:
+                    if trigger in [prod_id, product.alias_id]:
+                        SystemStore.hidePageID(params.page_id)
+                        return True
+
+                return False
 
             self.addObserver(Notificator.onPaySuccess, _cbPaySuccess)
 

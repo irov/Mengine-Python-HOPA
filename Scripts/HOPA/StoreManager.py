@@ -30,7 +30,8 @@ class StoreManager(Manager):
             self.selected = StoreManager.getRecordValue(record, "DefaultSelected", cast=bool, default=False)
             self.hidden = StoreManager.getRecordValue(record, "DefaultHidden", cast=bool, default=False)
             self.first_visited = StoreManager.getRecordValue(record, "DefaultVisited", cast=bool, default=True)
-            self.trigger_hide_product_id = StoreManager.getRecordValue(record, "HideProductID")
+            trigger_hide_product_id = StoreManager.getRecordValue(record, "HideProductID")
+            self.trigger_hide_product_id = self.convertTuple(trigger_hide_product_id)
             self.trigger_hide_identity = StoreManager.getRecordValue(record, "HideIdentity")
             self.trigger_show_identity = StoreManager.getRecordValue(record, "ShowIdentity")
 
@@ -46,10 +47,36 @@ class StoreManager(Manager):
             colors = tuple(float(color) for color in text_color.split(" ") if 0 <= float(color) <= 1)
 
             if len(colors) != 4:
-                Trace.log("Manager", 0, "TabParam.convertColor {!r} - should be 4 values from 0 to 1".format(text_color))
+                Trace.log("Manager", 0,
+                          "TabParam.convertColor {!r} - should be 4 values from 0 to 1".format(text_color))
                 return None
 
             return colors
+
+        def convertTuple(self, text, value_type=str, divider=","):
+            """ DefaultManager.getDefaultTuple modified copy-paste """
+            if text is None:
+                return None
+
+            values_raw = text.split(divider)
+
+            if value_type:
+                values = []
+
+                for valueRaw in values_raw:
+                    try:
+                        text = value_type(valueRaw.strip())
+                        values.append(text)
+
+                    except ValueError:
+                        Trace.log("Manager", 0,
+                                  "TabParam.convertTuple: cannot convert {!r} with type {!r}".format(text, value_type))
+                        return None
+
+            else:
+                values = values_raw
+
+            return tuple(values)
 
     class ButtonParam(__Param):
         def __init__(self, record):
