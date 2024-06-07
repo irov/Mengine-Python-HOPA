@@ -327,18 +327,29 @@ class SystemEnergy(System):
         return False
 
     def consume(self, action_name, notify_not_enough_energy=True):
+        """ Used for paid actions that depends on own system energy.
+            Checks free mode, so user can not pay energy if it is enabled.
+
+            :returns: `True` if payment success (or was free mode), `False` if not enough energy.
+        """
         if SystemEnergy.isFreeMode() is True:
             return True
 
-        action_energy = self.getActionEnergy(action_name)
+        action_value = self.getActionEnergy(action_name)
+        return self.payEnergy(action_value, action_name, notify_not_enough_energy)
 
-        if self.isEnoughEnergy(action_energy) is False:
+    def payEnergy(self, amount, action_name, notify_not_enough_energy=True):
+        """ Performs actual payment with energy. [!] Ignores free mode.
+
+            :returns: `True` if payment success, `False` if not enough energy.
+        """
+        if self.isEnoughEnergy(amount) is False:
             if notify_not_enough_energy is True:
                 Notification.notify(Notificator.onEnergyNotEnough, action_name)
             return False
 
-        self.withdrawEnergy(action_energy)
-        Notification.notify(Notificator.onEnergyConsumed, action_name, action_energy)
+        self.withdrawEnergy(amount)
+        Notification.notify(Notificator.onEnergyConsumed, action_name, amount)
         return True
 
     # reactions on balance change, handle recharge timer:
