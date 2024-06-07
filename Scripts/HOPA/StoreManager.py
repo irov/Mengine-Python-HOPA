@@ -30,8 +30,8 @@ class StoreManager(Manager):
             self.selected = StoreManager.getRecordValue(record, "DefaultSelected", cast=bool, default=False)
             self.hidden = StoreManager.getRecordValue(record, "DefaultHidden", cast=bool, default=False)
             self.first_visited = StoreManager.getRecordValue(record, "DefaultVisited", cast=bool, default=True)
-            trigger_hide_product_id = StoreManager.getRecordValue(record, "HideProductID")
-            self.trigger_hide_product_id = self.convertTuple(trigger_hide_product_id)
+            trigger_hide_products_id = StoreManager.getRecordValue(record, "HideProductID")
+            self.trigger_hide_products_id = self.convertTuple(trigger_hide_products_id)
             self.trigger_hide_identity = StoreManager.getRecordValue(record, "HideIdentity")
             self.trigger_show_identity = StoreManager.getRecordValue(record, "ShowIdentity")
 

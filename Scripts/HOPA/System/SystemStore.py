@@ -59,12 +59,12 @@ class SystemStore(System):
 
         tab_params = StoreManager.getTabsSettings()
         for page_id, params in tab_params.items():
-            if params.trigger_hide_product_id is None:
+            if params.trigger_hide_products_id is None:
                 continue
 
             # Do not forget to check real id, not alias !
-            for trigger in params.trigger_hide_product_id:
-                product = MonetizationManager.getProductInfo(trigger)
+            for trigger_product_id in params.trigger_hide_products_id:
+                product = MonetizationManager.getProductInfo(trigger_product_id)
                 
                 if SystemMonetization.isProductPurchased(product.id) is True:
                     self.hidePageID(page_id)
@@ -219,12 +219,12 @@ class SystemStore(System):
         return False
 
     def __createTabObserver(self, params):
-        if params.trigger_hide_product_id is not None:
+        if params.trigger_hide_products_id is not None:
             def _cbPaySuccess(prod_id):
                 product = MonetizationManager.getProductInfo(prod_id)
 
-                for trigger in params.trigger_hide_product_id:
-                    if trigger in [prod_id, product.alias_id]:
+                for trigger_product_id in params.trigger_hide_products_id:
+                    if trigger_product_id in [prod_id, product.alias_id]:
                         SystemStore.hidePageID(params.page_id)
                         return True
 
