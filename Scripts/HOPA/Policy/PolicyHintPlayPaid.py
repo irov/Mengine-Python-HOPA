@@ -3,18 +3,14 @@ from Foundation.Task.TaskAlias import TaskAlias
 
 
 class PolicyHintPlayPaid(TaskAlias):
+    default_policy_name = "PolicyHintPlayDefault"
 
     def _onGenerate(self, source):
-        SystemHint = SystemManager.getSystem("SystemHint")
         SystemMonetization = SystemManager.getSystem("SystemMonetization")
-        DemonHint = SystemHint.getHintObject()
 
-        if DemonHint.isActive():
-            hint = DemonHint.entity
-            if SystemMonetization.isComponentEnable("Hint") is True:
-                source.addScope(SystemMonetization.scopePayGold, descr="Hint", scopeSuccess=hint.scopeHintLogic)
-            else:
-                source.addTask("PolicyHintPlayDefault")
-        else:
-            Trace.log("Policy", 0, "PolicyHintPlayDefault: Demon Hint is not active")
-            source.addTask("PolicyDummy")
+        if SystemMonetization.isComponentEnable("Hint") is False:
+            source.addTask(self.default_policy_name)
+            return
+
+        hint_component = SystemMonetization.getComponent("Hint")
+        source.addScope(hint_component.scopeActivate, self.default_policy_name)

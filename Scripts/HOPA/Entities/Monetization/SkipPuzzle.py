@@ -1,6 +1,8 @@
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Systems.SystemMonetization import SystemMonetization
+from Foundation.DemonManager import DemonManager
+from Foundation.SystemManager import SystemManager
 from Foundation.Utils import SimpleLogger
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
@@ -30,6 +32,8 @@ class SkipPuzzle(BaseComponent):
     }
 
     def _createParams(self):
+        SkipPuzzle = DemonManager.getDemon(self.group_name)
+        self.demon = SkipPuzzle
         self.coin = Coin(self)
 
     def _check(self):
@@ -61,7 +65,7 @@ class SkipPuzzle(BaseComponent):
 
         if enigma_name is None:
             Trace.log("Entity", 0, "SkipPuzzle - not active enigma at scene {}".format(scene_name))
-            SystemMonetization.rollbackGold(component_tag="SkipPuzzle")
+            SystemMonetization.rollbackGold(component_tag=self.component_id)
             return False
 
         enigma_params = EnigmaManager.getEnigma(enigma_name)
@@ -113,3 +117,30 @@ class SkipPuzzle(BaseComponent):
 
     def _cleanUp(self):
         self.coin.cleanUp()
+
+    def scopeActivate(self, source, default_task_name):
+        if self.demon.isActive() is False:
+            self._error("Demon {!r} is not active".format(self.demon.getName()))
+            source.addTask(default_task_name)
+            return
+
+        def _scopeSuccess(_source):
+            source.addTask(default_task_name)
+
+        currency = self.getProductCurrency()
+        if currency == "Gold":
+            source.addScope(self._system.scopePayGold, descr=self.component_id, scopeSuccess=_scopeSuccess)
+
+        elif currency == "Energy":
+            def _filterEnergy(action_name):
+                return action_name == self.component_id
+
+            price = self.getProductPrice()
+            SystemEnergy = SystemManager.getSystem("SystemEnergy")
+
+            with source.addParallelTask(2) as (tc_response, tc_request):
+                with source.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
+                    tc_pay_ok.addListener(Notificator.onEnergyConsumed, Filter=_filterEnergy)
+                    tc_pay_ok.addScope(_scopeSuccess)
+                    tc_pay_fail.addListener(Notificator.onNotEnoughEnergy, Filter=_filterEnergy)
+                tc_request.addScope(SystemEnergy.payEnergy, amount=price, action_name=self.component_id)
