@@ -1,13 +1,14 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
-from Foundation.Systems.SystemMonetization import SystemMonetization
+from Foundation.SystemManager import SystemManager
 from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 from HOPA.Entities.Monetization.Coin import Coin
 from HOPA.System.SystemTutorialFade import SystemTutorialFade
 
 
 class Hint(BaseComponent):
+    component_id = "Hint"
     _settings = {
         "is_enable": "EnablePaidHint",
         "product_id": "HintProductID",
@@ -24,7 +25,8 @@ class Hint(BaseComponent):
     }
 
     def _createParams(self):
-        Hint = DemonManager.getDemon("Hint")
+        Hint = DemonManager.getDemon(self.group_name)
+        self.demon = Hint
         self.rollback_actions = {
             Hint.ACTION_EMPTY_USE: MonetizationManager.getGeneralSetting("HintRollbackIfDummy", True),
             Hint.ACTION_REGULAR_USE: False,
@@ -66,5 +68,5 @@ class Hint(BaseComponent):
         if SystemTutorialFade.is_working is True:
             return False
 
-        SystemMonetization.rollbackGold(component_tag="Hint")
+        self._system.rollbackGold(component_tag="Hint")
         return False

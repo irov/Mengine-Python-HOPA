@@ -6,6 +6,7 @@ from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
 
 class PromoPackageNotEnoughMoney(BaseComponent):
+    component_id = "PromoPackageNotEnoughMoney"
     _settings = {
         "product_id": "PromoPackageProductID",
         "is_enable": "PromoPackageNotEnoughMoney",

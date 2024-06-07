@@ -13,6 +13,7 @@ _Log = SimpleLogger("PaidSkipPuzzle", option="monetization")
 
 
 class SkipPuzzle(BaseComponent):
+    component_id = "SkipPuzzle"
     _settings = {
         "is_enable": "EnablePaidSkip",
         "product_id": "SkipProductID",

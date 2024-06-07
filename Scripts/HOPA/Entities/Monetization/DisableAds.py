@@ -9,6 +9,7 @@ TC_NAME = "SpecialPackageDisableAds"
 
 
 class DisableAds(BaseComponent):
+    component_id = "DisableAds"
     _settings = {
         "product_id": "DisableAdsProductId",
     }

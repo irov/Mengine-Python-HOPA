@@ -6,6 +6,7 @@ from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
 
 class Guides(BaseComponent):
+    component_id = "Guides"
     _settings = {
         "is_enable": "EnablePaidGuides",
         "product_id": "GuidesProductID",

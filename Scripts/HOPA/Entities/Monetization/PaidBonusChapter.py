@@ -9,6 +9,7 @@ TC_NAME = "PaidBonusChapter"
 
 
 class PaidBonusChapter(BaseComponent):
+    component_id = "PaidBonusChapter"
     _settings = {
         "is_enable": "EnablePaidBonusChapter",
         "product_id": "BonusChapterProductID",

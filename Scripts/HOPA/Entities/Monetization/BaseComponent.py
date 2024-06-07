@@ -4,11 +4,13 @@ from Notification import Notification
 
 
 class BaseComponent(object):
+    component_id = None     # type: str
     _settings = {}
     _defaults = {}
 
     def __init__(self):
         self._observers = []
+        self._system = None
 
         self.enable = self._getMonetizationParam("is_enable", False) is True
 
@@ -44,7 +46,8 @@ class BaseComponent(object):
     def _check(self):
         return True
 
-    def initialize(self):
+    def initialize(self, system):
+        self._system = system
         if self.isEnable() is False:
             return False
 
@@ -67,7 +70,8 @@ class BaseComponent(object):
     def cleanUp(self):
         for observer in self._observers:
             Notification.removeObserver(observer)
-        self._observers = None
+        self._observers = []
+        self._system = None
         self._cleanUp()
 
     def _cleanUp(self):

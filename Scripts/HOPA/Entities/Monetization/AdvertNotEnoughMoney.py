@@ -8,6 +8,7 @@ POLICY_ENERGY_NAME = "NotEnoughEnergyOnSkipAction"
 
 
 class AdvertNotEnoughMoney(BaseComponent):
+    component_id = "AdvertNotEnoughMoney"
     _settings = {
         "product_id": "AdvertNotEnoughMoneyProductID",
         "is_enable": "AdvertNotEnoughMoneyEnable",

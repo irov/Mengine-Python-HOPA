@@ -12,6 +12,7 @@ TC_NAME = "SpecialPackagePromotion"
 class SpecialPackage(BaseComponent):
     """ one-time package (chapter+gold/energy) """
 
+    component_id = "SpecialPackage"
     _settings = {
         "is_enable": "EnablePromoPackage",
         "product_id": "PromoPackageProductID",

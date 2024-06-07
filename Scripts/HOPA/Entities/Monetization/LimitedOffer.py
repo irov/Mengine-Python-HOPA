@@ -11,6 +11,7 @@ from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
 
 class LimitedOffer(BaseComponent):
+    component_id = "LimitedOffer"
 
     def _createParams(self):
         special_promotions = MonetizationManager.getSpecialPromotionParams()

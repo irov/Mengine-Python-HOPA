@@ -7,6 +7,7 @@ from HOPA.Entities.Monetization.BaseComponent import BaseComponent
 
 
 class TriggerSpecialPacks(BaseComponent):
+    component_id = "TriggerSpecialPacks"
     _settings = {
         "scene_name": "TriggerSpecialPacksScene",
         "packs_order": "TriggerSpecialPacksOrder",
