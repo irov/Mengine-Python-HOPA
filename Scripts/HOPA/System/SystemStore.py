@@ -185,6 +185,13 @@ class SystemStore(System):
         self.addObserver(Notificator.onIndicatorClicked, self._cbIndicatorClicked)
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
+
+        if MonetizationManager.getGeneralSetting("ShowStoreGoldBalance", False) is True:
+            alias_gold_balance_id = MonetizationManager.getGeneralSetting("StoreGoldBalanceAliasId", "$GoldBalance")
+            gold_balance_text_id = MonetizationManager.getGeneralSetting("StoreGoldBalanceTextId", "ID_TEXT_GOLD_BALANCE")
+            Mengine.setTextAlias("", alias_gold_balance_id, gold_balance_text_id)
+            self.addObserver(Notificator.onUpdateGoldBalance, self._cbUpdateGoldBalance, alias_gold_balance_id)
+
         # prefetch pages
         self.addObserver(Notificator.onTransitionBegin, self._cbTransitionBegin)
 
@@ -264,6 +271,10 @@ class SystemStore(System):
         if prev_scene == "CutScene":
             prev_scene = "Menu"
         TaskManager.runAlias("AliasTransition", None, SceneName=prev_scene, IgnoreGameScene=True)
+        return False
+
+    def _cbUpdateGoldBalance(self, balance, alias_gold_balance_id):
+        Mengine.setTextAliasArguments("", alias_gold_balance_id, str(balance))
         return False
 
     def _onStoreSetPage(self, page_id):
