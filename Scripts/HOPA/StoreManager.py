@@ -86,6 +86,7 @@ class StoreManager(Manager):
             self.slot_name = StoreManager.getRecordValue(record, "SlotName")
             self.action = StoreManager.getRecordValue(record, "Action", default="purchase")
             self.product_id = StoreManager.getRecordValue(record, "ProductID", cast=str)
+            self.link_url = StoreManager.getRecordValue(record, "LinkUrl", cast=str, default="")
 
             # prototypes
             self.prototype_group = StoreManager.getRecordValue(record, "PrototypeGroup")
@@ -185,6 +186,20 @@ class StoreManager(Manager):
                 texts_ok = False
         if texts_ok is False:
             return False
+
+        # --- check url
+        if params.action == "link":
+            url_formats = ["http://", "https://", "www."]
+
+            if params.link_url == "":
+                _trace(params, "LinkUrl param is empty. Add url in one of this formats {!r}".format(url_formats))
+                return False
+
+            if any(url_format in params.link_url for url_format in url_formats) is False:
+                _trace(params, "Bad url format for {!r}. Add url in one of this formats {!r}".format(params.link_url, url_formats))
+                return False
+
+            return True
 
         # --- check product params (is correct and exists)
 

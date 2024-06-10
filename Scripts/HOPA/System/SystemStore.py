@@ -167,7 +167,7 @@ class SystemStore(System):
             params_method=lambda _, to_page_id: {"screen_type": "MengineStorePage", "screen_name": to_page_id})
         SystemAnalytics.addAnalytic("store_click", Notificator.onStorePageButtonClick, params_method=lambda button: {
             "action": button.action,
-            "product_id": button.product_params.id,
+            "product_id": button.getProductId() or "",
             "button_id": button.id,
         })
 

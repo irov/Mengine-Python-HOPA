@@ -13,7 +13,10 @@ class ButtonMixin(object):
     def __init__(self, params, button_movie, icon_movie):
         self.id = params.button_id
         self.params = params
-        self.product_params = MonetizationManager.getProductInfo(params.product_id)
+
+        self.product_params = None
+        if params.action != "link":
+            self.product_params = MonetizationManager.getProductInfo(params.product_id)
 
         self.movie = button_movie
         self.icon_movie = icon_movie
@@ -26,8 +29,12 @@ class ButtonMixin(object):
 
         self._prepare()
 
-    # Working with text
+    def getProductId(self):
+        if self.product_params is not None:
+            return self.product_params.id
+        return None
 
+    # Working with text
     def _getTextID(self, alias_id):
         alias_and_text_ids = self._getAliasAndTextID()
         alias = self.aliases[alias_id]
@@ -58,7 +65,6 @@ class ButtonMixin(object):
         Mengine.setTextAliasArguments(self.env, alias, *args)
 
     # Working with attachments and states
-
     def _prepare(self):
         pass
 
@@ -123,7 +129,6 @@ class ButtonMixin(object):
             #       animatable.play, loop is not working because of "not initialized error"
 
     # CleanUp
-
     def cleanUp(self):
         if self.icon_movie is not None:
             self.icon_movie.removeFromParent()
@@ -140,7 +145,6 @@ class ButtonMixin(object):
         self.params = None
 
     # Scopes
-
     def scopeClick(self, source):
         source.addScope(self._scopeClick)
         source.addNotify(Notificator.onStorePageButtonClick, self)

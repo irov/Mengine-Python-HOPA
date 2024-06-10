@@ -85,6 +85,9 @@ class StorePage(BaseEntity):
                     self.advert_component = StorePageAdvertComponent(self, button)
                 continue
 
+            if button.action == "link":
+                continue
+
             group_id = button.product_params.group_id
             if group_id is not None and group_id not in self.grouped_products_components:
                 self.grouped_products_components[group_id] = StorePageGroupComponent(self, group_id)

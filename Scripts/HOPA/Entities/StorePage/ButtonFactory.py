@@ -2,6 +2,7 @@ from HOPA.Entities.StorePage.Buttons.ButtonMixin import ButtonMixin
 from HOPA.Entities.StorePage.Buttons.ButtonPurchase import ButtonPurchase
 from HOPA.Entities.StorePage.Buttons.ButtonAdvert import ButtonAdvert
 from HOPA.Entities.StorePage.Buttons.ButtonExchange import ButtonExchange
+from HOPA.Entities.StorePage.Buttons.ButtonLink import ButtonLink
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.MonetizationManager import MonetizationManager
@@ -13,6 +14,7 @@ class ButtonFactory(object):
         "purchase": ButtonPurchase,
         "advert": ButtonAdvert,
         "exchange": ButtonExchange,
+        "link": ButtonLink,
     }
     objects = []  # [ ConcreteButton, ... ]
     page_objects = {}  # { page_id: { button_id: ConcreteButton, ... }, ... }
