@@ -5,6 +5,7 @@ from HOPA.Entities.StorePage.ButtonFactory import ButtonFactory
 from HOPA.Entities.StorePage.Components.StorePageAdvertComponent import StorePageAdvertComponent
 from HOPA.Entities.StorePage.Components.StorePageGroupComponent import StorePageGroupComponent
 from HOPA.Entities.StorePage.Components.StorePageScrollComponent import StorePageScrollComponent
+from HOPA.Entities.StorePage.Components.StorePageScrollVerticalComponent import StorePageScrollVerticalComponent
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
 
@@ -18,6 +19,10 @@ class StorePage(BaseEntity):
         Type.addAction(Type, "Scrollable")
         Type.addAction(Type, "ScrollMode")
         Type.addAction(Type, "WaitButtons")
+
+        Type.addAction(Type, "ColumnsCount")
+        Type.addAction(Type, "OffsetX")
+        Type.addAction(Type, "OffsetY")
 
     def __init__(self):
         super(StorePage, self).__init__()
@@ -94,7 +99,14 @@ class StorePage(BaseEntity):
                 self.grouped_products_components[group_id] = StorePageGroupComponent(self, group_id)
 
         if self.Scrollable is True:
-            self.scroll_component = StorePageScrollComponent(self)
+            if self.ScrollMode == "horizontal":
+                self.scroll_component = StorePageScrollComponent(self)
+            elif self.ScrollMode == "vertical":
+                self.scroll_component = StorePageScrollVerticalComponent(self)
+                self.scroll_component.columns_count = self.ColumnsCount
+                self.scroll_component.offset_x = self.OffsetX
+                self.scroll_component.offset_y = self.OffsetY
+
             self.scroll_component.scroll_mode = self.ScrollMode
 
     # ==================================================================================================================
