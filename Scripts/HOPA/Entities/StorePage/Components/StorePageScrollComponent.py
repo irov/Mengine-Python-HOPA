@@ -10,6 +10,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         super(StorePageScrollComponent, self).__init__(page)
 
         self.virtual_area = None
+        self.scroll_mode = None
         # movie with slot 'content' on which Movie2_Content will be attached and horizontal scroll will be enabled
         self._va_movie = None
         self._va_bounds = None
@@ -36,6 +37,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._cancelDragEndTC()
         self.virtual_area.onFinalize()
         self.virtual_area = None
+        self.scroll_mode = None
 
     # --- scroll -------------------------------------------------------------------------------------------------------
 
@@ -54,7 +56,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._va_movie = self.object.getObject("Movie2_VirtualArea")
         self._va_bounds = self._va_movie.getCompositionBounds()
         self.virtual_area = VirtualArea()
-        self.virtual_area.onInitialize(dragging_mode='horizontal', enable_scale=False, disable_drag_if_invalid=False)
+        self.virtual_area.onInitialize(dragging_mode=self.scroll_mode, enable_scale=False, disable_drag_if_invalid=False)
 
         if self.isScrollNeeded() is True:
             self._setupVirtualArea()

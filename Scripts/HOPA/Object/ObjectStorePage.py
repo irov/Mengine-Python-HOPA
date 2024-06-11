@@ -8,12 +8,14 @@ class ObjectStorePage(DemonObject):
         DemonObject.declareORM(Type)
         Type.addConst(Type, 'PageID')
         Type.addConst(Type, 'Scrollable')
+        Type.addConst(Type, 'ScrollMode')
         Type.addParam(Type, 'WaitButtons')
 
     def _onParams(self, params):
         super(ObjectStorePage, self)._onParams(params)
         self.initConst('PageID', params)
         self.initConst('Scrollable', params, False)
+        self.initConst('ScrollMode', params, 'horizontal')
         self.initParam('WaitButtons', params, [])
 
     def hasNotify(self):

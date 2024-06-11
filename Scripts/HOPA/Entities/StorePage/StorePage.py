@@ -16,6 +16,7 @@ class StorePage(BaseEntity):
         BaseEntity.declareORM(Type)
         Type.addAction(Type, "PageID")
         Type.addAction(Type, "Scrollable")
+        Type.addAction(Type, "ScrollMode")
         Type.addAction(Type, "WaitButtons")
 
     def __init__(self):
@@ -94,6 +95,7 @@ class StorePage(BaseEntity):
 
         if self.Scrollable is True:
             self.scroll_component = StorePageScrollComponent(self)
+            self.scroll_component.scroll_mode = self.ScrollMode
 
     # ==================================================================================================================
 
