@@ -142,5 +142,5 @@ class SkipPuzzle(BaseComponent):
                 with source.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
                     tc_pay_ok.addListener(Notificator.onEnergyConsumed, Filter=_filterEnergy)
                     tc_pay_ok.addScope(_scopeSuccess)
-                    tc_pay_fail.addListener(Notificator.onNotEnoughEnergy, Filter=_filterEnergy)
+                    tc_pay_fail.addListener(Notificator.onEnergyNotEnough, Filter=_filterEnergy)
                 tc_request.addScope(SystemEnergy.payEnergy, amount=price, action_name=self.component_id)
