@@ -31,7 +31,8 @@ class Hint(BaseComponent):
             Hint.ACTION_EMPTY_USE: MonetizationManager.getGeneralSetting("HintRollbackIfDummy", True),
             Hint.ACTION_REGULAR_USE: False,
             Hint.ACTION_MIND_USE: MonetizationManager.getGeneralSetting("HintRollbackIfMind", True),
-            Hint.ACTION_NO_RELOAD_USE: MonetizationManager.getGeneralSetting("HintRollbackIfNoReload", False)}
+            Hint.ACTION_NO_RELOAD_USE: MonetizationManager.getGeneralSetting("HintRollbackIfNoReload", False)
+        }
 
         self.coin = Coin(self)
 
@@ -72,18 +73,18 @@ class Hint(BaseComponent):
             source.addScope(self._system.scopePayGold, descr=self.component_id, scopeSuccess=hint.scopeHintLogic)
 
         elif currency == "Energy":
-            def _filterEnergy(action_name):
+            def _filterEnergy(action_name, *_):
                 return action_name == self.component_id
 
             price = self.getProductPrice()
             SystemEnergy = SystemManager.getSystem("SystemEnergy")
 
             with source.addParallelTask(2) as (tc_response, tc_request):
-                with source.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
+                with tc_response.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
                     tc_pay_ok.addListener(Notificator.onEnergyConsumed, Filter=_filterEnergy)
                     tc_pay_ok.addScope(hint.scopeHintLogic)
                     tc_pay_fail.addListener(Notificator.onEnergyNotEnough, Filter=_filterEnergy)
-                tc_request.addScope(SystemEnergy.payEnergy, amount=price, action_name=self.component_id)
+                tc_request.addFunction(SystemEnergy.payEnergy, price, self.component_id)
 
     # observers
 
@@ -94,5 +95,5 @@ class Hint(BaseComponent):
         if SystemTutorialFade.is_working is True:
             return False
 
-        self._system.rollbackGold(component_tag=self.component_id)
+        self._system.rollbackCurrency(component_tag=self.component_id)
         return False
