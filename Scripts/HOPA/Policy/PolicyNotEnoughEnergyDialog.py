@@ -16,11 +16,20 @@ class PolicyNotEnoughEnergyDialog(TaskAlias):
         GameStore = DemonManager.getDemon(SystemMonetization.game_store_name)
 
         icon = GameStore.generateIcon("Movie2_Energy", "Movie2_Energy_{}".format(getCurrentPublisher()), Enable=True)
-        text_args = {"icon_value": [SystemEnergy.getActionEnergy(self.Action)]}
+
+        if SystemEnergy.hasActionEnergy(self.Action) is True:
+            energy_amount = SystemEnergy.getActionEnergy(self.Action)
+        elif SystemMonetization.hasComponent(self.Action) is True:
+            energy_amount = SystemMonetization.getComponent(self.Action).getProductPrice()
+        else:
+            Trace.log("Task", 0, "PolicyNotEnoughEnergyDialog: not found price for Action {}".format(self.Action))
+            energy_amount = 0
+
+        text_args = {"icon_value": [energy_amount]}
 
         with source.addParallelTask(3) as (window, shopping, cleanup):
-            window.addFunction(DialogWindow.runPreset, "NotEnoughEnergy", content_style="icon", icon_obj=icon,
-                               text_args=text_args)
+            window.addFunction(DialogWindow.runPreset, "NotEnoughEnergy",
+                               content_style="icon", icon_obj=icon, text_args=text_args)
 
             with shopping.addRaceTask(2) as (confirm, cancel):
                 confirm.addListener(Notificator.onDialogWindowConfirm)

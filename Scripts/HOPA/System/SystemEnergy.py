@@ -160,7 +160,7 @@ class SystemEnergy(System):
                                     params_method=lambda action, amount: {'amount': amount, 'description': action, 'name': 'energy'})
 
         SystemAnalytics.addAnalytic("not_enough_energy", Notificator.onEnergyNotEnough, None,
-                                    lambda action: {"action": action, "price": self.getActionEnergy(action)})
+                                    lambda action, value: {"action": action, "price": value})
 
     def _onStop(self):
         if self._balance_change_observer is not None:
@@ -195,19 +195,22 @@ class SystemEnergy(System):
             SystemEnergy.setFreeMode(True)
             return
 
-        if self.consume("EnterHOG", notify_not_enough_energy=False) is True:
+        action_name = "EnterHOG"
+
+        if self.consume(action_name, notify_not_enough_energy=False) is True:
             self._savePaidEnigma(name, enigma_id)
             SystemEnergy.setFreeMode(True)
         else:
             current_scene_name = SceneManager.getCurrentSceneName()
             prev_game_scene_name = TransitionManager.getTransitionBack(current_scene_name)
+            action_value = self.getActionEnergy(action_name)
 
             if self.existTaskChain("SystemEnergyHandleEnterHOG"):
                 self.removeTaskChain("SystemEnergyHandleEnterHOG")
             with self.createTaskChain(Name="SystemEnergyHandleEnterHOG") as tc:
                 tc.addFunction(TransitionManager.changeScene, prev_game_scene_name)
                 tc.addListener(Notificator.onSceneInit, Filter=lambda scene_name: scene_name == prev_game_scene_name)
-                tc.addNotify(Notificator.onEnergyNotEnough, "EnterHOG")
+                tc.addNotify(Notificator.onEnergyNotEnough, action_name, action_value)
 
             _Log("Not enough energy to play this game - transit to prev scene :(")
 
@@ -266,6 +269,10 @@ class SystemEnergy(System):
     @staticmethod
     def getMaxEnergy():
         return SystemEnergy.s_settings["max_energy"]
+
+    @staticmethod
+    def hasActionEnergy(action_name):
+        return action_name in SystemEnergy.s_actions
 
     @staticmethod
     def getActionEnergy(action_name):
@@ -345,7 +352,7 @@ class SystemEnergy(System):
         """
         if self.isEnoughEnergy(amount) is False:
             if notify_not_enough_energy is True:
-                Notification.notify(Notificator.onEnergyNotEnough, action_name)
+                Notification.notify(Notificator.onEnergyNotEnough, action_name, amount)
             return False
 
         self.withdrawEnergy(amount)

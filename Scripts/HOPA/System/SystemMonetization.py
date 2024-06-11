@@ -73,7 +73,7 @@ class SystemMonetization(SystemMonetizationBase):
         TaskManager.runAlias("AliasNotEnoughGold", None, Gold=gold, Descr=descr, PageID=NotEnoughMoneyPageID)
         return False
 
-    def _onEnergyNotEnough(self, action_name):
+    def _onEnergyNotEnough(self, action_name, amount):
         if action_name == "Exchange":
             return False
 
