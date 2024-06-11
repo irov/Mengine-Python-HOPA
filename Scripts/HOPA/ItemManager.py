@@ -100,7 +100,7 @@ class ItemManager(Manager):
             PlusScene = record.get("PlusScene", None)
             PartSubMovieName = record.get("PartSubMovieName", None)
             ItemPartsCount = record.get("ItemPartsCount", None)
-            ItemPromoID = record.get("PromoID", None)
+            ItemPromoID = record.get("PromoId", None)
 
             result = ItemManager.addItem(Name, GroupName, ObjectName, StroreGroupName, StoreObjectName, TextID,
                                          PlusScene, PartSubMovieName, ItemPartsCount, ItemPromoID)
