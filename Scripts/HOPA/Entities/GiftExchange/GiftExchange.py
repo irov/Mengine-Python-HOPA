@@ -55,19 +55,26 @@ class GiftExchange(BaseEntity):
 
     def __init__(self):
         super(GiftExchange, self).__init__()
-        self.demon = None
+        self.editbox = None
         self.plate = None
         self.cancelLongTouchSemaphore = Semaphore(False, "cancelLongTouchSemaphore")
 
     def _onPreparation(self):
-        self.demon = self.object.getObject("Demon_EditBox_GiftExchange")
+        if self.object.hasObject("Demon_EditBox_GiftExchange") is False:
+            Trace.log("Entity", 0, "GiftExchange can't find object 'Demon_EditBox_GiftExchange' inside!!")
+        self.editbox = self.object.getObject("Demon_EditBox_GiftExchange")
+
         self.__initText()
+
         self.plate = Plate(self)
         self.setActiveEditBox(False)
 
     def _onDeactivate(self):
-        self.plate.cleanUp()
-        self.plate = None
+        if self.plate is not None:
+            self.plate.cleanUp()
+            self.plate = None
+
+        self.editbox = None
 
     # Scopes ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -255,7 +262,7 @@ class GiftExchange(BaseEntity):
             # all UI (except editbox) attached to that movie when GiftExchange is enabled
             disappear_effect = self.plate.effects["disappear"]
             disappear_effect.setPosition(pos)
-            self.demon.setPosition(pos)  # <--- editbox
+            self.editbox.setPosition(pos)
 
         return False
 
@@ -270,11 +277,11 @@ class GiftExchange(BaseEntity):
                 if _DEVELOPMENT is True:
                     Trace.log("Entity", 0, "clipboard={!r} - {} - paste {!r}".format(clipboard, ex, code))
 
-            max_len = self.demon.getParam("TextLengthLimit")
+            max_len = self.editbox.getParam("TextLengthLimit")
             if max_len is not None and len(code) > max_len:
                 code = code[:max_len]
             for s in code:
-                self.demon.entity.addSymbol(s)
+                self.editbox.entity.addSymbol(s)
             return True
 
         return False
@@ -284,7 +291,7 @@ class GiftExchange(BaseEntity):
         return ""
 
     def _getInputCode(self):
-        code = self.demon.getParam("Value")
+        code = self.editbox.getParam("Value")
         return code
 
     def __sendRequest(self):
@@ -311,7 +318,7 @@ class GiftExchange(BaseEntity):
         self.setActiveEditBox(False)
 
     def __initText(self):
-        self.demon.setParam("Value", u"")
+        self.editbox.setParam("Value", u"")
         Mengine.setTextAlias(self.ALIAS_ENV, self.ALIAS_TITLE, self.ID_TEXT_EMPTY)
         Mengine.setTextAlias(self.ALIAS_ENV, self.ALIAS_TEXT, self.ID_TEXT_EMPTY)
         Mengine.setTextAlias(self.ALIAS_ENV, self.ALIAS_BUTTON, self.ID_TEXT_INTERACT_GET)
@@ -320,7 +327,7 @@ class GiftExchange(BaseEntity):
 
     def setActiveEditBox(self, state):
         self.__onKeyboardFilter(state)
-        self.demon.entity.setActive(state)
+        self.editbox.entity.setActive(state)
 
 
 class Plate(object):
@@ -490,7 +497,7 @@ class Plate(object):
         self.icon_movie.setEnable(True)
 
     def reset(self):
-        self.entity.demon.setParam("Value", u"")
+        self.entity.editbox.setParam("Value", u"")
 
         if self.icon_movie is not None:
             self.icon_movie.setEnable(False)
