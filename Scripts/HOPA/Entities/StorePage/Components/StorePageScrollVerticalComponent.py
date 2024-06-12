@@ -16,9 +16,9 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
         self._va_total_height = 0
 
         self.columns_count = None
-        self.offset_x = None
         self.offset_y = None
-        self._buttons_counter = 0
+        self._button_counter_x = 0
+        self._button_counter_y = 0
 
     def _check(self):
         if self.object.hasObject("Movie2_VirtualArea") is False:
@@ -44,31 +44,93 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
         self.scroll_mode = None
 
         self.columns_count = None
-        self.offset_x = None
         self.offset_y = None
-        self._buttons_counter = 0
+        self._button_counter_x = 0
+        self._button_counter_y = 0
 
     # --- scroll -------------------------------------------------------------------------------------------------------
 
     def adjustButton(self, button):
-        """ Used for VA to calculate correct total_height and place draggable buttons """
+        """
+        Info: Used for VA to calculate correct total_height and setup buttons in defined number of columns.
+        Abbreviations:
+        `VA` or `va` - virtual area
+        `pos` - position
+        """
 
-        bounds = button.movie.getCompositionBounds()
-        height = Utils.getBoundingBoxHeight(bounds)
-        width = Utils.getBoundingBoxWidth(bounds)
+        # Define button height, width
+        button_bounds = button.movie.getCompositionBounds()
+        button_width = Utils.getBoundingBoxWidth(button_bounds)
+        button_height = Utils.getBoundingBoxHeight(button_bounds)
 
-        pos_x = 0
+        # Adding new button, increasing buttons counter for X dimension (row)
+        self._button_counter_x += 1
 
-        if self._buttons_counter % self.columns_count != 0:
-            pos_x -= self.offset_x
-        else:
-            pos_x += self.offset_x
+        # If this is first button in a row, increasing buttons counter for Y dimension (column)
+        if self._button_counter_x == 1:
+            self._button_counter_y += 1
 
+        # Define button X, Y positions using counters, width, height
+        button_pos_x = button_width * self._button_counter_x - button_width / 2
+        button_pos_y = button_height * self._button_counter_y - button_height / 2
+
+        # Define dynamic offset for X dimension
+        va_movie = self.object.getObject("Movie2_VirtualArea")
+        va_bounds = va_movie.getCompositionBounds()
+        va_width = va_bounds.maximum.x - va_bounds.minimum.x
+
+        # Calculating full offset width (empty space)
+        offset_x_dynamic_full = va_width - (self.columns_count * button_width)
+
+        # Re-define self.columns_count (Demon 'ColumnsCount' param) and re-calculate new dynamic offset for X dimension,
+        # because with current self.columns_count objects would not fit in the VA width
+        if offset_x_dynamic_full < 0:
+            buttons_width_raw = 0
+            columns_counter = 0
+
+            while buttons_width_raw <= va_width:
+                buttons_width_raw += button_width
+                columns_counter += 1
+
+            columns_count_new = columns_counter - 1
+
+            Trace.msg_err(
+                "{!r} has not enough width to place {!r} in {!r} columns. "
+                "Auto-changing columns count to {!r}. "
+                "Please, change {!r} param to {!r}!!!".format(
+                    va_movie.getName(), button.movie.getName(), self.columns_count, columns_count_new, "ColumnsCount",
+                    columns_count_new))
+
+            self.columns_count = columns_count_new
+            offset_x_dynamic_full = va_width - (self.columns_count * button_width)
+
+        # Calculating one offset part width (to insert inbetween objects)
+        offset_x_dynamic_part = offset_x_dynamic_full / (self.columns_count + 1)
+
+        # 1 version dynamic offset for X dimension (dumber)
+        # dynamic_offset_x_one = dynamic_offset_x_all / (self.columns_count - 1)
+        # pos_x += dynamic_offset_x_one * self._button_counter_x - dynamic_offset_x_one
+
+        # 2 version dynamic offset for X dimension (smarter)
+        button_pos_x += offset_x_dynamic_part * self._button_counter_x
+
+        # Define static offset for Y dimension
+        button_pos_y += self.offset_y * self._button_counter_y - self.offset_y
+
+        # Set node local position
         node = button.movie.getEntityNode()
-        node.setLocalPosition((width/2 + pos_x, height/2 + self._va_total_height))
+        node.setLocalPosition((
+            button_pos_x,
+            button_pos_y
+        ))
 
-        self._buttons_counter += 1
-        self._va_total_height += height
+        # If this is first button in a row, re-defining VA total height by object position + half-height
+        if self._button_counter_x == 1:
+            self._va_total_height = button_pos_y + (button_height / 2)
+
+        # If this is last button in a row, resetting buttons X dimension counter
+        if self._button_counter_x == self.columns_count:
+            self._button_counter_x = 0
 
     def initVirtualArea(self):
         self._va_movie = self.object.getObject("Movie2_VirtualArea")
@@ -76,8 +138,9 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
         self.virtual_area = VirtualArea()
         self.virtual_area.onInitialize(dragging_mode=self.scroll_mode, enable_scale=False, disable_drag_if_invalid=False)
 
-        if self.isScrollNeeded() is True:
-            self._setupVirtualArea()
+        self._setupVirtualArea()
+        if self.isScrollNeeded() is False:
+            self._va_movie.setInteractive(False)
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket("touch") is False:

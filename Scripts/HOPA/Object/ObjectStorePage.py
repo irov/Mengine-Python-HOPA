@@ -12,7 +12,6 @@ class ObjectStorePage(DemonObject):
         Type.addParam(Type, 'WaitButtons')
 
         Type.addConst(Type, "ColumnsCount")
-        Type.addConst(Type, "OffsetX")
         Type.addConst(Type, "OffsetY")
 
     def _onParams(self, params):
@@ -23,8 +22,7 @@ class ObjectStorePage(DemonObject):
         self.initParam('WaitButtons', params, [])
 
         self.initConst("ColumnsCount", params, 1)
-        self.initConst("OffsetX", params, 50)
-        self.initConst("OffsetY", params, 50)
+        self.initConst("OffsetY", params, 0)
 
     def hasNotify(self):
         return self.getEntity().hasNotify()

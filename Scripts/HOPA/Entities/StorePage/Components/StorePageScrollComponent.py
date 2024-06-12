@@ -58,8 +58,9 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self.virtual_area = VirtualArea()
         self.virtual_area.onInitialize(dragging_mode=self.scroll_mode, enable_scale=False, disable_drag_if_invalid=False)
 
-        if self.isScrollNeeded() is True:
-            self._setupVirtualArea()
+        self._setupVirtualArea()
+        if self.isScrollNeeded() is False:
+            self._va_movie.setInteractive(False)
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket("touch") is False:

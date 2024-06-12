@@ -21,7 +21,6 @@ class StorePage(BaseEntity):
         Type.addAction(Type, "WaitButtons")
 
         Type.addAction(Type, "ColumnsCount")
-        Type.addAction(Type, "OffsetX")
         Type.addAction(Type, "OffsetY")
 
     def __init__(self):
@@ -104,7 +103,6 @@ class StorePage(BaseEntity):
             elif self.ScrollMode == "vertical":
                 self.scroll_component = StorePageScrollVerticalComponent(self)
                 self.scroll_component.columns_count = self.ColumnsCount
-                self.scroll_component.offset_x = self.OffsetX
                 self.scroll_component.offset_y = self.OffsetY
 
             self.scroll_component.scroll_mode = self.ScrollMode
