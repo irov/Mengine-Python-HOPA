@@ -89,22 +89,30 @@ class SystemMonetization(SystemMonetizationBase):
 
     # ==== Promo codes =================================================================================================
 
+    def _trySendPromoItem(self, item_promo_id):
+        items = ItemManager.getAllItems()
+        for item_id, item in items.items():
+            if item.promoID is None:
+                continue
+            if item.promoID == item_promo_id:
+                Notification.notify(Notificator.onGiftExchangeRedeemResult, "add_item", item_id)
+                return True
+        return False
+
     def _onGiftExchangeRequestResult(self, code):
         if len(code) != 8:
-            _Log("onGiftExchangeRequestResult - invalid code length: {}".format(code), err=True)
+            _Log("onGiftExchangeRequestResult - invalid code length: {!r}".format(code), err=True)
+            Notification.notify(Notificator.onGiftExchangeRedeemResult, None, None)
             return False
 
         prefix = code[:2]
         if prefix == "i_":
             item_promo_id = code[2:]
-            items = ItemManager.getAllItems()
-            for item_id, item in items.items():
-                if item.promoID is None:
-                    continue
-                if item.promoID == item_promo_id:
-                    Notification.notify(Notificator.onGiftExchangeRedeemResult, "add_item", item_id)
-                    return False
+            if self._trySendPromoItem(item_promo_id) is True:
+                # sends (onGiftExchangeRedeemResult, "add_item", item_id) inside
+                return False
 
+        _Log("onGiftExchangeRequestResult - invalid code: {!r}".format(code), err=True)
         Notification.notify(Notificator.onGiftExchangeRedeemResult, None, None)
         return False
 
