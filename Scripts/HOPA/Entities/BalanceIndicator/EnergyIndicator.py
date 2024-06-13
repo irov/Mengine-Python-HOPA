@@ -1,4 +1,5 @@
 from HOPA.Entities.BalanceIndicator.IndicatorMixin import IndicatorMixin
+from HOPA.MonetizationManager import MonetizationManager
 from Foundation.SystemManager import SystemManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
@@ -22,6 +23,12 @@ class EnergyIndicator(IndicatorMixin):
         self.timer_movie = None
         self.timer_enable = False
         self.max_energy = None
+
+        if MonetizationManager.getGeneralSetting("BalanceIndicatorEnergyShowMax", True) is True:
+            self._balance_template = "{current}/{maximum}"
+        else:
+            self._balance_template = "{current}"
+            self.prepare_load_text = "..."
 
     def isEnabled(self):
         if SystemManager.hasSystem("SystemEnergy") is False:
@@ -110,9 +117,10 @@ class EnergyIndicator(IndicatorMixin):
 
     def refreshIndicatorText(self, balance):
         if balance == "inf":
-            Mengine.setTextAliasArguments(self.alias_env, self.text_alias, Mengine.getTextFromId(self.infinity_text_id))
+            text = Mengine.getTextFromId(self.infinity_text_id)
+            Mengine.setTextAliasArguments(self.alias_env, self.text_alias, text)
             return True
 
-        text = "{}/{}".format(balance, self.max_energy)
+        text = self._balance_template.format(current=balance, maximum=self.max_energy)
         Mengine.setTextAliasArguments(self.alias_env, self.text_alias, text)
         return False
