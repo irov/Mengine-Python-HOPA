@@ -20,8 +20,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._va_bounds = None
         self._va_total_width = 0
         self._va_total_height = 0
-
-        self.columns_count = None
+        self._columns_count = self.page.ColumnsCount
         self._button_counter_x = 0
         self._button_counter_y = 0
 
@@ -42,14 +41,13 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._va_bounds = None
         self._va_total_width = 0
         self._va_total_height = 0
+        self._columns_count = 0
+        self._button_counter_x = 0
+        self._button_counter_y = 0
 
         self._cancelDragEndTC()
         self.virtual_area.onFinalize()
         self.virtual_area = None
-
-        self.columns_count = None
-        self._button_counter_x = 0
-        self._button_counter_y = 0
 
     # --- scroll -------------------------------------------------------------------------------------------------------
 
@@ -94,10 +92,10 @@ class StorePageScrollComponent(StorePageBaseComponent):
         va_width = va_bounds.maximum.x - va_bounds.minimum.x
 
         # Calculating full offset width (empty space)
-        offset_x_dynamic_full = va_width - (self.columns_count * button_width)
+        offset_x_dynamic_full = va_width - (self._columns_count * button_width)
 
-        # Re-define self.columns_count (Demon 'ColumnsCount' param) and re-calculate new dynamic offset for X dimension,
-        # because with current self.columns_count objects would not fit in the VA width
+        # Re-define self._columns_count (obj 'ColumnsCount' const) and re-calculate new dynamic offset for X dimension,
+        # because with current self._columns_count objects would not fit in the VA width
         if offset_x_dynamic_full < 0:
             buttons_width_raw = 0
             columns_counter = 0
@@ -112,18 +110,18 @@ class StorePageScrollComponent(StorePageBaseComponent):
                 "{!r} has not enough width to place {!r} in {} columns. "
                 "Auto-changing columns count to {}. "
                 "Please, change {!r} param to {}!!!".format(
-                    va_movie.getName(), button.movie.getName(), self.columns_count, columns_count_new,
+                    va_movie.getName(), button.movie.getName(), self._columns_count, columns_count_new,
                     "ColumnsCount",
                     columns_count_new))
 
-            self.columns_count = columns_count_new
-            offset_x_dynamic_full = va_width - (self.columns_count * button_width)
+            self._columns_count = columns_count_new
+            offset_x_dynamic_full = va_width - (self._columns_count * button_width)
 
         # Calculating one offset part width (to insert inbetween objects)
-        offset_x_dynamic_part = offset_x_dynamic_full / (self.columns_count + 1)
+        offset_x_dynamic_part = offset_x_dynamic_full / (self._columns_count + 1)
 
         # 1 version dynamic offset for X dimension (dumber)
-        # offset_x_dynamic_part = offset_x_dynamic_full / (self.columns_count - 1)
+        # offset_x_dynamic_part = offset_x_dynamic_full / (self._columns_count - 1)
         # button_pos_x += offset_x_dynamic_part * self._button_counter_x - offset_x_dynamic_part
 
         # 2 version dynamic offset for X dimension (smarter)
@@ -144,7 +142,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
             self._va_total_height = button_pos_y + (button_height / 2)
 
         # If this is last button in a row, resetting buttons X dimension counter
-        if self._button_counter_x == self.columns_count:
+        if self._button_counter_x == self._columns_count:
             self._button_counter_x = 0
 
     def initVirtualArea(self):

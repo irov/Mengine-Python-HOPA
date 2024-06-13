@@ -103,8 +103,6 @@ class StorePage(BaseEntity):
 
         if self.Scrollable is True:
             self.scroll_component = StorePageScrollComponent(self)
-            if self.ScrollMode == "vertical":
-                self.scroll_component.columns_count = self.ColumnsCount
 
     # ==================================================================================================================
 
