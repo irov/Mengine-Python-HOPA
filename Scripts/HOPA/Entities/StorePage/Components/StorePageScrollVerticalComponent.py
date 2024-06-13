@@ -17,6 +17,7 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
 
         self.columns_count = None
         self.offset_y = None
+        self.allow_arrow = None
         self._button_counter_x = 0
         self._button_counter_y = 0
 
@@ -45,6 +46,7 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
 
         self.columns_count = None
         self.offset_y = None
+        self.allow_arrow = None
         self._button_counter_x = 0
         self._button_counter_y = 0
 
@@ -141,6 +143,9 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
         self._setupVirtualArea()
         if self.isScrollNeeded() is False:
             self._va_movie.setInteractive(False)
+        else:
+            if self.allow_arrow is True:
+                self._enableArrow()
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket("touch") is False:
@@ -184,6 +189,10 @@ class StorePageScrollVerticalComponent(StorePageBaseComponent):
         # callbacks
         self.virtual_area.on_drag_start += self._cbDragStart
         self.virtual_area.on_drag_end += self._cbDragEnd
+
+    def _enableArrow(self):
+        movie = self.object.getObject("Movie2_Arrow")
+        movie.setEnable(True)
 
     def calculateContentSize(self):
         bb = self._va_bounds

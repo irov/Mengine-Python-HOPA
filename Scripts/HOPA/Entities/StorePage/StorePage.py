@@ -22,6 +22,7 @@ class StorePage(BaseEntity):
 
         Type.addAction(Type, "ColumnsCount")
         Type.addAction(Type, "OffsetY")
+        Type.addAction(Type, "AllowArrow")
 
     def __init__(self):
         super(StorePage, self).__init__()
@@ -104,6 +105,7 @@ class StorePage(BaseEntity):
                 self.scroll_component = StorePageScrollVerticalComponent(self)
                 self.scroll_component.columns_count = self.ColumnsCount
                 self.scroll_component.offset_y = self.OffsetY
+                self.scroll_component.allow_arrow = self.AllowArrow
 
             self.scroll_component.scroll_mode = self.ScrollMode
 

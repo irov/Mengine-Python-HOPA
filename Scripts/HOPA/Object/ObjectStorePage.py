@@ -13,6 +13,7 @@ class ObjectStorePage(DemonObject):
 
         Type.addConst(Type, "ColumnsCount")
         Type.addConst(Type, "OffsetY")
+        Type.addConst(Type, "AllowArrow")
 
     def _onParams(self, params):
         super(ObjectStorePage, self)._onParams(params)
@@ -23,6 +24,7 @@ class ObjectStorePage(DemonObject):
 
         self.initConst("ColumnsCount", params, 1)
         self.initConst("OffsetY", params, 0)
+        self.initConst("AllowArrow", params, False)
 
     def hasNotify(self):
         return self.getEntity().hasNotify()
