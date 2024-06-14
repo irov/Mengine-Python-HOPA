@@ -112,6 +112,11 @@ class SystemMonetization(SystemMonetizationBase):
                 # sends (onGiftExchangeRedeemResult, "add_item", item_id) inside
                 return False
 
+        unlock_bonus_code = MonetizationManager.getGeneralSetting("GiftExchangePromoCodeUnlockBonus")
+        if unlock_bonus_code is not None and code == unlock_bonus_code:
+            Notification.notify(Notificator.onGiftExchangeRedeemResult, "chapter", None)
+            return False
+
         _Log("onGiftExchangeRequestResult - invalid code: {!r}".format(code), err=True)
         Notification.notify(Notificator.onGiftExchangeRedeemResult, None, None)
         return False
