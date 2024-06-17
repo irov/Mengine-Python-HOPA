@@ -137,9 +137,12 @@ class SkipPuzzle(BaseComponent):
             price = self.getProductPrice()
             SystemEnergy = SystemManager.getSystem("SystemEnergy")
 
-            with source.addParallelTask(2) as (tc_response, tc_request):
-                with tc_response.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
-                    tc_pay_ok.addListener(Notificator.onEnergyConsumed, Filter=_filterEnergy)
-                    tc_pay_ok.addScope(_scopeSuccess)
-                    tc_pay_fail.addListener(Notificator.onEnergyNotEnough, Filter=_filterEnergy)
-                tc_request.addFunction(SystemEnergy.payEnergy, price, self.component_id)
+            source.addScope(self._system.scopeTryAcceptPrice, price, currency, self.component_id)
+            with source.addIfTask(self._system.isPriceAccepted, self.component_id) as (true, false):
+
+                with true.addParallelTask(2) as (tc_response, tc_request):
+                    with tc_response.addRaceTask(2) as (tc_pay_ok, tc_pay_fail):
+                        tc_pay_ok.addListener(Notificator.onEnergyConsumed, Filter=_filterEnergy)
+                        tc_pay_ok.addScope(_scopeSuccess)
+                        tc_pay_fail.addListener(Notificator.onEnergyNotEnough, Filter=_filterEnergy)
+                    tc_request.addFunction(SystemEnergy.payEnergy, price, self.component_id)
