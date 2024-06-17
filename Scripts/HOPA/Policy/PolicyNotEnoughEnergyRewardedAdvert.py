@@ -7,14 +7,15 @@ from Foundation.Task.TaskAlias import TaskAlias
 
 class PolicyNotEnoughEnergyRewardedAdvert(TaskAlias):
 
-    def _scopeDefaultAction(self, source):
-        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
-        # PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
-        source.addTask(PolicyDefaultAction, Action=self.Action, PageID=self.PageID)
-
     def _onParams(self, params):
         self.Action = params.get("Action")
         self.PageID = params.get("PageID")
+        self.Amount = params.get("Amount")
+
+    def _scopeDefaultAction(self, source):
+        PolicyDefaultAction = PolicyManager.getPolicy("NotEnoughEnergyMessage", "PolicyNotEnoughEnergyDialog")
+        # PolicyOnSkipAction = PolicyManager.getPolicy("NotEnoughEnergyOnSkipAction", PolicyDefaultAction)
+        source.addTask(PolicyDefaultAction, Action=self.Action, PageID=self.PageID, Amount=self.Amount)
 
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")

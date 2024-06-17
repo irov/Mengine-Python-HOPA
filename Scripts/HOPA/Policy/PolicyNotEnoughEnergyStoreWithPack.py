@@ -9,6 +9,7 @@ class PolicyNotEnoughEnergyStoreWithPack(TaskAlias):
     def _onParams(self, params):
         self.Action = params.get("Action")
         self.PageID = params.get("PageID")
+        self.Amount = params.get("Amount")
 
     def _onGenerate(self, source):
         SpecialPromotion = DemonManager.getDemon("SpecialPromotion")
@@ -23,4 +24,4 @@ class PolicyNotEnoughEnergyStoreWithPack(TaskAlias):
             done.addListener(Notificator.onPaySuccess)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
-            skip.addTask(PolicyOnSkipAction, PageID=self.PageID, Action=self.Action)
+            skip.addTask(PolicyOnSkipAction, PageID=self.PageID, Action=self.Action, Amount=self.Amount)

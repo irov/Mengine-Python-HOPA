@@ -14,6 +14,7 @@ class PolicyNotEnoughEnergySpecialPacks(TaskAlias):
     def _onParams(self, params):
         self.PageID = params.get("PageID")
         self.Action = params.get("Action")
+        self.Amount = params.get("Amount")
 
     def _onInitialize(self):
         if _DEVELOPMENT is True:
@@ -37,7 +38,7 @@ class PolicyNotEnoughEnergySpecialPacks(TaskAlias):
             done.addListener(Notificator.onPaySuccess)
 
             skip.addEvent(SpecialPromotion.EVENT_WINDOW_CLOSE)  # wait until window closes
-            skip.addTask(PolicyOnSkipAction, PageID=page_id, Action=self.Action)
+            skip.addTask(PolicyOnSkipAction, PageID=page_id, Action=self.Action, Amount=self.Amount)
 
             stop.addListener(Notificator.onSceneDeactivate)
             # prevent pay with no results

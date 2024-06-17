@@ -79,7 +79,8 @@ class SystemMonetization(SystemMonetizationBase):
 
         NotEnoughMoneyPageID = MonetizationManager.getGeneralSetting("NotEnoughMoneyPageID")
 
-        TaskManager.runAlias("AliasNotEnoughEnergy", None, Action=action_name, PageID=NotEnoughMoneyPageID)
+        TaskManager.runAlias("AliasNotEnoughEnergy", None,
+                             Action=action_name, PageID=NotEnoughMoneyPageID, Amount=amount)
         return False
 
     def _cbLayerGroupEnable(self, group_name):

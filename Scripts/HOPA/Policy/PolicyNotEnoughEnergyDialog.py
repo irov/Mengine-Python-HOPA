@@ -10,6 +10,7 @@ class PolicyNotEnoughEnergyDialog(TaskAlias):
     def _onParams(self, params):
         self.PageID = params.get("PageID")
         self.Action = params.get("Action")
+        self.Amount = params.get("Amount")
 
     def _onGenerate(self, source):
         DialogWindow = DemonManager.getDemon("DialogWindow")
@@ -17,7 +18,9 @@ class PolicyNotEnoughEnergyDialog(TaskAlias):
 
         icon = GameStore.generateIcon("Movie2_Energy", "Movie2_Energy_{}".format(getCurrentPublisher()), Enable=True)
 
-        if SystemEnergy.hasActionEnergy(self.Action) is True:
+        if self.Amount is not None:
+            energy_amount = self.Amount
+        elif SystemEnergy.hasActionEnergy(self.Action) is True:
             energy_amount = SystemEnergy.getActionEnergy(self.Action)
         elif SystemMonetization.hasComponent(self.Action) is True:
             energy_amount = SystemMonetization.getComponent(self.Action).getProductPrice()

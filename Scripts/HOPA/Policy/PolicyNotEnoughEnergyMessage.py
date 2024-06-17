@@ -8,6 +8,7 @@ class PolicyNotEnoughEnergyMessage(TaskAlias):
     def _onParams(self, params):
         self.PageID = params.get("PageID")
         self.Action = params.get("Action")
+        self.Amount = params.get("Amount")
 
     def _scopeStoreOpen(self, source):
         GameStore = DemonManager.getDemon(SystemMonetization.game_store_name)
