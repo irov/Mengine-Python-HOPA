@@ -5,9 +5,11 @@ from HOPA.Entities.StorePage.ButtonFactory import ButtonFactory
 from HOPA.Entities.StorePage.Components.StorePageAdvertComponent import StorePageAdvertComponent
 from HOPA.Entities.StorePage.Components.StorePageGroupComponent import StorePageGroupComponent
 from HOPA.Entities.StorePage.Components.StorePageScrollComponent import StorePageScrollComponent
-from HOPA.Entities.StorePage.Components.StorePageScrollVerticalComponent import StorePageScrollVerticalComponent
 from HOPA.StoreManager import StoreManager
 from Notification import Notification
+
+
+MOVIE_CONTENT = "Movie2_Content"
 
 
 class StorePage(BaseEntity):
@@ -36,11 +38,12 @@ class StorePage(BaseEntity):
         self.grouped_products_components = {}
 
     def _onPreparation(self):
-        if self.object.hasObject("Movie2_Content") is False:
-            Trace.log("Entity", 0, "StorePage [{}] not found Movie2_Content in demon inside group '{}'".format(self.PageID, self.object.parent.getName()))
+        if self.object.hasObject(MOVIE_CONTENT) is False:
+            Trace.log("Entity", 0, "StorePage [{}] not found {!r} in demon inside group {!r}".format(
+                self.PageID, MOVIE_CONTENT, self.object.parent.getName()))
             return
 
-        self.content = self.object.getObject("Movie2_Content")
+        self.content = self.object.getObject(MOVIE_CONTENT)
         self.params = StoreManager.getButtonsParamsById(self.PageID)
         self.buttons = ButtonFactory.createPageButtons(self.PageID)
 
@@ -99,15 +102,7 @@ class StorePage(BaseEntity):
                 self.grouped_products_components[group_id] = StorePageGroupComponent(self, group_id)
 
         if self.Scrollable is True:
-            if self.ScrollMode == "horizontal":
-                self.scroll_component = StorePageScrollComponent(self)
-            elif self.ScrollMode == "vertical":
-                self.scroll_component = StorePageScrollVerticalComponent(self)
-                self.scroll_component.columns_count = self.ColumnsCount
-                self.scroll_component.offset_y = self.OffsetY
-                self.scroll_component.allow_arrow = self.AllowArrow
-
-            self.scroll_component.scroll_mode = self.ScrollMode
+            self.scroll_component = StorePageScrollComponent(self)
 
     # ==================================================================================================================
 
@@ -151,7 +146,10 @@ class StorePage(BaseEntity):
             button.setEnable(True)
 
             if slot_name == "content" and self.scroll_component is not None:
-                self.scroll_component.adjustButton(button)
+                if self.ScrollMode == "horizontal":
+                    self.scroll_component.adjustButtonHorizontal(button)
+                elif self.ScrollMode == "vertical":
+                    self.scroll_component.adjustButtonVertical(button)
 
     # === Working with notify indicator ================================================================================
 
