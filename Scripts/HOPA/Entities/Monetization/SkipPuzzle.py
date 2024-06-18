@@ -124,7 +124,7 @@ class SkipPuzzle(BaseComponent):
             return
 
         def _scopeSuccess(_source):
-            source.addTask(default_task_name)
+            _source.addTask(default_task_name)
 
         currency = self.getProductCurrency()
         if currency == "Gold":
