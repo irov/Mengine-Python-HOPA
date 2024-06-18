@@ -26,6 +26,7 @@ class GiftExchange(BaseEntity):
     ID_TEXT_SUCCESS_MSGS = {
         "MysteryChapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
         "chapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
+        "force_chapter": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_CHAPTER",
         "golds": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GOLD",
         "energy": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_ENERGY",
         "guide": "ID_TEXT_GIFTEXCHANGE_SUCCESS_MSG_GUIDE",

@@ -13,6 +13,13 @@ _Log = SimpleLogger("SystemMonetization")
 
 class SystemMonetization(SystemMonetizationBase):
 
+    @classmethod
+    def _getPossibleRewards(cls):
+        rewards = SystemMonetizationBase._getPossibleRewards()
+        rewards["Chapter"] = cls.unlockChapter
+        rewards["ForceChapter"] = cls.forceUnlockChapter
+        return rewards
+
     # ==== Policies ====================================================================================================
 
     def _setupPolicies(self):
@@ -88,6 +95,30 @@ class SystemMonetization(SystemMonetizationBase):
             Notification.notify(Notificator.onUpdateGoldBalance, str(self.getBalance()))
         return False
 
+    # ==== Chapter block ===============================================================================================
+
+    @classmethod
+    def unlockChapter(cls, chapter_id):
+        Notification.notify(Notificator.onChapterSelectionBlock, chapter_id, False)
+        _Log("unlock chapter '{}'".format(chapter_id))
+
+        if MonetizationManager.getGeneralSetting("CompleteProductsOnChapterUnlock", True) is False:
+            return
+
+        for product in MonetizationManager.getProductsInfo().values():
+            reward_chapter_id = product.reward.get("Chapter")
+            if reward_chapter_id != chapter_id:
+                continue
+            if SystemMonetization.isProductPurchased(product.id) is False:
+                SystemMonetization.addStorageListValue("purchased", product.id)
+                _Log("autosave product {!r} - chapter {!r} is already unlocked!".format(
+                    product.id, chapter_id), optional=True)
+
+    @classmethod
+    def forceUnlockChapter(cls, chapter_id):
+        cls.unlockChapter(chapter_id)
+        Notification.notify(Notificator.onChapterOpen, chapter_id)
+
     # ==== Promo codes =================================================================================================
 
     def _trySendPromoItem(self, item_promo_id):
@@ -115,7 +146,7 @@ class SystemMonetization(SystemMonetizationBase):
 
         unlock_bonus_code = MonetizationManager.getGeneralSetting("GiftExchangePromoCodeUnlockBonus")
         if unlock_bonus_code is not None and code == unlock_bonus_code:
-            Notification.notify(Notificator.onGiftExchangeRedeemResult, "chapter", None)
+            Notification.notify(Notificator.onGiftExchangeRedeemResult, "force_chapter", None)
             return False
 
         _Log("onGiftExchangeRequestResult - invalid code: {!r}".format(code), err=True)
@@ -127,6 +158,7 @@ class SystemMonetization(SystemMonetizationBase):
             "golds": (self.addGold, reward_amount),
             "energy": (self.addEnergy, reward_amount),
             "chapter": (self.unlockChapter, "Bonus"),
+            "force_chapter": (self.forceUnlockChapter, "Bonus"),
         }
 
         # GUIDES
