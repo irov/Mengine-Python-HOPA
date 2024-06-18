@@ -59,11 +59,11 @@ class TechnicalSupport(BaseEntity):
         Important Details for our Support Team:
         * game publisher: {PUBLISHER}
         * build version: {BUILD_VERSION} ({BUILD_VERSION_NUMBER})
+        * {OS_NAME} version: {OS_VERSION}
         """.format(**kwargs)
 
         if _ANDROID:
             body += u"""* version code: {BUILD_VERSION_CODE}
-            * {OS_NAME} version: {OS_VERSION}
             * session id: {SESSION_ID}
             """.format(**kwargs)
 
