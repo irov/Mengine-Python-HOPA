@@ -87,7 +87,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
         button_pos_y = button_height * self._button_counter_y - button_height / 2
 
         # Define dynamic offset for X dimension
-        va_movie = self.object.getObject("Movie2_VirtualArea")
+        va_movie = self.object.getObject(MOVIE_VA)
         va_bounds = va_movie.getCompositionBounds()
         va_width = va_bounds.maximum.x - va_bounds.minimum.x
 
@@ -157,7 +157,9 @@ class StorePageScrollComponent(StorePageBaseComponent):
             self._va_movie.setInteractive(False)
         else:
             if self.page.AllowArrow is True:
-                self._enableArrow()
+                self._setArrowEnable(True)
+            else:
+                self._setArrowEnable(False)
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket(SOCKET_TOUCH) is False:
@@ -200,11 +202,35 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
         # callbacks
         self.virtual_area.on_drag_start += self._cbDragStart
+        self.virtual_area.on_drag += self._cbDrag
         self.virtual_area.on_drag_end += self._cbDragEnd
 
-    def _enableArrow(self):
+    def _setArrowEnable(self, value):
         movie = self.object.getObject(MOVIE_ARROW)
-        movie.setEnable(True)
+        if movie is None:
+            return
+
+        current_state = movie.getEnable()
+
+        if value is True and current_state is False:
+            movie.setEnable(True)
+        elif value is False and current_state is True:
+            movie.setEnable(False)
+
+    def _setArrowAlpha(self, value):
+        if value < 0.0 or value > 1.0:
+            return
+
+        movie = self.object.getObject(MOVIE_ARROW)
+        if movie is None:
+            return
+
+        alpha_value = 1.0 - value
+
+        if movie.getAlpha() == alpha_value:
+            return
+
+        movie.setAlpha(alpha_value)
 
     def calculateContentSize(self):
         bb = self._va_bounds
@@ -216,7 +242,6 @@ class StorePageScrollComponent(StorePageBaseComponent):
         elif self.page.ScrollMode == "vertical":
             height = self._va_total_height
 
-        # print round(width, 2), round(height, 2)
         return width, height
 
     def isScrollNeeded(self):
@@ -235,6 +260,10 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
     def _cbDragStart(self):
         GuardBlockInput.enableBlockSocket(True)
+
+    def _cbDrag(self, x, y):
+        if self.page.AllowArrow is True:
+            self._setArrowAlpha(y)
 
     def _cbDragEnd(self):
         if self.virtual_area.is_dragging() is False:
