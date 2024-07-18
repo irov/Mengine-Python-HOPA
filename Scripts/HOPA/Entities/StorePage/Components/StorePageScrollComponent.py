@@ -156,10 +156,7 @@ class StorePageScrollComponent(StorePageBaseComponent):
             # TODO: fix error - VirtualArea width/height must be less than Content ()
             self._va_movie.setInteractive(False)
         else:
-            if self.page.AllowArrow is True:
-                self._setArrowEnable(True)
-            else:
-                self._setArrowEnable(False)
+            self._setArrowEnable(self.page.AllowArrow)
 
     def _setupVirtualArea(self):
         if self._va_movie.hasSocket(SOCKET_TOUCH) is False:
@@ -206,10 +203,13 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self.virtual_area.on_drag_end += self._cbDragEnd
 
     def _setArrowEnable(self, value):
-        movie = self.object.getObject(MOVIE_ARROW)
-        if movie is None:
+        if self.object.hasObject(MOVIE_ARROW) is False:
+            if value is True:
+                Trace.log("Entity", 0, "StorePage [{}] not found {!r} in Demon inside Group {!r}".format(
+                    self.page.PageID, MOVIE_ARROW, self.object.parent.getName()))
             return
 
+        movie = self.object.getObject(MOVIE_ARROW)
         current_state = movie.getEnable()
 
         if value is True and current_state is False:
