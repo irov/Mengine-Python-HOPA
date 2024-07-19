@@ -6,6 +6,14 @@ from Foundation.Utils import getCurrentPlatformParams, getCurrentPublisher
 from Foundation.MonetizationManager import MonetizationManager
 
 
+BUTTON_ACTIONS = [
+    "link",
+    "purchase",
+    "exchange",
+    "advert",
+]
+
+
 class StoreManager(Manager):
     __PARAMS_TABLE_NAMES = {
         "tabs": "StoreTabs",
@@ -157,10 +165,10 @@ class StoreManager(Manager):
         if _DEVELOPMENT is False:
             return True
 
-        def _trace(btn, msg):
-            Trace.log("System", 0, "SystemStore got error while load buttons: [{}:{}] {}".format(btn.page_id, btn.button_id, msg))
+        def _trace(msg):
+            Trace.log("System", 0, "SystemStore got error while load button [{}:{}]: {}".format(params.page_id, params.button_id, msg))
 
-        # --- check prototypes (is exists)
+        # --- check prototypes (is existing)
 
         group_name = params.prototype_group
         manager = DemonManager if group_name.startswith("Demon_") else GroupManager
@@ -170,7 +178,7 @@ class StoreManager(Manager):
             if prototype_name is None:
                 continue
             if manager.hasPrototype(group_name, prototype_name) is False:
-                _trace(params, "Group {} has no prototype {!r} [{}]".format(group_name, prototype_name, param_name))
+                _trace("Group {} has no prototype {!r} [{}]".format(group_name, prototype_name, param_name))
                 prototypes_ok = False
         if prototypes_ok is False:
             return False
@@ -182,21 +190,28 @@ class StoreManager(Manager):
         texts_ok = True
         for text_id in params.getTextIds():
             if Mengine.existText(text_id) is False:
-                _trace(params, "TextID {!r} not found for locale '{}'".format(text_id, current_locale))
+                _trace("TextID {!r} not found for locale '{}'".format(text_id, current_locale))
                 texts_ok = False
         if texts_ok is False:
             return False
 
+        # --- check action
+
+        if params.action not in BUTTON_ACTIONS:
+            _trace("Bad action {!r}".format(params.action))
+            return False
+
         # --- check url
+
         if params.action == "link":
             url_formats = ["http://", "https://", "www."]
 
             if params.link_url == "":
-                _trace(params, "LinkUrl param is empty. Add url in one of this formats {!r}".format(url_formats))
+                _trace("LinkUrl param is empty")
                 return False
 
-            if any(url_format in params.link_url for url_format in url_formats) is False:
-                _trace(params, "Bad url format for {!r}. Add url in one of this formats {!r}".format(params.link_url, url_formats))
+            if any(params.link_url.startswith(url_format) for url_format in url_formats) is False:
+                _trace("{!r} - bad url, must start with one of {!r}".format(params.link_url, url_formats))
                 return False
 
             return True
@@ -205,20 +220,20 @@ class StoreManager(Manager):
 
         product_info = MonetizationManager.getProductInfo(params.product_id)
         if product_info is None:
-            _trace(params, "product id {!r} not found".format(params.product_id))
+            _trace("product id {!r} not found".format(params.product_id))
             return False
 
         real_currency_name = "Real"
         advert_currency_name = "Advert"
 
         if params.action == "purchase" and product_info.getCurrency() != real_currency_name:
-            _trace(params, "product {!r} currency must be {!r}, because action is 'purchase'".format(params.product_id, real_currency_name))
+            _trace("product {!r} currency must be {!r}, because action is 'purchase'".format(params.product_id, real_currency_name))
             return False
         elif params.action == "exchange" and product_info.getCurrency() == real_currency_name:
-            _trace(params, "product {!r} currency can't be {!r}, because action is 'exchange'".format(params.product_id, real_currency_name))
+            _trace("product {!r} currency can't be {!r}, because action is 'exchange'".format(params.product_id, real_currency_name))
             return False
         elif params.action == "advert" and product_info.getCurrency() != advert_currency_name:
-            _trace(params, "product {!r} currency must be {!r}, because action is 'advert'".format(params.product_id, advert_currency_name))
+            _trace("product {!r} currency must be {!r}, because action is 'advert'".format(params.product_id, advert_currency_name))
             return False
 
         return True
