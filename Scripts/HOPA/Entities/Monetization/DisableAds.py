@@ -12,16 +12,19 @@ class DisableAds(BaseComponent):
     component_id = "DisableAds"
     _settings = {
         "product_id": "DisableAdsProductId",
+        "show_once_per_session": "DisableAdsShowOncePerSession",
     }
     _defaults = {
         "product_id": "disable_ads",
-        "is_enable": True
+        "is_enable": True,
+        "show_once_per_session": True,
     }
 
     def _createParams(self):
         self.tc = None
         self.demon_name = "SpecialPromotion"
         self.demon = DemonManager.getDemon(self.demon_name) if DemonManager.hasDemon(self.demon_name) else None
+        self._show_once_per_session = self._getMonetizationParam("show_once_per_session")
 
     def _check(self):
         if self.product is None:
@@ -48,12 +51,23 @@ class DisableAds(BaseComponent):
         if SystemMonetization.isProductPurchased(self.product.id) is True:
             return False
 
+        self._runTaskChain()
+        return False
+
+    def _runTaskChain(self):
+        event_run = Event("onShowPromotion")
+
         with TaskManager.createTaskChain(Name=TC_NAME) as tc:
             with tc.addRepeatTask() as (repeat, until):
-                repeat.addListener(Notificator.onAdvertHidden, Filter=lambda ad_type, ad_name: ad_type == "Interstitial")
+                repeat.addListener(Notificator.onAdvertHidden,
+                                   Filter=lambda ad_type, ad_name: ad_type == "Interstitial")
                 repeat.addFunction(self.demon.run, self.product.id)
+                repeat.addFunction(event_run)
 
-                until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.product.id)
+                if self._show_once_per_session is True:
+                    until.addEvent(event_run)
+                else:
+                    until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.product.id)
 
         return False
 
