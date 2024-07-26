@@ -203,7 +203,7 @@ class SystemStore(System):
 
         advert_page_id = StoreManager.findPageIdByProductId(advert_product.id)
         if advert_page_id is None:
-            _Log("_cbAvailableAdsNew: New available ads {!r}, but not found page for it".format(ad_name), err=True)
+            _Log("_cbAvailableAdsNew: New available ads {!r}, but not found page for it product {!r}".format(ad_name, advert_product.id), err=True)
             return False
 
         Notification.notify(Notificator.onStorePageNewActions, advert_page_id)
