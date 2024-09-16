@@ -440,14 +440,15 @@ class InventoryFX(BaseEntity):
             tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(True,))
             pass
 
-        arrow = ArrowManager.getArrow()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
 
         InventoryItemEntity = InventoryItem.getEntity()
         InventoryItemEntityNode = InventoryItem.getEntityNode()
         InventoryItemEntity.pick()
         # InventoryItem.setScale( (1.0, 1.0, 1.0) )
 
-        arrow.addChildFront(InventoryItemEntityNode)
+        arrow_node.addChildFront(InventoryItemEntityNode)
 
         PickInventoryItem = PolicyManager.getPolicy("PickInventoryItem", "TaskEffectInventoryPickInventoryItem")
         TaskManager.runAlias(PickInventoryItem, None, InventoryItem=InventoryItem)

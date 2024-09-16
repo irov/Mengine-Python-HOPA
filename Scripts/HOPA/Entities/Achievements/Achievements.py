@@ -14,7 +14,6 @@ class Achievements(BaseEntity):
 
     def __init__(self):
         super(Achievements, self).__init__()
-        self.arrow = ArrowManager.getArrow()
         self.fade_time = DefaultManager.getDefaultFloat("AchievementSceneTextFade", 150.0)
 
         self.back_button = None
@@ -46,7 +45,11 @@ class Achievements(BaseEntity):
                 current_button = button_locked
 
             movie_text = self.object.getObject(param.movie_text)
-            self.arrow.addChild(movie_text.getEntityNode())
+
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrow_node.addChild(movie_text.getEntityNode())
+
             movie_text.setAlpha(0.0)
 
             self.button_with_texts.append((current_button, movie_text))

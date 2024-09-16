@@ -286,7 +286,9 @@ class Ring(Initializer):
             until.addBlock()
 
     def __scopeReturnToParent(self, source):
-        Point1 = ArrowManager.getArrow().getCursorNode().getWorldPosition()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+        Point1 = arrow_node.getWorldPosition()
         ring_slot = self._owner.getRingSlot()
         Point2 = ring_slot.getWorldPosition()
 
@@ -339,9 +341,10 @@ class Ring(Initializer):
         slot.addChild(self._root)
 
     def _attachToCursor(self):
-        arrow = ArrowManager.getArrow()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         ArrowManager.attachArrow(self._root)
-        arrow.addChildFront(self._root)
+        arrow_node.addChildFront(self._root)
 
     def _detachFromCursor(self):
         arrow_attach = ArrowManager.getArrowAttach()

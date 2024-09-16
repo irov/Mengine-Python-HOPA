@@ -67,19 +67,20 @@ class HogPenalty(BaseEntity):
             mainLayer.addChild(MovieEn)
             self.MovieEntity = MovieEn
             arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
             MainLayer = self.getParent()
             centre = MainLayer.getSize()
             origin = (centre[0] / 2, centre[1] / 2)
-            arrowPosition = arrow.getLocalPosition()
+            arrowPosition = arrow_node.getLocalPosition()
 
-            arrow.disable()
+            arrow_node.disable()
             MovieEn.setOrigin(origin)
             Movie.setPosition(arrowPosition)
 
             with TaskManager.createTaskChain() as tc:
                 tc.addTask("TaskEnable", Object=Movie)
                 tc.addTask("TaskMoviePlay", Movie=Movie)
-                tc.addTask("TaskFunction", Fn=arrow.enable)
+                tc.addTask("TaskFunction", Fn=arrow_node.enable)
                 tc.addTask("TaskEnable", Object=Movie, Value=False)
                 tc.addTask("TaskFunction", Fn=self.unblock, Args=(SocketBlock,))
             #            Movie.setPlay(True)
@@ -94,7 +95,8 @@ class HogPenalty(BaseEntity):
 
     def updatePosition(self, *params):
         arrow = Mengine.getArrow()
-        new_position = arrow.getLocalPosition()
+        arrow_node = arrow.getNode()
+        new_position = arrow_node.getLocalPosition()
         Movie = self.object.getObject("Movie_Penalty")
         Movie.setPosition(new_position)
         return False

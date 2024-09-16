@@ -1,5 +1,6 @@
-from HOPA.CursorManager import CursorManager
+from Foundation.ArrowManager import ArrowManager
 
+from HOPA.CursorManager import CursorManager
 
 class ColoringPuzzleBrush(object):
     def __init__(self, movieObject):
@@ -21,7 +22,7 @@ class ColoringPuzzleBrush(object):
         pos = slotOffset.getLocalPosition()
         self.movieObject.setOrigin(pos)
 
-        arrow = CursorManager.getArrow()
+        arrow = Mengine.getArrow()
         itemNode = arrow.getCursorNode()
         # itemNode.removeAllChild()
         itemNode.addChild(movieEntityNode)

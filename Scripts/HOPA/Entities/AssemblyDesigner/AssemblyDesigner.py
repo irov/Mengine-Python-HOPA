@@ -208,10 +208,11 @@ class AssemblyDesigner(Enigma):
 
         def attachToCursor(self):
             arrow = Mengine.getArrow()
+            node = arrow.getNode()
             self.__temp_parent = self.current_movie.getEntityNode().getParent()
             self.movie_on_set.setEnable(False)
             self.movie_on_shelf.setEnable(True)
-            arrow.addChildFront(self.movie_on_shelf.getEntityNode())
+            node.addChildFront(self.movie_on_shelf.getEntityNode())
 
         def detachFromCursor(self, return_to_parent=False):
             self.movie_on_set.setEnable(False)
@@ -620,8 +621,9 @@ class AssemblyDesigner(Enigma):
     def __scopeTryAddItemToSet(self, source, item, semaphore):
         def __check_arrow_on_carcass():
             arrow = Mengine.getArrow()
+            node = arrow.getNode()
 
-            screen_position = Mengine.getNodeScreenPosition(arrow.cursorNode)
+            screen_position = Mengine.getNodeScreenPosition(node)
             hotspots_names = Mengine.pickAllHotspot(screen_position)
 
             if current_set.movie_carcass.getSocket('socket') in hotspots_names:

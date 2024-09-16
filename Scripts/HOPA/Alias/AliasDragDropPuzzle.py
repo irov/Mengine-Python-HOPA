@@ -74,15 +74,19 @@ class AliasDragDropPuzzle(TaskAlias):
 
     def __setItemOffset(self):
         itemPos = self.ItemObject.getPosition()
-        arrow = ArrowManager.getArrow()
-        arrowPos = arrow.getLocalPosition()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+
+        arrowPos = arrow_node.getLocalPosition()
 
         self.offset = (arrowPos.x - itemPos[0], arrowPos.y - itemPos[1])
         pass
 
     def __calcPosition(self):
-        arrow = ArrowManager.getArrow()
-        arrowPos = arrow.getLocalPosition()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+
+        arrowPos = arrow_node.getLocalPosition()
 
         self.Position = (arrowPos.x - self.offset[0], arrowPos.y - self.offset[1])
 

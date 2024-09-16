@@ -31,7 +31,6 @@ class FindingAndPlacingChipsOnMovie(Enigma):
         super(FindingAndPlacingChipsOnMovie, self).__init__()
         self.current_chip = None
         self.tc = None
-        self.arrow = ArrowManager.getArrow()
         self.chips = {}
 
     def _onPreparation(self):
@@ -110,7 +109,10 @@ class FindingAndPlacingChipsOnMovie(Enigma):
             tc.addFunction(self.__setNewCurrentChip)
 
     def __prepareChip(self):
-        self.arrow.addChild(self.current_chip.chip_movie.getEntityNode())
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+        arrow_node.addChild(self.current_chip.chip_movie.getEntityNode())
+
         self.current_chip.chip_movie.setEnable(True)
 
     def __scopeChipStart(self, source):

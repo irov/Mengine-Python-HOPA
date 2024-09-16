@@ -574,7 +574,8 @@ class SystemZoom(System):
                         parent = zoomScene.getParent()
 
                         arrow = Mengine.getArrow()
-                        arrow.addChild(zoomScene)
+                        arrow_node = arrow.getNode()
+                        arrow_node.addChild(zoomScene)
 
                         zoomScene.setLocalPosition((-zoomSize.x * 0.5, -zoomSize.y * 0.5))
 

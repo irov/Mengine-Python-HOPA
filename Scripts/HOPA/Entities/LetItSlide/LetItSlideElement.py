@@ -124,8 +124,9 @@ class LetItSlideElement(object):
 
     def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
         arrow = Mengine.getArrow()
-        arrowPosX = arrow.getWorldPosition()[0]
-        arrowPosY = arrow.getWorldPosition()[1]
+        arrow_node = arrow.getNode()
+        arrowPosX = arrow_node.getWorldPosition()[0]
+        arrowPosY = arrow_node.getWorldPosition()[1]
 
         currentMousePos = (arrowPosX, arrowPosY)
 

@@ -416,8 +416,9 @@ class Inventory(InventoryBase):
 
             Notification.notify(Notificator.onInventoryItemPick, InventoryItem, InventoryItemEntity.getState())
 
-            arrow = ArrowManager.getArrow()
-            arrow.addChildFront(InventoryItemEntity.node)
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrow_node.addChildFront(InventoryItemEntity.node)
 
             PickInventoryItem = PolicyManager.getPolicy("PickInventoryItem", "TaskEffectInventoryPickInventoryItem")
             TaskManager.runAlias(PickInventoryItem, None, InventoryItem=InventoryItem)

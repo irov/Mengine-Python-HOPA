@@ -31,10 +31,11 @@ class ChipsInNet(Enigma):
             :return:
             """
             self.node.removeFromParent()
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
-            arrow.addChildFront(self.node)
+            arrow_node.addChildFront(self.node)
 
             self.node.setWorldPosition((arrowPos.x, arrowPos.y))
             self.preAttachPosition = arrowPos
@@ -45,8 +46,9 @@ class ChipsInNet(Enigma):
             :return:
             """
             self.movie.returnToParent()
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.node
 

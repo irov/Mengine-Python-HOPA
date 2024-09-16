@@ -384,9 +384,10 @@ class HOGInventoryFitting(InventoryBase):
             slot.PickItem()
             Item = slot.ItemStore
             ArrowManager.attachArrow(Item)
-            arrow = ArrowManager.getArrow()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
             ItemEntityNode = Item.getEntityNode()
-            arrow.addChildFront(ItemEntityNode)
+            arrow_node.addChildFront(ItemEntityNode)
             self.ItemIsPicked = True
             self.PickedItemSlot = slot
 
@@ -633,11 +634,13 @@ class HOGInventoryFitting(InventoryBase):
         self.CurrentItemZoomStore.setEnable(True)
 
         node = self.CurrentItemZoomStore.entity.node
-        Mengine.getArrow().addChild(node)
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+        arrow_node.addChild(node)
 
         offset_vec2 = self.CurrentItemZoomStore.entity.sprite.getSurfaceSize()
-        node.setWorldPosition(
-            Mengine.getArrow().node.getWorldPosition() - (offset_vec2.x * 0.5, offset_vec2.y * 0.5, 0.0))
+        arrow_node_wp = arrow_node.getWorldPosition()
+        node.setWorldPosition(arrow_node_wp - (offset_vec2.x * 0.5, offset_vec2.y * 0.5, 0.0))
 
         if TaskManager.existTaskChain(TC_ZOOM_ALPHA_NAME):
             TaskManager.cancelTaskChain(TC_ZOOM_ALPHA_NAME)

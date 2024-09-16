@@ -113,8 +113,9 @@ class ChapterSelection(BaseEntity):
                 slot.addChild(node)
         else:
             self.movie_text_on_cursor.setEnable(True)
-            arrow = ArrowManager.getArrow()
-            arrow.addChild(node)
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrow_node.addChild(node)
 
         Mengine.setTextAlias('', TEXT_ALIAS_TEXT_CURSOR, TEXT_ID_TEXT_CURSOR_EMPTY)
 

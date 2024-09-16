@@ -324,7 +324,8 @@ class ClickOnTarget(Enigma):
             self.tc_play_target_fill_anim.cancel()
             self.tc_play_target_fill_anim = None
 
-        arrow_node = Mengine.getArrow().node  # force cursor alpha back to 1.0
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         arrow_node.getRender().setLocalAlpha(1.0)
 
         self.setTargetFillActive(False)  # force disable block socket
@@ -530,7 +531,8 @@ class ClickOnTarget(Enigma):
         self.target_fill_appear_anim.setEnable(True)
         self.target_fill_appear_anim.setPlay(False)
 
-        arrow_node = Mengine.getArrow().node
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         arrow_alpha_time = self.target_fill_appear_anim.entity.getDuration() / 1000
 
         # tc
@@ -568,7 +570,8 @@ class ClickOnTarget(Enigma):
         self.target_fill_disappear_anim.setPlay(False)
         self.target_fill_disappear_anim.setEnable(True)
 
-        arrow_node = Mengine.getArrow().node
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         arrow_alpha_time = self.target_fill_disappear_anim.entity.getDuration() / 1000
 
         # tc
@@ -729,7 +732,8 @@ class ClickOnTarget(Enigma):
                 self.target_fill_disappear_anim.setPlay(False)
                 self.target_fill_disappear_anim.setEnable(True)
 
-                arrow_node = Mengine.getArrow().node
+                arrow = Mengine.getArrow()
+                arrow_node = arrow.getNode()
                 arrow_alpha_time = self.target_fill_disappear_anim.entity.getDuration() / 1000
 
                 with source.addParallelTask(2) as (parallel_0, parallel_1):

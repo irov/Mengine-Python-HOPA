@@ -79,10 +79,10 @@ class ColoringPuzzle(Enigma):
             pass
 
         arrow = Mengine.getArrow()
-        arrow_radius_curr = arrow.node.getRadius()
+        arrow_radius_curr = arrow.getRadius()
 
         if arrow_radius_curr != self.arrow_radius_saved and self.arrow_radius_saved is not None:
-            arrow.node.setRadius(self.arrow_radius_saved)
+            arrow.setRadius(self.arrow_radius_saved)
         self.arrow_radius_saved = None
 
     def _autoWin(self):
@@ -141,10 +141,10 @@ class ColoringPuzzle(Enigma):
             pass
 
         arrow = Mengine.getArrow()
-        arrow_radius_curr = arrow.node.getRadius()
+        arrow_radius_curr = arrow.getRadius()
 
         if arrow_radius_curr != self.GameData.arrow_radius:
-            arrow.node.setRadius(self.GameData.arrow_radius)
+            arrow.setRadius(self.GameData.arrow_radius)
             self.arrow_radius_saved = arrow_radius_curr
 
     def _onDeactivate(self):

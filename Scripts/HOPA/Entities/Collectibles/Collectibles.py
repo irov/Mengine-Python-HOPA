@@ -281,12 +281,13 @@ class Collectibles(BaseEntity):
             text_block_prototype_name = 'Movie2_TransitionTextBlock'
 
         arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
 
         system_collectibles = SystemManager.getSystem("SystemCollectibles")
         collectibles_groups = system_collectibles.getCollectibleGroups()
 
         for collectibles_group in collectibles_groups.values():
-            plate = self.__createPlate(collectibles_group, arrow, scene_icon_block_prototype_name, text_block_prototype_name)
+            plate = self.__createPlate(collectibles_group, arrow_node, scene_icon_block_prototype_name, text_block_prototype_name)
 
             if self.CompleteScene is False:
                 current_state = plate.checkState(open_scenes)
@@ -294,7 +295,7 @@ class Collectibles(BaseEntity):
 
             self.collectible_movie_buttons[collectibles_group.collectible_group_id] = plate
 
-    def __createPlate(self, collectibles_group, arrow, scene_icon_block_prototype_name, text_block_prototype_name):
+    def __createPlate(self, collectibles_group, arrow_node, scene_icon_block_prototype_name, text_block_prototype_name):
         movie_state_block = self.object.getObject(collectibles_group.params.icon_block_state_movie_name)
         movie_state_idle = self.object.getObject(collectibles_group.params.icon_idle_state_movie_name)
         movie_state_complete = self.object.getObject(collectibles_group.params.icon_complete_state_movie_name)
@@ -318,7 +319,7 @@ class Collectibles(BaseEntity):
             movie_text_transition_block = self.object.generateObjectUnique(unique_name, text_block_prototype_name,
                                                                            Enable=True, Play=False, Loop=False)
             movie_text_transition_block.setAlpha(0.0)
-            arrow.addChild(movie_text_transition_block.getEntityNode())
+            arrow_node.addChild(movie_text_transition_block.getEntityNode())
 
         movie_state_block.setEnable(False)
         movie_state_idle.setEnable(False)
@@ -327,7 +328,7 @@ class Collectibles(BaseEntity):
         movie_scene_icon.setAlpha(0.0)
         movie_transition_text.setAlpha(0.0)
 
-        arrow.addChild(movie_transition_text.getEntityNode())
+        arrow_node.addChild(movie_transition_text.getEntityNode())
 
         return CollectiblePlate(collectibles_group, movie_state_block, movie_state_idle, movie_state_complete,
                                 movie_scene_icon, movie_transition_text, movie_scene_icon_block,

@@ -98,8 +98,9 @@ class MetalDetector(BaseEntity):
 
     def updateSpeedTiming(self, *params):
         arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
 
-        arrowPosition = arrow.getLocalPosition()
+        arrowPosition = arrow_node.getLocalPosition()
 
         distanse = (((arrowPosition[0] - self.position[0]) ** 2 + (arrowPosition[1] - self.position[1]) ** 2)) ** .5
         gaus = ((arrowPosition[0] - self.position[0]), (arrowPosition[1] - self.position[1]))
@@ -110,11 +111,8 @@ class MetalDetector(BaseEntity):
 
         Movie = self.CurrentMovie
         MovieEn = Movie.getEntity()
-        #        arrow.addChild(MovieEn)
 
-        arrow = CursorManager.getArrow()
-        itemNode = arrow.getCursorNode()
-        itemNode.addChild(MovieEn)
+        arrow_node.addChild(MovieEn)
 
         cursorChildren = CursorManager.getCursorChildren()
         if len(cursorChildren) == 0:

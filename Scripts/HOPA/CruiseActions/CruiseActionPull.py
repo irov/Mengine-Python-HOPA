@@ -44,7 +44,8 @@ class CruiseActionPull(CruiseAction, MixinObject):
         return True
 
     def _onAction(self):
-        Node = Mengine.getArrow()
+        Arrow = Mengine.getArrow()
+        Node = Arrow.getNode()
         PositionA = self._getCruisePosition(self.Object)
         PositionB = (
             PositionA[0] + CruiseActionPull.s_directions[self.Direction][0],

@@ -395,8 +395,7 @@ class CursorManager(object):
 
     @staticmethod
     def removeChildren():
-        # arrow = CursorManager.getArrow()
-        # arrow.removeAllChild()
+        #Empty
         return
 
     @staticmethod
@@ -513,7 +512,8 @@ class CursorManager(object):
 
             return True
 
-        arrow = CursorManager.getArrow()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
 
         SystemCursor = Mengine.getCursorMode()
         CursorSystemAttachX = None
@@ -523,7 +523,7 @@ class CursorManager(object):
                 item = ArrowManager.getArrowAttach()
                 if item is not None:
                     itemEntity = item.getEntity()
-                    arrow.addChild(itemEntity.node)
+                    arrow_node.addChild(itemEntity.node)
 
                 return True
 
@@ -583,7 +583,7 @@ class CursorManager(object):
                 item.setOrigin((0, 0))
                 slotItem.addChild(itemEntityNode)
 
-        arrow.addChild(movieEntity.node)
+        arrow_node.addChild(movieEntity.node)
         # lastCursorMovie = CursorManager.s_currentCursorChildren[-1]
         CursorManager.s_currentCursorChildren.append(currentMovie)
 
@@ -603,7 +603,7 @@ class CursorManager(object):
                 #   lastCursorMovie.setEnable(False)
 
                 show_movie_entity_node = show_movie.getEntityNode()
-                arrow.addChild(show_movie_entity_node)
+                arrow_node.addChild(show_movie_entity_node)
 
                 show_movie.setEnable(True)
                 currentMovie.setEnable(False)

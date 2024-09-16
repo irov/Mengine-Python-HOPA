@@ -739,7 +739,8 @@ class DrawMagicSymbolsFight(Enigma):
         if not self.params.hide_cursor:
             return
 
-        arrow_node = Mengine.getArrow().node
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
 
         if time == -1:
             arrow_node.getRender().setLocalAlpha(alpha_to)

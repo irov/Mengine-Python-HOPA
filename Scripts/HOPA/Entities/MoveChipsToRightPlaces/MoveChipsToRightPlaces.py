@@ -25,20 +25,22 @@ class MoveChipsToRightPlaces(Enigma):
             source.addTask("TaskMouseButtonClick", isDown=False)
 
         def attach(self):
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()
             self.preAttachPosition = entity_node.getLocalPosition()
-            arrow.addChildFront(entity_node)
+            arrow_node.addChildFront(entity_node)
 
             entity_node_pos = entity_node.getLocalPosition()
             entity_node.setLocalPosition((entity_node_pos[0] - arrowPos[0], entity_node_pos[1] - arrowPos[1]))
 
         def deattach(self):
             self.movie.returnToParent()
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()
             entity_node_pos = entity_node.getLocalPosition()

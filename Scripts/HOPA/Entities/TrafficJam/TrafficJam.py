@@ -104,7 +104,8 @@ class TrafficJamElement(object):
             sliderPos = self.sprite.getLocalPosition()
 
             arrow = Mengine.getArrow()
-            arrowPos = arrow.getWorldPosition()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getWorldPosition()
 
             self.offset = (arrowPos.x - sliderPos.x, arrowPos.y - sliderPos.y)
 
@@ -167,7 +168,8 @@ class TrafficJamElement(object):
 
     def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
         arrow = Mengine.getArrow()
-        arrowPos = arrow.getWorldPosition()
+        arrow_node = arrow.getNode()
+        arrowPos = arrow_node.getWorldPosition()
 
         newPos = (arrowPos.x - self.offset[0], arrowPos.y - self.offset[1])
 

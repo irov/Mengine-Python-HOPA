@@ -152,8 +152,6 @@ class Spot(BaseEntity):
         self.hotspots.append(DragAndDropHS)
         DragAndDropHS.setEventListener(onHandleMouseButtonEvent=self._onHSMainClick)
 
-        self.arrow = Mengine.getArrow()
-
         offsetX = 0
         offsetY = 0
 
@@ -278,7 +276,10 @@ class Spot(BaseEntity):
 
         self.translate((0, 0))
         self.setLocalPosition((0, 0))
-        self.setRelationTransformation(self.arrow)
+
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+        self.setRelationTransformation(arrow_node)
         pass
 
     def __arrowDetach(self):
@@ -287,7 +288,10 @@ class Spot(BaseEntity):
 
         self.__attached = False
 
-        tempPos = self.arrow.getWorldPosition()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
+        tempPos = arrow_node.getWorldPosition()
+
         self.removeRelationTransformation()
         self.translate(tempPos)
         pass

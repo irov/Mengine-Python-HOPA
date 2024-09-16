@@ -373,10 +373,8 @@ class FittingInventory(BaseEntity):
         ArrowManager.attachArrow(InventoryItem)
         self.inventoryGlobalMouseEvent(True)
 
-        #        arrow = Mengine.getArrow()
-
-        arrow = ArrowManager.getArrow()
-        itemNode = arrow.getItemNode()
+        arrow = Mengine.getArrow()
+        itemNode = arrow.getNode()
 
         InventoryItemEntity = InventoryItem.getEntity()
         InventoryItemEntity.pick()

@@ -108,8 +108,9 @@ class MoveCursorToRightPlaces(Enigma):
             self.movie_light.setPlay(True)
 
         if attach:
-            arrow = ArrowManager.getArrow()
-            arrow.addChild(self.movie_light_en)
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrow_node.addChild(self.movie_light_en)
         else:
             self.movie_light_node_parent.addChild(self.movie_light_en)
 

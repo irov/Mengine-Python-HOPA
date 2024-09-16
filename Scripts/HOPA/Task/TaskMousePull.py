@@ -31,7 +31,8 @@ class TaskMousePull(MixinObserver, Task):
 
     def _onRun(self):
         arrow = Mengine.getArrow()
-        self.startPoint = arrow.getLocalPosition()
+        arrow_node = arrow.getNode()
+        self.startPoint = arrow_node.getLocalPosition()
 
         self.addObserver(Notificator.onMouseButtonEvent, self.__PullListener)
 
@@ -43,7 +44,8 @@ class TaskMousePull(MixinObserver, Task):
             return False
             pass
         arrow = Mengine.getArrow()
-        endPoint = arrow.getLocalPosition()
+        arrow_node = arrow.getNode()
+        endPoint = arrow_node.getLocalPosition()
 
         pullVector = (self.startPoint[0] - endPoint[0], self.startPoint[1] - endPoint[1])
         size_vect = pullVector[0] ** 2 + pullVector[1] ** 2

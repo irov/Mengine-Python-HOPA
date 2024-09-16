@@ -39,13 +39,14 @@ class TaskItemPlaceItem(MixinItem, MixinObserver, Task):
             return True
             pass
 
-        arrow = ArrowManager.getArrow()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         ItemEntity = self.SocketItem.getEntity()
         Image = ItemEntity.getSprite()
         centre = Image.getLocalImageCenter()
         itemPos = self.Item.getPosition()
         SocketPos = self.SocketItem.getPosition()
-        arowPos = arrow.getWorldPosition()
+        arowPos = arrow_node.getWorldPosition()
         condition = (
             itemPos[0] + arowPos[0] - SocketPos[0] - centre[0],
             itemPos[0] + arowPos[0] - SocketPos[0] - centre[0]

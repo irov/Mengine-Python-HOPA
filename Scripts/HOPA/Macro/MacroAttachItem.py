@@ -86,10 +86,11 @@ class MacroAttachItem(MacroCommand):
         node.setWorldPosition((0, 0))
 
         node.removeFromParent()
-        arrow = ArrowManager.getArrow()
+        arrow = Mengine.getArrow()
+        arrow_node = arrow.getNode()
         CursorManager.macroAttached(Object)
 
         if self.AttachMovieFront:
-            arrow.addChildFront(node)
+            arrow_node.addChildFront(node)
         else:
-            arrow.addChild(node)
+            arrow_node.addChild(node)

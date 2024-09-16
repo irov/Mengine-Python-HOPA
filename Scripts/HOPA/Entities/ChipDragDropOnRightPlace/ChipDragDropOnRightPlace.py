@@ -45,10 +45,11 @@ class ChipDragDropOnRightPlace(Enigma):
             attach chip to arrow
             :return:
             """
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
-            arrow.addChildFront(self.node)
+            arrow_node.addChildFront(self.node)
 
             self.node.setWorldPosition((arrowPos[0], arrowPos[1]))
 
@@ -58,8 +59,9 @@ class ChipDragDropOnRightPlace(Enigma):
             :return:
             """
             self.returnToParent()
-            arrow = ArrowManager.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow = Mengine.getArrow()
+            arrow_node = arrow.getNode()
+            arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.node
 
