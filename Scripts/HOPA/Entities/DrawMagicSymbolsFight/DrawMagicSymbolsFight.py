@@ -431,8 +431,7 @@ class DrawMagicSymbolsFight(Enigma):
             self.drawing_node.setLocalPosition((0.0, 0.0))
 
             ''' Setup Sprite_Pen generation callback on cursor position change '''
-            self.mouse_pos_provider = Mengine.addMousePositionProvider(None, None, None,
-                                                                       self.onMouseChangeGeneratePenSprite)
+            self.mouse_pos_provider = Mengine.addMousePositionProvider(None, None, self.onMouseChangeGeneratePenSprite)
 
             ''' Create Draw Sound Handler '''
             self.draw_sound_handler = SoundHandler(self.object, self.params.draw_sound_delay,

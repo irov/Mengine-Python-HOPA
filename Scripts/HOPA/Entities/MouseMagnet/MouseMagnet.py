@@ -166,7 +166,7 @@ class MouseMagnet(Enigma):
         self.Node_Mouse.setWorldPosition((position.x, position.y))
 
     def _setup(self):
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
 
         entityNode = self.object.getEntityNode()
         Chip = self.object.generateObject(self.param.PrototypeChip, self.param.PrototypeChip)

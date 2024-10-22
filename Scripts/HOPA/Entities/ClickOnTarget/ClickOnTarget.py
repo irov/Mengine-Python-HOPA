@@ -290,7 +290,7 @@ class ClickOnTarget(Enigma):
         target_slot.addChild(self.target_fill.entity.node)
 
         # run filler move on cursor
-        self.filler_mouse_pos_provider = Mengine.addMousePositionProvider(None, None, None, self.moveFillerOnCursorChangePos)
+        self.filler_mouse_pos_provider = Mengine.addMousePositionProvider(None, None, self.moveFillerOnCursorChangePos)
 
         # run target fill tick affector logic handler
         self.target_fill_affector = Mengine.addAffector(self.targetFillingAffector)
