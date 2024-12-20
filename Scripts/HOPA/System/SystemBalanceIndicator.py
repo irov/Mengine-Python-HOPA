@@ -3,9 +3,9 @@ from Foundation.GroupManager import GroupManager
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Foundation.SceneManager import SceneManager
+from Foundation.MonetizationManager import MonetizationManager
 from HOPA.Entities.BalanceIndicator.BalanceIndicator import EnergyIndicator, GoldIndicator, AdvertisementIndicator
 from HOPA.System.SystemEnergy import EVENT_UPDATE_TIMER
-
 
 class SystemBalanceIndicator(System):
 
@@ -31,8 +31,12 @@ class SystemBalanceIndicator(System):
                                                                      default=(), valueType=str)
 
     def _onRun(self):
+        if MonetizationManager.isMonetizationEnable() is False:
+            return True
+
         if GroupManager.hasGroup("BalanceIndicator") is False:
             return True
+
         if Mengine.hasTouchpad() is False:
             return True
 
@@ -78,6 +82,15 @@ class SystemBalanceIndicator(System):
         return True
 
     def _onStop(self):
+        if MonetizationManager.isMonetizationEnable() is False:
+            return
+
+        if GroupManager.hasGroup("BalanceIndicator") is False:
+            return
+
+        if Mengine.hasTouchpad() is False:
+            return
+
         if self.update_timer_observer is not None:
             EVENT_UPDATE_TIMER.removeObserver(self.update_timer_observer)
             self.update_timer_observer = None

@@ -1,6 +1,5 @@
 from Foundation.MonetizationManager import MonetizationManager
 
-
 class IndicatorMixin(object):
     type = None
     icon_tag = None
@@ -36,6 +35,10 @@ class IndicatorMixin(object):
         return "Movie2_{}_{}".format(self.icon_tag, Utils.getCurrentPublisher())
 
     def isEnabled(self):
+        if MonetizationManager.isMonetizationEnable() is False:
+            return False
+            pass
+
         """ is allowed to be enabled in this game version """
         key = "BalanceIndicator{}Enable".format(self.type)
         return MonetizationManager.getGeneralSetting(key, True) is True
