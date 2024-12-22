@@ -1,13 +1,18 @@
 from Foundation.System import System
 
+from Foundation.MonetizationManager import MonetizationManager
 
 class SystemRestorePurchases(System):
-
     OPEN_TRIGGERS = ["InGameMenu"]
 
     def _onRun(self):
+        if MonetizationManager.isMonetizationEnable() is False:
+            return True
+            pass
+
         self.addObserver(Notificator.onLayerGroupEnable, self._cbLayerGroupEnable)
         self.addObserver(Notificator.onLayerGroupDisable, self._cbLayerGroupDisable)
+
         return True
 
     def _cbLayerGroupEnable(self, group_name):
