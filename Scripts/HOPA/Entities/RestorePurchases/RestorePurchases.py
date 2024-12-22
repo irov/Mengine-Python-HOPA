@@ -1,6 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Foundation.Providers.PaymentProvider import PaymentProvider
+from Foundation.MonetizationManager import MonetizationManager
 
 BUTTON_NAME = "Movie2Button_RestorePurchases"
 EFFECT_NAME = "Movie2_EffectDone"

@@ -4,6 +4,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
 from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.TaskManager import TaskManager
+from Foundation.MonetizationManager import MonetizationManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.StageManager import StageManager
 
