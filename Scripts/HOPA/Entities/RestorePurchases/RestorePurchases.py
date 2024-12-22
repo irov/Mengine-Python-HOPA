@@ -68,8 +68,9 @@ class RestorePurchases(BaseEntity):
         self.button_center = None
 
     def _prepareEnable(self):
+        is_monetization = MonetizationManager.isMonetizationEnable()
         is_mobile = Mengine.hasTouchpad() is True
         is_enable = Mengine.getConfigBool("Monetization", "RestorePurchases", False) is True
-        self._active = is_mobile and is_enable
+        self._active = is_monetization and is_mobile and is_enable
 
         return self._active

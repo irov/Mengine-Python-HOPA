@@ -147,6 +147,8 @@ class InGameMenu(BaseEntity):
         source.addFunction(AchievementsProvider.showAchievements)
 
     def _initStoreButton(self):
+        if MonetizationManager.isMonetizationEnable() is False:
+            return False
         if Mengine.hasTouchpad() is False:
             return False
         if StageManager.hasCurrentStage() is False:
