@@ -11,6 +11,7 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
 
         self.AutoEnable = params.get("AutoEnable", True)
         self.TradeMode = params.get("Trade", False)
+        self.Filter = params.get("Filter", None)
         pass
 
     def _onInitialize(self):
@@ -36,6 +37,12 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
         pass
 
     def _onItemFindFilter(self, item):
+        if self.Filter is not None:
+            if self.Filter(item) is False:
+                return False
+                pass
+            pass
+
         if ArrowManager.emptyArrowAttach() is False:
             if self.TradeMode:
                 Notification.notify(Notificator.onAttachTrade)
