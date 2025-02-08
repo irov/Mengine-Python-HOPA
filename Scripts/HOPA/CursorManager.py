@@ -62,23 +62,14 @@ class CursorManager(object):
     @staticmethod
     def onInitialize():
         CursorManager.onQuestRunObserver = Notification.addObserver(Notificator.onQuestRun, CursorManager._onAddQuestFilter)
-
         CursorManager.onQuestEndObserver = Notification.addObserver(Notificator.onQuestEnd, CursorManager._onRemoveQuestFilter)
-
         CursorManager.onCursorModeObserver = Notification.addObserver(Notificator.onCursorMode, CursorManager.__onCursorModeFilter)
-
         CursorManager.onSceneInit = Notification.addObserver(Notificator.onSceneInit, CursorManager.__onSceneInit)
-
         CursorManager.onSceneDeactivateObserver = Notification.addObserver(Notificator.onSceneDeactivate, CursorManager.__onSceneDeactivateFilter)
-
         CursorManager.onCustomCursorObserver = Notification.addObserver(Notificator.onCustomCursor, CursorManager.__onCustomCursor)
-
         CursorManager.onMacroArrowAttach = Notification.addObserver(Notificator.onMacroArrowAttach, CursorManager.__changeArrowAttachedState)
-
         CursorManager.onEnigmaActivateObserver = Notification.addObserver(Notificator.onEnigmaActivate, CursorManager.__onPuzzleOpen)
-
         CursorManager.onEnigmaDeactivateObserver = Notification.addObserver(Notificator.onEnigmaDeactivate, CursorManager.__onPuzzleClose)
-
         CursorManager.onMacroAttachItemRemove = Notification.addObserver(Notificator.onMacroAttachItemRemoveObserver, CursorManager.__removeAttachItems)
 
     @staticmethod
@@ -773,9 +764,6 @@ class CursorManager(object):
     def __onCursorModeFilter(mode):
         # if Mengine.getCurrentAccountSettingBool("DifficultyCustomChangeIconOnActiveAreas") is False:
         #     mode = 'Default'
-
-        arrow = Mengine.getArrow()
-        arrow.onCursorMode(mode)
 
         CursorManager.updateArrowCursor(True)
 

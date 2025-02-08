@@ -213,7 +213,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
 
         with source.addParallelTask(2) as (parallel_0, parallel_1):
-            parallel_0.addTask("TaskNodeBezier2Follow", Follow=self.nodeFollow, Node=self.nodeMove, Time=Time,
+            parallel_0.addTask("TaskNodeBezier2WorldFollow", Follow=self.nodeFollow, Node=self.nodeMove, Time=Time,
                                Easing=self.easing)
             parallel_1.addTask("TaskNodeScaleTo", Node=nodeScale, To=(scaleTo, scaleTo, 1.0), Time=Time,
                                Easing=self.easing)

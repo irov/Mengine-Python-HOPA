@@ -98,7 +98,7 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
             pass
         with source.addParallelTask(2) as (tc0, tc1):
             # tc0.addTask("TaskNodeBezier2To", Node=node, Point1=P1, To=P2, Speed=SpeedEffectInventoryReturnInventoryItem)
-            tc0.addTask("TaskNodeBezier2Follow", Follow=node2, Node=node,
+            tc0.addTask("TaskNodeBezier2WorldFollow", Follow=node2, Node=node,
                         Speed=SpeedEffectInventoryReturnInventoryItem, Easing=self.easing)
 
             tc1.addTask("TaskNodeScaleTo", Node=node, To=(scaleTo, scaleTo, 1.0), Time=time, Easing=self.easing)

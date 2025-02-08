@@ -106,7 +106,7 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
 
         with source.addParallelTask(2) as (tcp0, tcp1):
             tcp0.addNotify(Notificator.onSoundEffectOnObject, self.InventoryItem, "MoveItemToInventory")
-            tcp0.addTask("TaskNodeBezier2Follow", Follow=node2, Node=node, Time=Time)  # Offset=negative_Offset
+            tcp0.addTask("TaskNodeBezier2WorldFollow", Follow=node2, Node=node, Time=Time)  # Offset=negative_Offset
 
             tcp1.addTask("TaskNodeAlphaTo", Node=node, From=1.0, To=0.0, Time=Time)  # CHeat    need to scale insted
 

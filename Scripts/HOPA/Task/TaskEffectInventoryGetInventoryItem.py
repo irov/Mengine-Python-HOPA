@@ -106,7 +106,7 @@ class TaskEffectInventoryGetInventoryItem(TaskAlias):
             tcp0.addNotify(Notificator.onSoundEffectOnObject, self.InventoryItem, "MoveItemToInventory")
 
             # tcp0.addTask("TaskNodeBezier2To", Node=node, Point1=Point1, To=P2, Time=Time)
-            tcp0.addTask("TaskNodeBezier2Follow", Follow=node2, Node=node, Time=Time)  # Offset=negative_Offset
+            tcp0.addTask("TaskNodeBezier2WorldFollow", Follow=node2, Node=node, Time=Time)  # Offset=negative_Offset
 
             # tcp1.addTask("TaskNodeScaleTo", Node=node, To=(scaleTo, scaleTo, 1.0), Time=Time) #Find me plz
 

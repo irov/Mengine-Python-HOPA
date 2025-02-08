@@ -623,7 +623,7 @@ class AssemblyDesigner(Enigma):
             arrow = Mengine.getArrow()
             node = arrow.getNode()
 
-            screen_position = Mengine.getNodeScreenPosition(node)
+            screen_position = Mengine.getNodeScreenAdaptPosition(node)
             hotspots_names = Mengine.pickAllHotspot(screen_position)
 
             if current_set.movie_carcass.getSocket('socket') in hotspots_names:

@@ -62,7 +62,7 @@ class HintActionMultiTarget(MixinGroup, HintAction):
         if node is None:
             source.addTask("AliasObjectBezier2To", Object=self.Movie2_HintWay, Point1=P1_5, To=P1, Speed=speed)
         else:
-            source.addTask("TaskNodeBezier2Follow", Follow=node,
+            source.addTask("TaskNodeBezier2WorldFollow", Follow=node,
                            Node=self.Movie2_HintWay.getEntityNode(), Speed=speed, Offset=Offset)
             source.addScope(self.scopeSetTargetPos, node, P1)
 

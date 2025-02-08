@@ -199,7 +199,7 @@ class ForestMaze(Enigma):
 
     def __isNearbyToEmpty(self, chip):
         chip_en = chip.movie_chip.getEntityNode()
-        screen_position = Mengine.getNodeScreenPosition(chip_en)
+        screen_position = Mengine.getNodeScreenAdaptPosition(chip_en)
 
         hotspots_names = Mengine.pickAllHotspot(screen_position)
         nearby_socket = self.empty_chip.movie_chip.getSocket("nearby")
@@ -220,7 +220,7 @@ class ForestMaze(Enigma):
 
             chip_en = chip.movie_chip.getEntityNode()
 
-            screen_position = Mengine.getNodeScreenPosition(chip_en)
+            screen_position = Mengine.getNodeScreenAdaptPosition(chip_en)
 
             hotspots_names = Mengine.pickAllHotspot(screen_position)
             if nearby_socket not in hotspots_names:
@@ -338,7 +338,7 @@ class ForestMaze(Enigma):
     def __checkDeathByEnemy(self):
         chip_en = self.player_chip.movie_chip.getEntityNode()
 
-        screen_position = Mengine.getNodeScreenPosition(chip_en)
+        screen_position = Mengine.getNodeScreenAdaptPosition(chip_en)
 
         hotspots_names = Mengine.pickAllHotspot(screen_position)
 

@@ -548,7 +548,7 @@ class TurnBasedStrategyGo(Enigma):
         for place in self.places.values():
             movie_place_node = place.movie_place.getEntityNode()
 
-            screen_position = Mengine.getNodeScreenPosition(movie_place_node)
+            screen_position = Mengine.getNodeScreenAdaptPosition(movie_place_node)
 
             hotspots_names = Mengine.pickAllHotspot(screen_position)
 
