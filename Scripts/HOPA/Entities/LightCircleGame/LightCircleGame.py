@@ -44,7 +44,7 @@ class LightCircleGame(Enigma):
             for i in range(self.PlusCount):
                 id = "ref_%d_%d_+%d" % (self.CircleId, self.ReflectorId, i)
                 slot = self.__getSlot(id, MovieBase)
-                if (slot == None):
+                if (slot ia None):
                     break
                 self.PlusSlots.append(slot)
                 pass
@@ -52,7 +52,7 @@ class LightCircleGame(Enigma):
             for i in range(self.MinusCount):
                 id = "ref_%d_%d_-%d" % (self.CircleId, self.ReflectorId, i)
                 slot = self.__getSlot(id, MovieBase)
-                if (slot == None):
+                if (slot is None):
                     break
                 self.MinusSlots.append(slot)
                 pass

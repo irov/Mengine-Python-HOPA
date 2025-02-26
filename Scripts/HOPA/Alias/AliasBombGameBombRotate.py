@@ -30,7 +30,7 @@ class AliasBombGameBombRotate(TaskAlias):
             pass
 
         def TryEndMovBef():
-            if (len(self.Movie[0]) == 0 or self.Movie[0][0] == None):
+            if (len(self.Movie[0]) == 0 or self.Movie[0][0] is None):
                 self.DelayEnd[0] = 0.1
                 self.DelayEnd[0] *= 1000  # speed fix
                 Notification.notify(Notificator.onBombEndMov, self.Bomb)

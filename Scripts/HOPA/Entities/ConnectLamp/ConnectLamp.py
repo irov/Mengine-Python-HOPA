@@ -233,7 +233,7 @@ class ConnectLamp(Enigma):
         pass
 
     def __Skip_Movie(self, mov):
-        if (mov == None):
+        if (mov is None):
             return
             pass
 

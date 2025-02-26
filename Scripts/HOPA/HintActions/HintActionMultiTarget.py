@@ -34,7 +34,7 @@ class HintActionMultiTarget(MixinGroup, HintAction):
         return P1_5
 
     def Check_Action(self, source):
-        if self.Movie2_HintTarget == None or self.Movie2_HintWay == None or self.Movie2_HintInventoryTarget == None:
+        if self.Movie2_HintTarget is None or self.Movie2_HintWay is None or self.Movie2_HintInventoryTarget is None:
             source.addDelay(self.timer)
             source.addFunction(self.destroy_all_movies)
             source.addFunction(self.Setup)

@@ -192,7 +192,7 @@ class ShootGame(Enigma):
         movie = self.MoviesDug[id]
 
         def shoot():
-            if (self.CurentPlayMovie == None):
+            if (self.CurentPlayMovie is None):
                 return
                 pass
 

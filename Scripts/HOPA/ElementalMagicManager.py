@@ -25,7 +25,7 @@ class ElementalMagicManager(Manager):
     onQuestEndObserver = None
 
     class Params(object):
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             def __repr__(self):
                 return "<{}: {}>".format(self.__class__.__name__, self.__dict__)
 

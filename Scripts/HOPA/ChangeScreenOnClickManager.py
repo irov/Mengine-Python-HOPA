@@ -121,7 +121,7 @@ class ChangeScreenOnClickManager(Manager):
             row = record.get("row")
             Values = record.get("Values", [])
 
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 _error = False
                 for value in Values:
                     if value[0] not in [BoardCell.Gate, BoardCell.Lever]:

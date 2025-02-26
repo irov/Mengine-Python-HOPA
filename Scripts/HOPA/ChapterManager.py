@@ -47,7 +47,7 @@ class ChapterManager(object):
         elif param.startswith("Chapter"):
             ChapterManager.loadChapterScenarios(module, param, param)
         else:
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.log("Manager", 0, "Not found handler for {}".format(param))
         return True
 

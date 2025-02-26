@@ -89,26 +89,26 @@ class ChipMoveCount(Enigma):
 
         if self.Arrow_Pressed == "Up":
             for i in range(self.Player_Pos[2 * self.Player], -1, -1):
-                if self.game_state[i][self.Player_Pos[2 * self.Player + 1]] == None:
+                if self.game_state[i][self.Player_Pos[2 * self.Player + 1]] is None:
                     self.Move_To.append(i + 1)
                     self.Move_To.append(self.Player_Pos[2 * self.Player + 1])
                     return
         elif self.Arrow_Pressed == "Down":
             for i in range((self.Player_Pos[2 * self.Player]) + 1, len(self.game_state)):
-                if self.game_state[i][self.Player_Pos[2 * self.Player + 1]] == None:
+                if self.game_state[i][self.Player_Pos[2 * self.Player + 1]] is None:
                     self.Move_To.append(i - 1)
                     self.Move_To.append(self.Player_Pos[2 * self.Player + 1])
                     return
         elif self.Arrow_Pressed == "Left":
             for j in range((self.Player_Pos[2 * self.Player + 1]) - 1, -1, -1):
-                if self.game_state[(self.Player_Pos[2 * self.Player])][j] == None or self.game_state[(self.Player_Pos[2 * self.Player])][j] == border:
+                if self.game_state[(self.Player_Pos[2 * self.Player])][j] is None or self.game_state[(self.Player_Pos[2 * self.Player])][j] == border:
                     self.Move_To.append((self.Player_Pos[2 * self.Player]))
                     self.Move_To.append(j + 1)
 
                     return
         elif self.Arrow_Pressed == "Right":
             for j in range((self.Player_Pos[2 * self.Player + 1]), len(self.game_state[0])):
-                if self.game_state[(self.Player_Pos[2 * self.Player])][j] == None or self.game_state[(self.Player_Pos[2 * self.Player])][j] == border:
+                if self.game_state[(self.Player_Pos[2 * self.Player])][j] is None or self.game_state[(self.Player_Pos[2 * self.Player])][j] == border:
                     self.Move_To.append((self.Player_Pos[2 * self.Player]))
                     self.Move_To.append(j - 1)
 
@@ -183,7 +183,7 @@ class ChipMoveCount(Enigma):
             return
 
     def _scopeMove(self, source, node, time=None):
-        if self.grid[self.Move_To[-2]][self.Move_To[-1]] == None or self.Arrow_Pressed == None:
+        if self.grid[self.Move_To[-2]][self.Move_To[-1]] is None or self.Arrow_Pressed is None:
             return
 
         posTo = self.grid[self.Move_To[-2]][self.Move_To[-1]].getWorldPosition()
@@ -232,7 +232,7 @@ class ChipMoveCount(Enigma):
             self.player_movie_pack[self.Movie_Count * self.Player + i].setEnable(tf)
 
     def _scopeShowLayer(self, source, movie):
-        if self.Arrow_Pressed == None:
+        if self.Arrow_Pressed is None:
             return
         layerName = self.layers[self.Player_Number[self.Player]]
         movie.appendParam("DisableLayers", layerName)
@@ -242,7 +242,7 @@ class ChipMoveCount(Enigma):
         pass
 
     def _scopeStart(self, source):
-        if self.Player == None:
+        if self.Player is None:
             with source.addRaceTask(2) as (tc_Player0, tc_Player1):
                 tc_Player0.addTask("TaskMovie2SocketEnter", Movie2=self.player_movie_pack[0], SocketName="socket")
 

@@ -11,12 +11,12 @@ class AliasMultyplMovePlay(TaskAlias):
         if len(self.Movies) == 0:
             return
 
-        if self.Movies[0] == None or len(self.Movies[0]) == 0:
+        if self.Movies[0] is None or len(self.Movies[0]) == 0:
             return
 
         tuples = self.Movies[0]
 
         for movieTuple in tuples:
-            if movieTuple[0] == None:
+            if movieTuple[0] is None:
                 continue
             source.addTask("TaskMoviePlay", Movie=movieTuple[0], Wait=movieTuple[1])

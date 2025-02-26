@@ -63,7 +63,7 @@ class ChessPuzzleMovieGrid(object):
 
     def refresh(self):
         def visitor(element):
-            if element == None:
+            if element is None:
                 return
                 pass
             x = element.getX()

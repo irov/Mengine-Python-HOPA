@@ -26,7 +26,7 @@ class GroupPrefetch(Initializer):
             objType = obj.getType()
             if objType == "ObjectSprite":
                 resName = obj.getParam("SpriteResourceName")
-                if resName == None:
+                if resName is None:
                     return
                 resource = self.__createResourceReference(resName)
                 self.__addResource(resource)

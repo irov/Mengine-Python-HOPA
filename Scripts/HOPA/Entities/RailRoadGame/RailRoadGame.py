@@ -24,7 +24,7 @@ class RailRoadGame(Enigma):
 
         def Init(self):
             MovieIdleName = self.ManagerData.MovieIdle
-            if (MovieIdleName == None):
+            if (MovieIdleName is None):
                 return
                 pass
 
@@ -47,7 +47,7 @@ class RailRoadGame(Enigma):
             pass
 
         def DisableThis(self):
-            if (self.MovieIdle == None):
+            if (self.MovieIdle is None):
                 return
                 pass
 

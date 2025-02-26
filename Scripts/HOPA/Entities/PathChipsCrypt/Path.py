@@ -132,12 +132,12 @@ class Path(object):
         slotFrom = Path.getSlot(slotNameFrom)
         slotTo = Path.getSlot(slotNameTo)
 
-        if slotFrom.value == None:
+        if slotFrom.value is None:
             # print (slotFrom,"value None")
             return False
             pass
 
-        if slotTo.value != None:
+        if slotTo.value is not None:
             # print (slotTo,"value  not None")
             return False
             pass

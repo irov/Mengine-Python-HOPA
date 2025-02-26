@@ -99,7 +99,7 @@ class SwapGame(Enigma):
                 return
                 pass
 
-            if (self.Click == None):
+            if (self.Click is None):
                 self.Click = id
                 pass
             else:

@@ -19,7 +19,7 @@ class ResourceReference(object):
 
     def getCountReference(self):
         reference = self.__getReference()
-        if reference == None:
+        if reference is None:
             return -9000
             pass
 

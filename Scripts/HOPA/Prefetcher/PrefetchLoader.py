@@ -10,7 +10,7 @@ class PrefetchLoader(object):
 
     def forceLoading(self):
         self.force = True
-        if self.currentLoadingGroup == None:
+        if self.currentLoadingGroup is None:
             return
             pass
 
@@ -86,7 +86,7 @@ class PrefetchLoader(object):
     def stop(self):
         self.loading = False
 
-        if self.currentLoadingGroup == None:
+        if self.currentLoadingGroup is None:
             pass
         self.currentLoadingGroup.cancel()
         pass

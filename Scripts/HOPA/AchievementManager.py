@@ -36,7 +36,7 @@ class ExternalAchievementParam(object):
         self._debug = AchievementManager.getRecordValue(record, "Debug", cast=bool, default=False)
 
     def __repr__(self):
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             return "<{}: {}>".format(self.__class__.__name__, self.__dict__)
         else:
             return "<{} {!r}>".format(self.__class__.__name__, self.name)

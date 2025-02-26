@@ -394,7 +394,7 @@ class ChekersCR(Enigma):
 
     def __End_Movie(self, x, y):
         mov = self.Field_Movies[x][y]
-        if (mov == None):
+        if (mov is None):
             return
             pass
 
@@ -410,7 +410,7 @@ class ChekersCR(Enigma):
         pass
 
     def __Skip_Movie(self, mov):
-        if (mov == None):
+        if (mov is None):
             return
             pass
         mov_Ent = mov.getEntity()

@@ -42,7 +42,7 @@ class SystemZoomAfterFrame(System):
         pass
 
     def _ZoomDeAttachToFrame(self, zoom):
-        if (self.Ent == None):
+        if (self.Ent is None):
             return False
             pass
         Group = self.Ent.object.getGroup()

@@ -6,12 +6,12 @@ class Cell(object):
 
     def __repr__(self):
         reprElement = self.element
-        if self.element == None:
+        if self.element is None:
             reprElement = "None"
             pass
 
         reprPrev = self.prevElement
-        if self.prevElement == None:
+        if self.prevElement is None:
             reprPrev = "None"
             pass
 
@@ -55,7 +55,7 @@ class Grid(object):
             result += "|"
             row = self.getRow(y)
             for val in row:
-                if val == None:
+                if val is None:
                     repr = "  None  "
                     pass
                 else:
