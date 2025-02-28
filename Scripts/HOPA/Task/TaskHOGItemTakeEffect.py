@@ -61,7 +61,7 @@ class TaskHOGItemTakeEffect(MixinItem, TaskAlias):
         timeAphaTo2 = 0.4
         timeAphaTo2 *= 1000  # speed fix
 
-        source.addTask("TaskEnable", Object=self.Item, Value=False)
+        source.addDisable(self.Item)
         source.addTask("TaskNodeScaleTo", Node=pure, To=(1.1, 1.1, 1.0), Time=timeScaleTo)
         source.addTask("TaskNodeAlphaTo", Node=pure_white, To=0.3, Time=timeAphaTo1)
         source.addTask("TaskNodeScaleTo", Node=pure, To=(1.0, 1.0, 1.0), Time=timeScaleTo)

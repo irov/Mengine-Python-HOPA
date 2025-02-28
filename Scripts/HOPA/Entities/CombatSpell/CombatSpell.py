@@ -259,9 +259,9 @@ class CombatSpell(Enigma):
 
         with TaskManager.createTaskChain(Name="CombatSpellMain", Repeat=True) as tc:
             # need befor for animation etc if player durring animation leave scene and enter agiane ai move correct
-            tc.addTask("TaskFunction", Fn=CheckWin)
+            tc.addFunction(CheckWin)
             tc.addTask("AliasCombatSpellAiTurn", CombatSpell=self)
-            tc.addTask("TaskListener", ID=Notificator.onCombatSpellSlotClick, Filter=SetXY)
+            tc.addListener(Notificator.onCombatSpellSlotClick, Filter=SetXY)
             tc.addTask("AliasCombatSpellPlayerTurn", CombatSpell=self)
             pass
 
@@ -272,7 +272,7 @@ class CombatSpell(Enigma):
 
         with TaskManager.createTaskChain(Name="CombatSpellSlotClick_%d_%d" % (x, y), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=slot.SocketName, Movie=self.Movie)
-            tc.addTask("TaskNotify", ID=Notificator.onCombatSpellSlotClick, Args=(x, y))
+            tc.addNotify(Notificator.onCombatSpellSlotClick, x, y)
             pass
         pass
 

@@ -38,9 +38,9 @@ class Column(object):
         with TaskManager.createTaskChain() as tc:
             tc.addTask("TaskInteractive", Object=socket, Value=False)
             tc.addTask("TaskMoviePlay", Movie=self.currentMovie)
-            tc.addTask("TaskEnable", Object=self.currentMovie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.columnRefreshing)
-            tc.addTask("TaskNotify", ID=Notificator.onColumnPlaced)
+            tc.addDisable(self.currentMovie)
+            tc.addFunction(self.columnRefreshing)
+            tc.addNotify(Notificator.onColumnPlaced)
             tc.addTask("TaskInteractive", Object=socket, Value=True)
             pass
         pass

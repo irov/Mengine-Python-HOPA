@@ -21,7 +21,7 @@ class AliasFanFindItem(MixinFan, TaskAlias):
 
         with source.addRepeatTask() as (tc_do, tc_until):
             tc_do.addTask("TaskItemClick", Item=ItemObject)
-            tc_do.addTask("TaskFunction", Fn=FanManager.openFan, Args=(self.Fan,))
+            tc_do.addFunction(FanManager.openFan, self.Fan)
 
             tc_do.addTask("TaskArrowAttach", Object=ItemObject)
             tc_do.addTask("TaskFanItemInHand", FanItem=ItemObject)
@@ -48,7 +48,7 @@ class AliasFanFindItem(MixinFan, TaskAlias):
 
         source.addTask("TaskObjectReturn", Object=ItemObject)
         source.addTask("TaskObjectSetPosition", Object=ItemObject, Value=Pos)
-        source.addTask("TaskEnable", Object=ItemObject, Value=False)
+        source.addDisable(ItemObject)
         pass
 
     def _onSkip(self):

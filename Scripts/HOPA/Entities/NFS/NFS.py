@@ -272,8 +272,8 @@ class NFS(Enigma):
                 tc2.addTask("AliasFadeIn", Time=1.0 * 1000, FadeGroupName="Fade", To=1.0)  # speed fix
                 pass
 
-            tc.addTask("TaskFunction", Fn=self.restoreStage)
-            tc.addTask("TaskFunction", Fn=self.moveState)
+            tc.addFunction(self.restoreStage)
+            tc.addFunction(self.moveState)
             tc.addTask("AliasFadeOut", Time=0.5 * 1000, FadeGroupName="Fade", From=1.0)  # speed fix
             pass
         pass

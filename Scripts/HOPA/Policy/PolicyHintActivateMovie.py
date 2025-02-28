@@ -16,10 +16,9 @@ class PolicyHintActivateMovie(TaskAlias):
         Movie_Activate = MovieGroup.getObject("Movie2_Activate")
         Movie2_Reload = MovieGroup.getObject("Movie2_Reload")
 
-        source.addTask("TaskEnable", Object=Movie2_Reload, Value=False)
-        source.addTask("TaskEnable", Object=Movie_Activate)
-        source.addTask("TaskMovie2Play", Movie2=Movie_Activate)
-        source.addTask("TaskEnable", Object=Movie_Activate, Value=False)
+        source.addDisable(Movie2_Reload)
+
+        source.addTask("TaskMovie2Play", Movie2=Movie_Activate, AutoEnable=True)
         pass
 
     pass

@@ -13,8 +13,8 @@ class AliasPetItem(TaskAlias):
 
     def _onGenerate(self, source):
         movie = GroupManager.getObject(self.GroupName, self.MovieName)
-        source.addTask("TaskNotify", ID=Notificator.onPetPush, Args=(self.Socket, self.ItemName, self.GroupName, movie))
-        source.addTask("TaskListener", ID=Notificator.onPetComplete, Filter=self.__filter)
+        source.addNotify(Notificator.onPetPush, self.Socket, self.ItemName, self.GroupName, movie)
+        source.addListener(Notificator.onPetComplete, Filter=self.__filter)
 
     def __filter(self, itemName, sceneName):
         if itemName == self.ItemName:

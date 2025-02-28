@@ -18,7 +18,7 @@ class MacroDisableObjectGroup(MacroCommand):
 
     def _onGenerate(self, source):
         Object = GroupManager.getObject(self.GroupObjectName, self.ObjectName)
-        source.addTask("TaskEnable", Object=Object, Value=False)
+        source.addDisable(Object)
         pass
 
     pass

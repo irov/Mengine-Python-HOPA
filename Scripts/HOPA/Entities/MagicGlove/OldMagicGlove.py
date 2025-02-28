@@ -165,9 +165,7 @@ class MagicGlove(BaseEntity):
         self.tc_Glove_Change = TaskManager.createTaskChain(Repeat=False)
         with self.tc_Glove_Change as tc_1:
             tc_1.addFunction(self.ButtonSwicher)
-            tc_1.addTask("TaskEnable", Object=Movie, Value=True)
-            tc_1.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-            tc_1.addTask("TaskEnable", Object=Movie, Value=False)
+            tc_1.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
             tc_1.addFunction(self.ButtonSwicher, number)
             # tc_1.addFunction(self.Tc_Cancel)
             # tc_1.addFunction(self.runTaskChain)
@@ -237,9 +235,7 @@ class MagicGlove(BaseEntity):
         MovieTargetEffectName = Rune.MovieEffectTarget
 
         source.addTask("TaskObjectSetPosition", GroupName=GroupName, ObjectName=MovieTargetEffectName, Value=Position)
-        source.addTask("TaskEnable", GroupName=GroupName, ObjectName=MovieTargetEffectName, Value=True)
-        source.addTask("TaskMovie2Play", GroupName=GroupName, Movie2Name=MovieTargetEffectName, Wait=True)
-        source.addTask("TaskEnable", GroupName=GroupName, ObjectName=MovieTargetEffectName, Value=False)
+        source.addTask("TaskMovie2Play", GroupName=GroupName, Movie2Name=MovieTargetEffectName, Wait=True, AutoEnable=True)
 
     def _scopeMagicGloveTargetEffectInterrupt(self, source, rune_id=None):
         rune_id = MagicGloveManager.getFirstRune()

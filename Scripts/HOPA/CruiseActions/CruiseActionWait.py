@@ -10,5 +10,5 @@ class CruiseActionWait(MixinGroup, CruiseAction):
             TaskManager.cancelTaskChain("CruiseActionWait")
 
         with TaskManager.createTaskChain(Name="CruiseActionWait") as tc:
-            tc.addTask("TaskListener", ID=Notificator.onQuestRun)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addListener(Notificator.onQuestRun)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

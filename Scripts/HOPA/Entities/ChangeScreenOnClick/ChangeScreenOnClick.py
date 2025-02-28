@@ -239,7 +239,7 @@ class ChangeScreenOnClick(Enigma):
 
         # click on arrow to choose direction
         for arrow_button, tc_arrow in source.addRaceTaskList(self.Current_Arrows):
-            tc_arrow.addTask("TaskEnable", Object=arrow_button, Value=True)
+            tc_arrow.addEnable(arrow_button)
             tc_arrow.addTask("TaskMovie2ButtonClick", Movie2Button=arrow_button)
             tc_arrow.addFunction(click_holder.set, arrow_button)
 

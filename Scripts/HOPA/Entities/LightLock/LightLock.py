@@ -103,9 +103,9 @@ class LightLock(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name=self.EnigmaName) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.__gameSocket)
-            tc.addTask("TaskFunction", Fn=self.isWinPosition)
-            tc.addTask("TaskFunction", Fn=self.isWin)
+            tc.addListener(Notificator.onSocketClick, Filter=self.__gameSocket)
+            tc.addFunction(self.isWinPosition)
+            tc.addFunction(self.isWin)
             pass
         pass
 

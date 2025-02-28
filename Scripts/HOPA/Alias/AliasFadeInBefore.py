@@ -24,4 +24,4 @@ class AliasFadeInBefore(TaskAlias):
                                                                 "AliasInventoryReturnInventoryItem")
             source.addTask(PolicyReturnInventoryItem, Inventory=Inventory)
         else:
-            source.addTask("TaskDummy")
+            source.addDummy()

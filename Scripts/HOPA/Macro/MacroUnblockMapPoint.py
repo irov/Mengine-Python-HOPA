@@ -7,7 +7,7 @@ class MacroUnblockMapPoint(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMapPointUnblock, Args=(self.SceneName,))
+        source.addNotify(Notificator.onMapPointUnblock, self.SceneName)
         pass
 
     pass

@@ -46,4 +46,4 @@ class MacroDisable(MacroCommand):
 
             return
 
-        source.addTask("TaskEnable", Object=Object, Value=False)
+        source.addDisable(Object)

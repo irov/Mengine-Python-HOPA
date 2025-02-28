@@ -425,7 +425,7 @@ class Inventory(InventoryBase):
 
             with TaskManager.createTaskChain() as tc:
                 tc.addTask("TaskMouseButtonClick")
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(True,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, True)
 
         def _TouchpadImplementation():
             self.ButtonBlock()
@@ -442,7 +442,7 @@ class Inventory(InventoryBase):
             with TaskManager.createTaskChain() as tc:
                 tc.addNotify(Notificator.onInventorySlotItemEnter, self.object, InventoryItem)
                 tc.addTask("TaskMouseButtonClick", isDown=True)
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(True,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, True)
 
         if Mengine.hasTouchpad() is True:
             _TouchpadImplementation()
@@ -531,8 +531,8 @@ class Inventory(InventoryBase):
                                                         ButtonName='Button_InvRightTemp', AutoEnable=False)
 
             tc.addTask("AliasInventorySlotsShiftRight", Inventory=self.object)
-            tc.addTask("TaskNotify", ID=Notificator.onInventorySlotsShiftEnd)
-            tc.addTask("TaskFunction", Fn=self._updateButtonInteractive)
+            tc.addNotify(Notificator.onInventorySlotsShiftEnd)
+            tc.addFunction(self._updateButtonInteractive)
 
         # ===============================================================================
         # Interaction_InvLeft
@@ -553,8 +553,8 @@ class Inventory(InventoryBase):
                                                        ButtonName='Button_InvLeftTemp', AutoEnable=False)
 
             tc.addTask("AliasInventorySlotsShiftLeft", Inventory=self.object)
-            tc.addTask("TaskNotify", ID=Notificator.onInventorySlotsShiftEnd)
-            tc.addTask("TaskFunction", Fn=self._updateButtonInteractive)
+            tc.addNotify(Notificator.onInventorySlotsShiftEnd)
+            tc.addFunction(self._updateButtonInteractive)
 
         self.onInventoryAttachInvItemToArrowObserver = Notification.addObserver(
             Notificator.onInventoryAttachInvItemToArrow, self.__onAttachItemToArrow)

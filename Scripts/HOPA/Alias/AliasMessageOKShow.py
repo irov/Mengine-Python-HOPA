@@ -35,7 +35,7 @@ class AliasMessageOKShow(TaskAlias):
     def _onGenerate(self, source):
         source.addTask("TaskSceneLayerGroupEnable", LayerName="MessageOK", Value=True)
         source.addTask("TaskInteractive", GroupName="MessageOK", ObjectName="Socket_Block", Value=True)
-        source.addTask("TaskSetParam", GroupName="MessageOK", ObjectName="Text_Message", Param="TextID", Value=self.TextID)
+        source.addParam("TaskSetParam", GroupName="MessageOK", ObjectName="Text_Message", Param="TextID", Value=self.TextID)
         if self.TextArgs is not None:
             source.addTask("TaskSetParam", GroupName="MessageOK", ObjectName="Text_Message", Param="TextArgs", Value=self.TextArgs)
 

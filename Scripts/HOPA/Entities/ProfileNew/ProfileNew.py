@@ -26,8 +26,8 @@ class ProfileNew(BaseEntity):
         CHEAT_SKIP_MENU_IF_USER_EXIST = DefaultManager.getDefaultBool("CHEAT_SKIP_MENU", False)
         if CHEAT_SKIP_MENU_IF_USER_EXIST:
             with TaskManager.createTaskChain(Name="ProfileNew", GroupName="Profile_New") as tc:
-                tc.addTask("TaskFunction", Fn=self.__selectClickSlotID)
-                tc.addTask("TaskScope", Scope=self.__checkProfile)
+                tc.addFunction(self.__selectClickSlotID)
+                tc.addScope(self.__checkProfile)
                 return
 
         with TaskManager.createTaskChain(Name="ButtonBack", GroupName="Profile_New") as tc:
@@ -52,7 +52,7 @@ class ProfileNew(BaseEntity):
             # if Name != u"":
             #     tc.addTask("TaskFunction", Fn = Demon_EditBox_Name.setValueByDefault, Args = (Name, ))
             tc.addTask("TaskSetParam", ObjectName="Demon_EditBox_Name", Param="Value", Value=Name)
-            tc.addTask("TaskFunction", Fn=Demon_EditBox_Entity.carriageEnd)
+            tc.addFunction(Demon_EditBox_Entity.carriageEnd)
 
         semaphore = Semaphore(False, "semaphoreNotEmptyName")
 
@@ -68,11 +68,11 @@ class ProfileNew(BaseEntity):
 
                 with tc.addRepeatTask() as (tc_do, tc_until):
                     with tc_do.addRaceTask(2) as (tc1, tc2):
-                        tc1.addTask("TaskListener", ID=Notificator.EditBoxEmpty)
+                        tc1.addListener(Notificator.EditBoxEmpty)
                         tc1.addTask("TaskSetParam", ObjectName="Movie2Button_Ok", Param="Interactive", Value=0)
                         tc1.addTask("TaskSetParam", ObjectName="Movie2Button_Ok2", Param="Interactive", Value=0)
 
-                        tc2.addTask("TaskListener", ID=Notificator.EditBoxChange)
+                        tc2.addListener(Notificator.EditBoxChange)
                         tc2.addTask("TaskSetParam", ObjectName="Movie2Button_Ok", Param="Interactive", Value=1)
                         tc2.addTask("TaskSetParam", ObjectName="Movie2Button_Ok2", Param="Interactive", Value=1)
                         pass
@@ -90,16 +90,16 @@ class ProfileNew(BaseEntity):
 
                         tc_until_click_until_name_not_empty.addSemaphore(semaphore, From=True, To=False)
 
-                    tc_until.addTask("TaskFunction", Fn=self.__selectClickSlotID)
-                    tc_until.addTask("TaskScope", Scope=self.__checkProfile)
+                    tc_until.addFunction(self.__selectClickSlotID)
+                    tc_until.addScope(self.__checkProfile)
         else:
             with TaskManager.createTaskChain(Name="MakeProfile", GroupName="Profile_New", Repeat=True) as tc_repeat:
                 with tc_repeat.addRaceTask(2) as (tc_empty, tc_edit):
-                    tc_empty.addTask("TaskListener", ID=Notificator.EditBoxEmpty)
+                    tc_empty.addListener(Notificator.EditBoxEmpty)
                     tc_empty.addTask("TaskSetParam", ObjectName="Movie2Button_Ok", Param="Interactive", Value=0)
                     tc_empty.addTask("TaskSetParam", ObjectName="Movie2Button_Ok2", Param="Interactive", Value=0)
 
-                    tc_edit.addTask("TaskListener", ID=Notificator.EditBoxChange)
+                    tc_edit.addListener(Notificator.EditBoxChange)
 
                     tc_edit.addTask("TaskSetParam", ObjectName="Movie2Button_Ok", Param="Interactive", Value=1)
                     tc_edit.addTask("TaskSetParam", ObjectName="Movie2Button_Ok2", Param="Interactive", Value=1)
@@ -111,8 +111,8 @@ class ProfileNew(BaseEntity):
                                                   Movie2Name='Movie2_Background', SocketName="close")
                         tc_edit_click_ok3.addTask("TaskKeyPress", Keys=[Mengine.KC_RETURN], isDown=True)
 
-                    tc_edit.addTask("TaskFunction", Fn=self.__selectClickSlotID)
-                    tc_edit.addTask("TaskScope", Scope=self.__checkProfile)
+                    tc_edit.addFunction(self.__selectClickSlotID)
+                    tc_edit.addScope(self.__checkProfile)
 
     def _onDeactivate(self):
         if TaskManager.existTaskChain("ProfileNew") is True:

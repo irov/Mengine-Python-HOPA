@@ -620,7 +620,6 @@ def onInitialize():
         , "onSliderUpDing"
 
         , "onTabClick"
-        , "TaskNotify"
         , "onTasksShow"
 
         , "onHOGFoundItem"

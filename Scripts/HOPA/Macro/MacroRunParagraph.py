@@ -38,7 +38,7 @@ class MacroRunParagraph(MacroCommand):
                               ParagraphsID=self.ParagraphsID)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
+            tc_quest.addNotify(Notificator.onParagraphRun, paragraphID)
             pass
         pass
 

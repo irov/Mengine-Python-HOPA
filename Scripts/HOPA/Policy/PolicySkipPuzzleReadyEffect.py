@@ -35,7 +35,7 @@ class PolicySkipPuzzleReadyEffect(TaskAlias):
         if self.SkipPuzzle.hasObject("Movie2_Ready_Effect"):
             MovieReady_Effect = self.SkipPuzzle.getObject("Movie2_Ready_Effect")
 
-            source.addTask("TaskEnable", Object=MovieReady_Effect)
+            source.addEnable(MovieReady_Effect)
             with source.addFork() as source_fork:
                 with source_fork.addParallelTask(2) as (source_alpha, source_play):
                     source_alpha.addTask("AliasObjectAlphaTo", Object=MovieReady_Effect,
@@ -45,7 +45,7 @@ class PolicySkipPuzzleReadyEffect(TaskAlias):
         if self.SkipPuzzle.hasObject("Movie2_Ready") is True:
             Movie_Ready = self.SkipPuzzle.getObject("Movie2_Ready")
 
-            source.addTask("TaskEnable", Object=Movie_Ready)
+            source.addEnable(Movie_Ready)
             source.addTask("TaskMovie2Play", Movie2=Movie_Ready, Loop=True, Wait=False)
         # ==============================================================================================
 
@@ -54,7 +54,7 @@ class PolicySkipPuzzleReadyEffect(TaskAlias):
         with source.addRaceTask(2) as (tc_click, tc_skip):
             # tc_click.addTask("TaskButtonClick", ButtonName = "Button_Skip")
             tc_click.addTask(PolicySkipPuzzleClick)
-            tc_skip.addTask("TaskListener", ID=Notificator.onEnigmaSkip)
+            tc_skip.addListener(Notificator.onEnigmaSkip)
 
         if self.SkipPuzzle.hasObject("Movie2_Ready") is True:
             Movie_Ready = self.SkipPuzzle.getObject("Movie2_Ready")

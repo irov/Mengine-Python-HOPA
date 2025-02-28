@@ -18,7 +18,7 @@ class AliasGetBonusItem(TaskAlias):
 
         P1 = (PositionTo[0], StartPosition.y)
 
-        source.addTask("TaskEnable", Object=BonusPartObject, Value=True)
+        source.addEnable(BonusPartObject)
         source.addTask("TaskObjectSetPosition", Object=BonusPartObject, Value=StartPosition)
 
         time = 0.3

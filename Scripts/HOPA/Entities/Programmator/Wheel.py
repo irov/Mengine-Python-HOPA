@@ -65,7 +65,7 @@ class Wheel(object):
         with TaskManager.createTaskChain(Name=Wheel.TaskName) as tc:
             tc.addTask("TaskMoviePlay", Movie=mov)
             if len(self.moviesDown) == self._cursor and finalMethod is not None:
-                tc.addTask("TaskFunction", Fn=finalMethod)
+                tc.addFunction(finalMethod)
             pass
         pass
 

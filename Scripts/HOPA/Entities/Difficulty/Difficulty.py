@@ -25,9 +25,9 @@ class Difficulty(BaseEntity):
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=True)
             for checkBox in self.difficulties.values():
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=checkBox, Value=False)
-                tc.addTask("TaskSetParam", Object=checkBox, Param="State", Value=False)
+                tc.addParam(checkBox, "State", False)
 
-            tc.addTask("TaskSetParam", Object=startCheckBox, Param="State", Value=True)
+            tc.addParam(startCheckBox, "State", True)
             tc.addTask("TaskCheckBoxBlockState", CheckBox=startCheckBox, Value=True)
 
             with tc.addRepeatTask() as (tc_diff, tc_ok):
@@ -39,17 +39,17 @@ class Difficulty(BaseEntity):
                             if tempCheckBox is checkBox:
                                 continue
 
-                            tc_id.addTask("TaskSetParam", Object=tempCheckBox, Param="State", Value=False)
+                            tc_id.addParam(tempCheckBox, "State", False)
                             tc_id.addTask("TaskCheckBoxBlockState", CheckBox=tempCheckBox, Value=False)
 
                 tc_ok.addTask("TaskButtonClick", ButtonName="Button_OK")
-                tc_ok.addTask("TaskFunction", Fn=self.__onChangeDifficulty)
+                tc_ok.addFunction(self.__onChangeDifficulty)
 
             for CheckBox in self.difficulties.values():
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=CheckBox, Value=True)
 
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)
-            tc.addTask("TaskNotify", ID=Notificator.onSelectedDifficulty)
+            tc.addNotify(Notificator.onSelectedDifficulty)
 
     def __onChangeDifficulty(self):
         value = ""

@@ -38,7 +38,7 @@ class AliasDialogSwitchAvatar(TaskAlias):
 
         Demon_Switch_Avatar = self.DialogPersGroup.getObject("Demon_Switch_Avatar")
 
-        source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=self.CharacterID)
+        source.addParam(Demon_Switch_Avatar, "Switch", self.CharacterID)
 
         Character = Demon_Switch_Avatar.findSwitch(self.CharacterID)
 
@@ -59,7 +59,7 @@ class AliasDialogSwitchAvatar(TaskAlias):
                         return True
                         pass
 
-                    tc_complete.addTask("TaskListener", ID=Notificator.onDialogMessageComplete, Filter=__isDialog)
+                    tc_complete.addListener(Notificator.onDialogMessageComplete, Filter=__isDialog)
                     pass
                 pass
             else:
@@ -84,7 +84,7 @@ class AliasDialogSwitchAvatar(TaskAlias):
                         return True
                         pass
 
-                    tc_complete.addTask("TaskListener", ID=Notificator.onDialogMessageComplete, Filter=__isDialog)
+                    tc_complete.addListener(Notificator.onDialogMessageComplete, Filter=__isDialog)
                     pass
                 pass
             else:
@@ -99,12 +99,12 @@ class AliasDialogSwitchAvatar(TaskAlias):
 
             IdleType = Idle.getType()
             if IdleType == "ObjectMovie2":
-                source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=self.IdleID)
+                source.addParam(Demon_Switch_Avatar, "Switch", self.IdleID)
 
                 source.addTask("TaskMovie2Play", Movie2=Idle, Loop=True, Wait=True)
 
             elif IdleType == "ObjectMovie":
-                source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=self.IdleID)
+                source.addParam(Demon_Switch_Avatar, "Switch", self.IdleID)
 
                 source.addTask("TaskMoviePlay", Movie=Idle, Loop=True, Wait=True)
                 pass

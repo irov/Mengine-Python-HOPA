@@ -12,7 +12,7 @@ class HOGClose(BaseEntity):
         currentHogSceneName = SceneManager.getCurrentSceneName()
         with TaskManager.createTaskChain(Name="HOGCloseClick", Group=self.object) as tc:
             tc.addTask("TaskButtonClick", ButtonName="Button_CloseHOG")
-            tc.addTask("TaskNotify", ID=Notificator.onHOGCloseClick, Args=(currentHogSceneName,))
+            tc.addNotify(Notificator.onHOGCloseClick, currentHogSceneName)
             pass
         pass
 

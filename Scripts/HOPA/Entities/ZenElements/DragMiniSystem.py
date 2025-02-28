@@ -201,18 +201,18 @@ class DragMiniSystem(object):
             slotNode.addChild(exSlot.getItem())
             with TaskManager.createTaskChain() as tc:
                 tc.addTask("TaskMoviePlay", Movie=movie, Wait=True, Reverse=True)
-                tc.addTask("TaskFunction", Fn=exSlot.swap, Args=(inSlot,))
-                tc.addTask("TaskFunction", Fn=self.is_win)
-                tc.addTask("TaskNotify", ID=Notificator.onEnigmaAction, Args=(False,))
+                tc.addFunction(exSlot.swap, inSlot)
+                tc.addFunction(self.is_win)
+                tc.addNotify(Notificator.onEnigmaAction, False)
             pass
 
         elif not inSlot.isEmpty() and exSlot.isEmpty():
             slotNode.addChild(inSlot.getItem())
             with TaskManager.createTaskChain() as tc:
                 tc.addTask("TaskMoviePlay", Movie=movie, Wait=True, Reverse=False)
-                tc.addTask("TaskFunction", Fn=inSlot.swap, Args=(exSlot,))
-                tc.addTask("TaskFunction", Fn=self.is_win)
-                tc.addTask("TaskNotify", ID=Notificator.onEnigmaAction, Args=(False,))
+                tc.addFunction(inSlot.swap, exSlot)
+                tc.addFunction(self.is_win)
+                tc.addNotify(Notificator.onEnigmaAction, False)
             pass
         else:
             self.is_win()

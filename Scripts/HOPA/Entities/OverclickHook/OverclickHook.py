@@ -13,4 +13,4 @@ class OverclickHook(BaseEntity):
     def _onActivate(self):
         with TaskManager.createTaskChain(Name="OverclickHook", Group=self.object, Repeat=True) as tc:
             tc.addTask("TaskSocketClick", SocketName="Socket_Overclick")
-            tc.addTask("TaskNotify", ID=Notificator.onOverclickHook)
+            tc.addNotify(Notificator.onOverclickHook)

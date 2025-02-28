@@ -250,7 +250,7 @@ class Map2(BaseEntity):
         current_location_scenes_names = self.getCurrentLocationScenesNames()
 
         if movie_overview is not None:
-            source.addTask("TaskEnable", Object=movie_overview)
+            source.addEnable(movie_overview)
             source.addTask("TaskMovie2Play", Movie2=movie_overview, Wait=False, Loop=False)
             source.addTask("TaskMovie2Play", Movie2=movie_object, Wait=False)
 
@@ -261,16 +261,16 @@ class Map2(BaseEntity):
             tc_click.addNotify(Notificator.onMapTransition, scene_name)
             if scene_name in current_location_scenes_names:
                 current_scene = SceneManager.getCurrentGameSceneName()
-                tc_click.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(current_scene,))
+                tc_click.addFunction(TransitionManager.changeScene, current_scene)
             else:
-                tc_click.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(scene_name,))
+                tc_click.addFunction(TransitionManager.changeScene, scene_name)
 
             tc_leave.addScope(self._scopeLeaveOverview, movie_object)
 
         if movie_overview is not None:
             source.addTask("TaskMovie2Stop", Movie2=movie_overview)
             source.addTask("TaskMovieLastFrame", Movie=movie_overview, Value=False)
-            source.addTask("TaskEnable", Object=movie_overview, Value=False)
+            source.addDisable(movie_overview)
 
         source.addFunction(EVENT_HIDE_OVERVIEW, movie_object, scene_name)
 
@@ -306,9 +306,7 @@ class Map2(BaseEntity):
             open_hog_movie = hog[1]
 
             with TaskManager.createTaskChain() as tc:
-                tc.addTask("TaskEnable", Object=open_hog_movie)
-                tc.addTask("TaskMovie2Play", Movie2=open_hog_movie, Wait=True, Loop=False)
-                tc.addTask("TaskEnable", Object=open_hog_movie, Value=False)
+                tc.addTask("TaskMovie2Play", Movie2=open_hog_movie, Wait=True, Loop=False, AutoEnable=True)
 
         self.object.setParam("PlayedOpenHog", [])
 

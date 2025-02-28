@@ -118,9 +118,9 @@ class RotateAndReflectElement(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="Rotate", Cb=__update) as tc:
-            tc.addTask("TaskFunction", Fn=self.enableSockets, Args=(False,))
+            tc.addFunction(self.enableSockets, False)
             tc.addTask("TaskMoviePlay", Movie=self.RotateMovie, Wait=True)
-            tc.addTask("TaskFunction", Fn=self.enableSockets, Args=(True,))
+            tc.addFunction(self.enableSockets, True)
             pass
         pass
 
@@ -180,9 +180,9 @@ class RotateAndReflectElement(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="Swap", Cb=__update) as tc:
-            tc.addTask("TaskFunction", Fn=self.enableSockets, Args=(False,))
+            tc.addFunction(self.enableSockets, False)
             tc.addTask("TaskMoviePlay", Movie=swapMovie, Wait=True)
-            tc.addTask("TaskFunction", Fn=self.enableSockets, Args=(True,))
+            tc.addFunction(self.enableSockets, True)
             pass
         pass
 

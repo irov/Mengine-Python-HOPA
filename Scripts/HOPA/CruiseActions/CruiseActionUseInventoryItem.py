@@ -113,5 +113,5 @@ class CruiseActionUseInventoryItem(MixinObject, CruiseAction):
             if PositionTo2 is not None:
                 tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
 
-            tc.addTask("TaskDelay", Time=self.click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(self.click_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

@@ -10,8 +10,8 @@ class PolicyDialogStaticText(TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskSetParam", Object=self.ObjectText, Param="TextID", Value=self.TextID)
-        source.addTask("TaskEnable", Object=self.ObjectText, Value=True)
+        source.addParam(self.ObjectText, "TextID", self.TextID)
+        source.addEnable(self.ObjectText)
         pass
 
     pass

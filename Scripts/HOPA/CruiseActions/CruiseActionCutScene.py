@@ -17,4 +17,4 @@ class CruiseActionCutScene(CruiseAction):
         Position = button.getCurrentMovieSocketCenter() if button else (0.0, 0.0)
         with TaskManager.createTaskChain(Name="CruiseActionCutScene") as tc:
             tc.addTask("AliasCruiseControlAction", Position=Position, Object=button)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

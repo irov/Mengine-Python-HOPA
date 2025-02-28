@@ -83,9 +83,7 @@ class Target(object):
             return
         rand_index = Mengine.range_rand(0, len(self.miss_movies))
         movie = self.miss_movies[rand_index]
-        source.addEnable(movie)
-        source.addTask("TaskMovie2Play", Movie2=movie, Wait=True)
-        source.addDisable(movie)
+        source.addTask("TaskMovie2Play", Movie2=movie, Wait=True, AutoEnable=True)
 
     def scopeHit(self, source):
         self.hp -= 1

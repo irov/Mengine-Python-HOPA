@@ -25,9 +25,8 @@ class AliasMousePull(MixinObject, TaskAlias):
         MovieObject = self.Group.getObject(self.MovieName)
         MovieWrongObject = self.Group.getObject(self.MovieWrongName)
 
-        source.addTask("TaskEnable", Object=MovieObject, Value=False)
-        source.addTask("TaskNotify", ID=Notificator.onPullArrowAttach,
-                       Args=(self.Direction, MovieWrongObject, self.Object))  # place arrow
+        source.addDisable(MovieObject)
+        source.addNotify(Notificator.onPullArrowAttach, self.Direction, MovieWrongObject, self.Object)  # place arrow
 
         source.addTask("TaskInteractive", Object=self.Object, Value=True)
 
@@ -38,24 +37,21 @@ class AliasMousePull(MixinObject, TaskAlias):
                 tc_do.addTask("TaskItemClick", Item=self.Object, AutoEnable=False)
 
             with tc_do.addRaceTask(2) as (tc_bad_pull, tc_pull):
-                tc_bad_pull.addTask("TaskListener", ID=Notificator.onMousePull,
-                                    Filter=self.acceptBadPull)  # on over clicking
+                tc_bad_pull.addListener(Notificator.onMousePull, Filter=self.acceptBadPull)  # on over clicking
 
                 tc_pull.addTask("TaskMousePull", Direction=self.Direction, Distance=self.MinDistance)
-                tc_pull.addTask("TaskNotify", ID=Notificator.onPullWrong,
-                                Args=(MovieObject, MovieWrongObject))  # wrong pull
+                tc_pull.addNotify(Notificator.onPullWrong, MovieObject, MovieWrongObject)  # wrong pull
 
-            tc_until.addTask("TaskListener", ID=Notificator.onMousePull, Filter=self.acceptNicePull)
+            tc_until.addListener(Notificator.onMousePull, Filter=self.acceptNicePull)
             tc_until.addTask("TaskInteractive", Object=self.Object, Value=False)
 
-        source.addTask("TaskNotify", ID=Notificator.onPullArrowDetach,
-                       Args=(self.Direction, self.Object))  # remove away arrow
+        source.addNotify(Notificator.onPullArrowDetach, self.Direction, self.Object)  # remove away arrow
 
-        source.addTask("TaskEnable", Object=MovieObject, Value=True)
-        source.addTask("TaskEnable", Object=MovieWrongObject, Value=False)
+        source.addEnable(MovieObject)
+        source.addDisable(MovieWrongObject)
 
         source.addTask("TaskMoviePlay", Movie=MovieObject, Wait=True)
-        source.addTask("TaskNotify", ID=Notificator.onMousePullComplete)
+        source.addNotify(Notificator.onMousePullComplete)
 
     def acceptBadPull(self, direction, isBadPull):
         if direction != self.Direction:

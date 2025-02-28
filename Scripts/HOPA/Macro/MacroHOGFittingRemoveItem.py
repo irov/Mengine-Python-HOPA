@@ -28,7 +28,7 @@ class MacroHOGFittingRemoveItem(MacroCommand):
             Enigma.delParam("Items", self.ItemName)
             pass
 
-        source.addTask("TaskFunction", Fn=RemoveItem)
+        source.addFunction(RemoveItem)
         pass
 
     pass

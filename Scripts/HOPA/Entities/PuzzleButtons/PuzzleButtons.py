@@ -52,7 +52,7 @@ class PuzzleButtons(BaseEntity):
 
             with TaskManager.createTaskChain(Name="ReloadSkip") as tc_skip:
                 tc_skip.addTask("TaskMoviePlay", Movie=self.Movie_Reload)
-                tc_skip.addTask("TaskFunction", Fn=self.turnOffReload)
+                tc_skip.addFunction(self.turnOffReload)
                 pass
             pass
         else:
@@ -63,7 +63,7 @@ class PuzzleButtons(BaseEntity):
             with TaskManager.createTaskChain(Name="PuzzleButtons_Instruction", Repeat=True) as tc_inst:
                 tc_inst.addTask("TaskButtonClick", Button=self.ButtonInstruction)
                 tc_inst.addTask("TaskSceneLayerGroupEnable", LayerName=self.InstructionGroupName, Value=True)
-                tc_inst.addTask("TaskFunction", Fn=self.blockInput)
+                tc_inst.addFunction(self.blockInput)
                 tc_inst.addTask("TaskButtonClick", Button=self.ButtonOk)
                 tc_inst.addTask("TaskSceneLayerGroupEnable", LayerName=self.InstructionGroupName, Value=False)
                 pass

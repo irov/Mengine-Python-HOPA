@@ -77,10 +77,9 @@ class ActionDefault(Initializer):
 
         with TaskManager.createTaskChain() as tc:
             if self.EndItem is False:
-                tc.addTask("TaskListener", ID=Notificator.onItemEffectEnd, Filter=__thisItem)
+                tc.addListener(Notificator.onItemEffectEnd, Filter=__thisItem)
                 pass
-            tc.addTask("TaskNotify", ID=Notificator.onInventoryFXActionEnd,
-                       Args=(self, self.Inventory, self.InventoryItem, self.ItemName))
+            tc.addNotify(Notificator.onInventoryFXActionEnd, self, self.Inventory, self.InventoryItem, self.ItemName)
             pass
 
         pass

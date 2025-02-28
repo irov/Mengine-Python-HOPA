@@ -95,15 +95,15 @@ class MagneticLabyrinth(Enigma):
                                              Cb=Functor(self._complete, escapedBool)) as tc:
                 tc.addTask("TaskMoviePlay", Movie=self.Ball, Wait=False)
                 tc.addTask("TaskNodeMoveTo", Node=BallEn, Time=time, To=new_position, Speed=self.speed)
-                tc.addTask("TaskFunction", Fn=self.Ball.setPosition, Args=(new_position,))
-                tc.addTask("TaskFunction", Fn=self.Ball.setPlay, Args=(False,))
+                tc.addFunction(self.Ball.setPosition, new_position)
+                tc.addFunction(self.Ball.setPlay, False)
                 if fallDown is True:
-                    tc.addTask("TaskEnable", Object=self.Ball, Value=False)
-                    tc.addTask("TaskEnable", Object=self.MovieFall)
+                    tc.addDisable(self.Ball)
+                    tc.addEnable(self.MovieFall)
                     tc.addTask("TaskMoviePlay", Movie=self.MovieFall)
-                    tc.addTask("TaskEnable", Object=self.MovieFall, Value=False)
-                    tc.addTask("TaskFunction", Fn=self.returnBall)
-                    tc.addTask("TaskEnable", Object=self.Ball)
+                    tc.addDisable(self.MovieFall)
+                    tc.addFunction(self.returnBall)
+                    tc.addEnable(self.Ball)
                 pass
             pass
         return False

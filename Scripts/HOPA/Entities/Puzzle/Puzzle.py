@@ -85,7 +85,7 @@ class Puzzle(Enigma):
                     placeName = element.getPlaceName()
                     itemName = element.getItemName()
                     if itemName in self.PlacedItems:
-                        tcs.addTask("TaskDummy")
+                        tcs.addDummy()
                         continue
                         pass
 
@@ -95,10 +95,10 @@ class Puzzle(Enigma):
 
                     tcs.addTask("AliasDragDropItem", ItemName=itemName, SocketObject=placeObject, Group=self.object)
                     tcs.addTask("TaskAppendParam", Object=self.object, Param="PlacedItems", Value=itemName)
-                    tcs.addTask("TaskEnable", Object=spriteObject)
+                    tcs.addEnable(spriteObject)
                     pass
                 pass
-            tc_game.addTask("TaskFunction", Fn=self.autowin)
+            tc_game.addFunction(self.autowin)
             pass
         pass
 

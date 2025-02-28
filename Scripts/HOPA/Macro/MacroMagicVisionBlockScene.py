@@ -18,5 +18,5 @@ class MacroMagicVisionBlockScene(MacroCommand):
                 self.initializeFailed("MacroMagicVisionBlockScene --- SceneName is not registered-> incorrect using of macro")
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMagicVisionBlockScene, Args=(self.SceneName,))
+        source.addNotify(Notificator.onMagicVisionBlockScene, self.SceneName)
 

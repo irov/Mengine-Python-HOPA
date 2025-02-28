@@ -21,9 +21,8 @@ class PolicyInventoryFXScrolling(TaskAlias):
         ItemName = ItemManager.getInventoryItemKey(self.InventoryItem)
 
         with source.addParallelTask(2) as (tc1, tc2):
-            tc1.addTask("TaskListener", ID=Notificator.onInventoryFXActionEnd, Filter=__thisItem)
-            tc2.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
-                        Args=(self.Inventory, ItemName, "ActionHintUse"))
+            tc1.addListener(Notificator.onInventoryFXActionEnd, Filter=__thisItem)
+            tc2.addNotify(Notificator.onItemClickToInventory, self.Inventory, ItemName, "ActionHintUse")
             pass
 
         pass

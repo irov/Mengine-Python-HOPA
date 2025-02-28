@@ -37,10 +37,10 @@ class SecretElement(object):
                 TaskManager.cancelTaskChain(repr(self))
                 pass
             with TaskManager.createTaskChain(Name=repr(self)) as tc_play:
-                tc_play.addTask("TaskEnable", Object=self.movie_classified)
+                tc_play.addEnable(self.movie_classified)
                 tc_play.addTask("TaskMoviePlay", Movie=self.movie_classified)
-                tc_play.addTask("TaskEnable", Object=self.movie_classified, Value=False)
-                tc_play.addTask("TaskEnable", Object=self.movie_secret)
+                tc_play.addDisable(self.movie_classified)
+                tc_play.addEnable(self.movie_secret)
                 pass
             pass
         else:

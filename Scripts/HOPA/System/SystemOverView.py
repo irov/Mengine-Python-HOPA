@@ -105,25 +105,25 @@ class SystemOverView(System):
             viewObject = OverViewManager.getObject(viewID)
 
         with TaskManager.createTaskChain(Name="OverView", Cb=self.unFreze) as tc:
-            tc.addTask("TaskEnable", Object=MovieObj)
+            tc.addEnable(MovieObj)
 
             if isFindItem:
                 with tc.addRaceTask(2) as (tc_play, tc_skip):
                     tc_play.addTask("TaskMoviePlay", Movie=MovieObj, Wait=True)
-                    tc_play.addTask("TaskNotify", ID=Notificator.OnOverViewShowed, Args=(viewID,))
-                    tc_play.addTask("TaskFunction", Fn=self._removeView, Args=(viewObject,))
+                    tc_play.addNotify(Notificator.OnOverViewShowed, viewID)
+                    tc_play.addFunction(self._removeView, viewObject)
 
-                    tc_skip.addTask("TaskListener", ID=Notificator.onOverViewLeave)
-                    tc_skip.addTask("TaskFunction", Fn=self.unFreze, Args=(False,))
+                    tc_skip.addListener(Notificator.onOverViewLeave)
+                    tc_skip.addFunction(self.unFreze, False)
                     pass
-                tc.addTask("TaskEnable", Object=MovieObj, Value=False)
+                tc.addDisable(MovieObj)
                 pass
             else:
                 tc.addTask("TaskMoviePlay", Movie=MovieObj, Wait=MovieWait, LastFrame=MovieWait)
                 if movieLoop:
-                    tc.addTask("TaskListener", ID=Notificator.onOverViewLeave)
-                    tc.addTask("TaskFunction", Fn=MovieObj.setEnable, Args=(False,))
-                    tc.addTask("TaskFunction", Fn=self.unFreze, Args=(False,))
+                    tc.addListener(Notificator.onOverViewLeave)
+                    tc.addFunction(MovieObj.setEnable, False)
+                    tc.addFunction(self.unFreze, False)
                     pass
                 pass
         pass

@@ -46,9 +46,9 @@ class Executable(object):
         needToDo = self.translateInstruction()
         with TaskManager.createTaskChain(Name=Executable.TaskName, Cb=Functor(self.executionCb, taskCb)) as tc:
             for instruction in needToDo:
-                tc.addTask("TaskScope", Scope=instruction)
+                tc.addScope(instruction)
                 pass
-            tc.addTask("TaskFunction", Fn=taskCb)
+            tc.addFunction(taskCb)
             pass
         pass
 

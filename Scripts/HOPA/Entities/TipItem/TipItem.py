@@ -141,19 +141,19 @@ class TipItem(BaseEntity):
         with TaskManager.createTaskChain(Name="TipItemPlay", Group=self.object,
                                          Cb=Functor(self._onTipEndComplete, cb)) as tc:
             with tc.addRaceTask(2) as (tc_show, tc_skip):
-                tc_show.addTask("TaskDelay", Time=delayTime)
+                tc_show.addDelay(delayTime)
 
                 with tc_show.addParallelTask(2) as (tc_show_0, tc_show_1):
                     tc_show_0.addTask("TaskNodeAlphaTo", Node=self.sprite, Time=TipItem.TIME_TIP, To=1.0)
                     tc_show_1.addTask("TaskNodeAlphaTo", Node=textEntity, Time=TipItem.TIME_TIP, To=1.0)
                     pass
                 #                tc_show.addTask( "TaskEnable", Object = self.text)
-                tc_show.addTask("TaskListener", ID=Notificator.onInventorySlotItemLeave)
-                tc_show.addTask("TaskEnable", Object=self.text, Value=False)
+                tc_show.addListener(Notificator.onInventorySlotItemLeave)
+                tc_show.addDisable(self.text)
                 tc_show.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
 
-                tc_skip.addTask("TaskListener", ID=Notificator.onInventorySlotItemLeave)
-                tc_skip.addTask("TaskEnable", Object=self.text, Value=False)
+                tc_skip.addListener(Notificator.onInventorySlotItemLeave)
+                tc_skip.addDisable(self.text)
                 tc_skip.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
             pass
         pass

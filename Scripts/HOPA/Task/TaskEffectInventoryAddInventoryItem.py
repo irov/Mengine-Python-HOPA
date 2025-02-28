@@ -209,7 +209,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
             effectEntityNode.setLocalPosition(effect_position)
 
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
 
         with source.addParallelTask(2) as (parallel_0, parallel_1):

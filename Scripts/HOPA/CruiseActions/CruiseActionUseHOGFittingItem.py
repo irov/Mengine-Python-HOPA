@@ -54,8 +54,8 @@ class CruiseActionUseHOGFittingItem(MixinObject, CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionUseHOGFittingItem_Cruise") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
             tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
-            tc.addTask("TaskDelay", Time=self.click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(self.click_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         super(CruiseActionUseHOGFittingItem, self)._onEnd()

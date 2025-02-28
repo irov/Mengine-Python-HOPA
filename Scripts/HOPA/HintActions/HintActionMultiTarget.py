@@ -76,7 +76,7 @@ class HintActionMultiTarget(MixinGroup, HintAction):
 
                 tc_target2.addTask("TaskMovie2Play", Movie2=self.Movie2_HintTarget, Loop=False, Wait=True)
                 tc_target2.addTask("TaskMovie2Stop", Movie2=self.Movie2_HintTarget)
-                tc_target2.addTask("TaskNotify", ID=Notificator.onHintActionItemCollectEnd)
+                tc_target2.addNotify(Notificator.onHintActionItemCollectEnd)
 
     def showHint(self, P1, P2, Offset=(0.0, 0.0)):
         if TaskManager.existTaskChain("HintAction_onEnd") is True:

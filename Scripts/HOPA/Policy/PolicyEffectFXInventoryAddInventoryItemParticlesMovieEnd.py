@@ -88,7 +88,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
 
             effectEntity.setLocalPosition((itemSpriteSize.x, itemSpriteSize.y))
 
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
             pass
 
@@ -100,7 +100,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
             pass
 
         if len(InvItemFoundItems) == 1:
-            source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+            source.addEnable(InventoryItem)
             source.addTask("TaskNodeEnable", Node=slot.hotspot, Value=True)
             pass
 
@@ -115,7 +115,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
 
         source.addTask("TaskNodeDestroy", Node=pure)
 
-        source.addTask("TaskScope", Scope=self.__playMovieEnd, Args=(slot,))
+        source.addScope(self.__playMovieEnd, slot)
         pass
 
     def __playMovieEnd(self, scope, slot):
@@ -143,7 +143,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
             pass
 
         scope.addTask("TaskMovie2Play", Movie2=tempMovie, Wait=True)
-        scope.addTask("TaskScope", Scope=self.__onPlayMovieEnd, Args=(slot, slot.item, tempMovie, textField))
+        scope.addScope(self.__onPlayMovieEnd, slot, slot.item, tempMovie, textField)
 
         pass
 

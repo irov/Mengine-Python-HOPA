@@ -558,7 +558,7 @@ class SystemCruiseControl(System):
 
                             return False
 
-                        tc_quest.addTask("TaskListener", ID=Notificator.onSceneEnter, Filter=_filter)
+                        tc_quest.addListener(Notificator.onSceneEnter, Filter=_filter)
 
             return CruiseControlManager.createCruiseAction("CruiseActionPlusScene", Quest, **Params)
 

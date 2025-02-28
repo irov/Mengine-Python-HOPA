@@ -62,9 +62,9 @@ class AliasBombGamePlayerClickProcces(TaskAlias):
             pass
 
         source.addTask("AliasMultyplMovePlay", Movies=self.MoviePre)
-        source.addTask("TaskFunction", Fn=exp)
+        source.addFunction(exp)
         source.addTask("AliasMultyplMovePlay", Movies=self.Movie)
-        source.addTask("TaskFunction", Fn=expEnd)
+        source.addFunction(expEnd)
         pass
 
     def __PlayMoveBomb(self, source, slot):
@@ -80,10 +80,10 @@ class AliasBombGamePlayerClickProcces(TaskAlias):
 
         with source.addRepeatTask() as (tc_rotate, tc_until):
             tc_rotate.addTask("TaskMouseMoveDistance", Distance=0)
-            tc_rotate.addTask("TaskFunction", Fn=__SetMoveDir)
+            tc_rotate.addFunction(__SetMoveDir)
 
             with tc_until.addRaceTask(2) as (tc_until_Dir, tc_until_Click):
-                tc_until_Dir.addTask("TaskListener", ID=Notificator.onBombGameMoveDir)
+                tc_until_Dir.addListener(Notificator.onBombGameMoveDir)
 
                 tc_until_Click.addTask("TaskMouseButtonClick", isDown=False)
                 pass

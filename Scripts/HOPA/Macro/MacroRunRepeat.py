@@ -34,7 +34,7 @@ class MacroRunRepeat(MacroCommand):
             return
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
+        source.addNotify(Notificator.onParagraphRun, paragraphID)
         pass
 
     pass

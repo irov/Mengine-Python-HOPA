@@ -38,7 +38,7 @@ class PolicyBlackBarTipPlayWithMovie(TaskAlias):
         else:
             source.addTask("TaskMoviePlay", Movie=self.MovieMind, Wait=True)
 
-        source.addTask("TaskDelay", Time=self.Time)
+        source.addDelay(self.Time)
 
         source.addTask("AliasObjectAlphaTo", Object=self.MovieMind, From=1.0, To=0.0, Time=600.0)
         source.addFunction(self.deattachText, self.Group)

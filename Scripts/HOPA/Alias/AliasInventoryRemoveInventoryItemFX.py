@@ -21,11 +21,9 @@ class AliasInventoryRemoveInventoryItemFX(TaskAlias):
             Trace.log("Notification", 0, "AliasInventoryRemoveInventoryItemFX._onGenerate Inventory %s not have InventoryItem %s" % (self.Inventory.getName(), self.InventoryItem.getName()))
             return
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryClickRemoveItem,
-                       Args=(self.Inventory, self.InventoryItem, "ActionRemoveItem"))
+        source.addNotify(Notificator.onInventoryClickRemoveItem, self.Inventory, self.InventoryItem, "ActionRemoveItem")
 
         source.addTask("TaskObjectReturn", Object=self.InventoryItem)
-        source.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
+        source.addDisable(self.InventoryItem)
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryRemoveInventoryItem,
-                       Args=(self.Inventory, self.Inventory))
+        source.addNotify(Notificator.onInventoryRemoveInventoryItem, self.Inventory, self.Inventory)

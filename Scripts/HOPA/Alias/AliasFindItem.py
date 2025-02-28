@@ -39,8 +39,8 @@ class AliasFindItem(TaskAlias):
             source.addTask(PolicyClickItem, Item=ItemObject)
             source.addTask("TaskItemPick", Item=ItemObject)
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryRise)
-        source.addTask("TaskNotify", ID=Notificator.onItemPicked, Args=(ItemObject,))
+        source.addNotify(Notificator.onInventoryRise)
+        source.addNotify(Notificator.onItemPicked, ItemObject)
         source.addNotify(Notificator.onSoundEffectOnObject, ItemObject, "PickItem")
 
     def scopeInventory_Scrolling(self, source):

@@ -66,10 +66,10 @@ class CruiseActionPull(CruiseAction, MixinObject):
             tc.addTask("TaskCursorSetPosition", Position=PositionB)
             tc.addTask("TaskCursorClickEmulate", Position=PositionB, Value=False)
 
-            # tc.addTask("TaskListener", ID = Notificator.onMousePullComplete)
-            tc.addTask("TaskListener", ID=Notificator.onQuestEnd, Filter=self.check)
-            tc.addTask("TaskDelay", Time=0.5 * 1000)  # speed fix
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            # tc.addListener(Notificator.onMousePullComplete)
+            tc.addListener(Notificator.onQuestEnd, Filter=self.check)
+            tc.addDelay(0.5 * 1000)  # speed fix
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def check(self, quest):
         if quest is not self.Quest:

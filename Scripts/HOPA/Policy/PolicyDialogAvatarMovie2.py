@@ -26,14 +26,14 @@ class PolicyDialogAvatarMovie2(TaskAlias):
         Text_Message.setEnable(False)
 
         Demon_Switch_Avatar = DialogPersGroup.getObject("Demon_Switch_Avatar")
-        source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=dialogs[0].characterID)
+        source.addParam(Demon_Switch_Avatar, "Switch", dialogs[0].characterID)
 
         with source.addParallelTask(2) as (tc, tc_d):
             tc.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=0.25, Time=0.2 * 1000, Block=True)  # speed fix
 
             for dialog in dialogs:
-                tc_d.addTask("TaskSetParam", Object=Text_Message, Param="TextID", Value=dialog.textID)
-                tc_d.addTask("TaskEnable", Object=Text_Message, Value=True)
+                tc_d.addParam(Text_Message, "TextID", dialog.textID)
+                tc_d.addEnable(Text_Message)
                 tc_d.addTask("TaskObjectTextSetMaxVisibleChar", Text=Text_Message)
 
                 # with tc_d.addRaceTask(2) as (tc1, tc2):
@@ -44,10 +44,10 @@ class PolicyDialogAvatarMovie2(TaskAlias):
                 tc_d.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog, CharacterID=dialog.characterID,
                              DialogPersGroup=DialogPersGroup, Wait=False)
 
-                tc_d.addTask("TaskNotify", ID=Notificator.onDialogMessageComplete, Args=(self.Dialog,))
+                tc_d.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
                 pass
 
         source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)
-        source.addTask("TaskEnable", Object=Text_Message, Value=False)
+        source.addDisable(Text_Message)
         if DialogPersGroupName is not None:
             source.addTask("TaskSceneLayerGroupEnable", LayerName=DialogPersGroupName, Value=False)

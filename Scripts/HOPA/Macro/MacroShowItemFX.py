@@ -53,7 +53,7 @@ class MacroShowItemFX(MacroCommand):
             tc_quest.addTask(policyPickInventoryItemEffectStop, InventoryItem=InventoryItem)
             pass
 
-        source.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
+        source.addDelay(0.1 * 1000)  # speed fix
         pass
 
     pass

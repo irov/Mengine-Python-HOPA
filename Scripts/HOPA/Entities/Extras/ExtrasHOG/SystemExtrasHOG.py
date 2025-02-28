@@ -36,7 +36,7 @@ class SystemExtrasHOG(System):
 
         with TaskManager.createTaskChain() as tc:
             tc.addTask("AliasTransition", SceneName=sceneName)
-            tc.addTask("TaskFunction", Fn=ScenarioInjection, Args=(scenarioID,))
+            tc.addFunction(ScenarioInjection, scenarioID)
             pass
 
         with TaskManager.createTaskChain(Name="ExtraHOGToolbar") as tc:

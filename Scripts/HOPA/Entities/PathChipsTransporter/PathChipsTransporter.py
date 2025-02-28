@@ -154,7 +154,7 @@ class PathChipsTransporter(BaseEntity):
 
                 tc_sound.addTask("TaskMovie2Play", Movie2Name=MOV_TRANSPORTER_SOUND)
             pass
-            tc.addTask("TaskFunction", Fn=callback)
+            tc.addFunction(callback)
         pass
 
     def playBackward(self, callback):
@@ -171,7 +171,7 @@ class PathChipsTransporter(BaseEntity):
 
                 # tc_transporter.addTask("TaskMovieLastFrame", MovieName = "Movie_Transporter", Value = True)
                 tc_sound.addTask("TaskMovie2Play", Movie2Name=MOV_TRANSPORTER_SOUND)
-            tc.addTask("TaskFunction", Fn=callback)
+            tc.addFunction(callback)
             pass
         pass
 

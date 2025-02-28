@@ -33,11 +33,11 @@ class AliasHOGFittingReturnItemToSlot(TaskAlias):
             Item.setEnable(False)
             pass
 
-        source.addTask("TaskFunction", Fn=RemoveVisualFromAttach)
+        source.addFunction(RemoveVisualFromAttach)
         source.addTask("AliasHOGFittingMoveItemToSlot", Inventory=self.Inventory, ItemName=self.ItemName,
                        ItemObject=self.ItemObject, InventoryItemObject=self.InventoryItemObject)
 
         def ReturnItem():
             invEnt.returnSlotItem(self.ItemName)
 
-        source.addTask("TaskFunction", Fn=ReturnItem)
+        source.addFunction(ReturnItem)

@@ -38,10 +38,10 @@ class CruiseActionEnigma(MixinGroup, CruiseAction):
             TaskManager.cancelTaskChain("CruiseActionDefault")
 
         with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
-            tc.addTask("TaskDelay", Time=self.click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onEnigmaSkip)
-            tc.addTask("TaskDelay", Time=self.move_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(self.click_delay)
+            tc.addNotify(Notificator.onEnigmaSkip)
+            tc.addDelay(self.move_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getHint_Position(self):
         SystemHint = SystemManager.getSystem("SystemHint")

@@ -45,13 +45,13 @@ class MacroNewspaperShow(MacroCommand):
 
         with Quest as tc_quest:
             with tc_quest.addIfTask(NewspaperManager.isOpenNewspaper, self.NewspaperName) as (tc_quest_yes, tc_quest_no):
-                tc_quest_no.addTask("TaskListener", ID=Notificator.onNewspaperOpen, Filter=__idFilter)
+                tc_quest_no.addListener(Notificator.onNewspaperOpen, Filter=__idFilter)
 
                 for ParagraphID in self.ParagraphsID:
-                    tc_quest_no.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(ParagraphID,))
+                    tc_quest_no.addNotify(Notificator.onParagraphRun, ParagraphID)
                     pass
 
-                tc_quest_no.addTask("TaskListener", ID=Notificator.onNewspaperShow, Filter=__idFilter)
+                tc_quest_no.addListener(Notificator.onNewspaperShow, Filter=__idFilter)
                 pass
             pass
         pass

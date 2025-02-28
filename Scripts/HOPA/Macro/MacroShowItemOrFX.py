@@ -42,7 +42,7 @@ class MacroShowItemOrFX(MacroCommand):
                 pass
             pass
 
-        source.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
+        source.addDelay(0.1 * 1000)  # speed fix
         pass
 
     pass

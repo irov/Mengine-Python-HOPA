@@ -68,7 +68,7 @@ class PolicyCheckMarkNearMovieItem(TaskAlias):
 
             node.addChildFront(effectEntityNode)
 
-            source.addTask("TaskEnable", Object=checkMarkEffect, Value=True)
+            source.addEnable(checkMarkEffect)
             source.addTask("TaskMoviePlay", Movie=checkMarkEffect, Wait=False)
 
         with source.addFork() as source_fork:

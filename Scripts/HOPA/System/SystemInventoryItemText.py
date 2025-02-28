@@ -150,34 +150,34 @@ class SystemInventoryItemText(System):
                 tc.addTask("TaskMovie2Play", Movie2=tempMovie, Loop=True, Wait=False)
 
                 with tc.addRaceTask(5) as (tc_leave, tc_pick, tc_scroll, tc_deactivate, tc_removed):
-                    tc_leave.addTask("TaskListener", ID=Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
+                    tc_leave.addListener(Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
 
-                    tc_pick.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisPickSlot)
+                    tc_pick.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisPickSlot)
 
-                    tc_scroll.addTask("TaskListener", ID=Notificator.onInventoryCurrentSlotIndex)
+                    tc_scroll.addListener(Notificator.onInventoryCurrentSlotIndex)
 
-                    tc_deactivate.addTask("TaskListener", ID=Notificator.onInventoryDeactivate)
+                    tc_deactivate.addListener(Notificator.onInventoryDeactivate)
 
-                    tc_removed.addTask("TaskListener", ID=Notificator.onInventoryRemoveInventoryItem, Filter=__thisSlot)
+                    tc_removed.addListener(Notificator.onInventoryRemoveInventoryItem, Filter=__thisSlot)
                     pass
                 pass
             else:
                 with tc.addRaceTask(6) as (tc_leave, tc_pick, tc_scroll, tc_deactivate, tc_removed, tc_movie):
-                    tc_leave.addTask("TaskListener", ID=Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
+                    tc_leave.addListener(Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
 
-                    tc_pick.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisPickSlot)
+                    tc_pick.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisPickSlot)
 
-                    tc_scroll.addTask("TaskListener", ID=Notificator.onInventoryCurrentSlotIndex)
+                    tc_scroll.addListener(Notificator.onInventoryCurrentSlotIndex)
 
-                    tc_deactivate.addTask("TaskListener", ID=Notificator.onInventoryDeactivate)
+                    tc_deactivate.addListener(Notificator.onInventoryDeactivate)
 
-                    tc_removed.addTask("TaskListener", ID=Notificator.onInventoryRemoveInventoryItem, Filter=__thisSlot)
+                    tc_removed.addListener(Notificator.onInventoryRemoveInventoryItem, Filter=__thisSlot)
 
                     tc_movie.addTask("TaskMovie2Play", Movie2=tempMovie, Loop=False, Wait=True)
                     pass
                 pass
 
-            tc.addTask("TaskFunction", Fn=self._onSlotMouseLeave, Args=(ItemKey, item))
+            tc.addFunction(self._onSlotMouseLeave, ItemKey, item)
             pass
 
         return False

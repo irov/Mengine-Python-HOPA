@@ -15,4 +15,5 @@ class MacroEnableObjectGroup(MacroCommand):
 
     def _onGenerate(self, source):
         Object = GroupManager.getObject(self.GroupObjectName, self.ObjectName)
-        source.addTask("TaskEnable", Object=Object, Value=True)
+
+        source.addEnable(Object)

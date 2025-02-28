@@ -131,7 +131,7 @@ class HOGRolling(Enigma):
                         #     tc_hog_1.addFunction(disableMovie, name)
                         #     tc_hog_2.addFunction(enableItem, name)
                     else:
-                        tc_hog.addTask("TaskDummy")
+                        tc_hog.addDummy()
 
     def __changeSlotItem(self, isSkip, listNames, id):
         if self.object.getPlay() is False:

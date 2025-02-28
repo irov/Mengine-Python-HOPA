@@ -32,8 +32,8 @@ class CruiseActionGetItem(CruiseAction, MixinObject):
 
         with TaskManager.createTaskChain(Name="CruiseActionGetItem") as tc:
             tc.addTask("AliasCruiseControlAction", Position=pos, Object=demon.getObject("Movie2Button_Ok"))
-            tc.addTask("TaskDelay", Time=move_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(move_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         if TaskManager.existTaskChain("CruiseActionGetItem") is True:

@@ -123,12 +123,12 @@ class Map(BaseEntity):
 
             with TaskManager.createTaskChain(Name="MapPagesLeft", Repeat=True) as tc:
                 tc.addTask("TaskButtonClick", Button=self.Button_Left, AutoEnable=False)
-                tc.addTask("TaskFunction", Fn=self.__changePage, Args=(-1,))
+                tc.addFunction(self.__changePage, -1)
                 pass
 
             with TaskManager.createTaskChain(Name="MapPagesRight", Repeat=True) as tc:
                 tc.addTask("TaskButtonClick", Button=self.Button_Right, AutoEnable=False)
-                tc.addTask("TaskFunction", Fn=self.__changePage, Args=(1,))
+                tc.addFunction(self.__changePage, 1)
                 pass
             pass
 
@@ -219,7 +219,7 @@ class Map(BaseEntity):
                     sceneName = tepeportsScenes[clickObject]
 
                     tci.addTask("TaskButtonClick", Button=clickObject)
-                    tci.addTask("TaskFunction", Fn=self.__transition, Args=(sceneName,))
+                    tci.addFunction(self.__transition, sceneName)
                     pass
                 pass
             pass
@@ -255,8 +255,8 @@ class Map(BaseEntity):
             pass
 
         with TaskManager.createTaskChain(Name="EnterButtons", Group=self.object, Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onButtonMouseEnter, Filter=__checkButton)
-            tc.addTask("TaskListener", ID=Notificator.onButtonMouseLeave, Filter=__checkButton2)
+            tc.addListener(Notificator.onButtonMouseEnter, Filter=__checkButton)
+            tc.addListener(Notificator.onButtonMouseLeave, Filter=__checkButton2)
             pass
 
         pass

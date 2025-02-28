@@ -58,16 +58,16 @@ class AliasBombGameBombRotate(TaskAlias):
         pass
 
         with source.addRepeatTask() as (tc_do, tc_until):
-            tc_do.addTask("TaskFunction", Fn=mov)
-            tc_do.addTask("TaskFunction", Fn=TryEndMovBef)
+            tc_do.addFunction(mov)
+            tc_do.addFunction(TryEndMovBef)
             tc_do.addTask("TaskDelayPointer", TimePointer=self.DelayEnd)
             tc_do.addTask("AliasMultyplMovePlay", Movies=self.Movie)
 
-            tc_do.addTask("TaskFunction", Fn=movEnd)
-            tc_do.addTask("TaskFunction", Fn=TryEndMovAft)
+            tc_do.addFunction(movEnd)
+            tc_do.addFunction(TryEndMovAft)
             tc_do.addTask("TaskDelayPointer", TimePointer=self.DelayEnd)
 
-            tc_until.addTask("TaskListener", ID=Notificator.onBombEndMov, Filter=Filter)
+            tc_until.addListener(Notificator.onBombEndMov, Filter=Filter)
         pass
 
     pass

@@ -21,7 +21,7 @@ class MacroOverView(MacroCommand):
 
     def _onGenerate(self, source):
         if self.HasID is False:
-            source.addTask("TaskPrint", Value="Missed %s" % (self.ViewID,))  # for Andromeda
+            source.addPrint("Missed %s" % (self.ViewID,))  # for Andromeda
         else:
             source.addTask("AliasOverViewPlay", ObjectName=self.ViewID, ViewID=self.ViewID,
                            FinalParagraph=self.FinalParagraphIDs)

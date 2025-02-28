@@ -192,8 +192,8 @@ class Spot(BaseEntity):
                 tc_2.addTask("TaskNodeAlphaTo", Node=self.movie_Spot, To=0.0, Time=fadeTime)
                 pass
 
-            tc.addTask("TaskDelay", Time=hideTime)
-            tc.addTask("TaskFunction", Fn=self.__onSpotShow, Args=(fadeTime,))
+            tc.addDelay(hideTime)
+            tc.addFunction(self.__onSpotShow, fadeTime)
             pass
 
         return False

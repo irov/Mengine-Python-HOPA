@@ -26,6 +26,6 @@ class CruiseActionPlusSceneOut(CruiseAction):
             TaskManager.cancelTaskChain("CruiseActionPlusSceneOut")
 
         with TaskManager.createTaskChain(Name="CruiseActionPlusSceneOut") as tc:
-            tc.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom)
+            tc.addNotify(Notificator.onItemZoomLeaveOpenZoom)
             tc.addDelay(click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

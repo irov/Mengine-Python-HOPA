@@ -319,14 +319,14 @@ class JoinBlocks(Enigma):
 
     def _startClick(self):
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object, Repeat=True) as tc_do:
-            tc_do.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.__blockSocket)
+            tc_do.addListener(Notificator.onSocketClick, Filter=self.__blockSocket)
             with tc_do.addRepeatTask() as (tc_path, tc_until):
-                tc_path.addTask("TaskFunction", Fn=self.createPath)
-                tc_path.addTask("TaskFunction", Fn=self.generatePathHandler)
-                tc_path.addTask("TaskListener", ID=Notificator.onSocketMouseEnter, Filter=self.__pathSocket)
+                tc_path.addFunction(self.createPath)
+                tc_path.addFunction(self.generatePathHandler)
+                tc_path.addListener(Notificator.onSocketMouseEnter, Filter=self.__pathSocket)
 
-                tc_until.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.__blockEndSocket)
-                tc_until.addTask("TaskFunction", Fn=self.__completeCheck)
+                tc_until.addListener(Notificator.onSocketClick, Filter=self.__blockEndSocket)
+                tc_until.addFunction(self.__completeCheck)
                 pass
             pass
         pass

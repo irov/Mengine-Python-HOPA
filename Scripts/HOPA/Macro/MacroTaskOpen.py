@@ -7,4 +7,4 @@ class MacroTaskOpen(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onTasksOpen, Args=(self.NoteID,))
+        source.addNotify(Notificator.onTasksOpen, self.NoteID)

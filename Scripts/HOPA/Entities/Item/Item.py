@@ -171,7 +171,7 @@ class Item(Interaction):
     def _mouseClickBegin(self):
         Notification.notify(Notificator.onItemClickBegin, self.object)
 
-    def _mouseClick(self):
+    def _mouseClickUp(self):
         Notification.notify(Notificator.onItemClick, self.object)
 
     def itemGlobalMouseEvent(self, value):

@@ -7,7 +7,7 @@ class MacroDecreaseMana(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onManaDecrease, Args=(self.Value,))
+        source.addNotify(Notificator.onManaDecrease, self.Value)
         pass
 
     pass

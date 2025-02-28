@@ -45,14 +45,10 @@ class SkipPuzzle(BaseEntity):
                 tc.addTask("TaskEnable", ObjectName="Movie2_Activate", Value=False)
 
             if self.object.hasObject("Movie2_Reload") is True:
-                tc.addTask("TaskEnable", ObjectName="Movie2_Reload", Value=True)
-                tc.addTask("TaskMovie2Play", Movie2=self.Movie_Reload, Wait=True)
-                tc.addTask("TaskEnable", ObjectName="Movie2_Reload", Value=False)
+                tc.addTask("TaskMovie2Play", Movie2=self.Movie_Reload, Wait=True, AutoEnable=True)
 
             if self.object.hasObject("Movie2_Charged") is True:
-                tc.addTask("TaskEnable", ObjectName="Movie2_Charged", Value=True)
-                tc.addTask("TaskMovie2Play", Movie2=self.Movie_Charged, Wait=True)
-                tc.addTask("TaskEnable", ObjectName="Movie2_Charged", Value=False)
+                tc.addTask("TaskMovie2Play", Movie2=self.Movie_Charged, Wait=True, AutoEnable=True)
 
             tc.addFunction(self._State_Idle)
 

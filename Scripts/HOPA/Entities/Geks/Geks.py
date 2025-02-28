@@ -100,7 +100,7 @@ class Geks(Enigma):
         # pass
 
         with TaskManager.createTaskChain(Cb=self._complete) as tc:
-            tc.addTask("TaskDelay", Time=1.5 * 1000)  # speed fix
+            tc.addDelay(1.5 * 1000)  # speed fix
             pass
         pass
 
@@ -117,7 +117,7 @@ class Geks(Enigma):
                 for list in self.listsButtons:
                     if list == self.currentListButtons:
                         with TaskManager.createTaskChain(Cb=self._complete) as tc:
-                            tc.addTask("TaskDelay", Time=1 * 1000)  # speed fix
+                            tc.addDelay(1 * 1000)  # speed fix
                             pass
                         return False
                         pass

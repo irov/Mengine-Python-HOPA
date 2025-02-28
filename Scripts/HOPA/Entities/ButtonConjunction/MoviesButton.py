@@ -32,9 +32,9 @@ class MoviesButton(object):
         self.movie_active.setEnable(False)
 
         with TaskManager.createTaskChain(Name=Name) as tc:
-            tc.addTask("TaskEnable", Object=self.movie_down)
+            tc.addEnable(self.movie_down)
             tc.addTask("TaskMoviePlay", Movie=self.movie_down)
-            tc.addTask("TaskFunction", Fn=cbBoundMethod, Args=(True,))
+            tc.addFunction(cbBoundMethod, True)
 
     def reset(self):
         self.state = self.movie_active

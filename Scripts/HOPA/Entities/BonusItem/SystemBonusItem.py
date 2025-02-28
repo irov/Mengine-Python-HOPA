@@ -42,7 +42,7 @@ class SystemBonusItem(System):
                 with TaskManager.createTaskChain(Name="BonusItemTaskChain_%s_%s" % (group, item,)) as tc:
                     tc.addTask("TaskItemClick", Item=ItemObject)
                     tc.addTask("TaskItemPick", Item=ItemObject)
-                    tc.addTask("TaskFunction", Fn=self.BonusInventory._updateCount)
+                    tc.addFunction(self.BonusInventory._updateCount)
 
         return False
 

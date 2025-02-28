@@ -15,5 +15,5 @@ class MacroHOGPrepareHOGItem(MacroCommand):
             Enigma.appendParam("PrepareItems", self.ItemName)
             pass
 
-        source.addTask("TaskFunction", Fn=addItemToSlot)
+        source.addFunction(addItemToSlot)
         pass

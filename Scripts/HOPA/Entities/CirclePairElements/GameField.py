@@ -27,15 +27,15 @@ class GameField(object):
         set_time = current_timing + rewind_timing
 
         if set_time >= duration:
-            source.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(current_timing, duration))
+            source.addFunction(MovieEn.setInterval, current_timing, duration)
             source.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
-            source.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, duration - 1))
-            source.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(0,))
+            source.addFunction(MovieEn.setInterval, 0, duration - 1)
+            source.addFunction(MovieEn.setTiming, 0)
         else:
-            source.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(current_timing, set_time))
+            source.addFunction(MovieEn.setInterval, current_timing, set_time)
             source.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
-            source.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, duration - 1))
-            source.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(set_time,))
+            source.addFunction(MovieEn.setInterval, 0, duration - 1)
+            source.addFunction(MovieEn.setTiming, set_time)
 
     def noRotate(self, isSkip):
         self.isRotate = False

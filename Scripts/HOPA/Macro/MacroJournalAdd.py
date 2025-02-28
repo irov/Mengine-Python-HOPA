@@ -33,7 +33,7 @@ class MacroJournalAdd(MacroCommand):
             source.addTask("AliasJournalAddItemPage", ItemObject=ItemObject, SceneName=self.SceneName)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onJournalAddPage, Args=(self.JournalID,))
+        source.addNotify(Notificator.onJournalAddPage, self.JournalID)
         pass
 
     pass

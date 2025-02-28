@@ -10,7 +10,7 @@ class MacroDemonEnable(MacroCommand):
     def _onGenerate(self, source):
         Demon = DemonManager.getDemon(self.DemonName)
 
-        source.addTask("TaskEnable", Object=Demon, Value=True)
+        source.addEnable(Demon)
         pass
 
     pass

@@ -120,11 +120,11 @@ class CirclePairElements(Enigma):
 
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object, Repeat=True) as tc:
             with tc.addParallelTask(2) as (tc_click, tc_over):
-                tc_click.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.__onSocketClick)
+                tc_click.addListener(Notificator.onSocketClick, Filter=self.__onSocketClick)
 
                 with tc_over.addRaceTask(2) as (tc_over1, tc_over2):
-                    tc_over1.addTask("TaskListener", ID=Notificator.onSocketMouseEnter, Filter=__onSocketEnter)
-                    tc_over2.addTask("TaskListener", ID=Notificator.onSocketMouseLeave, Filter=__onSocketLeave)
+                    tc_over1.addListener(Notificator.onSocketMouseEnter, Filter=__onSocketEnter)
+                    tc_over2.addListener(Notificator.onSocketMouseLeave, Filter=__onSocketLeave)
                 pass
             pass
 
@@ -276,13 +276,13 @@ class CirclePairElements(Enigma):
 
         with TaskManager.createTaskChain() as tc:
             with GuardBlockInput(tc) as guard_tc:
-                guard_tc.addTask("TaskDelay", Time=self.delayForShowing)
+                guard_tc.addDelay(self.delayForShowing)
                 with guard_tc.addParallelTask(2) as (tc_1, tc_2):
-                    tc_1.addTask("TaskFunction", Fn=Symbol.closeSymbol)
-                    tc_2.addTask("TaskFunction", Fn=self.bufferSymbol.closeSymbol)
+                    tc_1.addFunction(Symbol.closeSymbol)
+                    tc_2.addFunction(self.bufferSymbol.closeSymbol)
                     pass
-                guard_tc.addTask("TaskDelay", Time=self.cancelTiming)
-                guard_tc.addTask("TaskFunction", Fn=self.GameField.Rotate)
+                guard_tc.addDelay(self.cancelTiming)
+                guard_tc.addFunction(self.GameField.Rotate)
                 pass
             pass
 

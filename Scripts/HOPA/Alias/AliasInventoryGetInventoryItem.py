@@ -25,7 +25,7 @@ class AliasInventoryGetInventoryItem(TaskAlias):
     def _onGenerate(self, source):
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
 
-        source.addTask("TaskNotify", ID=Notificator.onItemPopUp, Args=(self.ItemName,))
+        source.addNotify(Notificator.onItemPopUp, self.ItemName)
 
         def __isItem(inventory, invItem):
             if InventoryItem is not invItem:
@@ -33,4 +33,4 @@ class AliasInventoryGetInventoryItem(TaskAlias):
 
             return True
 
-        source.addTask("TaskListener", ID=Notificator.onGetItem, Filter=__isItem)
+        source.addListener(Notificator.onGetItem, Filter=__isItem)

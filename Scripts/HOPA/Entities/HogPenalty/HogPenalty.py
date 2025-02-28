@@ -78,11 +78,11 @@ class HogPenalty(BaseEntity):
             Movie.setPosition(arrowPosition)
 
             with TaskManager.createTaskChain() as tc:
-                tc.addTask("TaskEnable", Object=Movie)
+                tc.addEnable(Movie)
                 tc.addTask("TaskMoviePlay", Movie=Movie)
-                tc.addTask("TaskFunction", Fn=arrow_node.enable)
-                tc.addTask("TaskEnable", Object=Movie, Value=False)
-                tc.addTask("TaskFunction", Fn=self.unblock, Args=(SocketBlock,))
+                tc.addFunction(arrow_node.enable)
+                tc.addDisable(Movie)
+                tc.addFunction(self.unblock, SocketBlock)
             #            Movie.setPlay(True)
             Notification.removeObserver(self.MouseMove)
 

@@ -24,9 +24,9 @@ class SystemExtras(System):
                 tc.addTask("AliasTransition", SceneName=sceneName)
                 tc.addTask("TaskScenarioRun", ScenarioID=scenarioID)
                 with tc.addRaceTask(2) as (tc_1, tc_2):
-                    tc_1.addTask("TaskListener", ID=Notificator.onEnigmaComplete)
+                    tc_1.addListener(Notificator.onEnigmaComplete)
                     tc_2.addTask("TaskButtonClick", GroupName="ExtraToolbar", ButtonName="Button_Menu")
-                    tc_2.addTask("TaskNotify", ID=Notificator.onEnigmaSkip)
+                    tc_2.addNotify(Notificator.onEnigmaSkip)
                 tc.addTask("TaskScenarioCancel", ScenarioID=scenarioID)
                 tc.addTask("AliasTransition", SceneName="Extras")
 

@@ -26,7 +26,7 @@ class PolicyCutSceneSkip(TaskAlias):
             Button_Skip.setEnable(True)
 
         if GroupManager.hasObject(self.CutSceneGroup, "Movie2Button_Skip") is False and GroupManager.hasObject(self.CutSceneGroup, "Button_Skip") is False:
-            source.addTask("TaskDeadLock")
+            source.addBlock()
             return False
             pass
 

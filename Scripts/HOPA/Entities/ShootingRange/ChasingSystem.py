@@ -19,10 +19,10 @@ class ChasingSystem(object):
     def run_chase():
         with TaskManager.createTaskChain(Name="Chasing") as tc:
             for i, target in enumerate(ChasingSystem.queue):
-                tc.addTask("TaskFunction", Fn=ChasingSystem.__update_current, Args=(target,))
-                tc.addTask("TaskFunction", Fn=target.chase)
-                tc.addTask("TaskListener", ID=Notificator.onChase, Filter=ChasingSystem.get_passed)
-                tc.addTask("TaskPrint", Value="ChaseComplete:%d" % (i,))
+                tc.addFunction(ChasingSystem.__update_current, target)
+                tc.addFunction(target.chase)
+                tc.addListener(Notificator.onChase, Filter=ChasingSystem.get_passed)
+                tc.addPrint("ChaseComplete:%d" % (i,))
                 pass
             pass
         pass

@@ -89,11 +89,9 @@ class SystemGamePause(System):
         with TaskManager.createTaskChain(Name=SystemGamePause.TASK_NAME) as tc:
             tc.addTask("TaskSceneLayerGroupEnable", LayerName=SystemGamePause.PAUSE_GROUP, Value=True)
 
-            tc.addTask("TaskFunction", Fn=self.freezeCurrentScene, Args=(True,))
-
+            tc.addFunction(self.freezeCurrentScene, True)
             tc.addTask("TaskButtonClick", Button=self.ButtonContinue)
-
-            tc.addTask("TaskFunction", Fn=self.freezeCurrentScene, Args=(False,))
+            tc.addFunction(self.freezeCurrentScene, False)
 
             tc.addTask("TaskSceneLayerGroupEnable", LayerName=SystemGamePause.PAUSE_GROUP, Value=False)
             pass
@@ -106,7 +104,7 @@ class SystemGamePause(System):
             TaskManager.cancelTaskChain(SystemGamePause.TASK_NAME)
 
             with TaskManager.createTaskChain(Name=SystemGamePause.TASK_NAME) as tc:
-                tc.addTask("TaskFunction", Fn=self.freezeCurrentScene, Args=(False,))
+                tc.addFunction(self.freezeCurrentScene, False)
                 tc.addTask("TaskSceneLayerGroupEnable", LayerName=SystemGamePause.PAUSE_GROUP, Value=False)
                 pass
             pass

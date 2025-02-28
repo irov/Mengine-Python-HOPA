@@ -159,21 +159,21 @@ class HanoisTower(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="HanoisTowerPick", Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onHanoisTowerClick, Filter=filter)
+            tc.addListener(Notificator.onHanoisTowerClick, Filter=filter)
 
-            tc.addTask("TaskFunction", Fn=set_Mov)
+            tc.addFunction(set_Mov)
             tc.addTask("AliasMultyplMovePlay", Movies=self.Mov)
 
-            tc.addTask("TaskListener", ID=Notificator.onHanoisTowerClick, Filter=filter2)
+            tc.addListener(Notificator.onHanoisTowerClick, Filter=filter2)
 
-            tc.addTask("TaskFunction", Fn=set_Mov_2)
+            tc.addFunction(set_Mov_2)
             tc.addTask("AliasMultyplMovePlay", Movies=self.Mov)
 
-            tc.addTask("TaskFunction", Fn=set_Mov_3)
+            tc.addFunction(set_Mov_3)
             tc.addTask("AliasMultyplMovePlay", Movies=self.Mov)
-            tc.addTask("TaskFunction", Fn=end_Mov)
+            tc.addFunction(end_Mov)
 
-            tc.addTask("TaskFunction", Fn=self.__CheckFin)
+            tc.addFunction(self.__CheckFin)
             pass
         pass
 
@@ -202,8 +202,8 @@ class HanoisTower(Enigma):
 
         with TaskManager.createTaskChain(Name="HanoisTower_%d" % (x), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points, isDown=True)
-            tc.addTask("TaskFunction", Fn=set_Click)
-            tc.addTask("TaskNotify", ID=Notificator.onHanoisTowerClick)
+            tc.addFunction(set_Click)
+            tc.addNotify(Notificator.onHanoisTowerClick)
             pass
         pass
 

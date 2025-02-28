@@ -84,7 +84,7 @@ class ShootGame(Enigma):
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName="Start", Movie=self.MoviePoints, isDown=True)
-            tc.addTask("TaskFunction", Fn=fun)
+            tc.addFunction(fun)
             pass
         pass
 
@@ -149,7 +149,7 @@ class ShootGame(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name=AliasName, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=PrePlay)
+            tc.addFunction(PrePlay)
             tc.addTask("AliasMultyplMovePlay", Movies=moviePlay)
             pass
         pass
@@ -206,7 +206,7 @@ class ShootGame(Enigma):
             socketName = "P%d_%d" % (id + 1, i + 1)
             with TaskManager.createTaskChain(Name=AliasName, Repeat=True) as tc:
                 tc.addTask("TaskMovieSocketClick", SocketName=socketName, Movie=movie, isDown=True)
-                tc.addTask("TaskFunction", Fn=shoot)
+                tc.addFunction(shoot)
                 pass
             pass
             self.AliasNames.append(AliasName)

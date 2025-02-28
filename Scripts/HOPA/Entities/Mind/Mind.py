@@ -95,7 +95,7 @@ class Mind(BaseEntity):
 
         with TaskManager.createTaskChain(Name="MindZoomLeave") as tc:
             tc.addTask("TaskZoomLeave", ZoomAny=True)
-            tc.addTask("TaskFunction", Fn=self.__hideBlackBar)
+            tc.addFunction(self.__hideBlackBar)
             pass
 
         return False

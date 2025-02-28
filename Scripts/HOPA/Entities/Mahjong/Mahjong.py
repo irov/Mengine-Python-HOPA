@@ -305,15 +305,15 @@ class Mahjong(Enigma):
         button_type = button1.getType()
         with source.addParallelTask(2) as (source_button1, source_button2):
             if button_type == "ObjectMovie2Button":
-                source_button1.addTask("TaskSetParam", Object=button1, Param="Block", Value=False)
-                source_button2.addTask("TaskSetParam", Object=button2, Param="Block", Value=False)
+                source_button1.addParam(button1, "Block", False)
+                source_button2.addParam(button2, "Block", False)
             else:
                 source_button1.addParam(button1, "Interactive", 1)
-                source_button1.addTask("TaskSetParam", Object=button1, Param="BlockState", Value=False)
+                source_button1.addParam(button1, "BlockState", False)
                 source_button1.addTask("TaskButtonChangeState", Button=button1, NewState="onUp")
 
                 source_button2.addParam(button2, "Interactive", 1)
-                source_button2.addTask("TaskSetParam", Object=button2, Param="BlockState", Value=False)
+                source_button2.addParam(button2, "BlockState", False)
                 source_button2.addTask("TaskButtonChangeState", Button=button2, NewState="onUp")
 
         source.addScope(self._play_cancel_on_all_checkboxes)
@@ -341,9 +341,9 @@ class Mahjong(Enigma):
         button1, button2 = self._get_button_pair(button)
 
         if button_type == "ObjectMovie2Button":
-            source.addTask("TaskSetParam", Object=button, Param="Block", Value=True)
+            source.addParam(button, "Block", True)
         else:
-            source.addTask("TaskSetParam", Object=button, Param="BlockState", Value=True)
+            source.addParam(button, "BlockState", True)
 
         if self.current_button_name is not None:
             """ CASE WHEN WE CHOOSE SECOND BUTTON """

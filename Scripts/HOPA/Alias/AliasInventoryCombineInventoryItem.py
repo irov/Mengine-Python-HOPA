@@ -42,8 +42,8 @@ class AliasInventoryCombineInventoryItem(TaskAlias):
             guard_scope.addTask("TaskObjectReturn", Object=AttachInventoryItem)
             guard_scope.addTask("TaskObjectReturn", Object=SlotInventoryItem)
 
-            guard_scope.addTask("TaskEnable", Object=AttachInventoryItem, Value=False)
-            guard_scope.addTask("TaskEnable", Object=SlotInventoryItem, Value=False)
+            guard_scope.addDisable(AttachInventoryItem)
+            guard_scope.addDisable(SlotInventoryItem)
 
             guard_scope.addTask("TaskInventorySlotsHideInventoryItem", Inventory=self.Inventory)
 

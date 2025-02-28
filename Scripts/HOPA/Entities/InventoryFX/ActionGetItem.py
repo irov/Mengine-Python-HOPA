@@ -20,4 +20,4 @@ class ActionGetItem(ActionDefault):
         EffectPolicy = PolicyManager.getPolicy("EffectInventoryGetInventoryItem", "TaskEffectInventoryAddInventoryItem")
         with TaskManager.createTaskChain(Name="InvFXActionGetItem%s" % self.ItemName, Cb=self.endItem) as tc:
             tc.addTask(EffectPolicy, Inventory=self.Inventory, ItemName=self.ItemName)
-            tc.addTask("TaskNotify", ID=Notificator.onItemEffectEnd, Args=(self.ItemName,))
+            tc.addNotify(Notificator.onItemEffectEnd, self.ItemName)

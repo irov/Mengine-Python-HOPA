@@ -91,7 +91,7 @@ class CasualHelper(object):
         self.movie.setLoop(True)
 
         with TaskManager.createTaskChain(Name=CasualHelper.TaskName) as tc:
-            tc.addTask("TaskEnable", Object=self.movie)
+            tc.addEnable(self.movie)
             tc.addTask("TaskMoviePlay", Movie=self.movie)
             pass
         pass

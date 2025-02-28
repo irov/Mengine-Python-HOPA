@@ -30,6 +30,6 @@ class AliasHOGSilhouetteFindItem(TaskAlias):
             source.addTask("TaskMovieItemPick", MovieItem=ItemObject)
 
         source.addTask("TaskItemPick", ItemName=ItemName)
-        source.addTask("TaskNotify", ID=Notificator.onHOGItemPicked)
+        source.addNotify(Notificator.onHOGItemPicked)
         source.addTask("AliasHOGSilhouetteFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName,
                        EnigmaName=self.EnigmaName)

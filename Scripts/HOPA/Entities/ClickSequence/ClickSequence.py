@@ -100,9 +100,9 @@ class ClickSequence(Enigma):
 
         with TaskManager.createTaskChain(Name=Al_Name, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=Movie_Socket, isDown=True, Filter=Filter)
-            tc.addTask("TaskFunction", Fn=click_Bef)
+            tc.addFunction(click_Bef)
             tc.addTask("TaskMoviePlay", Movie=Movie_Play, Wait=True)
-            tc.addTask("TaskFunction", Fn=click_Aft)
+            tc.addFunction(click_Aft)
             pass
 
         pass

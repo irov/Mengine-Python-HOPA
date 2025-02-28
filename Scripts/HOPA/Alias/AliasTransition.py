@@ -174,9 +174,9 @@ class AliasTransition(TaskAlias):
                                 guard_source.addTask("AliasFadeIn", FadeGroupName=FadeGroupName,
                                                      To=self.alphaFadeIn, Time=self.timeFadeIn)
                         else:
-                            guard_source.addTask("TaskEnable", Object=self.MovieIn, Value=True)
+                            guard_source.addEnable(self.MovieIn)
                             guard_source.addTask("TaskMoviePlay", Movie=self.MovieIn, Wait=True, LastFrame=False)
-                            guard_source.addTask("TaskEnable", Object=self.MovieIn, Value=False)
+                            guard_source.addDisable(self.MovieIn)
 
                     guard_source.addTask("TaskSceneLeaving")
 
@@ -184,7 +184,7 @@ class AliasTransition(TaskAlias):
                                  SkipTaskChains=self.SkipTaskChains, CheckToScene=self.CheckToScene)
 
             if self.ZoomGroupName is not None:
-                guard_source.addTask("TaskNotify", ID=Notificator.onZoomForceOpen, Args=(self.ZoomGroupName,))
+                guard_source.addNotify(Notificator.onZoomForceOpen, self.ZoomGroupName)
                 # source.addTask("TaskNotify", ID = Notificator.onZoomOpen, Args = (self.ZoomGroupName, ))
                 pass
 
@@ -210,15 +210,14 @@ class AliasTransition(TaskAlias):
                                                  # enable fade out from IDLE state (alpha=0)
                                                  ResetFadeCount=True)
                     else:
-                        guard_source.addTask("TaskEnable", Object=self.MovieOut, Value=True)
+                        guard_source.addEnable(self.MovieOut)
                         guard_source.addTask("TaskMoviePlay", Movie=self.MovieOut, Wait=True, LastFrame=False)
-                        guard_source.addTask("TaskEnable", Object=self.MovieOut, Value=False)
+                        guard_source.addDisable(self.MovieOut)
 
         if self.Bypass is False:
             source.addTask("TaskTransitionBlock", Value=False, IsGameScene=GameScene)
 
-        source.addTask("TaskNotify", ID=Notificator.onTransitionEnd,
-                       Args=(CurrentSceneName, self.SceneName, self.ZoomGroupName))
+        source.addNotify(Notificator.onTransitionEnd, CurrentSceneName, self.SceneName, self.ZoomGroupName)
 
         if self.ZoomGroupName is None:
             source.addTask("TaskSceneEntering")

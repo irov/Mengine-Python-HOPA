@@ -110,10 +110,10 @@ class ButtonConjunction(Enigma):
             self.cancelOverView()
             with TaskManager.createTaskChain(Name=TaskName) as tc:
                 with tc.addRaceTask(2) as (tc_view, tc_leave):
-                    tc_view.addTask("TaskEnable", Object=_movie)
+                    tc_view.addEnable(_movie)
                     tc_view.addTask("TaskMoviePlay", Movie=_movie, Loop=True)
-                    tc_leave.addTask("TaskListener", ID=Notificator.onSocketMouseLeave, Filter=self.onLeaved)
-                    tc_leave.addTask("TaskEnable", Object=_movie, Value=False)
+                    tc_leave.addListener(Notificator.onSocketMouseLeave, Filter=self.onLeaved)
+                    tc_leave.addDisable(_movie)
                     pass
                 pass
             pass

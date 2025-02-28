@@ -10,4 +10,4 @@ class ActionHintUse(ActionDefault):
 
     def _onRun(self):
         with TaskManager.createTaskChain(Cb=self.endItem) as tc:
-            tc.addTask("TaskNotify", ID=Notificator.onItemEffectEnd, Args=(self.ItemName,))
+            tc.addNotify(Notificator.onItemEffectEnd, self.ItemName)

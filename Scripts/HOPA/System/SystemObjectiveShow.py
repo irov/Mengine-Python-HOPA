@@ -13,12 +13,12 @@ class SystemObjectiveShow(System):
 
         with TaskManager.createTaskChain(Name="ButtonObjectiveClick", GroupName="Objectives", Repeat=True) as tc:
             tc.addTask("TaskSocketClick", Socket=socketObjective)
-            tc.addTask("TaskNotify", ID=Notificator.onObjectiveShow)
+            tc.addNotify(Notificator.onObjectiveShow)
             with tc.addRaceTask(2) as (tc_click, tc_delay):
                 tc_click.addTask("TaskSocketClick", Socket=socketObjective)
-                tc_delay.addTask("TaskDelay", Time=10 * 1000)  # speed fix
+                tc_delay.addDelay(10 * 1000)  # speed fix
                 pass
-            tc.addTask("TaskNotify", ID=Notificator.onObjectiveHide)
+            tc.addNotify(Notificator.onObjectiveHide)
             pass
 
             pass

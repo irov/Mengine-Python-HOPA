@@ -40,4 +40,4 @@ class RotateAndSwapChipsConnection(object):
                 tc.addTask("TaskMovie2Play", Movie2Name=movie_name)
 
             # tc.addTask("TaskMovieLastFrame", MovieName = name, Value = False)
-            tc.addTask("TaskFunction", Fn=callback)
+            tc.addFunction(callback)

@@ -333,8 +333,8 @@ class BombGame(Enigma):
         self.Aliase_Names_Glob.append(name)
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=Fly)
-            tc.addTask("TaskDelay", Time=0.02 * 1000)  # speed fix
+            tc.addFunction(Fly)
+            tc.addDelay(0.02 * 1000)  # speed fix
             pass
         pass
 
@@ -352,8 +352,8 @@ class BombGame(Enigma):
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=slot.SocketName, Movie=slot.Movie, isDown=True)
-            tc.addTask("TaskFunction", Fn=SetXY)
-            tc.addTask("TaskFunction", Fn=self.__genChain)
+            tc.addFunction(SetXY)
+            tc.addFunction(self.__genChain)
             pass
         pass
 
@@ -370,9 +370,9 @@ class BombGame(Enigma):
         self.Aliase_Names_Glob.append(name)
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=setMovie)
+            tc.addFunction(setMovie)
             tc.addTask("AliasMultyplMovePlay", Movies=Movie)
-            tc.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
+            tc.addDelay(0.1 * 1000)  # speed fix
             pass
         pass
 
@@ -383,7 +383,7 @@ class BombGame(Enigma):
 
         with TaskManager.createTaskChain(Name=name) as tc:
             tc.addTask("AliasBombGamePlayerClickProcces", BombGame=self)
-            tc.addTask("TaskFunction", Fn=self.Check_Win)
+            tc.addFunction(self.Check_Win)
             pass
 
         pass
@@ -415,20 +415,20 @@ class BombGame(Enigma):
         self.Aliase_Names_Glob.append(name)
 
         with TaskManager.createTaskChain(Name=name) as tc:
-            tc.addTask("TaskDelay", Time=StartSpawnDelay)
+            tc.addDelay(StartSpawnDelay)
             with tc.addParallelTask(2) as (tc_Delay, tc_Spawn):
                 with tc_Delay.addRepeatTask() as (tc_Delay_do, tc_Delay_until):
-                    tc_Delay_do.addTask("TaskDelay", Time=SpawnIntervaleChangeOnIntervale)
-                    tc_Delay_do.addTask("TaskFunction", Fn=ChangeSpawnTime, Args=(SpawnDelayPointer,))
+                    tc_Delay_do.addDelay(SpawnIntervaleChangeOnIntervale)
+                    tc_Delay_do.addFunction(ChangeSpawnTime, SpawnDelayPointer)
 
-                    tc_Delay_until.addTask("TaskListener", ID=Notificator.onBombGameEnd)
+                    tc_Delay_until.addListener(Notificator.onBombGameEnd)
                     pass
 
                 with tc_Spawn.addRepeatTask() as (tc_do, tc_until):
                     tc_do.addTask("TaskDelayPointer", TimePointer=SpawnDelayPointer)
-                    tc_do.addTask("TaskFunction", Fn=SpawnItem)
+                    tc_do.addFunction(SpawnItem)
 
-                    tc_until.addTask("TaskListener", ID=Notificator.onBombGameEnd)
+                    tc_until.addListener(Notificator.onBombGameEnd)
                     pass
                 pass
 

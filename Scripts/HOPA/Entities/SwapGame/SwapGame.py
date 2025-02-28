@@ -144,7 +144,7 @@ class SwapGame(Enigma):
 
         with TaskManager.createTaskChain(Name=name_Al, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points, isDown=True)
-            tc.addTask("TaskFunction", Fn=click_)
+            tc.addFunction(click_)
             pass
         pass
 

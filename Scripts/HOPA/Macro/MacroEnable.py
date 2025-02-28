@@ -40,11 +40,11 @@ class MacroEnable(MacroCommand):
             return
 
         if ObjectType not in self.ObjectTypeFilter:
-            source.addTask("TaskEnable", Object=Object, Value=True)
+            source.addEnable(Object)
 
             return
 
         Quest = self.addQuest(source, "Enable", SceneName=self.SceneName, GroupName=self.GroupName, Object=Object)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskEnable", Object=Object, Value=True)
+            tc_quest.addEnable(Object)

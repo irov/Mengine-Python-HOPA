@@ -79,9 +79,9 @@ class Bulb(object):
     def updateMovie(self):
         with TaskManager.createTaskChain() as tc:
             tc.addTask("TaskMoviePlay", Movie=self.movie)
-            tc.addTask("TaskFunction", Fn=self.refreshValues)
+            tc.addFunction(self.refreshValues)
             tc.addTask("TaskMovieLastFrame", Movie=self.movie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.bulbAction)
+            tc.addFunction(self.bulbAction)
             pass
         pass
 

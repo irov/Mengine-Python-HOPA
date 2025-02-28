@@ -48,16 +48,16 @@ class Pet(BaseEntity):
             SceneName = SceneManager.getChangeSceneName()
             with TaskManager.createTaskChain(Cb=self._skip) as tc:
                 with tc.addRaceTask(2) as (tc_leave, tc_give):
-                    tc_leave.addTask("TaskListener", ID=Notificator.onPetLeave)
-                    tc_leave.addTask("TaskPrint", Value="Skipping task chain Pet")
-                    tc_give.addTask("TaskPrint", Value="Run task chain Pet")
+                    tc_leave.addListener(Notificator.onPetLeave)
+                    tc_leave.addPrint("Skipping task chain Pet")
+                    tc_give.addPrint("Run task chain Pet")
                     tc_give.addTask("TaskSocketPlaceInventoryItem", SocketName=socket.getName(), Taken=True, Pick=False,
                                     SocketGroup=self.object, InventoryItem=InventoryItem, ItemName=item_name)
                     tc_give.addListener(Notificator.onInventoryUpdateItem)
-                    tc_give.addTask("TaskNotify", ID=Notificator.onPetComplete, Args=(item_name, sceneName))
-                    tc_give.addTask("TaskFunction", Fn=self.MovieChanger.setUse)
+                    tc_give.addNotify(Notificator.onPetComplete, item_name, sceneName)
+                    tc_give.addFunction(self.MovieChanger.setUse)
                     tc_give.addTask("TaskMoviePlay", Movie=self.MovieChanger.getUseMovie(), Wait=True)
-                    tc_give.addTask("TaskFunction", Fn=self.MovieChanger.setIdle)
+                    tc_give.addFunction(self.MovieChanger.setIdle)
                     tc_give.addTask("TaskMoviePlay", Movie=movie, Wait=True)
                 pass
 

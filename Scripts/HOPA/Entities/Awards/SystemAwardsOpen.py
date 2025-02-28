@@ -92,10 +92,10 @@ class SystemAwardsOpen(System):
             pass
 
         with TaskManager.createTaskChain(Name="AwardsOpenPlay", Cb=self.__removeCurrentAward) as tc:
-            tc.addTask("TaskEnable", Object=movie, Value=True)
-            tc.addTask("TaskPrint", Value="__showAwardOpen %s" % (movie.getName()))
+            tc.addEnable(movie)
+            tc.addPrint("__showAwardOpen %s" % (movie.getName()))
             tc.addTask("TaskMoviePlay", Movie=movie, Wait=True)
-            tc.addTask("TaskEnable", Object=movie, Value=False)
+            tc.addDisable(movie)
             pass
         pass
 

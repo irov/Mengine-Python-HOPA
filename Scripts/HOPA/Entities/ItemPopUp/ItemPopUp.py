@@ -70,10 +70,10 @@ class ItemPopUp(BaseEntity):
 
         with TaskManager.createTaskChain(Name="ItemPopUp", Group=self.object, Cb=self.__notifyEnd) as tc:
             tc.addScope(self.scopeOpen, "ItemPopUp")
-            tc.addTask("TaskEnable", Object=self.Socket_Back, Value=True)
+            tc.addEnable(self.Socket_Back)
             tc.addTask("TaskInteractive", Object=self.Socket_Back, Value=True)
-            tc.addTask("TaskEnable", Object=self.InventoryItem)
-            tc.addTask("TaskNotify", ID=Notificator.onItemPopUpOpen, Args=(self.ItemName,))
+            tc.addEnable(self.InventoryItem)
+            tc.addNotify(Notificator.onItemPopUpOpen, self.ItemName)
 
             with tc.addRaceTask(4) as (tc_scene, tc_button, tc_esc, tc_back):
                 tc_scene.addListener(Notificator.onTransitionBegin)
@@ -90,10 +90,10 @@ class ItemPopUp(BaseEntity):
                 else:
                     tc_back.addBlock()
 
-            tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=False)
-            tc.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
+            tc.addParam(self.object, "Open", False)
+            tc.addDisable(self.InventoryItem)
             tc.addTask("TaskObjectReturn", Object=self.InventoryItem)
-            tc.addTask("TaskEnable", Object=self.Socket_Back, Value=False)
+            tc.addDisable(self.Socket_Back)
             tc.addTask("TaskInteractive", Object=self.Socket_Back, Value=False)
             tc.addNotify(Notificator.onItemPopUpEnd, self.ItemName)
 
@@ -127,9 +127,9 @@ class ItemPopUp(BaseEntity):
         Movie = GroupManager.getObject(GropName, MovieName)
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
+                guard_source_movie.addEnable(Movie)
                 guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                guard_source_movie.addDisable(Movie)
 
     def __notifyEnd(self, isSkip):
         Notification.notify(Notificator.onItemPopUpClose, self.ItemName)

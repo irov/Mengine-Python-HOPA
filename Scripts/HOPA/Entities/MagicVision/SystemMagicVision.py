@@ -46,12 +46,12 @@ class SystemMagicVision(System):
 
         with TaskManager.createTaskChain(Name="MagicVisionAllDone") as tc:
             with GuardBlockInput(tc) as guard_tc:
-                guard_tc.addTask("TaskEnable", Object=movieTransition)
+                guard_tc.addEnable(movieTransition)
                 guard_tc.addTask("TaskMoviePlay", Movie=movieTransition, Wait=True)
-                guard_tc.addTask("TaskEnable", Object=movieTransition, Value=False)
+                guard_tc.addDisable(movieTransition)
                 pass
 
-            tc.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(sceneNameTo, None, False,))
+            tc.addFunction(TransitionManager.changeScene, sceneNameTo, None, False)
             pass
 
         return False

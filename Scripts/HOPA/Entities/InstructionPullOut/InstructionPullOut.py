@@ -74,12 +74,12 @@ class InstructionPullOut(BaseEntity):
             self.state = directPlay
 
         with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskFunction", Fn=self.setBlock, Args=(True,))
+            tc.addFunction(self.setBlock, True)
             tc.addTask("TaskMoviePlay", Movie=self.MoviePull, Wait=True, Reverse=not directPlay)
             if is_add:
-                tc.addTask("TaskFunction", Fn=self.Layer.removeChild, Args=(instructionEn,))
+                tc.addFunction(self.Layer.removeChild, instructionEn)
 
-            tc.addTask("TaskFunction", Fn=self.setBlock, Args=(False,))
+            tc.addFunction(self.setBlock, False)
         return False
 
     def setBlock(self, block):

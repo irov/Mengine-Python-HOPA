@@ -45,5 +45,4 @@ class MacroWaitParagraph(MacroCommand):
             source.addTask("TaskStageInit", StageName=paragraphID)
         else:
             with source.addSwitchTask(2, Functor(__isParagraphComplete, paragraphID)) as (listener, skip):
-                listener.addTask("TaskListener", ID=Notificator.onParagraphRun,
-                                 Filter=Functor(__paragraphFilter, paragraphID))
+                listener.addListener(Notificator.onParagraphRun, Filter=Functor(__paragraphFilter, paragraphID))

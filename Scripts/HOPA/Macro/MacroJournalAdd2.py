@@ -28,7 +28,7 @@ class MacroJournalAdd2(MacroCommand):
             source.addTask("TaskEnable", ObjectName=self.ObjectName, Value=False)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onJournalAddPage, Args=(self.JournalID,))
+        source.addNotify(Notificator.onJournalAddPage, self.JournalID)
         pass
 
     pass

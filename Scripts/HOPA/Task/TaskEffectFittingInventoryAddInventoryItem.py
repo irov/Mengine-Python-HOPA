@@ -54,7 +54,7 @@ class TaskEffectFittingInventoryAddInventoryItem(Task):
                 tcp0.addTask("TaskNodeBezier2To", Node=self.itemEntity, Point1=P1, To=P2,
                              Speed=SpeedEffectFittingInventoryAddItem)
                 tcp1.addTask("TaskNodeScaleTo", Node=self.itemEntity, To=(scaleTo, scaleTo, 1.0), Time=time)
-                tcp2.addTask("TaskDelay", Time=time / 2)
+                tcp2.addDelay(time / 2)
                 tcp2.addTask("TaskNodeAlphaTo", Node=self.itemEntity, To=0.3, Time=time / 2)
                 pass
             pass

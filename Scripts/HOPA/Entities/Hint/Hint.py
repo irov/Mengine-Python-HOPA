@@ -259,7 +259,7 @@ class Hint(BaseEntity):
             tc_hint.addNotify(Notificator.onHintUIActionEnd)
 
             tc_mind.addNotify(Notificator.onHintClick, self.object, False, self.object.ACTION_MIND_USE)
-            tc_mind.addTask("TaskPrint", Value="Hint not found active quest")
+            tc_mind.addPrint("Hint not found active quest")
             tc_mind.addTask(self.PolicyHintNotFound)
             tc_mind.addTask(self.PolicyHintReady)
             tc_mind.addTask("TaskStateChange", ID="StateHintReady", Value=True)
@@ -268,7 +268,7 @@ class Hint(BaseEntity):
                 tc_noReload.addNotify(Notificator.onHintUIActionEnd)
             with tc_noReload.addParallelTask(2) as (tc1, tc2):
                 with tc1.addRaceTask(2) as (tc_hint_end, tc_delay):
-                    tc_hint_end.addTask("TaskListener", ID=Notificator.onHintActionEnd)
+                    tc_hint_end.addListener(Notificator.onHintActionEnd)
                     tc_delay.addDelay(1000)
                 tc2.addNotify(Notificator.onHintClick, self.object, False, self.object.ACTION_NO_RELOAD_USE)
                 tc2.addTask(self.PolicyHintEmpty)
@@ -614,7 +614,7 @@ class Hint(BaseEntity):
                                 return True
                             return False
 
-                        tc_quest.addTask("TaskListener", ID=Notificator.onSceneEnter, Filter=fil)
+                        tc_quest.addListener(Notificator.onSceneEnter, Filter=fil)
 
             HintAction = HintManager.createHintAction("HintActionUseInventoryItem", Quest, **Params)
             return HintAction

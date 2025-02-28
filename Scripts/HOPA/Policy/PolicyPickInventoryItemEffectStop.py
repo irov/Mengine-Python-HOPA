@@ -30,7 +30,7 @@ class PolicyPickInventoryItemEffectStop(TaskAlias):
             InventoryItemEntity.effect = None
             pass
         else:
-            source.addTask("TaskDummy")
+            source.addDummy()
             pass
         pass
 

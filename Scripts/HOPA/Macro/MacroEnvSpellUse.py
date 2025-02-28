@@ -21,4 +21,4 @@ class MacroEnvSpellUse(MacroCommand):
                               GroupName=self.GroupName, Spell=self.Spell)
         with Quest as tc_q:
             tc_q.addTask("TaskSpellUse", Spell=self.Spell, SpellCost=self.SpellCost)
-            tc_q.addTask("TaskPrint", Value="TaskSpellUse complete")
+            tc_q.addPrint("TaskSpellUse complete")

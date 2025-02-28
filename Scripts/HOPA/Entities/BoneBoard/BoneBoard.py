@@ -216,9 +216,9 @@ class BoneBoard(BaseEntity):
         self.MovieActive.setEnable(True)
         with TaskManager.createTaskChain() as tc:  # enabling button movie
             tc.addTask("TaskMoviePlay", Movie=self.MovieActive)
-            tc.addTask("TaskFunction", Fn=self.ButtonBone.setEnable, Args=(True,))
-            tc.addTask("TaskFunction", Fn=self.MovieActive.setEnable, Args=(False,))
-            tc.addTask("TaskFunction", Fn=self.Helper.iterate)
+            tc.addFunction(self.ButtonBone.setEnable, True)
+            tc.addFunction(self.MovieActive.setEnable, False)
+            tc.addFunction(self.Helper.iterate)
             pass
         self.ButtonBone.setInteractive(True)
         self.object.setParam("ButtonAvailable", True)
@@ -404,11 +404,11 @@ class BoneBoard(BaseEntity):
 
             with TaskManager.createTaskChain(Name=TaskName) as tc:
                 with tc.addRaceTask(2) as (tc_view, tc_leave):
-                    tc_view.addTask("TaskEnable", Object=movie)
+                    tc_view.addEnable(movie)
                     tc_view.addTask("TaskMoviePlay", Movie=movie, Loop=True)
 
-                    tc_leave.addTask("TaskListener", ID=Notificator.onItemMouseLeave, Filter=self.onLeaved)
-                    tc_leave.addTask("TaskEnable", Object=movie, Value=False)
+                    tc_leave.addListener(Notificator.onItemMouseLeave, Filter=self.onLeaved)
+                    tc_leave.addDisable(movie)
                     pass
                 pass
             pass

@@ -113,7 +113,7 @@ class SystemDifficulty(System):
                 PlayTutorialAccount = Mengine.getCurrentAccountSettingBool('DifficultyCustomTutorial')
 
                 if any([PlayTutorialDefault is False, PlayTutorialAccount is False, CHEAT_SKIP_MENU is True]):
-                    tc.addTask("TaskFunction", Fn=self._runScenarios, Args=(Difficulty,))
+                    tc.addFunction(self._runScenarios, Difficulty)
                 else:
                     tc.addTask("TaskStateMutex", ID="AliasMessageShow", From=False)
                     tc.addTask("TaskStateChange", ID="AliasMessageShow", Value=True)
@@ -134,7 +134,7 @@ class SystemDifficulty(System):
                             tc_quit_1.addTask("AliasMessageHide", SceneName=CurrentSceneName)
                             tc_quit_2.addTask("AliasFadeOut", FadeGroupName="FadeUI", Time=Time, From=Fade)
 
-                        tc_no.addTask("TaskFunction", Fn=self._runScenarios, Args=(Difficulty,))
+                        tc_no.addFunction(self._runScenarios, Difficulty)
                         tc_no.addNotify(Notificator.onTutorialComplete)
                         #########################
                         tc_yes.addTask("AliasMessageYes")
@@ -143,13 +143,13 @@ class SystemDifficulty(System):
                             tc_yes_1.addTask("AliasMessageHide", SceneName=CurrentSceneName)
                             tc_yes_2.addTask("AliasFadeOut", FadeGroupName="FadeUI", Time=Time, From=Fade)
 
-                        tc_yes.addTask("TaskFunction", Fn=self._runScenarios, Args=("Tutorial",))
+                        tc_yes.addFunction(self._runScenarios, "Tutorial")
                         tc_yes.addNotify(Notificator.onTutorial_Start)
-                        tc_yes.addTask("TaskNotify", ID=Notificator.onMessage, Args=("DifficultyCasualSelect",))
+                        tc_yes.addNotify(Notificator.onMessage, "DifficultyCasualSelect")
 
                     tc.addTask("TaskStateChange", ID="AliasMessageShow", Value=False)
             else:
-                tc.addTask("TaskFunction", Fn=self._runScenarios, Args=("Expert",))
+                tc.addFunction(self._runScenarios, "Expert")
 
         return False
 

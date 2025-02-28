@@ -34,7 +34,7 @@ class CruiseActionElementalMagicUse(CruiseAction, MixinObject):
             if Pos2 is not None:
                 tc.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
 
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getMultiTargetPosition(self):
         Node = self.Ring.getRootNode()

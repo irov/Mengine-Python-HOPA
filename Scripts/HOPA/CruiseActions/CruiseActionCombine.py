@@ -71,7 +71,7 @@ class CruiseActionCombine(CruiseAction):
 
             tc.addTask("AliasCruiseControlAction", Position=PositionTo1)
             tc.addTask("AliasCruiseControlAction", Position=PositionTo2)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
             pass
 
         pass

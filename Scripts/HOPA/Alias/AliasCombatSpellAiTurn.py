@@ -42,13 +42,13 @@ class AliasCombatSpellAiTurn(TaskAlias):
             # movieMove = self.CombatSpell.getAiMoveAnimation(result)
             movieEat = self.CombatSpell.getAiEatAnimation(result)
 
-            source.addTask("TaskFunction", Fn=attachMovie, Args=(slotEat, movieEat))
+            source.addFunction(attachMovie, slotEat, movieEat)
             source.addTask("TaskMoviePlay", Movie=movieEat, Wait=True)
-            source.addTask("TaskFunction", Fn=dettachMovie, Args=(slotEat,))
+            source.addFunction(dettachMovie, slotEat)
 
-            # source.addTask("TaskFunction", Fn = attachMovie, Args = (slotMove, movieMove))
+            # source.addFunction(attachMovie, slotMove, movieMove)
             # source.addTask("TaskMoviePlay", Movie = movieMove, Wait = True)
-            # source.addTask("TaskFunction", Fn = dettachMovie, Args = (slotMove,))
+            # source.addFunction(dettachMovie, slotMove)
 
             pass
         else:  # move
@@ -58,13 +58,13 @@ class AliasCombatSpellAiTurn(TaskAlias):
 
             movieMove = self.CombatSpell.getAiMoveAnimation(result)
 
-            source.addTask("TaskFunction", Fn=attachMovie, Args=(slotMove, movieMove))
+            source.addFunction(attachMovie, slotMove, movieMove)
             source.addTask("TaskMoviePlay", Movie=movieMove, Wait=True)
-            source.addTask("TaskFunction", Fn=dettachMovie, Args=(slotMove,))
+            source.addFunction(dettachMovie, slotMove)
 
             pass
 
-        source.addTask("TaskFunction", Fn=update)
+        source.addFunction(update)
 
         pass
 

@@ -17,7 +17,7 @@ class MacroMagicVisionDone(MacroCommand):
     def _onGenerate(self, source):
         def scope(scope):
             SceneName = SceneManager.getCurrentGameSceneName()
-            scope.addTask("TaskNotify", ID=Notificator.onMagicVisionDone, Args=(SceneName,))
+            scope.addNotify(Notificator.onMagicVisionDone, SceneName)
 
-        source.addTask("TaskScope", Scope=scope)
+        source.addScope(scope)
 

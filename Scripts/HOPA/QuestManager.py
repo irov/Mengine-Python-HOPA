@@ -421,7 +421,7 @@ class QuestManager(object):
         def __exit__(self, type, value, traceback):
             if type is not None:
                 return False
-            self.source.addTask("TaskFunction", Fn=QuestManager.completeQuest, Args=(self.quest, True))
+            self.source.addFunction(QuestManager.completeQuest, self.quest, True)
 
             return True
 

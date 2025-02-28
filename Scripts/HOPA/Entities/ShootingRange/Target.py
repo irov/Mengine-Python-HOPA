@@ -29,17 +29,17 @@ class Target(object):
 
         with TaskManager.createTaskChain() as tc:
             with tc.addRaceTask(2) as (tc_play, tc_hited):
-                tc_play.addTask("TaskDelay", Time=0.5 * 1000)  # speed fix
+                tc_play.addDelay(0.5 * 1000)  # speed fix
                 tc_play.addTask("TaskMoviePlay", Movie=self.movie_carrier)
 
-                tc_hited.addTask("TaskListener", ID=Notificator.onChased, Filter=self.filter)
+                tc_hited.addListener(Notificator.onChased, Filter=self.filter)
                 tc_hited.addTask("TaskMoviePlay", Movie=self.movie)
-                tc_hited.addTask("TaskFunction", Fn=enigmaEntity.checkComplete)
+                tc_hited.addFunction(enigmaEntity.checkComplete)
                 pass
 
-            tc.addTask("TaskFunction", Fn=self.update_passed)
-            tc.addTask("TaskFunction", Fn=self.cleanUpMovie)
-            tc.addTask("TaskNotify", ID=Notificator.onChase, Args=(self,))
+            tc.addFunction(self.update_passed)
+            tc.addFunction(self.cleanUpMovie)
+            tc.addNotify(Notificator.onChase, self)
             pass
         pass
 

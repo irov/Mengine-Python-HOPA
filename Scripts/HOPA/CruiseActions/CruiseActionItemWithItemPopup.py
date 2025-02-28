@@ -79,11 +79,11 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
         with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionToItem, Object=self.hintObject)
 
-            tc.addTask("TaskListener", ID=Notificator.onItemPopUpOpen, Filter=_filter)
+            tc.addListener(Notificator.onItemPopUpOpen, Filter=_filter)
             tc.addTask("AliasCruiseControlAction", Position=PositionToButton)
-            tc.addTask("TaskListener", ID=Notificator.onItemPopUpClose, Filter=_filter)
+            tc.addListener(Notificator.onItemPopUpClose, Filter=_filter)
 
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
             pass
         pass
 

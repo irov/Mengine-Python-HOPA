@@ -124,7 +124,7 @@ class Profile(BaseEntity):
             buttonSelectProfile = self.profiles[currentSlotID].getSelectButton()
 
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=True)
+                tc.addParam(buttonSelectProfile, "Block", True)
 
             self._enableButtonDeleteProfile(currentSlotID)
             self._enableButtonEditProfile(currentSlotID)
@@ -197,7 +197,7 @@ class Profile(BaseEntity):
             buttonSelectProfile = self.profiles[currentSlotID].getSelectButton()
 
             with TaskManager.createTaskChain(Group=self.object, ) as tc:
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=False)
+                tc.addParam(buttonSelectProfile, "Block", False)
 
         # Ruslan
         for id_ in self.profiles:
@@ -217,9 +217,7 @@ class Profile(BaseEntity):
             Movie = GroupManager.getObject(GropName, MovieName)
             with GuardBlockInput(source) as guard_source:
                 with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
-                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
 
                     # guard_source_fade.addTask('AliasFadeOut', FadeGroupName='Fade', From=0.5, Time=250.0)
 
@@ -231,7 +229,7 @@ class Profile(BaseEntity):
             # elif buttonCreateProfile.getType() == "ObjectMovie2Button":
             #     tc.addTask("TaskMovie2ButtonClick", Movie2Button=buttonCreateProfile)
 
-            tc.addTask("TaskFunction", Fn=self._findNewProfile)
+            tc.addFunction(self._findNewProfile)
 
     def _disableButtonCreate(self):
         if TaskManager.existTaskChain("ProfileButtonCreate"):
@@ -256,16 +254,16 @@ class Profile(BaseEntity):
                 tc.addTask("TaskButtonClick", Button=buttonSelectProfile)
             elif buttonSelectProfile.getType() == 'ObjectMovie2Button':
                 tc.addTask("TaskMovie2ButtonClick", Movie2Button=buttonSelectProfile)
-            tc.addTask("TaskFunction", Fn=self._openWindowPlayerNew, Args=(slotID,))
+            tc.addFunction(self._openWindowPlayerNew, slotID)
             pass
 
         with TaskManager.createTaskChain(Group=self.object) as tc:
             if buttonSelectProfile.getType() == 'ObjectButton':
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="BlockState", Value=False)
+                tc.addParam(buttonSelectProfile, "BlockState", False)
                 # tc.addTask("TaskPrint", Value = "1")
                 tc.addTask("TaskButtonSetState", Button=buttonSelectProfile, State="onUp")
             elif buttonSelectProfile.getType() == 'ObjectMovie2Button':
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=False)
+                tc.addParam(buttonSelectProfile, "Block", False)
 
     def _disableButtonNewProfile(self, slotID):
         buttonSelectProfile = self.profiles[slotID].getSelectButton()
@@ -291,11 +289,11 @@ class Profile(BaseEntity):
                 tc.addTask("TaskButtonClick", Button=buttonSelectProfile)
                 # tc.addTask("TaskPrint", Value = "2")
                 tc.addTask("TaskButtonSetState", Button=buttonSelectProfile, State="onDown")
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="BlockState", Value=True)
+                tc.addParam(buttonSelectProfile, "BlockState", True)
             elif buttonSelectProfile.getType() == 'ObjectMovie2Button':
                 tc.addTask("TaskMovie2ButtonClick", Movie2Button=buttonSelectProfile)
-                tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=True)
-            tc.addTask("TaskSetParam", Object=self.object, Param="Current", Value=accID)
+                tc.addParam(buttonSelectProfile, "Block", True)
+            tc.addParam(self.object, "Current", accID)
 
     def _disableButtonSelectProfile(self, slotID):
         if TaskManager.existTaskChain("ProfileButtonSelectPlayer_%s" % (slotID)):
@@ -354,7 +352,7 @@ class Profile(BaseEntity):
                 tc_yes.addTask("AliasMessageYes")
                 tc_yes.addTask("AliasMessageHide", SceneName=CurrentSceneName)
 
-                tc_yes.addTask("TaskFunction", Fn=self._deleteSelectAccount, Args=(slotID,))
+                tc_yes.addFunction(self._deleteSelectAccount, slotID)
                 pass
             pass
         pass
@@ -407,7 +405,7 @@ class Profile(BaseEntity):
                 elif GroupManager.hasObject('Profile_New', 'MovieButton_Back'):
                     tc_until_0.addTask("TaskMovieButtonClick", GroupName="Profile_New", MovieButtonName="MovieButton_Back")
 
-                tc_until_1.addTask("TaskListener", ID=Notificator.onCreateNewProfile)
+                tc_until_1.addListener(Notificator.onCreateNewProfile)
                 pass
 
             # if Profile_NewGroup.hasObject("Movie2_Close"):
@@ -418,7 +416,7 @@ class Profile(BaseEntity):
             tc.addScope(self.scopeClose, "Profile_New")
 
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="Profile_New", Value=False)
-            tc.addTask("TaskFunction", Fn=self._updateButtonPlayerText, Args=(slotID,))
+            tc.addFunction(self._updateButtonPlayerText, slotID)
             pass
         pass
 
@@ -492,11 +490,11 @@ class Profile(BaseEntity):
 
             with TaskManager.createTaskChain(Group=self.object, ) as tc:
                 if buttonSelectProfile.getType() == 'ObjectButton':
-                    tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="BlockState", Value=False)
+                    tc.addParam(buttonSelectProfile, "BlockState", False)
                     # tc.addTask("TaskPrint", Value = "3")
                     tc.addTask("TaskButtonSetState", Button=buttonSelectProfile, State="onUp")
                 elif buttonSelectProfile.getType() == 'ObjectMovie2Button':
-                    tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=False)
+                    tc.addParam(buttonSelectProfile, "Block", False)
 
         self._disableButtonSelectProfile(currentSlotID)
         self._enableButtonDeleteProfile(currentSlotID)
@@ -567,7 +565,7 @@ class Profile(BaseEntity):
                 #         pass
                 #     pass
                 tc.addScope(self.scopeOpen, "Profile")
-                tc.addTask("TaskNotify", ID=Notificator.onProfileDelete)
+                tc.addNotify(Notificator.onProfileDelete)
             self._openWindowPlayerNew(0, False)
             pass
         else:
@@ -576,7 +574,7 @@ class Profile(BaseEntity):
                     with GuardBlockInput(tc) as guard_tc:
                         # guard_tc.addTask("TaskMovie2Play", GroupName = "Profile", Movie2Name = "Movie2_Open", Wait = True)
                         guard_tc.addScope(self.scopeOpen, "Profile")
-                        guard_tc.addTask("TaskNotify", ID=Notificator.onProfileDelete)
+                        guard_tc.addNotify(Notificator.onProfileDelete)
                         pass
                     pass
                 pass
@@ -586,7 +584,7 @@ class Profile(BaseEntity):
             for slotID, accID in Accounts:
                 self._disableButtonNewProfile(slotID)
                 with TaskManager.createTaskChain() as tc:
-                    tc.addTask("TaskSetParam", Object=self.object, Param="Current", Value=accID)
+                    tc.addParam(self.object, "Current", accID)
                 break
 
             currentSlotID = self.object.getSlotID(self.Current)
@@ -595,4 +593,4 @@ class Profile(BaseEntity):
                 buttonSelectProfile = self.profiles[currentSlotID].getSelectButton()
 
                 with TaskManager.createTaskChain(Group=self.object) as tc:
-                    tc.addTask("TaskSetParam", Object=buttonSelectProfile, Param="Block", Value=True)
+                    tc.addParam(buttonSelectProfile, "Block", True)

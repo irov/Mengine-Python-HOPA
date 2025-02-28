@@ -22,4 +22,4 @@ class AliasInventoryItemAttach(MixinInventoryItem, TaskAlias):
         return True
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onInventoryAttachInvItemToArrow, Args=(self.InventoryItem,))
+        source.addNotify(Notificator.onInventoryAttachInvItemToArrow, self.InventoryItem)

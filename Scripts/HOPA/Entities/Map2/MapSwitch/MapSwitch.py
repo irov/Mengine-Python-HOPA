@@ -22,7 +22,7 @@ class MapSwitch(BaseEntity):
                 for tcs, button in zip(tci, Data.keys()):
                     sceneName = Data[button]
                     tcs.addTask("TaskButtonClick", Button=button)
-                    tcs.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(sceneName, None, False,))
+                    tcs.addFunction(TransitionManager.changeScene, sceneName, None, False)
 
     def _onDeactivate(self):
         super(MapSwitch, self)._onDeactivate()

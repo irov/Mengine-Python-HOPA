@@ -70,10 +70,10 @@ class ZenElements(Enigma):
                     tc_al.addTask("AliasSpinCircles", ObjectName=self.socket_ref.keys()[0],
                                   Sockets=self.socket_ref.keys() + self.gen_sockets.keys())
 
-                    tc_list.addTask("TaskListener", ID=Notificator.onSpin, Filter=self.__socketFilter)
+                    tc_list.addListener(Notificator.onSpin, Filter=self.__socketFilter)
 
-                tc_do.addTask("TaskFunction", Fn=self.DragSystemInstance.is_win)
-                tc_until.addTask("TaskListener", ID=Notificator.onEnigmaSkip)
+                tc_do.addFunction(self.DragSystemInstance.is_win)
+                tc_until.addListener(Notificator.onEnigmaSkip)
                 pass
             pass
         pass

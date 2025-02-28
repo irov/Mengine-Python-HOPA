@@ -9,7 +9,7 @@ class MacroCloseItemZoom(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom)
+        source.addNotify(Notificator.onItemZoomLeaveOpenZoom)
         pass
 
     pass

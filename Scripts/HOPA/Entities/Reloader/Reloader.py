@@ -75,7 +75,7 @@ class Reloader(BaseEntity):
         with self.tc as source:
             if MovieIdle is not None:
                 source.addEnable(MovieIdle)
-                source.addTask("TaskListener", ID=Notificator.onReloaderBegin, Filter=lambda obj: obj is self.object)
+                source.addListener(Notificator.onReloaderBegin, Filter=lambda obj: obj is self.object)
                 source.addDisable(MovieIdle)
                 pass
 

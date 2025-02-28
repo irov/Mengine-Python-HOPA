@@ -17,5 +17,5 @@ class AliasHOGFittingUseItem(TaskAlias):
     def _onGenerate(self, source):
         source.addTask("TaskItemClick", Item=self.ItemObject)
         source.addTask("TaskItemPick", Item=self.ItemObject)
-        source.addTask("TaskNotify", ID=Notificator.onItemPicked, Args=(self.ItemObject,))
-        source.addTask("TaskNotify", ID=Notificator.onSoundEffectOnObject, Args=(self.ItemObject, "PickItem"))
+        source.addNotify(Notificator.onItemPicked, self.ItemObject)
+        source.addNotify(Notificator.onSoundEffectOnObject, self.ItemObject, "PickItem")

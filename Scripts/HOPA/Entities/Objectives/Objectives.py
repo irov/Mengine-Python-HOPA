@@ -60,16 +60,16 @@ class Objectives(BaseEntity):
         if self.state == "close":
             self.state = "show"
             with TaskManager.createTaskChain(Name="Objective_Show", Group=self.object) as tc_show:
-                tc_show.addTask("TaskEnable", Object=self.movieShow, Value=True)
-                tc_show.addTask("TaskFunction", Fn=self._setObjectiveToSlot, Args=(self.movieShow,))
+                tc_show.addEnable(self.movieShow)
+                tc_show.addFunction(self._setObjectiveToSlot, self.movieShow)
 
                 tc_show.addTask("TaskMoviePlay", Movie=self.movieShow)
-                tc_show.addTask("TaskFunction", Fn=self._setState, Args=("idle",))
+                tc_show.addFunction(self._setState, "idle")
 
-                tc_show.addTask("TaskFunction", Fn=self._removeObjectiveFromSlot)
-                tc_show.addTask("TaskEnable", Object=self.movieIdle, Value=True)
-                tc_show.addTask("TaskEnable", Object=self.movieShow, Value=False)
-                tc_show.addTask("TaskFunction", Fn=self._setObjectiveToSlot, Args=(self.movieIdle,))
+                tc_show.addFunction(self._removeObjectiveFromSlot)
+                tc_show.addEnable(self.movieIdle)
+                tc_show.addDisable(self.movieShow)
+                tc_show.addFunction(self._setObjectiveToSlot, self.movieIdle)
 
                 tc_show.addTask("TaskMoviePlay", Movie=self.movieIdle)
                 pass
@@ -85,15 +85,15 @@ class Objectives(BaseEntity):
                 pass
 
             with TaskManager.createTaskChain(Name="Objective_Hide", Group=self.object) as tc_show:
-                tc_show.addTask("TaskFunction", Fn=self._removeObjectiveFromSlot, Args=())
-                tc_show.addTask("TaskEnable", Object=self.movieIdle, Value=False)
-                tc_show.addTask("TaskEnable", Object=self.movieHide, Value=True)
-                tc_show.addTask("TaskFunction", Fn=self._setObjectiveToSlot, Args=(self.movieHide,))
+                tc_show.addFunction(self._removeObjectiveFromSlot)
+                tc_show.addDisable(self.movieIdle)
+                tc_show.addEnable(self.movieHide)
+                tc_show.addFunction(self._setObjectiveToSlot, self.movieHide)
 
                 tc_show.addTask("TaskMoviePlay", Movie=self.movieHide)
-                tc_show.addTask("TaskFunction", Fn=self._setState, Args=("close",))
-                tc_show.addTask("TaskFunction", Fn=self._removeObjectiveFromSlot, Args=())
-                tc_show.addTask("TaskEnable", Object=self.movieHide, Value=False)
+                tc_show.addFunction(self._setState, "close")
+                tc_show.addFunction(self._removeObjectiveFromSlot)
+                tc_show.addDisable(self.movieHide)
 
                 pass
             pass

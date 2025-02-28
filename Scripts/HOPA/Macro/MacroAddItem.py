@@ -82,7 +82,7 @@ class MacroAddItem(MacroCommand):
         Quest = self.addQuest(source, "AddItem", SceneName=self.SceneName, GroupName=self.GroupName)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskNotify", ID=Notificator.onInventoryRise)
+            tc_quest.addNotify(Notificator.onInventoryRise)
             tc_quest.addNotify(Notificator.onSoundEffectOnObject, InventoryItem, "AddItem")
 
             with GuardBlockInput(tc_quest) as guard_source:

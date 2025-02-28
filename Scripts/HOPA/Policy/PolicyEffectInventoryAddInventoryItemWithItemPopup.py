@@ -61,7 +61,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
 
         self.node.addChildFront(effectEntityNode)
 
-        source.addTask("TaskEnable", Object=self.effect, Value=True)
+        source.addEnable(self.effect)
         source.addTask("TaskMovie2Play", Movie2=self.effect, Wait=False)
         pass
 
@@ -173,13 +173,13 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
             pass
 
         # task chains
-        source.addTask("TaskNotify", ID=Notificator.onItemPopUp, Args=(self.ItemName,))
+        source.addNotify(Notificator.onItemPopUp, self.ItemName)
 
         source.addDelay(200.0)
         source.addTask("TaskNodeAlphaTo", Node=self.sprite, From=1.0, To=0.0, Time=250.0)
         source.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
 
-        source.addTask("TaskListener", ID=Notificator.onGetItem, Filter=__isItem)
+        source.addListener(Notificator.onGetItem, Filter=__isItem)
         pass
 
     def _onGenerate(self, source):

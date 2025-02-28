@@ -72,7 +72,7 @@ class PolicyHOGRollingMovieItemFoundEffect(TaskAlias):
         if checkMarkEffect is not None:
             checkMarkEffectEntityNode = checkMarkEffect.getEntityNode()
             node1.addChild(checkMarkEffectEntityNode)
-            source.addTask("TaskEnable", Object=checkMarkEffect, Value=True)
+            source.addEnable(checkMarkEffect)
             source.addTask("TaskMoviePlay", Movie=checkMarkEffect, Wait=False)
 
         with source.addParallelTask(2) as (lostOfItem_0, lostOfItem_1):

@@ -56,7 +56,7 @@ class MacroTransition(MacroCommand):
         self.SceneName, self.GroupName params of MacroCommand class
         """
         if self.scene_name_to == "Back":
-            source.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
+            source.addFunction(TransitionManager.changeToGameScene)
             return
 
         quest = self.addQuest(source, "Teleport", SceneName=self.SceneName, GroupName=self.GroupName,

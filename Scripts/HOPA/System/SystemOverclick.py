@@ -35,7 +35,7 @@ class SystemOverclick(System):
 
         if self.__checkOverclick() is True:
             with TaskManager.createTaskChain(Name="Overclick", GroupName=group_name) as tc:
-                tc.addTask("TaskNotify", ID=Notificator.onOverClick)
+                tc.addNotify(Notificator.onOverClick)
                 tc.addTask("TaskSceneLayerGroupEnable", LayerName=group_name, Value=True)
                 tc.addTask("TaskInteractive", ObjectName=socket_block, Value=True)
 

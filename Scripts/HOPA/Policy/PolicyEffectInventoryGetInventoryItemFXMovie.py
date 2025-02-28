@@ -74,7 +74,7 @@ class PolicyEffectInventoryGetInventoryItemFXMovie(TaskAlias):
         P1 = (P2[0], P0[1])
 
         source.addTask("TaskObjectSetPosition", Object=InventoryItem, Value=P0)
-        source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+        source.addEnable(InventoryItem)
 
         SpeedEffectInventoryGetInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryGetInventoryItem", 1000.0)
         SpeedEffectInventoryGetInventoryItem *= 0.001  # speed fix
@@ -86,10 +86,10 @@ class PolicyEffectInventoryGetInventoryItemFXMovie(TaskAlias):
             slot.setItem(InventoryItem)
             pass
 
-        source.addTask("TaskFunction", Fn=__slotSetItem, Args=(slot,))
+        source.addFunction(__slotSetItem, slot)
         source.addTask("TaskNodeEnable", Node=InventoryItemEntity, Value=True)
 
-        source.addTask("TaskScope", Scope=self.__playMovieEnd, Args=(slot,))
+        source.addScope(self.__playMovieEnd, slot)
         pass
 
     def __attachMovie(self, movieName, slot):
@@ -137,10 +137,10 @@ class PolicyEffectInventoryGetInventoryItemFXMovie(TaskAlias):
 
         with scope.addRaceTask(2) as (tc1, tc2):
             tc1.addTask("TaskMoviePlay", Movie=Movie_ItemAdd, Wait=True)
-            tc2.addTask("TaskListener", ID=Notificator.onInventorySlotItemEnter, Filter=__this)
+            tc2.addListener(Notificator.onInventorySlotItemEnter, Filter=__this)
             pass
 
-        scope.addTask("TaskFunction", Fn=self.__onPlayMovieEnd, Args=(slot, slot.item, Movie_ItemAdd, textField))
+        scope.addFunction(self.__onPlayMovieEnd, slot, slot.item, Movie_ItemAdd, textField)
 
         pass
 

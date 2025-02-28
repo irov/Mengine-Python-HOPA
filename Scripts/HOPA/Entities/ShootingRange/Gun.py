@@ -205,16 +205,16 @@ class Gun(object):
         TaskName = "ShootingGun%d" % (len(self.tasks_pool) + 1,)
         self.tasks_pool.append(TaskName)
         with TaskManager.createTaskChain(Name=TaskName) as tc_fly:
-            tc_fly.addTask("TaskFunction", Fn=BallStack.turn_state)
+            tc_fly.addFunction(BallStack.turn_state)
             tc_fly.addTask("TaskMoviePlay", Movie=movie, LastFrame=False)
-            tc_fly.addTask("TaskFunction", Fn=mov_entity.setTiming, Args=(1,))
-            tc_fly.addTask("TaskFunction", Fn=mov_entity.setFirstFrame)
-            tc_fly.addTask("TaskFunction", Fn=temp_entity.removeFromParent)
-            tc_fly.addTask("TaskFunction", Fn=self.removePositionInstance, Args=(positionNode,))
+            tc_fly.addFunction(mov_entity.setTiming, 1)
+            tc_fly.addFunction(mov_entity.setFirstFrame)
+            tc_fly.addFunction(temp_entity.removeFromParent)
+            tc_fly.addFunction(self.removePositionInstance, positionNode)
             if hasEvent is True:
-                tc_fly.addTask("TaskFunction", Fn=mov_entity.setMovieEvent, Args=("onCross", None))
+                tc_fly.addFunction(mov_entity.setMovieEvent, "onCross", None)
                 pass
-            tc_fly.addTask("TaskEnable", Object=temp_ball, Value=False)
+            tc_fly.addDisable(temp_ball,)
         pass
 
     def removePositionInstance(self, positionNode):

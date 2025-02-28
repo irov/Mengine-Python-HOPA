@@ -6,7 +6,7 @@ class MacroShootGameRestart(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskListener", ID=Notificator.onShootGameRestart)
+        source.addListener(Notificator.onShootGameRestart)
         pass
 
     pass

@@ -78,7 +78,7 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
 
             node.addChildFront(effectEntityNode)
 
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
 
         # handle self.FromPoint
@@ -98,7 +98,7 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
 
         node.setLocalPosition(P0)
 
-        source.addTask("TaskEnable", Object=self.InventoryItem, Value=True)
+        source.addEnable(self.InventoryItem)
 
         SpeedEffectInventoryGetInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000.0)
         Time = 400.0 * (1000.0 / SpeedEffectInventoryGetInventoryItem)

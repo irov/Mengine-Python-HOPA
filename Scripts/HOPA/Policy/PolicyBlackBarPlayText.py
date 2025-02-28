@@ -13,7 +13,7 @@ class PolicyBlackBarPlayText(TaskAlias):
         source.addTask("TaskTextSetTextID", TextName="Text_Message", Value=self.TextID)
         source.addTask("TaskEnable", ObjectName="Text_Message", Value=True)
 
-        source.addTask("TaskDelay", Time=self.Time)
+        source.addDelay(self.Time)
 
         source.addTask("TaskEnable", ObjectName="Text_Message", Value=False)
         pass

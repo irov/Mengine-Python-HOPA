@@ -73,7 +73,7 @@ class HintActionTransitionBack(MixinTransition, HintActionDefault):
         tc.addTask("TaskMovie2Play", Movie2=self.Movie2_HintWay, Loop=True, Wait=False)
         tc.addTask("AliasObjectBezier2To", Object=self.Movie2_HintWay, Point1=P1, To=P2, Speed=speed)
 
-        tc.addTask("TaskEnable", Object=self.effect, Value=True)
+        tc.addEnable(self.effect)
         with tc.addParallelTask(3) as (tc_way, tc_target, tc_target_Alpha):
             tc_way.addTask("TaskMovie2Interrupt", Movie2=self.Movie2_HintWay)
             tc_way.addTask("TaskMovie2Stop", Movie2=self.Movie2_HintWay)

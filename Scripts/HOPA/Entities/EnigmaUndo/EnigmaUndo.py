@@ -14,7 +14,7 @@ class EnigmaUndo(BaseEntity):
     def _onActivate(self):
         with TaskManager.createTaskChain(Name="EnigmaUndo", Repeat=True) as tc:
             tc.addTask("TaskButtonClick", Group=self.object, ButtonName="Button_Undo")
-            tc.addTask("TaskNotify", ID=Notificator.onEnigmaUndoStep)
+            tc.addNotify(Notificator.onEnigmaUndoStep)
 
     def onDeactivate(self):
         if TaskManager.existTaskChain("EnigmaUndo"):

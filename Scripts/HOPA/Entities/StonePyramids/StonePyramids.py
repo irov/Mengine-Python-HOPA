@@ -382,9 +382,7 @@ class StonePyramids(Enigma):
             false.addFunction(self.node.addChild, movie_finish_node)  # restore movie finish parent
 
             false.addFunction(slot.addChild, movie_fall_node)  # temporary attach to pyramid slot
-            false.addEnable(stone.movie_fall)
-            false.addTask("TaskMovie2Play", Movie2=stone.movie_fall, Wait=True)
-            false.addDisable(movie_fall)
+            false.addTask("TaskMovie2Play", Movie2=stone.movie_fall, Wait=True, AutoEnable=True)
             false.addFunction(self.node.addChild, movie_fall_node)  # restore movie fall parent
 
     def enableHighlightStoneTC(self, enable):

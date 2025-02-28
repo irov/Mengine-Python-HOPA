@@ -93,7 +93,7 @@ class Mana(BaseEntity):
         self.movieAttach(self.hideMovie)
         with TaskManager.createTaskChain(Name="Hide_" + self.object.getName()) as tc:
             tc.addTask("TaskMoviePlay", Movie=self.hideMovie)
-            tc.addTask("TaskSetParam", Object=self.object, Param="HideState", Value="Down")
+            tc.addParam(self.object, "HideState", "Down")
             pass
         pass
 
@@ -106,7 +106,7 @@ class Mana(BaseEntity):
         self.movieAttach(self.showMovie)
         with TaskManager.createTaskChain(Name="Show_" + self.object.getName()) as tc:
             tc.addTask("TaskMoviePlay", Movie=self.showMovie)
-            tc.addTask("TaskSetParam", Object=self.object, Param="HideState", Value="Idle")
+            tc.addParam(self.object, "HideState", "Idle")
             pass
         pass
 
@@ -129,9 +129,9 @@ class Mana(BaseEntity):
             pass
 
         with TaskManager.createTaskChain(Name="ManaEffect") as tc:
-            tc.addTask("TaskEnable", Object=self.updateMovie)
+            tc.addEnable(self.updateMovie)
             tc.addTask("TaskMoviePlay", Movie=self.updateMovie, Wait=True, Loop=False)
-            tc.addTask("TaskEnable", Object=self.updateMovie, Value=False)
+            tc.addDisable(self.updateMovie)
             pass
         pass
 

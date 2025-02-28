@@ -73,24 +73,24 @@ class ThimbleGame(Enigma):
 
         Movie = self.shows[self.chipPosition]
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object) as tc_game:
-            tc_game.addTask("TaskFunction", Fn=self.attachChip, Args=(Movie,))
-            tc_game.addTask("TaskEnable", Object=self.MovieQuestion, Value=False)
-            tc_game.addTask("TaskEnable", Object=Movie, Value=True)
+            tc_game.addFunction(self.attachChip, Movie)
+            tc_game.addDisable(self.MovieQuestion)
+            tc_game.addEnable(Movie)
             tc_game.addTask("TaskMoviePlay", Movie=Movie)
             tc_game.addTask("TaskMovieReverse", Movie=Movie, Reverse=True)
             tc_game.addTask("TaskMoviePlay", Movie=Movie)
             tc_game.addTask("TaskMovieReverse", Movie=Movie, Reverse=False)
             tc_game.addTask("TaskMovieLastFrame", MovieName=Movie.getName(), Value=False)
-            tc_game.addTask("TaskFunction", Fn=self.deattachChip)
-            tc_game.addTask("TaskFunction", Fn=self.enableShow, Args=(False,))
-            tc_game.addTask("TaskScope", Scope=self.shakeThimbles)
-            tc_game.addTask("TaskFunction", Fn=self.enableShow, Args=(True,))
+            tc_game.addFunction(self.deattachChip)
+            tc_game.addFunction(self.enableShow, False)
+            tc_game.addScope(self.shakeThimbles)
+            tc_game.addFunction(self.enableShow, True)
             if self.MovieSoundQuestion is not None:
                 tc_game.addTask("TaskMoviePlay", Movie=self.MovieSoundQuestion, Wait=False, Loop=False)
                 pass
-            tc_game.addTask("TaskEnable", Object=self.MovieQuestion, Value=True)
-            tc_game.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.clickOnThimble)
-            tc_game.addTask("TaskEnable", Object=self.MovieQuestion, Value=False)
+            tc_game.addEnable(self.MovieQuestion)
+            tc_game.addListener(Notificator.onSocketClick, Filter=self.clickOnThimble)
+            tc_game.addDisable(self.MovieQuestion)
             pass
         pass
 
@@ -98,18 +98,18 @@ class ThimbleGame(Enigma):
         Movie = self.shows[thimbleId]
         with TaskManager.createTaskChain() as tc_chip:
             if thimbleId == self.chipPosition:
-                tc_chip.addTask("TaskFunction", Fn=self.attachChip, Args=(Movie,))
-            tc_chip.addTask("TaskEnable", Object=Movie, Value=True)
+                tc_chip.addFunction(self.attachChip, Movie)
+            tc_chip.addEnable(Movie)
             tc_chip.addTask("TaskMoviePlay", Movie=Movie)
             tc_chip.addTask("TaskMovieReverse", Movie=Movie, Reverse=True)
             tc_chip.addTask("TaskMoviePlay", Movie=Movie)
             tc_chip.addTask("TaskMovieReverse", Movie=Movie, Reverse=False)
             tc_chip.addTask("TaskMovieLastFrame", Movie=Movie, Value=False)
             if thimbleId != self.chipPosition:
-                tc_chip.addTask("TaskFunction", Fn=self.__playTasks)
+                tc_chip.addFunction(self.__playTasks)
             if thimbleId == self.chipPosition:
-                tc_chip.addTask("TaskFunction", Fn=self.deattachChip)
-                tc_chip.addTask("TaskFunction", Fn=self._complete)
+                tc_chip.addFunction(self.deattachChip)
+                tc_chip.addFunction(self._complete)
             pass
 
         pass
@@ -160,21 +160,21 @@ class ThimbleGame(Enigma):
 
         for movie1, movie2, movie3 in moviePull:
             with scope.addParallelTask(3) as (mv1, mv2, mvSound):
-                mv1.addTask("TaskEnable", Object=movie1, Value=True)
-                mv1.addTask("TaskEnable", Object=movie3, Value=True)
+                mv1.addEnable(movie3)
+                mv1.addEnable(movie1)
                 mv1.addTask("TaskMoviePlay", Movie=movie1)
-                mv1.addTask("TaskEnable", Object=movie1, Value=False)
+                mv1.addDisable(movie1)
 
-                mv2.addTask("TaskEnable", Object=movie2, Value=True)
+                mv2.addEnable(movie2)
                 mv2.addTask("TaskMoviePlay", Movie=movie2)
-                mv2.addTask("TaskEnable", Object=movie2, Value=False)
-                mv2.addTask("TaskEnable", Object=movie3, Value=False)
+                mv2.addDisable(movie2)
+                mv2.addDisable(movie3)
 
                 if self.MovieSound is not None:
                     mvSound.addTask("TaskMoviePlay", Movie=self.MovieSound, Loop=False, Wait=False)
                     pass
                 else:
-                    mvSound.addTask("TaskDummy")
+                    mvSound.addDummy()
                     pass
                 pass
             pass

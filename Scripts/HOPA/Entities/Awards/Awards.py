@@ -45,16 +45,16 @@ class Awards(BaseEntity):
 
         with TaskManager.createTaskChain(Name="Awards%s" % self.MovieName, Repeat=True) as tc:
             tc.addTask("TaskSocketEnter", Socket=self.Socket_Over, AutoEnable=False)
-            tc.addTask("TaskEnable", Object=self.movie, Value=True)
+            tc.addEnable(self.movie)
             tc.addTask("TaskMoviePlay", Movie=self.movie, Wait=False)
             with tc.addRaceTask(2) as (tc1, tc2):
                 tc1.addTask("TaskSocketLeave", Socket=self.Socket_Over, AutoEnable=False)
-                tc1.addTask("TaskDelay", Time=0.1 * 1000)  # soeed fix
+                tc1.addDelay(0.1 * 1000)  # soeed fix
                 tc1.addTask("TaskMovieStop", Movie=self.movie)
 
                 tc2.addTask("TaskMovieEnd", Movie=self.movie)
                 pass
-            tc.addTask("TaskEnable", Object=self.movie, Value=False)
+            tc.addDisable(self.movie)
             pass
 
         pass

@@ -12,7 +12,7 @@ class MacroNotify(MacroCommand):
 
     def _onGenerate(self, source):
         args = tuple(self.Arguments)
-        source.addTask("TaskNotify", ID=self.notifyID, Args=args)
+        source.addNotify(self.notifyID, *args)
         pass
 
     pass

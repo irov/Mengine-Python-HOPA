@@ -25,13 +25,12 @@ class AliasInventoryAddInventoryItemFX(TaskAlias):
         if hasInventoryItem is False:
             source.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=self.ItemName)
             # source.addTask("TaskInventorySlotAddInventoryItem", Inventory = self.Inventory, InventoryItem = InventoryItem)
-            source.addTask("TaskEnable", Object=InventoryItem, Value=False)
+            source.addDisable(InventoryItem)
             pass
         else:
             source.addTask("TaskAppendParam", Object=InventoryItem, Param="FoundItems", Value=self.ItemName)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
-                       Args=(self.Inventory, self.ItemName, self.EffectPolicy))
+        source.addNotify(Notificator.onItemClickToInventory, self.Inventory, self.ItemName, self.EffectPolicy)
         source.addTask("TaskInventoryFXAddItem", InventoryItem=InventoryItem, ItemName=self.ItemName)
         source.addFunction(self.Inventory.UnBlockButtons)

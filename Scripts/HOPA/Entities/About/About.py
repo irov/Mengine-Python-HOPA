@@ -93,9 +93,7 @@ class About(BaseEntity):
             return
         movie = GroupManager.getObject(group_name, movie_name)
         with GuardBlockInput(source) as guard_source:
-            guard_source.addTask("TaskEnable", Object=movie, Value=True)
-            guard_source.addTask("TaskMovie2Play", Movie2=movie, Wait=True)
-            guard_source.addTask("TaskEnable", Object=movie, Value=False)
+            guard_source.addTask("TaskMovie2Play", Movie2=movie, Wait=True, AutoEnable=True)
 
     # ====================== CleanUp ===================================================================================
     def cleanUp(self):

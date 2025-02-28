@@ -255,12 +255,12 @@ class SystemChapterSelection(System):
             # on skip: set last scene as param.start_scene
 
             with source_fork.addRaceTask(2) as (race_0, race_1):
-                race_0.addTask("TaskListener", ID=Notificator.onCutScenePlay)
+                race_0.addListener(Notificator.onCutScenePlay)
 
                 def __onTransitionEndFilter(sceneFrom, sceneTo, ZoomGroupName):
                     return sceneTo == "CutScene"
 
-                race_1.addTask("TaskListener", ID=Notificator.onTransitionEnd, Filter=__onTransitionEndFilter)
+                race_1.addListener(Notificator.onTransitionEnd, Filter=__onTransitionEndFilter)
 
             source_fork.addFunction(SceneManager.setCurrentGameSceneName, param.start_scene)  # actual fix
             # source_fork.addPrint("SHITTY FIX IS IN FIRE BABY!!!")

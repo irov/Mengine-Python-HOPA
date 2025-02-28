@@ -110,8 +110,8 @@ class ColorCollect(Enigma):
             TaskManager.cancelTaskChain(self.EnigmaName)
             pass
         with TaskManager.createTaskChain(Name=self.EnigmaName) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onSocketClick, Filter=self.endSocketClick)
-            tc.addTask("TaskScope", Scope=self.attachItemScope)
+            tc.addListener(Notificator.onSocketClick, Filter=self.endSocketClick)
+            tc.addScope(self.attachItemScope)
             pass
         pass
 
@@ -150,17 +150,17 @@ class ColorCollect(Enigma):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
-                    tci.addTask("TaskFunction", Fn=returnToBulb, Args=(socket,))
+                    tci.addFunction(returnToBulb, socket)
 
             with tc_begin.addRaceTask(len(self.beginBySocket.keys())) as tcs:
                 for tci, socket, bulb in zip(tcs, self.beginBySocket.iterkeys(), self.beginBySocket.itervalues()):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
-                    tci.addTask("TaskFunction", Fn=attachToBulb, Args=(socket,))
+                    tci.addFunction(attachToBulb, socket)
 
-            tc_wrong.addTask("TaskListener", ID=Notificator.onButtonClick)
+            tc_wrong.addListener(Notificator.onButtonClick)
             tc_wrong.addTask("TaskRemoveArrowAttach")
             tc_wrong.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
-            tc_wrong.addTask("TaskFunction", Fn=returnToBulb, Args=(self.socket,))
+            tc_wrong.addFunction(returnToBulb, self.socket)
     pass

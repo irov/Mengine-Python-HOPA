@@ -17,7 +17,7 @@ class CloseDiary(BaseEntity):
 
         with TaskManager.createTaskChain(Name="CloseDiary") as tc:
             tc.addTask("TaskButtonClick", Button=Button)
-            tc.addTask("TaskNotify", ID=Notificator.onDiaryClose)
+            tc.addNotify(Notificator.onDiaryClose)
 
     def _onDeactivate(self):
         super(CloseDiary, self)._onDeactivate()

@@ -202,10 +202,9 @@ class SystemDebugShowUsageItem(System):
                     source.addFunction(self.InventoryItem.appendParam, "FoundItems", find_item)
             # ----------------------------------------------------------------------------------
 
-            source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
-                           Args=(self.Inventory, ItemName, "ActionHintUse"))
+            source.addNotify(Notificator.onItemClickToInventory, self.Inventory, ItemName, "ActionHintUse")
             source.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=ItemName, ItemHide=True)
-            source.addTask("TaskDelay", Time=0.01 * 1000)  # speed fix
+            source.addDelay(0.01 * 1000)  # speed fix
             source.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory,
                            InventoryItem=self.InventoryItem)
             source.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)

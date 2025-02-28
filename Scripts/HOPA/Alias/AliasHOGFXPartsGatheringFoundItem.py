@@ -20,7 +20,7 @@ class AliasHOGFXPartsGatheringFoundItem(TaskAlias):
 
         PolicyFoundEffect = PolicyManager.getPolicy("HOGFXPartsGatheringItemFoundEffect", "AliasHOGFXPartsGatheringItemFoundEffect")
 
-        source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
+        source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
         hogItem = HOGManager.getHOGItem(self.EnigmaName, self.HOGItemName)
         if hogItem.objectName is not None:
             source.addTask(PolicyFoundEffect, HOG=self.HOG, HOGItemName=self.HOGItemName, EnigmaName=self.EnigmaName)

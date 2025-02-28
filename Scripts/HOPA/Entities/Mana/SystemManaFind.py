@@ -48,19 +48,19 @@ class SystemManaFind(System):
                 tc_do.addTask("TaskMovieSocketEnter", Movie=movie, SocketName="socket")
                 with tc_do.addRaceTask(2) as (tc_ok, tc_leave):
                     tc_ok.addTask("TaskMoviePlay", Movie=movie, Wait=True, Loop=False)
-                    tc_ok.addTask("TaskNotify", ID=Notificator.onManaFind, Args=(movie,))
+                    tc_ok.addNotify(Notificator.onManaFind, movie)
 
                     tc_leave.addTask("TaskMovieSocketLeave", Movie=movie, SocketName="socket")
                     pass
 
-                tc_until.addTask("TaskListener", ID=Notificator.onManaFind, Filter=__filter)
+                tc_until.addListener(Notificator.onManaFind, Filter=__filter)
                 pass
             with tc.addParallelTask(2) as (tc_1, tc_2):
                 tc_1.addTask("TaskNodeBezier2To", Node=movedNode, To=pos, Time=time)
 
                 tc_2.addTask("TaskNodeAlphaTo", Node=movieEntity, From=1.0, To=0.0, Time=time)
                 pass
-            tc.addTask("TaskEnable", Object=movie, Value=False)
-            tc.addTask("TaskNotify", ID=Notificator.onManaIncrease, Args=(value,))
+            tc.addDisable(movie)
+            tc.addNotify(Notificator.onManaIncrease, value)
             pass
         return False

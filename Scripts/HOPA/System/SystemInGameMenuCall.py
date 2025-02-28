@@ -43,9 +43,7 @@ class SystemInGameMenuCall(System):
         scene_effect_movie = GroupManager.getObject(group_name, movie_name)
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=True)
-                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True)
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=False)
+                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True, AutoEnable=True)
 
     def __runTaskChain(self):
         movie2_button_menu = GroupManager.getObject("Toolbar", "Movie2Button_Menu")

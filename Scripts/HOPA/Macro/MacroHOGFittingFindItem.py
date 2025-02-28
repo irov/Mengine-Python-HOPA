@@ -33,8 +33,8 @@ class MacroHOGFittingFindItem(MacroCommand):
         with Quest as tc_quest:
             tc_quest.addTask("TaskItemClick", Item=ItemObject)
             tc_quest.addTask("TaskItemPick", Item=ItemObject)
-            tc_quest.addTask("TaskNotify", ID=Notificator.onItemPicked, Args=(ItemObject,))
-            tc_quest.addTask("TaskNotify", ID=Notificator.onSoundEffectOnObject, Args=(ItemObject, "PickItem"))
+            tc_quest.addNotify(Notificator.onItemPicked, ItemObject)
+            tc_quest.addNotify(Notificator.onSoundEffectOnObject, ItemObject, "PickItem")
 
             tc_quest.addTask("AliasHOGInventoryFittingAddItem", Enigma=Enigma, ItemObject=ItemObject,
                              InventoryItemObject=InventoryItemObject, ItemName=self.ItemName)

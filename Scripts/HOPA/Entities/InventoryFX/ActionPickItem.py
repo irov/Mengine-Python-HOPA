@@ -20,4 +20,4 @@ class ActionPickItem(ActionDefault):
         with TaskManager.createTaskChain(Name="InvFXActionPickItem%s" % self.ItemName, Cb=self.endItem) as tc:
             # tc.addPrint("ActionPickItem")
             tc.addTask(EffectPolicy, Inventory=self.Inventory, ItemName=self.ItemName)
-            tc.addTask("TaskNotify", ID=Notificator.onItemEffectEnd, Args=(self.ItemName,))
+            tc.addNotify(Notificator.onItemEffectEnd, self.ItemName)

@@ -217,7 +217,7 @@ class SystemTutorialFade(System):
 
         with TaskManager.createTaskChain(Name="TutorialFadeShow", GroupName=self.show_hide_group) as tc:
             with GuardBlockInput(tc) as guard_source:
-                guard_source.addTask("TaskEnable", Object=self.movie_show, Value=True)
+                guard_source.addEnable(self.movie_show)
 
                 guard_source.addFunction(self.objAttach, self.movie_show, fade, self.fade_slot)
                 guard_source.addFunction(self.setTextAlias, self.window_alias, window_text)
@@ -250,8 +250,8 @@ class SystemTutorialFade(System):
 
         with TaskManager.createTaskChain(Name="TutorialFadeHide", GroupName=self.show_hide_group) as tc:
             with GuardBlockInput(tc) as guard_source_Hide:
-                guard_source_Hide.addTask("TaskEnable", Object=show, Value=False)
-                guard_source_Hide.addTask("TaskEnable", Object=self.movie_hide, Value=True)
+                guard_source_Hide.addDisable(show)
+                guard_source_Hide.addEnable(self.movie_hide)
 
                 guard_source_Hide.addFunction(self.objAttach, self.movie_hide, fade, self.fade_slot)
                 guard_source_Hide.addFunction(self.setTextAlias, self.window_alias, window_text)
@@ -259,7 +259,7 @@ class SystemTutorialFade(System):
                 guard_source_Hide.addFunction(self.objAttach, self.movie_hide, skip, self.skip_slot)
 
                 guard_source_Hide.addTask("TaskMoviePlay", Movie=self.movie_hide)
-                guard_source_Hide.addTask("TaskEnable", Object=self.movie_hide, Value=False)
+                guard_source_Hide.addDisable(self.movie_hide)
 
                 guard_source_Hide.addFunction(self.objDetach, skip)
                 guard_source_Hide.addFunction(self.removeTextAlias, self.window_alias)

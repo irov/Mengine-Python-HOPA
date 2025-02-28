@@ -20,7 +20,7 @@ class CruiseActionDefault(MixinGroup, CruiseAction):
 
         with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.hintObject)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _getCruiseObject(self):
         Trace.msg_err("CruiseActionDefault - Invalid Cruise Object")

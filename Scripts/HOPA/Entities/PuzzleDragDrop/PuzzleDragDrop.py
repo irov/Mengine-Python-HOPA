@@ -61,12 +61,12 @@ class PuzzleDragDrop(Enigma):
 
                         tc_do.addTask("TaskObjectSetPosition", Object=pickItem, Value=position)
                         tc_do.addTask("TaskNodeSetPosition", Node=pickItemEntity, Value=position)
-                        tc_do.addTask("TaskFunction", Fn=self.HoldItems.append, Args=(element[0],))
-                        tc_do.addTask("TaskFunction", Fn=self.__isWin)
-                        tc_until.addTask("TaskListener", ID=Notificator.onPuzzleDragDropWin)
+                        tc_do.addFunction(self.HoldItems.append, element[0])
+                        tc_do.addFunction(self.__isWin)
+                        tc_until.addListener(Notificator.onPuzzleDragDropWin)
                         pass
 
-                tc.addTask("TaskDelay", Time=1 * 1000)  # speed fix
+                tc.addDelay(1 * 1000)  # speed fix
                 pass
             pass
         pass
@@ -89,7 +89,7 @@ class PuzzleDragDrop(Enigma):
             pass
 
         with TaskManager.createTaskChain(Cb=self._complete) as tc:
-            tc.addTask("TaskDelay", Time=1.5 * 1000)  # speed fix
+            tc.addDelay(1.5 * 1000)  # speed fix
             pass
         return True
         pass

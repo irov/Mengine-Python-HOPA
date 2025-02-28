@@ -108,18 +108,18 @@ class QuestIcon(BaseEntity):
     def _delayQuestIconShow(self):
         with TaskManager.createTaskChain(Name="DelayQuestIconShow", Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_delay, tc_click):
-                tc_delay.addTask("TaskFunction", Fn=self._loadIcons, Args=(True,))
-                tc_delay.addTask("TaskFunction", Fn=self._questIconShow)
+                tc_delay.addFunction(self._loadIcons, True)
+                tc_delay.addFunction(self._questIconShow)
 
                 QuestIconDefaultTime = DefaultManager.getDefaultFloat("QuestIconDefaultTime", 10)
                 QuestIconDefaultTime *= 1000  # speed fix
-                tc_delay.addTask("TaskDelay", Time=QuestIconDefaultTime)
+                tc_delay.addDelay(QuestIconDefaultTime)
 
-                tc_delay.addTask("TaskFunction", Fn=self._loadIcons, Args=(False,))
-                tc_delay.addTask("TaskFunction", Fn=self._questIconShow)
+                tc_delay.addFunction(self._loadIcons, False)
+                tc_delay.addFunction(self._questIconShow)
 
                 tc_click.addTask("TaskMouseButtonClick", isDown=True)
-                tc_click.addTask("TaskFunction", Fn=self._questIconHide)
+                tc_click.addFunction(self._questIconHide)
                 pass
 
             pass

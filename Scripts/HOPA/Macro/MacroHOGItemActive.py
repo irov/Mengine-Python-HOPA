@@ -15,7 +15,7 @@ class MacroHOGItemActive(MacroCommand):
             return True
             pass
 
-        source.addTask("TaskListener", ID=Notificator.onHOGInventoryAppendItem, Filter=__thisItem)
+        source.addListener(Notificator.onHOGInventoryAppendItem, Filter=__thisItem)
         pass
 
     pass

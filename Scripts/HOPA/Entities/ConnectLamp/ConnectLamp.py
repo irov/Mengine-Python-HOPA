@@ -102,7 +102,7 @@ class ConnectLamp(Enigma):
         self.AliasNames.append(name_A1)
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=rea)
+            tc.addFunction(rea)
             tc.addTask("AliasMultyplMovePlay", Movies=mov_Play)
             pass
         pass
@@ -153,7 +153,7 @@ class ConnectLamp(Enigma):
         self.AliasNames.append(name_A2)
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=rea)
+            tc.addFunction(rea)
             tc.addTask("AliasMultyplMovePlay", Movies=mov_Play)
 
             # tc.addTask("TaskMoviePlay", Movie = Movie_None, Wait = False)
@@ -199,13 +199,13 @@ class ConnectLamp(Enigma):
         with TaskManager.createTaskChain(Name=name_A2, Repeat=True) as tc:
             with tc.addRaceTask(3) as (tc_L1, tc_L2, tc_Click):
                 tc_L1.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=Points)
-                tc_L1.addTask("TaskFunction", Fn=select)
+                tc_L1.addFunction(select)
 
                 tc_L2.addTask("TaskMovieSocketLeave", SocketName=sockName, Movie=Points)
-                tc_L2.addTask("TaskFunction", Fn=Deselect)
+                tc_L2.addFunction(Deselect)
 
                 tc_Click.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=Points)
-                tc_Click.addTask("TaskFunction", Fn=Click_In)
+                tc_Click.addFunction(Click_In)
                 pass
             pass
         pass

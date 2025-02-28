@@ -30,7 +30,7 @@ class PolicyDialogAvatarMovie(TaskAlias):
         Text_Message.setEnable(False)
 
         Demon_Switch_Avatar = DialogPersGroup.getObject("Demon_Switch_Avatar")
-        source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=dialogs[0].characterID)
+        source.addParam(Demon_Switch_Avatar, "Switch", dialogs[0].characterID)
         # source.addTask("TaskTransitionBlock", Value = True)
 
         with source.addParallelTask(2) as (tc, tc1):
@@ -55,28 +55,28 @@ class PolicyDialogAvatarMovie(TaskAlias):
                                 tc_dialog3.addTask(DialogSound)
                                 pass
                             else:
-                                tc_dialog3.addTask("TaskDummy")
+                                tc_dialog3.addDummy()
                                 pass
                             pass
 
                         DialogShowTime = DefaultManager.getDefaultFloat("DialogShowTime", 0.2)
                         DialogShowTime *= 1000  # speed fix
-                        tc_next.addTask("TaskDelay", Time=DialogShowTime)
+                        tc_next.addDelay(DialogShowTime)
                         tc_next.addTask("TaskSocketClick", SocketName="Socket_Next")
                         # tc_next.addTask("TaskFunction", Fn = self.__cancelText)
                         tc_next.addTask("TaskObjectTextSetMaxVisibleChar", Text=Text_Message)
                         tc_next.addTask("PolicyDialogStaticText", ObjectText=Text_Message, TextID=dialog.textID)
                         pass
 
-                tc_play.addTask("TaskNotify", ID=Notificator.onDialogMessageComplete, Args=(self.Dialog,))
+                tc_play.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
                 tc_play.addTask("TaskSocketClick", SocketName="Socket_Next")
 
                 tc_skip.addTask("TaskButtonClick", ButtonName="Button_Skip", AutoEnable=True)
                 pass
 
         source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)
-        source.addTask("TaskSetParam", Object=Socket_Next, Param="Interactive", Value=False)
-        source.addTask("TaskEnable", Object=Text_Message, Value=False)
+        source.addParam(Socket_Next, "Interactive", False)
+        source.addDisable(Text_Message)
         if DialogPersGroupName is not None:
             source.addTask("TaskSceneLayerGroupEnable", LayerName=DialogPersGroupName, Value=False)
             pass

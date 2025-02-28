@@ -86,8 +86,8 @@ class SystemMindGroup(System):
         with self.tc as tc:
             tc.addTask("TaskTextSetTextID", Group=self.Demon, TextName="Text_Message", Value=TextID)
             tc.addTask("TaskEnable", Group=self.Demon, ObjectName="Text_Message", Value=False)
-            tc.addTask("TaskEnable", Object=self.Sprite_BlackBar, Value=False)
-            tc.addTask("TaskEnable", Object=self.Sprite_BlackBar)
+            tc.addDisable(self.Sprite_BlackBar)
+            tc.addEnable(self.Sprite_BlackBar)
             tc.addTask("TaskEnable", Group=self.Demon, ObjectName="Text_Message", Value=True)
             tc.addFunction(self.attachText)
             tc.addTask("AliasObjectAlphaTo", Object=self.Sprite_BlackBar, Time=1000, From=0.0, To=1.0)
@@ -98,7 +98,7 @@ class SystemMindGroup(System):
                 false.addDelay(delay)
             tc.addDelay(delay)
 
-            tc.addTask("TaskEnable", Object=self.Sprite_BlackBar, Value=False)
+            tc.addDisable(self.Sprite_BlackBar)
             tc.addTask("TaskEnable", Group=self.Demon, ObjectName="Text_Message", Value=False)
 
         return False
@@ -128,12 +128,12 @@ class SystemMindGroup(System):
 
         self.tc = TaskManager.createTaskChain(Repeat=False, Cb=self.__cbMindOff)
         with self.tc as tc:
-            tc.addTask("TaskEnable", Object=self.Sprite_BlackBar, Value=True)
+            tc.addEnable(self.Sprite_BlackBar)
             tc.addTask("TaskEnable", Group=self.Demon, ObjectName="Text_Message", Value=True)
             tc.addFunction(self.attachText)
             tc.addTask("AliasObjectAlphaTo", Object=self.Sprite_BlackBar, Time=0.1 * 10000, To=0.0)  # spees fix
             tc.addFunction(self.deattachText)
-            tc.addTask("TaskEnable", Object=self.Sprite_BlackBar, Value=False)
+            tc.addDisable(self.Sprite_BlackBar)
             tc.addTask("TaskEnable", Group=self.Demon, ObjectName="Text_Message", Value=False)
 
             # tc.addFunction(self.__onMindShowComplete)

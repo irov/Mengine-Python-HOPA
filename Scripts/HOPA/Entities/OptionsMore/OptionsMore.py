@@ -173,9 +173,7 @@ class OptionsMore(BaseEntity):
             Movie = GroupManager.getObject(GropName, MovieName)
             with GuardBlockInput(source) as guard_source:
                 with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
-                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
 
                     # guard_source_fade.addTask('AliasFadeOut', FadeGroupName='Fade', From=0.5, Time=250.0)
 

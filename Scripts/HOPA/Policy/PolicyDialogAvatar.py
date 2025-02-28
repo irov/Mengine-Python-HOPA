@@ -29,7 +29,7 @@ class PolicyDialogAvatar(TaskAlias):
         Text_Message.setEnable(False)
 
         Demon_Switch_Avatar = DialogPersGroup.getObject("Demon_Switch_Avatar")
-        source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=dialogs[0].characterID)
+        source.addParam(Demon_Switch_Avatar, "Switch", dialogs[0].characterID)
         # source.addTask("TaskTransitionBlock", Value = True)
 
         with source.addParallelTask(2) as (tc, tc1):
@@ -41,7 +41,7 @@ class PolicyDialogAvatar(TaskAlias):
                         tc_play_dialog.addTask("AliasDialogSwitchAvatar", Dialog=self.Dialog,
                                                CharacterID=dialog.characterID, DialogPersGroup=DialogPersGroup)
 
-                        tc_play_dialog.addTask("TaskDeadLock")
+                        tc_play_dialog.addBlock()
 
                         with tc_play_effect.addRaceTask(2) as (tc_dialog, tc_next):
                             with tc_dialog.addParallelTask(2) as (tc_voice, tc_text):
@@ -60,12 +60,12 @@ class PolicyDialogAvatar(TaskAlias):
                                 tc_text.addTask(DialogTextPlay, ObjectText=Text_Message, TextID=dialog.textID)
                                 pass
 
-                            tc_dialog.addTask("TaskNotify", ID=Notificator.onDialogMessageComplete, Args=(self.Dialog,))
-                            tc_dialog.addTask("TaskDeadLock")
+                            tc_dialog.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
+                            tc_dialog.addBlock()
 
                             DialogShowTime = DefaultManager.getDefaultFloat("DialogShowTime", 0.2)
                             DialogShowTime *= 1000  # speed fix
-                            tc_next.addTask("TaskDelay", Time=DialogShowTime)
+                            tc_next.addDelay(DialogShowTime)
 
                             tc_next.addTask("TaskSocketClick", SocketName="Socket_Next")
                             pass
@@ -75,7 +75,7 @@ class PolicyDialogAvatar(TaskAlias):
                 pass
 
         source.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=0.25, Time=0.25 * 1000, Unblock=True)
-        source.addTask("TaskSetParam", Object=Socket_Next, Param="Interactive", Value=False)
+        source.addParam(Socket_Next, "Interactive", False)
         # source.addTask("TaskTransitionBlock", Value = False)
         pass
 

@@ -23,7 +23,7 @@ class CruiseActionTransition(MixinTransition, CruiseAction):
             tc.addDelay(self.move_delay)
             tc.addTask("AliasCruiseControlAction",
                        Position=self.Transition.calcWorldHintPoint(), Object=self._getCruiseObject())
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         if TaskManager.existTaskChain("CruiseActionTransition") is True:

@@ -24,7 +24,7 @@ class CruiseActionDialog(MixinGroup, CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionDialog") as tc:
             # tc.addTask("AliasCruiseControlAction", Position = PositionTo)
             tc.addFunction(self.skip_Dialog)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
             pass
         pass
 

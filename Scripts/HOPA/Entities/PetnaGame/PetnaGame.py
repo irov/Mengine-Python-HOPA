@@ -147,9 +147,9 @@ class PetnaGame(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="PetnaGamePlayMove", Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onPetnaSwap)
+            tc.addListener(Notificator.onPetnaSwap)
             tc.addTask("AliasMultyplMovePlay", Movies=self.MoveMoviesPlay)
-            tc.addTask("TaskFunction", Fn=afterPlay)
+            tc.addFunction(afterPlay)
             pass
         pass
 
@@ -227,7 +227,7 @@ class PetnaGame(Enigma):
         with TaskManager.createTaskChain(Name="PetnaGame_%d_%d" % (y, x), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points, isDown=True,
                        Filter=filter1)
-            tc.addTask("TaskFunction", Fn=funClick)
+            tc.addFunction(funClick)
             pass
 
         def und():
@@ -268,9 +268,9 @@ class PetnaGame(Enigma):
 
         with TaskManager.createTaskChain(Name="PetnaGameUnder_%d_%d" % (y, x), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=self.Movie_Points, Filter=filter2)
-            tc.addTask("TaskFunction", Fn=und)
+            tc.addFunction(und)
             tc.addTask("TaskMovieSocketLeave", SocketName=sockName, Movie=self.Movie_Points)
-            tc.addTask("TaskFunction", Fn=undEnd)
+            tc.addFunction(undEnd)
             pass
 
         with TaskManager.createTaskChain(Name="PetnaGameIdle_%d_%d" % (y, x), Repeat=True) as tc:

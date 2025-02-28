@@ -54,7 +54,7 @@ class TestActionListener(TestActionInterface):
         self.notificator_id = Notificator.getIdentity(self.param.test_action_params[0])
 
     def _scopeAction(self, source):
-        source.addTask("TaskListener", ID=self.notificator_id)
+        source.addListener(self.notificator_id)
 
 
 class TestActionNotify(TestActionInterface):
@@ -65,7 +65,7 @@ class TestActionNotify(TestActionInterface):
         self.args = self.param.test_action_params[1:]
 
     def _scopeAction(self, source):
-        source.addTask("TaskNotify", ID=self.notificator_id, Args=self.args)
+        source.addNotify(self.notificator_id, self.args)
 
 
 class TestActionWait(TestActionInterface):
@@ -247,7 +247,7 @@ class TestActionAddInventoryItems(TestActionInterface):
 
             source.addTask("TaskInventoryAddItem", Inventory=self.inventory, ItemName=item_name)
             source.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.inventory, InventoryItem=inventory_item)
-            source.addTask("TaskEnable", Object=inventory_item, Value=True)
+            source.addEnable(inventory_item)
 
         return True
 

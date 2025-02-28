@@ -131,20 +131,20 @@ class SystemInventoryItemAdd(System):
 
         with TaskManager.createTaskChain(Name="InventoryItemTip%s" % slot.slotId) as tc:
             with tc.addRaceTask(6) as (tc_leave, tc_pick, tc_scroll, tc_deactivate, tc_removed, tc_movie):
-                tc_leave.addTask("TaskListener", ID=Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
+                tc_leave.addListener(Notificator.onInventorySlotItemLeave, Filter=__thisSlot)
 
-                tc_pick.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisSlot)
+                tc_pick.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisSlot)
 
-                tc_scroll.addTask("TaskListener", ID=Notificator.onInventoryCurrentSlotIndex)
+                tc_scroll.addListener(Notificator.onInventoryCurrentSlotIndex)
 
-                tc_deactivate.addTask("TaskListener", ID=Notificator.onInventoryDeactivate)
+                tc_deactivate.addListener(Notificator.onInventoryDeactivate)
 
-                tc_removed.addTask("TaskListener", ID=Notificator.onInventoryRemoveInventoryItem)
+                tc_removed.addListener(Notificator.onInventoryRemoveInventoryItem)
 
                 tc_movie.addTask("TaskMovie2Play", Movie2=tempMovie, Wait=True)
                 pass
 
-            tc.addTask("TaskFunction", Fn=self._onSlotMouseLeave, Args=(slot, item))
+            tc.addFunction(self._onSlotMouseLeave, slot, item)
             pass
 
         return False

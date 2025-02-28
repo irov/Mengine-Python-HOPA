@@ -46,10 +46,10 @@ class PolicyPickInventoryItemEffect(TaskAlias):
         InvItemCursorScaleIn = DefaultManager.getDefaultFloat("InvItemCursorScaleIn", 0.2)
         InvItemCursorScaleIn *= 1000  # speed fix
 
-        source.addTask("TaskFunction", Fn=CursorManager.attachSlotItem, Args=(self.InventoryItem,))
+        source.addFunction(CursorManager.attachSlotItem, self.InventoryItem)
 
         if effect is not None:
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
             pass
 

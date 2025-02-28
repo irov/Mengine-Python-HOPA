@@ -15,7 +15,7 @@ class MacroHOGFoundHOGItem(MacroCommand):
         if HOGInventory.getType() == 'ObjectHOGInventoryRolling':
             PolicyDeleteItemFromInventory = PolicyManager.getPolicy("HOGRollingDeleteItemFromInventory", "PolicyDeleteItemFromInventory")
 
-            source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
+            source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
             source.addTask(PolicyDeleteItemFromInventory, HOG=ObjectHOG, HOGItemName=self.HOGItemName,
                            EnigmaName=self.HOGName)
 

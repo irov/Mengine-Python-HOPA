@@ -26,4 +26,4 @@ class MacroCollectedAmuletAdd(MacroCommand):
             tc_quest.addTask("TaskItemClick", Item=self.Item)
             tc_quest.addTask("TaskItemPick", Item=self.Item)
             tc_quest.addTask("AliasCollectedAmuletAddEffect", Item=self.Item)
-            tc_quest.addTask("TaskNotify", ID=Notificator.onCollectedAmuletAdd)
+            tc_quest.addNotify(Notificator.onCollectedAmuletAdd)

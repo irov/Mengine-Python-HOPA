@@ -11,7 +11,7 @@ class MacroRemoveReagentPaper(MacroCommand):
 
     def _onGenerate(self, source):
         Demon = DemonManager.getDemon("ReagentsButton")
-        source.addTask("TaskSetParam", Object=Demon, Param="EnablePaper", Value=False)
+        source.addParam(Demon, "EnablePaper", False)
         pass
 
     pass

@@ -9,8 +9,8 @@ class MacroBonusGameComplete(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskFunction", Fn=Mengine.changeCurrentAccountSetting, Args=("IsBonusChapter", u"4"))
-        source.addTask("TaskNotify", ID=Notificator.onBonusGameComplete)
+        source.addFunction(Mengine.changeCurrentAccountSetting, "IsBonusChapter", u"4")
+        source.addNotify(Notificator.onBonusGameComplete)
         pass
 
     pass

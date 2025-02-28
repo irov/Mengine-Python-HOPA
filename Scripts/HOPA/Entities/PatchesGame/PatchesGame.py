@@ -105,7 +105,7 @@ class PatchesGame(Enigma):
         with TaskManager.createTaskChain(Name="PatchesGame_%d" % (i), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=self.Mov_Points, Filter=filterund)
             with tc.addRepeatTask() as (tc_do, tc_until):
-                tc_do.addTask("TaskFunction", Fn=und)
+                tc_do.addFunction(und)
                 tc_do.addTask("TaskMoviePlay", Movie=MouseEnter, Wait=True)
 
                 tc_until.addTask("TaskMovieSocketLeave", SocketName=sockName, Movie=self.Mov_Points)
@@ -159,9 +159,9 @@ class PatchesGame(Enigma):
 
         with TaskManager.createTaskChain(Name="PatchesGameClick_%d" % (i), Cb=End) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Mov_Points, isDown=True, Filter=filter)
-            tc.addTask("TaskFunction", Fn=click)
+            tc.addFunction(click)
             tc.addTask("TaskMoviePlay", Movie=Opening, Wait=True)
-            tc.addTask("TaskFunction", Fn=AfterOpen)
+            tc.addFunction(AfterOpen)
             pass
 
         ######################################################

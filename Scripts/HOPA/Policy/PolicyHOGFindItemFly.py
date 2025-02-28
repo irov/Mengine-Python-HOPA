@@ -78,10 +78,10 @@ class PolicyHOGFindItemFly(TaskAlias):
             tc_quest.addTask("TaskItemClick", ItemName=self.ItemName)
             pass
 
-        source.addTask("TaskFunction", Fn=__onClickItem)
+        source.addFunction(__onClickItem)
 
         source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
-        source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
+        source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
         source.addTask("TaskItemPick", ItemName=self.ItemName)
 
         source.addTask("TaskNodeScaleTo", Node=pure, To=(IncreaseSize, IncreaseSize, 1.0), Time=HOGItemIncreaseTime)

@@ -236,8 +236,6 @@ class LanguageSelect(BaseEntity):
 
             Movie = GroupManager.getObject(GroupName, MovieName)
             with GuardBlockInput(source) as guard_source:
-                guard_source.addTask("TaskEnable", Object=Movie, Value=True)
-                guard_source.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                guard_source.addTask("TaskEnable", Object=Movie, Value=False)
+                guard_source.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
 
     ''' Scene FX '''

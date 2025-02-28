@@ -119,22 +119,21 @@ class Plumber(Enigma):
                         itemMovie = item.getMovie()
                         itemSelectedMovie = item.getSelectedMovie()
 
-                        tc_item.addTask("TaskScope", Scope=self._enableCellItemSocket, Args=(item,))
-                        tc_item.addTask("TaskEnable", Object=itemMovie, Value=True)
-                        tc_item.addTask("TaskEnable", Object=itemSelectedMovie, Value=False)
+                        tc_item.addScope(self._enableCellItemSocket, item)
+                        tc_item.addEnable(itemMovie)
+                        tc_item.addDisable(itemSelectedMovie)
 
                         tc_item.addTask("TaskMovieSocketClick", SocketName="socket", Movie=itemMovie)
-                        tc_item.addTask("TaskScope", Scope=self._disableCellItemSockets, Args=(item,))
-                        tc_item.addTask("TaskEnable", Object=itemMovie, Value=False)
-                        tc_item.addTask("TaskEnable", Object=itemSelectedMovie, Value=True)
+                        tc_item.addScope(self._disableCellItemSockets, item)
+                        tc_item.addDisable(itemMovie)
+                        tc_item.addEnable(itemSelectedMovie)
 
                         with tc_item.addRaceTask(cellsCount) as tc_cells:
                             for tc_cell, cell in zip(tc_cells, cells):
                                 cellMovie = cell.getMovie()
                                 tc_cell.addTask("TaskMovieSocketClick", SocketName="socket", Movie=cellMovie)
-                                tc_cell.addTask("TaskScope", Scope=self.setItemToCell, Args=(cell, item))
-                                tc_cell.addTask("TaskFunction", Fn=self.reatachItemMovies,
-                                                Args=(itemMovie, itemSelectedMovie, cellMovie))
+                                tc_cell.addScope(self.setItemToCell, cell, item)
+                                tc_cell.addFunction(self.reatachItemMovies, itemMovie, itemSelectedMovie, cellMovie)
                                 pass
                             pass
                         pass
@@ -142,7 +141,7 @@ class Plumber(Enigma):
 
                 tc_until.addTask("TaskButtonClick", Button=self.buttons["Go"])
                 pass
-            tc.addTask("TaskScope", Scope=self._update)
+            tc.addScope(self._update)
             pass
         pass
 
@@ -231,13 +230,13 @@ class Plumber(Enigma):
     def _update(self, scope):
         self.makeRoad()
         with scope.addRepeatTask() as (tc, tc_until):
-            tc.addTask("TaskScope", Scope=self.makeStep)
+            tc.addScope(self.makeStep)
 
             with tc_until.addRaceTask(2) as (tc_until1, tc_until2):
-                tc_until1.addTask("TaskListener", ID=Notificator.onPlumberCollision)
+                tc_until1.addListener(Notificator.onPlumberCollision)
 
                 tc_until2.addTask("TaskButtonClick", Button=self.buttons["Stop"])
-                tc_until2.addTask("TaskFunction", Fn=self.prepareCurrentGame)
+                tc_until2.addFunction(self.prepareCurrentGame)
                 pass  # tc_until.addTask("TaskFunction", Fn = self.prepareCurrentGame)
         pass
 
@@ -248,14 +247,14 @@ class Plumber(Enigma):
         currentDirectionMovie = currentStep[1]
         currentState = currentStep[2]
         if currentState == "win":
-            scope.addTask("TaskFunction", Fn=self.playWin, Args=(currentCell, currentDirectionMovie))
+            scope.addFunction(self.playWin, currentCell, currentDirectionMovie)
             pass
         elif currentState == "crash":
-            scope.addTask("TaskFunction", Fn=self.playCrash, Args=(currentCell, currentDirectionMovie))
+            scope.addFunction(self.playCrash, currentCell, currentDirectionMovie)
             self.prepareCurrentGame()
             pass
         else:
-            scope.addTask("TaskScope", Scope=self.playMove, Args=(currentCell, currentDirectionMovie))
+            scope.addScope(self.playMove, currentCell, currentDirectionMovie)
             pass
         pass
 
@@ -315,8 +314,7 @@ class Plumber(Enigma):
                 tc_2.addTask("TaskMoviePlay", Movie=winMovie, Wait=True)
                 pass
             tc.addTask("TaskMovieSocketEnable", SocketName="socket", Movie=cellMovie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.completeCurrentWin,
-                       Args=(cellMovieEntity, winMovieEntity, halfMovieEntity,))
+            tc.addFunction(self.completeCurrentWin, cellMovieEntity, winMovieEntity, halfMovieEntity)
             pass
         return True
         pass
@@ -344,11 +342,11 @@ class Plumber(Enigma):
         halfMovieEntity.setFirstFrame()
 
         with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskEnable", Object=currentCrushMovie, Value=True)
+            tc.addEnable(currentCrushMovie)
             tc.addTask("TaskMoviePlay", Movie=currentCrushMovie, Wait=True)
-            tc.addTask("TaskFunction", Fn=self.movieRemoveFromParent, Args=(currentCrushMovie,))
-            tc.addTask("TaskFunction", Fn=self.movieRemoveFromParent, Args=(halfMovie,))
-            tc.addTask("TaskEnable", Object=currentCrushMovie, Value=False)
+            tc.addFunction(self.movieRemoveFromParent, currentCrushMovie)
+            tc.addFunction(self.movieRemoveFromParent, halfMovie)
+            tc.addDisable(currentCrushMovie)
             pass
 
         Notification.notify(Notificator.onPlumberCollision)

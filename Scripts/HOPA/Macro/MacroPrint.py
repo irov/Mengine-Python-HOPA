@@ -10,7 +10,7 @@ class MacroPrint(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskPrint", Value="MacroPrint: %s" % (self.Text))
+        source.addPrint("MacroPrint: %s" % (self.Text))
         pass
 
     pass

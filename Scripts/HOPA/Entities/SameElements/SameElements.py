@@ -196,8 +196,8 @@ class SameElements(Enigma):
                 for tc_b, buttonName in zip(tcc, buttons.keys()):
                     collectionID = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
-                    tc_b.addTask("TaskFunction", Fn=self.__changeElements, Args=(collectionID,))
-                    tc_b.addTask("TaskFunction", Fn=self.__checkWin)
+                    tc_b.addFunction(self.__changeElements, collectionID)
+                    tc_b.addFunction(self.__checkWin)
                     pass
                 pass
             pass
@@ -221,7 +221,7 @@ class SameElements(Enigma):
                 for tc_b, buttonName in zip(tcc, buttons.keys()):
                     buttonData = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
-                    tc_b.addTask("TaskFunction", Fn=self.__changeCollection, Args=(buttonData,))
+                    tc_b.addFunction(self.__changeCollection, buttonData)
                     pass
                 pass
             pass

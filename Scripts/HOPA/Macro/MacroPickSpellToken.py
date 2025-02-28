@@ -34,7 +34,7 @@ class MacroPickSpellToken(MacroCommand):
             tc_quest.addTask("TaskItemClick", Item=self.Item)
             tc_quest.addTask("TaskItemPick", Item=self.Item)
             tc_quest.addTask("AliasPickSpellTokenEffect", Item=self.Item, Spell=self.Spell)
-            tc_quest.addTask("TaskNotify", ID=Notificator.onSpellReady, Args=(self.SpellID,))
+            tc_quest.addNotify(Notificator.onSpellReady, self.SpellID)
             pass
         pass
 

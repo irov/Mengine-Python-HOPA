@@ -53,7 +53,7 @@ class CollectedAmulet(BaseEntity):
         self.__disableStatesMovies(Data)
         movie = Data.getState(self.CurrentState)
         with TaskManager.createTaskChain(Name="Locked_" + self.object.getName()) as tc_locked:
-            tc_locked.addTask("TaskEnable", Object=movie)
+            tc_locked.addEnable(movie)
             tc_locked.addTask("TaskMoviePlay", Movie=movie, Wait=False, Loop=True)
             pass
         pass
@@ -64,12 +64,12 @@ class CollectedAmulet(BaseEntity):
         self.__disableStatesMovies(Data)
         movie = Data.getState(self.CurrentState)
         with TaskManager.createTaskChain(Name="Use_" + self.object.getName()) as tc_use:
-            tc_use.addTask("TaskEnable", Object=movie)
+            tc_use.addEnable(movie)
             tc_use.addTask("TaskMoviePlay", Movie=movie, Wait=True, Loop=False)
-            tc_use.addTask("TaskNotify", ID=Notificator.onCollectedAmuletUse)
-            tc_use.addTask("TaskFunction", Fn=self.setValid, Args=(False,))
-            tc_use.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.LOCKED)
-            tc_use.addTask("TaskSetParam", Object=self.object, Param="CurrentCount", Value=0)
+            tc_use.addNotify(Notificator.onCollectedAmuletUse)
+            tc_use.addFunction(self.setValid, False)
+            tc_use.addParam(self.object, "CurrentState", CollectedAmulet.LOCKED)
+            tc_use.addParam(self.object, "CurrentCount", 0)
             pass
         pass
 
@@ -82,7 +82,7 @@ class CollectedAmulet(BaseEntity):
         with TaskManager.createTaskChain(Name="Ready_" + self.object.getName()) as tc_ready:
             tc_ready.addTask("TaskEnable", Object=movie)
             tc_ready.addTask("TaskMoviePlay", Movie=movie, Wait=True, Loop=False)
-            tc_ready.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.IDLE)
+            tc_ready.addParam(self.object, "CurrentState", CollectedAmulet.IDLE)
             pass
         pass
 
@@ -94,12 +94,12 @@ class CollectedAmulet(BaseEntity):
 
         with TaskManager.createTaskChain(Name="Fail_" + self.object.getName()) as tc_fail:
             with tc_fail.addParallelTask(2) as (tc_1, tc_2):
-                tc_1.addTask("TaskEnable", Object=movie)
+                tc_1.addEnable(movie)
                 tc_1.addTask("TaskMoviePlay", Movie=movie, Wait=True, Loop=False)
 
                 tc_2.addTask("AliasMindPlay", MindID="ID_MIND_INVALID_AMULET")
                 pass
-            tc_fail.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.IDLE)
+            tc_fail.addParam(self.object, "CurrentState", CollectedAmulet.IDLE)
             pass
         pass
 
@@ -110,7 +110,7 @@ class CollectedAmulet(BaseEntity):
 
         movie = Data.getState(self.CurrentState)
         with TaskManager.createTaskChain(Name="Idle_" + self.object.getName()) as tc_locked:
-            tc_locked.addTask("TaskEnable", Object=movie)
+            tc_locked.addEnable(movie)
             tc_locked.addTask("TaskMoviePlay", Movie=movie, Wait=False, Loop=True)
             pass
 
@@ -119,9 +119,9 @@ class CollectedAmulet(BaseEntity):
             tc_click.addTask("TaskSocketClick", Socket=socket)
             tc_click.addTask("TaskMouseButtonClickEnd", isDown=True)
             with tc_click.addSwitchTask(2, self.__isValidUse) as (tc_ok, tc_no):
-                tc_ok.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.USE)
+                tc_ok.addParam(self.object, "CurrentState", CollectedAmulet.USE)
 
-                tc_no.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.FAIL)
+                tc_no.addParam(self.object, "CurrentState", CollectedAmulet.FAIL)
                 pass
             pass
         pass
@@ -160,10 +160,10 @@ class CollectedAmulet(BaseEntity):
             loop = False
             pass
         with TaskManager.createTaskChain(Name="Count_" + self.object.getName()) as tc_count:
-            tc_count.addTask("TaskEnable", Object=movie)
+            tc_count.addEnable(movie)
             tc_count.addTask("TaskMoviePlay", Movie=movie, Wait=wait, Loop=loop)
             if value == self.Size:
-                tc_count.addTask("TaskSetParam", Object=self.object, Param="CurrentState", Value=CollectedAmulet.READY)
+                tc_count.addParam(self.object, "CurrentState", CollectedAmulet.READY)
                 pass
             pass
         pass

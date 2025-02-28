@@ -43,7 +43,7 @@ class MacroHOGFittingUseItemSocket(MacroCommand):
                 pass
             pass
 
-        source.addTask("TaskScope", Scope=__startQuest)
+        source.addScope(__startQuest)
 
         pass
 

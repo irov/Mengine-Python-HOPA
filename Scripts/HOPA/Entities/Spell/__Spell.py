@@ -155,7 +155,7 @@ class __Spell(BaseEntity):
             if self.hideMovie is not None:
                 tc.addTask("TaskMoviePlay", Movie=self.hideMovie)
                 pass
-            tc.addTask("TaskSetParam", Object=self.object, Param="HideState", Value="Down")
+            tc.addParam(self.object, "HideState", "Down")
             pass
         pass
 
@@ -170,7 +170,7 @@ class __Spell(BaseEntity):
             if self.showMovie is not None:
                 tc.addTask("TaskMoviePlay", Movie=self.showMovie)
                 pass
-            tc.addTask("TaskSetParam", Object=self.object, Param="HideState", Value="Idle")
+            tc.addParam("TaskSetParam", self.object, "HideState", "Idle")
             pass
         pass
 
@@ -360,7 +360,7 @@ class __Spell(BaseEntity):
                 tc_leave.addTask("TaskMovieLastFrame", Movie=self.preparedMovie, Value=False)
 
                 tc_click.addTask("TaskSocketClickEndUp", Socket=self.Socket, AutoEnable=False)
-                tc_click.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=("04_OccultLab_MG2",))
+                tc_click.addFunction(TransitionManager.changeScene, "04_OccultLab_MG2")
                 pass
             pass
         pass
@@ -375,7 +375,7 @@ class __Spell(BaseEntity):
         if self.chargeMovie is not None:
             with TaskManager.createTaskChain(Name="Charge_" + self.object.getName(),
                                              Cb=self.__changeState) as tc_charge:
-                tc_charge.addTask("TaskEnable", Object=self.chargeMovie)
+                tc_charge.addEnable(self.chargeMovie)
                 tc_charge.addTask("TaskMoviePlay", Movie=self.chargeMovie, Wait=True)
                 pass
             pass
@@ -397,8 +397,8 @@ class __Spell(BaseEntity):
                 tc_leave.addTask("TaskMovieLastFrame", Movie=self.readyMovie, Value=False)
 
                 tc_click.addTask("TaskSocketClickEndUp", Socket=self.Socket, AutoEnable=False)
-                tc_click.addTask("TaskFunction", Fn=self.__changeState)
-                tc_click.addTask("TaskNotify", ID=Notificator.onSpellBeginUse, Args=(self.object,))
+                tc_click.addFunction(self.__changeState)
+                tc_click.addNotify(Notificator.onSpellBeginUse, self.object)
                 pass
             pass
         pass
@@ -407,28 +407,28 @@ class __Spell(BaseEntity):
         self.cancelTaskChains()
         self.__disableAllMovies()
         with TaskManager.createTaskChain(Name="Active_" + self.object.getName(), Cb=self.__changeState) as tc_active:
-            tc_active.addTask("TaskNotify", ID=Notificator.onSpellBeginUse, Args=(self.object,))
+            tc_active.addNotify(Notificator.onSpellBeginUse, self.object)
             if self.AtmosphericUse is False:
                 # tc_active.addTask("TaskPrint", Value = "111")
-                tc_active.addTask("TaskFunction", Fn=self.__arrowSpell)
+                tc_active.addFunction(self.__arrowSpell)
                 # tc_active.addTask("TaskPrint", Value = "222")
                 if self.activeMovie is not None:
-                    tc_active.addTask("TaskEnable", Object=self.activeMovie, Value=True)
+                    tc_active.addEnable(self.activeMovie)
                     tc_active.addTask("TaskMoviePlay", Movie=self.activeMovie, Loop=True, Wait=False)
                     pass
                 # tc_active.addTask("TaskPrint", Value = "333")
-                tc_active.addTask("TaskListener", ID=Notificator.onSpellEndUse)
+                tc_active.addListener(Notificator.onSpellEndUse)
                 pass
             else:
                 with tc_active.addSwitchTask(3, self.__isInvalidSpellUse) as (tc_ok, tc_invalid, tc_notMana):
-                    tc_ok.addTask("TaskDummy")
+                    tc_ok.addDummy()
 
-                    tc_invalid.addTask("TaskScope", Scope=self.__invalidUseScope)
+                    tc_invalid.addScope(self.__invalidUseScope)
 
-                    tc_notMana.addTask("TaskScope", Scope=self.__noManaScope)
+                    tc_notMana.addScope(self.__noManaScope)
                     pass
                 # tc_active.addTask("TaskPrint", Value = "444")
-                tc_active.addTask("TaskNotify", ID=Notificator.onSpellEndUse, Args=(self.object,))
+                tc_active.addNotify(Notificator.onSpellEndUse, self.object)
                 # tc_active.addTask("TaskPrint", Value = "555")
                 pass
             pass
@@ -472,31 +472,31 @@ class __Spell(BaseEntity):
 
         with TaskManager.createTaskChain(Name="SpellAttach_" + self.object.getName()) as tc:
             # tc.addTask("TaskPrint", Value = "0000________00000000000000000")
-            tc.addTask("TaskFunction", Fn=__Attach)
+            tc.addFunction(__Attach)
             if self.useMovie is not None:
-                tc.addTask("TaskEnable", Object=self.useMovie)
+                tc.addEnable(self.useMovie)
                 tc.addTask("TaskMoviePlay", Movie=self.useMovie, Loop=True, Wait=False)
                 pass
             # tc.addTask("TaskPrint", Value = "1111_________0000000000000000")
             tc.addTask("TaskMouseButtonClickEnd", isDown=False)
             # tc.addTask("TaskPrint", Value = "2222____________0000000000000000")
             if self.useMovie is not None:
-                tc.addTask("TaskEnable", Object=self.useMovie, Value=False)
+                tc.addDisable(self.useMovie)
                 pass
             # tc.addTask("TaskPrint", Value = "0000000000000000")
-            tc.addTask("TaskFunction", Fn=__Deattach)
+            tc.addFunction(__Deattach)
             # tc.addTask("TaskPrint", Value = "1111111111111111111")
             with tc.addSwitchTask(3, self.__isInvalidSpellUse) as (tc_ok, tc_invalid, tc_notMana):
-                tc_ok.addTask("TaskDummy")
+                tc_ok.addDummy()
 
-                tc_invalid.addTask("TaskScope", Scope=self.__invalidUseScope)
+                tc_invalid.addScope(self.__invalidUseScope)
                 # tc_invalid.addTask("TaskPrint", Value = "2222222222222222222222222")
 
-                tc_notMana.addTask("TaskScope", Scope=self.__noManaScope)
+                tc_notMana.addScope(self.__noManaScope)
                 # tc_notMana.addTask("TaskPrint", Value = "333333333333333333333333333")
                 pass
             # tc.addTask("TaskPrint", Value = "555555555555555555555555")
-            tc.addTask("TaskNotify", ID=Notificator.onSpellEndUse, Args=(self.object,))
+            tc.addNotify(Notificator.onSpellEndUse, self.object)
             pass
         pass
 
@@ -515,11 +515,11 @@ class __Spell(BaseEntity):
 
             if self.invalidMovie is not None:
                 tc_invalidMovie.addTask("TaskObjectSetPosition", Object=self.invalidMovie, Value=pos)
-                tc_invalidMovie.addTask("TaskEnable", Object=self.invalidMovie, Value=True)
+                tc_invalidMovie.addEnable(self.invalidMovie)
                 tc_invalidMovie.addTask("TaskMoviePlay", Movie=self.invalidMovie, Wait=True, Loop=False)
-                tc_invalidMovie.addTask("TaskEnable", Object=self.invalidMovie, Value=False)
+                tc_invalidMovie.addDisable(self.invalidMovie)
                 pass
-            tc_invalidMovie.addTask("TaskDummy")
+            tc_invalidMovie.addDummy()
             pass
         pass
 
@@ -532,11 +532,11 @@ class __Spell(BaseEntity):
 
             if self.invalidMovie is not None:
                 tc_invalidMovie.addTask("TaskObjectSetPosition", Object=self.invalidMovie, Value=pos)
-                tc_invalidMovie.addTask("TaskEnable", Object=self.invalidMovie, Value=True)
+                tc_invalidMovie.addEnable(self.invalidMovie)
                 tc_invalidMovie.addTask("TaskMoviePlay", Movie=self.invalidMovie, Wait=True, Loop=False)
-                tc_invalidMovie.addTask("TaskEnable", Object=self.invalidMovie, Value=False)
+                tc_invalidMovie.addDisable(self.invalidMovie)
                 pass
-            tc_invalidMovie.addTask("TaskDummy")
+            tc_invalidMovie.addDummy()
             pass
         pass
 

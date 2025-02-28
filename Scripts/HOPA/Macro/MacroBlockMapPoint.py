@@ -6,4 +6,4 @@ class MacroBlockMapPoint(MacroCommand):
         self.SceneName = values[0]
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMapPointBlock, Args=(self.SceneName,))
+        source.addNotify(Notificator.onMapPointBlock, self.SceneName)

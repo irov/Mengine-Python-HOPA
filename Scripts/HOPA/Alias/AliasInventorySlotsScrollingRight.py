@@ -16,7 +16,7 @@ class AliasInventorySlotsScrollingRight(TaskAlias):
         InventoryEntity = self.Inventory.getEntity()
         Slots = InventoryEntity.getSlots()
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryScrolling, Args=(self.Inventory,))
+        source.addNotify(Notificator.onInventoryScrolling, self.Inventory)
         source.addTask("TaskEnable", ObjectName="Movie_InventoryLeft", Value=False)
         source.addTask("TaskEnable", ObjectName="Movie_InventoryShow", Value=False)
         source.addTask("TaskEnable", ObjectName="Movie_InventoryRight", Value=True)

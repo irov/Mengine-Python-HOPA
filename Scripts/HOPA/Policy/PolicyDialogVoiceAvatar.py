@@ -31,7 +31,7 @@ class PolicyDialogVoiceAvatar(TaskAlias):
         DialogTextPlay = PolicyManager.getPolicy("DialogTextPlay", "PolicyDialogStaticText")
         DialogSound = PolicyManager.getPolicy("DialogSound", "PolicyDummy")
 
-        source.addTask("TaskSetParam", Object=Demon_Switch_Avatar, Param="Switch", Value=dialogs[0].characterID)
+        source.addParam(Demon_Switch_Avatar, "Switch", dialogs[0].characterID)
 
         with GuardBlockGame(source) as tc:
             with tc.addParallelTask(3) as (tc_Fade, tc1, tc_SceneEffect):
@@ -64,11 +64,11 @@ class PolicyDialogVoiceAvatar(TaskAlias):
 
                             tc_dialog.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
                             if dialog.finish is not True:
-                                tc_dialog.addTask("TaskDeadLock")
+                                tc_dialog.addBlock()
                             else:
                                 tc_dialog.addDelay(1000.0)
 
-                            tc_next.addTask("TaskDelay", Time=DialogShowTime)
+                            tc_next.addDelay(DialogShowTime)
                             tc_next.addTask("TaskMovie2ButtonClick", GroupName="Dialog",
                                             Movie2ButtonName="Movie2Button_Next", AutoEnable=True)
 
@@ -79,4 +79,4 @@ class PolicyDialogVoiceAvatar(TaskAlias):
             tc.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=DialogFadeTo, Time=DialogFadeTime, Block=False)
 
             tc.addParam(Demon_Switch_Avatar, "Switch", None)
-            tc.addTask("TaskEnable", Object=Text_Message, Value=False)
+            tc.addDisable(Text_Message)

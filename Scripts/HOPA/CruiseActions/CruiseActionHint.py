@@ -54,7 +54,7 @@ class CruiseActionHint(CruiseAction):
             tc.addDelay(self.click_delay)
             tc.addTask("AliasCruiseControlAction", Position=self.Point, Object=Obj)
             tc.addDelay(self.move_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         if TaskManager.existTaskChain("CruiseActionDefault") is True:

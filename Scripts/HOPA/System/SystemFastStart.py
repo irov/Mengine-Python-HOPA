@@ -136,10 +136,10 @@ class SystemFastStart(System):
 
         with TaskManager.createTaskChain() as tc:
             with GuardBlockInput(tc) as guard_source:
-                guard_source.addTask("TaskListener", ID=Notificator.onLoadAccounts)
+                guard_source.addListener(Notificator.onLoadAccounts)
                 guard_source.addFunction(self.__handleAccountSelection)
 
-                guard_source.addTask("TaskNotify", ID=Notificator.onLoadSession)
+                guard_source.addNotify(Notificator.onLoadSession)
             tc.addScope(__handleFastStart)
 
         return True

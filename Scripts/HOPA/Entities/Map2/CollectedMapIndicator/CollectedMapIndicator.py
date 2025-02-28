@@ -58,8 +58,8 @@ class CollectedMapIndicator(BaseEntity):
         self.cancelTaskChains()
         with TaskManager.createTaskChain(Name="CollectedMapIndicator", Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName="socket", Movie=self.CurrentMovie)
-            tc.addTask("TaskPrint", Value="Here Must Be Transition to Collected Map")
-            tc.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(self.CurrentCollectedMap,))
+            tc.addPrint("Here Must Be Transition to Collected Map")
+            tc.addFunction(TransitionManager.changeScene, self.CurrentCollectedMap)
         pass
 
     def cancelTaskChains(self):

@@ -42,7 +42,7 @@ class CruiseActionDragDropItem(MixinItem, MixinObject, CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionDragDropItem") as tc:
             tc.addTask("AliasCruiseControlAction", Position=Pos, Object=self.Item)
             tc.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         if TaskManager.existTaskChain("CruiseActionDragDropItem") is True:

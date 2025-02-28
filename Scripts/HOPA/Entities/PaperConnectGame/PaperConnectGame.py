@@ -256,15 +256,15 @@ class PaperConnectGame(Enigma):
 
         with TaskManager.createTaskChain(Name="PaperClick_%s" % (socketName), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=socketName, Movie=Movie, isDown=True)
-            tc.addTask("TaskFunction", Fn=_SetMousePos)
+            tc.addFunction(_SetMousePos)
             with tc.addRepeatTask() as (tc_rotate, tc_until):
                 tc_rotate.addTask("TaskMouseMoveDistance", Distance=0)
-                tc_rotate.addTask("TaskFunction", Fn=_Mouse_Move)
+                tc_rotate.addFunction(_Mouse_Move)
 
                 tc_until.addTask("TaskMouseButtonClick", isDown=False)
                 pass
 
-            tc.addTask("TaskFunction", Fn=self._TryConnect, Args=(Paper,))
+            tc.addFunction(self._TryConnect, Paper)
             pass
 
         pass

@@ -29,7 +29,7 @@ class AliasHOGFindItem(TaskAlias):
             pass
 
         source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
-        source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
+        source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
 
         source.addTask("TaskItemPick", ItemName=ItemName)
 

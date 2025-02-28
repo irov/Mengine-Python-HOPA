@@ -491,8 +491,8 @@ class SystemZoom(System):
             tc.addTask("TaskSceneEntering")
 
             with GuardBlockInput(tc) as guard_tc:
-                guard_tc.addTask("TaskFunction", Fn=__unhideMainLayer)
-                guard_tc.addTask("TaskNotify", ID=Notificator.onZoomInit, Args=(self.zoomGroupName,))
+                guard_tc.addFunction(__unhideMainLayer)
+                guard_tc.addNotify(Notificator.onZoomInit, self.zoomGroupName)
                 if self.Zoom.hasObject() is True:
                     def _zoomMainLayerOpen(source):
                         with source.addParallelTask(5) as (tc1, tc2, tc3, tc4, tc_SceneZoom):

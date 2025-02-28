@@ -126,11 +126,11 @@ class SystemGetItemRound(System):
             scope_get_item.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=itemName)
             scope_get_item.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory,
                                    InventoryItem=InventoryItem)
-            scope_get_item.addTask("TaskEnable", Object=InventoryItem, Value=False)
+            scope_get_item.addDisable(InventoryItem)
 
             scope_get_item.addTask("TaskEffectInventoryAddInventoryItem", Inventory=self.Inventory,
                                    InventoryItem=InventoryItem)
-            scope_get_item.addTask("TaskEnable", Object=InventoryItem, Value=True)
+            scope_get_item.addEnable(InventoryItem)
 
         scope.addFunction(self.Inventory.setParam, "BlockScrolling", False)
 

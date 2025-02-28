@@ -24,9 +24,7 @@ class PolicyHintCharged(TaskAlias):
 
         Movie_Charged.setSpeedFactor(float(HintChargedSpeedFactor))
 
-        source.addTask("TaskEnable", Object=Movie_Charged, Value=True)
-        source.addTask("TaskMovie2Play", Movie2=Movie_Charged)
-        source.addTask("TaskEnable", Object=Movie_Charged, Value=False)
+        source.addTask("TaskMovie2Play", Movie2=Movie_Charged, AutoEnable=True)
         pass
 
     pass

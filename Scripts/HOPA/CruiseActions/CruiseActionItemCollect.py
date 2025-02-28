@@ -39,7 +39,7 @@ class CruiseActionItemCollect(MixinObject, CruiseAction):
                     tc.addTask("AliasCruiseControlAction",
                                Position=IC_Param.Item.calcWorldHintPoint(), Object=IC_Param.Item)
                     tc.addTask("AliasCruiseControlAction", Position=IC_Param.ItemPosition, Object=IC_Param.Silhouette)
-                    tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+                    tc.addNotify(Notificator.onCruiseActionEnd, self)
 
                 return
 

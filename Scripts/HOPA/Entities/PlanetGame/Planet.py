@@ -69,16 +69,16 @@ class Planet(Initializer):
 
         with TaskManager.createTaskChain(Name=self.movieName, Repeat=True) as tc_play:
             tc_play.addTask("TaskSocketClick", Socket=self.socket)
-            tc_play.addTask("TaskFunction", Fn=self.enableGlobalEvent, Args=(True,))
+            tc_play.addFunction(self.enableGlobalEvent, True)
 
             with tc_play.addRepeatTask() as (tc_move, tc_up):
                 tc_move.addTask("TaskMouseMoveDistance", Distance=0)
-                tc_move.addTask("TaskFunction", Fn=self.updateMovie)
+                tc_move.addFunction(self.updateMovie)
 
                 tc_up.addTask("TaskMouseButtonClick", isDown=False)
-                tc_up.addTask("TaskFunction", Fn=self.enableGlobalEvent, Args=(False,))
-                tc_up.addTask("TaskFunction", Fn=self.addPlanet)
-                tc_up.addTask("TaskFunction", Fn=self.playTasks)
+                tc_up.addFunction(self.enableGlobalEvent, False)
+                tc_up.addTaskaddFunction(self.addPlanet)
+                tc_up.addFunction(self.playTasks)
                 pass
             pass
         pass

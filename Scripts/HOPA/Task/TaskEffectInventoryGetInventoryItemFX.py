@@ -73,7 +73,7 @@ class TaskEffectInventoryGetInventoryItemFX(TaskAlias):
         P1 = (P2[0], P0[1])
 
         source.addTask("TaskObjectSetPosition", Object=InventoryItem, Value=P0)
-        source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+        source.addEnable(InventoryItem)
 
         SpeedEffectInventoryGetInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryGetInventoryItem", 1000.0)
         SpeedEffectInventoryGetInventoryItem *= 0.001  # speed fix
@@ -86,7 +86,7 @@ class TaskEffectInventoryGetInventoryItemFX(TaskAlias):
             slot.setItem(InventoryItem)
             pass
 
-        source.addTask("TaskFunction", Fn=__slotSetItem, Args=(slot,))
+        source.addFunction(__slotSetItem, slot)
         source.addTask("TaskNodeEnable", Node=InventoryItemEntityNode, Value=True)
 
         return False

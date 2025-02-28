@@ -45,7 +45,7 @@ class PuzzleRules(BaseEntity):
 
         with TaskManager.createTaskChain(Name="ShowPuzzleRules", Group=self.object) as tc:
             tc.addTask("TaskSocketClick", SocketName="Socket_ShowRules")
-            tc.addTask("TaskEnable", Object=self.textRules, Value=True)
+            tc.addEnable(self.textRules)
             tc.addTask("TaskEnable", ObjectName="Text_Default", Value=False)
             pass
         pass

@@ -78,11 +78,9 @@ class MacroCloseItemPlus(MacroCommand):
         item_plus_scene_name = SystemItemPlusScene.Open_Zoom[1]
 
         with source.addParallelTask(2) as (source_notify, source_observe):
-            source_observe.addTask("TaskListener", ID=Notificator.onSceneLeave,
-                                   Filter=lambda scene_name: scene_name == item_plus_scene_name)
+            source_observe.addListener(Notificator.onSceneLeave, Filter=lambda scene_name: scene_name == item_plus_scene_name)
 
-            Args = (self.point, self.b_remove_from_inv, self.b_point_bezier_to, self.override_close_time)
-            source_notify.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom, Args=Args)
+            source_notify.addNotify(Notificator.onItemZoomLeaveOpenZoom, self.point, self.b_remove_from_inv, self.b_point_bezier_to, self.override_close_time)
 
     def _onGenerate(self, source):
         Quest = self.addQuest(source, "CloseZoom", SceneName=self.SceneName, GroupName=self.GroupName)

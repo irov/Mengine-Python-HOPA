@@ -63,7 +63,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
 
         self.node.addChildFront(effectEntityNode)
 
-        source.addTask("TaskEnable", Object=self.effect, Value=True)
+        source.addEnable(self.effect)
         source.addTask("TaskMovie2Play", Movie2=self.effect, Wait=False)
         pass
 
@@ -257,7 +257,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
 
             node.addChildFront(effectEntityNode)
 
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect, Value=True)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
             pass
 
@@ -304,7 +304,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
         InventoryItemEntity = InventoryItem.getEntity()
 
-        source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+        source.addEnable(InventoryItem)
 
         source.addFunction(InventoryItemEntity.playSubMovie, self.ItemName)
         pass
@@ -316,7 +316,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
 
         FoundItems = InventoryItem.getParam("FoundItems")
         if len(FoundItems) > 1:
-            source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+            source.addEnable(InventoryItem)
 
         source.addScope(self._scale_scope)
 

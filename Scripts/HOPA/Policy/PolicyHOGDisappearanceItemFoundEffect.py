@@ -78,7 +78,7 @@ class PolicyHOGDisappearanceItemFoundEffect(TaskAlias):
             checkMarkEffectEntityNode = checkMarkEffect.getEntityNode()
             node1.addChild(checkMarkEffectEntityNode)
 
-            source.addTask("TaskEnable", Object=checkMarkEffect, Value=True)
+            source.addEnable(checkMarkEffect)
             source.addTask("TaskMoviePlay", Movie=checkMarkEffect, Wait=False)
 
         with source.addParallelTask(4) as (lostOfItem_0, lostOfItem_1, tc_silhouette_0, tc_silhouette_1):

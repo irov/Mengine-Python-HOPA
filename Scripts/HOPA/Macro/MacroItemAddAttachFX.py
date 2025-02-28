@@ -28,8 +28,8 @@ class MacroItemAddAttachFX(MacroCommand):
             return False
 
         source.addTask("TaskInventoryAddItem", Inventory=Inventory, ItemName=self.ItemName, ItemHide=True)
-        # source.addTask("TaskListener", ID = Notificator.onInventoryAppendInventoryItem, Filter = __this)
-        source.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
+        # source.addListener(Notificator.onInventoryAppendInventoryItem, Filter = __this)
+        source.addDelay(0.1 * 1000)  # speed fix
         source.addTask("TaskInventorySlotAddInventoryItem", Inventory=Inventory, InventoryItem=InventoryItem)
         source.addTask("AliasInventoryItemAttach", InventoryItem=InventoryItem)
 

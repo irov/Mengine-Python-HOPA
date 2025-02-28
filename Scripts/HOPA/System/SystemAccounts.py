@@ -31,9 +31,7 @@ class SystemAccounts(System):
         scene_effect_movie = GroupManager.getObject(group_name, movie_name)
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=True)
-                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True)
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=False)
+                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True, AutoEnable=True)
 
     def __completeNewAccount(self, current_account_id, click_slot_id):
         profile = GroupManager.getGroup("Profile")
@@ -107,8 +105,7 @@ class SystemAccounts(System):
                 guard_source.addTask("AliasFadeOut", FadeGroupName="Fade", From=self.MenuFade, Time=250.0)
 
             with source_new_profile.addRaceTask(2) as (source_create_account, source_cancel_create_account):
-                source_create_account.addTask("TaskListener", ID=Notificator.onCreateNewProfile,
-                                              Filter=Functor(self.__completeNewAccount, click_slot_id))
+                source_create_account.addListener(Notificator.onCreateNewProfile, Filter=Functor(self.__completeNewAccount, click_slot_id))
 
                 source_create_account.addFunction(self.__updatePlayerName)
 
@@ -124,11 +121,11 @@ class SystemAccounts(System):
 
                     guard_source_fade.addTask("AliasFadeOut", FadeGroupName="Fade", To=self.MenuFade, Time=250.0)
 
-                source_create_account.addTask("TaskListener", ID=Notificator.onSelectedDifficulty)
+                source_create_account.addListener(Notificator.onSelectedDifficulty)
                 source_create_account.addTask("TaskSceneLayerGroupEnable", LayerName="Difficulty", Value=False)
                 source_create_account.addTask("AliasFadeOut", FadeGroupName="Fade", From=self.MenuFade, Time=250.0)
 
-                source_create_account.addTask("TaskNotify", ID=Notificator.onProfileCreated)
+                source_create_account.addNotify(Notificator.onProfileCreated)
 
                 source_cancel_create_account.addTask("TaskMovie2ButtonClick", GroupName="Profile_New",
                                                      Movie2ButtonName="Movie2Button_Cancel")
@@ -141,15 +138,15 @@ class SystemAccounts(System):
 
         with self.createTaskChain(Name="Menu_NewProfile", GroupName="Menu_Background", Global=True,
                                   Repeat=True) as tc_new_profile:
-            tc_new_profile.addTask("TaskScopeListener", ID=Notificator.onNewProfile, Scope=__on_new_profile)
+            tc_new_profile.addScopeListener(Notificator.onNewProfile, __on_new_profile)
 
         # ------------------------- Del Profile ------------------------------------------------------------------------
         self.ProfileOkInteractive = True
         with self.createTaskChain(Name="Menu_DelProfile", GroupName="Menu_Background", Global=True,
                                   Repeat=True) as tc_delete_profile:
             with tc_delete_profile.addRaceTask(2) as (tc_delete, tc_change):
-                tc_delete.addTask("TaskListener", ID=Notificator.onProfileDelete)
-                tc_change.addTask("TaskListener", ID=Notificator.onProfileChange)
+                tc_delete.addListener(Notificator.onProfileDelete)
+                tc_change.addListener(Notificator.onProfileChange)
 
             def __fun_rof(source):
                 pass
@@ -158,10 +155,10 @@ class SystemAccounts(System):
 
         # ------------------------- Remove Account ---------------------------------------------------------------
         with self.createTaskChain(Name="RemoveAccount", Global=True, Repeat=True) as tc_remove_account:
-            tc_remove_account.addTask("TaskListener", ID=Notificator.onRemoveAccount)
+            tc_remove_account.addListener(Notificator.onRemoveAccount)
             tc_remove_account.addTask("TaskSceneInit", SceneName="Menu")
             with GuardBlockInput(tc_remove_account) as guard_source:
-                guard_source.addTask("TaskFunction", Fn=self.__onRemoveAccount)
+                guard_source.addFunction(self.__onRemoveAccount)
             tc_remove_account.addNoSkip()
 
     def __onLoadAccounts(self):

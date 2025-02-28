@@ -27,7 +27,7 @@ class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
 
         RemoveSlotIndex = int(InventoryItemRemoveIndex / SlotCount) * SlotCount
 
-        source.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
+        source.addDisable(self.InventoryItem)
         source.addTask("TaskRemoveArrowAttach")
         source.addTask("TaskSceneLayerAddEntity", LayerName="InventoryItemEffect", Object=self.InventoryItem,
                        AdaptScreen=True)
@@ -49,5 +49,4 @@ class AliasInventoryRemoveAttachInventoryItem(TaskAlias):
 
         source.addTask("TaskObjectReturn", Object=self.InventoryItem)
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryRemoveInventoryItem,
-                       Args=(self.Inventory, self.InventoryItem))
+        source.addNotify(Notificator.onInventoryRemoveInventoryItem, self.Inventory, self.InventoryItem)

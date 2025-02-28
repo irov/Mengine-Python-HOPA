@@ -6,7 +6,7 @@ class MacroReloadAccount(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onReloadAccount)
+        source.addNotify(Notificator.onReloadAccount)
         pass
 
     pass

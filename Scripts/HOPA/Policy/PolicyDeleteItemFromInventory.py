@@ -20,4 +20,4 @@ class PolicyDeleteItemFromInventory(TaskAlias):
             if slot and slot.movie:
                 scope.addTask("TaskMoviePlay", Movie=slot.movie, Wait=True)
 
-        source.addTask("TaskScope", Scope=__playMovie)
+        source.addScope(__playMovie)

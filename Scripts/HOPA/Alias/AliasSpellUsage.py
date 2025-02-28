@@ -12,7 +12,7 @@ class AliasSpellUsage(MixinObject, TaskAlias):
     def _onGenerate(self, source):
         InteractiveType = self.Object.getType()
 
-        source.addTask("TaskNotify", ID=Notificator.onSpellUseMacroBegin, Args=(self.Object, self.Spell))
+        source.addNotify(Notificator.onSpellUseMacroBegin, self.Object, self.Spell)
         if InteractiveType == "ObjectZoom":
             source.addTask("TaskSpellOnZoom", Zoom=self.Object, Spell=self.Spell, SpellCost=self.SpellCost)
 
@@ -26,8 +26,8 @@ class AliasSpellUsage(MixinObject, TaskAlias):
             source.addTask("TaskSpellOnTransition", Transition=self.Object, Spell=self.Spell, SpellCost=self.SpellCost)
 
         else:
-            source.addTask("TaskPrint", Value="AliasSpellUsage unknown object type")
+            source.addPrint("AliasSpellUsage unknown object type")
 
         source.addTask("TaskSpellUse", Spell=self.Spell, SpellCost=self.SpellCost)
-        source.addTask("TaskNotify", ID=Notificator.onSpellUseMacroEnd, Args=(self.Object, self.Spell))
+        source.addNotify(Notificator.onSpellUseMacroEnd, self.Object, self.Spell)
         # source.addTask("TaskPrint", Value =  "MacroSpellUse complete")

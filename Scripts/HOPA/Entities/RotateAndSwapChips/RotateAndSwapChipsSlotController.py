@@ -75,8 +75,8 @@ class RotateAndSwapChipsSlotController(object):
 
         with TaskManager.createTaskChain(Name=self.taskName, Group=None, Repeat=True) as tc:
             # tc.addTask("TaskMovieLastFrame", MovieName = name, Value = False)
-            tc.addTask("TaskFunction", Fn=self.rotateSlot)
-            tc.addTask("TaskDelay", Time=0.1 * 1000)  # speed fix
+            tc.addFunction(self.rotateSlot)
+            tc.addDelay(0.1 * 1000)  # speed fix
             pass
         pass
 

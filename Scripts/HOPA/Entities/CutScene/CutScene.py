@@ -92,20 +92,19 @@ class CutScene(BaseEntity):
                         movie_text = CutSceneManager.getMovieText(scene)
 
                         with tc_ok.addRaceTask(3) as (tc_play, tc_text, tc_next):
-                            tc_play.addTask("TaskEnable", Object=movie_obj)
-                            tc_play.addTask("TaskFunction", Fn=self.__addToLayer, Args=(movie_obj, "CutScene_Movie",))
+                            tc_play.addEnable(movie_obj)
+                            tc_play.addFunction(self.__addToLayer, movie_obj, "CutScene_Movie")
                             tc_play.addTask("TaskMoviePlay", Movie=movie_obj, Wait=True, ValidationParentEnable=False)
 
                             if movie_text is not None:
-                                tc_text.addTask("TaskEnable", Object=movie_text)
-                                tc_text.addTask("TaskFunction", Fn=self.__addToLayer,
-                                                Args=(movie_text, "CutScene_Movie_Text",))
+                                tc_text.addEnable(movie_text)
+                                tc_text.addFunction(self.__addToLayer, movie_text, "CutScene_Movie_Text")
                                 tc_text.addTask("TaskMoviePlay", Movie=movie_text, Wait=True, ValidationParentEnable=False)
                             else:
                                 tc_text.addBlock()
 
                             if index + 1 != count:
-                                tc_play.addTask("TaskEnable", Object=movie_obj, Value=False)
+                                tc_play.addDisable(movie_obj)
 
                             tc_next.addTask(cut_scene_next, CutSceneName=self.CutSceneName)
                             # tc_next.addTask("TaskFunction", Fn = self.__DisableNext, Args =(index,))
@@ -117,7 +116,7 @@ class CutScene(BaseEntity):
                                         tc_next.addTask("AliasFadeIn", FadeGroupName=fade_group_name,
                                                         Time=0.25 * 1000)  # speed fix
 
-                                tc_next.addTask("TaskEnable", Object=movie_obj, Value=False)
+                                tc_next.addDisable(movie_obj)
 
                                 if self.isFade is True:
                                     slot = SceneManager.getSceneDescription(current_scene_name)

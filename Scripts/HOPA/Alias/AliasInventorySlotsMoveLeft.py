@@ -230,9 +230,9 @@ class AliasInventorySlotsMoveLeft(TaskAlias):
                 pass
             pass
 
-        source.addTask("TaskFunction", Fn=InventoryEntity.removeSlots)
-        source.addTask("TaskFunction", Fn=InventoryEntity.setupPoints)
+        source.addFunction(InventoryEntity.removeSlots)
+        source.addFunction(InventoryEntity.setupPoints)
         source.addTask("TaskInventoryCurrentSlotIndex", Inventory=self.Inventory, Value=NewSlotIndex)
-        source.addTask("TaskFunction", Fn=InventoryEntity.updateSlots)
-        source.addTask("TaskFunction", Fn=self.__destroyGenMovies)
+        source.addFunction(InventoryEntity.updateSlots)
+        source.addFunction(self.__destroyGenMovies)
         source.addNotify(Notificator.onInventorySlotsShiftEnd)

@@ -7,7 +7,7 @@ class MacroLayerDisable(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onCommandLayerEnable, Args=(self.Name, False,))
+        source.addNotify(Notificator.onCommandLayerEnable, self.Name, False)
         source.addTask("TaskSceneLayerGroupEnable", LayerName=self.Name, Value=False, SceneName=self.SceneName)
         pass
 

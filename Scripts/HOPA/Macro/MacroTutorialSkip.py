@@ -18,6 +18,6 @@ class MacroTutorialSkip(MacroCommand):
             pass
 
         with source.addSwitchTask(2, __isTutorialAlreadySkip) as (source_ok, source_wait):
-            source_wait.addTask("TaskListener", ID=Notificator.onTutorialSkip)
+            source_wait.addListener(Notificator.onTutorialSkip)
             pass
         pass

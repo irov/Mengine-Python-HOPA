@@ -26,7 +26,7 @@ class MacroMessage(MacroCommand):
 
         source.addTask("TaskStateMutex", ID="AliasMessageShow", From=False)
         source.addTask("TaskSceneActivate")
-        source.addTask("TaskPrint", Value="MacroMessage %s" % (self.textID,))
+        source.addPrint("MacroMessage %s" % (self.textID,))
         source.addTask("TaskStateChange", ID="AliasMessageShow", Value=True)
 
         source.addTask("AliasMessageShow", TextID=self.textID)

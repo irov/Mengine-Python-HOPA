@@ -108,7 +108,7 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
             effectEntityNode.setLocalPosition(itemSpriteSize)
 
             node.addChildFront(effectEntityNode)
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
             pass
 
@@ -145,7 +145,7 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
                 gathered.lockSemaphore(slot.getSemaphore())
 
                 movie = slot.getMovie()
-                gathered.addTask("TaskEnable", Object=movie, Value=True)
+                gathered.addEnable(movie)
                 gathered.addFunction(slot.disableItemMovies, slotGroup)
                 gathered.addTask("TaskMovie2Play", Movie2=movie, Wait=True)
 
@@ -161,15 +161,14 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
 
                 all_gathered.addFunction(prepare)
 
-                all_gathered.addTask('TaskMovie2Play', Movie2=InventoryEntity.getMovieGathering(), Wait=True,
-                                     Docdeb="LOLOLOLOLOLOLOLOLOLOLOLOLOLO")
+                all_gathered.addTask('TaskMovie2Play', Movie2=InventoryEntity.getMovieGathering(), Wait=True)
 
                 def enigmaComplete():
                     EnigmaManager.getEnigma(self.EnigmaName).getEntity().enigmaComplete()
 
                 all_gathered.addFunction(enigmaComplete)
 
-        source.addTask("TaskScope", Scope=__playMovie)
+        source.addScope(__playMovie)
 
     def createMovie2FromResource(self, ResourceMovie, CompositionName, MovieName, AttachNode):
         if ResourceMovie is None:

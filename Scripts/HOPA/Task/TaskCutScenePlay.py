@@ -23,12 +23,12 @@ class TaskCutScenePlay(MixinObserver, TaskAlias):
 
         if self.Transition is True:
             source.addTask("AliasTransition", SceneName=self.CutSceneSceneName)
-        source.addTask("TaskSetParam", Object=demon_cut_scene, Param="isFade", Value=self.isFade)
-        source.addTask("TaskSetParam", Object=demon_cut_scene, Param="CutSceneName", Value=self.CutSceneName)
-        source.addTask("TaskSetParam", Object=demon_cut_scene, Param="Play", Value=True)
+        source.addParam(demon_cut_scene, "isFade", self.isFade)
+        source.addParam(demon_cut_scene, "CutSceneName", self.CutSceneName)
+        source.addParam(demon_cut_scene, "Play", True)
 
         def __this(cut_scene_name, next_scene=None):
             return cut_scene_name is self.CutSceneName
 
-        source.addTask("TaskListener", ID=Notificator.onCutScenePlay, Filter=__this)
-        source.addTask("TaskSetParam", Object=demon_cut_scene, Param="Play", Value=False)
+        source.addListener(Notificator.onCutScenePlay, Filter=__this)
+        source.addParam(demon_cut_scene, "Play", False)

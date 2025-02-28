@@ -6,4 +6,4 @@ class MacroAwardsOpen(MacroCommand):
         self.awardsId = values[0]
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onAwardsOpen, Args=(self.awardsId,))
+        source.addNotify(Notificator.onAwardsOpen, self.awardsId)

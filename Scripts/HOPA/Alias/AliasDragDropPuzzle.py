@@ -33,35 +33,35 @@ class AliasDragDropPuzzle(TaskAlias):
 
             tc_do.addTask("TaskFanItemInHand", FanItem=self.ItemObject)
 
-            tc_do.addTask("TaskFunction", Fn=self.__setItemOffset)
-            tc_do.addTask("TaskFunction", Fn=self.ItemObject.setAlpha, Args=(0.75,))
+            tc_do.addFunction(self.__setItemOffset)
+            tc_do.addFunction(self.ItemObject.setAlpha, 0.75)
             tc_do.addTask("TaskArrowAttach2", Offset=False, Origin=True, Object=self.ItemObject)
 
             with tc_do.addRaceTask(2) as (tc_iu, tc_no):
-                tc_no.addTask("TaskListener", ID=Notificator.onAttachTrade)
+                tc_no.addListener(Notificator.onAttachTrade)
 
                 tc_iu.addTask("TaskItemInvalidUse", Item=self.ItemObject)
                 pass
 
             tc_do.addTask("TaskRemoveArrowAttach")
-            tc_do.addTask("TaskFunction", Fn=self.ItemObject.setAlpha, Args=(1,))
-            tc_do.addTask("TaskFunction", Fn=self.__calcPosition)
+            tc_do.addFunction(self.ItemObject.setAlpha, 1)
+            tc_do.addFunction(self.__calcPosition)
 
             tc_do.addTask("TaskFanItemInNone", FanItem=self.ItemObject)
             tc_do.addTask("TaskObjectReturn", Object=self.ItemObject)
-            tc_do.addTask("TaskNotify", ID=Notificator.onPuzzleOutPlaced, Args=(self.ItemName,))
+            tc_do.addNotify(Notificator.onPuzzleOutPlaced, self.ItemName)
             tc_do.addTask("TaskSceneLayerAddEntity", LayerName="PuzzleDragDrop", Object=self.ItemObject)
 
             if self.SocketItemName is not None:
                 tc_until.addTask("TaskItemPlaceItem", SocketItemName=self.SocketItemName, Item=self.ItemObject, Accuracy=35)
-                tc_until.addTask("TaskFunction", Fn=self.ItemObject.setAlpha, Args=(1,))
+                tc_until.addFunction(self.ItemObject.setAlpha, 1)
                 pass
             else:
                 tc_until.addTask("TaskSocketUseItem", SocketName=self.SocketName, Item=self.ItemObject, Taken=True)
                 pass
             pass
 
-        source.addTask("TaskFunction", Fn=self.__resetOrigin)
+        source.addFunction(self.__resetOrigin)
         source.addTask("TaskRemoveArrowAttach")
         source.addTask("TaskFanItemInNone", FanItem=self.ItemObject)
         source.addTask("TaskObjectSetPosition", Object=self.ItemObject, Value=self.Position)

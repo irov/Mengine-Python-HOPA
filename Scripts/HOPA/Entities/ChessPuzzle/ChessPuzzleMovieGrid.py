@@ -48,7 +48,7 @@ class ChessPuzzleMovieGrid(object):
 
         with TaskManager.createTaskChain(Name=taskName, Group=None) as tc:
             tc.addTask("TaskMoviePlay", Movie=movie)
-            tc.addTask("TaskFunction", Fn=after)
+            tc.addFunction(after)
             pass
         pass
 

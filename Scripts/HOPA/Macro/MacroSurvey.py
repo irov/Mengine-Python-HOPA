@@ -6,11 +6,11 @@ class MacroSurvey(MacroCommand):
 
     def _onGenerate(self, source):
         if isSurvey() is False:
-            source.addTask("TaskDummy")
+            source.addDummy()
             return
 
-        source.addTask("TaskFunction", Fn=self.changeMengineSetting)
-        source.addTask("TaskNotify", ID=Notificator.onSurveyComplete)
+        source.addFunction(self.changeMengineSetting)
+        source.addNotify(Notificator.onSurveyComplete)
         source.addTask("AliasTransition", SceneName="SurveyBigFish", Intro=False)
         source.addBlock()
 

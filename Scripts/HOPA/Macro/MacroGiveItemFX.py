@@ -44,7 +44,7 @@ class MacroGiveItemFX(MacroCommand):
             tc_quest.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=self.ItemName)
             pass
 
-        source.addTask("TaskDelay", Time=0.1 * 1000)
+        source.addDelay(0.1 * 1000)
         pass
 
     pass

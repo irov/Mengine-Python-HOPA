@@ -94,7 +94,7 @@ class Zuma(Enigma):
         self.active_flow = flow
         with TaskManager.createTaskChain(Name="RunFlow") as tc:
             for MovieBall in flow:
-                tc.addTask("TaskDelay", Time=Zuma.ChainDelay)
+                tc.addDelay(Zuma.ChainDelay)
                 tc.addTask("TaskMoviePlay", Movie=MovieBall, Wait=False, LastFrame=None)
 
         pass
@@ -115,7 +115,7 @@ class Zuma(Enigma):
         with TaskManager.createTaskChain(Name="StopBall", Cb=Duration) as tc:
             for MovieBall in flow:
                 tc.addTask("TaskMovieStop", Movie=MovieBall)
-                tc.addTask("TaskFunction", Fn=self.GetProgress, Args=(MovieBall,))
+                tc.addFunction(self.GetProgress, MovieBall)
         pass
 
     def SincronizeFlow(self):  #

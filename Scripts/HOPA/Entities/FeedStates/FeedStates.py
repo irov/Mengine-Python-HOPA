@@ -47,10 +47,10 @@ class FeedStates(Enigma):
             with tc.addRepeatTask() as (tc_do, tc_until):
                 with tc_do.addParallelTask(2) as (tc_click, tc_listen):
                     tc_click.addTask("AliasSpinCircles", ObjectName=self.sockets[0], Sockets=self.sockets)  # events on socket
-                    tc_listen.addTask("TaskListener", ID=Notificator.onSpin, Filter=self.__socketFilter)
+                    tc_listen.addListener(Notificator.onSpin, Filter=self.__socketFilter)
                     pass
-                tc_until.addTask("TaskListener", ID=Notificator.onEnigmaComplete, Filter=self.isactive)
-                tc_until.addTask("TaskDelay", Time=2 * 1000)  # speed fix
+                tc_until.addListener(Notificator.onEnigmaComplete, Filter=self.isactive)
+                tc_until.addDelay(2 * 1000)  # speed fix
                 pass
             pass
         pass

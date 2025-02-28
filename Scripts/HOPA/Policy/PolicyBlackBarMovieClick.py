@@ -18,11 +18,11 @@ class PolicyBlackBarMovieClick(TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskEnable", Object=self.Text_Message)
+        source.addEnable(self.Text_Message)
         source.addTask("TaskTextSetTextID", Text=self.Text_Message, Value=self.TextID)
 
-        source.addTask("TaskEnable", Object=self.Movie_Down, Value=True)
-        source.addTask("TaskEnable", Object=self.Movie_Up, Value=False)
+        source.addEnable(self.Movie_Down)
+        source.addDisable(self.Movie_Up)
 
         TextEntityNode = self.Text_Message.getEntityNode()
         source.addTask("TaskMovieSlotAddChild", Movie=self.Movie_Down, SlotName="MindMessage", Node=TextEntityNode)
@@ -30,23 +30,22 @@ class PolicyBlackBarMovieClick(TaskAlias):
         source.addTask("TaskMoviePlay", Movie=self.Movie_Down, Wait=True)
 
         #        with source.addRaceTask(2) as (tc_click, tc_leave):
-        #            tc_leave.addTask("TaskListener", ID = Notificator.onSceneDeactivate)
+        #            tc_leave.addListener(Notificator.onSceneDeactivate)
         #            tc_click.addTask("TaskSocketClick", SocketName = "Socket_Click")
         #            pass
 
-        source.addTask("TaskDelay", Time=3 * 1000)  # speed fix
+        source.addDelay(3 * 1000)  # speed fix
 
         source.addTask("TaskNodeRemoveFromParent", Node=TextEntityNode)
-        source.addTask("TaskEnable", Object=self.Movie_Up, Value=True)
-        source.addTask("TaskEnable", Object=self.Movie_Down, Value=False)
+        source.addEnable(self.Movie_Up)
+        source.addDisable(self.Movie_Down)
         source.addTask("TaskMovieSlotAddChild", Movie=self.Movie_Up, SlotName="MindMessage", Node=TextEntityNode)
 
         source.addTask("TaskMoviePlay", Movie=self.Movie_Up, Wait=True)
 
         source.addTask("TaskNodeRemoveFromParent", Node=TextEntityNode)
-        source.addTask("TaskEnable", Object=self.Movie_Down, Value=False)
-
-        source.addTask("TaskEnable", Object=self.Text_Message, Value=False)
+        source.addDisable(self.Movie_Down)
+        source.addDisable(self.Text_Message)
         pass
 
     pass

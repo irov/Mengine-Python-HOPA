@@ -20,7 +20,7 @@ class MacroSpellReady(MacroCommand):
                               SpellID=self.SpellID)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskNotify", ID=Notificator.onSpellReady, Args=(self.SpellID,))
+            tc_quest.addNotify(Notificator.onSpellReady, self.SpellID)
             pass
         pass
 

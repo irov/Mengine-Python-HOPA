@@ -348,9 +348,9 @@ class InventoryFX(BaseEntity):
 
         if state is InventoryItemEntity.ITEM_PICK:  # state 2
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(False,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, False)
                 tc.addTask("AliasInventoryInvalidUseInventoryItemFX", Inventory=self.object)
-                tc.addTask("TaskFunction", Fn=self._updateInventoryItem)
+                tc.addFunction(self._updateInventoryItem)
 
                 tc.addTask(PolicyPickInventoryItemEnd, InventoryItem=InventoryItem)
                 pass
@@ -358,9 +358,9 @@ class InventoryFX(BaseEntity):
 
         elif state is InventoryItemEntity.ITEM_RETURN:  # state 3
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(False,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, False)
                 tc.addTask("AliasInventoryReturnInventoryItemFX", Inventory=self.object)
-                tc.addTask("TaskFunction", Fn=self._updateInventoryItem)
+                tc.addFunction(self._updateInventoryItem)
 
                 tc.addTask(PolicyPickInventoryItemEnd, InventoryItem=InventoryItem)
                 pass
@@ -368,9 +368,9 @@ class InventoryFX(BaseEntity):
 
         elif state is InventoryItemEntity.ITEM_TAKE:  # state 5
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(False,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, False)
                 tc.addTask("AliasInventoryRemoveInventoryItemFX", Inventory=self.object, InventoryItem=InventoryItem)
-                tc.addTask("TaskFunction", Fn=self._updateInventoryItem)
+                tc.addFunction(self._updateInventoryItem)
 
                 tc.addTask(PolicyPickInventoryItemStop, InventoryItem=InventoryItem)
                 pass
@@ -387,9 +387,9 @@ class InventoryFX(BaseEntity):
 
         elif state is InventoryItemEntity.ITEM_TRY_COMBINE:
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(False,))
+                tc.addFunction(self.inventoryGlobalMouseEvent, False)
                 tc.addTask("AliasInventoryReturnInventoryItemFX", Inventory=self.object)
-                tc.addTask("TaskFunction", Fn=self._updateInventoryItem)
+                tc.addFunction(self._updateInventoryItem)
 
                 tc.addTask(PolicyPickInventoryItemEnd, InventoryItem=InventoryItem)
                 pass
@@ -397,7 +397,7 @@ class InventoryFX(BaseEntity):
 
         elif state is InventoryItemEntity.ITEM_COMBINE:
             with TaskManager.createTaskChain(Group=self.object) as tc:
-                tc.addTask("TaskFunction", Fn=self._updateInventoryItem)
+                tc.addFunction(self._updateInventoryItem)
 
                 tc.addTask(PolicyPickInventoryItemStop, InventoryItem=InventoryItem)
                 pass
@@ -437,7 +437,7 @@ class InventoryFX(BaseEntity):
 
         with TaskManager.createTaskChain() as tc:
             tc.addTask("TaskMouseButtonClick")
-            tc.addTask("TaskFunction", Fn=self.inventoryGlobalMouseEvent, Args=(True,))
+            tc.addFunction(self.inventoryGlobalMouseEvent, True)
             pass
 
         arrow = Mengine.getArrow()

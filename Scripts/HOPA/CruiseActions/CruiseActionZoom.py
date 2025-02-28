@@ -48,5 +48,5 @@ class CruiseActionZoom(MixinZoom, CruiseAction):
 
         with TaskManager.createTaskChain(Name="CruiseActionZoom") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Zoom)
-            tc.addTask("TaskDelay", Time=self.click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(self.click_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

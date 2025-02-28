@@ -10,7 +10,7 @@ class MacroMapSetMarkedDone(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMapMarked, Args=(self.SceneName,))
+        source.addNotify(Notificator.onMapMarked, self.SceneName)
         pass
 
     pass

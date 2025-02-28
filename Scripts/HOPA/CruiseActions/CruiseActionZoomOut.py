@@ -33,4 +33,4 @@ class CruiseActionZoomOut(CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionZoomOut") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self._getCruiseObject())
             tc.addDelay(click_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

@@ -23,7 +23,7 @@ class MacroMagicVisionUnblockScene(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMagicVisionUnblockScene, Args=(self.SceneName,))
+        source.addNotify(Notificator.onMagicVisionUnblockScene, self.SceneName)
         pass
 
     pass

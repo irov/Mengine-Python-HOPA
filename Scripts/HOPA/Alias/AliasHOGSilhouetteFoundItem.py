@@ -37,7 +37,7 @@ class AliasHOGSilhouetteFoundItem(TaskAlias):
 
             PolicyCheckMarkNearItem = PolicyManager.getPolicy("HOGSilhouetteICheckMark", "PolicyCheckMarkNearItem")
 
-        source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
+        source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
 
         hogItem = HOGManager.getHOGItem(self.EnigmaName, self.HOGItemName)
         if hogItem.objectName is not None:

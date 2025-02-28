@@ -60,7 +60,7 @@ class SystemInventoryMovie(System):
         #        with TaskManager.createTaskChain(Name = "INVENTORY_MOVEADDITEM", Group = self.Inventory) as tc:
         with TaskManager.createTaskChain(Group=self.Inventory) as tc:
             with tc.addRaceTask(2) as (tc_item, tc_move):
-                tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
+                tc_item.addListener(Notificator.onItemClickToInventory)
 
                 tc_move.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=inventoryItem)
                 tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
@@ -84,7 +84,7 @@ class SystemInventoryMovie(System):
 
         if value == "INVENTORY_UP":
             with TaskManager.createTaskChain(Name="INVENTORY_UP", Group=self.Inventory) as tc:
-                tc.addTask("TaskFunction", Fn=InventoryEntity._updateButtonInteractive)
+                tc.addFunction(InventoryEntity._updateButtonInteractive)
                 with tc.addRaceTask(4) as (tc_left, tc_right, tc_item, tc_invItem):
                     tc_left.addTask("TaskButtonClick", ButtonName="Button_InvLeft", AutoEnable=False)
                     tc_left.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_LEFT")
@@ -92,9 +92,9 @@ class SystemInventoryMovie(System):
                     tc_right.addTask("TaskButtonClick", ButtonName="Button_InvRight", AutoEnable=False)
                     tc_right.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_RIGHT")
 
-                    tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
+                    tc_item.addListener(Notificator.onItemClickToInventory)
 
-                    tc_invItem.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem)
+                    tc_invItem.addListener(Notificator.onInventoryPickInventoryItem)
                     tc_invItem.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_ARROWITEM")
                     pass
 
@@ -115,12 +115,12 @@ class SystemInventoryMovie(System):
 
         elif value == "INVENTORY_ADDITEM":
             #            with TaskManager.createTaskChain(Name = "INVENTORY_ADDITEM", Group = self.Inventory) as tc:
-            #                tc.addTask("TaskListener", ID = "onItemClickToInventory")
+            #                tc.addListener("onItemClickToInventory")
             #                tc.addTask("TaskStateMutex", ID = "StateInventory", From = "INVENTORY_UP")
             #                with tc.addRaceTask(2) as (tc_move, tc_item):
             #                    tc_move.addTask("TaskStateMutex", ID = "StateInventory", From = "INVENTORY_UP")
             #
-            #                    tc_item.addTask("TaskListener", ID = "onItemClickToInventory")
+            #                    tc_item.addListener("onItemClickToInventory")
             #                    pass
 
             #                pass
@@ -129,29 +129,29 @@ class SystemInventoryMovie(System):
         elif value == "INVENTORY_ARROWITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_ARROWITEM", Group=self.Inventory) as tc:
                 with tc.addRaceTask(2) as (tc_return, tc_remove):
-                    tc_return.addTask("TaskListener", ID=Notificator.onInventoryClickReturnItem)
+                    tc_return.addListener(Notificator.onInventoryClickReturnItem)
                     tc_return.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_RETURNITEM")
 
-                    tc_remove.addTask("TaskListener", ID=Notificator.onInventoryClickRemoveItem)
+                    tc_remove.addListener(Notificator.onInventoryClickRemoveItem)
                     tc_remove.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_REMOVEITEM")
             return False
 
         elif value == "INVENTORY_RETURNITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_RETURNITEM", Group=self.Inventory) as tc:
                 with tc.addRaceTask(2) as (tc_move, tc_item):
-                    tc_move.addTask("TaskListener", ID=Notificator.onInventoryReturnInventoryItem)
+                    tc_move.addListener(Notificator.onInventoryReturnInventoryItem)
                     tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
 
-                    tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
+                    tc_item.addListener(Notificator.onItemClickToInventory)
             return False
 
         elif value == "INVENTORY_REMOVEITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_REMOVEITEM", Group=self.Inventory) as tc:
                 with tc.addRaceTask(2) as (tc_move, tc_item):
-                    tc_move.addTask("TaskListener", ID=Notificator.onInventoryRemoveInventoryItem)
+                    tc_move.addListener(Notificator.onInventoryRemoveInventoryItem)
                     tc_move.addTask("TaskStateChange", ID="StateInventory", Value="INVENTORY_UP")
 
-                    tc_item.addTask("TaskListener", ID=Notificator.onItemClickToInventory)
+                    tc_item.addListener(Notificator.onItemClickToInventory)
             return False
 
         else:

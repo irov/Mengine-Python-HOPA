@@ -26,7 +26,7 @@ class MacroPickLabItem(MacroCommand):
             tc_quest.addTask("TaskItemClick", Item=self.Item)
             tc_quest.addTask("TaskItemPick", Item=self.Item)
             tc_quest.addTask("AliasPickLabItemEffect", Item=self.Item)
-            tc_quest.addTask("TaskNotify", ID=Notificator.onPickLabItem)
+            tc_quest.addNotify(Notificator.onPickLabItem)
             pass
         pass
 

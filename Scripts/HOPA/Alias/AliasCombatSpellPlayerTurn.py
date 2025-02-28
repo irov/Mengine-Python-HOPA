@@ -40,9 +40,9 @@ class AliasCombatSpellPlayerTurn(TaskAlias):
 
             movieEat = self.CombatSpell.Movie_PlayerEat
 
-            source.addTask("TaskFunction", Fn=attachMovie, Args=(slotEat, movieEat))
+            source.addFunction(attachMovie, slotEat, movieEat)
             source.addTask("TaskMoviePlay", Movie=movieEat, Wait=True)
-            source.addTask("TaskFunction", Fn=dettachMovie, Args=(slotEat,))
+            source.addFunction(dettachMovie, slotEat)
             pass
         else:  # move
             posMove = result[0]
@@ -51,10 +51,10 @@ class AliasCombatSpellPlayerTurn(TaskAlias):
 
             movieMove = self.CombatSpell.Movie_PlayerMove
 
-            source.addTask("TaskFunction", Fn=attachMovie, Args=(slotMove, movieMove))
+            source.addFunction(attachMovie, slotMove, movieMove)
             source.addTask("TaskMoviePlay", Movie=movieMove, Wait=True)
-            source.addTask("TaskFunction", Fn=dettachMovie, Args=(slotMove,))
+            source.addFunction(dettachMovie, slotMove)
 
             pass
 
-        source.addTask("TaskFunction", Fn=update)
+        source.addFunction(update)

@@ -55,9 +55,7 @@ class AliasSystemMessage(TaskAlias):
         Movie = GroupManager.getObject(GropName, MovieName)
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
-                guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
 
     def _setTexts(self):
         if self.OkID is not None:
@@ -87,7 +85,7 @@ class AliasSystemMessage(TaskAlias):
         source.addTask("TaskSceneLayerGroupEnable", LayerName="SystemMessage", Value=False)
 
         if self.Callback:
-            source.addTask("TaskFunction", Fn=self.Callback)
+            source.addFunction(self.Callback)
 
         if self.Scope:
             source.addScope(self.Scope)

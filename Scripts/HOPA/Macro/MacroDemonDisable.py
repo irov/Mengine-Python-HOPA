@@ -9,7 +9,8 @@ class MacroDemonDisable(MacroCommand):
 
     def _onGenerate(self, source):
         Demon = DemonManager.getDemon(self.DemonName)
-        source.addTask("TaskEnable", Object=Demon, Value=False)
+
+        source.addDisable(Demon)
         pass
 
     pass

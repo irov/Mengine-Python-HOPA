@@ -30,4 +30,4 @@ class MacroOpenItemPlus(MacroCommand):
         Quest = self.addQuest(source, "EnterScene", SceneName=self.SceneName, GroupName=self.GroupName)
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskNotify", ID=Notificator.onItemZoomEnter, Args=(GroupZoom, self.ScenePlus))
+            tc_quest.addNotify(Notificator.onItemZoomEnter, GroupZoom, self.ScenePlus)

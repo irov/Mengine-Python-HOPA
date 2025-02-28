@@ -47,9 +47,7 @@ class SystemJournal(System):
         scene_effect_movie = GroupManager.getObject(group_name, movie_name)
         with GuardBlockInput(source) as guard_source:
             with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=True)
-                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True)
-                guard_source_movie.addTask("TaskEnable", Object=scene_effect_movie, Value=False)
+                guard_source_movie.addTask("TaskMovie2Play", Movie2=scene_effect_movie, Wait=True, AutoEnable=True)
 
     def __checkIsAllJournalUnlocked(self):
         unlocked_pages = self.demon_journal.getParam("Pages")
@@ -100,7 +98,7 @@ class SystemJournal(System):
 
         with self.createTaskChain(Name="JournalClose_But", Repeat=True) as tc_close:
             tc_close.addTask("TaskMovie2ButtonClick", GroupName="Journal", Movie2ButtonName="Movie2Button_Close")
-            tc_close.addTask("TaskNotify", ID=Notificator.onJournalClose)
+            tc_close.addNotify(Notificator.onJournalClose)
 
         with self.createTaskChain(Name="JournalOpen", Global=True, Repeat=True) as tc_open:
             tc_open.addTask("TaskMovie2ButtonClick", GroupName="Open_Journal", Movie2ButtonName="Movie2Button_Journal")
@@ -109,15 +107,15 @@ class SystemJournal(System):
                     with guard_journal.addParallelTask(2) as (tc_fade, tc_open_journal):
                         tc_fade.addTask("AliasFadeIn", FadeGroupName=fade_group, To=time_in_to, Time=time_in_time)
 
-                        tc_open_journal.addTask("TaskNotify", ID=Notificator.onJournalOpen)
+                        tc_open_journal.addNotify(Notificator.onJournalOpen)
                         tc_open_journal.addTask("TaskSceneLayerGroupEnable", LayerName="Journal", Value=True)
                         tc_open_journal.addScope(self.__scopeOpen, "Journal")
             else:
-                tc_open.addTask("TaskNotify", ID=Notificator.onJournalOpen)
+                tc_open.addNotify(Notificator.onJournalOpen)
                 tc_open.addTask("TaskSceneLayerGroupEnable", LayerName="Journal", Value=True)
 
         with self.createTaskChain(Name="JournalClose", Repeat=True) as tc_close:
-            tc_close.addTask("TaskListener", ID=Notificator.onJournalClose)
+            tc_close.addListener(Notificator.onJournalClose)
 
             if GroupManager.hasGroup(fade_group):
                 with GuardBlockInput(tc_close) as guard_journal:
@@ -131,14 +129,14 @@ class SystemJournal(System):
             tc_close.addTask("TaskSceneLayerGroupEnable", LayerName="Journal", Value=False)
 
         with self.createTaskChain(Name="JournalAppend", Global=True, Repeat=True, GroupName="Open_Journal") as tc:
-            tc.addTask("TaskListener", ID=Notificator.onJournalAddPage)
+            tc.addListener(Notificator.onJournalAddPage)
             tc.addScope(self._scopeJournalAppend)
 
             with tc.addRepeatTask() as (tc_new, tc_open):
-                tc_new.addTask("TaskListener", ID=Notificator.onJournalAddPage)
+                tc_new.addListener(Notificator.onJournalAddPage)
                 tc_new.addScope(self._scopeJournalAppend)
 
-                tc_open.addTask("TaskListener", ID=Notificator.onJournalOpen)
+                tc_open.addListener(Notificator.onJournalOpen)
                 tc_open.addTask("TaskSetParam", ObjectName="Movie2_Env_Llight_loop", Param="Loop", Value=False)
                 tc_open.addTask("TaskMovie2Stop", Movie2Name="Movie2_Env_Llight_loop")
 
@@ -147,13 +145,10 @@ class SystemJournal(System):
         if group.isActive() is False:
             source.addListener(Notificator.onLayerGroupEnable, Filter=lambda name: name == "Open_Journal")
 
-        source.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=True)
-
         source.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=False)
         source.addTask("TaskEnable", ObjectName="Movie2Button_Journal", Value=False)
 
-        source.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Activate", Wait=True)
-        source.addTask("TaskEnable", ObjectName="Movie2_Env_Activate", Value=False)
+        source.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Activate", Wait=True, AutoEnable=True)
 
         source.addTask("TaskEnable", ObjectName="Movie2_Env_Llight_loop", Value=True)
         source.addTask("TaskMovie2Play", Movie2Name="Movie2_Env_Llight_loop", Wait=False, Loop=True)

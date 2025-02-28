@@ -58,10 +58,10 @@ class CruiseActionSpellUse(CruiseAction):
 
         with TaskManager.createTaskChain(Name="CruiseActionSpellUse") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo1)
-            tc.addTask("TaskDelay", Time=0.5 * 1000)  # speed fix
+            tc.addDelay(0.5 * 1000)  # speed fix
             tc.addTask("AliasCruiseControlAction", Position=PositionTo2)
-            tc.addTask("TaskDelay", Time=0.5 * 1000)  # speed fix
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(0.5 * 1000)  # speed fix
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         super(CruiseActionSpellUse, self)._onEnd()

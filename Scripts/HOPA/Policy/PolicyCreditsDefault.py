@@ -24,7 +24,7 @@ class PolicyCreditsDefault(TaskAlias):
         #
         #         tc_Movie.addTask("TaskMovie2Play", GroupName="Credits", Movie2Name="Movie2_Credits", Wait=True)
         #
-        # tc_credits.addTask("TaskListener", ID=Notificator.onCreditsEnd)
+        # tc_credits.addListener(Notificator.onCreditsEnd)
         #
         # tc_credits.addTask("TaskSceneLayerGroupEnable", LayerName="CreditsBack", Value=False)
         # tc_credits.addTask("TaskSceneLayerGroupEnable", LayerName="Credits", Value=False)

@@ -12,7 +12,7 @@ class AliasFittingInventoryRemoveInventoryItem(TaskAlias):
         super(AliasFittingInventoryRemoveInventoryItem, self)._onInitialize()
 
     def _onGenerate(self, source):
-        source.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
+        source.addDisable(self.InventoryItem)
         source.addTask("TaskRemoveArrowAttach")
 
         source.addTask("TaskFittingInventoryRemoveInventoryItem", FittingInventory=self.FittingInventory,

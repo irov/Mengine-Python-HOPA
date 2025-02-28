@@ -429,11 +429,11 @@ class Hand(object):
         methodsQueue = self.VM.getAndDumpSlug()
         scope.addTask("TaskMoviePlay", Movie=mov)
         for method in methodsQueue:
-            scope.addTask("TaskFunction", Fn=method)
+            scope.addFunction(method)
             pass
 
         if partitionInst.isFinal() is True:
-            scope.addTask("TaskScope", Scope=self.moveUp)
+            scope.addScope(self.moveUp)
             pass
         pass
 
@@ -447,15 +447,15 @@ class Hand(object):
         state = self.HM.getCursor()
         upstate = self.VM.isup()
 
-        scope.addTask("TaskEnable", Object=self.terminationMovie)
+        scope.addEnable(self.terminationMovie)
         scope.addTask("TaskMoviePlay", Movie=self.terminationMovie)
-        scope.addTask("TaskEnable", Object=self.terminationMovie, Value=False)
+        scope.addDisable(self.terminationMovie)
 
         if upstate is False:
-            scope.addTask("TaskScope", Scope=self.moveUp)
+            scope.addScope(self.moveUp)
             pass
 
         for step in range(state):
-            scope.addTask("TaskScope", Scope=self.moveLeft)
+            scope.addScope(self.moveLeft)
             pass
         pass

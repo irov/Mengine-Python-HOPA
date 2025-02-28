@@ -66,22 +66,22 @@ class SpinCirclesMastermind(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name=self.EnigmaName) as tc:
-            tc.addTask("TaskSetParam", Object=self.SpinCircles, Param="Play", Value=True)
-            tc.addTask("TaskFunction", Fn=self.dataPreparation)
+            tc.addParam(self.SpinCircles, "Play", True)
+            tc.addFunction(self.dataPreparation)
             with tc.addRepeatTask() as (tc_do, tc_until):
                 with tc_do.addRaceTask(2) as (tc_click, tc_wait):
                     tc_click.addTask("TaskMovieSocketClick", Movie=self.MovieTrigger, SocketName="Enter")
-                    tc_click.addTask("TaskFunction", Fn=self.blockInput, Args=(True,))
-                    tc_click.addTask("TaskFunction", Fn=self.dataPreparation)
+                    tc_click.addFunction(self.blockInput, True)
+                    tc_click.addFunction(self.dataPreparation)
                     tc_click.addTask("TaskMoviePlay", Movie=self.MovieTrigger, Wait=False)
-                    tc_click.addTask("TaskScope", Scope=self.playNumMovies)
+                    tc_click.addScope(self.playNumMovies)
 
-                    tc_wait.addTask("TaskListener", ID=Notificator.onSpin)
-                    tc_wait.addTask("TaskFunction", Fn=self.TriggerSocket.disable)
-                    tc_wait.addTask("TaskListener", ID=Notificator.onSpinMove)
-                    tc_wait.addTask("TaskFunction", Fn=self.TriggerSocket.enable)
+                    tc_wait.addListener(Notificator.onSpin)
+                    tc_wait.addFunction(self.TriggerSocket.disable)
+                    tc_wait.addListener(Notificator.onSpinMove)
+                    tc_wait.addFunction(self.TriggerSocket.enable)
                     pass
-                tc_until.addTask("TaskListener", ID=Notificator.onSpinWin)
+                tc_until.addTaskaddListener(Notificator.onSpinWin)
             pass
 
     def blockInput(self, value):
@@ -97,15 +97,15 @@ class SpinCirclesMastermind(Enigma):
         downMovie = self.downNumCollection[cowsKey]
 
         with scope.addParallelTask(2) as (tc_bulls, tc_cows):
-            tc_bulls.addTask("TaskEnable", Object=upMovie)
+            tc_bulls.addEnable(upMovie)
             tc_bulls.addTask("TaskMoviePlay", Movie=upMovie)
-            tc_bulls.addTask("TaskEnable", Object=upMovie, Value=False)
+            tc_bulls.addDisable(upMovie)
 
-            tc_cows.addTask("TaskEnable", Object=downMovie)
+            tc_cows.addEnable(downMovie)
             tc_cows.addTask("TaskMoviePlay", Movie=downMovie)
-            tc_cows.addTask("TaskEnable", Object=downMovie, Value=False)
-        scope.addTask("TaskFunction", Fn=self.isWin)
-        scope.addTask("TaskFunction", Fn=self.blockInput, Args=(False,))
+            tc_cows.addDisable(downMovie)
+        scope.addFunction(self.isWin)
+        scope.addFunction(self.blockInput, False)
         pass
 
     def isWin(self):

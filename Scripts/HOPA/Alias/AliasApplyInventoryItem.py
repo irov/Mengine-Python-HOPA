@@ -17,7 +17,7 @@ class AliasApplyInventoryItem(MixinSocket, TaskAlias):
 
         if self.pick is True:
             source.addTask("TaskStateMutex", ID="StateAddItem", From=False, To=True)
-            source.addTask("TaskListener", ID=Notificator.onInventoryReturnInventoryItem)
+            source.addListener(Notificator.onInventoryReturnInventoryItem)
             source.addTask("TaskStateChange", ID="StateAddItem", Value=False)
             pass
 

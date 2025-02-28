@@ -16,4 +16,4 @@ class CruiseActionShiftCollect(CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionShiftCollect") as tc:
             tc.addDelay(click_delay)
             tc.addNotify(Notificator.onShiftCollectSkip)
-            tc.addNotify(Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

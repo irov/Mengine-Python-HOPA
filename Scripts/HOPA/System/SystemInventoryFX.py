@@ -101,16 +101,16 @@ class SystemInventoryFX(System):
 
         with TaskManager.createTaskChain(Name="InventoryBlockDown", Group=self.Inventory) as tc:
             if value is True:
-                tc.addTask("TaskEnable", Object=Movie_Block, Value=True)
-                tc.addTask("TaskEnable", Object=Movie_Unblock, Value=False)
+                tc.addEnable(Movie_Block)
+                tc.addDisable(Movie_Unblock)
                 tc.addTask("TaskEnable", ObjectName="Movie_UnblockUp", Value=False)
                 tc.addTask("TaskEnable", ObjectName="Movie_UnblockDown", Value=False)
                 tc.addTask("TaskMovieLastFrame", Movie=Movie_Block, Value=False)
                 tc.addTask("TaskMoviePlay", Movie=Movie_Block)
                 pass
             else:
-                tc.addTask("TaskEnable", Object=Movie_Unblock, Value=True)
-                tc.addTask("TaskEnable", Object=Movie_Block, Value=False)
+                tc.addEnable(Movie_Unblock)
+                tc.addDisable(Movie_Block)
                 tc.addTask("TaskMovieLastFrame", Movie=Movie_Unblock, Value=False)
                 tc.addTask("TaskMoviePlay", Movie=Movie_Unblock)
                 pass
@@ -247,7 +247,7 @@ class SystemInventoryFX(System):
         ######################### new
 
         ######################
-        scope.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_ADDITEM", "INVENTORY_ADDITEM",) + args, )
+        scope.addFunction(self.__setState, "INVENTORY_ADDITEM", "INVENTORY_ADDITEM", *args)
         ######################
 
         return True
@@ -255,7 +255,7 @@ class SystemInventoryFX(System):
 
     def __onInventoryClickRemoveItem(self, scope, *args):
         # print "__onInventoryClickRemoveItem", args
-        scope.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_REMOVEITEM",) + args, )
+        scope.addFunction(self.__setState, "INVENTORY_REMOVEITEM", *args)
 
         return True
         pass
@@ -294,41 +294,41 @@ class SystemInventoryFX(System):
                 tc.addTask("TaskEnable", ObjectName="Movie_Hide", Value=False)
                 tc.addTask("TaskEnable", ObjectName="Movie_Show", Value=False)
                 tc.addTask("TaskEnable", ObjectName="Movie_Slots", Value=True)
-                tc.addTask("TaskFunction", Fn=self.Inventory.updateSlotsMovie, Args=("Movie_Slots", True,))
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive)
-                tc.addTask("TaskFunction", Fn=self.__updateBlockInteractive, Args=(True,))
+                tc.addFunction(self.Inventory.updateSlotsMovie, "Movie_Slots", True)
+                tc.addFunction(self.__updateButtonInteractive)
+                tc.addFunction(self.__updateBlockInteractive, True)
                 if self.blockDown is False and self.hasBlock is True:
                     with tc.addRaceTask(7) as (tc_left, tc_right, tc_item, tc_remove, tc_invItem, tc_down, tc_block):
                         tc_left.addTask("TaskButtonClick", ButtonName="Button_InvLeft", AutoEnable=False)
-                        tc_left.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_LEFT",))
+                        tc_left.addFunction(self.__setState, "INVENTORY_LEFT")
 
                         tc_right.addTask("TaskButtonClick", ButtonName="Button_InvRight", AutoEnable=False)
-                        tc_right.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_RIGHT",))
+                        tc_right.addFunction(self.__setState, "INVENTORY_RIGHT")
 
                         # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                         tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
 
                         tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
 
-                        tc_invItem.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
-                        tc_invItem.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_ARROWITEM",))
+                        tc_invItem.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
+                        tc_invItem.addFunction(self.__setState, "INVENTORY_ARROWITEM")
 
                         tc_down.addTask("TaskSocketLeave", SocketName="Socket_Hide")
-                        tc_down.addTask("TaskFunction", Fn=self.__setState, Args=("Inventory_DelayHide",))
+                        tc_down.addFunction(self.__setState, "Inventory_DelayHide")
 
                         tc_block.addTask("TaskSocketClick", SocketName="Socket_BlockDown", AutoEnable=False)
-                        tc_block.addTask("TaskFunction", Fn=self.__blockDown, Args=(True,))
-                        tc_block.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                        tc_block.addFunction(self.__blockDown, True)
+                        tc_block.addFunction(self.__setState, "INVENTORY_UP")
                         pass
                     pass
 
                 elif self.blockDown is True and self.hasBlock is False:
                     with tc.addRaceTask(5) as (tc_left, tc_right, tc_item, tc_remove, tc_invItem):
                         tc_left.addTask("TaskButtonClick", ButtonName="Button_InvLeft", AutoEnable=False)
-                        tc_left.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_LEFT",))
+                        tc_left.addFunction(self.__setState, "INVENTORY_LEFT")
 
                         tc_right.addTask("TaskButtonClick", ButtonName="Button_InvRight", AutoEnable=False)
-                        tc_right.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_RIGHT",))
+                        tc_right.addFunction(self.__setState, "INVENTORY_RIGHT")
 
                         # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                         tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
@@ -336,29 +336,29 @@ class SystemInventoryFX(System):
 
                         tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
 
-                        tc_invItem.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
-                        tc_invItem.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_ARROWITEM",))
+                        tc_invItem.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
+                        tc_invItem.addFunction(self.__setState, "INVENTORY_ARROWITEM")
                         pass
                     pass
                 else:
                     with tc.addRaceTask(6) as (tc_left, tc_right, tc_item, tc_remove, tc_invItem, tc_block):
                         tc_left.addTask("TaskButtonClick", ButtonName="Button_InvLeft", AutoEnable=False)
-                        tc_left.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_LEFT",))
+                        tc_left.addFunction(self.__setState, "INVENTORY_LEFT")
 
                         tc_right.addTask("TaskButtonClick", ButtonName="Button_InvRight", AutoEnable=False)
-                        tc_right.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_RIGHT",))
+                        tc_right.addFunction(self.__setState, "INVENTORY_RIGHT")
 
                         # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                         tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
 
                         tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
 
-                        tc_invItem.addTask("TaskListener", ID=Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
-                        tc_invItem.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_ARROWITEM",))
+                        tc_invItem.addListener(Notificator.onInventoryPickInventoryItem, Filter=__thisInventory)
+                        tc_invItem.addFunction(self.__setState, "INVENTORY_ARROWITEM")
 
                         tc_block.addTask("TaskSocketClick", SocketName="Socket_BlockDown", AutoEnable=False)
-                        tc_block.addTask("TaskFunction", Fn=self.__blockDown, Args=(False,))
-                        tc_block.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                        tc_block.addFunction(self.__blockDown, False)
+                        tc_block.addFunction(self.__setState, "INVENTORY_UP")
                         pass
                     pass
                 pass
@@ -371,50 +371,50 @@ class SystemInventoryFX(System):
             with TaskManager.createTaskChain(Name="Inventory_DelayHide", Group=self.Inventory, Cb=self.__changeState) as tc:
                 with tc.addRaceTask(5) as (tc_up, tc_item, tc_remove, tc_delay, tc_leave):
                     tc_up.addTask("TaskSocketEnter", SocketName="Socket_Hide")
-                    tc_up.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                    tc_up.addFunction(self.__setState, "INVENTORY_UP")
 
                     # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                     tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
 
                     tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
 
-                    tc_delay.addTask("TaskDelay", Time=InventoryDelayHide, Skiped=False)
-                    tc_delay.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_HIDE",))
+                    tc_delay.addDelay(InventoryDelayHide, Skiped=False)
+                    tc_delay.addFunction(self.__setState, "INVENTORY_HIDE")
 
-                    tc_leave.addTask("TaskListener", ID=Notificator.onInventoryDeactivate)
-                    tc_leave.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                    tc_leave.addListener(Notificator.onInventoryDeactivate)
+                    tc_leave.addFunction(self.__setState, "INVENTORY_UP")
                     pass
                 pass
             return False
             pass
         elif value == "INVENTORY_HIDE":
             with TaskManager.createTaskChain(Name="INVENTORY_HIDE", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskFunction", Fn=self.__moveBlockDown)
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive, Args=(False,))
-                tc.addTask("TaskFunction", Fn=self.__updateBlockInteractive, Args=(False,))
-                tc.addTask("TaskFunction", Fn=self.__updateBlockHide, Args=(False,))
+                tc.addFunction(self.__moveBlockDown)
+                tc.addFunction(self.__updateButtonInteractive, False)
+                tc.addFunction(self.__updateBlockInteractive, False)
+                tc.addFunction(self.__updateBlockHide, False)
                 tc.addTask("TaskEnable", ObjectName="Movie_Hide", Value=True)
-                tc.addTask("TaskFunction", Fn=self.Inventory.updateSlotsMovie, Args=("Movie_Hide", False,))
+                tc.addFunction(self.Inventory.updateSlotsMovie, "Movie_Hide", False)
                 tc.addTask("TaskEnable", ObjectName="Movie_Slots", Value=False)
-                tc.addTask("TaskNotify", ID=Notificator.onInventoryHide)
+                tc.addNotify(Notificator.onInventoryHide)
                 tc.addTask("TaskMoviePlay", MovieName="Movie_Hide", Wait=False)
 
                 with tc.addRaceTask(3) as (tc_item, tc_3, tc_remove):
                     # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                     tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
                     tc_item.addTask("TaskEnable", ObjectName="Movie_Hide", Value=False)
-                    tc_item.addTask("TaskNotify", ID=Notificator.onInventoryUp)
-                    tc_item.addTask("TaskFunction", Fn=self.__blockUp)
+                    tc_item.addNotify(Notificator.onInventoryUp)
+                    tc_item.addFunction(self.__blockUp)
                     tc_item.addTask("TaskEnable", ObjectName="Movie_Slots", Value=True)
-                    tc_item.addTask("TaskFunction", Fn=self.Inventory.updateSlotsMovie, Args=("Movie_Slots", True,))
+                    tc_item.addFunction(self.Inventory.updateSlotsMovie, "Movie_Slots", True)
                     tc_item.addTask("TaskEnable", ObjectName="Movie_Show", Value=False)
 
                     tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
                     tc_remove.addTask("TaskEnable", ObjectName="Movie_Hide", Value=False)
-                    tc_remove.addTask("TaskNotify", ID=Notificator.onInventoryUp)
-                    tc_remove.addTask("TaskFunction", Fn=self.__blockUp)
+                    tc_remove.addNotify(Notificator.onInventoryUp)
+                    tc_remove.addFunction(self.__blockUp)
                     tc_remove.addTask("TaskEnable", ObjectName="Movie_Slots", Value=True)
-                    tc_remove.addTask("TaskFunction", Fn=self.Inventory.updateSlotsMovie, Args=("Movie_Slots", True,))
+                    tc_remove.addFunction(self.Inventory.updateSlotsMovie, "Movie_Slots", True)
                     tc_remove.addTask("TaskEnable", ObjectName="Movie_Show", Value=False)
 
                     tc_3.addTask("TaskMovieEnd", MovieName="Movie_Hide")
@@ -425,21 +425,21 @@ class SystemInventoryFX(System):
                     tc_3.addTask("TaskSocketEnter", SocketName="Socket_Show")
                     tc_3.addTask("TaskMovieStop", MovieName="Movie_Hide")
                     tc_3.addTask("TaskEnable", ObjectName="Movie_Hide", Value=False)
-                    tc_3.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_SHOW",))
+                    tc_3.addFunction(self.__setState, "INVENTORY_SHOW")
                     pass
                 pass
             pass
         elif value == "INVENTORY_SHOW":
             with TaskManager.createTaskChain(Name="INVENTORY_SHOW", Group=self.Inventory, Cb=self.__changeState) as tc:
                 with tc.addRaceTask(3) as (tc_1, tc_item, tc_remove):
-                    tc_1.addTask("TaskFunction", Fn=self.__moveBlockUp)
+                    tc_1.addFunction(self.__moveBlockUp)
                     tc_1.addTask("TaskEnable", ObjectName="Movie_Show", Value=True)
-                    tc_1.addTask("TaskFunction", Fn=self.Inventory.updateSlotsMovie, Args=("Movie_Show", False,))
-                    tc_1.addTask("TaskFunction", Fn=self.__updateBlockHide, Args=(True,))
-                    tc_1.addTask("TaskNotify", ID=Notificator.onInventoryShow)
+                    tc_1.addFunction(self.Inventory.updateSlotsMovie, "Movie_Show", False)
+                    tc_1.addFunction(self.__updateBlockHide, True)
+                    tc_1.addNotify(Notificator.onInventoryShow)
                     tc_1.addTask("TaskMoviePlay", MovieName="Movie_Show")
                     tc_1.addTask("TaskEnable", ObjectName="Movie_Show", Value=False)
-                    tc_1.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                    tc_1.addFunction(self.__setState, "INVENTORY_UP")
 
                     # tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                     tc_item.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
@@ -453,30 +453,30 @@ class SystemInventoryFX(System):
 
         elif value == "INVENTORY_LEFT":
             with TaskManager.createTaskChain(Name="INVENTORY_LEFT", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive, Args=(False,))
+                tc.addFunction(self.__updateButtonInteractive, False)
                 tc.addTask("AliasInventorySlotsMoveRight", Inventory=self.Inventory)
 
-                tc.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                tc.addFunction(self.__setState, "INVENTORY_UP")
                 pass
 
             return False
             pass
         elif value == "INVENTORY_RIGHT":
             with TaskManager.createTaskChain(Name="INVENTORY_RIGHT", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive, Args=(False,))
+                tc.addFunction(self.__updateButtonInteractive, False)
                 tc.addTask("AliasInventorySlotsMoveLeft", Inventory=self.Inventory)
 
-                tc.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                tc.addFunction(self.__setState, "INVENTORY_UP")
                 pass
 
             return False
             pass
         elif value == "INVENTORY_ADDITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_ADDITEM", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive, Args=(False,))
+                tc.addFunction(self.__updateButtonInteractive, False)
                 with tc.addRaceTask(3) as (tc_add, tc_new, tc_remove):
-                    tc_add.addTask("TaskListener", ID=Notificator.onInventoryFXActionEnd)
-                    tc_add.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                    tc_add.addListener(Notificator.onInventoryFXActionEnd)
+                    tc_add.addFunction(self.__setState, "INVENTORY_UP")
 
                     # tc_new.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory, Args = ("INVENTORY_ADDITEM", ))
                     tc_new.addScopeListener(Notificator.onItemClickToInventory, self.__onItemClickToInventory)
@@ -486,11 +486,11 @@ class SystemInventoryFX(System):
                 pass
         elif value == "INVENTORY_ARROWITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_ARROWITEM", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskFunction", Fn=self.__updateButtonInteractive, Args=(False,))
+                tc.addFunction(self.__updateButtonInteractive, False)
 
                 with tc.addRaceTask(2) as (tc_return, tc_remove):
-                    tc_return.addTask("TaskListener", ID=Notificator.onInventoryClickReturnItem)
-                    tc_return.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_RETURNITEM",))
+                    tc_return.addListener(Notificator.onInventoryClickReturnItem)
+                    tc_return.addFunction(self.__setState, "INVENTORY_RETURNITEM")
 
                     tc_remove.addScopeListener(Notificator.onInventoryClickRemoveItem, self.__onInventoryClickRemoveItem)
                     pass
@@ -499,18 +499,18 @@ class SystemInventoryFX(System):
             pass
         elif value == "INVENTORY_RETURNITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_RETURNITEM", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskListener", ID=Notificator.onInventoryReturnInventoryItem)
+                tc.addListener(Notificator.onInventoryReturnInventoryItem)
 
-                tc.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                tc.addFunction(self.__setState, "INVENTORY_UP")
                 pass
 
             return False
             pass
         elif value == "INVENTORY_REMOVEITEM":
             with TaskManager.createTaskChain(Name="INVENTORY_REMOVEITEM", Group=self.Inventory, Cb=self.__changeState) as tc:
-                tc.addTask("TaskListener", ID=Notificator.onInventoryRemoveInventoryItem)
+                tc.addListener(Notificator.onInventoryRemoveInventoryItem)
 
-                tc.addTask("TaskFunction", Fn=self.__setState, Args=("INVENTORY_UP",))
+                tc.addFunction(self.__setState, "INVENTORY_UP")
                 pass
             pass
 

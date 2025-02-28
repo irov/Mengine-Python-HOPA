@@ -86,7 +86,7 @@ class AliasHOGRollingItemFoundEffect(TaskAlias):
 
             node.addChildFront(effectEntityNode)
 
-            source.addTask("TaskEnable", Object=effect, Value=True)
+            source.addEnable(effect)
             source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
             pass
 
@@ -121,4 +121,4 @@ class AliasHOGRollingItemFoundEffect(TaskAlias):
             if slot and slot.movie:
                 scope.addTask("TaskMoviePlay", Movie=slot.movie, Wait=True)
 
-        source.addTask("TaskScope", Scope=__playMovie)
+        source.addScope(__playMovie)

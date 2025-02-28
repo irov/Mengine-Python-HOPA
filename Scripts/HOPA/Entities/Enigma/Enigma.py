@@ -132,7 +132,7 @@ class Enigma(BaseEntity):
                 elif movie_type == "ObjectMovie":
                     guard_source.addTask("TaskMoviePlay", Movie=movie, Wait=True)
 
-                guard_source.addTask("TaskFunction", Fn=self.__onEnigmaComplete)
+                guard_source.addFunction(self.__onEnigmaComplete)
 
     def __onEnigmaComplete(self):
         self.object.setSkiping(False)

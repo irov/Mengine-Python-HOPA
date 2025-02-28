@@ -56,7 +56,7 @@ class AliasInventoryAddInventoryItemFromPoint(TaskAlias):
         if hasInventoryItem is False:
             source.addTask("TaskInventoryAddItem", Inventory=self.Inventory, ItemName=self.ItemName)
             source.addTask("TaskInventorySlotAddInventoryItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
-            source.addTask("TaskEnable", Object=InventoryItem, Value=False)
+            source.addDisable(InventoryItem)
         # - old functionality ------------------------------
         # - moved after EffectInventoryAddInventoryItem
         # - because before Effect we do not have to update
@@ -89,12 +89,12 @@ class AliasInventoryAddInventoryItemFromPoint(TaskAlias):
         # --------------------------------------------------
 
         if hasInventoryItem is False:
-            source.addTask("TaskEnable", Object=InventoryItem, Value=True)
+            source.addEnable(InventoryItem)
             pass
 
         if Mengine.hasResource("ItemToSlot") is True:
             source.addTask("TaskSoundEffect", SoundName="ItemToSlot", Wait=False)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryAddItem, Args=(self.Inventory, InventoryItem))
+        source.addNotify(Notificator.onInventoryAddItem, self.Inventory, InventoryItem)
         source.addFunction(self.Inventory.UnBlockButtons)

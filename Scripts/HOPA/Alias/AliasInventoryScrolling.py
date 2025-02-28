@@ -21,4 +21,4 @@ class AliasInventoryScrolling(TaskAlias):
 
             return True
 
-        source.addTask("TaskListener", ID=Notificator.onInventoryReady, Filter=__filterInvItem)
+        source.addListener(Notificator.onInventoryReady, Filter=__filterInvItem)

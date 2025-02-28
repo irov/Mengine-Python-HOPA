@@ -37,7 +37,7 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Scrolling") as tc:
             PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
             tc.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
-            tc.addTask("TaskFunction", Fn=self.showCruise)
+            tc.addFunction(self.showCruise)
             pass
         pass
 
@@ -72,7 +72,7 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
         with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Cruise") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
             tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def _onEnd(self):
         super(CruiseActionGiveItemOr, self)._onEnd()

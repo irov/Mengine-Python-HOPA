@@ -172,11 +172,11 @@ class GiftExchange(BaseEntity):
     def __scopeInputHandler(self, source):
         with source.addRaceTask(2) as (default, hold):
             with default.addParallelTask(2) as (edit, empty):
-                edit.addTask("TaskListener", ID=Notificator.EditBoxChange)
+                edit.addListener(Notificator.EditBoxChange)
                 edit.addScope(self.__scopeOnEditBoxChange)
                 edit.addSemaphore(self.cancelLongTouchSemaphore, To=True)
 
-                empty.addTask("TaskListener", ID=Notificator.EditBoxEmpty)
+                empty.addListener(Notificator.EditBoxEmpty)
                 empty.addScope(self.__scopeOnEditBoxEmpty)
                 empty.addSemaphore(self.cancelLongTouchSemaphore, To=True)
 
@@ -215,7 +215,7 @@ class GiftExchange(BaseEntity):
 
         with source.addRaceTask(2) as (main, interrupt):
             with main.addRepeatTask() as (loop, until):
-                loop.addTask("TaskListener", ID=Notificator.EditBoxFocus)
+                loop.addListener(Notificator.EditBoxFocus)
                 loop.addDelay(self.LONG_TOUCH_DELAY)
                 loop.addFunction(_Log, "Long touch")
                 loop.addFunction(self.__paste)
@@ -227,7 +227,7 @@ class GiftExchange(BaseEntity):
             with interrupt.addRaceTask(2) as (interrupt_1, interrupt_2):
                 interrupt_1.addSemaphore(self.cancelLongTouchSemaphore, From=True, To=False)
                 interrupt_2.addSemaphore(pastedSemaphore, From=True, To=False)
-                # interrupt_2.addTask("TaskListener", ID=Notificator.EditBoxUnhold)
+                # interrupt_2.addListener(Notificator.EditBoxUnhold)
 
             interrupt.addSemaphore(untilSemaphore, To=True)
             interrupt.addSemaphore(self.cancelLongTouchSemaphore, To=False)

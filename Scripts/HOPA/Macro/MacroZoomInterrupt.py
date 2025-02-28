@@ -22,7 +22,7 @@ class MacroZoomInterrupt(MacroCommand):
             return
 
         with source.addIfTask(self._checkIsSafe) as (tc_safe, tc_unsafe):
-            tc_safe.addTask("TaskEnable", Object=ZoomObject, Value=False)
+            tc_safe.addDisable(ZoomObject)
             tc_safe.addFunction(ZoomObject.setEnd, True)
             tc_unsafe.addPrint("WARNING: MacroZoomInterrupt failed - fix scenario and try again - zoom cannot be ended")
 

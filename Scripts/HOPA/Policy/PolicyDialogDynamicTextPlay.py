@@ -21,7 +21,7 @@ class PolicyDialogDynamicTextPlay(TaskAlias):
 
     def _onGenerate(self, source):
         self.ObjectText.setParam("TextID", None)
-        source.addTask("TaskFunction", Fn=self.__AddToLayer, Args=(self.ObjectText, "Dialog",))
+        source.addFunction(self.__AddToLayer, self.ObjectText, "Dialog")
 
         source.addTask("AliasTextPlay", ObjectText=self.ObjectText, TextID=self.TextID,
                        TextDelay=self.TextDelay, AudioDuration=self.AudioDuration)

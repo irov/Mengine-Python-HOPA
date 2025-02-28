@@ -16,7 +16,7 @@ class MacroSpellPrepared(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onSpellPrepared, Args=(self.SpellID,))
+        source.addNotify(Notificator.onSpellPrepared, self.SpellID)
         pass
 
     pass

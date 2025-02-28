@@ -195,7 +195,7 @@ class Fan(Enigma):
                 for tchog, ItemName in zip(tcho, self.toFindItems):
                     tchog.addTask("AliasFanFindItem", Fan=self.object, SceneName=SceneName, Group=Group, ItemName=ItemName)
 
-            tc.addTask("TaskNotify", ID=Notificator.onFanComplete, Args=(self.object,))
+            tc.addNotify(Notificator.onFanComplete, self.object)
 
     def _stopEnigma(self):
         self.object.setInteractive(False)
@@ -266,7 +266,7 @@ class Fan(Enigma):
 
         with TaskManager.createTaskChain(Name="OpenFan", Cb=Functor(self.__setOpened, Fan.STATE_OPEN)) as tc:
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="Fan", Value=True)
-            tc.addTask("TaskFunction", Fn=self._AttendMovieSlots, Args=("Movie_Open",))
+            tc.addFunction(self._AttendMovieSlots, "Movie_Open")
             tc.addTask("TaskMoviePlay", Movie=Movie_Open, Wait=False, LastFrame=None, Reverse=False)
             if self.HoldOpen:
                 tc.addTask("TaskMovieLastFrame", Movie=Movie_Open, Value=True)
@@ -290,9 +290,9 @@ class Fan(Enigma):
         with TaskManager.createTaskChain(Name="CloseFan", Cb=Functor(self.__setOpened, Fan.STATE_CLOSE)) as tc:
             tc.addTask("TaskMoviePlay", Movie=Movie_Close, Wait=False, LastFrame=None, Reverse=True)
             tc.addTask("TaskMovieEnd", Movie=Movie_Close)
-            tc.addTask("TaskFunction", Fn=self.__cleanUp)
+            tc.addFunction(self.__cleanUp)
 
-            tc.addTask("TaskNotify", ID=Notificator.onFanCloseDone)
+            tc.addNotify(Notificator.onFanCloseDone)
             pass
 
         self._disable_sockets()

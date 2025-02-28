@@ -76,9 +76,9 @@ class BoneItem(object):
     def play(self, obj, note=None):
         with TaskManager.createTaskChain() as tc:
             tc.addTask("TaskMoviePlay", Movie=obj)
-            tc.addTask("TaskEnable", Object=obj, Value=False)
+            tc.addDisable(obj)
             if note:
-                tc.addTask("TaskNotify", ID=Notificator.onBoneUse, Args=(note,))
+                tc.addNotify(Notificator.onBoneUse, note)
             pass
         pass
 

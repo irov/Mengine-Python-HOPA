@@ -18,7 +18,7 @@ class ScenarioElement(object):
             if ScenarioRunner.isMacroEnd(self.Index) is True:
                 return
 
-            source.addTask("TaskFunction", Fn=ScenarioRunner.runMacro, Args=(self.Index,))
+            source.addFunction(ScenarioRunner.runMacro, self.Index)
 
         # source.addTask("TaskPrint", Value = "%s Macro run %s:%s"%(ScenarioRunner.getGroupName(), self.Index, self.CommandType ))
 
@@ -230,8 +230,7 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
 
                     return True
 
-                tci.addTask("TaskListener", ID=Notificator.onParagraphRun, Check=__checkParagraph,
-                            Filter=__filterParagraph, Args=(paragraphID,))
+                tci.addListener(Notificator.onParagraphRun, Check=__checkParagraph, Filter=__filterParagraph, Args=(paragraphID,))
 
 
 def generatorSceneInitial(source, ScenarioRunner):

@@ -25,6 +25,6 @@ class MacroFindMana(MacroCommand):
 
         Quest = self.addQuest(source, "FindMana", SceneName=self.SceneName, GroupName=self.GroupName, Object=self.Movie)
         with Quest as tc_quest:
-            tc_quest.addTask("TaskNotify", ID=Notificator.onManaSearchBegin, Args=(self.Movie, self.Value))
-            tc_quest.addTask("TaskListener", ID=Notificator.onManaFind, Filter=__filter)
+            tc_quest.addNotify(Notificator.onManaSearchBegin, self.Movie, self.Value)
+            tc_quest.addListener(Notificator.onManaFind, Filter=__filter)
 

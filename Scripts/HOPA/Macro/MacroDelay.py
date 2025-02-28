@@ -7,7 +7,7 @@ class MacroDelay(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskDelay", Time=self.Time)
+        source.addDelay(self.Time)
         pass
 
     pass

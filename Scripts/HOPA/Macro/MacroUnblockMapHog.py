@@ -7,7 +7,7 @@ class MacroUnblockMapHog(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMapHogUnblock, Args=(self.HogID,))
+        source.addNotify(Notificator.onMapHogUnblock, self.HogID)
         pass
 
     pass

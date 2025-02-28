@@ -48,7 +48,7 @@ class CloseZoom(BaseEntity):
 
         with TaskManager.createTaskChain(Name="ClickButton_CloseZoom", Group=self.object, Repeat=True) as tc:
             tc.addTask("TaskButtonClick", ButtonName="Button_CloseZoom")
-            tc.addTask("TaskFunction", Fn=self._closeZoom, Args=(zoomGroupName,))
+            tc.addFunction(self._closeZoom, zoomGroupName)
 
         return False
 

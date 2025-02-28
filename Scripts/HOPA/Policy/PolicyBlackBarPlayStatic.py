@@ -21,7 +21,7 @@ class PolicyBlackBarPlayStatic(TaskAlias):
         source.addTask("TaskEnable", ObjectName="Text_Message")
         with source.addIfTask(lambda: self.Static is True) as (true, false):
             true.addListener(Notificator.onZoomClose)
-            false.addTask("TaskDelay", Time=self.Time)
+            false.addDelay(self.Time)
 
         if self.Group.hasObject("Sprite_BlackBar") is True:
             source.addTask("AliasObjectAlphaTo", ObjectName="Sprite_BlackBar", Time=0.1 * 1000, To=0.0)  # speed fix

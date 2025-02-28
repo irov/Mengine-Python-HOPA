@@ -57,7 +57,7 @@ class StrategyGuideMenu(BaseEntity):
         guideController = DemonManager.getDemon("StrategyGuideController")
         with TaskManager.createTaskChain() as tc:
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="StrategyGuideMenu", Value=False)
-            tc.addTask("TaskSetParam", Object=guideController, Param="CurrentPage", Value=pageId)
+            tc.addParam(guideController, "CurrentPage", pageId)
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="StrategyGuidePages", Value=True)
             tc.addTask("TaskSceneLayerGroupEnable", LayerName="StrategyGuideZoom", Value=True)
             pass

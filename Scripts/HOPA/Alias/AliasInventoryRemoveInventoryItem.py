@@ -47,10 +47,9 @@ class AliasInventoryRemoveInventoryItem(TaskAlias):
             pass
 
         source.addTask("TaskObjectReturn", Object=self.InventoryItem)
-        source.addTask("TaskEnable", Object=self.InventoryItem, Value=False)
+        source.addDisable(self.InventoryItem)
 
         source.addTask("TaskInventorySlotsShowInventoryItem", Inventory=self.Inventory,
                        From=InventoryItemRemoveIndex - RemoveSlotIndex)
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryRemoveInventoryItem,
-                       Args=(self.Inventory, self.InventoryItem))
+        source.addNotify(Notificator.onInventoryRemoveInventoryItem, self.Inventory, self.InventoryItem)

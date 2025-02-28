@@ -138,27 +138,27 @@ class Reagents(BaseEntity):
                     item = self.reagents[openReagentName]
                     with tc_item.addRepeatTask() as (tc_do, tc_until):
                         tc_do.addTask("AliasItemAttach", Item=item, MovieAttach=False, Origin=False)
-                        tc_do.addTask("TaskNotify", ID=Notificator.onAttacheagent)
-                        tc_do.addTask("TaskFunction", Fn=self._setButtonsInteraction, Args=(0,))
+                        tc_do.addNotify(Notificator.onAttacheagent)
+                        tc_do.addFunction(self._setButtonsInteraction, 0)
                         tc_do.addTask("TaskItemInvalidUse", Item=item)
                         tc_do.addTask("AliasRemoveItemAttach", Item=item)
                         tc_do.addTask("TaskObjectReturn", Object=item)
-                        tc_do.addTask("TaskEnable", Object=item, Value=True)
+                        tc_do.addEnable(item)
 
                         def __restore(obj):
                             obj.onEntityRestore()
                             pass
 
-                        tc_do.addTask("TaskFunction", Fn=__restore, Args=(item,))
-                        tc_do.addTask("TaskFunction", Fn=self._setButtonsInteraction, Args=(1,))
+                        tc_do.addFunction(__restore, item)
+                        tc_do.addFunction(self._setButtonsInteraction, 1)
 
                         tc_until.addTask("TaskSocketUseItem", Socket=socket, Item=item, Taken=False)
-                        tc_until.addTask("TaskFunction", Fn=self._setCurrentItem, Args=(item, openReagentName))
+                        tc_until.addFunction(self._setCurrentItem, item, openReagentName)
                         pass
                     pass
                 pass
-            tc.addTask("TaskScope", Scope=self._addReagent)
-            tc.addTask("TaskFunction", Fn=self._setButtonsInteraction, Args=(1,))
+            tc.addScope(self._addReagent)
+            tc.addFunction(self._setButtonsInteraction, 1)
             pass
         pass
 
@@ -186,8 +186,8 @@ class Reagents(BaseEntity):
 
         scope.addTask("TaskRemoveArrowAttach")
         scope.addTask("TaskFanItemInNone", FanItem=itemObject)
-        scope.addTask("TaskScope", Scope=self._reatachItem, Args=(slotAdd, itemObject))
-        scope.addTask("TaskNotify", ID=Notificator.onAddReagent, Args=(self.currentReagent,))
+        scope.addScope(self._reatachItem, slotAdd, itemObject)
+        scope.addNotify(Notificator.onAddReagent, self.currentReagent)
         pass
 
     def _finishAction(self, scope):
@@ -237,30 +237,30 @@ class Reagents(BaseEntity):
         scope.addTask("TaskNodeRemoveFromParent", Node=itemEntity)
         scope.addTask("TaskObjectReturn", Object=itemObject)
         scope.addTask("TaskObjectSetPosition", Object=itemObject, Value=position)
-        scope.addTask("TaskEnable", Object=itemObject, Value=True)
+        scope.addEnable(itemObject)
 
         def __restore(obj):
             obj.onEntityRestore()
             pass
 
-        scope.addTask("TaskFunction", Fn=__restore, Args=(itemObject,))
+        scope.addFunction(__restore, itemObject)
         pass
 
     def _runButtonsChain(self):
         with TaskManager.createTaskChain(Name="ReagentButtons", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(4) as (tc_refresh, tc_colaps, tc_activated, tc_listener):
                 tc_refresh.addTask("TaskButtonClick", ButtonName="Button_Refresh", AutoEnable=False)
-                tc_colaps.addTask("TaskNotify", ID=Notificator.onCheckReagentReaction, Args=(self, False,))
+                tc_colaps.addNotify(Notificator.onCheckReagentReaction, self, False)
 
                 tc_colaps.addTask("TaskButtonClick", Button=self.buttonColaps, AutoEnable=False)
-                tc_colaps.addTask("TaskNotify", ID=Notificator.onCheckReagentReaction, Args=(self,))
+                tc_colaps.addNotify(Notificator.onCheckReagentReaction, self)
 
                 tc_activated.addTask("TaskButtonClick", Button=self.buttonColapsActivated, AutoEnable=False)
-                tc_activated.addTask("TaskNotify", ID=Notificator.onCheckReagentReaction, Args=(self,))
+                tc_activated.addNotify(Notificator.onCheckReagentReaction, self)
 
-                tc_listener.addTask("TaskListener", ID=Notificator.onReagentsCleanData)
+                tc_listener.addListener(Notificator.onReagentsCleanData)
                 pass
-            tc.addTask("TaskFunction", Fn=self._cleanData)
+            tc.addFunction(self._cleanData)
             pass
         pass
 

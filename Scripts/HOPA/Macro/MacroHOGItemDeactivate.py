@@ -10,7 +10,7 @@ class MacroHOGItemDeactivate(MacroCommand):
 
     def _onGenerate(self, source):
         hogItemData = HOGManager.getHOGItem(self.HOGName, self.HOGItemName)
-        source.addTask("TaskFunction", Fn=hogItemData.setActivate, Args=(False,))
+        source.addFunction(hogItemData.setActivate, False)
         pass
 
     pass

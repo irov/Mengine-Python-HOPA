@@ -42,7 +42,7 @@ class ZumaTurret(object):
         pointTo, timeTo = findSolution(ZumaTurret.ViewPoint, arrowPosition)
         with TaskManager.createTaskChain() as tc:
             tc.addTask("AliasObjectMoveTo", Object=self.__generateShoot(), To=pointTo, Time=timeTo)
-            tc.addTask("TaskDelay", Time=ZumaTurret.BlockShoot)
+            tc.addDelay(ZumaTurret.BlockShoot)
         unblock(True)
         return True
         pass

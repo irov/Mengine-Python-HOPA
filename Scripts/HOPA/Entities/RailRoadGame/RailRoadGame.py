@@ -136,20 +136,20 @@ class RailRoadGame(Enigma):
 
             with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
                 tc.addTask("TaskMovieSocketEnter", SocketName=sockeName, Movie=self.Game.Movie_Points, Filter=fil)
-                tc.addTask("TaskFunction", Fn=und)
+                tc.addFunction(und)
                 with tc.addRepeatTask() as (tc_do, tc_until):
                     tc_do.addTask("AliasMultyplMovePlay", Movies=movv)
                     with tc_until.addRaceTask(2) as (tc_until_1, tc_until_2):
                         tc_until_1.addTask("TaskMovieSocketClick", SocketName=sockeName,
                                            Movie=self.Game.Movie_Points, isDown=True)
-                        tc_until_1.addTask("TaskFunction", Fn=Click)
+                        tc_until_1.addFunction(Click)
 
                         tc_until_2.addTask("TaskMovieSocketLeave", SocketName=sockeName, Movie=self.Game.Movie_Points)
                         pass
                     pass
-                tc.addTask("TaskFunction", Fn=undLeav)
+                tc.addFunction(undLeav)
                 tc.addTask("AliasMultyplMovePlay", Movies=movvRotate)
-                tc.addTask("TaskFunction", Fn=RotateEnd)
+                tc.addFunction(RotateEnd)
                 pass
             pass
 
@@ -286,15 +286,15 @@ class RailRoadGame(Enigma):
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketEnter", SocketName=sockeName, Movie=self.Movie_Points)
-            tc.addTask("TaskFunction", Fn=und)
+            tc.addFunction(und)
             with tc.addRepeatTask() as (tc_do, tc_until):
                 tc_do.addTask("AliasMultyplMovePlay", Movies=movv)
                 with tc_until.addRaceTask(2) as (tc_until_1, tc_until_2):
                     tc_until_1.addTask("TaskMovieSocketClick", SocketName=sockeName, Movie=self.Movie_Points, isDown=True)
-                    tc_until_1.addTask("TaskNotify", ID=Notificator.onRailRoadGameMove)
+                    tc_until_1.addNotify(Notificator.onRailRoadGameMove)
 
                     tc_until_2.addTask("TaskMovieSocketLeave", SocketName=sockeName, Movie=self.Movie_Points)
-                    tc_until_2.addTask("TaskFunction", Fn=undLeav)
+                    tc_until_2.addFunction(undLeav)
                     pass
                 pass
             pass
@@ -392,12 +392,12 @@ class RailRoadGame(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name=name, Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onRailRoadGameMove)
-            tc.addTask("TaskFunction", Fn=DoPath)
+            tc.addListener(Notificator.onRailRoadGameMove)
+            tc.addFunction(DoPath)
             tc.addTask("AliasMultyplMovePlay", Movies=movv)
-            tc.addTask("TaskFunction", Fn=EndMove)
+            tc.addFunction(EndMove)
             tc.addTask("AliasMultyplMovePlay", Movies=mov2)
-            tc.addTask("TaskFunction", Fn=EndMove2)
+            tc.addFunction(EndMove2)
             pass
         pass
 

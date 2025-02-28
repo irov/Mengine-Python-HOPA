@@ -416,7 +416,7 @@ class HOGInventoryFitting(InventoryBase):
 
     def __InitReturnAlias(self):
         with TaskManager.createTaskChain(Name="HOGFittingReturnAlias", Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onHOGFittinItemReturn)
+            tc.addListener(Notificator.onHOGFittinItemReturn)
             tc.addFunction(self.__currentItemZoomHide)
             tc.addTask("AliasHOGFittingReturnItemToSlot", Inventory=self.object)
             pass

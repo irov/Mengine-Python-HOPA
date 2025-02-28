@@ -266,9 +266,7 @@ class Difficulty2(BaseEntity):
 
             with GuardBlockInput(source) as guard_source:
                 with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
-                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)
 
     def setBottomButtons(self, ok2Exists):
         if not ok2Exists:
@@ -350,7 +348,7 @@ class Difficulty2(BaseEntity):
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=CheckBox, Value=True)
 
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)
-            tc.addTask("TaskNotify", ID=Notificator.onSelectedDifficulty)
+            tc.addNotify(Notificator.onSelectedDifficulty)
             tc.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=False)
 
     def cancelScope(self, source):
@@ -361,7 +359,7 @@ class Difficulty2(BaseEntity):
 
     def okScope(self, source, okButtonName):
         source.addTask('TaskMovie2ButtonClick', GroupName='Difficulty', Movie2ButtonName=okButtonName)
-        source.addTask("TaskFunction", Fn=self.__handleMengineSettings)
+        source.addFunction(self.__handleMengineSettings)
 
     def _onDeactivate(self):
         super(Difficulty2, self)._onDeactivate()

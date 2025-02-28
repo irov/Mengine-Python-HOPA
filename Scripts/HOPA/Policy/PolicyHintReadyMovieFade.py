@@ -22,12 +22,12 @@ class PolicyHintReadyMovieFade(TaskAlias):
         MovieReady = MovieGroup.getObject("Movie2_Ready")
         Movie_Reload = MovieGroup.getObject("Movie2_Reload")
 
-        source.addTask("TaskEnable", Object=Movie_Reload, Value=False)
-        source.addTask("TaskEnable", Object=MovieReady)
+        source.addDisable(Movie_Reload)
+        source.addEnable(MovieReady)
         with source.addParallelTask(2) as (tc_Play, tc_Effect):
             if MovieGroup.hasObject("Movie2_Ready_Effect"):
                 MovieReady_Effect = MovieGroup.getObject("Movie2_Ready_Effect")
-                tc_Effect.addTask("TaskEnable", Object=MovieReady_Effect)
+                tc_Effect.addEnable(MovieReady_Effect)
 
                 with tc_Effect.addFork() as source_fork:
                     with source_fork.addParallelTask(2) as (tc_Movie, Tc_Alpha):

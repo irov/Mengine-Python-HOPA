@@ -105,12 +105,12 @@ class StatesControl:
                 self.wrong_subject.setBehavior(self.wrong_behavior)
                 self.wrong_subject.hideStates()
                 with TaskManager.createTaskChain() as tc:
-                    tc.addTask("TaskEnable", Object=self.wrong_behavior, Value=True)
+                    tc.addEnable(self.wrong_behavior)
                     tc.addTask("TaskMoviePlay", Movie=self.wrong_behavior, Wait=True)
-                    tc.addTask("TaskEnable", Object=self.wrong_behavior, Value=False)
-                    tc.addTask("TaskFunction", Fn=self.wrong_subject.setIdlle)
-                    tc.addTask("TaskFunction", Fn=cb)
-                    tc.addTask("TaskFunction", Fn=StatesControl.isComplete)
+                    tc.addDisable(self.wrong_behavior)
+                    tc.addFunction(self.wrong_subject.setIdlle)
+                    tc.addFunction(cb)
+                    tc.addFunction(StatesControl.isComplete)
                 for socket_name, feeder in StatesControl.foods.iteritems():
                     if self == feeder:
                         return socket_name
@@ -124,11 +124,11 @@ class StatesControl:
                 self.correct_subject.setBehavior(self.correct_behavior)
                 self.correct_subject.hideStates()
                 with TaskManager.createTaskChain() as tc:
-                    tc.addTask("TaskEnable", Object=self.correct_behavior, Value=True)
+                    tc.addEnable(self.correct_behavior)
                     tc.addTask("TaskMoviePlay", Movie=self.correct_behavior, Wait=True)
-                    tc.addTask("TaskEnable", Object=self.correct_behavior, Value=False)
-                    tc.addTask("TaskFunction", Fn=cb)
-                    tc.addTask("TaskFunction", Fn=StatesControl.isComplete)
+                    tc.addDisable(self.correct_behavior)
+                    tc.addFunction(cb)
+                    tc.addFunction(StatesControl.isComplete)
                 #                    tc.addTask("TaskFunction", Fn = self.correct_subject.setAway)
                 for socket_name, feeder in StatesControl.foods.iteritems():
                     if self == feeder:
@@ -193,10 +193,10 @@ class StatesControl:
         with TaskManager.createTaskChain(Cb=StatesControl.skip) as tc:
             for feeder in StatesControl.foods.values():
                 movie = feeder.correct_behavior
-                tc.addTask("TaskFunction", Fn=feeder.correct_subject.hideStates)
-                tc.addTask("TaskEnable", Object=movie, Value=True)
+                tc.addFunction(feeder.correct_subject.hideStates)
+                tc.addEnable(movie)
                 tc.addTask("TaskMoviePlay", Movie=movie, Wait=True)
-                tc.addTask("TaskEnable", Object=movie, Value=False)
+                tc.addDisable(movie)
 
     @staticmethod
     def resetStates():

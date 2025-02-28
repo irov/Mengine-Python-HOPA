@@ -29,7 +29,7 @@ class SystemExtrasEnigma(System):
                 tc1.addTask("AliasEnigmaPlay", EnigmaName=enigmaName)
 
                 tc2.addTask("TaskButtonClick", GroupName="ExtraToolbar", ButtonName="Button_Menu")
-                tc2.addTask("TaskSetParam", Object=enigma, Param="Play", Value=False)
+                tc2.addParam(enigma, "Play", False)
                 pass
             if enigmaType == "ObjectHOGRolling":
                 tc.addTask("AliasTransition", SceneName="ExtrasHOG")

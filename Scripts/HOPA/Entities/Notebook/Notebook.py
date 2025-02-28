@@ -103,12 +103,12 @@ class Notebook(BaseEntity):
 
         with TaskManager.createTaskChain(Name="NotebookPagesLeft", Repeat=True) as tc:
             tc.addTask("TaskButtonClick", Button=self.Button_Left, AutoEnable=False)
-            tc.addTask("TaskFunction", Fn=self.__changePage, Args=(-1,))
+            tc.addFunction(self.__changePage, -1)
             pass
 
         with TaskManager.createTaskChain(Name="NotebookPagesRight", Repeat=True) as tc:
             tc.addTask("TaskButtonClick", Button=self.Button_Right, AutoEnable=False)
-            tc.addTask("TaskFunction", Fn=self.__changePage, Args=(1,))
+            tc.addFunction(self.__changePage, 1)
             pass
         pass
 

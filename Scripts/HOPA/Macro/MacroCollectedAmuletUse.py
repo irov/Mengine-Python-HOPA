@@ -14,5 +14,5 @@ class MacroCollectedAmuletUse(MacroCommand):
             pass
 
         with Quest as tc_quest:
-            tc_quest.addTask("TaskFunction", Fn=setValid)
-            tc_quest.addTask("TaskListener", ID=Notificator.onCollectedAmuletUse)
+            tc_quest.addFunction(setValid)
+            tc_quest.addListener(Notificator.onCollectedAmuletUse)

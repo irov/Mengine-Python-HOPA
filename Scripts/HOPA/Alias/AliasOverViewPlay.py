@@ -11,4 +11,4 @@ class AliasOverViewPlay(MixinObject, TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onOverView, Args=(self.ViewID, self.FinalParagraph))
+        source.addNotify(Notificator.onOverView, self.ViewID, self.FinalParagraph)

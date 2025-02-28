@@ -37,8 +37,7 @@ class AliasInventoryAddInventoryAccumulateItemFX(TaskAlias):
             source.addTask("TaskNodeEnable", Node=InventoryItemEntity, Value=False)
             pass
 
-        source.addTask("TaskFunction", Fn=setValue, Args=(self.Value,))
+        source.addFunction(setValue, self.Value)
 
-        source.addTask("TaskNotify", ID=Notificator.onItemClickToInventory,
-                       Args=(self.Inventory, self.ItemName, "ActionPickItem"))
+        source.addNotify(Notificator.onItemClickToInventory, self.Inventory, self.ItemName, "ActionPickItem")
         source.addFunction(self.Inventory.UnBlockButtons)

@@ -212,50 +212,50 @@ class RollingBalls(Enigma):
             with tc.addRaceTask(4) as (tc_button_first_cw, tc_button_first_ccw, tc_button_second_cw, tc_button_second_ccw):
                 # ----------------------------
                 tc_button_first_cw.addTask("TaskButtonClick", ButtonName="Button_FirstCW")
-                tc_button_first_cw.addTask("TaskFunction", Fn=__enableButtons, Args=(False,))
-                tc_button_first_cw.addTask("TaskFunction", Fn=self.setActiveMovie, Args=(movieFirstCW,))
+                tc_button_first_cw.addFunction(__enableButtons, False)
+                tc_button_first_cw.addFunction(self.setActiveMovie, movieFirstCW)
                 tc_button_first_cw.addTask("TaskMovieReverse", Movie=movieFirstCW, Reverse=False)
                 tc_button_first_cw.addTask("TaskMoviePlay", Movie=movieFirstCW, Loop=False)
-                tc_button_first_cw.addTask("TaskFunction", Fn=RollManager.moveRollCW, Args=(RollIdFirst,))
+                tc_button_first_cw.addFunction(RollManager.moveRollCW, RollIdFirst)
                 tc_button_first_cw.addTask("TaskMovieLastFrame", Movie=movieFirstCW, Value=False)
-                tc_button_first_cw.addTask("TaskFunction", Fn=self.fillMovie, Args=(movieFirstCW,))
-                tc_button_first_cw.addTask("TaskFunction", Fn=__enableButtons, Args=(True,))
+                tc_button_first_cw.addFunction(self.fillMovie, movieFirstCW)
+                tc_button_first_cw.addFunction(__enableButtons, True)
 
                 # ----------------------------
                 tc_button_first_ccw.addTask("TaskButtonClick", ButtonName="Button_FirstCCW")
-                tc_button_first_ccw.addTask("TaskFunction", Fn=__enableButtons, Args=(False,))
-                tc_button_first_ccw.addTask("TaskFunction", Fn=self.setActiveMovie, Args=(movieFirstCCW,))
+                tc_button_first_ccw.addFunction(__enableButtons, False)
+                tc_button_first_ccw.addFunction(self.setActiveMovie, movieFirstCCW)
                 tc_button_first_ccw.addTask("TaskMovieReverse", Movie=movieFirstCCW, Reverse=False)
                 tc_button_first_ccw.addTask("TaskMoviePlay", Movie=movieFirstCCW, Loop=False)
-                tc_button_first_ccw.addTask("TaskFunction", Fn=RollManager.moveRollCCW, Args=(RollIdFirst,))
+                tc_button_first_ccw.addFunction(RollManager.moveRollCCW, RollIdFirst)
                 tc_button_first_ccw.addTask("TaskMovieLastFrame", Movie=movieFirstCCW, Value=False)
-                tc_button_first_ccw.addTask("TaskFunction", Fn=self.fillMovie, Args=(movieFirstCCW,))
-                tc_button_first_ccw.addTask("TaskFunction", Fn=__enableButtons, Args=(True,))
+                tc_button_first_ccw.addFunction(self.fillMovie, movieFirstCCW)
+                tc_button_first_ccw.addFunction(__enableButtons, True)
 
                 # ---------------------------------
                 tc_button_second_cw.addTask("TaskButtonClick", ButtonName="Button_SecondCW")
-                tc_button_second_cw.addTask("TaskFunction", Fn=__enableButtons, Args=(False,))
-                tc_button_second_cw.addTask("TaskFunction", Fn=self.setActiveMovie, Args=(movieSecondCW,))
+                tc_button_second_cw.addFunction(__enableButtons, False)
+                tc_button_second_cw.addFunction(self.setActiveMovie, movieSecondCW)
                 tc_button_second_cw.addTask("TaskMovieReverse", Movie=movieSecondCW, Reverse=False)
                 tc_button_second_cw.addTask("TaskMoviePlay", Movie=movieSecondCW, Loop=False)
-                tc_button_second_cw.addTask("TaskFunction", Fn=RollManager.moveRollCW, Args=(RollIdSecond,))
+                tc_button_second_cw.addFunction(RollManager.moveRollCW, RollIdSecond)
                 tc_button_second_cw.addTask("TaskMovieLastFrame", Movie=movieSecondCW, Value=False)
-                tc_button_second_cw.addTask("TaskFunction", Fn=self.fillMovie, Args=(movieSecondCW,))
-                tc_button_second_cw.addTask("TaskFunction", Fn=__enableButtons, Args=(True,))
+                tc_button_second_cw.addFunction(self.fillMovie, movieSecondCW)
+                tc_button_second_cw.addFunction(__enableButtons, True)
 
                 # ---------------------------------
                 tc_button_second_ccw.addTask("TaskButtonClick", ButtonName="Button_SecondCCW")
-                tc_button_second_ccw.addTask("TaskFunction", Fn=__enableButtons, Args=(False,))
-                tc_button_second_ccw.addTask("TaskFunction", Fn=self.setActiveMovie, Args=(movieSecondCCW,))
+                tc_button_second_ccw.addFunction(__enableButtons, False)
+                tc_button_second_ccw.addFunction(self.setActiveMovie, movieSecondCCW)
                 tc_button_second_ccw.addTask("TaskMovieReverse", Movie=movieSecondCCW, Reverse=False)
                 tc_button_second_ccw.addTask("TaskMoviePlay", Movie=movieSecondCCW, Loop=False)
-                tc_button_second_ccw.addTask("TaskFunction", Fn=RollManager.moveRollCCW, Args=(RollIdSecond,))
+                tc_button_second_ccw.addFunction(RollManager.moveRollCCW, RollIdSecond)
                 tc_button_second_ccw.addTask("TaskMovieLastFrame", Movie=movieSecondCCW, Value=False)
-                tc_button_second_ccw.addTask("TaskFunction", Fn=self.fillMovie, Args=(movieSecondCCW,))
-                tc_button_second_ccw.addTask("TaskFunction", Fn=__enableButtons, Args=(True,))
+                tc_button_second_ccw.addFunction(self.fillMovie, movieSecondCCW)
+                tc_button_second_ccw.addFunction(__enableButtons, True)
                 pass
 
-            tc.addTask("TaskFunction", Fn=self.__checkComplete)
+            tc.addFunction(self.__checkComplete)
             pass
         pass
 

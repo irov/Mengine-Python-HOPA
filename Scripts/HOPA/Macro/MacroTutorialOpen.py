@@ -14,5 +14,5 @@ class MacroTutorialOpen(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onTutorialShow, Args=(self.TutorName,))
+        source.addNotify(Notificator.onTutorialShow, self.TutorName)
         pass

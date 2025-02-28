@@ -34,7 +34,7 @@ class AliasInventoryReturnInventoryItemFX(TaskAlias):
             return
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onInventoryClickReturnItem, Args=(self.Inventory, InventoryItem))
+        source.addNotify(Notificator.onInventoryClickReturnItem, self.Inventory, InventoryItem)
 
         source.addTask("TaskRemoveArrowAttach")
 

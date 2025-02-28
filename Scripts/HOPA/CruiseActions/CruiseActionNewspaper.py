@@ -38,7 +38,7 @@ class CruiseActionNewspaper(CruiseAction, MixinObject):
 
         with TaskManager.createTaskChain(Name="CruiseActionNewspaper") as tc:
             tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
-            tc.addTask("TaskDelay", Time=self.click_delay)
+            tc.addDelay(self.click_delay)
             tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
-            tc.addTask("TaskDelay", Time=self.move_delay)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addDelay(self.move_delay)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

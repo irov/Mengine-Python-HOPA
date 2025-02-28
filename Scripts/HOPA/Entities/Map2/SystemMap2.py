@@ -104,21 +104,21 @@ class SystemMap2(System):
     def __scopeMapTransition(source):
         current_map_scene_name = ChapterSelectionManager.getCurrentMapSceneName()
         if current_map_scene_name is not None:
-            source.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(current_map_scene_name, None, True))
+            source.addFunction(TransitionManager.changeScene, current_map_scene_name, None, True)
         else:
-            source.addTask("TaskDeadLock")
+            source.addBlock()
 
     @staticmethod
     def __scopeRaceMapOpenTask(source):
         with source.addRaceTask(3) as (race_thread_1, race_thread_2, race_thread_3):
             # thread 1 if map scene transition was triggered not through click on "Movie2Button_Map"
-            race_thread_1.addTask("TaskListener", ID=Notificator.onMapEntityInit)
+            race_thread_1.addListener(Notificator.onMapEntityInit)
 
             race_thread_2.addTask("TaskMovie2ButtonClick", GroupName="OpenMap", Movie2ButtonName="Movie2Button_Map")
-            race_thread_2.addTask("TaskScope", Scope=SystemMap2.__scopeMapTransition)
+            race_thread_2.addScope(SystemMap2.__scopeMapTransition)
 
-            race_thread_3.addTask("TaskListener", ID=Notificator.onMapSilenceOpen)
-            race_thread_3.addTask("TaskScope", Scope=SystemMap2.__scopeMapTransition)
+            race_thread_3.addListener(Notificator.onMapSilenceOpen)
+            race_thread_3.addScope(SystemMap2.__scopeMapTransition)
 
     @staticmethod
     def __scopeRaceMapCloseTask(source):
@@ -126,42 +126,42 @@ class SystemMap2(System):
 
         with source.addRaceTask(3) as (race_thread_1, race_thread_2, race_thread_3):
             # thread 1 if map scene transition was triggered not through click on "Button_Exit" or "TransitionBack"
-            race_thread_1.addTask("TaskListener", ID=Notificator.onMapEntityDeactivate)
+            race_thread_1.addListener(Notificator.onMapEntityDeactivate)
 
             race_thread_2.addTask("TaskButtonClick", GroupName=current_map_group_name, ButtonName="Button_Exit")
-            race_thread_2.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
+            race_thread_2.addFunction(TransitionManager.changeToGameScene)
 
             if Mengine.hasTouchpad() is False:
                 race_thread_3.addTask("TaskMovie2ButtonClick", GroupName=current_map_group_name,
                                       Movie2ButtonName="Movie2Button_TransitionBack")
-                race_thread_3.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
+                race_thread_3.addFunction(TransitionManager.changeToGameScene)
             else:
                 race_thread_3.addBlock()
 
     def __runTaskChain(self):
         with self.createTaskChain(Name="OpenMap", Repeat=True) as tc:
-            tc.addTask("TaskScope", Scope=SystemMap2.__scopeRaceMapOpenTask)
-            tc.addTask("TaskNotify", ID=Notificator.onMapOpen)
+            tc.addScope(SystemMap2.__scopeRaceMapOpenTask)
+            tc.addNotify(Notificator.onMapOpen)
 
-            tc.addTask("TaskScope", Scope=SystemMap2.__scopeRaceMapCloseTask)
-            tc.addTask("TaskNotify", ID=Notificator.onMapClose)
+            tc.addScope(SystemMap2.__scopeRaceMapCloseTask)
+            tc.addNotify(Notificator.onMapClose)
 
     def __runTaskChainNoBonusMap(self):
         with self.createTaskChain(Name="OpenMap", Repeat=True) as tc:
             with tc.addRaceTask(3) as (tc_map1, tc_map2, tc_map3):
                 tc_map1.addTask("TaskMovie2ButtonClick", GroupName="OpenMap", Movie2ButtonName="Movie2Button_Map")
-                tc_map1.addTask("TaskNotify", ID=Notificator.onMapOpen)
-                tc_map1.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=("Map", None, True,))
+                tc_map1.addNotify(Notificator.onMapOpen)
+                tc_map1.addFunction(TransitionManager.changeScene, "Map", None, True)
 
                 tc_map2.addTask("TaskButtonClick", GroupName="Map", ButtonName="Button_Exit")
-                tc_map2.addTask("TaskNotify", ID=Notificator.onMapClose)
-                tc_map2.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
+                tc_map2.addNotify(Notificator.onMapClose)
+                tc_map2.addFunction(TransitionManager.changeToGameScene)
 
                 if Mengine.hasTouchpad() is False:
                     tc_map3.addTask("TaskMovie2ButtonClick", GroupName="Map",
                                     Movie2ButtonName="Movie2Button_TransitionBack")
-                    tc_map3.addTask("TaskNotify", ID=Notificator.onMapClose)
-                    tc_map3.addTask("TaskFunction", Fn=TransitionManager.changeToGameScene)
+                    tc_map3.addNotify(Notificator.onMapClose)
+                    tc_map3.addFunction(TransitionManager.changeToGameScene)
                 else:
                     tc_map3.addBlock()
 

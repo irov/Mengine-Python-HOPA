@@ -38,13 +38,13 @@ class CruiseActionPlusScene(CruiseAction):
                 with tc_repeat.addSwitchTask(2, __isDoneScroll) as (tc_scroll, tc_done):
                     tc_scroll.addTask("AliasCruiseControlAction",
                                       Position=InventoryButtonPosition, Object=self.getInvButton())
-                    tc_scroll.addTask("TaskListener", ID=Notificator.onInventorySlotsShiftEnd)
+                    tc_scroll.addListener(Notificator.onInventorySlotsShiftEnd)
 
                     tc_done.addSemaphore(self.sem_done_scroll, From=0, To=1)
 
                 tc_until.addSemaphore(self.sem_done_scroll, From=1)
 
-            tc.addTask("TaskFunction", Fn=self.showCruise)
+            tc.addFunction(self.showCruise)
 
     def showCruise(self):
         InventoryItemEntity = self.InventoryItem.getEntity()
@@ -61,7 +61,7 @@ class CruiseActionPlusScene(CruiseAction):
                 run.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.InventoryItem)
 
             tc.addDelay(1500.0)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getInvButton(self):
         CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")

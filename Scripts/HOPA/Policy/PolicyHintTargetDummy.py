@@ -9,7 +9,7 @@ class PolicyHintTargetDummy(TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskDummy")
+        source.addDummy()
         pass
 
     pass

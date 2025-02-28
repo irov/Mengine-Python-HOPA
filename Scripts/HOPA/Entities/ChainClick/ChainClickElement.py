@@ -72,9 +72,9 @@ class ChainClickElement(object):
         movieName = self.movieComplete.getName()
 
         with TaskManager.createTaskChain(Name=taskName, Group=group) as tc:
-            tc.addTask("TaskEnable", ObjectName=movieName)
+            tc.addEnable(movieName)
             tc.addTask("TaskMoviePlay", MovieName=movieName)
-            tc.addTask("TaskFunction", Fn=self.finalize)
+            tc.addFunction(self.finalize)
             pass
         pass
 

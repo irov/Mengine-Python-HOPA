@@ -43,7 +43,6 @@ class AliasHOGRollingFoundItem(TaskAlias):
         if hogItem.objectName is not None:
             source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
             source.addTask(PolicyFoundEffect, HOG=self.HOG, HOGItemName=self.HOGItemName, EnigmaName=self.EnigmaName)
-            source.addTask("TaskNotify", ID=Notificator.onHOGFoundItem, Args=(self.HOGItemName,))
-            source.addTask(PolicyDeleteItemFromInventory, HOG=self.HOG, HOGItemName=self.HOGItemName,
-                           EnigmaName=self.EnigmaName)
+            source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
+            source.addTask(PolicyDeleteItemFromInventory, HOG=self.HOG, HOGItemName=self.HOGItemName, EnigmaName=self.EnigmaName)
             source.addTask("TaskHOGInventoryFoundItem", HOGInventory=HOGInventory, HOGItemName=self.HOGItemName)

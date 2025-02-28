@@ -43,8 +43,8 @@ class SwapDifferentElement(object):
                 tc.addTask("TaskNodeMoveTo", Node=self.entity, Time=time, To=point)
                 pass
 
-            tc.addTask("TaskFunction", Fn=self.clearMovingChain)
-            tc.addTask("TaskFunction", Fn=callback)
+            tc.addFunction(self.clearMovingChain)
+            tc.addFunction(callback)
             pass
         pass
 

@@ -29,18 +29,18 @@ class PolicyMonologue(TaskAlias):
                             tc_voice.addTask("TaskSoundEffect", SoundName=dialog.voiceID, Wait=True)
                             pass
 
-                        tc_voice.addTask("TaskDummy")
+                        tc_voice.addDummy()
 
                         PolicyDialogTextPlay = PolicyManager.getPolicy("DialogTextPlay", "PolicyDialogStaticText")
                         tc_text1.addTask(PolicyDialogTextPlay, ObjectText=Text_Message, TextID=dialog.textID)
                         pass
 
-                    tc_dialog.addTask("TaskNotify", ID=Notificator.onDialogMessageComplete, Args=(self.Dialog,))
+                    tc_dialog.addNotify(Notificator.onDialogMessageComplete, self.Dialog)
                     #                    tc_dialog.addTask("TaskDeadLock")
 
                     DialogShowTime = DefaultManager.getDefaultFloat("DialogShowTime", 0.2)
                     DialogShowTime *= 1000  # speed fix
-                    tc_next.addTask("TaskDelay", Time=DialogShowTime)
+                    tc_next.addDelay(DialogShowTime)
                     #                    tc_next.addTask("TaskMouseButtonClick")
                     tc_next.addTask("TaskSocketClick", SocketName="Socket_Next")
 

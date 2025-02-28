@@ -199,11 +199,7 @@ class EnemyChip(Chip):
 
     def scopePlayAttackMovie(self, source):
         source.addDisable(self.movie_chip)
-        source.addEnable(self.attack_movie)
-
-        source.addTask("TaskMovie2Play", Movie2=self.attack_movie, Wait=True)
-
-        source.addDisable(self.attack_movie)
+        source.addTask("TaskMovie2Play", Movie2=self.attack_movie, Wait=True, AutoEnable=True)
         source.addEnable(self.movie_chip)
 
 

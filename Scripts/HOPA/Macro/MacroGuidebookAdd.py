@@ -25,7 +25,7 @@ class MacroGuidebookAdd(MacroCommand):
             source.addTask("TaskEnable", ObjectName=self.ObjectName, Value=False)
             pass
 
-        source.addTask("TaskNotify", ID=Notificator.onGuidebookAddPage, Args=(self.GuidebookID,))
+        source.addNotify(Notificator.onGuidebookAddPage, self.GuidebookID)
         pass
 
     pass

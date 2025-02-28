@@ -19,7 +19,7 @@ class PolicyBlackBarPlayStaticWithMovie(TaskAlias):
             tc_text.addTask("AliasObjectAlphaTo", ObjectName="Sprite_BlackBar", Time=0.1 * 1000, To=1.0)  # speed fix
             tc_text.addTask("TaskEnable", ObjectName="Text_Message")
 
-            tc_text.addTask("TaskDelay", Time=self.Time)
+            tc_text.addDelay(self.Time)
 
             tc_text.addTask("AliasObjectAlphaTo", ObjectName="Sprite_BlackBar", Time=0.1 * 1000, To=0.0)  # speed fix
 

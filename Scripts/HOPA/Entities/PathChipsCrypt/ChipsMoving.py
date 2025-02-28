@@ -70,7 +70,7 @@ class ChipsMoving(object):
                 # tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=False)
                 tc_chip.addTask("TaskMovie2Play", Movie2Name=name)
                 # tc_chip.addTask("TaskMovieLastFrame", MovieName = name, Value = True)
-                tc_chip.addTask("TaskFunction", Fn=callback)
+                tc_chip.addFunction(callback)
 
                 tc_sound.addTask("TaskMovie2Play", Movie2Name=self.soundMovieName)
             pass
@@ -89,7 +89,7 @@ class ChipsMoving(object):
                 # tc_chip.addTask("TaskMovieReverse", MovieName=name, Reverse=True)
                 tc_chip.addTask("TaskMovie2Play", Movie2Name=name)
                 # tc_chip.addTask("TaskMovieLastFrame", MovieName = name, Value = True)
-                tc_chip.addTask("TaskFunction", Fn=callback)
+                tc_chip.addFunction(callback)
 
                 tc_sound.addTask("TaskMovie2Play", Movie2Name=self.soundMovieName)
             pass

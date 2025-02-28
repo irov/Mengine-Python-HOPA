@@ -29,7 +29,7 @@ class AliasHOGRollingFindItem(TaskAlias):
             source.addTask("TaskMovieItemPick", MovieItem=ItemObject)
 
         source.addTask("TaskItemPick", ItemName=ItemName)
-        source.addTask("TaskNotify", ID=Notificator.onHOGItemPicked)
+        source.addNotify(Notificator.onHOGItemPicked)
         source.addNotify(Notificator.onSoundEffectOnObject, ItemObject, "HOGRolling_PressOnItem")
         source.addTask("AliasHOGRollingFoundItem", HOG=self.HOG,
                        HOGItemName=self.HOGItemName,  EnigmaName=self.EnigmaName)

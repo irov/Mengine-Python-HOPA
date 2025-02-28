@@ -9,8 +9,8 @@ class AliasBoneUsage(TaskAlias):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onBoneUse, Args=(self.bone_repr, self.SceneName))
-        source.addTask("TaskListener", ID=Notificator.onBoneUse, Filter=self.on_used)
+        source.addNotify(Notificator.onBoneUse, self.bone_repr, self.SceneName)
+        source.addListener(Notificator.onBoneUse, Filter=self.on_used)
         pass
 
     pass

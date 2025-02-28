@@ -26,11 +26,11 @@ class Sparks(BaseEntity):
         with TaskManager.createTaskChain(Name="SparksReady", Repeat=True) as tc:
             SparksDelayTime = DefaultManager.getDefaultFloat("SparksDelayTime", 2)
             SparksDelayTime *= 1000.0  # speed fix
-            tc.addTask("TaskDelay", Time=SparksDelayTime)
+            tc.addDelay(SparksDelayTime)
 
             # tc.addTask("TaskFunction", Fn = self._sparksGive)
 
-            tc.addTask("TaskFunction", Fn=self._sparksHint)
+            tc.addFunction(self._sparksHint)
 
     def _onDeactivate(self):
         Notification.removeObserver(self.onZoomInit)

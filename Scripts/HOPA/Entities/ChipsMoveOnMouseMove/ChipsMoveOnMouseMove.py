@@ -166,7 +166,7 @@ class ChipsMoveOnMouseMove(Enigma):
             posTo.y += (self._sign(posBug.y, posFrom.y) * (75) - (posBug.y - posFrom.y))
             source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipsMoveOnMouseMove_Bug_Escape')
         else:
-            source.addTask("TaskDelay", Time=self.Timer / 100)
+            source.addDelay(self.Timer / 100)
             return
 
         source.addScope(self._scopeMove_Bug1, i, posTo, time * speed)

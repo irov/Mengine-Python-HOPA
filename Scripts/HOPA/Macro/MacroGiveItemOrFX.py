@@ -34,4 +34,4 @@ class MacroGiveItemOrFX(MacroCommand):
                 tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
                                 ItemName=ItemName, Taken=True, Pick=False)
 
-        source.addTask("TaskListener", ID=Notificator.onInventoryReady)
+        source.addListener(Notificator.onInventoryReady)

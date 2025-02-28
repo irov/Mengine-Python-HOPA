@@ -150,10 +150,10 @@ class MagicVision(BaseEntity):
         self.setTotalReloadingTime()
         self.cancelTaskChains()
         with TaskManager.createTaskChain(Name="MagicVisionRecharge", Cb=self.changeState) as tc_charge:
-            tc_charge.addTask("TaskEnable", Object=self.Movie_Recharge)
-            tc_charge.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(self.timing,))
+            tc_charge.addEnable(self.Movie_Recharge)
+            tc_charge.addFunction(MovieEn.setTiming, self.timing)
             tc_charge.addTask("TaskMoviePlay", Movie=self.Movie_Recharge, Wait=True, Skiped=False)
-            tc_charge.addTask("TaskEnable", Object=self.Movie_Recharge, Value=False)
+            tc_charge.addDisable(self.Movie_Recharge)
             pass
 
         # with TaskManager.createTaskChain(Name = "MagicVisionRechargeMind", Repeat = True) as tc_chargeMind:
@@ -189,10 +189,10 @@ class MagicVision(BaseEntity):
         MovieEn.setPlayCount(rechargeTime)
 
         with TaskManager.createTaskChain(Name="MagicVisionRecharge", Cb=self.changeState) as tc_charge:
-            tc_charge.addTask("TaskEnable", Object=self.Movie_Recharge)
-            tc_charge.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(self.timing,))
+            tc_charge.addEnable(self.Movie_Recharge)
+            tc_charge.addFunction(MovieEn.setTiming, self.timing)
             tc_charge.addTask("TaskMoviePlay", Movie=self.Movie_Recharge, Wait=True, Skiped=False)
-            tc_charge.addTask("TaskEnable", Object=self.Movie_Recharge, Value=False)
+            tc_charge.addDisable(self.Movie_Recharge)
             pass
 
         # with TaskManager.createTaskChain(Name = "MagicVisionRechargeMind", Repeat = True) as tc_chargeMind:
@@ -204,9 +204,9 @@ class MagicVision(BaseEntity):
     def chargingComplete(self):
         self.cancelTaskChains()
         with TaskManager.createTaskChain(Name="MagicVisionChargingComplete", Cb=self.changeState) as tc_chargeComplete:
-            tc_chargeComplete.addTask("TaskEnable", Object=self.Movie_ChargingComplete)
+            tc_chargeComplete.addEnable(self.Movie_ChargingComplete)
             tc_chargeComplete.addTask("TaskMoviePlay", Movie=self.Movie_ChargingComplete)
-            tc_chargeComplete.addTask("TaskEnable", Object=self.Movie_ChargingComplete, Value=False)
+            tc_chargeComplete.addDisable(self.Movie_ChargingComplete)
             pass
         pass
 
@@ -243,17 +243,17 @@ class MagicVision(BaseEntity):
             pass
 
         with TaskManager.createTaskChain(Name="MagicVisionPreActivate") as tc:
-            tc.addTask("TaskFunction", Fn=flag)
-            tc.addTask("TaskEnable", Object=self.Movie_Activate)
+            tc.addFunction(flag)
+            tc.addEnable(self.Movie_Activate)
             tc.addTask("TaskMoviePlay", Movie=self.Movie_Activate, Wait=False, Loop=True)
 
             with GuardBlockInput(tc) as guard_tc:
-                guard_tc.addTask("TaskEnable", Object=movieTransition)
+                guard_tc.addEnable(movieTransition)
                 guard_tc.addTask("TaskMoviePlay", Movie=movieTransition, Wait=True)
                 pass
 
-            tc.addTask("TaskEnable", Object=movieTransition, Value=False)
-            tc.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(sceneNameTo, None, False,))
+            tc.addDisable(movieTransition)
+            tc.addFunction(TransitionManager.changeScene, sceneNameTo, None, False)
             pass
         pass
 
@@ -261,18 +261,18 @@ class MagicVision(BaseEntity):
         self.cancelTaskChains()
 
         with TaskManager.createTaskChain(Name="MagicVisionReady") as tc_ready:
-            tc_ready.addTask("TaskEnable", Object=self.Movie_Ready)
+            tc_ready.addEnable(self.Movie_Ready)
             tc_ready.addTask("TaskMoviePlay", Movie=self.Movie_Ready, Loop=True, Wait=False)
             pass
 
         with TaskManager.createTaskChain(Name="MagicVisionPreReady", Repeat=True) as tc_do:
             tc_do.addTask("TaskSocketClick", Socket=self.Socket)
             with tc_do.addSwitchTask(2, self._readySwitch) as (tc_ok, tc_no):
-                tc_ok.addTask("TaskEnable", Object=self.Movie_Ready, Value=False)
-                tc_ok.addTask("TaskSetParam", Object=self.object, Param="State", Value=MagicVision.PRE_ACTIVATE)
+                tc_ok.addDisable(self.Movie_Ready)
+                tc_ok.addParam(self.object, "State", MagicVision.PRE_ACTIVATE)
 
                 # tc_no.addTask("AliasMindPlay", MindID = "ID_MV_INVALID")
-                tc_no.addTask("TaskDummy")
+                tc_no.addDummy()
                 pass
             pass
         pass
@@ -284,18 +284,18 @@ class MagicVision(BaseEntity):
         self.cancelTaskChains()
 
         with TaskManager.createTaskChain(Name="MagicVisionClick") as tc:
-            tc.addTask("TaskEnable", Object=self.Movie_Ready)
+            tc.addEnable(self.Movie_Ready)
             tc.addTask("TaskMoviePlay", Movie=self.Movie_Ready, Wait=False, Loop=True)
             tc.addTask("TaskSocketClick", Socket=self.Socket)
 
             with GuardBlockInput(tc) as guard_tc:
-                guard_tc.addTask("TaskEnable", Object=movieTransition)
+                guard_tc.addEnable(movieTransition)
                 guard_tc.addTask("TaskMoviePlay", Movie=movieTransition, Wait=True)
-                guard_tc.addTask("TaskEnable", Object=movieTransition, Value=False)
-                guard_tc.addTask("TaskEnable", Object=self.Movie_Ready, Value=False)
+                guard_tc.addDisable(movieTransition)
+                guard_tc.addDisable(self.Movie_Ready)
                 pass
 
-            tc.addTask("TaskFunction", Fn=TransitionManager.changeScene, Args=(sceneNameTo, None, False,))
+            tc.addFunction(TransitionManager.changeScene, sceneNameTo, None, False)
             pass
         pass
 

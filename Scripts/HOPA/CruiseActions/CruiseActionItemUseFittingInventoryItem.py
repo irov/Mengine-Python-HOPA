@@ -61,7 +61,7 @@ class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
             tc.addTask("AliasCruiseControlAction", Position=P2, Object=InventoryItem)
             tc.addTask("AliasCruiseControlAction", Position=NP2, Object=self.Item)
 
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addNotify(Notificator.onCruiseActionEnd, self)
             pass
         pass
 

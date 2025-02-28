@@ -32,10 +32,10 @@ class PolicyHintActivateWayEffect(TaskAlias):
         Movie_Reload = MovieGroup.getObject("Movie2_Reload")
         Movie_HintWay = "Movie2_HintWay"
 
-        source.addTask("TaskEnable", Object=Movie_Reload, Value=False)
-        source.addTask("TaskEnable", Object=Movie_Activate)
+        source.addDisable(Movie_Reload)
+        source.addEnable(Movie_Activate)
         source.addTask("TaskMoviePlay", Movie=Movie_Activate)
-        source.addTask("TaskEnable", Object=Movie_Activate, Value=False)
+        source.addDisable(Movie_Activate)
 
         source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName=Movie_HintWay, Value=P0)
         source.addTask("TaskMovie2Play", GroupName="HintEffect", Movie2Name=Movie_HintWay, Loop=True, Wait=False)

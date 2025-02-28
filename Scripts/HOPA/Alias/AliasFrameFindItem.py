@@ -17,5 +17,5 @@ class AliasFrameFindItem(TaskAlias):
 
         source.addTask("TaskItemClick", Item=ItemObject)
         source.addTask("TaskItemPick", Item=ItemObject)
-        source.addTask("TaskNotify", ID=Notificator.onItemPicked, Args=(ItemObject,))
-        source.addTask("TaskNotify", ID=Notificator.onSoundEffectOnObject, Args=(ItemObject, "PickItem"))
+        source.addNotify(Notificator.onItemPicked, ItemObject)
+        source.addNotify(Notificator.onSoundEffectOnObject, ItemObject, "PickItem")

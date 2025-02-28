@@ -10,7 +10,7 @@ class MacroCollectedMapAdd(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onCollectedMapAddPart, Args=(self.PartName,))
+        source.addNotify(Notificator.onCollectedMapAddPart, self.PartName)
         pass
 
     pass

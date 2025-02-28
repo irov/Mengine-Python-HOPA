@@ -16,4 +16,4 @@ class AliasJournalAddItemPage(TaskAlias):
         with QuestManager.runQuest(source, Quest) as tc_quest:
             tc_quest.addTask("TaskItemClick", Item=self.ItemObject)
 
-        source.addTask("TaskEnable", Object=self.ItemObject, Value=False)
+        source.addDisable(self.ItemObject)

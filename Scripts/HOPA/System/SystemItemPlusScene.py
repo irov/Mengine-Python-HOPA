@@ -407,7 +407,7 @@ class SystemItemPlusScene(System):
 
             with TaskManager.createTaskChain(Name=nameChain, Group=group, Repeat=True) as tc:
                 tc.addTask("TaskMovie2ButtonClick", Movie2ButtonName=botName)
-                tc.addTask("TaskNotify", ID=Notificator.onItemZoomLeaveOpenZoom)
+                tc.addNotify(Notificator.onItemZoomLeaveOpenZoom)
 
     def _CloseZoomHotSpot(self, touchId, x, y, button, pressure, isDown, isPressed):
         if isDown is False:

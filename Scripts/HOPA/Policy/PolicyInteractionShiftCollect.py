@@ -23,7 +23,7 @@ class PolicyInteractionShiftCollect(MixinGroup, Task):
             with TaskManager.createTaskChain(Name="ShiftCollect_%s" % (index), Group=self.Group, Repeat=True) as tc:
                 tc.addTask("AliasObjectClick", ObjectName=collect["InteractionName"], IsQuest=True, SceneName=SceneName)
                 tc.addTask("TaskShiftNext", ShiftName=collect["ShiftName"])
-                tc.addTask("TaskCallback", Cb=self._onCollectTest)
+                tc.addCallback(self._onCollectTest)
                 pass
             pass
 

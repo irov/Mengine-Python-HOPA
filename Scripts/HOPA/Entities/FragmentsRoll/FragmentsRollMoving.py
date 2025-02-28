@@ -97,7 +97,7 @@ class FragmentsRollMoving(object):
             with tc.addParallelTask(2) as (tc_element, tc_sound):
                 tc_element.addTask("TaskMovieLastFrame", Movie=self.movieObject, Value=False)
                 tc_element.addTask("TaskMovie2Play", Movie2=self.movieObject, StartTiming=curTime)
-                tc_element.addTask("TaskFunction", Fn=callback)
+                tc_element.addFunction(callback)
 
                 tc_sound.addTask("TaskMovie2Play", Movie2=self.soundMovie)
             pass
@@ -124,7 +124,7 @@ class FragmentsRollMoving(object):
                 # tc_element.addTask("TaskMovieReverse", Movie = self.movieObject, Reverse = True)
                 tc_element.addTask("TaskMovie2Play", Movie2=self.movieObjectReverse, StartTiming=curTime)
                 tc_element.addFunction(self.attachToForwardMovie)
-                tc_element.addTask("TaskFunction", Fn=callback)
+                tc_element.addFunction(callback)
 
                 tc_sound.addTask("TaskMovie2Play", Movie2=self.soundMovie)
 

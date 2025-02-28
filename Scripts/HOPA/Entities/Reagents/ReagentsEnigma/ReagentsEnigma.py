@@ -97,10 +97,10 @@ class ReagentsEnigma(Enigma):
 
     def refresh(self):
         with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskEnable", Object=self.refreshMovie, Value=True)
+            tc.addEnable(self.refreshMovie)
             tc.addTask("TaskMoviePlay", Movie=self.refreshMovie, Wait=True)
-            tc.addTask("TaskEnable", Object=self.refreshMovie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.checkFalse)
+            tc.addDisable(self.refreshMovie)
+            tc.addFunction(self.checkFalse)
             pass
         pass
 
@@ -110,29 +110,29 @@ class ReagentsEnigma(Enigma):
 
     def win(self, reagents):
         with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskFunction", Fn=reagents._setButtonsInteraction, Args=(0,))
-            tc.addTask("TaskEnable", Object=self.winMovie, Value=True)
+            tc.addFunction(reagents._setButtonsInteraction, 0)
+            tc.addEnable(self.winMovie)
             tc.addTask("TaskMoviePlay", Movie=self.winMovie, Wait=True)
-            tc.addTask("TaskEnable", Object=self.winMovie, Value=False)
-            tc.addTask("TaskFunction", Fn=self.enigmaComplete)
-            tc.addTask("TaskFunction", Fn=self.checkFalse)
+            tc.addDisable(self.winMovie)
+            tc.addFunction(self.enigmaComplete)
+            tc.addFunction(self.checkFalse)
             pass
         pass
 
     def loose(self, value):
         with TaskManager.createTaskChain() as tc:
             if value is True:
-                tc.addTask("TaskEnable", Object=self.looseMovie, Value=True)
+                tc.addEnable(self.looseMovie)
                 with tc.addParallelTask(2) as (tc1, tc2):
                     tc1.addTask("TaskMoviePlay", Movie=self.looseMovie, Wait=True)
                     tc2.addTask("AliasMindPlay", MindID="ID_MIND_Not_RightReagent")
                     pass
-                tc.addTask("TaskEnable", Object=self.looseMovie, Value=False)
+                tc.addDisable(self.looseMovie)
                 pass
             else:
                 tc.addTask("AliasMindPlay", MindID="ID_MIND_NoOne_Reagent")
                 pass
-            tc.addTask("TaskFunction", Fn=self.checkFalse)
+            tc.addFunction(self.checkFalse)
             pass
         pass
 

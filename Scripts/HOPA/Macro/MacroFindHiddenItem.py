@@ -19,7 +19,7 @@ class MacroFindHiddenItem(MacroCommand):
         Quest = self.addQuest(source, "FindHiddenItem", SceneName=self.SceneName, GroupName=self.GroupName)
         with Quest as tc_quest:
             tc_quest.addTask("AliasOverViewPlay", ObjectName=self.ViewID, ViewID=self.ViewID)
-            tc_quest.addTask("TaskListener", ID=Notificator.OnOverViewShowed, Filter=self._rightViewID)
+            tc_quest.addListener(Notificator.OnOverViewShowed, Filter=self._rightViewID)
 
     def _rightViewID(self, viewID):
         if (viewID == self.ViewID):

@@ -32,7 +32,7 @@ class HintActionUsePet(MixinObject, HintAction):
         with TaskManager.createTaskChain(Name="HintActionUsePet_Scrolling") as tc:
             PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling", "PolicyInventoryScrollingDefault")
             tc.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
-            tc.addTask("TaskFunction", Fn=self.showHint)
+            tc.addFunction(self.showHint)
             pass
         pass
 
@@ -105,7 +105,7 @@ class HintActionUsePet(MixinObject, HintAction):
                     tc_target2.addCallback(self.appendInterruptCb, PolicyHintTargetLoopInterrupt)
                     pass
                 pass
-            tc.addTask("TaskFunction", Fn=self.setEnd)
+            tc.addFunction(self.setEnd)
             pass
         pass
 

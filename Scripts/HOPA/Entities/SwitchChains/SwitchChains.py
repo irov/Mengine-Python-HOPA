@@ -166,20 +166,20 @@ class SwitchChains(Enigma):
 
         for element in self.elements.values():
             with TaskManager.createTaskChain(Name=element.switchName, Group=objectsGroup, Repeat=True) as tc:
-                tc.addTask("TaskFunction", Fn=self._unBlockSockets)
+                tc.addFunction(self._unBlockSockets)
                 tc.addTask("AliasObjectClick", SceneName=sceneName, Object=element.socket)
-                tc.addTask("TaskNotify", ID=Notificator.onSwitchChainsClick, Args=(element,))
-                tc.addTask("TaskFunction", Fn=self._blockSockets)
+                tc.addNotify(Notificator.onSwitchChainsClick, element)
+                tc.addFunction(self._blockSockets)
 
                 with tc.addParallelTask(2) as (tc_1, tc_2):
                     with tc_1.addSwitchTask(2, Functor(_checkReverse, element)) as (tc_norm1, tc_rev1):
                         tc_norm1.addTask("TaskMoviePlay", Movie=element.movieOff, Wait=False)
-                        tc_norm1.addTask("TaskFunction", Fn=element.setStateOn)
-                        tc_norm1.addTask("TaskFunction", Fn=element.movieOnAttachSocket)
+                        tc_norm1.addFunction(element.setStateOn)
+                        tc_norm1.addFunction(element.movieOnAttachSocket)
 
                         tc_rev1.addTask("TaskMoviePlay", Movie=element.movieOn, Wait=False)
-                        tc_rev1.addTask("TaskFunction", Fn=element.setStateOff)
-                        tc_rev1.addTask("TaskFunction", Fn=element.movieOffAttachSocket)
+                        tc_rev1.addFunction(element.setStateOff)
+                        tc_rev1.addFunction(element.movieOffAttachSocket)
                         pass
 
                     with tc_2.addParallelTask(len(element.chainList)) as tc_chains:
@@ -188,18 +188,18 @@ class SwitchChains(Enigma):
 
                             with tc_chain.addSwitchTask(2, Functor(_checkReverse, chainElement)) as (tc_norm, tc_rev):
                                 tc_norm.addTask("TaskMoviePlay", Movie=chainElement.movieOff, Wait=False)
-                                tc_norm.addTask("TaskFunction", Fn=chainElement.setStateOn)
-                                tc_norm.addTask("TaskFunction", Fn=chainElement.movieOnAttachSocket)
+                                tc_norm.addFunction(chainElement.setStateOn)
+                                tc_norm.addFunction(chainElement.movieOnAttachSocket)
 
                                 tc_rev.addTask("TaskMoviePlay", Movie=chainElement.movieOn, Wait=False)
-                                tc_rev.addTask("TaskFunction", Fn=chainElement.setStateOff)
-                                tc_rev.addTask("TaskFunction", Fn=chainElement.movieOffAttachSocket)
+                                tc_rev.addFunction(chainElement.setStateOff)
+                                tc_rev.addFunction(chainElement.movieOffAttachSocket)
                                 pass
 
                             pass
                         pass
                     pass
-                tc.addTask("TaskFunction", Fn=self._checkWin)
+                tc.addFunction(self._checkWin)
                 pass
             pass
         pass

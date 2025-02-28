@@ -26,4 +26,4 @@ class MacroNotSurvey(MacroCommand):
 
         with Quest as tc_quest:
             # tc_quest.addTask("TaskPrint", Value = "RunParagraph %s:%s"%(paragraphID, self.GroupName))
-            tc_quest.addTask("TaskNotify", ID=Notificator.onParagraphRun, Args=(paragraphID,))
+            tc_quest.addNotify(Notificator.onParagraphRun, paragraphID)

@@ -44,7 +44,7 @@ class Newspaper(BaseEntity):
                                                        GroupName=GroupName, Object=self.newspaper.socket_Open)
             with QuestManager.runQuest(tc, self.Quest) as tc_quest:
                 tc_quest.addTask("TaskSocketClick", Socket=self.newspaper.socket_Open)
-                tc_quest.addTask("TaskFunction", Fn=self.__openNewspaper)
+                tc_quest.addFunction(self.__openNewspaper)
                 pass
             pass
         pass
@@ -83,28 +83,28 @@ class Newspaper(BaseEntity):
         if self.Open is True:
             with TaskManager.createTaskChain(Name="NewspaperOpen%s" % (self.NewspaperID), Cb=self._showComplete) as tc:
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=True)
-                tc.addTask("TaskSetParam", Object=self.newspaper.movie_Open, Param="LastFrame", Value=False)
+                tc.addParam(self.newspaper.movie_Open, "LastFrame", False)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotOpen, ChildNode=layerAttachGroupEntity)
                 tc.addTask("TaskNodeEnable", Node=layerAttachGroupEntity, Value=True)
-                tc.addTask("TaskNotify", ID=Notificator.onNewspaperOpen, Args=(self.NewspaperID,))
+                tc.addNotify(Notificator.onNewspaperOpen, self.NewspaperID)
 
                 with tc.addParallelTask(2) as (tc1, tc2):
                     tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Open, Wait=True)
                     tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=NewspaperFade, Time=0.25 * 1000)  # speed fix
                     pass
-                tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=True)
+                tc.addParam(self.object, "Open", True)
 
                 tc.addTask("TaskSocketClick", Socket=self.newspaper.socket_Close)
                 tc.addFunction(NewspaperManager.openNewspaper, self.NewspaperID)
-                tc.addTask("TaskNotify", ID=Notificator.onNewspaperShow, Args=(self.NewspaperID,))
-                tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=False)
+                tc.addNotify(Notificator.onNewspaperShow, self.NewspaperID)
+                tc.addParam(self.object, "Open", False)
 
-                tc.addTask("TaskEnable", Object=self.newspaper.socket_Close, Value=False)
+                tc.addDisable(self.newspaper.socket_Close)
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=False)
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Open, Value=False)
+                tc.addDisable(self.newspaper.movie_Open)
 
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Close, Value=True)
+                tc.addEnable(self.newspaper.movie_Close)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotClose, ChildNode=layerAttachGroupEntity)
 
                 with tc.addParallelTask(2) as (tc1, tc2):
@@ -113,41 +113,41 @@ class Newspaper(BaseEntity):
                     pass
 
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Close, Value=False)
+                tc.addDisable("TaskEnable"self.newspaper.movie_Close)
                 pass
             pass
         else:
             with TaskManager.createTaskChain(Name="NewspaperOpen", Cb=self._showComplete) as tc:
-                tc.addTask("TaskEnable", Object=self.newspaper.socket_Close, Value=True)
+                tc.addEnable(self.newspaper.socket_Close)
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=True)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotOpen, ChildNode=layerAttachGroupEntity)
                 tc.addTask("TaskNodeEnable", Node=layerAttachGroupEntity, Value=True)
-                tc.addTask("TaskNotify", ID=Notificator.onNewspaperOpen, Args=(self.NewspaperID,))
+                tc.addNotify(Notificator.onNewspaperOpen, self.NewspaperID)
 
                 with tc.addParallelTask(2) as (tc1, tc2):
                     tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Open, Wait=True)
                     tc2.addTask("AliasFadeIn", FadeGroupName="FadeDialog", To=NewspaperFade, Time=0.25 * 1000)  # speed fix
                     pass
-                tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=True)
+                tc.addParam(self.object, "Open", True)
 
                 tc.addTask("TaskSocketClick", Socket=self.newspaper.socket_Close)
                 tc.addFunction(NewspaperManager.openNewspaper, self.NewspaperID)
-                tc.addTask("TaskNotify", ID=Notificator.onNewspaperShow, Args=(self.NewspaperID,))
-                tc.addTask("TaskSetParam", Object=self.object, Param="Open", Value=False)
+                tc.addNotify(Notificator.onNewspaperShow, self.NewspaperID)
+                tc.addParam(self.object, "Open", False)
 
-                tc.addTask("TaskEnable", Object=self.newspaper.socket_Close, Value=False)
+                tc.addDisable(self.newspaper.socket_Close)
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=False)
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Open, Value=False)
+                tc.addDisable(self.newspaper.movie_Open)
 
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Close, Value=True)
+                tc.addEnable(self.newspaper.movie_Close)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotClose, ChildNode=layerAttachGroupEntity)
                 with tc.addParallelTask(2) as (tc1, tc2):
                     tc1.addTask("TaskMovie2Play", Movie2=self.newspaper.movie_Close, Wait=True)
                     tc2.addTask("AliasFadeOut", FadeGroupName="FadeDialog", Time=0.25 * 1000, From=NewspaperFade)  # speed fix
                     pass
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)
-                tc.addTask("TaskEnable", Object=self.newspaper.movie_Close, Value=False)
+                tc.addDisable(self.newspaper.movie_Close)
                 pass
             pass
 

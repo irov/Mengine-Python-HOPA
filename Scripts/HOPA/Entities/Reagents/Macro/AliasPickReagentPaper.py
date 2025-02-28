@@ -21,8 +21,8 @@ class AliasPickReagentPaper(TaskAlias):
         time *= 1000  # speed fix
 
         source.addTask("TaskNodeBezier2To", Node=itemEntity, To=positionTo, Time=time)
-        source.addTask("TaskEnable", Object=self.ItemObject, Value=False)
-        source.addTask("TaskSetParam", Object=Demon, Param="EnablePaper", Value=True)
+        source.addDisable(self.ItemObject)
+        source.addParam(Demon, "EnablePaper", True)
         pass
 
     pass

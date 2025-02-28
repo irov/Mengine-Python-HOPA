@@ -105,18 +105,18 @@ class SpinCircles(Enigma):
                 SocketsName = self.TwistCollection.keys()
                 with tc_do.addParallelTask(2) as (tc_al, tc_not):
                     tc_al.addTask("AliasSpinCircles", ObjectName=SocketsName[0], Sockets=SocketsName)
-                    tc_not.addTask("TaskListener", ID=Notificator.onSpin, Filter=self.__Observe)
+                    tc_not.addListener(Notificator.onSpin, Filter=self.__Observe)
                     pass
 
-                tc_do.addTask("TaskFunction", Fn=self.blockSockets, Args=(True,))
-                tc_do.addTask("TaskFunction", Fn=self.PlayAction)
+                tc_do.addFunction(self.blockSockets, True)
+                tc_do.addFunction(self.PlayAction)
 
-                tc_until.addTask("TaskListener", ID=Notificator.onSpinWin)
+                tc_until.addListener(Notificator.onSpinWin)
                 pass
-            tc_m.addTask("TaskFunction", Fn=self.blockSockets, Args=(True,))
-            tc_m.addTask("TaskDelay", Time=1 * 1000)  # speed fix
+            tc_m.addFunction(self.blockSockets, True)
+            tc_m.addDelay(1 * 1000)  # speed fix
             if self.MovieWin is not None:
-                tc_m.addTask("TaskEnable", Object=self.MovieWin)
+                tc_m.addEnable(self.MovieWin)
                 tc_m.addTask("TaskMoviePlay", Movie=self.MovieWin)
                 pass
             pass
@@ -150,18 +150,18 @@ class SpinCircles(Enigma):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
-                            tc_p.addTask("TaskEnable", Object=Previous, Value=False)
+                            tc_p.addDisable(Previous)
                             pass
                         Previous = eachMovie
-                        tc_p.addTask("TaskEnable", Object=eachMovie)
+                        tc_p.addEnable(eachMovie)
                         tc_p.addTask("TaskMoviePlay", Movie=eachMovie, Wait=True)
                         pass
                     pass
                 pass
 
-            tp.addTask("TaskNotify", ID=Notificator.onSpinMove, Args=(self.PlayedSocket,))
-            tp.addTask("TaskFunction", Fn=self.isWin)
-            tp.addTask("TaskFunction", Fn=self.blockSockets, Args=(False,))
+            tp.addNotify(Notificator.onSpinMove, self.PlayedSocket)
+            tp.addFunction(self.isWin)
+            tp.addFunction(self.blockSockets, False)
             pass
         return True
         pass
@@ -277,11 +277,11 @@ class SpinCircles(Enigma):
 
             with TaskManager.createTaskChain(Name=TaskName) as tc:
                 with tc.addRaceTask(2) as (tc_view, tc_leave):
-                    tc_view.addTask("TaskEnable", Object=movie)
+                    tc_view.addEnable(movie)
                     tc_view.addTask("TaskMoviePlay", Movie=movie, Loop=True)
 
-                    tc_leave.addTask("TaskListener", ID=Notificator.onSocketMouseLeave, Filter=self.onLeaved)
-                    tc_leave.addTask("TaskEnable", Object=movie, Value=False)
+                    tc_leave.addListener(Notificator.onSocketMouseLeave, Filter=self.onLeaved)
+                    tc_leave.addDisable(movie)
                     pass
                 pass
             pass
@@ -365,10 +365,10 @@ class SpinCircles(Enigma):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
-                            tc_p.addTask("TaskEnable", Object=Previous, Value=False)
+                            tc_p.addDisable(Previous)
                             pass
                         Previous = eachMovie
-                        tc_p.addTask("TaskEnable", Object=eachMovie)
+                        tc_p.addEnable(eachMovie)
                         tc_p.addTask("TaskMoviePlay", Movie=eachMovie, Wait=True)
 
     def _skipEnigma(self):
@@ -386,20 +386,20 @@ class SpinCircles(Enigma):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
-                            tc_p.addTask("TaskEnable", Object=Previous, Value=False)
+                            tc_p.addDisable(Previous)
                             pass
                         Previous = eachMovie
-                        tc_p.addTask("TaskEnable", Object=eachMovie)
+                        tc_p.addEnable(eachMovie)
                         tc_p.addTask("TaskMoviePlay", Movie=eachMovie, Wait=True)
                         pass
                     pass
                 pass
-            tc_res.addTask("TaskFunction", Fn=self.updateIndicator)
+            tc_res.addFunction(self.updateIndicator)
             if self.MovieWin is not None:
-                tc_res.addTask("TaskEnable", Object=self.MovieWin)
+                tc_res.addEnable(self.MovieWin)
                 tc_res.addTask("TaskMoviePlay", Movie=self.MovieWin)
                 pass
-            tc_res.addTask("TaskFunction", Fn=self.__complete, Args=(True,))
+            tc_res.addFunction(self.__complete, True)
             pass
         return True
         pass

@@ -39,7 +39,7 @@ class InventoryBase(BaseEntity):
         Movie_Return = self.object.getObject("Movie2_Return")
 
         source.addScope(self.scope_InventoryPanel)
-        source.addTask("TaskEnable", Object=Movie_Return, Value=True)
+        source.addEnable(Movie_Return)
 
     def scope_InventoryPanel(self, source):
         if not self.object.hasObject('Movie2_Return'):
@@ -48,10 +48,8 @@ class InventoryBase(BaseEntity):
 
         Movie_Return = self.object.getObject("Movie2_Return")
 
-        source.addTask("TaskEnable", Object=Movie_Return, Value=False)
-        source.addTask("TaskEnable", Object=self.Movie_Close_Open, Value=True)
-        source.addTask("TaskMovie2Play", Movie2=self.Movie_Close_Open, Wait=True)
-        source.addTask("TaskEnable", Object=self.Movie_Close_Open, Value=False)
+        source.addDisable(Movie_Return)
+        source.addTask("TaskMovie2Play", Movie2=self.Movie_Close_Open, Wait=True, AutoEnable=True)
 
     def Folding_Inventory(self, source):
         if not SceneManager.hasLayerScene("InventoryLock"):
@@ -63,9 +61,7 @@ class InventoryBase(BaseEntity):
 
         Movie2_Fold = self.object.getObject("Movie2_Fold")
 
-        source.addTask("TaskEnable", Object=Movie2_Fold, Value=True)
-        source.addTask("TaskMovie2Play", Movie2=Movie2_Fold, Wait=True)
-        source.addTask("TaskEnable", Object=Movie2_Fold, Value=False)
+        source.addTask("TaskMovie2Play", Movie2=Movie2_Fold, Wait=True, AutoEnable=True)
 
     def Rising_Inventory(self, source):
         if not SceneManager.hasLayerScene("InventoryLock"):
@@ -77,9 +73,7 @@ class InventoryBase(BaseEntity):
 
         Movie2_Rise = self.object.getObject("Movie2_Rise")
 
-        source.addTask("TaskEnable", Object=Movie2_Rise, Value=True)
-        source.addTask("TaskMovie2Play", Movie2=Movie2_Rise, Wait=True)
-        source.addTask("TaskEnable", Object=Movie2_Rise, Value=False)
+        source.addTask("TaskMovie2Play", Movie2=Movie2_Rise, Wait=True, AutoEnable=True)
 
     def Rised_Inventory(self):
         if not SceneManager.hasLayerScene("InventoryLock"):

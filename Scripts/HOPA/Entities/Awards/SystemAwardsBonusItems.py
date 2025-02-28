@@ -33,8 +33,8 @@ class SystemAwardsBonusItems(System):
 
                 with TaskManager.createTaskChain(Name="SystemAwardsBonusItems%s" % item.getName()) as tc:
                     tc.addTask("TaskItemClick", Item=item)
-                    tc.addTask("TaskEnable", Object=item, Value=False)
-                    tc.addTask("TaskFunction", Fn=self.__onBonusItemFound, Args=(awardID, item,))
+                    tc.addDisable(item)
+                    tc.addFunction(self.__onBonusItemFound, awardID, item)
                     pass
                 pass
             pass

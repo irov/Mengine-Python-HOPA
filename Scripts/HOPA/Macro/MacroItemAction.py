@@ -50,7 +50,7 @@ class MacroItemAction(MacroCommand):
                 tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
                                  ItemName=self.ItemName, Taken=self.Taken, Pick=False)
                 tc_quest.addTask("TaskSceneLayerGroupEnable", LayerName="Fan", Value=True)
-                tc_quest.addTask("TaskFunction", Fn=self._AttendMovieSlots, Args=("Movie_Open",))
+                tc_quest.addFunction(self._AttendMovieSlots, "Movie_Open")
                 tc_quest.addTask("TaskMoviePlay", Movie=Movie_Open, Wait=False, LastFrame=None, Reverse=False)
 
             elif ObjectType == "ObjectItem":

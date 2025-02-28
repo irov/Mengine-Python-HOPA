@@ -28,7 +28,7 @@ class MacroHOGFittingDisableSlot(MacroCommand):
             Inventory.getEntity().DisableSlotItem(self.ItemName)
             pass
 
-        source.addTask("TaskFunction", Fn=ff)
+        source.addFunction(ff)
         pass
 
     pass

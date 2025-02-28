@@ -160,20 +160,20 @@ class NotebookInventoryList(BaseEntity):
             # [0] - movieShow
             parallel.addFunction(self.prepareTasksMovie, self.Movies[movieLocalID][0], movieLocalID)
             parallel.addDelay(3.0 + StairsDelay * movieLocalID)
-            parallel.addTask("TaskEnable", Object=self.Movies[movieLocalID][0], Value=True)
+            parallel.addEnable(self.Movies[movieLocalID][0])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][0])
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][0])
             parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][0], movieLocalID)
             # [1] - movieIdle
             parallel.addFunction(self.prepareTasksMovie, self.Movies[movieLocalID][1], movieLocalID)
-            parallel.addTask("TaskEnable", Object=self.Movies[movieLocalID][1], Value=True)
+            parallel.addEnable(self.Movies[movieLocalID][1])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][1])
             parallel.addDelay(self.delay)
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][1])
             parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][1], movieLocalID)
             # [2] - movieHide
             parallel.addFunction(self.prepareTasksMovie, self.Movies[movieLocalID][2], movieLocalID)
-            parallel.addTask("TaskEnable", Object=self.Movies[movieLocalID][2], Value=True)
+            parallel.addEnable(self.Movies[movieLocalID][2])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][2])
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][2])
             parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][2], movieLocalID)
@@ -200,7 +200,7 @@ class NotebookInventoryList(BaseEntity):
 
         scope.addTask("TaskSceneInit", SceneAny=True)
         if openNotesLen == 0:
-            scope.addTask("TaskListener", ID=Notificator.onTasksOpen)
+            scope.addListener(Notificator.onTasksOpen)
 
         scope.addScope(self.__tasksPlay)
 

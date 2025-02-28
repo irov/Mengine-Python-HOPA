@@ -79,7 +79,7 @@ class OpenJournal(BaseEntity):
         movie = self.Data[self.State]
 
         with TaskManager.createTaskChain(Name="OpenJournal_Static", Cb=self.changeState) as tc:
-            tc.addTask("TaskEnable", Object=movie)
+            tc.addEnable(movie)
             tc.addTask("TaskMoviePlay", Movie=movie, Loop=True, Wait=False)
             tc.addTask("TaskSocketEnter", SocketName="Socket_Open", GroupName="Open_Journal")
             pass
@@ -91,7 +91,7 @@ class OpenJournal(BaseEntity):
         movie = self.Data[self.State]
 
         with TaskManager.createTaskChain(Name="OpenJournal_Enter", Cb=self.changeState) as tc:
-            tc.addTask("TaskEnable", Object=movie)
+            tc.addEnable(movie)
             tc.addTask("TaskMoviePlay", Movie=movie, Loop=False, Wait=True)
             pass
         pass
@@ -102,14 +102,14 @@ class OpenJournal(BaseEntity):
         movie = self.Data[self.State]
 
         with TaskManager.createTaskChain(Name="OpenJournal_Idle") as tc:
-            tc.addTask("TaskEnable", Object=movie)
+            tc.addEnable(movie)
             tc.addTask("TaskMoviePlay", Movie=movie, Loop=True, Wait=False)
             with tc.addRaceTask(2) as (tc_leave, tc_click):
                 tc_leave.addTask("TaskSocketLeave", SocketName="Socket_Open", GroupName="Open_Journal")
-                tc_leave.addTask("TaskSetParam", Object=self.object, Param="State", Value=OpenJournal.LEAVE)
+                tc_leave.addParam(self.object, "State", OpenJournal.LEAVE)
 
                 tc_click.addTask("TaskSocketClick", SocketName="Socket_Open", GroupName="Open_Journal")
-                tc_click.addTask("TaskSetParam", Object=self.object, Param="State", Value=OpenJournal.ACTIVATE)
+                tc_click.addParam(self.object, "State", OpenJournal.ACTIVATE)
                 pass
             pass
         pass
@@ -120,7 +120,7 @@ class OpenJournal(BaseEntity):
         movie = self.Data[self.State]
 
         with TaskManager.createTaskChain(Name="OpenJournal_Leave", Cb=self.changeState) as tc:
-            tc.addTask("TaskEnable", Object=movie)
+            tc.addEnable(movie)
             tc.addTask("TaskMoviePlay", Movie=movie, Loop=False, Wait=True)
             pass
         pass
@@ -135,14 +135,14 @@ class OpenJournal(BaseEntity):
             pass
 
         with TaskManager.createTaskChain(Name="OpenJournal_Activate") as tc:
-            tc.addTask("TaskFunction", Fn=setClicked)
-            tc.addTask("TaskEnable", Object=movie)
+            tc.addFunction(setClicked)
+            tc.addEnable(movie)
 
             with GuardBlockInput(tc) as guard_tc:
                 guard_tc.addTask("TaskMoviePlay", Movie=movie, Loop=False, Wait=True)
                 pass
 
-            tc.addTask("TaskNotify", ID=Notificator.onJournalOpen)
+            tc.addNotify(Notificator.onJournalOpen)
             pass
         pass
 

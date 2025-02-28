@@ -26,4 +26,4 @@ class MacroListener(MacroCommand):
         return True
 
     def _onGenerate(self, source):
-        source.addTask("TaskListener", ID=self.notifyID, Filter=self.__filter)
+        source.addListener(self.notifyID, Filter=self.__filter)

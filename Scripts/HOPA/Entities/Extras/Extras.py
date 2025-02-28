@@ -51,7 +51,7 @@ class Extras(BaseEntity):
                     entityType = extra.getEntityType()
 
                     tc_button.addTask("TaskButtonClick", ButtonName=buttonName)
-                    tc_button.addTask("TaskScope", Scope=self.update, Args=(layerName, objectName, entityType, name))
+                    tc_button.addScope(self.update, layerName, objectName, entityType, name)
                     pass
                 pass
             pass
@@ -61,13 +61,13 @@ class Extras(BaseEntity):
         if entityType == "Enigma":
             entityObject = GroupManager.getObject(groupName, objectName)
 
-            scope.addTask("TaskSetParam", Object=entityObject, Param="EntityName", Value=name)
+            scope.addParam(entityObject, "EntityName", name)
             pass
 
         if self.CurrentLayer != groupName:
             scope.addTask("TaskSceneLayerGroupEnable", LayerName=self.CurrentLayer, Value=False)
             scope.addTask("TaskSceneLayerGroupEnable", LayerName=groupName, Value=True)
-            scope.addTask("TaskSetParam", Object=self.object, Param="CurrentLayer", Value=groupName)
+            scope.addParam(self.object, "CurrentLayer", groupName)
             pass
         pass
 

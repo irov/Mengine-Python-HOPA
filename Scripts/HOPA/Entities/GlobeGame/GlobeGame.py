@@ -156,11 +156,11 @@ class GlobeGame(Enigma):
             pass
 
         with TaskManager.createTaskChain(Name="GlobeGame_Rotate", Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onGlobeGameRotate)
-            tc.addTask("TaskFunction", Fn=self._setRotate)
+            tc.addListener(Notificator.onGlobeGameRotate)
+            tc.addFunction(self._setRotate)
             tc.addTask("TaskMoviePlay", Movie=self.RotateMovie, Wait=True)
-            tc.addTask("TaskFunction", Fn=self._endRotate)
-            tc.addTask("TaskFunction", Fn=checkWin)
+            tc.addFunction(self._endRotate)
+            tc.addFunction(checkWin)
             pass
 
         pass
@@ -179,8 +179,8 @@ class GlobeGame(Enigma):
 
         with TaskManager.createTaskChain(Name="GlobeGame_%d_%d" % (y, x), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=mov, isDown=True)
-            tc.addTask("TaskFunction", Fn=cl)
-            tc.addTask("TaskNotify", ID=Notificator.onGlobeGameRotate)
+            tc.addFunction(cl)
+            tc.addNotify(Notificator.onGlobeGameRotate)
             pass
         pass
 

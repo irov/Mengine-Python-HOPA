@@ -6,8 +6,8 @@ class MacroRemoveAccount(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskFunction", Fn=self.changeMengineSetting)
-        source.addTask("TaskNotify", ID=Notificator.onRemoveAccount)
+        source.addFunction(self.changeMengineSetting)
+        source.addNotify(Notificator.onRemoveAccount)
         pass
 
     def changeMengineSetting(self):

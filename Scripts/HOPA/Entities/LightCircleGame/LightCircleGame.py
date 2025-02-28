@@ -317,8 +317,8 @@ class LightCircleGame(Enigma):
         # ------------------------------------------------------
         with TaskManager.createTaskChain(Name="CircleClick_%d" % (id), Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=self.SocketNames[id], Movie=Movie, isDown=True)
-            tc.addTask("TaskFunction", Fn=__SetCircle)
-            tc.addTask("TaskNotify", ID=Notificator.onLightCircleGameCircleClick)
+            tc.addFunction(__SetCircle)
+            tc.addNotify(Notificator.onLightCircleGameCircleClick)
             pass
         pass
 
@@ -342,11 +342,11 @@ class LightCircleGame(Enigma):
 
         # ------------------------------------------------------
         with TaskManager.createTaskChain(Name="SetRotateDirection", Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onLightCircleGameCircleClick)
-            tc.addTask("TaskFunction", Fn=__ClickAngle)
+            tc.addListener(Notificator.onLightCircleGameCircleClick)
+            tc.addFunction(__ClickAngle)
             with tc.addRepeatTask() as (tc_rotate, tc_until):
                 tc_rotate.addTask("TaskMouseMoveDistance", Distance=0)
-                tc_rotate.addTask("TaskFunction", Fn=__Rotate)
+                tc_rotate.addFunction(__Rotate)
 
                 tc_until.addTask("TaskMouseButtonClick", isDown=False)
 

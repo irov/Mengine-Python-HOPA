@@ -183,7 +183,7 @@ class Sandglass(Enigma):
         self.AliasNames.append(name_A2)
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=rea)
+            tc.addFunction(rea)
             tc.addTask("AliasMultyplMovePlay", Movies=mov_Play)
             pass
 
@@ -192,16 +192,16 @@ class Sandglass(Enigma):
                 tc_L1.addTask("TaskMovieSocketEnter", SocketName=sockName, Movie=Points, Filter=filter,
                               isMouseEnter=False)
                 # tc_L1.addTask("TaskPrint", Value = "select %s"%name_A2)
-                tc_L1.addTask("TaskFunction", Fn=select)
-                tc_L1.addTask("TaskNotify", ID=Notificator.onSandGlassMouseEnterSocket)
+                tc_L1.addFunction(select)
+                tc_L1.addNotify(Notificator.onSandGlassMouseEnterSocket)
 
                 tc_L2.addTask("TaskMovieSocketLeave", SocketName=sockName, Movie=Points)
-                tc_L2.addTask("TaskNotify", ID=Notificator.onSandGlassMouseLeaveSocket)
-                tc_L2.addTask("TaskFunction", Fn=Deselect)
+                tc_L2.addNotify(Notificator.onSandGlassMouseLeaveSocket)
+                tc_L2.addFunction(Deselect)
 
                 tc_Click.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=Points, Filter=filter)
-                tc_Click.addTask("TaskFunction", Fn=Click_In)
-                tc_Click.addTask("TaskNotify", ID=Notificator.onSandGlassMouseClickSocket, Args=(Id,))
+                tc_Click.addFunction(Click_In)
+                tc_Click.addFunction(Notificator.onSandGlassMouseClickSocket, Id)
                 pass
             pass
         pass
@@ -334,17 +334,17 @@ class Sandglass(Enigma):
         self.AliasNames.append(name_A3)
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=rea)
+            tc.addFunction(rea)
             tc.addTask("AliasMultyplMovePlay", Movies=mov_Play)
             pass
 
         with TaskManager.createTaskChain(Name=name_A2, Repeat=True) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onSandGlassMouseEnterSocket, Filter=filt_Und)
-            tc.addTask("TaskListener", ID=Notificator.onSandGlassMouseLeaveSocket, Filter=filt_Und)
+            tc.addListener(Notificator.onSandGlassMouseEnterSocket, Filter=filt_Und)
+            tc.addListener(Notificator.onSandGlassMouseLeaveSocket, Filter=filt_Und)
             pass
 
         with TaskManager.createTaskChain(Name=name_A3) as tc:
-            tc.addTask("TaskListener", ID=Notificator.onSandGlassMouseClickSocket, Filter=skip_Current)
+            tc.addListener(Notificator.onSandGlassMouseClickSocket, Filter=skip_Current)
             pass
         pass
 
@@ -362,7 +362,7 @@ class Sandglass(Enigma):
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=Points)
-            tc.addTask("TaskFunction", Fn=res)
+            tc.addFunction(res)
             pass
         pass
 

@@ -102,7 +102,7 @@ class SystemGetItemRoundFX(System):
                     tc1.addScope(self.scopeClose, "ItemPopUp")
 
                     tc2.addTask("AliasFadeOut", FadeGroupName="FadeDialog", From=GetItemFade, Time=time, Unblock=True)
-                    tc3.addTask("TaskScope", Scope=self.__addInventoryItem, Args=(itemName,))
+                    tc3.addScope(self.__addInventoryItem, itemName)
 
                 tc.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=False)
 
@@ -134,6 +134,4 @@ class SystemGetItemRoundFX(System):
             Movie = GroupManager.getObject(GropName, MovieName)
             with GuardBlockInput(source) as guard_source:
                 with guard_source.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=True)
-                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
-                    guard_source_movie.addTask("TaskEnable", Object=Movie, Value=False)
+                    guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True, AutoEnable=True)

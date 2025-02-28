@@ -256,7 +256,7 @@ class ChekersCR(Enigma):
         self.AliasNames.append(name_A2)
 
         with TaskManager.createTaskChain(Name=name_A1, Repeat=True) as tc:
-            tc.addTask("TaskFunction", Fn=rea)
+            tc.addFunction(rea)
             tc.addTask("AliasMultyplMovePlay", Movies=mov_Play)
             pass
 
@@ -264,7 +264,7 @@ class ChekersCR(Enigma):
 
         with TaskManager.createTaskChain(Name=name_A2, Repeat=True) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName=sockName, Movie=self.Movie_Points)
-            tc.addTask("TaskFunction", Fn=Click)
+            tc.addFunction(Click)
             pass
         pass
 
@@ -274,8 +274,8 @@ class ChekersCR(Enigma):
 
         with TaskManager.createTaskChain(Name=name_A1) as tc:
             tc.addTask("TaskMovieSocketClick", SocketName="Reset", Movie=self.Movie_Points)
-            tc.addTask("TaskPrint", Value="restart ")
-            tc.addTask("TaskFunction", Fn=self.__Restart)
+            tc.addPrint("restart ")
+            tc.addFunction(self.__Restart)
             pass
         pass
 

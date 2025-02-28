@@ -7,7 +7,7 @@ class MacroTaskClose(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onTasksClose, Args=(self.NoteID,))
+        source.addNotify(Notificator.onTasksClose, self.NoteID)
         pass
 
     pass

@@ -36,22 +36,22 @@ class Symbol(Initializer):
     def activateSymbol(self):
         with TaskManager.createTaskChain() as tc:
             if self.isOpen is False:
-                tc.addTask("TaskEnable", Object=self.movie_close, Value=True)
+                tc.addEnable(self.movie_close)
                 tc.addTask("TaskMoviePlay", Movie=self.movie_close, Wait=True)
-                tc.addTask("TaskEnable", Object=self.movie_close, Value=False)
-                tc.addTask("TaskEnable", Object=self.movie_activate, Value=False)
-                tc.addTask("TaskEnable", Object=self.movie_open, Value=False)
-                tc.addTask("TaskEnable", Object=self.movie_backplate, Value=True)
-                tc.addTask("TaskFunction", Fn=self.mouseOff)
+                tc.addDisable(self.movie_close)
+                tc.addDisable(self.movie_activate)
+                tc.addDisable(self.movie_open)
+                tc.addEnable(self.movie_backplate)
+                tc.addFunction(self.mouseOff)
             else:
                 if self.movie_sound is not None:
                     tc.addTask("TaskMoviePlay", Movie=self.movie_sound, Wait=False, Loop=False)
-                tc.addTask("TaskEnable", Object=self.movie_backplate, Value=False)
-                tc.addTask("TaskEnable", Object=self.movie_activate, Value=True)
+                tc.addDisable(self.movie_backplate)
+                tc.addEnable(self.movie_activate)
                 tc.addTask("TaskMoviePlay", Movie=self.movie_activate, Wait=True)
-                tc.addTask("TaskEnable", Object=self.movie_activate, Value=False)
-                tc.addTask("TaskEnable", Object=self.movie_open, Value=True)
-                tc.addTask("TaskEnable", Object=self.movie_mouseover, Value=True)
+                tc.addDisable(self.movie_activate)
+                tc.addEnable(self.movie_open)
+                tc.addEnable(self.movie_mouseover)
 
     def mouseOn(self):
         self.movie_mouseover.setEnable(True)

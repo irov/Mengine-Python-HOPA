@@ -9,5 +9,5 @@ class CruiseActionDummy(CruiseAction):
             TaskManager.cancelTaskChain("CruiseActionDummy")
 
         with TaskManager.createTaskChain(Name="CruiseActionDummy") as tc:
-            tc.addTask("TaskListener", ID=Notificator.onQuestEnd, Filter=lambda quest: quest == self.Quest)
-            tc.addTask("TaskNotify", ID=Notificator.onCruiseActionEnd, Args=(self,))
+            tc.addListener(Notificator.onQuestEnd, Filter=lambda quest: quest == self.Quest)
+            tc.addNotify(Notificator.onCruiseActionEnd, self)

@@ -64,7 +64,7 @@ class HOGFXPartsGathering(Enigma):
                     tc.addTask("AliasHOGFXPartsGatheringFindItem", HOG=self.object,
                                HOGItemName=item.name, EnigmaName=self.EnigmaName)
                 else:
-                    tc.addTask("TaskDummy")
+                    tc.addDummy()
 
     def _appendFoundItems(self, id, itemName):
         self.HOGInventory.appendParam("FoundItems", itemName)

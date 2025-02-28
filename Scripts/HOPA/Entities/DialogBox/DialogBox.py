@@ -108,7 +108,7 @@ class DialogBox(BaseEntity):
             if self.object.hasObject("Text_Message"):
                 tc_text.addTask("TaskEnable", ObjectName="Text_Message")
                 tc_text.addTask("AliasObjectAlphaTo", ObjectName="Text_Message", Time=AlphaToTime, From=0.0, To=1.0)
-        source.addTask("TaskDelay", Time=PlayDialogDelay)
+        source.addDelay(PlayDialogDelay)
 
         with source.addRaceTask(2) as (voice_play_tc, skip_voice_play_tc):
             voice_play_tc.addTask("TaskVoicePlay", VoiceID=VoiceID, Loop=False, Wait=True)
@@ -123,7 +123,7 @@ class DialogBox(BaseEntity):
         #
         #     tc_text.addTask("AliasTextPlay", ObjectText=ObjectText, TextID=TextID, TextDelay=TextDelay)
 
-        source.addTask("TaskDelay", Time=PlayDialogDelay)
+        source.addDelay(PlayDialogDelay)
 
         with source.addParallelTask(5) as (tc_avatar_frame, tc_avatar_bg, tc_black_bar, tc_avatar, tc_text):
             if self.object.hasObject("Sprite_AvatarFrame"):

@@ -26,4 +26,4 @@ class MacroZoomBlockClose(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onZoomBlockClose, Args=(self.ZoomName, True))
+        source.addNotify(Notificator.onZoomBlockClose, self.ZoomName, True)

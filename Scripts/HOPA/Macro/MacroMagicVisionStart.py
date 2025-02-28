@@ -17,7 +17,7 @@ class MacroMagicVisionStart(MacroCommand):
         pass
 
     def _onGenerate(self, source):
-        source.addTask("TaskNotify", ID=Notificator.onMagicVisionStart)
+        source.addNotify(Notificator.onMagicVisionStart)
         pass
 
     pass

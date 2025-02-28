@@ -72,23 +72,23 @@ class RotateMiniSystem(object):
 
             # Hard style
             with TaskManager.createTaskChain(Name=RotateMiniSystem.TaskName) as tc:
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(current_timing, duration))
+                tc.addFunction(MovieEn.setInterval, current_timing, duration)
                 tc.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, duration - 1))
-                tc.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(duration,))
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, set_time))
+                tc.addFunction(MovieEn.setInterval, 0, duration - 1)
+                tc.addFunction(MovieEn.setTiming, duration)
+                tc.addFunction(MovieEn.setInterval, 0, set_time)
                 tc.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, duration - 1))
-                tc.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(set_time,))
-                tc.addTask("TaskNotify", ID=Notificator.onEnigmaAction, Args=(False,))
+                tc.addFunction(MovieEn.setInterval, 0, duration - 1)
+                tc.addFunction(MovieEn.setTiming, set_time)
+                tc.addNotify(Notificator.onEnigmaAction, False)
                 pass
         else:
             with TaskManager.createTaskChain(Name=RotateMiniSystem.TaskName) as tc:
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(current_timing, set_time))
+                tc.addFunction(MovieEn.setInterval, current_timing, set_time)
                 tc.addTask("TaskMoviePlay", Movie=Movie, Wait=True)
-                tc.addTask("TaskFunction", Fn=MovieEn.setInterval, Args=(0, duration - 1))
-                tc.addTask("TaskFunction", Fn=MovieEn.setTiming, Args=(set_time,))
-                tc.addTask("TaskNotify", ID=Notificator.onEnigmaAction, Args=(False,))
+                tc.addFunction(MovieEn.setInterval, 0, duration - 1)
+                tc.addFunction(MovieEn.setTiming, set_time)
+                tc.addNotify(Notificator.onEnigmaAction, False)
                 pass
             pass
         pass
