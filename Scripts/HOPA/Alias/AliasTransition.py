@@ -105,9 +105,13 @@ class AliasTransition(TaskAlias):
             cur_scale[2] * self.ZoomEffectZoomFactor,
         )
 
-        transition_entity = self.ZoomEffectTransitionObject.getEntity()
-        hotspot = transition_entity.getHotSpot()
-        point = hotspot.getWorldPolygonCenter()
+        if self.ZoomEffectTransitionObject.getType() == "ObjectMovie2Button":
+            button_node = self.ZoomEffectTransitionObject.getEntityNode()
+            point = button_node.getWorldPosition()
+        else:
+            transition_entity = self.ZoomEffectTransitionObject.getEntity()
+            hotspot = transition_entity.getHotSpot()
+            point = hotspot.getWorldPolygonCenter()
 
         with source.addFork() as fork:
             fork.addTask("TaskNodeSetPosition", Node=MainLayer, Value=point)
