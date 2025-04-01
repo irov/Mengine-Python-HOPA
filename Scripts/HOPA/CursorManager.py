@@ -465,8 +465,7 @@ class CursorManager(object):
             CursorManager.s_currentCursorModeName = "Default"
 
         if CursorManager.s_currentCursorModeName is not None and CursorManager.s_currentCursorModeName not in CursorManager.s_cursors:
-            Trace.log("CursorManager", 0,
-                      "CursorManager.updateArrowCursor: current CursorModeName is not register %s." % (CursorManager.s_currentCursorModeName))
+            Trace.log("Manager", 0, "CursorManager.updateArrowCursor: current CursorModeName is not register %s." % (CursorManager.s_currentCursorModeName))
             return False
 
         if CursorManager.s_currentCursorModeName is None:
