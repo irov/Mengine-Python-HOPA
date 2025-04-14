@@ -45,11 +45,11 @@ class TechnicalSupport(BaseEntity):
             PUBLISHER=Utils.getCurrentPublisher(),
             OS_NAME=Utils.getCurrentPlatform(),
             OS_VERSION="unknown",
-            SESSION_ID="unknown",
+            USER_ID="unknown",
         )
         if _ANDROID:
             kwargs["OS_VERSION"] = Mengine.androidStringMethod("Application", "getOSVersion")
-            kwargs["SESSION_ID"] = Mengine.androidStringMethod("Application", "getSessionId")
+            kwargs["USER_ID"] = Mengine.androidStringMethod("Application", "getUserId")
             kwargs["BUILD_VERSION_CODE"] = Mengine.androidIntegerMethod("Application", "getVersionCode")
 
         body = u"""
@@ -64,7 +64,7 @@ class TechnicalSupport(BaseEntity):
 
         if _ANDROID:
             body += u"""* version code: {BUILD_VERSION_CODE}
-            * session id: {SESSION_ID}
+            * user id: {USER_ID}
             """.format(**kwargs)
 
         return body
