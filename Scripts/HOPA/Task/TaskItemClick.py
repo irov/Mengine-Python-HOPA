@@ -36,7 +36,7 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
             pass
         pass
 
-    def _onItemFindFilter(self, item):
+    def _onItemFindFilter(self, item, *args):
         if self.Filter is not None:
             if self.Filter(item) is False:
                 return False

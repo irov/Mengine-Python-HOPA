@@ -41,7 +41,7 @@ class MacroCloseItemPlus(MacroCommand):
         if len(values) > 3:
             self.override_close_time = float(values[3])
 
-    def _onInitialize(self, *args, **kwds):
+    def _onInitialize(self, *Args, **Kwargs):
         # initialize self.point if it's ObjectPoint instance and not tuple(float_x, float_y)
         if self.point is not None and not self.b_point_is_tuple:
             if _DEVELOPMENT is True:

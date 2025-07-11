@@ -318,7 +318,7 @@ class AliasCruiseControlAction(TaskAlias):
     @staticmethod
     def handleClickFakeItemObj(source, self):
         # source.addNotify(Notificator.onItemClickBegin, self.Object)
-        source.addNotify(Notificator.onItemClick, self.Object)
+        source.addNotify(Notificator.onItemClick, self.Object, 0.0, 0.0)
 
         # def lambdaMsg():
         #     msg = "source.addNotify(Notificator.onItemClickBegin, {})".format(self.Object.getName())

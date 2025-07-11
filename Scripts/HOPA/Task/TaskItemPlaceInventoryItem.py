@@ -30,7 +30,7 @@ class TaskItemPlaceInventoryItem(MixinItem, MixinObserver, Task):
         return False
         pass
 
-    def _onItemFilter(self, item):
+    def _onItemFilter(self, item, *args):
         attach = ArrowManager.getArrowAttach()
 
         if attach is None:

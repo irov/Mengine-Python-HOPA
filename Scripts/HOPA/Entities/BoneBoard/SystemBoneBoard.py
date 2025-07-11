@@ -156,7 +156,7 @@ class SystemBoneBoard(System):
         return False
         pass
 
-    def on_item_click(self, *args):
+    def on_item_click(self, obj, *args):
         if self.boneDemonObject.isActive() is False:
             return False
             pass

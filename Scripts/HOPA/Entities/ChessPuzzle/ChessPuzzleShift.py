@@ -68,7 +68,7 @@ class ChessPuzzleShift(ChessPuzzleElement):
         self.setActive(False)
         pass
 
-    def _onItemClick(self, item, grid):
+    def _onItemClick(self, item, x, y, grid):
         if self.block is True:
             return False
             pass

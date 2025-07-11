@@ -29,7 +29,7 @@ class TaskItemPlaceItem(MixinItem, MixinObserver, Task):
         return False
         pass
 
-    def _onItemClickFilter(self, item):
+    def _onItemClickFilter(self, item, *args):
         attach = ArrowManager.getArrowAttach()
 
         if attach is None or attach is not self.Item:

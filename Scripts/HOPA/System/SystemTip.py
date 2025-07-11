@@ -113,7 +113,7 @@ class SystemTip(System):
 
         return False
 
-    def __onObjectClick(self, clickObject):
+    def __onObjectClick(self, clickObject, *args):
         if ArrowManager.emptyArrowAttach() is False:
             return False
 

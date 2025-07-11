@@ -35,7 +35,7 @@ class TaskSpellOnItem(MixinItem, MixinObserver, Task):
             pass
         pass
 
-    def _onItemFindFilter(self, item):
+    def _onItemFindFilter(self, item, *args):
         if self.Spell == SystemSpell.getCurrentSpell():
             self.Spell.setIsValidUse(True)
             if self.SpellCost is None:

@@ -168,11 +168,11 @@ class Item(Interaction):
     def _mouseLeave(self):
         Notification.notify(Notificator.onItemMouseLeave, self.object)
 
-    def _mouseClickBegin(self):
-        Notification.notify(Notificator.onItemClickBegin, self.object)
+    def _mouseClickBegin(self, x, y):
+        Notification.notify(Notificator.onItemClickBegin, self.object, x, y)
 
-    def _mouseClickUp(self):
-        Notification.notify(Notificator.onItemClick, self.object)
+    def _mouseClickUp(self, x, y):
+        Notification.notify(Notificator.onItemClick, self.object, x, y)
 
     def itemGlobalMouseEvent(self, value):
         if self.MouseButtonHandlerID is not None:

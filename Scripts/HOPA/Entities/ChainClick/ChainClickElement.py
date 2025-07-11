@@ -89,7 +89,7 @@ class ChainClickElement(object):
         Notification.removeObserver(self.onItemMouseLeaveObserver)
         pass
 
-    def _onItemClick(self, item, wait, callback):
+    def _onItemClick(self, item, x, y, wait, callback):
         if item is not wait:
             return False
             pass

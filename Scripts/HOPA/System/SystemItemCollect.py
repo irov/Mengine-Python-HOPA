@@ -90,7 +90,7 @@ class SystemItemCollect(System):
             self.setCurrentOpenItemCollect(None)
         return False
 
-    def __onItemClick(self, itemObject):
+    def __onItemClick(self, itemObject, *args):
         Demon = DemonManager.getDemon('ItemCollect')
 
         if Demon.isActive() is False or Demon.getEnable() is False:
