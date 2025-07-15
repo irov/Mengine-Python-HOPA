@@ -121,26 +121,22 @@ class Fan(Enigma):
             pass
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown, isPressed):
-        if button != 0 or isDown is False:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0 or event.isDown is False:
             return True
-            pass
 
         if self.state == Fan.STATE_OPEN:
             if ArrowManager.emptyArrowAttach() is False:
                 return True
-                pass
             else:
                 FanManager.closeFan(self.object)
                 pass
             return True
-            pass
 
         if self.state == Fan.STATE_MOVIEOPEN:
             TaskManager.cancelTaskChain("OpenFan")
             FanManager.closeFan(self.object)
             return True
-            pass
 
         if self.state == Fan.STATE_MOVIECLOSE:
             if TaskManager.existTaskChain("CloseFan") is True:
@@ -149,34 +145,27 @@ class Fan(Enigma):
 
             FanManager.openFan(self.object)
             return True
-            pass
 
         if self.state == Fan.STATE_CLOSE:
             FanManager.openFan(self.object)
             return True
-            pass
 
         return True
-        pass
 
     def _onSocketClickFilter(self, socket):
         if ArrowManager.emptyArrowAttach() is True:
             return False
-            pass
 
         attach = ArrowManager.getArrowAttach()
         if socket not in self.socets:
             return False
-            pass
 
         if self.item_linked_socket[attach] != socket:
             return False
-            pass
 
         self.__onFanClick()
 
         return False
-        pass
 
     ###Enigma
     def _playEnigma(self):

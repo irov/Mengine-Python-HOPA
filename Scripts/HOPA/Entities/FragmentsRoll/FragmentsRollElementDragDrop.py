@@ -227,23 +227,21 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
         return self.entity.node
         pass
 
-    def __onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def __onMouseButtonEvent(self, context, event):
         if self.isBlock() is True:
             return False
-            pass
 
-        if button != 0:
+        if event.button != 0:
             return False
-            pass
 
-        if isDown is False:
+        if event.isDown is False:
             self.refresh()
             return False
-            pass
 
         self.onMove = True
         Mengine.enableGlobalHandler(self.MouseButtonHandlerID, True)
         Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
+
         return False
         pass
 

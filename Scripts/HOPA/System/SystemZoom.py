@@ -704,45 +704,36 @@ class SystemZoom(System):
         self.Opening = False
         pass
 
-    def _onFrontMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def _onFrontMouseButtonEvent(self, context, event):
         return True
-        pass
 
-    def _onBackMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def _onBackMouseButtonEvent(self, context, event):
         if self.object is not None:
             if TransitionManager.isBlockTransition() is True:
                 return False
-                pass
             pass
 
-        if button == 0 and isDown == 1 and ArrowManager.emptyArrowAttach() is True:
+        if event.button == 0 and event.isDown == 1 and ArrowManager.emptyArrowAttach() is True:
             ZoomManager.closeZoom(self.zoomGroupName)
             return True
-            pass
 
         return True
-        pass
 
     def __zoomClose(self, zoomGroupName):
         if zoomGroupName in self.blockClose:
             return False
-            pass
 
         if self.zoomGroupName != zoomGroupName:
             return False
-            pass
 
         if self.existTaskChain("ZoomForceOpen") is True:
             return False
-            pass
 
         if self.existTaskChain("ZoomOpen") is True:
             return False
-            pass
 
         if self.existTaskChain("ZoomClose") is True:
             return False
-            pass
 
         ZoomCloseMove = DefaultManager.getDefaultBool("ZoomCloseMove", True)
         hav_Dem_A = self.openZoomGroup.hasObject("Demon_ZoomAfterFrame")
@@ -784,14 +775,10 @@ class SystemZoom(System):
                     def _zoomMainLayerClose(source):
                         with source.addParallelTask(5) as (tc0, tc1, tc2, tc3, tc_SceneZoom):
                             tc_SceneZoom.addScope(self._scope_scene_Zoom_Back_effect, timeAlphaTo)
-                            tc0.addTask("TaskNodeScaleTo", Node=zoomMainLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo,
-                                        Easing=zoom_easing_out)
-                            tc1.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo,
-                                        Easing=zoom_easing_out)
-                            tc2.addTask("TaskNodeAlphaTo", Node=zoomMainLayer, To=0.0, Time=timeAlphaTo,
-                                        Easing=zoom_easing_out)
-                            tc3.addTask("AliasFadeOut", FadeGroupName="FadeZoom", From=self.fade_to, Time=timeFadeOut,
-                                        Easing=zoom_easing_out)
+                            tc0.addTask("TaskNodeScaleTo", Node=zoomMainLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo, Easing=zoom_easing_out)
+                            tc1.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo, Easing=zoom_easing_out)
+                            tc2.addTask("TaskNodeAlphaTo", Node=zoomMainLayer, To=0.0, Time=timeAlphaTo, Easing=zoom_easing_out)
+                            tc3.addTask("AliasFadeOut", FadeGroupName="FadeZoom", From=self.fade_to, Time=timeFadeOut, Easing=zoom_easing_out)
                             pass
                         pass
 
@@ -805,14 +792,10 @@ class SystemZoom(System):
                         PosFrameScene = (hs_center.x - frameSize.x * 0.5, hs_center.y - frameSize.y * 0.5)
 
                         with source.addParallelTask(4) as (tc1, tc2, tc3, tc4):
-                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo,
-                                        Easing=zoom_easing_out)
-                            tc2.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo,
-                                        Easing=zoom_easing_out)
-                            tc3.addTask("TaskNodeMoveTo", Node=frameScene, To=PosFrameScene, Time=timeMoveTo,
-                                        Easing=zoom_easing_out)
-                            tc4.addTask("TaskNodeAlphaTo", Node=frameLayer, To=0.0, Time=timeAlphaTo,
-                                        Easing=zoom_easing_out)
+                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo, Easing=zoom_easing_out)
+                            tc2.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo, Easing=zoom_easing_out)
+                            tc3.addTask("TaskNodeMoveTo", Node=frameScene, To=PosFrameScene, Time=timeMoveTo, Easing=zoom_easing_out)
+                            tc4.addTask("TaskNodeAlphaTo", Node=frameLayer, To=0.0, Time=timeAlphaTo, Easing=zoom_easing_out)
                             pass
                         pass
 
@@ -826,14 +809,10 @@ class SystemZoom(System):
                         PosFrameScene = (hs_center.x - frameSize.x * 0.5, hs_center.y - frameSize.y * 0.5)
 
                         with source.addParallelTask(4) as (tc1, tc2, tc3, tc4):
-                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo,
-                                        Easing=zoom_easing_out)
-                            tc2.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo,
-                                        Easing=zoom_easing_out)
-                            tc3.addTask("TaskNodeMoveTo", Node=frameScene, To=PosFrameScene, Time=timeMoveTo,
-                                        Easing=zoom_easing_out)
-                            tc4.addTask("TaskNodeAlphaTo", Node=frameLayer, To=0.0, Time=timeAlphaTo,
-                                        Easing=zoom_easing_out)
+                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(0.0, 0.0, 0.0), Time=timeScaleTo, Easing=zoom_easing_out)
+                            tc2.addTask("TaskNodeMoveTo", Node=zoomScene, To=PosScene, Time=timeMoveTo, Easing=zoom_easing_out)
+                            tc3.addTask("TaskNodeMoveTo", Node=frameScene, To=PosFrameScene, Time=timeMoveTo, Easing=zoom_easing_out)
+                            tc4.addTask("TaskNodeAlphaTo", Node=frameLayer, To=0.0, Time=timeAlphaTo, Easing=zoom_easing_out)
                             pass
                         pass
 
@@ -854,13 +833,11 @@ class SystemZoom(System):
                     pass
 
                 if self.FrameGroupName is not None:
-                    guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                     LayerName=self.FrameGroupName, Value=False)
+                    guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=self.FrameGroupName, Value=False)
                     pass
 
                 if self.OverFrameGroupName is not None:
-                    guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                     LayerName=self.OverFrameGroupName, Value=False)
+                    guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,LayerName=self.OverFrameGroupName, Value=False)
                     pass
 
                 guard_tc.addTask("TaskSceneEntering")
@@ -930,18 +907,15 @@ class SystemZoom(System):
     def __closeZoom(self, isSkip, zoomGroupName):
         if isSkip is True:
             return
-            pass
 
         self.cleanData()
 
         Notification.notify(Notificator.onZoomLeave, zoomGroupName)
-
         pass
 
     def cleanData(self, force=False):
         if self.Zoom is None:
             return
-            pass
 
         self.Zoom.setOpen(False)
 

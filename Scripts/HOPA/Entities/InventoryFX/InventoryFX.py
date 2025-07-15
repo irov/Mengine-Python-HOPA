@@ -25,21 +25,21 @@ class InventorySlot(object):
         self.scaleTo = 1
         pass
 
-    def _onMouseEnter(self, x, y):
+    def _onMouseEnter(self, context, event):
         Notification.notify(Notificator.onInventoryItemMouseEnter, self.item)
         Notification.notify(Notificator.onInventorySlotItemEnter, self.inventoryObject, self.item)
         return True
         pass
 
-    def _onMouseLeave(self):
+    def _onMouseLeave(self, context, event):
         removeItem = self.item or self.cursorItem or self.removeItem2
 
         Notification.notify(Notificator.onInventoryItemMouseLeave, removeItem)
         Notification.notify(Notificator.onInventorySlotItemLeave, self.inventoryObject, removeItem)
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button != 0 or isDown is False:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0 or event.isDown is False:
             return True
             pass
 
@@ -52,7 +52,6 @@ class InventorySlot(object):
             GroupZoom = GroupManager.getGroup(ScenePlus)
             Notification.notify(Notificator.onItemZoomEnter, GroupZoom, ScenePlus)
             return True
-            pass
         ##################################
 
         Notification.notify(Notificator.onInventoryPickInventoryItem, self.item)
@@ -61,16 +60,15 @@ class InventorySlot(object):
 
         if ArrowManager.emptyArrowAttach() is True:
             InventoryEntity.pickInventoryItem(self.slotId)
+            pass
         else:
             if self.item is None:
                 return True
-                pass
 
             InventoryEntity.combineInventoryItem(self.slotId)
             pass
 
         return True
-        pass
 
     def getPoint(self):
         return self.point

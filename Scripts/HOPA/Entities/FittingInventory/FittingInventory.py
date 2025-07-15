@@ -107,24 +107,22 @@ class InventorySlot(object):
         self.hotspot.disable()
         pass
 
-    def __onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button != 0 or isDown is False:
+    def __onMouseButtonEvent(self, context, event):
+        if event.button != 0 or event.isDown is False:
             return False
-            pass
 
         Notification.notify(Notificator.onInventoryItemClick, self.item)
 
         return False
-        pass
 
-    def __onMouseEnter(self, x, y):
+    def __onMouseEnter(self, context, event):
         Notification.notify(Notificator.onInventoryItemMouseEnter, self.item)
         Notification.notify(Notificator.onInventorySlotItemEnter, self.object, self.item)
 
         return True
         pass
 
-    def __onMouseLeave(self):
+    def __onMouseLeave(self, context, event):
         Notification.notify(Notificator.onInventoryItemMouseLeave, self.item)
         Notification.notify(Notificator.onInventorySlotItemLeave, self.object, self.item)
         pass

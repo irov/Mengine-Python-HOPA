@@ -67,7 +67,7 @@ class Zoom(BaseEntity):
             pass
         pass
 
-    def _onMouseEnter(self, x, y):
+    def _onMouseEnter(self, context, event):
         if self.BlockOpen is True:
             return False
             pass
@@ -77,27 +77,22 @@ class Zoom(BaseEntity):
         Zoom = ZoomManager.getZoom(zoomGroupName)
 
         if Zoom is None:
-            Trace.log("Object", 0, "Zoom._onMouseEnter: %s:%s not found zoom %s [maybe add to Zooms.xlsx]" % (
-                self.object.getGroupName(), self.getName(), zoomGroupName))
+            Trace.log("Object", 0, "Zoom._onMouseEnter: %s:%s not found zoom %s [maybe add to Zooms.xlsx]" % (self.object.getGroupName(), self.getName(), zoomGroupName))
             return False
-            pass
 
         ZoomSceneName = Zoom.getFromSceneName()
         currentSceneName = SceneManager.getCurrentSceneName()
 
         if ZoomSceneName != currentSceneName:
             return False
-            pass
 
         Notification.notify(Notificator.onZoomMouseEnter, self.object)
 
         return True
-        pass
 
-    def _onMouseLeave(self):
+    def _onMouseLeave(self, context, event):
         if self.BlockOpen is True:
             return
-            pass
 
         zoomGroupName = ZoomManager.getZoomGroupName(self.object)
 
@@ -108,12 +103,11 @@ class Zoom(BaseEntity):
 
         if ZoomSceneName != currentSceneName:
             return
-            pass
 
         Notification.notify(Notificator.onZoomMouseLeave, self.object)
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def _onMouseButtonEvent(self, context, event):
         zoomGroupName = ZoomManager.getZoomGroupName(self.object)
 
         Zoom = ZoomManager.getZoom(zoomGroupName)
@@ -123,10 +117,9 @@ class Zoom(BaseEntity):
 
         if ZoomSceneName != currentSceneName:
             return False
-            pass
 
         def _DefaultImplementation():
-            if button == 0 and isDown == 1:
+            if event.button == Mengine.MC_LBUTTON and event.isDown == 1:
                 if ArrowManager.emptyArrowAttach() is False:
                     Notification.notify(Notificator.onZoomUse, self.object)
 
@@ -137,7 +130,7 @@ class Zoom(BaseEntity):
                 return
             with TaskManager.createTaskChain(Name="ZoomMouseButtonEventTC") as tc:
                 tc.addDelay(100.0)  # wait, may be user scroll
-                if button == 0 and isDown == 1:
+                if event.button == Mengine.MC_LBUTTON and event.isDown == 1:
                     if ArrowManager.emptyArrowAttach() is False:
                         tc.addNotify(Notificator.onZoomUse, self.object)
                     tc.addNotify(Notificator.onZoomClick, self.object)
@@ -148,23 +141,20 @@ class Zoom(BaseEntity):
             _DefaultImplementation()
 
         return True
-        pass
 
-    def _onMouseButtonEventEnd(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button == 0 and isDown == 1:
+    def _onMouseButtonEventEnd(self, context, event):
+        if event.button == Mengine.MC_LBUTTON and event.isDown == 1:
             Notification.notify(Notificator.onZoomClickEnd, self.object)
             pass
 
         return False
-        pass
 
-    def _onMouseButtonEventBegin(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button == 0 and isDown == 1:
+    def _onMouseButtonEventBegin(self, context, event):
+        if event.button == Mengine.MC_LBUTTON and event.isDown == 1:
             Notification.notify(Notificator.onZoomClickBegin, self.object)
             pass
 
         return False
-        pass
 
     def isMouseEnter(self):
         hotspot = self.getHotSpot()
@@ -172,6 +162,4 @@ class Zoom(BaseEntity):
         pickerOver = hotspot.isMousePickerOver()
 
         return pickerOver
-        pass
-
     pass

@@ -93,21 +93,17 @@ class TrafficJamElement(object):
         self.element = None
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown, isPressed):
-        if button != 0:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != Mengine.MC_LBUTTON:
             return False
 
-        if isDown is True:
+        if event.isDown is True:
             Notification.notify(Notificator.onTrafficJamClick, self.trafficjam)
             self.hotspot.enableGlobalMouseEvent(True)
 
             sliderPos = self.sprite.getLocalPosition()
 
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
-            arrowPos = arrow_node.getWorldPosition()
-
-            self.offset = (arrowPos.x - sliderPos.x, arrowPos.y - sliderPos.y)
+            self.offset = (event.x - sliderPos.x, event.y - sliderPos.y)
 
             self.clearPole(0)
 
@@ -118,7 +114,6 @@ class TrafficJamElement(object):
                         self.x_clip_left = self.x - i
                     else:
                         break
-                        pass
                     pass
 
                 self.x_clip_right = self.x
@@ -133,7 +128,6 @@ class TrafficJamElement(object):
                         self.x_clip_right = new_x - (self.element.size - 1)
                     else:
                         break
-                        pass
                     pass
             else:
                 self.y_clip_top = 0
@@ -142,7 +136,6 @@ class TrafficJamElement(object):
                         self.y_clip_top = self.y - i
                     else:
                         break
-                        pass
                     pass
 
                 self.y_clip_bottom = self.y
@@ -157,21 +150,14 @@ class TrafficJamElement(object):
                         self.y_clip_bottom = new_y - (self.element.size - 1)
                     else:
                         break
-                        pass
                     pass
                 pass
-
             pass
 
         return True
-        pass
 
-    def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
-        arrowPos = arrow_node.getWorldPosition()
-
-        newPos = (arrowPos.x - self.offset[0], arrowPos.y - self.offset[1])
+    def _onGlobalMouseMove(self, context, event):
+        newPos = (event.x - self.offset[0], event.y - self.offset[1])
 
         x = self.x
         y = self.y
@@ -215,14 +201,12 @@ class TrafficJamElement(object):
         self.setPosition(new_x, new_y)
 
         return
-        pass
 
-    def _onGlobalMouseButtonEvent(self, touchId, button, isDown):
-        if button != 0:
+    def _onGlobalMouseButtonEvent(self, context, event):
+        if event.button != 0:
             return False
-            pass
 
-        if isDown is False:
+        if event.isDown is False:
             self.clearPole(1)
             self.hotspot.enableGlobalMouseEvent(False)
             pass
@@ -230,18 +214,13 @@ class TrafficJamElement(object):
         if self.element.main == 1:
             self.trafficjam.testWin(self.x, self.y)
             pass
-
-        return
         pass
-
     pass
 
 
 Enigma = Mengine.importEntity("Enigma")
 
-
 class TrafficJam(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

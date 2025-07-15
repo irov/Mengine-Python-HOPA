@@ -244,32 +244,29 @@ class Spot(BaseEntity):
         Notification.notify(Notificator.onSpotDeactivate, self.object)
         pass
 
-    def _onHSClick(self, touchId, x, y, button, isDown, isPressed):
+    def _onHSClick(self, context, event):
         # No multitouch here
-        if touchId != 0:
+        if event.touchId != 0:
             return False
 
-        if isDown is True:
+        if event.isDown is True:
             self.__arrowAttach()
             return True
-            pass
 
         return False
-        pass
 
-    def _onHSMainClick(self, touchId, x, y, button, isDown, isPressed):
+    def _onHSMainClick(self, context, event):
         # No multitouch here
-        if touchId != 0:
+        if event.touchId != 0:
             return False
 
-        if isDown is True:
+        if event.isDown is True:
             self.__arrowAttach()
             return False
-            pass
 
         self.__arrowDetach()
+
         return False
-        pass
 
     def __arrowAttach(self):
         self.__attached = True

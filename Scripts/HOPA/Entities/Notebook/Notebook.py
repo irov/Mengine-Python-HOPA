@@ -145,17 +145,15 @@ class Notebook(BaseEntity):
             pass
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown, isPressed, hs):
+    def _onMouseButtonEvent(self, context, event, hs):
         if hs not in self.socket.keys():
             return True
-        if button != 0:
+        if event.button != 0:
             return True
-        if isDown is True:
+        if event.isDown is True:
             self.clickHandler(hs)
             return True
-            pass
         return True
-        pass
 
     def __setupMovie(self, movie, noteId):
         textID = NotebookManager.getNote(noteId)

@@ -606,8 +606,8 @@ class ClickOnTarget(Enigma):
             self.toolbarButtonsBlock(True)
             self.playTargetFillAppearAnim()
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button == 0:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button == Mengine.MC_LBUTTON:
             self.event_socket_click()
         return False
 

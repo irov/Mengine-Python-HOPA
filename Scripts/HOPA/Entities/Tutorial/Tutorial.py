@@ -96,8 +96,8 @@ class Tutorial(BaseEntity):
             garbEn.removeFromParent()
         self.garbage = []
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown, isPressed):
-        if isDown is True:
+    def _onMouseButtonEvent(self, context, event):
+        if event.isDown is True:
             self.onHide()
             return True
 

@@ -87,8 +87,8 @@ class SystemDebugMenu(System):
         self.mobileDebugButtonNode.enable()
         layer.addChild(self.mobileDebugButtonNode)
 
-    def __onMobileDebugClick(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button != 0 or isDown is False:
+    def __onMobileDebugClick(self, context, event):
+        if event.button != 0 or event.isDown is False:
             return True
 
         if self.__scheduleID is None:

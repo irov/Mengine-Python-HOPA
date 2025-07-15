@@ -33,7 +33,7 @@ class InventoryFittingSlot(object):
 
         pass
 
-    def _onMouseEnter(self, x, y):
+    def _onMouseEnter(self, context, event):
         if self.ItemName is None:
             return False
         if Mengine.hasTouchpad() is True:
@@ -45,14 +45,16 @@ class InventoryFittingSlot(object):
 
         return True
 
-    def _onMouseLeave(self):
+    def _onMouseLeave(self, context, event):
         if self.ItemName is None:
             return
+
         if Mengine.hasTouchpad() is True:
             return True  # If player set cursor via touchpad over item - it will play effects - we need to block it
 
         if self.SlotIsFitting is False:
             Notification.notify(Notificator.onInventoryItemMouseLeave, self.ItemStore)
+
         Notification.notify(Notificator.onInventorySlotItemLeave, self.inventoryObject, self.ItemHideStore)
 
     def getItemOffset(self, item):
@@ -167,8 +169,7 @@ class InventoryFittingSlot(object):
 
     def EnableSocket(self):
         self.SocketHotSpot.enable()
-        self.SocketHotSpot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
-                                            onHandleMouseLeave=self._onMouseLeave)
+        self.SocketHotSpot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave)
 
     def DisableSocket(self):
         self.SocketHotSpot.disable()

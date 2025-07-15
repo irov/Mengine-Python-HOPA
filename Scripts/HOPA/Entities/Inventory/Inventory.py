@@ -25,14 +25,14 @@ class InventorySlot(object):
 
         self.block = False
 
-    def _onMouseEnter(self, _x, _y):
+    def _onMouseEnter(self, context, event):
         if Mengine.hasTouchpad() is True:
             return True  # If player set cursor via touchpad over item - it will play effects - we need to block it
         Notification.notify(Notificator.onInventoryItemMouseEnter, self.item)
         Notification.notify(Notificator.onInventorySlotItemEnter, self.inventoryObject, self.item)
         return True
 
-    def _onMouseLeave(self):
+    def _onMouseLeave(self, context, event):
         if Mengine.hasTouchpad() is True:
             return True  # If player set cursor via touchpad over item - it will play effects - we need to block it
         Notification.notify(Notificator.onInventoryItemMouseLeave, self.item)
@@ -44,8 +44,8 @@ class InventorySlot(object):
         Notification.notify(Notificator.onInventoryItemMouseLeave, self.item)
         Notification.notify(Notificator.onInventorySlotItemLeave, self.inventoryObject, self.item)
 
-    def _onMouseButtonEvent(self, _touchId, _x, _y, button, _pressure, isDown, _isPressed):
-        if button != 0 or isDown is False:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0 or event.isDown is False:
             return True
 
         if self.block is True:
@@ -67,12 +67,13 @@ class InventorySlot(object):
 
         if ArrowManager.emptyArrowAttach() is True:
             InventoryEntity.pickInventoryItem(self.slotId)
-
+            pass
         else:
             if self.item is None:
                 return True
 
             InventoryEntity.combineInventoryItem(self.slotId)
+            pass
 
         return True
 
@@ -129,10 +130,7 @@ class InventorySlot(object):
         self.point.addChild(itemEntityNode)
         self.hotspot.enable()
 
-        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter,
-                                      onHandleMouseLeave=self._onMouseLeave,
-                                      onHandleMouseOverDestroy=self._onHandleMouseOverDestroy,
-                                      onHandleMouseButtonEvent=self._onMouseButtonEvent)
+        self.hotspot.setEventListener(onHandleMouseEnter=self._onMouseEnter, onHandleMouseLeave=self._onMouseLeave, onHandleMouseOverDestroy=self._onHandleMouseOverDestroy, onHandleMouseButtonEvent=self._onMouseButtonEvent)
 
     def removeItem(self):
         self.hotspot.disable()

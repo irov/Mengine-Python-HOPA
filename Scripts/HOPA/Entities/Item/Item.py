@@ -162,7 +162,7 @@ class Item(Interaction):
         if self.state is Item.ITEM_HAND:
             Notification.notify(Notificator.onItemInvalidUse, self.object)
 
-    def _mouseEnter(self):
+    def _mouseEnter(self, x, y):
         Notification.notify(Notificator.onItemMouseEnter, self.object)
 
     def _mouseLeave(self):

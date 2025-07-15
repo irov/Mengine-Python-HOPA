@@ -161,22 +161,19 @@ class RotateChipElement(object):
         return self.block
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed, callback):
+    def _onMouseButtonEvent(self, context, event, callback):
         if self.isBlock() is True:
             return False
-            pass
 
-        if button != 0:
+        if event.button != Mengine.MC_LBUTTON:
             return False
-            pass
 
-        if isDown is False:
+        if event.isDown is False:
             return False
-            pass
 
         callback(self)
+
         return False
-        pass
 
     def setAngleInDegree(self, angle):
         angleRadian = angle / RotateChipElement.RADIAN

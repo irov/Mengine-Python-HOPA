@@ -111,22 +111,20 @@ class LetItSlideElement(object):
     def onDeactivate(self):
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown, isPressed):
-        if button != 0:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0:
             return False
 
-        if isDown is True:
+        if event.isDown is True:
             self.movieSocket.enableGlobalMouseEvent(True)
             pass
 
         return True
         pass
 
-    def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
-        arrowPosX = arrow_node.getWorldPosition()[0]
-        arrowPosY = arrow_node.getWorldPosition()[1]
+    def _onGlobalMouseMove(self, event):
+        arrowPosX = event.x
+        arrowPosY = event.y
 
         currentMousePos = (arrowPosX, arrowPosY)
 
@@ -166,16 +164,14 @@ class LetItSlideElement(object):
         return
         pass
 
-    def _onGlobalMouseButtonEvent(self, touchId, x, y, button, isDown):
-        if button != 0:
+    def _onGlobalMouseButtonEvent(self, event):
+        if event.button != 0:
             return False
-            pass
 
-        if isDown is False:
+        if event.isDown is False:
             self.movieSocket.enableGlobalMouseEvent(False)
             self.mousePos = None
             pass
-        return
         pass
 
     def Destroy(self):

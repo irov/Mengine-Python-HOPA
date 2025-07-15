@@ -409,11 +409,12 @@ class SystemItemPlusScene(System):
                 tc.addTask("TaskMovie2ButtonClick", Movie2ButtonName=botName)
                 tc.addNotify(Notificator.onItemZoomLeaveOpenZoom)
 
-    def _CloseZoomHotSpot(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if isDown is False:
+    def _CloseZoomHotSpot(self, context, event):
+        if event.isDown is False:
             return False
 
         Notification.notify(Notificator.onItemZoomLeaveOpenZoom)
+
         return True
 
     def _CloseZoomEnd(self, GroupZoom, ScenePlus, point=None, b_remove_from_inv=False, b_point_to_bezier=False, time=None):

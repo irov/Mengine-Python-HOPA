@@ -92,58 +92,48 @@ class Transition(BaseEntity):
             pass
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def _onMouseButtonEvent(self, context, event):
         SceneName = SceneManager.getCurrentSceneName()
 
         if TransitionManager.isValidTransition(self.object, SceneName) is False:
             return False
-            pass
 
-        if button == 0 and isDown is True:
+        if event.button == 0 and event.isDown is True:
             if ArrowManager.emptyArrowAttach() is False:
                 Notification.notify(Notificator.onTransitionUse, self.object)
                 return True
-                pass
             else:
                 Notification.notify(Notificator.onTransitionClick, self.object)
                 return True
-                pass
             pass
 
         return True
-        pass
 
-    def _onMouseButtonEventBegin(self, touchId, x, y, button, pressure, isDown, isPressed):
+    def _onMouseButtonEventBegin(self, context, event):
         SceneName = SceneManager.getCurrentSceneName()
 
         if TransitionManager.isValidTransition(self.object, SceneName) is False:
             return False
-            pass
 
-        if button == 0 and isDown is True:
+        if event.button == 0 and event.isDown is True:
             if ArrowManager.emptyArrowAttach() is False:
                 Notification.notify(Notificator.onTransitionUseBegin, self.object)
                 return False
-                pass
             else:
                 Notification.notify(Notificator.onTransitionClickBegin, self.object)
                 return False
-                pass
             pass
 
         return False
-        pass
 
-    def _onMouseEnter(self, x, y):
+    def _onMouseEnter(self, context, event):
         SceneName = SceneManager.getCurrentSceneName()
 
         if TransitionManager.isValidTransition(self.object, SceneName) is False:
             return False
-            pass
 
         if self.BlockOpen is True:
             return False
-            pass
 
         Notification.notify(Notificator.onTransitionMouseEnter, self.object)
 
@@ -151,13 +141,12 @@ class Transition(BaseEntity):
 
         if Cursor is None:
             return False
-            pass
 
         TransitionNotificator = Transition.NotificatorTransitionEnterDict[Cursor]
 
         Notification.notify(TransitionNotificator, self.object)
+
         return False
-        pass
 
     def _onMouseOverDestroy(self):
         self._mouseLeave()
@@ -166,7 +155,7 @@ class Transition(BaseEntity):
     def _mouseLeave(self):
         Notification.notify(Notificator.onInteractionMouseLeave, self.object)
 
-    def _onMouseLeave(self):
+    def _onMouseLeave(self, context, event):
         SceneName = SceneManager.getCurrentSceneName()
 
         if TransitionManager.isValidTransition(self.object, SceneName) is False:
