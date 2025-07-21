@@ -2,9 +2,10 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Manager import Manager
 
-
 class ProfileManager(Manager):
     s_profiles = {}
+
+    SELECT_PROFILE = "$SelectProfile"
 
     @staticmethod
     def _onFinalize():
@@ -73,7 +74,6 @@ class ProfileManager(Manager):
         records = DatabaseManager.getDatabaseRecords(module, param)
 
         for record in records:
-            SelectProfile = "$SelectProfile"
             groupName = "Profile"
             Over = "_Over"
             selectButton = None
@@ -120,14 +120,14 @@ class ProfileManager(Manager):
                 if id is None:
                     return
                 for i in range(id):
-                    selectButton = objectDemon.generateObjectUnique(selectButtonName + str(i), selectButtonName)
+                    selectButton = objectDemon.generateObjectUnique(selectButtonName + str(i), selectButtonName, EntityHierarchy=False)
                     selectButton.setEnable(True)
-                    Mengine.setTextAlias(SelectProfile + "_" + str(i), SelectProfile + Over, "ID_PROFILE_DEFAULT_NAME" + Over)
-                    Mengine.setTextAlias(SelectProfile + "_" + str(i), SelectProfile, "ID_PROFILE_DEFAULT_NAME")
+                    Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(i), ProfileManager.SELECT_PROFILE + Over, "ID_PROFILE_DEFAULT_NAME" + Over)
+                    Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(i), ProfileManager.SELECT_PROFILE, "ID_PROFILE_DEFAULT_NAME")
 
                     # Mengine.setTextAlias(SelectProfile + "_" + str(i), SelectProfile, "ID_SelectProfile")
                     for movie in selectButton.eachMovies():
-                        movie.setTextAliasEnvironment(SelectProfile + "_" + str(i))
+                        movie.setTextAliasEnvironment(ProfileManager.SELECT_PROFILE + "_" + str(i))
 
                     profile = ProfileManager.Profile(selectButton, deleteButton, createButton, editButton)
 

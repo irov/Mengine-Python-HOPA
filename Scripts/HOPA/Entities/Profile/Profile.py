@@ -8,7 +8,6 @@ from Notification import Notification
 
 
 class Profile(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
@@ -25,7 +24,6 @@ class Profile(BaseEntity):
         super(Profile, self).__init__()
         self.profiles = {}
         self.oldCurrent = None
-        self.SelectProfile = "$SelectProfile"
 
     def _updateCurrent(self, value):
         if value is not None:
@@ -58,20 +56,20 @@ class Profile(BaseEntity):
         Over = "_Over"
         textID = 'ID_SelectProfile'
         textID_Over = textID + Over
-        Mengine.setTextAlias(self.SelectProfile + "_" + str(slotID), self.SelectProfile, textID)
-        Mengine.setTextAlias(self.SelectProfile + "_" + str(slotID), self.SelectProfile + Over, textID_Over)
+        Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE, textID)
+        Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE + Over, textID_Over)
 
-        Mengine.setTextAliasArguments(self.SelectProfile + "_" + str(slotID), self.SelectProfile, Name)
-        Mengine.setTextAliasArguments(self.SelectProfile + "_" + str(slotID), self.SelectProfile + Over, Name)
+        Mengine.setTextAliasArguments(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE, Name)
+        Mengine.setTextAliasArguments(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE + Over, Name)
 
     def setDefaultTextAlias(self, slotID):
         Over = "_Over"
         textID = 'ID_PROFILE_DEFAULT_NAME'
         textID_Over = textID + Over
-        Mengine.removeTextAliasArguments(self.SelectProfile + "_" + str(slotID), self.SelectProfile)
-        Mengine.removeTextAliasArguments(self.SelectProfile + "_" + str(slotID), self.SelectProfile + Over)
-        Mengine.setTextAlias(self.SelectProfile + "_" + str(slotID), self.SelectProfile, textID)
-        Mengine.setTextAlias(self.SelectProfile + "_" + str(slotID), self.SelectProfile + Over, textID_Over)
+        Mengine.removeTextAliasArguments(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE)
+        Mengine.removeTextAliasArguments(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE + Over)
+        Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE, textID)
+        Mengine.setTextAlias(ProfileManager.SELECT_PROFILE + "_" + str(slotID), ProfileManager.SELECT_PROFILE + Over, textID_Over)
 
     def _onPreparation(self):
         pass
@@ -83,7 +81,7 @@ class Profile(BaseEntity):
         MovieSlots = objectDemon.getObject("Movie2_MovieSlots")
         slot = MovieSlots.getMovieSlot("slot_" + str(slotID))
         node = selectButton.getEntityNode()
-        selectButton.setTextAliasEnvironment("{}_{}".format(self.SelectProfile, str(slotID)))
+        selectButton.setTextAliasEnvironment("{}_{}".format(ProfileManager.SELECT_PROFILE, str(slotID)))
         slot.addChild(node)  # pos=slot.getWorldPosition()  # node.setWorldPosition(pos)
 
     # Ruslan
