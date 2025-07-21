@@ -135,7 +135,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             parallel_2.addFunction(self.removeMouseProvider)
 
     def createMouseProvider(self):
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def __onMousePositionChange(self, touchID, position):
         if touchID != 0:

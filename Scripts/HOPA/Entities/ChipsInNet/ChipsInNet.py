@@ -262,7 +262,7 @@ class ChipsInNet(Enigma):
         self.chipOnCursor = chip
 
     def createMouseProvider(self):
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def removeMouseProvider(self):
         if self.MousePositionProviderID is not None:

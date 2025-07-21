@@ -142,7 +142,7 @@ class SystemParallaxEffect(System):
 
         self.__setupParallax(scene_name)
 
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
         return False
 
@@ -269,8 +269,7 @@ class SystemParallaxEffect(System):
 #
 #             self.Object_Positions.append(pos)
 #
-#         self.MousePositionProviderID = Mengine.addMousePositionProvider(
-#             None, None, None, self.__onMousePositionChange)
+#         self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 #
 #         self.runTaskChain()
 #         return False

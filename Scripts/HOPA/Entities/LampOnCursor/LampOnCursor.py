@@ -36,7 +36,7 @@ class LampOnCursor(BaseEntity):
         # self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self.__onMouseMove)
         # Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
 
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def __onMouseMove(self, touchId, x, y, dx, dy):
         # print touchId, x, y, dx, dy

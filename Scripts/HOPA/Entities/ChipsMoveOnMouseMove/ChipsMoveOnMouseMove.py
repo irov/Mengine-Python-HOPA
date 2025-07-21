@@ -94,7 +94,7 @@ class ChipsMoveOnMouseMove(Enigma):
         self.Node_Mouse = Mengine.createNode("Interender")
         entityNode.addChild(self.Node_Mouse)
 
-        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+        self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
         for i in range(self.Bug_Number):
             Movie2Object = self.object.generateObject("Movie2_Bug" + str(i), self.param.Bugs[i])
             Node1 = Mengine.createNode("Interender")

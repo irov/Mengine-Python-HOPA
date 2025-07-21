@@ -230,7 +230,7 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
 
                     return True
 
-                tci.addListener(Notificator.onParagraphRun, Check=__checkParagraph, Filter=__filterParagraph, Args=(paragraphID,))
+                tci.addTask("TaskListener", ID=Notificator.onParagraphRun, Check=__checkParagraph, Filter=__filterParagraph, Args=(paragraphID,))
 
 
 def generatorSceneInitial(source, ScenarioRunner):

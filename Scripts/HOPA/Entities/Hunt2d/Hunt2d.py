@@ -365,7 +365,7 @@ class Hunt2d(Enigma):
         self.__loadParam()
         self.__setupArt()
         self.semaphore_resolve_shot = Semaphore('Hunt2dResolveShot', False)
-        self.mouse_position_provider = Mengine.addMousePositionProvider(None, None, self.__cbUpdateMousePositionProvider)
+        self.mouse_position_provider = Mengine.addMousePositionProvider(None, None, None, self.__cbUpdateMousePositionProvider)
 
     def __cbUpdateMousePositionProvider(self, _, position):
         if self.semaphore_resolve_shot.getValue() is True:

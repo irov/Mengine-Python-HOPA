@@ -128,7 +128,7 @@ class SystemInventoryFold(System):
 
         if self.Rise_Value is not None and self.Fold_Value is not None:
             if self.MousePositionProviderID is None:
-                self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, self.__onMousePositionChange)
+                self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def setup_Lock(self):
         check_box_lock = GroupManager.getObject("InventoryLock", "Movie2CheckBox_Lock")
