@@ -45,7 +45,7 @@ class Coin(object):
         if self.movie is not None:
             self._destroy()
 
-        coin = self.store.generateObjectUnique(self.prototype_name, self.prototype_name)
+        coin = self.store.generateObjectUnique(self.prototype_name, self.prototype_name, EntityHierarchy=False)
         coin.setTextAliasEnvironment(self.parent.env)
         self.movie = coin
 
