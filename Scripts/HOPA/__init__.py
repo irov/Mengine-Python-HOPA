@@ -976,6 +976,10 @@ def onInitialize():
         , "onElementalMagicRingMouseLeave"
 
         , "onMazeScreensGroupDone"
+
+        , "onAdvertDisplayed"
+        , "onAdvertRewarded"
+        , "onAdvertHidden"
     ]
 
     from Foundation.Notificator import Notificator
