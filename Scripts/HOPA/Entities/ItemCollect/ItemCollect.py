@@ -103,8 +103,11 @@ class ItemCollect(BaseEntity):
             iconIdleSpriteCenter = self.getSpriteCenter(Icon.Idle)
             iconSilhouetteSpriteCenter = self.getSpriteCenter(Icon.Silhouette)
 
-            Icon.Idle.getEntityNode().setLocalPosition(Mengine.vec2f(0.0, 0.0) - iconIdleSpriteCenter)
-            Icon.Silhouette.getEntityNode().setLocalPosition(Mengine.vec2f(0.0, 0.0) - iconSilhouetteSpriteCenter)
+            icon_idle_pos = Mengine.vec2f(-iconIdleSpriteCenter[0], -iconIdleSpriteCenter[1])
+            icon_silhouette_pos = Mengine.vec2f(-iconSilhouetteSpriteCenter[0], -iconSilhouetteSpriteCenter[1])
+
+            Icon.Idle.getEntityNode().setLocalPosition(icon_idle_pos)
+            Icon.Silhouette.getEntityNode().setLocalPosition(icon_silhouette_pos)
 
             if SystemItemCollect.hasFoundItem(ItemName):
                 itemPlace.enableIcon(True)
