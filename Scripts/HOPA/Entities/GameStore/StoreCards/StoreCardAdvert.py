@@ -20,7 +20,7 @@ class StoreCardAdvert(StoreCardMixin):
         self.refreshTimeBlock()
 
     def _onEnable(self):
-        if AdvertisementProvider.isAdvertAvailable("Rewarded") is True:
+        if AdvertisementProvider.hasRewardedAdvert() is True:
             # check if already blocked by time delay,
             # but if not - we can unblock it
             if self.timer is None:
