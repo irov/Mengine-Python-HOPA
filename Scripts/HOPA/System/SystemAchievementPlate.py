@@ -72,7 +72,7 @@ class SystemAchievementPlate(System):
 
         return False
 
-    def __cbCloseAchievementsPlate(self, item, *args, **kwargs):
+    def __cbCloseAchievementsPlate(self, item=None, *args, **kwargs):
         Notification.notify(Notificator.onCloseAchievementPlate)
 
         return False
