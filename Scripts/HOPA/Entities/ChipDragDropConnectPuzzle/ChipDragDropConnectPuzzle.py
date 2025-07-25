@@ -24,7 +24,7 @@ class ChipDragDropConnectPuzzle(Enigma):
 
         def attach(self):
             arrow = Mengine.getArrow()
-            arrow_node = arrow.node
+            arrow_node = arrow.getNode()
             arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()
@@ -37,12 +37,13 @@ class ChipDragDropConnectPuzzle(Enigma):
         def deattach(self):
             self.movie.returnToParent()
             arrow = Mengine.getArrow()
-            arrowPos = arrow.node.getLocalPosition()
+            arrow_node = arrow.getNode()
+            arrow_pos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()
             entity_node_pos = entity_node.getLocalPosition()
 
-            entity_node.setLocalPosition((entity_node_pos[0] + arrowPos[0], entity_node_pos[1] + arrowPos[1]))
+            entity_node.setLocalPosition((entity_node_pos[0] + arrow_pos[0], entity_node_pos[1] + arrow_pos[1]))
 
         def _calculateDistance(self, x1, y1, x2, y2):
             return Mengine.sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
