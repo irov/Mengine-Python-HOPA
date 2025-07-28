@@ -4,7 +4,6 @@ from Foundation.Utils import calcTime
 from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 from HOPA.Entities.GameStore.StoreCards.StoreCardMixin import StoreCardMixin
 
-
 class StoreCardAdvert(StoreCardMixin):
     unblock_timestamp = None
     TIME_BLOCK_EVENT = Event("onTimeBlock")
@@ -114,7 +113,7 @@ class StoreCardAdvert(StoreCardMixin):
     # scopes
 
     def _scopeInteract(self, source):
-        source.addTask("AliasShowAdvert", AdType="Rewarded", WhileShowScope=self._scopeAfterView)
+        source.addTask("AliasShowRewardedAdvert", AdPlacement="rewarded", WhileShowScope=self._scopeAfterView)
 
     def _scopeAfterView(self, source):
         if MonetizationManager.getGeneralSetting("DelayBetweenAdView") is None:

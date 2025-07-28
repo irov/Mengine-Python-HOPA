@@ -53,8 +53,7 @@ class PurchaseButton(object):
                 ok.addSemaphore(semaphore_rewarded_ok, To=True)
                 skip.addListener(Notificator.onAdvertSkipped, Filter=lambda _, ad_name: ad_name == self.product.name)
 
-        source.addTask("AliasShowAdvert", AdType="Rewarded",
-                       AdUnitName=self.product.name, WhileShowScope=_scopeWhileView)
+        source.addTask("AliasShowRewardedAdvert", AdPlacement=self.product.name, WhileShowScope=_scopeWhileView)
 
         # wait until alias done (when ad hidden), then call success scope
         with source.addIfSemaphore(semaphore_rewarded_ok, True) as (tc_was_rewarded, tc_not_rewarded):
