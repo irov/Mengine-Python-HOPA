@@ -101,22 +101,6 @@ class Mahjong(Enigma):
             checkbox = self._get_group_object(checkbox_name)
             checkbox.setParam("Value", False)
 
-    def _filter(self, EnigmaName, my_pair, pair):
-        if self.EnigmaName != EnigmaName:
-            return False
-        if my_pair != pair:
-            return False
-        return True
-
-    def _filter_Movie2Button(self, btn, holder):
-        name = btn.getName()
-        for (btn1, btn2) in self.quest_pairs:
-            if name is btn1 or name is btn2:
-                holder.set(btn)
-                return True
-
-        return False
-
     def _Quest_Generator(self, source):
         SceneName = EnigmaManager.getEnigmaSceneName(self.EnigmaName)
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
@@ -125,11 +109,16 @@ class Mahjong(Enigma):
             self.quest_pairs.append((button1_name, button2_name))
 
         for (btn1, btn2), tc_parallel in source.addParallelTaskList(self.quest_pairs):
+            def _filter_MahjongPair(EnigmaName, my_pair):
+                if EnigmaName != self.EnigmaName or my_pair != (btn1, btn2):
+                    return False
+                return True
+
             button1, button2 = self._get_group_object(btn1), self._get_group_object(btn2)
             Quest = QuestManager.createLocalQuest("Mahjong", SceneName=SceneName, GroupName=GroupName, Object=button1,
                                                   Object2=button2)
             with QuestManager.runQuest(tc_parallel, Quest) as tc_quest:
-                tc_quest.addListener(Notificator.onMahjongFoundPair, self._filter, (btn1, btn2))
+                tc_quest.addListener(Notificator.onMahjongFoundPair, Filter=_filter_MahjongPair)
 
     def _playEnigma(self):
         self._load_data()
@@ -137,17 +126,25 @@ class Mahjong(Enigma):
         self._update_checkboxes()
         ButtonNameHolder = Holder()
 
-        def _filter(btn, holder):
-            holder.set(btn)
+        def _filter_Button(btn):
+            ButtonNameHolder.set(btn)
             return True
+
+        def _filter_Movie2Button(btn):
+            name = btn.getName()
+            for (btn1, btn2) in self.quest_pairs:
+                if name is btn1 or name is btn2:
+                    ButtonNameHolder.set(btn)
+                    return True
+            return False
 
         with TaskManager.createTaskChain(Name="MahjongQuests") as tc_quest:
             tc_quest.addScope(self._Quest_Generator)
 
         with TaskManager.createTaskChain(Name="Mahjong", Repeat=True) as tc:
-            with tc.addRaceTask(2) as (tc_button, tc_movie2):
-                tc_button.addListener(Notificator.onButtonClickEndUp, _filter, ButtonNameHolder)
-                tc_movie2.addListener(Notificator.onMovie2ButtonClickEnd, self._filter_Movie2Button, ButtonNameHolder)
+            with tc.addRaceTask(2) as (tc_button, tc_movie2button):
+                tc_button.addListener(Notificator.onButtonClickEndUp, Filter=_filter_Button)
+                tc_movie2button.addListener(Notificator.onMovie2ButtonClickEnd, Filter=_filter_Movie2Button)
             tc.addScope(self._button_click_scope, ButtonNameHolder)
             tc.addFunction(self._check_complete)
 
