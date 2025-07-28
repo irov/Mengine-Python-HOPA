@@ -103,7 +103,7 @@ class TrafficJamElement(object):
 
             sliderPos = self.sprite.getLocalPosition()
 
-            self.offset = (event.x - sliderPos.x, event.y - sliderPos.y)
+            self.offset = (event.position.world.x - sliderPos.x, event.position.world.y - sliderPos.y)
 
             self.clearPole(0)
 
@@ -157,7 +157,7 @@ class TrafficJamElement(object):
         return True
 
     def _onGlobalMouseMove(self, context, event):
-        newPos = (event.x - self.offset[0], event.y - self.offset[1])
+        newPos = (event.position.world.x - self.offset[0], event.position.world.y - self.offset[1])
 
         x = self.x
         y = self.y

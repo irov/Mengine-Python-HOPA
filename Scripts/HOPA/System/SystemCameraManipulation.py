@@ -193,7 +193,7 @@ class DebugCameraGizmo(object):
         content_resolution = Mengine.getContentResolution()
         resolution = Mengine.vec2f(content_resolution.getWidth(), content_resolution.getHeight())
         half_res = Mengine.vec2f(resolution.x * 0.5, resolution.y * 0.5)
-        screen_pos = Mengine.vec2f(event.x * resolution.x, event.y * resolution.x)
+        screen_pos = Mengine.vec2f(event.position.world.x * resolution.x, event.position.world.y * resolution.x)
 
         # point = Mengine.vec2f(
         #     (screen_pos.x - resolution.x * 0.5) / next_scale,
@@ -640,16 +640,16 @@ class SystemCameraManipulation(System):
 
     def _onMouseWheel(self, event):
         scale_factor = self.virtual_area._target._scale_factor if self.virtual_area else None
-        self.dev_hud.onMouseWheel(event.x, event.y, event.scroll, scale_factor)
+        self.dev_hud.onMouseWheel(event.position.world.x, event.position.world.y, event.scroll, scale_factor)
 
         # print "WHEEL --- [{}] ({}, {}) ".format(direction, rel_x, rel_y)
 
     def _onMouseMove(self, event):
-        self.dev_hud.onMouseMove(event.touchId, event.x, event.y, event.dx, event.dy)
+        self.dev_hud.onMouseMove(event.touchId, event.position.world.x, event.position.world.y, event.worldDelta.x, event.worldDelta.y)
 
         # print "MOVE --- <{}> ({}, {}) [{}, {}]".format(touchId, x, y, dx, dy)
 
     def _onMouseButton(self, event):
         print("BUTTON --- <{}> ({}, {}) btn={} | [down={}, press={}]".format(
-            event.touchId, event.x, event.y, event.button, event.isDown, event.isPressed)
+            event.touchId, event.position.world.x, event.position.world.y, event.button, event.isDown, event.isPressed)
         )

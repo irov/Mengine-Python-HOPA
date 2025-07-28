@@ -123,8 +123,8 @@ class LetItSlideElement(object):
         pass
 
     def _onGlobalMouseMove(self, event):
-        arrowPosX = event.x
-        arrowPosY = event.y
+        arrowPosX = event.position.world.x
+        arrowPosY = event.position.world.y
 
         currentMousePos = (arrowPosX, arrowPosY)
 

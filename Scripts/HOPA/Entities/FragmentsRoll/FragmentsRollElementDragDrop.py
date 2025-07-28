@@ -141,8 +141,8 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
             return
 
         if len(self.game.movingFragments) == 0:
-            self.ddx += event.dx
-            self.ddy += event.dy
+            self.ddx += event.worldDelta.x
+            self.ddy += event.worldDelta.y
 
             if -5 < self.ddx < 5 and -5 < self.ddy < 5:
                 return
@@ -161,15 +161,15 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
             self.ddx = 0
             self.ddy = 0
         else:
-            self.dxx += event.dx
-            self.dyy += event.dy
+            self.dxx += event.worldDelta.x
+            self.dyy += event.worldDelta.y
 
         if self.h is True:
-            if event.dx != 0.0:
-                self.game.onMoveFragment(self, event.dx, 0)
+            if event.worldDelta.x != 0.0:
+                self.game.onMoveFragment(self, event.worldDelta.x, 0)
         else:
-            if event.dy != 0.0:
-                self.game.onMoveFragment(self, 0, event.dy)
+            if event.worldDelta.y != 0.0:
+                self.game.onMoveFragment(self, 0, event.worldDelta.y)
 
         if (self.h is True and self.dxx == 0) or (self.h is False and self.dyy == 0):
             self.game.refresh()
