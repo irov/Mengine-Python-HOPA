@@ -389,25 +389,24 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
             self.complete()
 
     def complete(self):
+        if self.tc is not None:
+            self.tc.cancel()
+            self.tc = None
+
         for slot in self.slots:
             socket = slot.movie.getSocket('slot')
             socket.disable()
+
         for chip in self.visibleChips:
             self.object.setVisibleChips(chip.slotID, chip.type)
         self.object.setParam('finishFlag', True)
+
         self.enigmaComplete()
 
     def _skipEnigma(self):
         self.disableNotUsedChips()
         self.Unselected_All()
         self.complete()
-        # for slot in self.slots:
-        #     socket = slot.movie.getSocket('slot')
-        #     socket.disable()
-        # for chip in self.visibleChips:
-        #     self.object.setVisibleChips(chip.slotID, chip.type)
-        # self.object.setParam('finishFlag', True)
-        pass
 
     # ==================================================================================================================
 
@@ -415,34 +414,30 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     def _cleanUp(self):
         if self.tc is not None:
             self.tc.cancel()
+            self.tc = None
+
+        self.param = None
 
         def cleanList(list):
             for (_, chip) in list.iteritems():
                 chip.node.removeFromParent()
+            list.clear()
 
-        self.tc = None
-        self.param = None
         cleanList(self.redChips)
-        self.redChips = {}
         cleanList(self.blueChips)
-        self.blueChips = {}
         cleanList(self.greenChips)
-        self.greenChips = {}
         cleanList(self.blackChips)
-        self.blackChips = {}
         cleanList(self.selectedRedChips)
-        self.selectedRedChips = {}
         cleanList(self.selectedBlueChips)
-        self.selectedBlueChips = {}
         cleanList(self.selectedBlackChips)
-        self.selectedBlackChips = {}
         cleanList(self.selectedGreenChips)
-        self.selectedGreenChips = {}
 
         for chip in self.slots:
             chip.node.removeFromParent()
             chip.movie.getEntityNode().removeFromParent()
-
         self.slots = []
+
         self.visibleChips = []
-        self.isSelectedChip = False  # ==================================================================================================================
+        self.isSelectedChip = False
+
+    # ==================================================================================================================
