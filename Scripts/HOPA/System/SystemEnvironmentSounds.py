@@ -86,6 +86,10 @@ class SystemEnvironmentSounds(System):
 
             Sound = Mengine.soundFadeOut(str(SoundResource), True, self.EnvironmentSoundFadeOut, self.easing, None)
 
+            if Sound is None:
+                Trace.log("System", 0, "SystemEnvironmentSounds __onTransitionEnd Mengine.soundFadeOut error %s" % (SoundResource))
+                continue
+
             self.currentSounds[SoundResource] = Sound
             pass
 
