@@ -279,8 +279,9 @@ class ChipsInNet(Enigma):
         return False
 
     def removeAffector(self):
-        Mengine.removeAffector(self._affector)
-        self._affector = None
+        if self._affector is not None:
+            Mengine.removeAffector(self._affector)
+            self._affector = None
 
     def __onMousePositionChange(self, touchID, position):
         self.countToUpdateRopes += 1

@@ -94,5 +94,4 @@ class SystemEnvironmentSounds(System):
             pass
 
         return False
-        pass
     pass

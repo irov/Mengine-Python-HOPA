@@ -168,8 +168,6 @@ class NFS(Enigma):
             MainLayerTiles.addChild(scene)
             pass
 
-        #        CameraFollow.velocityTo( 0.01, (0, -1), None)
-
         Coach = self.object.getObject("Animation_Coach")
         self.CoachEntity = Coach.getEntity()
         Coach.setRotate(-PI * 0.5)

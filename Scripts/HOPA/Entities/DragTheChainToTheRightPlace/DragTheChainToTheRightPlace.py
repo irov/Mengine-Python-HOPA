@@ -361,8 +361,11 @@ class DragTheChainToTheRightPlace(Enigma):
         rope.meshget.setVertices(positions, uv, self.colors, self.indices)
 
     def removeAffector(self):
-        Mengine.removeAffector(self._affector)
-        self._affector = None
+        if self._affector is not None:
+            Mengine.removeAffector(self._affector)
+            self._affector = None
+            pass
+        pass
 
     def checkWin(self):
         chain = self.Chains[self.param.winComb[0]]

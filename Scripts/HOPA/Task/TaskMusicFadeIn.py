@@ -10,28 +10,19 @@ class TaskMusicFadeIn(Task):
         super(TaskMusicFadeIn, self)._onParams(params)
         self.FadeTime = params.get("FadeTime", 2.0)
         self.easing = params.get("Easing", "easyLinear")
-
-        self.id = 0
         pass
 
     def _onRun(self):
-        self.id = Mengine.musicFadeIn(self.FadeTime, self.easing, self.__musicPause)
+        Mengine.musicFadeIn(self.FadeTime, self.easing, self.__musicPause)
         Notification.notify(Notificator.onCommandMusicFadeIn, SceneManager.getCurrentSceneName())
         return False
-        pass
 
-    def __musicPause(self, fadeID, isEnd):
-        if self.id != fadeID:
-            return
+    def __musicPause(self, isEnd):
         Mengine.musicPause()
         self.complete()
         pass
 
     def _onSkip(self):
-        remove_id = self.id
-        self.id = 0
-
-        # Mengine.scheduleRemove(remove_id)
         pass
 
     pass

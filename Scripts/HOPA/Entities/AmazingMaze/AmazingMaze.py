@@ -169,8 +169,7 @@ class HeroAnimHandler(object):
         if self.__lerpRotationAffectorRef is not None:
             Mengine.removeAffector(self.__lerpRotationAffectorRef)
 
-        self.__lerpRotationAffectorRef = Mengine.addAffector(self.__lerpRotationAffector, node, rotate_from,
-                                                             smaller_angle, self.rotation_speed)
+        self.__lerpRotationAffectorRef = Mengine.addAffector(self.__lerpRotationAffector, node, rotate_from, smaller_angle, self.rotation_speed)
 
     def getStateMovie(self, state_name):
         return self.stateMovies[state_name]

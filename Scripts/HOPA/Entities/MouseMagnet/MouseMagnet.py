@@ -126,7 +126,9 @@ class MouseMagnet(Enigma):
     def _end_affector(self):
         if self.affector is not None:
             Mengine.removeAffector(self.affector)
-        self.affector = None
+            self.affector = None
+            pass
+        pass
 
     def _Bounding(self, Socket_Movie):
         socket = Socket_Movie.getSocket(self.param.FinishSocket)
