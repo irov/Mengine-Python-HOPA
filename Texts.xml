@@ -17,8 +17,8 @@
     <Text Key="ID_MenuGreeting" Value="Welcome, %s!"/>
     <Text Key="ID_HOGImageCount" Value="%s\%s"/>
     <Text Key="ID_Mana" Value="%s\%s"/>
-    <Text Key="ID_EMPTY_TEXT" Value=" "/>
-    <Text Key="ID_EMPTY" Value=" "/>
+    <Text Key="ID_EMPTY_TEXT" MaxLength="1" Value=" "/>
+    <Text Key="ID_EMPTY" MaxLength="1" Value=" "/>
 
     <!--  Currency symbols  -->
     <Text Key="ID_CURRENCY_DOLLAR" Value="$"/>
