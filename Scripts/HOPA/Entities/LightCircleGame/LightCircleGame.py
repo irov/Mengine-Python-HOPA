@@ -2,7 +2,6 @@ from Foundation.TaskManager import TaskManager
 import math
 from HOPA.LightCircleGameManager import LightCircleGameManager
 
-
 Enigma = Mengine.importEntity("Enigma")
 
 
@@ -44,7 +43,7 @@ class LightCircleGame(Enigma):
             for i in range(self.PlusCount):
                 id = "ref_%d_%d_+%d" % (self.CircleId, self.ReflectorId, i)
                 slot = self.__getSlot(id, MovieBase)
-                if (slot ia None):
+                if (slot is None):
                     break
                 self.PlusSlots.append(slot)
                 pass
