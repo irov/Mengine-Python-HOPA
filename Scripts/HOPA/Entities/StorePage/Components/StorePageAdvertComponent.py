@@ -111,7 +111,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         SystemMonetization.updateAvailableAds()
 
     def checkOffer(self):
-        if AdvertisementProvider.CanOfferRewardedAdvert() is False:
+        if AdvertisementProvider.canOfferRewardedAdvert("Rewarded") is False:
             # fixme: get localized text
             no_offer_text = "no offer now"
             self.button.updateTimer(no_offer_text)
