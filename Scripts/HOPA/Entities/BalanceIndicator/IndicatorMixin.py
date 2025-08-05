@@ -72,9 +72,9 @@ class IndicatorMixin(object):
         bg_movie = parent.getObject(bg_name)
         object_name = "Movie2_{}".format(self.type)
         try:
-            icon_movie = icon_provider_object.generateIcon(object_name, icon_name, Enable=True)
+            icon_movie = icon_provider_object.generateIcon(object_name, icon_name, EntityHierarchy=False, Enable=True)
         except AttributeError:
-            icon_movie = icon_provider_object.generateObjectUnique(object_name, icon_name, Enable=True)
+            icon_movie = icon_provider_object.generateObjectUnique(object_name, icon_name, EntityHierarchy=False, Enable=True)
 
         icon_node = icon_movie.getEntityNode()
         icon_node.removeFromParent()
