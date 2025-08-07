@@ -30,7 +30,7 @@ class ObjectStore(DemonObject):
             TransitionManager.changeScene("Store")
 
     def generateIcon(self, object_name, prototype_name, env="GeneratedIcon", **params):
-        icon = self.generateObjectUnique(object_name, prototype_name, **params)
+        icon = self.generateObjectUnique(object_name, prototype_name, EntityHierarchy=False, **params)
         icon.setTextAliasEnvironment(env)
         Mengine.setTextAlias(env, "$AliasCoinUsePrice", "ID_EMPTY")
         return icon
