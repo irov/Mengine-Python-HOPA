@@ -113,7 +113,7 @@ class Newspaper(BaseEntity):
                     pass
 
                 tc.addTask("TaskNodeRemoveFromParent", Node=layerAttachGroupEntity)
-                tc.addDisable("TaskEnable"self.newspaper.movie_Close)
+                tc.addDisable("TaskEnable", self.newspaper.movie_Close)
                 pass
             pass
         else:
