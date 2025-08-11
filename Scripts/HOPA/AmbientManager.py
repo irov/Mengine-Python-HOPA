@@ -1,10 +1,20 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
 from Foundation.GroupManager import GroupManager
 
-
-class AmbientManager(object):
+class AmbientManager(Manager):
     s_ambients = {}
+
+    @staticmethod
+    def _onInitialize():
+        pass
+
+    @staticmethod
+    def _onFinalize():
+        AmbientManager.s_ambients = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -27,21 +37,14 @@ class AmbientManager(object):
         AmbientManager.s_ambients[sceneName] = (demonSwitch, ambientName)
         pass
 
-    pass
-
     @staticmethod
     def hasAmbient(sceneName):
         return sceneName in AmbientManager.s_ambients
-        pass
-
-    pass
 
     @staticmethod
     def getAmbients():
         return AmbientManager.s_ambients
-        pass
 
     @staticmethod
     def getAmbient(sceneName):
         return AmbientManager.s_ambients[sceneName]
-        pass

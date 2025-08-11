@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class SoundObjectsManager(object):
+class SoundObjectsManager(Manager):
     s_soundObjects = {}
 
     class SoundObject(object):
@@ -17,6 +18,11 @@ class SoundObjectsManager(object):
 
         def getObject(self):
             return self.object
+
+    @staticmethod
+    def _onFinalize():
+        SoundObjectsManager.s_soundObjects = {}
+        pass
 
     @staticmethod
     def loadSoundObjects(module, param):

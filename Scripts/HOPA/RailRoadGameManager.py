@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class RailRoadGameManager(object):
+class RailRoadGameManager(Manager):
     Games = {}
 
     class MovieData(object):
@@ -27,6 +28,11 @@ class RailRoadGameManager(object):
             self.Name = Name
             self.Movies = []
             self.Intersect = {}
+
+    @staticmethod
+    def _onFinalize():
+        RailRoadGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

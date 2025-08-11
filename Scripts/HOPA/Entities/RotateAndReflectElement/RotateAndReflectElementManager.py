@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class RotateAndReflectElementManager(object):
+class RotateAndReflectElementManager(Manager):
     s_object = {}
 
     class Data(object):
@@ -13,11 +14,9 @@ class RotateAndReflectElementManager(object):
 
         def getSwap(self):
             return self.swap
-            pass
 
         def getSocket(self):
             return self.socket
-            pass
 
         def getElement(self):
             return self.element
@@ -31,16 +30,16 @@ class RotateAndReflectElementManager(object):
 
         def getSprite(self):
             return self.sprite
-            pass
 
         def getStartPos(self):
             return self.start
-            pass
 
         def getWinPos(self):
             return self.win
-            pass
 
+    @staticmethod
+    def _onFinalize():
+        RotateAndReflectElementManager.s_object = {}
         pass
 
     @staticmethod
@@ -61,7 +60,6 @@ class RotateAndReflectElementManager(object):
             RotateAndReflectElementManager.s_object[EnigmaName] = data
 
         return True
-        pass
 
     @staticmethod
     def loadSwapData(module, name):
@@ -76,7 +74,6 @@ class RotateAndReflectElementManager(object):
             swapData[MovieName] = (Slot, Swap)
             pass
         return swapData
-        pass
 
     @staticmethod
     def loadElementData(module, name):
@@ -92,7 +89,6 @@ class RotateAndReflectElementManager(object):
             elementData[ElementName] = RotateAndReflectElementManager.Element(Sprite, StartSlot, WinSlot)
             pass
         return elementData
-        pass
 
     @staticmethod
     def loadSocketData(module, name):
@@ -105,24 +101,18 @@ class RotateAndReflectElementManager(object):
             socketData[SocketName] = MovieName
             pass
         return socketData
-        pass
 
     @staticmethod
     def getData(name):
         if RotateAndReflectElementManager.hasData(name) is False:
             return None
-            pass
         data = RotateAndReflectElementManager.s_object[name]
         return data
-        pass
 
     @staticmethod
     def hasData(name):
         if name not in RotateAndReflectElementManager.s_object:
             Trace.log("Manager", 0, "RotateAndReflectElementManager.hasData invalid param -->%s" % (name))
             return False
-            pass
         return True
-        pass
-
     pass

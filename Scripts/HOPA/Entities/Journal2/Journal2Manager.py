@@ -1,9 +1,15 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class Journal2Manager(object):
+class Journal2Manager(Manager):
     s_pages = {}
+
+    @staticmethod
+    def _onFinalize():
+        Journal2Manager.s_pages = {}
+        pass
 
     @staticmethod
     def loadParams(module, name):
@@ -23,23 +29,16 @@ class Journal2Manager(object):
     def hasPage(pageID):
         if pageID not in Journal2Manager.s_pages:
             return False
-            pass
         return True
-        pass
 
     @staticmethod
     def getPage(pageID):
         if Journal2Manager.hasPage(pageID) is False:
             Trace.log("Manager", 0, "Journal2Manager.getPage not found page %s" % (pageID))
             return None
-            pass
         page = Journal2Manager.s_pages[pageID]
         return page
-        pass
 
     @staticmethod
     def getAllPages():
         return Journal2Manager.s_pages
-        pass
-
-    pass

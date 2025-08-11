@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 
-
-class ReagentsManager(object):
+class ReagentsManager(Manager):
     s_reagentItems = {}
     s_reagentMixes = {}
     s_reagentAddMovies = {}
@@ -17,19 +18,19 @@ class ReagentsManager(object):
 
         def getWinMovieName(self):
             return self.winMovieName
-            pass
 
         def getLooseMovieName(self):
             return self.looseMovieName
-            pass
 
         def getItems(self):
             return self.items
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ReagentsManager.s_reagentItems = {}
         ReagentsManager.s_reagentMixes = {}
+        ReagentsManager.s_reagentAddMovies = {}
+        ReagentsManager.s_maxAdd = None
         pass
 
     @staticmethod

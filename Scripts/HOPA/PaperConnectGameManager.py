@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PaperConnectGameManager(object):
+class PaperConnectGameManager(Manager):
     Games = {}
 
     class Paper(object):
@@ -17,6 +18,11 @@ class PaperConnectGameManager(object):
         def __init__(self, Name):
             self.Name = Name
             self.Parts = {}
+
+    @staticmethod
+    def _onFinalize():
+        PaperConnectGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadGames(module, param):

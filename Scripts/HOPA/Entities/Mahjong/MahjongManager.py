@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 
-
-class MahjongManager(object):
+class MahjongManager(Manager):
     s_games = {}
     s_inventories = {}
 
@@ -29,6 +30,11 @@ class MahjongManager(object):
 
         def getCheckBox(self):
             return self.checkbox
+
+    @staticmethod
+    def _onFinalize():
+        MahjongManager.s_games = {}
+        MahjongManager.s_inventories = {}
 
     @staticmethod
     def loadParams(module, name):

@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PuzzleManager(object):
+class PuzzleManager(Manager):
     s_puzzles = {}
 
     class PuzzleElement(object):
@@ -13,16 +14,16 @@ class PuzzleManager(object):
 
         def getItemName(self):
             return self.itemName
-            pass
 
         def getPlaceName(self):
             return self.placeObjectName
-            pass
 
         def getSprite(self):
             return self.spriteEnableName
-            pass
 
+    @staticmethod
+    def _onFinalize():
+        PuzzleManager.s_puzzles = {}
         pass
 
     @staticmethod
@@ -36,7 +37,6 @@ class PuzzleManager(object):
             PuzzleManager.loadPuzzle(module, Name, CollectionParam)
             pass
         return True
-        pass
 
     @staticmethod
     def loadPuzzle(module, name, param):
@@ -61,7 +61,6 @@ class PuzzleManager(object):
             pass
         puzzle = PuzzleManager.s_puzzles[name]
         return puzzle
-        pass
 
     @staticmethod
     def hasPuzzle(name):
@@ -69,4 +68,3 @@ class PuzzleManager(object):
             Trace.log("PuzzleManager", 0, "PuzzleManager.getPuzzle: not found puzzle %s" % (name))
             return False
         return True
-        pass

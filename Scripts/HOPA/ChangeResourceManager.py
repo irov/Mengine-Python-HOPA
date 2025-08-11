@@ -1,9 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class ChangeResourceManager(object):
-
+class ChangeResourceManager(Manager):
     @staticmethod
     def loadObjects(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)

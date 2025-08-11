@@ -1,7 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
 
-class FragmentsRollManager(object):
+class FragmentsRollManager(Manager):
     s_games = {}
 
     class FragmentsRollGame(object):
@@ -9,6 +11,15 @@ class FragmentsRollManager(object):
             self.fragments = fragments
             self.cells = cells
             self.rules = rules
+
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        FragmentsRollManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -58,7 +69,6 @@ class FragmentsRollManager(object):
             cells.append(dict(X=X, Y=Y, MovieSlotName=MovieSlotName))
             pass
         return cells
-        pass
 
     @staticmethod
     def loadGameRules(module, param):
@@ -71,7 +81,6 @@ class FragmentsRollManager(object):
             rules[FragmentId] = dict(X=X, Y=Y)
             pass
         return rules
-        pass
 
     @staticmethod
     def getGame(name):
@@ -81,11 +90,8 @@ class FragmentsRollManager(object):
             pass
         game = FragmentsRollManager.s_games[name]
         return game
-        pass
 
     @staticmethod
     def hasGame(name):
         return name in FragmentsRollManager.s_games
-        pass
-
     pass

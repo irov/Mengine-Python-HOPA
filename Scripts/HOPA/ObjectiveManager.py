@@ -1,5 +1,6 @@
-from Foundation.DatabaseManager import DatabaseManager
+from Foundation.Manager import Manager
 
+from Foundation.DatabaseManager import DatabaseManager
 
 class ObjectiveManager(object):
     s_objectives = {}
@@ -7,6 +8,11 @@ class ObjectiveManager(object):
     class Object(object):
         def __init__(self, textID):
             self.textID = textID
+
+    @staticmethod
+    def _onFinalize():
+        ObjectiveManager.s_objectives = {}
+        pass
 
     @staticmethod
     def loadObjectives(module, param):

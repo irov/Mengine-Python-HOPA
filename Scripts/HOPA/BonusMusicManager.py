@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Utils import isCollectorEdition
 
-
-class BonusMusicManager(object):
+class BonusMusicManager(Manager):
     s_bonus_music = {}
 
     class MusicBonus:
@@ -12,6 +13,11 @@ class BonusMusicManager(object):
             self.slot_id = slot_id
             self.resource_name = resource_name
             self.track_name_id = track_name_id
+
+    @staticmethod
+    def _onFinalize():
+        BonusMusicManager.s_bonus_music = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

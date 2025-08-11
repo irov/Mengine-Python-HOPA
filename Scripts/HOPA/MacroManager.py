@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.Macro.MacroCommandFactory import MacroCommandFactory
 
 
-class MacroManager(object):
+class MacroManager(Manager):
     s_macroTypes = {}
     s_commandsQuestFilter = {}
 
@@ -12,13 +14,18 @@ class MacroManager(object):
     s_enumerate = 0
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         for macro in MacroManager.s_macroces.itervalues():
             macro.onFinalize()
 
-        MacroManager.s_macroces = {}
+        MacroManager.s_macroTypes = {}
         MacroManager.s_commandsQuestFilter = {}
+
+        MacroManager.s_macroces = {}
+        MacroManager.s_finders = {}
+
         MacroManager.s_enumerate = 0
+        pass
 
     @staticmethod
     def addFinder(name, finder):

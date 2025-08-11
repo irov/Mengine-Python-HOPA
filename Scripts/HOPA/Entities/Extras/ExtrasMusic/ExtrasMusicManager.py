@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class ExtrasMusicManager(object):
+class ExtrasMusicManager(Manager):
     s_objects = {}
 
     class Data(object):
@@ -15,20 +16,19 @@ class ExtrasMusicManager(object):
 
         def getPlayButtons(self):
             return self.play
-            pass
 
         def getSaveButtons(self):
             return self.save
-            pass
 
         def getPauseButtons(self):
             return self.pause
-            pass
 
         def getResource(self):
             return self.resource
-            pass
 
+    @staticmethod
+    def _onFinalize():
+        ExtrasMusicManager.s_objects = {}
         pass
 
     @staticmethod
@@ -77,11 +77,7 @@ class ExtrasMusicManager(object):
 
         data = ExtrasMusicManager.Data(play, pause, save, resources)
         return data
-        pass
 
     @staticmethod
     def getData(object):
         return ExtrasMusicManager.s_objects[object]
-        pass
-
-    pass

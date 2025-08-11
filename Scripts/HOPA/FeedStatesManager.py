@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class FeedStatesManager(object):
+class FeedStatesManager(Manager):
     feeds = {}
 
     class SingleFeeder(object):
@@ -42,8 +44,8 @@ class FeedStatesManager(object):
         pass
 
     @staticmethod
-    def onFinalize():
-        FeedStatesManager.feeds.clear()
+    def _onFinalize():
+        FeedStatesManager.feeds = {}
         pass
 
     @staticmethod

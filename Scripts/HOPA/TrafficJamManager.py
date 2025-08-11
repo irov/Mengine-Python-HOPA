@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
-
-class TrafficJamManager(object):
+class TrafficJamManager(Manager):
     s_trafficjams = {}
 
     class TrafficJam(object):
@@ -19,6 +20,11 @@ class TrafficJamManager(object):
             self.size = size
             self.pos = pos
             self.main = main
+
+    @staticmethod
+    def _onFinalize():
+        TrafficJamManager.s_trafficjams = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

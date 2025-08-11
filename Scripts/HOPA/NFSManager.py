@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 
-
-class NFSManager(object):
+class NFSManager(Manager):
     s_nfs = {}
 
     class NFSTile(object):
@@ -19,6 +20,11 @@ class NFSManager(object):
             self.obj = obj
             self.tiles = tiles
             self.winTile = winTile
+
+    @staticmethod
+    def _onFinalize():
+        NFSManager.s_nfs = {}
+        pass
 
     @staticmethod
     def loadNFS(name, sceneName, groupName, objectName, module, param):
@@ -48,7 +54,6 @@ class NFSManager(object):
                     return True
 
             return False
-            pass
 
         Coach_Grass = DefaultManager.getDefault("NFSGrass", "Coach_Grass")
 
@@ -88,7 +93,6 @@ class NFSManager(object):
         NFSManager.s_nfs[name] = nfs
 
         return nfs
-        pass
 
     @staticmethod
     def hasNFS(name):

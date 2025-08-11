@@ -1,9 +1,11 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from HOPA.ScenarioManager import ScenarioManager
 
 
-class CutSceneManager(object):
+class CutSceneManager(Manager):
     manager_dict = {}
     allMovies = []
 
@@ -19,35 +21,31 @@ class CutSceneManager(object):
         def getMovie(self):
             if self.MovieName is None or self.MovieGroupName is None:
                 return None
-                pass
 
             Movie_Object = GroupManager.getObject(self.MovieGroupName, self.MovieName)
 
             return Movie_Object
-            pass
 
         def getMovieText(self):
             if self.MovieText is None or self.MovieGroupName is None:
                 return None
-                pass
 
             Movie_Object = GroupManager.getObject(self.MovieGroupName, self.MovieText)
 
             return Movie_Object
-            pass
 
         def getGroup(self):
             if self.MovieName is None or self.MovieGroupName is None:
                 return None
-                pass
             return self.MovieGroupName
 
         def getNext(self):
             return self.NextSceneID
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         CutSceneManager.manager_dict = {}
+        CutSceneManager.allMovies = []
         pass
 
     @staticmethod

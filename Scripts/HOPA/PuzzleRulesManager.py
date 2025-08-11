@@ -1,4 +1,6 @@
-class PuzzleRulesManager(object):
+from Foundation.Manager import Manager
+
+class PuzzleRulesManager(Manager):
     s_objects = {}
 
     class PuzzleRules(object):
@@ -7,7 +9,7 @@ class PuzzleRulesManager(object):
             self.expertTextID = expertTextID
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         PuzzleRulesManager.s_objects = {}
         pass
 

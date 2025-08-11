@@ -1,9 +1,15 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class StrategyGuideControllerManager(object):
+class StrategyGuideControllerManager(Manager):
     s_pages = {}
+
+    @staticmethod
+    def _onFinalize():
+        StrategyGuideControllerManager.s_pages = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -24,6 +30,3 @@ class StrategyGuideControllerManager(object):
     @staticmethod
     def getPages():
         return StrategyGuideControllerManager.s_pages
-        pass
-
-    pass

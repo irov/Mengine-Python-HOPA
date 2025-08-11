@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SpinCirclesMastermindManager(object):
+class SpinCirclesMastermindManager(Manager):
     s_objects = {}
 
     class MastermindData(object):
@@ -15,28 +16,21 @@ class SpinCirclesMastermindManager(object):
 
         def getSpinName(self):
             return self.spinName
-            pass
 
         def getTriggerName(self):
             return self.triggerName
-            pass
 
         def getBulls(self):
             return self.bullsCollection
-            pass
 
         def getCows(self):
             return self.cowsCollection
-            pass
 
         def getSize(self):
             return self.gameSize
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         SpinCirclesMastermindManager.s_objects = {}
         pass
 
@@ -73,7 +67,6 @@ class SpinCirclesMastermindManager(object):
             pass
 
         return bullsCollection
-        pass
 
     @staticmethod
     def loadCowsCollection(module, collectionParam):
@@ -87,21 +80,17 @@ class SpinCirclesMastermindManager(object):
             pass
 
         return cowsCollection
-        pass
 
     @staticmethod
     def getSpinCirclesMastermind(name):
         if SpinCirclesMastermindManager.hasMastermind(name) is False:
             return None
-            pass
         record = SpinCirclesMastermindManager.s_objects[name]
         return record
-        pass
 
     @staticmethod
     def hasMastermind(name):
         if name not in SpinCirclesMastermindManager.s_objects:
             Trace.log("SpinCirclesMastermindManager", 0, "SpinCirclesMastermindManager.hasMastermind: : invalid param")
             return False
-            pass
         return True

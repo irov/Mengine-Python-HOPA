@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
@@ -8,7 +10,7 @@ from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
 
-class HintManager(object):
+class HintManager(Manager):
     s_hintTypes = {}
     s_questsType = {}
     s_policy = {}
@@ -36,13 +38,17 @@ class HintManager(object):
             return self.hintPriority
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         HintManager.s_hintTypes = {}
-        HintManager.s_actions = {}
-        HintManager.s_sceneExceptions = {}
         HintManager.s_questsType = {}
+        HintManager.s_policy = {}
+        HintManager.s_validateHintTypes = []
         HintManager.s_blackList = []
+        HintManager.s_sceneExceptions = {}
+
+        HintManager.s_actions = {}
         HintManager.s_mask = None
+        pass
 
     @staticmethod
     def loadParams(module, param):

@@ -13,7 +13,7 @@ class ChessPuzzleElement(object):
         self.node = None
         pass
 
-    def finalise(self):
+    def finalize(self):
         self.node.removeFromParent()
         self._onFinalise()
         pass

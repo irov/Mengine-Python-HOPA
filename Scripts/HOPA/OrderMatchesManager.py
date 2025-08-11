@@ -1,5 +1,6 @@
-from Foundation.DatabaseManager import DatabaseManager
+from Foundation.Manager import Manager
 
+from Foundation.DatabaseManager import DatabaseManager
 
 class OrderMatchesManager(object):
     s_games = {}
@@ -9,6 +10,11 @@ class OrderMatchesManager(object):
             self.elementsSource = elementsSource
             self.elementsDestination = elementsDestination
             self.order = order
+
+    @staticmethod
+    def _onFinalize():
+        OrderMatchesManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

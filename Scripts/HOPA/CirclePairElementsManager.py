@@ -1,7 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class CirclePairElementsManager(object):
+class CirclePairElementsManager(Manager):
     s_objects = {}
 
     class CirclePairElements(object):
@@ -17,32 +17,24 @@ class CirclePairElementsManager(object):
 
         def getMovieNameList(self):
             return self.movieNameList
-            pass
 
         def getMovieActiveList(self):
             return self.movieActiveList
-            pass
 
         def getMovieCloseList(self):
             return self.movieCloseList
-            pass
 
         def getPositionsList(self):
             return self.positionsList
-            pass
 
         def getMovieSoundList(self):
             return self.movieSoundList
-            pass
 
         def getFieldMovieList(self):
             return self.fieldMovieList
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         CirclePairElementsManager.s_objects = {}
         pass
 
@@ -59,7 +51,6 @@ class CirclePairElementsManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def loadCirclePairElementsCollection(module, enigmaName, collectionParam, fieldMovieList):
@@ -100,12 +91,10 @@ class CirclePairElementsManager(object):
             pass
         record = CirclePairElementsManager.s_objects[name]
         return record
-        pass
 
     @staticmethod
     def hasCirclePairElements(name):
         if name not in CirclePairElementsManager.s_objects:
             Trace.log("CirclePairElementsManager", 0, "JoinBlocksManager.hasJoinBlocks: : not found %s" % (name))
             return False
-            pass
         return True

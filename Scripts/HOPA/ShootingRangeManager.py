@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ShootingRangeManager(object):
+class ShootingRangeManager(Manager):
     shootingRanges = {}
 
     class SingleShootingRange(object):
@@ -62,11 +63,9 @@ class ShootingRangeManager(object):
 
         def getGunMovies(self):
             return self.gunMovies
-            pass
 
         def getTargetMovies(self):
             return self.targetMovies
-            pass
 
         def getBalls(self):
             return self.balls
@@ -83,7 +82,10 @@ class ShootingRangeManager(object):
         def getLimit(self):
             return self.ball_limit
 
-    pass
+    @staticmethod
+    def _onFinalize():
+        ShootingRangeManager.shootingRanges = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -124,40 +126,33 @@ class ShootingRangeManager(object):
     def genGunMovies(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getGunMovies()
-        pass
 
     @staticmethod
     def getTargetMovie(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getTargetMovies()
-        pass
 
     @staticmethod
     def getBallsMovie(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getBalls()
-        pass
 
     @staticmethod
     def getCarriers(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getCarriers()
-        pass
 
     @staticmethod
     def getLimit(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getLimit()
-        pass
 
     @staticmethod
     def getBallSprite(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getBallSprite()
-        pass
 
     @staticmethod
     def getMarks(EnigmaName):
         storage_entry = ShootingRangeManager.shootingRanges[EnigmaName]
         return storage_entry.getMarks()
-        pass

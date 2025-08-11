@@ -11,7 +11,6 @@ QUEST_PICK_ELEMENT_NAME = "ElementalMagicPick"
 
 
 class ElementalMagicManager(Manager):
-
     s_demon_name = None
     s_config = None
     s_magic = {}            # technical params
@@ -21,8 +20,6 @@ class ElementalMagicManager(Manager):
     s_used_magic = []
 
     s_use_quests = []
-    onQuestRunObserver = None
-    onQuestEndObserver = None
 
     class Params(object):
         if _DEVELOPMENT is True:
@@ -266,17 +263,13 @@ class ElementalMagicManager(Manager):
 
     @classmethod
     def _onInitialize(cls, *args):
-        ElementalMagicManager.onQuestRunObserver = Notification.addObserver(Notificator.onQuestRun, ElementalMagicManager._cbElementalMagicQuestRun)
-        ElementalMagicManager.onQuestEndObserver = Notification.addObserver(Notificator.onQuestEnd, ElementalMagicManager._cbElementalMagicQuestEnd)
+        ElementalMagicManager.addObserver(Notificator.onQuestRun, ElementalMagicManager._cbElementalMagicQuestRun)
+        ElementalMagicManager.addObserver(Notificator.onQuestEnd, ElementalMagicManager._cbElementalMagicQuestEnd)
+        pass
 
     @classmethod
     def _onFinalize(cls):
-        if ElementalMagicManager.onQuestRunObserver is not None:
-            Notification.removeObserver(ElementalMagicManager.onQuestRunObserver)
-            ElementalMagicManager.onQuestRunObserver = None
-        if ElementalMagicManager.onQuestEndObserver is not None:
-            Notification.removeObserver(ElementalMagicManager.onQuestEndObserver)
-            ElementalMagicManager.onQuestEndObserver = None
+        pass
 
     @staticmethod
     def resetCache():

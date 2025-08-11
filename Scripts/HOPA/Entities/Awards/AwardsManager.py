@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class AwardsManager(object):
+class AwardsManager(Manager):
     s_awards = {}
     s_awardsData = {}
     s_noSkipPuzzle = {}
@@ -28,26 +30,22 @@ class AwardsManager(object):
 
         def getCount(self):
             return self.count
-            pass
 
         def getMovieName(self):
             return self.movieName
-            pass
 
         def getOpenTextID(self):
             return self.OpenTextID
-            pass
 
         def getImageCount(self):
             return self.ImageCount
-            pass
 
         pass
 
     pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         AwardsManager.s_awards = {}
         AwardsManager.s_awardsData = {}
         AwardsManager.s_noSkipPuzzle = {}

@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class SpellManager(object):
+class SpellManager(Manager):
     """
     deprecated
     """
@@ -33,61 +34,45 @@ class SpellManager(object):
 
         def getSocket(self):
             return self.socket
-            pass
 
         def getLocked(self):
             return self.locked
-            pass
 
         def getPrepared(self):
             return self.prepared
-            pass
 
         def getActive(self):
             return self.active
-            pass
 
         def getOverview(self):
             return self.overview
-            pass
 
         def getReady(self):
             return self.ready
-            pass
 
         def getCharge(self):
             return self.charge
-            pass
 
         def getUse(self):
             return self.use
-            pass
 
         def getInvalidUse(self):
             return self.invalid
-            pass
 
         def getSprite(self):
             return self.sprite
-            pass
 
         def getIdle(self):
             return self.idle
-            pass
 
         def getHide(self):
             return self.hide
-            pass
 
         def getShow(self):
             return self.show
-            pass
 
         def getDown(self):
             return self.down
-            pass
-
-        pass
 
     @staticmethod
     def _onFinalize():

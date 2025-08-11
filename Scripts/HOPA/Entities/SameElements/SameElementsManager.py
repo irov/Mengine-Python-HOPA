@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SameElementsManager(object):
+class SameElementsManager(Manager):
     s_collections = {}
     s_buttonsChange = {}
     s_buttonsCollection = {}
@@ -14,7 +15,6 @@ class SameElementsManager(object):
 
         def getMovieName(self):
             return self.movieName
-            pass
 
         def addSlot(self, slotID, startElementName):
             self.slots[slotID] = startElementName
@@ -22,9 +22,6 @@ class SameElementsManager(object):
 
         def getSlots(self):
             return self.slots
-            pass
-
-        pass
 
     class ButtonChange(object):
         def __init__(self, collection1ID, slot1ID, collection2ID, slot2ID):
@@ -36,20 +33,21 @@ class SameElementsManager(object):
 
         def getCollectionID1(self):
             return self.collection1ID
-            pass
 
         def getCollectionID2(self):
             return self.collection2ID
-            pass
 
         def getSlot1ID(self):
             return self.slot1ID
-            pass
 
         def getSlot2ID(self):
             return self.slot2ID
-            pass
 
+    @staticmethod
+    def _onFinalize():
+        SameElementsManager.s_collections = {}
+        SameElementsManager.s_buttonsChange = {}
+        SameElementsManager.s_buttonsCollection = {}
         pass
 
     @staticmethod
@@ -68,7 +66,6 @@ class SameElementsManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def loadCollections(module, name, enigmaName):
@@ -128,16 +125,11 @@ class SameElementsManager(object):
     @staticmethod
     def getButtonCollections(enigmaName):
         return SameElementsManager.s_buttonsCollection[enigmaName]
-        pass
 
     @staticmethod
     def getCollections(enigmaName):
         return SameElementsManager.s_collections[enigmaName]
-        pass
 
     @staticmethod
     def getButtonsChange(enigmaName):
         return SameElementsManager.s_buttonsChange[enigmaName]
-        pass
-
-    pass

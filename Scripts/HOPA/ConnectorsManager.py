@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ConnectorsManager(object):
+class ConnectorsManager(Manager):
     s_games = {}
 
     class ConnectorsGame(object):
@@ -17,6 +18,11 @@ class ConnectorsManager(object):
 
         def appendElements(self, element):
             self.elements.append(element)
+
+    @staticmethod
+    def _onFinalize():
+        ConnectorsManager.s_games.clear()
+        pass
 
     @staticmethod
     def loadGames(module, param):

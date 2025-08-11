@@ -1,12 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class LocationCompleteManager(object):
+class LocationCompleteManager(Manager):
     s_questTypeFilter = []
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         LocationCompleteManager.s_questTypeFilter = []
+        pass
 
     @staticmethod
     def loadParams(module, param):

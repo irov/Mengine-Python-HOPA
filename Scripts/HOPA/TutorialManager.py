@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from TraceManager import TraceManager
 
-
-class TutorialManager(object):
+class TutorialManager(Manager):
     TraceName = "TutorialManager"
     s_object = {}
 
@@ -22,8 +23,9 @@ class TutorialManager(object):
             return self.__dict__.__repr__()
 
     @staticmethod
-    def onFinalize():
-        TutorialManager.s_items = {}
+    def _onFinalize():
+        TutorialManager.s_object = {}
+        pass
 
     @staticmethod
     def load(module, param):

@@ -1,9 +1,15 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class SurveyPhotoGalleryManager(object):
+class SurveyPhotoGalleryManager(Manager):
     s_photos = {}
+
+    @staticmethod
+    def _onFinalize():
+        SurveyPhotoGalleryManager.s_photos = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

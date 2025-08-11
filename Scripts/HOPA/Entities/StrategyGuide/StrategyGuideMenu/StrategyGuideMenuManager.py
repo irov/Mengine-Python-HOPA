@@ -1,9 +1,15 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class StrategyGuideMenuManager(object):
+class StrategyGuideMenuManager(Manager):
     s_buttons = {}
+
+    @staticmethod
+    def _onFinalize():
+        StrategyGuideMenuManager.s_buttons = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -23,6 +29,3 @@ class StrategyGuideMenuManager(object):
     @staticmethod
     def getButtons():
         return StrategyGuideMenuManager.s_buttons
-        pass
-
-    pass

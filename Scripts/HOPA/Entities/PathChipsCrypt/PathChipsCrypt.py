@@ -27,7 +27,7 @@ class PathChipsCrypt(Enigma):
         self.movieSoundMoveChipName = "Movie2_Sound_MoveChip"
         pass
 
-    def finalise(self):
+    def finalize(self):
         for chipElement in self.chipElements:
             chipElement.onFinalize()
             pass
@@ -66,11 +66,11 @@ class PathChipsCrypt(Enigma):
         pass
 
     def _stopEnigma(self):
-        self.finalise()
+        self.finalize()
         pass
 
     def _resetEnigma(self):
-        self.finalise()
+        self.finalize()
         self._playEnigma()
         pass
 
@@ -167,7 +167,7 @@ class PathChipsCrypt(Enigma):
     def _onDeactivate(self):
         super(PathChipsCrypt, self)._onDeactivate()
 
-        self.finalise()
+        self.finalize()
         pass
 
     def resetPositions(self):

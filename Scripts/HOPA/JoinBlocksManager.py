@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
 
@@ -33,7 +35,7 @@ class JoinBlocksManager(object):
             return self.winLength
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         JoinBlocksManager.s_objects = {}
         pass
 

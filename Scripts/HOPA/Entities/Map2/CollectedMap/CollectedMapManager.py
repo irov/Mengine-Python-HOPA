@@ -1,12 +1,20 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class CollectedMapManager(object):
+class CollectedMapManager(Manager):
     s_objects = {}
     s_partsRelation = {}
 
     class Data(object):
+        pass
+
+    @staticmethod
+    def _onFinalize():
+        CollectedMapManager.s_objects = {}
+        CollectedMapManager.s_partsRelation = {}
         pass
 
     @staticmethod

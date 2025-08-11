@@ -1,13 +1,16 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class HOGFittingInventoryManager(object):
+class HOGFittingInventoryManager(Manager):
     s_objects = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         HOGFittingInventoryManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadInventoryData(module, param):

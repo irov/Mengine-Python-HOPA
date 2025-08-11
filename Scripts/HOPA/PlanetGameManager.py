@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PlanetGameManager(object):
+class PlanetGameManager(Manager):
     s_objects = {}
 
     class Planet(object):
@@ -15,25 +16,21 @@ class PlanetGameManager(object):
 
         def getMovieName(self):
             return self.movieName
-            pass
 
         def getStartTiming(self):
             return self.startTiming
-            pass
 
         def getWinTiming(self):
             return self.winTiming
-            pass
 
         def getDuration(self):
             return self.duration
-            pass
 
         def getAccuracy(self):
             return self.accuracy
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         PlanetGameManager.s_objects = {}
         pass
 

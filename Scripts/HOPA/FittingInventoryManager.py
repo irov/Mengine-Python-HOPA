@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DemonManager import DemonManager
 from HOPA.ItemManager import ItemManager
 
 
-class FittingInventoryManager(object):
+class FittingInventoryManager(Manager):
     s_slots = {}
 
     class Slot(object):
@@ -11,6 +13,11 @@ class FittingInventoryManager(object):
 
         def getIndex(self):
             return self.index
+
+    @staticmethod
+    def _onFinalize():
+        FittingInventoryManager.s_slots = {}
+        pass
 
     @staticmethod
     def loadFittingItems(param):

@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.Bootstrapper import checkBuildMode
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
@@ -8,7 +10,7 @@ DEMON_DIALOG = "Demon_Dialog"
 DEMON_DIALOG_AVATAR = "Demon_Switch_Avatar"
 
 
-class DialogManager(object):
+class DialogManager(Manager):
     s_dialogs = {}
 
     class Dialog(object):
@@ -24,6 +26,11 @@ class DialogManager(object):
             self.textDelay = textDelay
             self.finish = finish
             self.audio_duration = audio_duration
+
+    @staticmethod
+    def _onFinalize():
+        DialogManager.s_dialogs = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

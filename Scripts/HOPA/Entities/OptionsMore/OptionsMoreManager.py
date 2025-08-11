@@ -1,14 +1,13 @@
-class OptionsMoreManager(object):
+from Foundation.Manager import Manager
+
+class OptionsMoreManager(Manager):
     s_options = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         OptionsMoreManager.s_options = {}
         pass
 
     @staticmethod
     def loadParams(module, param):
         return True
-        pass
-
-    pass

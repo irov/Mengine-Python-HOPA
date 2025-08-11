@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PathChipsCryptManager(object):
+class PathChipsCryptManager(Manager):
     s_games = {}
 
     class PathChipsCryptGame(object):
@@ -12,6 +13,15 @@ class PathChipsCryptManager(object):
             self.chips = chips
             self.completeEffects = completeEffects
             self.connections = connections
+
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        PathChipsCryptManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -58,7 +68,6 @@ class PathChipsCryptManager(object):
             chips[chipId] = dict(ObjectName=objectName, MovingPolicy=movingPolicy)
             pass
         return chips
-        pass
 
     @staticmethod
     def loadGameSlots(module, param):
@@ -70,7 +79,6 @@ class PathChipsCryptManager(object):
             slots[SlotId] = ChipId
             pass
         return slots
-        pass
 
     @staticmethod
     def loadGameConnections(module, param):
@@ -84,7 +92,6 @@ class PathChipsCryptManager(object):
             connections.append(connection)
             pass
         return connections
-        pass
 
     @staticmethod
     def loadGameTransporters(module, param):
@@ -100,7 +107,6 @@ class PathChipsCryptManager(object):
             transporters.append(transporter)
             pass
         return transporters
-        pass
 
     @staticmethod
     def loadGameRules(module, param):
@@ -112,7 +118,6 @@ class PathChipsCryptManager(object):
             rules.setdefault(SlotId, []).append(ChipId)
             pass
         return rules
-        pass
 
     @staticmethod
     def loadGameCompleteEffects(module, param):
@@ -125,17 +130,14 @@ class PathChipsCryptManager(object):
             completeEffects[SlotId] = dict(ObjectName=objectName, GroupName=groupName)
             pass
         return completeEffects
-        pass
 
     @staticmethod
     def getGame(name):
         if name not in PathChipsCryptManager.s_games:
             Trace.log("Manager", 0, "PathChipsCryptManager.getGame: not found game %s" % (name))
             return None
-            pass
         game = PathChipsCryptManager.s_games[name]
         return game
-        pass
 
     @staticmethod
     def hasGame(name):

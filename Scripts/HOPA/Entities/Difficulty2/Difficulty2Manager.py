@@ -1,6 +1,7 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
-
 
 class DifficultyTimeScrollbarData(object):
     def __init__(self, time, time_min, time_max, scrollbar_obj):
@@ -48,8 +49,7 @@ class DifficultyTimeScrollbarData(object):
     def __deepcopy__(self, memodict={}):
         return DifficultyTimeScrollbarData(self.__time, self.__time_min, self.__time_max, self.__scrollbar_obj)
 
-
-class Difficulty2Manager(object):
+class Difficulty2Manager(Manager):
     s_difficulties = {}
     s_difficultiesParams = {}
     s_difficultiesScrollBars = {}
@@ -59,8 +59,11 @@ class Difficulty2Manager(object):
     __param = None
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         Difficulty2Manager.s_difficulties = {}
+        Difficulty2Manager.s_difficultiesParams = {}
+        Difficulty2Manager.s_difficultiesScrollBars = {}
+        Difficulty2Manager.s_difficultiesSettings = {}
 
     @staticmethod
     def __loadParams(module, param):

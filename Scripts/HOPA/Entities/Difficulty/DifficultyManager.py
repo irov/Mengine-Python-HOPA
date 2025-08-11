@@ -1,12 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class DifficultyManager(object):
+class DifficultyManager(Manager):
     s_difficulties = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         DifficultyManager.s_difficulties = {}
         pass
 

@@ -1,7 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ShootGameManager(object):
+class ShootGameManager(Manager):
     Games = {}
 
     class PathData(object):
@@ -16,6 +16,11 @@ class ShootGameManager(object):
             self.ShootCount = int(ShootCount)
             self.ShootWin = int(ShootWin)
             self.Pathes = []
+
+    @staticmethod
+    def _onFinalize():
+        ShootGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

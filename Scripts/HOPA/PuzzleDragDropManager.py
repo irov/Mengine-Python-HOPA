@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PuzzleDragDropManager(object):
+class PuzzleDragDropManager(Manager):
     s_objects = {}
 
     class PuzzleDragDrop(object):
@@ -14,8 +15,9 @@ class PuzzleDragDropManager(object):
             return self.LinkedItems
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         PuzzleDragDropManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

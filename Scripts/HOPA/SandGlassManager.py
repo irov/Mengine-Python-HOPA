@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SandGlassManager(object):
+class SandGlassManager(Manager):
     Games = {}
 
     class Connect_Data(object):
@@ -39,6 +40,11 @@ class SandGlassManager(object):
             self.Name = Name
             self.Points = []
             self.Connects = []
+
+    @staticmethod
+    def _onFinalize():
+        SandGlassManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

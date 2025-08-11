@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ConnectLampManager(object):
+class ConnectLampManager(Manager):
     Games = {}
 
     class Connect_Data(object):
@@ -36,6 +37,11 @@ class ConnectLampManager(object):
             self.Name = Name
             self.Points = []
             self.Connects = []
+
+    @staticmethod
+    def _onFinalize():
+        ConnectLampManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -100,12 +106,10 @@ class ConnectLampManager(object):
     @staticmethod
     def hasGame(name):
         return name in ConnectLampManager.Games
-        pass
 
     @staticmethod
     def getGame(name):
         if (ConnectLampManager.hasGame(name) is False):
             Trace.log("Manager", 0, "ConnectLampManager.getGame can't find game with Name: %s" % (name))
             return None
-            pass
         return ConnectLampManager.Games[name]

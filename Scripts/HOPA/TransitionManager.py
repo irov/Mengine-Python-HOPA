@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
@@ -11,8 +13,7 @@ from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 from Graph import Graph
 
-
-class TransitionManager(object):
+class TransitionManager(Manager):
     s_transition = []
     s_transitionBack = {}
     s_transitionBackShow = {}
@@ -25,10 +26,6 @@ class TransitionManager(object):
 
     s_block = 0
 
-    onTransitionMouseEnterObserver = None
-    onTransitionClickObserver = None
-    onTransitionMouseLeaveObserver = None
-
     class TransitionDesc(object):
         def __init__(self, object, sceneNameFrom, sceneNameTo, cursorMode, sceneNameShow):
             self.object = object
@@ -38,18 +35,20 @@ class TransitionManager(object):
             self.sceneNameShow = sceneNameShow
 
     @staticmethod
-    def onInitialize():
-        TransitionManager.onTransitionMouseEnterObserver = Notification.addObserver(Notificator.onTransitionMouseEnter, TransitionManager.__transitionMouseEnter)
-        TransitionManager.onTransitionClickObserver = Notification.addObserver(Notificator.onTransitionClick, TransitionManager.__transitionClick)
-        TransitionManager.onTransitionMouseLeaveObserver = Notification.addObserver(Notificator.onTransitionMouseLeave, TransitionManager.__transitionMouseLeave)
+    def _onInitialize():
+        TransitionManager.addObserver(Notificator.onTransitionMouseEnter, TransitionManager.__transitionMouseEnter)
+        TransitionManager.addObserver(Notificator.onTransitionClick, TransitionManager.__transitionClick)
+        TransitionManager.addObserver(Notificator.onTransitionMouseLeave, TransitionManager.__transitionMouseLeave)
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         TransitionManager.s_transition = []
-
-        Notification.removeObserver(TransitionManager.onTransitionMouseEnterObserver)
-        Notification.removeObserver(TransitionManager.onTransitionClickObserver)
-        Notification.removeObserver(TransitionManager.onTransitionMouseLeaveObserver)
+        TransitionManager.s_transitionBack = {}
+        TransitionManager.s_transitionBackShow = {}
+        TransitionManager.s_inMovies = {}
+        TransitionManager.s_outMovies = {}
+        TransitionManager.s_openZooms = {}
+        TransitionManager.s_transitionBackObject = None
         pass
 
     @staticmethod

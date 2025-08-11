@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class AssociationElements2Manager(object):
+class AssociationElements2Manager(Manager):
     s_objects = {}
 
     class ElementData(object):
@@ -16,28 +17,29 @@ class AssociationElements2Manager(object):
 
         def getName(self):
             return self.name
-            pass
 
         def getSlotName(self):
             return self.slot
-            pass
 
         def getSocketName(self):
             return self.socket
-            pass
 
         def getOpenMovieName(self):
             return self.open
-            pass
 
         def getCloseMovieName(self):
             return self.close
-            pass
 
         def getActiveMovieName(self):
             return self.active
-            pass
 
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        AssociationElements2Manager.s_objects = {}
         pass
 
     @staticmethod
@@ -54,7 +56,6 @@ class AssociationElements2Manager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def loadCollection(module, name):
@@ -75,16 +76,13 @@ class AssociationElements2Manager(object):
             pass
 
         return data
-        pass
 
     @staticmethod
     def getData(name):
         if AssociationElements2Manager.hasData(name) is False:
             return None
-            pass
         record = AssociationElements2Manager.s_objects[name]
         return record
-        pass
 
     @staticmethod
     def hasData(name):

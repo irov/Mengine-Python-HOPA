@@ -1,21 +1,26 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.SceneManager import SceneManager
 from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioManager import ScenarioManager
 
-
-class ChapterManager(object):
+class ChapterManager(Manager):
     s_chapterScenarios = {}
     s_currentChapter = None
     s_currentChapterName = None
     s_chapterDifficulty = {}
 
     @staticmethod
-    def onInitialize():
+    def _onInitialize():
         pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
+        ChapterManager.s_chapterScenarios = {}
+        ChapterManager.s_currentChapter = None
+        ChapterManager.s_currentChapterName = None
+        ChapterManager.s_chapterDifficulty = {}
         pass
 
     @staticmethod

@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class TipManager(object):
+class TipManager(Manager):
     s_tips = {}
     s_movieTips = {}
 
@@ -13,6 +14,12 @@ class TipManager(object):
 
             self.textId = textId
             self.tipID = tipID
+
+    @staticmethod
+    def _onFinalize():
+        TipManager.s_tips = {}
+        TipManager.s_movieTips = {}
+        pass
 
     @staticmethod
     def loadMovieTips(module, param):

@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
@@ -5,8 +7,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Notification import Notification
 
-
-class ZoomManager(object):
+class ZoomManager(Manager):
     s_activeZooms = {}
     s_zooms = {}
     allow_types = []
@@ -14,16 +15,6 @@ class ZoomManager(object):
     ZOOM_ENTER = 1
 
     s_currentGameZoomName = None
-
-    onZoomInitObserver = None
-    onZoomEnterObserver = None
-    onZoomLeaveObserver = None
-    onZoomClickObserver = None
-    onTransitionBeginObserver = None
-    onTransitionEndObserver = None
-    onSessionSaveObserver = None
-    onSessionLoadObserver = None
-    onSessionRemoveCompleteObserver = None
 
     blockOpen = False
 
@@ -50,30 +41,24 @@ class ZoomManager(object):
 
         def hasObject(self):
             return self.object is not None
-            pass
 
         def getObject(self):
             return self.object
-            pass
 
         def getFrameGroupName(self):
             return self.frameGroupName
-            pass
 
         def getOverFrameGroupName(self):
             return self.overFrameGroupName
-            pass
 
         def hasOverLayer(self):
             return self.overLayer
 
         def getAfterFrameGroupName(self):
             return self.AfterFrameGroup
-            pass
 
         def getFromSceneName(self):
             return self.fromSceneName
-            pass
 
         def setBlockOpen(self, value):
             self.blockOpen = value
@@ -81,11 +66,9 @@ class ZoomManager(object):
 
         def getBlockOpen(self):
             return self.blockOpen
-            pass
 
         def getGroupName(self):
             return self.zoomGroupName
-            pass
 
         def setOpen(self, open):
             self.open = open
@@ -93,44 +76,32 @@ class ZoomManager(object):
 
         def getOpen(self):
             return self.open
-            pass
 
         def getImmediately(self):
             return self.immediately
-            pass
 
         pass
 
     @staticmethod
-    def onInitialize():
+    def _onInitialize():
         from HOPA.Object.ObjectInventoryItem import ObjectInventoryItem
         ZoomManager.setAllowObjectTypes([ObjectInventoryItem])
 
-        ZoomManager.onZoomInitObserver = Notification.addObserver(Notificator.onZoomInit, ZoomManager._zoomInit)
-        ZoomManager.onZoomEnterObserver = Notification.addObserver(Notificator.onZoomEnter, ZoomManager._zoomEnter)
-        ZoomManager.onZoomLeaveObserver = Notification.addObserver(Notificator.onZoomLeave, ZoomManager._zoomLeave)
-        ZoomManager.onZoomClickObserver = Notification.addObserver(Notificator.onZoomClick, ZoomManager._zoomClick)
-        ZoomManager.onTransitionBeginObserver = Notification.addObserver(Notificator.onTransitionBegin, ZoomManager.__onTransitionBegin)
-        ZoomManager.onTransitionEndObserver = Notification.addObserver(Notificator.onTransitionEnd, ZoomManager.__onTransitionEnd)
-        ZoomManager.onSessionSaveObserver = Notification.addObserver(Notificator.onSessionSave, ZoomManager.__onSessionSave)
-        ZoomManager.onSessionLoadObserver = Notification.addObserver(Notificator.onSessionLoad, ZoomManager.__onSessionLoad)
-        ZoomManager.onSessionRemoveCompleteObserver = Notification.addObserver(Notificator.onSessionRemoveComplete, ZoomManager.__onSessionRemoveComplete)
+        ZoomManager.addObserver(Notificator.onZoomInit, ZoomManager._zoomInit)
+        ZoomManager.addObserver(Notificator.onZoomEnter, ZoomManager._zoomEnter)
+        ZoomManager.addObserver(Notificator.onZoomLeave, ZoomManager._zoomLeave)
+        ZoomManager.addObserver(Notificator.onZoomClick, ZoomManager._zoomClick)
+        ZoomManager.addObserver(Notificator.onTransitionBegin, ZoomManager.__onTransitionBegin)
+        ZoomManager.addObserver(Notificator.onTransitionEnd, ZoomManager.__onTransitionEnd)
+        ZoomManager.addObserver(Notificator.onSessionSave, ZoomManager.__onSessionSave)
+        ZoomManager.addObserver(Notificator.onSessionLoad, ZoomManager.__onSessionLoad)
+        ZoomManager.addObserver(Notificator.onSessionRemoveComplete, ZoomManager.__onSessionRemoveComplete)
         pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ZoomManager.s_activeZooms = {}
         ZoomManager.s_zooms = {}
-
-        Notification.removeObserver(ZoomManager.onZoomInitObserver)
-        Notification.removeObserver(ZoomManager.onZoomEnterObserver)
-        Notification.removeObserver(ZoomManager.onZoomLeaveObserver)
-        Notification.removeObserver(ZoomManager.onZoomClickObserver)
-        Notification.removeObserver(ZoomManager.onTransitionBeginObserver)
-        Notification.removeObserver(ZoomManager.onTransitionEndObserver)
-        Notification.removeObserver(ZoomManager.onSessionSaveObserver)
-        Notification.removeObserver(ZoomManager.onSessionLoadObserver)
-        Notification.removeObserver(ZoomManager.onSessionRemoveCompleteObserver)
         pass
 
     @staticmethod
@@ -154,16 +125,13 @@ class ZoomManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def hasZoom(zoomGroupName):
         if zoomGroupName not in ZoomManager.s_zooms:
             return False
-            pass
 
         return True
-        pass
 
     @staticmethod
     def resetZoomsTempFrame():
@@ -175,10 +143,8 @@ class ZoomManager(object):
         if zoomGroupName not in ZoomManager.s_zooms:
             Trace.log("Manager", 0, "ZoomManager.getZoom not found zoom %s [maybe add to Zooms.xlsx]" % (zoomGroupName))
             return None
-            pass
 
         return ZoomManager.s_zooms[zoomGroupName]
-        pass
 
     @staticmethod
     def setCurrentGameZoomName(zoomName):
@@ -188,7 +154,6 @@ class ZoomManager(object):
     @staticmethod
     def getCurrentGameZoomName():
         return ZoomManager.s_currentGameZoomName
-        pass
 
     @staticmethod
     def calcZoomPointLeft(zoomGroupName):
@@ -223,7 +188,6 @@ class ZoomManager(object):
             pass
 
         return zoomPoint
-        pass
 
     @staticmethod
     def calcZoomPointRight(zoomGroupName):
@@ -237,7 +201,6 @@ class ZoomManager(object):
         pointRight = (pointLeft[0] + ZoomSize.x, pointLeft[1])
 
         return pointRight
-        pass
 
     @staticmethod
     def hasButtonClose(zoomGroupName):
@@ -246,15 +209,12 @@ class ZoomManager(object):
         FrameGroupName = zoom.getFrameGroupName()
         if FrameGroupName is None:
             return False
-            pass
 
         group = GroupManager.getGroup(FrameGroupName)
         if group.hasObject("Demon_CloseZoom") is False:
             return False
-            pass
 
         return True
-        pass
 
     @staticmethod
     def getButtonClose(zoomGroupName):
@@ -264,7 +224,6 @@ class ZoomManager(object):
         button = demon.getObject("Button_CloseZoom")
 
         return button
-        pass
 
     @staticmethod
     def setZoom(zoomGroupName, fromSceneName, groupName, objectName, frameGroupName, immediately, Viewport, ZoomMask,
@@ -276,7 +235,6 @@ class ZoomManager(object):
 
             if GroupManager.hasObject(groupName, objectName) is False:
                 return
-                pass
 
             object = GroupManager.getObject(groupName, objectName)
             pass
@@ -292,28 +250,22 @@ class ZoomManager(object):
         for zoom in ZoomManager.s_zooms.itervalues():
             if zoom.object is not zoomObject:
                 continue
-                pass
 
             return True
-            pass
 
         return False
-        pass
 
     @staticmethod
     def getZoomGroupName(zoomObject):
         for zoom in ZoomManager.s_zooms.itervalues():
             if zoom.object is not zoomObject:
                 continue
-                pass
 
             return zoom.zoomGroupName
-            pass
 
         Trace.log("Manager", 0, "ZoomManager.getZoomGroupName not found zoom group name [%s:%s]" % (zoomObject.getGroupName(), zoomObject.getName()))
 
         return None
-        pass
 
     @staticmethod
     def openZoom(zoomGroupName):
@@ -346,7 +298,6 @@ class ZoomManager(object):
         BlockGameScenes = SceneManager.isBlockGameScenes()
         if BlockGameScenes is True:
             return
-            pass
 
         Notification.notify(Notificator.onZoomClose, zoomGroupName)
         pass
@@ -362,7 +313,6 @@ class ZoomManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def __onTransitionEnd(sceneFrom, sceneTo, ZoomGroupName):
@@ -371,7 +321,6 @@ class ZoomManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def __onSessionSave(params):
@@ -384,7 +333,6 @@ class ZoomManager(object):
         params["ZoomManager"]["CurrentZoomName"] = currentZoomName
 
         return False
-        pass
 
     @staticmethod
     def __onSessionLoad(params):
@@ -394,7 +342,6 @@ class ZoomManager(object):
         ZoomManager.setCurrentGameZoomName(gameZoomName)
 
         return False
-        pass
 
     @staticmethod
     def __onSessionRemoveComplete():
@@ -405,25 +352,21 @@ class ZoomManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def _zoomInit(ZoomGroupName):
         ZoomManager.s_activeZooms[ZoomGroupName] = ZoomManager.ZOOM_INIT
         return False
-        pass
 
     @staticmethod
     def _zoomClick(object):
         BlockOpen = object.getParam("BlockOpen")
         if BlockOpen is True:
             return False
-            pass
 
         BlockGameScenes = SceneManager.isBlockGameScenes()
         if BlockGameScenes is True:
             return False
-            pass
 
         if ZoomManager.blockOpen is True:
             return False
@@ -432,20 +375,17 @@ class ZoomManager(object):
         ZoomManager.openZoom(zoomGroupName)
 
         return False
-        pass
 
     @staticmethod
     def _zoomEnter(zoomGroupName):
         ZoomManager.s_activeZooms[zoomGroupName] = ZoomManager.ZOOM_ENTER
 
         return False
-        pass
 
     @staticmethod
     def _zoomLeave(zoomGroupName):
         if zoomGroupName not in ZoomManager.s_activeZooms.keys():
             return False
-            pass
 
         ZoomManager.s_activeZooms.pop(zoomGroupName)
 
@@ -454,43 +394,35 @@ class ZoomManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def isZoomInit(ZoomGroupName):
         return ZoomGroupName in ZoomManager.s_activeZooms
-        pass
 
     @staticmethod
     def isZoomEnter(ZoomGroupName):
         if ZoomGroupName not in ZoomManager.s_activeZooms:
             return False
-            pass
 
         state = ZoomManager.s_activeZooms[ZoomGroupName]
 
         return state is ZoomManager.ZOOM_ENTER
-        pass
 
     @staticmethod
     def isZoomLeave(ZoomGroupName):
         return ZoomGroupName not in ZoomManager.s_activeZooms
-        pass
 
     @staticmethod
     def isZoomEmpty():
         return len(ZoomManager.s_activeZooms) == 0
-        pass
 
     @staticmethod
     def getZoomOpenGroupName():
         if len(ZoomManager.s_activeZooms) > 0:
             names = ZoomManager.s_activeZooms.keys()
             return names[0]
-            pass
 
         return None
-        pass
 
     @staticmethod
     def getZoomOpenGroup():
@@ -498,12 +430,10 @@ class ZoomManager(object):
 
         if ZoomOpenGroupName is None:
             return None
-            pass
 
         ZoomOpenGroup = GroupManager.getGroup(ZoomOpenGroupName)
 
         return ZoomOpenGroup
-        pass
 
     @staticmethod
     def getZoomOpen():
@@ -511,12 +441,10 @@ class ZoomManager(object):
 
         if ZoomOpenGroupName is None:
             return None
-            pass
 
         Zoom = ZoomManager.getZoom(ZoomOpenGroupName)
 
         return Zoom
-        pass
 
     @staticmethod
     def getZoomObject(zoomGroupName):
@@ -524,12 +452,10 @@ class ZoomManager(object):
 
         if zoom is None:
             return None
-            pass
 
         ZoomObject = zoom.getObject()
 
         return ZoomObject
-        pass
 
     @staticmethod
     def getZoomEntryByObject(zoomObject):
@@ -555,21 +481,19 @@ class ZoomManager(object):
         for zoom in ZoomManager.s_zooms.itervalues():
             if zoom.hasObject() is False:
                 continue
-                pass
+
             FromSceneName = zoom.getFromSceneName()
+
             if FromSceneName != sceneName:
                 continue
-                pass
 
             object = zoom.getObject()
 
             if object.getEnable() is False:
                 continue
-                pass
 
             if object.getBlockOpen() is True:
                 continue
-                pass
 
             listZooms.append(zoom)
             pass
@@ -585,6 +509,7 @@ class ZoomManager(object):
                 continue
 
             FromSceneName = zoom.getFromSceneName()
+
             if FromSceneName != sceneName:
                 continue
 
@@ -635,3 +560,4 @@ class ZoomManager(object):
     @staticmethod
     def setBlockOpen(value):
         ZoomManager.blockOpen = bool(value)
+        pass

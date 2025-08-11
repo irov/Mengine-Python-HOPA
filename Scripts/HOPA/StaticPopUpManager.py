@@ -1,9 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from TraceManager import TraceManager
 
-
-class StaticPopUpManager(object):
+class StaticPopUpManager(Manager):
     s_objects = {}
 
     class StaticPopUp(object):
@@ -15,7 +16,7 @@ class StaticPopUpManager(object):
             return self.ForeignKey
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         StaticPopUpManager.s_objects = {}
         pass
 

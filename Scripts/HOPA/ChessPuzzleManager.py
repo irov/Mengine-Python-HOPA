@@ -1,7 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ChessPuzzleManager(object):
+class ChessPuzzleManager(Manager):
     s_games = {}
 
     class ChessPuzzleMovieGridDescription(object):
@@ -16,8 +16,6 @@ class ChessPuzzleManager(object):
             self.cells.append(cell)
             pass
 
-        pass
-
     class ChessPuzzleGame(object):
         def __init__(self, grid, shifts, figures, targets):
             self.grid = grid
@@ -26,6 +24,13 @@ class ChessPuzzleManager(object):
             self.targets = targets
             pass
 
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        ChessPuzzleManager.s_games = {}
         pass
 
     @staticmethod
@@ -98,7 +103,6 @@ class ChessPuzzleManager(object):
             shifts[ShiftId] = dict(x=X, y=Y, dX=DX, dY=DY, prototype=Prototype)
             pass
         return shifts
-        pass
 
     @staticmethod
     def loadGameFigures(module, param):
@@ -113,7 +117,6 @@ class ChessPuzzleManager(object):
             figures[FigureId] = dict(x=X, y=Y, figureType=FigureType, prototype=Prototype)
             pass
         return figures
-        pass
 
     @staticmethod
     def loadGameTargets(module, param):
@@ -128,21 +131,15 @@ class ChessPuzzleManager(object):
             targets[TargetId] = dict(x=X, y=Y, figureType=FigureType, prototype=Prototype)
             pass
         return targets
-        pass
 
     @staticmethod
     def getGame(name):
         if name not in ChessPuzzleManager.s_games:
             Trace.log("Manager", 0, "PathChipsManager.getGame: not found game %s" % (name))
             return None
-            pass
         game = ChessPuzzleManager.s_games[name]
         return game
-        pass
 
     @staticmethod
     def hasGame(name):
         return name in ChessPuzzleManager.s_games
-        pass
-
-    pass

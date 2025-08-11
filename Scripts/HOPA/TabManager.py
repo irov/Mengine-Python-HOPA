@@ -1,9 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class TabManager(object):
-
+class TabManager(Manager):
     @staticmethod
     def loadTabs(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)

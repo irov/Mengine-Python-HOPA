@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class GlobeGameManager(object):
+class GlobeGameManager(Manager):
     Games = {}
 
     class GameData(object):
@@ -9,6 +10,11 @@ class GlobeGameManager(object):
             self.Name = Name
             self.LvlStart = LvlStart
             self.LvlWin = LvlWin
+
+    @staticmethod
+    def _onFinalize():
+        GlobeGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

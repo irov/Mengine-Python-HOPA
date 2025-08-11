@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class ZenElementsManager(object):
+class ZenElementsManager(Manager):
     s_objects = {}
 
     class SingleZen(object):
@@ -32,7 +33,7 @@ class ZenElementsManager(object):
             return self.PlacementList
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ZenElementsManager.s_objects = {}
         pass
 

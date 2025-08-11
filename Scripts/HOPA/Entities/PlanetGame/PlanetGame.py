@@ -21,7 +21,7 @@ class PlanetGame(Enigma):
 
     def _stopEnigma(self):
         super(PlanetGame, self)._stopEnigma()
-        self.finalise()
+        self.finalize()
         pass
 
     def _resetEnigma(self):
@@ -45,7 +45,7 @@ class PlanetGame(Enigma):
             pass
         pass
 
-    def finalise(self):
+    def finalize(self):
         for planet in self.planetList:
             planet.onFinalize()
             pass

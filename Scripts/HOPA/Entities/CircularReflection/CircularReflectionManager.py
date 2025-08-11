@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class CircularReflectionManager(object):
+class CircularReflectionManager(Manager):
     collections = {
         "Movie_Circle1": {
             "Slot1_N": ["Slot1_P1", "Slot1_P2"],
@@ -107,7 +108,6 @@ class CircularReflectionManager(object):
     TraceName = "CircularReflectionManager"
 
     class MapOrientedDocument(object):
-
         def __init__(self):
             self.collection = {}
             self.subMap = {}
@@ -115,17 +115,14 @@ class CircularReflectionManager(object):
 
         def getCollection(self):
             return self.collection
-            pass
 
         def getSubMap(self):
             return self.subMap
-            pass
 
         def insert(self, MovieName, slotInput, subMovie, slotOutputsList):
             if isinstance(slotOutputsList, list) is False:
                 Trace.log("Manager", 0, "slotOutputsList must be a list")
                 return
-                pass
 
             slotToSubRelation = {slotInput: subMovie}
             if MovieName in self.subMap:
@@ -147,7 +144,7 @@ class CircularReflectionManager(object):
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         CircularReflectionManager.enigmas_data = {}
         pass
 

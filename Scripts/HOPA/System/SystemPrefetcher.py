@@ -1,7 +1,6 @@
 from Foundation.System import System
 from HOPA.Prefetcher.Prefetcher import Prefetcher
 
-
 class SystemPrefetcher(System):
     def __init__(self):
         super(SystemPrefetcher, self).__init__()
@@ -25,7 +24,7 @@ class SystemPrefetcher(System):
         pass
 
     def _onStop(self):
-        self.prefetcher.finalise()
+        self.prefetcher.onFinalize()
         pass
 
     pass

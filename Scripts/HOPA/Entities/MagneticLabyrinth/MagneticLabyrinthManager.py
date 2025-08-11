@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class MagneticLabyrinthManager(object):
+class MagneticLabyrinthManager(Manager):
     s_objects = {}
 
     class MagneticLabyrinth(object):
@@ -13,20 +14,15 @@ class MagneticLabyrinthManager(object):
 
         def getMetric(self):
             return self.metric
-            pass
 
         def getData(self):
             return self.data
-            pass
 
         def getSpeed(self):
             return self.speed
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         MagneticLabyrinthManager.s_objects = {}
         pass
 
@@ -64,18 +60,12 @@ class MagneticLabyrinthManager(object):
     def getGameData(name):
         if MagneticLabyrinthManager.hasGameData(name) is False:
             return None
-            pass
         record = MagneticLabyrinthManager.s_objects[name]
         return record
-        pass
 
     @staticmethod
     def hasGameData(name):
         if name not in MagneticLabyrinthManager.s_objects:
             Trace.log("MagneticLabyrinthManager", 0, "MagneticLabyrinthManager.hasGameData: : invalid param")
             return False
-            pass
         return True
-        pass
-
-    pass

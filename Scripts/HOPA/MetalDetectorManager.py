@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class MetalDetectorManager(object):
+class MetalDetectorManager(Manager):
     detectors = {}
 
     class SingleDetector(object):
@@ -20,8 +21,9 @@ class MetalDetectorManager(object):
             return self.Range
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         MetalDetectorManager.detectors = {}
+        pass
 
     @staticmethod
     def loadItems(module, param):

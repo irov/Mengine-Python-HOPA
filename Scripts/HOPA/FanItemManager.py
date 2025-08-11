@@ -1,14 +1,21 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class FanItemManager(object):
+class FanItemManager(Manager):
     s_items = {}
 
     class FanItem(object):
         def __init__(self, FanItem, ObjectItem):
             self.FanItem = FanItem
             self.ObjectItem = ObjectItem
+
+    @staticmethod
+    def _onFinalize():
+        FanItemManager.s_items = {}
+        pass
 
     @staticmethod
     def loadFanItem(module, param):

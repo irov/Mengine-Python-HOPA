@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
 
-class GeksManager(object):
+class GeksManager(Manager):
     s_objects = {}
 
     class Geks(object):
@@ -13,7 +15,7 @@ class GeksManager(object):
             self.sceneName = sceneName
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         GeksManager.s_objects = {}
         pass
 

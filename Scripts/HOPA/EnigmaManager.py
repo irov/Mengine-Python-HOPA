@@ -1,9 +1,11 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 
 
-class EnigmaManager(object):
+class EnigmaManager(Manager):
     s_enigmas = {}
     s_enigmaInventoryText = {}
 
@@ -45,6 +47,12 @@ class EnigmaManager(object):
             object = GroupManager.getObject(self.groupName, self.objectName)
             entity = object.getEntity()
             return entity
+
+    @staticmethod
+    def _onFinalize():
+        EnigmaManager.s_enigmas = {}
+        EnigmaManager.s_enigmaInventoryText = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

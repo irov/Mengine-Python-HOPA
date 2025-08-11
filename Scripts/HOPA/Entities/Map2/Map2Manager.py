@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
@@ -80,7 +82,7 @@ class MapPointData(object):
         return self.minigames
 
 
-class Map2Manager(object):
+class Map2Manager(Manager):
     s_objects = {}
     s_current_map = None
     s_map_objects = {}
@@ -90,12 +92,15 @@ class Map2Manager(object):
     s_all_done_scenes = []
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         Map2Manager.s_objects = {}
         Map2Manager.s_current_map = None
         Map2Manager.s_map_objects = {}
-        Map2Manager.s_map_scenes = {}
         Map2Manager.s_macro_type_filter = []
+        Map2Manager.s_map_scenes = {}
+        Map2Manager.s_open_scenes = []
+        Map2Manager.s_all_done_scenes = []
+        pass
 
     @staticmethod
     def loadMacroTypeFilter(module, param):

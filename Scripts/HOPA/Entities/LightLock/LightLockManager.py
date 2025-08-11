@@ -1,11 +1,11 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class LightLockManager(object):
+class LightLockManager(Manager):
     s_objects = {}
 
     class LightLockData(object):
-
         def __init__(self, socketData, stateData, winData, slotData, winMoviesData, waitData):
             self.socketData = socketData
             self.stateData = stateData
@@ -17,32 +17,24 @@ class LightLockManager(object):
 
         def getSocketData(self):
             return self.socketData
-            pass
 
         def getStateData(self):
             return self.stateData
-            pass
 
         def getWinParam(self):
             return self.winParam
-            pass
 
         def getSlotData(self):
             return self.slotData
-            pass
 
         def getWinMoviesData(self):
             return self.winMoviesData
-            pass
 
         def getWaitData(self):
             return self.waitData
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         LightLockManager.s_objects = {}
         pass
 

@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class BoneBoardManager(object):
+class BoneBoardManager(Manager):
     s_objects = {}
     macro_names = {}
     data = {}
@@ -17,7 +18,7 @@ class BoneBoardManager(object):
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         BoneBoardManager.s_objects = {}
         BoneBoardManager.macro_names = {}
         BoneBoardManager.data = {}

@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class AssociationElementsManager(object):
+class AssociationElementsManager(Manager):
     TraceName = "AssociationElementsManager"
     s_objects = {}
 
@@ -23,7 +24,7 @@ class AssociationElementsManager(object):
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         AssociationElementsManager.s_objects = {}
         pass
 

@@ -1,9 +1,11 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 
 
-class MapManager(object):
+class MapManager(Manager):
     s_teleports = {}
     s_chapterGroups = {}
     s_macroTypeFilter = []
@@ -18,8 +20,11 @@ class MapManager(object):
             return self.clickObject
 
     @staticmethod
-    def onFinalize():
-        MapManager.s_objects = {}
+    def _onFinalize():
+        MapManager.s_teleports = {}
+        MapManager.s_chapterGroups = {}
+        MapManager.s_macroTypeFilter = []
+        pass
 
     @staticmethod
     def loadMacroTypeFilter(module, param):

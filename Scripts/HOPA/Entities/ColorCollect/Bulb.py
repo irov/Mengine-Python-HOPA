@@ -102,7 +102,7 @@ class Bulb(object):
         del self.itemsBySlots[Bulb.BEGIN_SLOT_ID]
         pass
 
-    def finalise(self):
+    def finalize(self):
         for item in self.itemsBySlots.values():
             itemEntity = item.getEntity()
             itemEntity.removeFromParent()

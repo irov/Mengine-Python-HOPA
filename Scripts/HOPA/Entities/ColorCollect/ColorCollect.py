@@ -35,20 +35,20 @@ class ColorCollect(Enigma):
         self.socket = None
         pass
 
-    def finalise(self):
+    def finalize(self):
         if TaskManager.existTaskChain(self.EnigmaName):
             TaskManager.cancelTaskChain(self.EnigmaName)
             pass
 
         for bulb in self.beginBySocket.values():
-            bulb.finalise()
+            bulb.finalize()
             pass
         self.resetInitValues()
         pass
 
     def _stopEnigma(self):
         super(ColorCollect, self)._stopEnigma()
-        self.finalise()
+        self.finalize()
         pass
 
     def _resetEnigma(self):

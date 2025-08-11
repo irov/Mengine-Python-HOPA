@@ -1,9 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Notification import Notification
 
-
-class MindManager(object):
+class MindManager(Manager):
     s_minds = {}
 
     class Mind(object):
@@ -16,18 +17,20 @@ class MindManager(object):
 
         def getTextID(self):
             return self.textId
-            pass
 
         def getDelay(self):
             return self.delay
-            pass
 
         def getGroup(self):
             return self.group
-            pass
 
         def getVoiceID(self):
             return self.voiceID
+
+    @staticmethod
+    def _onFinalize():
+        MindManager.s_minds = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -48,7 +51,6 @@ class MindManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def addMind(mindId, textId, delay, group, voiceID):
@@ -60,23 +62,19 @@ class MindManager(object):
     @staticmethod
     def hasMind(mindId):
         return mindId in MindManager.s_minds
-        pass
 
     @staticmethod
     def getMind(mindId):
         if mindId not in MindManager.s_minds:
             return None
-            pass
 
         mind = MindManager.s_minds[mindId]
 
         return mind
-        pass
 
     @staticmethod
     def getAllMinds():
         return MindManager.s_minds
-        pass
 
     @staticmethod
     def mindShow(mindId, isZoom, static):
@@ -90,7 +88,6 @@ class MindManager(object):
         textID = mind.getTextID()
 
         return textID
-        pass
 
     @staticmethod
     def getDelay(mindId):
@@ -98,7 +95,6 @@ class MindManager(object):
         delay = mind.getDelay()
 
         return delay
-        pass
 
     @staticmethod
     def getGroup(mindId):
@@ -106,7 +102,6 @@ class MindManager(object):
         group = mind.getGroup()
 
         return group
-        pass
 
     @staticmethod
     def getVoiceID(mindId):

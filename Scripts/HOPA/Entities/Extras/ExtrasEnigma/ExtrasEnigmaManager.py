@@ -1,8 +1,18 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ExtrasEnigmaManager(object):
+class ExtrasEnigmaManager(Manager):
     s_data = {}
+
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        ExtrasEnigmaManager.s_data = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -32,24 +42,17 @@ class ExtrasEnigmaManager(object):
             pass
 
         return collection
-        pass
 
     @staticmethod
     def getData(name):
         if ExtrasEnigmaManager.hasData(name) is False:
             Trace.log("Manager", 0, "ExtrasEnigmaManager.getData  invalid name%s" % (name))
             return None
-            pass
         data = ExtrasEnigmaManager.s_data[name]
         return data
-        pass
 
     @staticmethod
     def hasData(name):
         if name in ExtrasEnigmaManager.s_data.keys():
             return True
-            pass
         return False
-        pass
-
-    pass

@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class HOGFittingItemManager(object):
+class HOGFittingItemManager(Manager):
     s_items = {}
 
     class HOGItem(object):
@@ -32,8 +34,9 @@ class HOGFittingItemManager(object):
                 self.StoreZoomObject = None
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         HOGFittingItemManager.s_items = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

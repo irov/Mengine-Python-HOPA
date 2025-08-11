@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class NotebookInventoryManager(object):
+class NotebookInventoryManager(Manager):
     s_showEntries = {}
     s_activateEntries = {}
 
@@ -16,26 +18,20 @@ class NotebookInventoryManager(object):
 
         def getOpenTextID(self):
             return self.openTextID
-            pass
 
         def getCloseTextID(self):
             return self.closeTextID
-            pass
 
         def getOpenMovie(self):
             return self.openMovie
-            pass
 
         def getCloseMovie(self):
             return self.closeMovie
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
+        NotebookInventoryManager.s_showEntries = {}
         NotebookInventoryManager.s_activateEntries = {}
-        return False
         pass
 
     @staticmethod
@@ -49,7 +45,6 @@ class NotebookInventoryManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def addActivateEntries(module, param):
@@ -69,18 +64,15 @@ class NotebookInventoryManager(object):
             param = NotebookInventoryManager.ActivateEntry(ShowTextID, CloseTextID, OpenMovie, CloseMovie)
             NotebookInventoryManager.s_activateEntries[NoteId] = param
             pass
-
         pass
 
     @staticmethod
     def getActivateEntry(id):
         if NotebookInventoryManager.hasActivateEntry(id) is False:
             return None
-            pass
 
         record = NotebookInventoryManager.s_activateEntries[id]
         return record
-        pass
 
     @staticmethod
     def hasActivateEntry(id):
@@ -88,13 +80,8 @@ class NotebookInventoryManager(object):
             Trace.log("NotebookInventoryManager", 0,
                       "NotebookInventoryManager.hasActivateEntry invalid data for entry %s, maybe forgot to add in some xls" % (id,))
             return False
-            pass
         return True
-        pass
 
     @staticmethod
     def getAllActivateEntries():
         return NotebookInventoryManager.s_activateEntries
-        pass
-
-    pass

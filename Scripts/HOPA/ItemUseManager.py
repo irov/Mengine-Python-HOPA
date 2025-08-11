@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class ItemUseManager(object):
+class ItemUseManager(Manager):
     manager_dict = {}
 
     class ItemUse(object):
@@ -16,28 +18,23 @@ class ItemUseManager(object):
 
         def getPopItem(self):
             return self.PopItemName
-            pass
 
         def getMovie(self):
             if self.MovieName is None or self.MovieGroupName is None:
                 return None
-                pass
             MovieGroup = GroupManager.getGroup(self.MovieGroupName)
             Movie_Object = MovieGroup.getObject(self.MovieName)
             return Movie_Object
-            pass
 
         def getSocket(self):
             if self.SocketName is None or self.SocketGroupName is None:
                 return None
-                pass
             SocketGroup = GroupManager.getGroup(self.SocketGroupName)
             Socket_Object = SocketGroup.getObject(self.SocketName)
             return Socket_Object
-            pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ItemUseManager.manager_dict = {}
         pass
 

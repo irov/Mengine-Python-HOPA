@@ -1,15 +1,17 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class QuestIconManager(object):
+class QuestIconManager(Manager):
     s_quests = {}
     s_actions = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         QuestIconManager.s_quests = {}
         QuestIconManager.s_actions = {}
+        pass
 
     @staticmethod
     def importQuestIconActions(module, names):

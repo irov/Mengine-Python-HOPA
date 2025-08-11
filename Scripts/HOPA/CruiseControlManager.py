@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
@@ -5,8 +7,7 @@ from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
-
-class CruiseControlManager(object):
+class CruiseControlManager(Manager):
     s_cruiseTypes = {}
     s_questsType = {}
     s_policy = {}
@@ -27,20 +28,18 @@ class CruiseControlManager(object):
 
         def isGlobal(self):
             return self.cruiseGlobal
-            pass
-
         def isCruise(self):
             return self.validCruise
-            pass
 
         def getPriority(self):
             return self.cruisePriority
-            pass
 
+    @staticmethod
+    def _onInitialize():
         pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         CruiseControlManager.s_cruiseTypes = {}
         CruiseControlManager.s_actions = {}
         CruiseControlManager.s_sceneExceptions = {}
@@ -48,6 +47,8 @@ class CruiseControlManager(object):
         CruiseControlManager.s_blackList = []
         CruiseControlManager.s_mask = None
         CruiseControlManager.s_cruiseDelays = {}
+        CruiseControlManager.s_policy = {}
+        CruiseControlManager.s_validateCruiseTypes = []
         pass
 
     @staticmethod

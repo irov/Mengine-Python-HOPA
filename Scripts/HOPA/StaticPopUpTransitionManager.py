@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class StaticPopUpTransitionManager(object):
+class StaticPopUpTransitionManager(Manager):
     """
     Mark transition back with text and movie
     """
@@ -19,7 +20,7 @@ class StaticPopUpTransitionManager(object):
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         StaticPopUpTransitionManager.s_objects = {}
         pass
 

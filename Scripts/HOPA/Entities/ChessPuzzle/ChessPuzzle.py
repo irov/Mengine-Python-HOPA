@@ -31,7 +31,7 @@ class ChessPuzzle(Enigma):
     ####################################################################
 
     def _stopEnigma(self):
-        self.finalise()
+        self.finalize()
         pass
 
     def moveElementOnMovie(self, element):
@@ -145,13 +145,13 @@ class ChessPuzzle(Enigma):
             pass
         pass
 
-    def finalise(self):
+    def finalize(self):
         for shift in self.shifts:
-            shift.finalise()
+            shift.finalize()
             pass
 
         for figure in self.figures:
-            figure.finalise()
+            figure.finalize()
             pass
 
         for targetData in self.targets:

@@ -1,18 +1,20 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class MagicVisionManager(object):
+class MagicVisionManager(Manager):
     s_movies = {}
     s_scenes = {}
     s_backScenes = {}
     s_backMovies = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         MagicVisionManager.s_movies = {}
         MagicVisionManager.s_scenes = {}
         MagicVisionManager.s_backScenes = {}
+        MagicVisionManager.s_backMovies = {}
         pass
 
     @staticmethod
@@ -55,56 +57,40 @@ class MagicVisionManager(object):
     def getSceneNameTo(sceneNameFrom):
         if sceneNameFrom not in MagicVisionManager.s_scenes:
             return None
-            pass
         return MagicVisionManager.s_scenes[sceneNameFrom]
-        pass
 
     @staticmethod
     def getSceneNameFrom(sceneNameTo):
         if sceneNameTo not in MagicVisionManager.s_backScenes:
             return None
-            pass
         return MagicVisionManager.s_backScenes[sceneNameTo]
-        pass
 
     @staticmethod
     def getActivateMovie(sceneNameFrom):
         if sceneNameFrom not in MagicVisionManager.s_movies:
             return None
-            pass
         return MagicVisionManager.s_movies[sceneNameFrom]
-        pass
 
     @staticmethod
     def getDeactivateMovie(sceneNameFrom):
         if sceneNameFrom not in MagicVisionManager.s_backMovies:
             return None
-            pass
         return MagicVisionManager.s_backMovies[sceneNameFrom]
-        pass
 
     @staticmethod
     def hasActivateMovie(sceneName):
         if sceneName in MagicVisionManager.s_movies:
             return True
-            pass
         return False
-        pass
 
     @staticmethod
     def hasDeactivateMovie(sceneName):
         if sceneName in MagicVisionManager.s_backMovies:
             return True
-            pass
         return False
-        pass
 
     @staticmethod
     def isMagicVisionScene(sceneName):
         if sceneName not in MagicVisionManager.s_backScenes:
             return False
-            pass
         return True
-        pass
-
-    pass

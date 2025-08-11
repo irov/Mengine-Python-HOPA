@@ -1,21 +1,24 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
-
-class SparksManager(object):
+class SparksManager(Manager):
     s_questsType = {}
     s_actionTypes = {}
     s_questActions = {}
     s_effects = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         SparksManager.s_questsType = {}
         SparksManager.s_actionTypes = {}
-        SparksManager._actions = {}
+        SparksManager.s_questActions = {}
+        SparksManager.s_effects = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

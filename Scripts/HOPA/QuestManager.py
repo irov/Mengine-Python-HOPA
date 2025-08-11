@@ -1,19 +1,17 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.ScenarioManager import ScenarioManager
 
 from Notification import Notification
 
-
-class QuestManager(object):
+class QuestManager(Manager):
     s_enumerate = 0
     s_questGlobalCache = []
     s_questLocalCache = {}
     s_questsTypes = {}
 
     s_activeTipObjects = []
-
-    onQuestRunObserver = None
-    onQuestEndObserver = None
 
     class QuestObject(object):
         __slots__ = "questType", "params", "questGlobal", "active", "complete", "isTechnical"
@@ -99,14 +97,17 @@ class QuestManager(object):
         QuestManager.s_activeTipObjects.remove(obj)
 
     @staticmethod
-    def onInitialize():
-        QuestManager.onQuestRunObserver = Notification.addObserver(Notificator.onQuestRun, QuestManager._onAppendQuestList)
-        QuestManager.onQuestEndObserver = Notification.addObserver(Notificator.onQuestEnd, QuestManager._onRemoveQuestList)
+    def _onInitialize():
+        QuestManager.addObserver(Notificator.onQuestRun, QuestManager._onAppendQuestList)
+        QuestManager.addObserver(Notificator.onQuestEnd, QuestManager._onRemoveQuestList)
 
     @staticmethod
-    def onFinalize():
-        Notification.removeObserver(QuestManager.onQuestRunObserver)
-        Notification.removeObserver(QuestManager.onQuestEndObserver)
+    def _onFinalize():
+        QuestManager.s_questGlobalCache = []
+        QuestManager.s_questLocalCache = {}
+        QuestManager.s_questsTypes = {}
+        QuestManager.s_activeTipObjects = []
+        pass
 
     @staticmethod
     def _onAppendQuestList(quest):

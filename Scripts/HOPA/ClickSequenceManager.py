@@ -1,7 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ClickSequenceManager(object):
+class ClickSequenceManager(Manager):
     Games = {}
 
     class Sequence(object):
@@ -29,6 +29,12 @@ class ClickSequenceManager(object):
             self.Clikers.append(click)
 
     @staticmethod
+    def _onFinalize():
+        ClickSequenceManager.Games = {}
+        pass
+
+
+    @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
 
@@ -37,12 +43,10 @@ class ClickSequenceManager(object):
 
             if Name is None or Name[0] == "#":
                 continue
-                pass
 
             if (ClickSequenceManager.hasGame(Name) is True):
                 Trace.log("Manager", 0, "ClickSequenceManager.loadGames game wtih name Already Loadet: %s", Name)
                 continue
-                pass
 
             Game = ClickSequenceManager.GameData(Name)
             ClickSequenceManager.Games[Name] = Game
@@ -55,7 +59,6 @@ class ClickSequenceManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def loadGame_Seq(module, param, Game):
@@ -65,7 +68,6 @@ class ClickSequenceManager(object):
             Socket = record.get("Socket")
             if Socket is None or Socket[0] == "#":
                 continue
-                pass
 
             Socket_Movie = record.get("Socket_Movie")
 
@@ -95,12 +97,10 @@ class ClickSequenceManager(object):
     @staticmethod
     def hasGame(name):
         return name in ClickSequenceManager.Games
-        pass
 
     @staticmethod
     def getGame(name):
         if (ClickSequenceManager.hasGame(name) is False):
             Trace.log("Manager", 0, "ClickSequenceManager.getGame can't find game with Name: %s" % (name))
             return None
-            pass
         return ClickSequenceManager.Games[name]

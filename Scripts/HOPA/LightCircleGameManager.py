@@ -1,7 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
 
-class LightCircleGameManager(object):
+class LightCircleGameManager(Manager):
     Games = {}
 
     class ReflectorData(object):
@@ -78,6 +80,11 @@ class LightCircleGameManager(object):
             reflectors = circle.Reflectors
             ref = reflectors[ReflId]
             return ref
+
+    @staticmethod
+    def _onFinalize():
+        LightCircleGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

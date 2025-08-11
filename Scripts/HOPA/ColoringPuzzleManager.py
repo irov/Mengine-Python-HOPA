@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 
-
-class ColoringPuzzleManager(object):
+class ColoringPuzzleManager(Manager):
     s_games = {}
 
     class ColoringPuzzleGame(object):
@@ -15,6 +16,11 @@ class ColoringPuzzleManager(object):
             self.brushesToColor = brushesToColor
             self.startColorId = startColorId
             self.arrow_radius = ArrowRadius
+
+    @staticmethod
+    def _onFinalize():
+        ColoringPuzzleManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

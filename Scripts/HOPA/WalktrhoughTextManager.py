@@ -1,8 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class WalktrhoughTextManager(object):
+class WalktrhoughTextManager(Manager):
     s_walktrhoughTexts = {}
+
+    @staticmethod
+    def _onFinalize():
+        WalktrhoughTextManager.s_walktrhoughTexts = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

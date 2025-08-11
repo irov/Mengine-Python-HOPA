@@ -18,7 +18,6 @@ class SystemOverView(System):
         super(SystemOverView, self).__init__()
         self.Freeze = False
         self.Views = []
-        self.Observers = []
         self.FinalParagraphs = {}
         pass
 
@@ -39,10 +38,8 @@ class SystemOverView(System):
 
         for pair in SystemOverView.noficators.values():
             myNotify, myNotifyLeave = pair
-            Enter = Notification.addObserver(myNotify, self.__ObjectFilter)
-            Leave = Notification.addObserver(myNotifyLeave, self.__LeaveFilter)
-            self.Observers.append(Enter)
-            self.Observers.append(Leave)
+            self.addObserver(myNotify, self.__ObjectFilter)
+            self.addObserver(myNotifyLeave, self.__LeaveFilter)
             pass
         return True
         pass
@@ -190,10 +187,6 @@ class SystemOverView(System):
         pass
 
     def _onStop(self):
-        for observer in self.Observers:
-            Notification.removeObserver(observer)
-            pass
-        self.Observers = []
         self.Views = []
         self.FinalParagraphs = {}
         pass

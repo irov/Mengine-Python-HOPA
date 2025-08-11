@@ -1,8 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ExtrasWallpaperManager(object):
+class ExtrasWallpaperManager(Manager):
     s_data = {}
+
+    @staticmethod
+    def _onFinalize():
+        ExtrasWallpaperManager.s_data = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

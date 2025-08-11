@@ -1,8 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SoundEffectManager(object):
+class SoundEffectManager(Manager):
     s_soundEffects = {}
+
+    @staticmethod
+    def _onFinalize():
+        SoundEffectManager.s_soundEffects = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -23,7 +29,3 @@ class SoundEffectManager(object):
     @staticmethod
     def getEventSounds():
         return SoundEffectManager.s_soundEffects
-
-    @staticmethod
-    def onDeactivate():
-        pass

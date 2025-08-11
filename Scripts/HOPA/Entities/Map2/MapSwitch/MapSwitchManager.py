@@ -1,9 +1,16 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class MapSwitchManager(object):
+class MapSwitchManager(Manager):
     s_objects = {}
+
+    @staticmethod
+    def _onFinalize():
+        MapSwitchManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadData(module, name):

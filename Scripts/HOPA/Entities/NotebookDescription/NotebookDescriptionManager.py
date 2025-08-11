@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class NotebookDescriptionManager(object):
+class NotebookDescriptionManager(Manager):
     s_descriptions = {}
 
     class DescriptionEntry(object):
@@ -12,18 +14,13 @@ class NotebookDescriptionManager(object):
 
         def getTextID(self):
             return self.textID
-            pass
 
         def getMovie(self):
             return self.Movie
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         NotebookDescriptionManager.s_descriptions = ()
-        return False
         pass
 
     @staticmethod

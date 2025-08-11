@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ColumnChainManager(object):
+class ColumnChainManager(Manager):
     s_objects = {}
 
     class ColumnChain(object):
@@ -23,25 +24,21 @@ class ColumnChainManager(object):
 
         def getColumnName(self):
             return self.columnName
-            pass
 
         def getStartState(self):
             return self.startState
-            pass
 
         def getStatesLength(self):
             return self.statesLength
-            pass
 
         def getWinState(self):
             return self.winState
-            pass
 
         def getMovieObjectNameList(self):
             return self.movieObjectNameList
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ColumnChainManager.s_objects = {}
         pass
 

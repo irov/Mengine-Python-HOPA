@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class BoneHelpChainManager(object):
+class BoneHelpChainManager(Manager):
     s_chain = []
 
     class ChainState(object):
@@ -23,32 +24,27 @@ class BoneHelpChainManager(object):
                 _object = GroupManager.getObject(self.group, objectName)
                 pass
             return _object
-            pass
 
         def getHelpObjects(self):
             movie = self.__get_object(self.movie)
             button = self.__get_object(self.button)
             text = self.__get_object(self.text)
             return (movie, button, text)
-            pass
 
         def getMovieObject(self):
             movie = self.__get_object(self.movie)
             return movie
-            pass
 
         def getTextObject(self):
             text = self.__get_object(self.text)
             return text
-            pass
 
         def getButtonObject(self):
             button = self.__get_object(self.button)
             return button
-            pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         BoneHelpChainManager.s_chain = []
         pass
 

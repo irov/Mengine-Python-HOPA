@@ -1,13 +1,19 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SwapDifferentManager(object):
+class SwapDifferentManager(Manager):
     s_games = {}
 
     class SwapDifferentGame(object):
         def __init__(self, elements, rules):
             self.elements = elements
             self.rules = rules
+
+    @staticmethod
+    def _onFinalize():
+        SwapDifferentManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

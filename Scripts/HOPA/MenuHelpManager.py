@@ -1,7 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
 
-class MenuHelpManager(object):
+class MenuHelpManager(Manager):
     s_pages = {}
     s_sequencePagesID = {}
 
@@ -12,9 +14,10 @@ class MenuHelpManager(object):
             self.textIDs = textIDs
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         MenuHelpManager.s_pages = {}
         MenuHelpManager.s_sequencePagesID = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

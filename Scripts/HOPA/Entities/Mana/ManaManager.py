@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class ManaManager(object):
+class ManaManager(Manager):
     s_objects = {}
 
     class ManaData(object):
@@ -16,30 +17,22 @@ class ManaManager(object):
 
         def getUpdate(self):
             return self.update
-            pass
 
         def getIdle(self):
             return self.idle
-            pass
 
         def getHide(self):
             return self.hide
-            pass
 
         def getShow(self):
             return self.show
-            pass
 
         def getDown(self):
             return self.down
-            pass
-
-        pass
 
     @staticmethod
     def _onFinalize():
         ManaManager.s_objects = {}
-        ManaManager.s_ids = {}
         pass
 
     @staticmethod

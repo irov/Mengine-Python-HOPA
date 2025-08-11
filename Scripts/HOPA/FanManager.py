@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
@@ -5,8 +7,7 @@ from HOPA.EnigmaManager import EnigmaManager
 from Notification import Notification
 
 
-class FanManager(object):
-    onTransition = None
+class FanManager(Manager):
     s_fans = {}
 
     class FanParam(object):
@@ -15,13 +16,14 @@ class FanManager(object):
             self.FanObject = FanObject
 
     @staticmethod
-    def onInitialize():
+    def _onInitialize():
         Sprite_Black = GroupManager.getObject("Fan", "Sprite_Black")
         Sprite_Black.setEnable(False)
         pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
+        FanManager.s_fans = {}
         pass
 
     @staticmethod

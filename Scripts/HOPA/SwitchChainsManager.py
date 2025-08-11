@@ -1,9 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from HOPA.EnigmaManager import EnigmaManager
 
-
-class SwitchChainsManager(object):
+class SwitchChainsManager(Manager):
     s_switchChains = {}
 
     class SwitchChain(object):
@@ -15,7 +16,7 @@ class SwitchChainsManager(object):
             self.startOn = startOn
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         SwitchChainsManager.s_objects = {}
         pass
 

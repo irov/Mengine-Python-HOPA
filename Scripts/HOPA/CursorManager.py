@@ -1,3 +1,5 @@
+from Foundation.Manager import Manager
+
 from Foundation.ArrowBlackListManager import ArrowBlackListManager
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DatabaseManager import DatabaseManager
@@ -9,7 +11,7 @@ from HOPA.QuestManager import QuestManager
 from Notification import Notification
 
 
-class CursorManager(object):
+class CursorManager(Manager):
     s_block_Cursore_Update_in_Puzzle = False
     s_block_Cursore_Update = False
     s_currentCursor = None
@@ -32,21 +34,6 @@ class CursorManager(object):
     s_objectFilter = {}
     s_cursorChecks = {}
 
-    onQuestRunObserver = None
-    onQuestEndObserver = None
-    onSceneEnterObserver = None
-    onCursorModeObserver = None
-    onSceneInit = None
-    onSceneDeactivateObserver = None
-
-    onCustomCursorObserver = None
-
-    onMacroArrowAttach = None
-    onMacroAttachItemRemove = None
-
-    onEnigmaActivateObserver = None
-    onEnigmaDeactivateObserver = None
-
     class Cursor(object):
         def __init__(self, iconName, enterFilterObserver, leaveFilterObserver, questType, cursorCheckAction, priority,
                      _type, arrowItem):
@@ -60,20 +47,20 @@ class CursorManager(object):
             self.arrowItem = arrowItem
 
     @staticmethod
-    def onInitialize():
-        CursorManager.onQuestRunObserver = Notification.addObserver(Notificator.onQuestRun, CursorManager._onAddQuestFilter)
-        CursorManager.onQuestEndObserver = Notification.addObserver(Notificator.onQuestEnd, CursorManager._onRemoveQuestFilter)
-        CursorManager.onCursorModeObserver = Notification.addObserver(Notificator.onCursorMode, CursorManager.__onCursorModeFilter)
-        CursorManager.onSceneInit = Notification.addObserver(Notificator.onSceneInit, CursorManager.__onSceneInit)
-        CursorManager.onSceneDeactivateObserver = Notification.addObserver(Notificator.onSceneDeactivate, CursorManager.__onSceneDeactivateFilter)
-        CursorManager.onCustomCursorObserver = Notification.addObserver(Notificator.onCustomCursor, CursorManager.__onCustomCursor)
-        CursorManager.onMacroArrowAttach = Notification.addObserver(Notificator.onMacroArrowAttach, CursorManager.__changeArrowAttachedState)
-        CursorManager.onEnigmaActivateObserver = Notification.addObserver(Notificator.onEnigmaActivate, CursorManager.__onPuzzleOpen)
-        CursorManager.onEnigmaDeactivateObserver = Notification.addObserver(Notificator.onEnigmaDeactivate, CursorManager.__onPuzzleClose)
-        CursorManager.onMacroAttachItemRemove = Notification.addObserver(Notificator.onMacroAttachItemRemoveObserver, CursorManager.__removeAttachItems)
+    def _onInitialize():
+        CursorManager.addObserver(Notificator.onQuestRun, CursorManager._onAddQuestFilter)
+        CursorManager.addObserver(Notificator.onQuestEnd, CursorManager._onRemoveQuestFilter)
+        CursorManager.addObserver(Notificator.onCursorMode, CursorManager.__onCursorModeFilter)
+        CursorManager.addObserver(Notificator.onSceneInit, CursorManager.__onSceneInit)
+        CursorManager.addObserver(Notificator.onSceneDeactivate, CursorManager.__onSceneDeactivateFilter)
+        CursorManager.addObserver(Notificator.onCustomCursor, CursorManager.__onCustomCursor)
+        CursorManager.addObserver(Notificator.onMacroArrowAttach, CursorManager.__changeArrowAttachedState)
+        CursorManager.addObserver(Notificator.onEnigmaActivate, CursorManager.__onPuzzleOpen)
+        CursorManager.addObserver(Notificator.onEnigmaDeactivate, CursorManager.__onPuzzleClose)
+        CursorManager.addObserver(Notificator.onMacroAttachItemRemoveObserver, CursorManager.__removeAttachItems)
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         CursorManager.__removeCursorChildren()
 
         CursorManager.s_currentCursor = None
@@ -82,20 +69,6 @@ class CursorManager(object):
         CursorManager.s_objectFilter = {}
         CursorManager.s_cursorChecks = {}
         CursorManager.s_macroAttached = []
-        CursorManager.onMacroAttachItemRemove = None
-        CursorManager.onEnigmaActivateObserver = None
-        CursorManager.onEnigmaDeactivateObserver = None
-
-        Notification.removeObserver(CursorManager.onQuestRunObserver)
-        Notification.removeObserver(CursorManager.onQuestEndObserver)
-        Notification.removeObserver(CursorManager.onCursorModeObserver)
-        Notification.removeObserver(CursorManager.onSceneInit)
-        Notification.removeObserver(CursorManager.onSceneDeactivateObserver)
-        Notification.removeObserver(CursorManager.onCustomCursorObserver)
-        Notification.removeObserver(CursorManager.onMacroArrowAttach)
-        Notification.removeObserver(CursorManager.onMacroAttachItemRemove)
-        Notification.removeObserver(CursorManager.onEnigmaActivateObserver)
-        Notification.removeObserver(CursorManager.onEnigmaDeactivateObserver)
 
         for cursor in CursorManager.s_cursors.itervalues():
             if cursor.enterFilterObserver is not None:
@@ -105,13 +78,13 @@ class CursorManager(object):
                 Notification.removeObserver(cursor.leaveFilterObserver)
 
         CursorManager.cursors = {}
+        pass
 
     @staticmethod
     def __onSceneInit(sceneName):
         CursorManager.setArrowCursor("Default")
 
         return False
-        pass
 
     @staticmethod
     def __onSceneDeactivateFilter(sceneName):

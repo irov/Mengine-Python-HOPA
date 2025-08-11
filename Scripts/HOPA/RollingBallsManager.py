@@ -1,5 +1,6 @@
-from Foundation.DatabaseManager import DatabaseManager
+from Foundation.Manager import Manager
 
+from Foundation.DatabaseManager import DatabaseManager
 
 class RollingBallsManager(object):
     s_games = {}
@@ -31,6 +32,15 @@ class RollingBallsManager(object):
             self.rolls = rolls
             self.rules = rules
             self.balls = balls
+
+    @staticmethod
+    def _onInitialize():
+        return True
+
+    @staticmethod
+    def _onFinalize():
+        RollingBallsManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

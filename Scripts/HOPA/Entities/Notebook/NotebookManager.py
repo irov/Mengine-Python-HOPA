@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class NotebookManager(object):
+class NotebookManager(Manager):
     s_entries = {}
     s_notes = {}
 
@@ -33,10 +35,9 @@ class NotebookManager(object):
         pass
 
     @staticmethod
-    def onFinalize():
-        NotebookManager.s_desciptionList = ()
+    def _onFinalize():
+        NotebookManager.s_entries = {}
         NotebookManager.s_notes = {}
-        return False
         pass
 
     @staticmethod

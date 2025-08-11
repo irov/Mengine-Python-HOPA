@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from TraceManager import TraceManager
 
 
-class ColorCollectManager(object):
+class ColorCollectManager(Manager):
     s_objects = {}
 
     class ColorCollect(object):
@@ -15,29 +16,21 @@ class ColorCollectManager(object):
 
         def getSize(self):
             return self.size
-            pass
 
         def getBulbs(self):
             return self.bulbs
-            pass
 
         def getItems(self):
             return self.items
-            pass
 
         def getRules(self):
             return self.rules
-            pass
 
         def getItemByName(self, name):
             return self.items[name]
-            pass
 
         def getBulbByName(self, name):
             return self.bulbs[name]
-            pass
-
-        pass
 
     class Bulb(object):
         def __init__(self, bulbMovieName, socketBeginName, socketEndName, itemNames):
@@ -49,24 +42,18 @@ class ColorCollectManager(object):
 
         def getMovieName(self):
             return self.movieName
-            pass
 
         def getSocketBeginName(self):
             return self.socketBeginName
-            pass
 
         def getSocketEndName(self):
             return self.socketEndName
-            pass
 
         def getItemNames(self):
             return self.itemNames
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ColorCollectManager.s_objects = {}
         pass
 

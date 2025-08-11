@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from HOPA.ItemManager import ItemManager
 
-
-class InventoryItemUseMovieManager(object):
+class InventoryItemUseMovieManager(Manager):
     s_inventoryItems = {}
 
     class InventoryItem(object):
@@ -10,7 +11,7 @@ class InventoryItemUseMovieManager(object):
             self.movieName = movieName
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         InventoryItemUseMovieManager.s_inventoryItems = {}
         pass
 

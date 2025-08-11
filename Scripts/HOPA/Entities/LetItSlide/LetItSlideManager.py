@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
-
-class LetItSlideManager(object):
+class LetItSlideManager(Manager):
     s_objects = {}
 
     class LetItSlide(object):
@@ -16,25 +17,18 @@ class LetItSlideManager(object):
 
         def getWinCombination(self):
             return self.winCombination
-            pass
 
         def getMetric(self):
             return self.metric
-            pass
 
         def getCellMetric(self):
             return self.cellMetric
-            pass
 
         def getFieldData(self):
             return self.fieldData
-            pass
 
         def getItemData(self):
             return self.itemData
-            pass
-
-        pass
 
     class LetItSlideItem(object):
         def __init__(self, position, movieObject, length, isHorizontal):
@@ -46,24 +40,18 @@ class LetItSlideManager(object):
 
         def getPosition(self):
             return self.position
-            pass
 
         def getMovieObject(self):
             return self.movieObject
-            pass
 
         def getHorizontal(self):
             return self.isHorizontal
-            pass
 
         def getLength(self):
             return self.length
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         LetItSlideManager.s_objects = {}
         pass
 

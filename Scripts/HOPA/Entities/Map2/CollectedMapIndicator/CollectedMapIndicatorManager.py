@@ -1,9 +1,16 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class CollectedMapIndicatorManager(object):
+class CollectedMapIndicatorManager(Manager):
     s_objects = {}
+
+    @staticmethod
+    def _onFinalize():
+        CollectedMapIndicatorManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadCollectedMapIndicator(module, name):

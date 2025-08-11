@@ -1,8 +1,14 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ExtrasHOGManager(object):
+class ExtrasHOGManager(Manager):
     s_data = {}
+
+    @staticmethod
+    def _onFinalize():
+        ExtrasHOGManager.s_data = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -20,6 +26,3 @@ class ExtrasHOGManager(object):
     @staticmethod
     def getData():
         return ExtrasHOGManager.s_data
-        pass
-
-    pass

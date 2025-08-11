@@ -1,9 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from TraceManager import TraceManager
 
-
-class ThimbleGameManager(object):
+class ThimbleGameManager(Manager):
     s_objects = {}
 
     class ThimbleGame(object):
@@ -14,7 +15,7 @@ class ThimbleGameManager(object):
             self.sockets = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ThimbleGameManager.s_objects = {}
         pass
 

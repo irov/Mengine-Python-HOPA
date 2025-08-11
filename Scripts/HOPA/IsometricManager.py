@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class IsometricManager(object):
+class IsometricManager(Manager):
     s_animations = []
 
     class Animation(object):
@@ -10,6 +11,11 @@ class IsometricManager(object):
             self.Type = Type
             self.Direction = Direction
             self.Resource = Resource
+
+    @staticmethod
+    def _onFinalize():
+        IsometricManager.s_animations = []
+        pass
 
     @staticmethod
     def loadParams(module, param):

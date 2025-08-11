@@ -1,13 +1,13 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class OverViewManager(object):
+class OverViewManager(Manager):
     managment_dict = {}
     immediately = []
 
     class SingleOverView(object):
-
         def __init__(self, ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, isFindItem):
             self.ObjectName = ObjectName
             self.MovieGroupName = MovieGroupName
@@ -18,15 +18,12 @@ class OverViewManager(object):
 
             self.isFindItem = isFindItem
 
-        pass
-
         def getMovie(self):
             movieObj = self.__get_object(self.MovieName)
             return movieObj
 
         def ifFindItem(self):
             return self.isFindItem
-            pass
 
         def __get_object(self, objectName):
             if self.SubObject is not None:
@@ -50,8 +47,10 @@ class OverViewManager(object):
             return bool(self.Loop)
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         OverViewManager.managment_dict = {}
+        OverViewManager.immediately = []
+        pass
 
     @staticmethod
     def loadParams(module, param):

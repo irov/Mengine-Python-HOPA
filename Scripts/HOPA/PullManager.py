@@ -1,12 +1,18 @@
+from Foundation.Manager import Manager
+
 from HOPA.CursorManager import CursorManager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PullManager(object):
+class PullManager(Manager):
     s_pulls = {}
 
     @staticmethod
-    def load(module, param):
+    def _onFinalize():
+        PullManager.s_pulls = {}
+        pass
+
+    @staticmethod
+    def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
         for record in records:
             Direction = record.get("Direction")

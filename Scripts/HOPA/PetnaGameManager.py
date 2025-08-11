@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class PetnaGameManager(object):
+class PetnaGameManager(Manager):
     Games = {}
 
     class GameData(object):
@@ -10,6 +11,11 @@ class PetnaGameManager(object):
             self.FieldWidth = FieldWidth
             self.FieldHeight = FieldHeight
             self.StartData = StartData
+
+    @staticmethod
+    def _onFinalize():
+        PetnaGameManager.Games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -24,7 +30,6 @@ class PetnaGameManager(object):
             if (PetnaGameManager.hasGame(Name) is True):
                 Trace.log("Manager", 0, "PetnaGameManager.loadGames game wtih name Already Loadet: %s" % Name)
                 continue
-                pass
             ##################################
             FieldWidth = record.get("FieldWidth")
             FieldWidth = int(FieldWidth)
@@ -59,5 +64,4 @@ class PetnaGameManager(object):
         if (PetnaGameManager.hasGame(name) is False):
             Trace.log("Manager", 0, "PetnaGameManager.getGame can't find game with Name %s" % name)
             return None
-            pass
         return PetnaGameManager.Games[name]

@@ -58,6 +58,18 @@ class Planet(Initializer):
         self.playTasks()
         pass
 
+    def onFinalize(self):
+        if self.movie is not None:
+            self.movie.removeFromParent()
+            self.movie = None
+            pass
+
+        if self.socket is not None:
+            self.socket.removeFromParent()
+            self.socket = None
+            pass
+        pass
+
     def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
         self.arrowPos = Mengine.getCursorPosition()
         pass
@@ -145,9 +157,4 @@ class Planet(Initializer):
         self.currentTiming = self.startTiming
         self.addPlanet()
         pass
-
-    def onFinalize(self):
-        self.socket.removeFromParent()
-        pass
-
     pass

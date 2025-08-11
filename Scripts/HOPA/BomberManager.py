@@ -1,8 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
 class ProtoManager(object):     # fixme ?????
-
     def __init__(self):
         self.FirstField = None
         self.Fields = {}
@@ -63,7 +62,7 @@ class BomberSpawnManager(object):
             if Name is None or Name[0] == "#":
                 continue
 
-            if (BomberManager.hasGame(Name) is True):
+            if BomberManager.hasGame(Name) is True:
                 Trace.trace()
                 continue
 
@@ -93,7 +92,7 @@ class BomberSpawnManager(object):
 
 
 
-class BomberManager(object):
+class BomberManager(Manager):
     ###################  ###################  ###################  ###################
     Items = {}
 

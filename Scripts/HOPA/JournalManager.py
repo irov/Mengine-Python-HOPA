@@ -1,9 +1,11 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 
 
-class JournalManager(object):
+class JournalManager(Manager):
     s_pages = {}
     s_sequencePagesID = {}
     s_journalIDs_order = []
@@ -16,6 +18,13 @@ class JournalManager(object):
             self.cutScene = cutScene
 
     @staticmethod
+    def _onFinalize():
+        JournalManager.s_pages = {}
+        JournalManager.s_sequencePagesID = {}
+        JournalManager.s_journalIDs_order = []
+        pass
+
+    @staticmethod
     def setSequencePagesID(dict):
         JournalManager.s_sequencePagesID = dict
         pass
@@ -23,15 +32,10 @@ class JournalManager(object):
     @staticmethod
     def getSequencePagesID():
         return JournalManager.s_sequencePagesID
-        pass
 
     @staticmethod
     def cleanSequencePagesID():
         JournalManager.s_sequencePagesID = {}
-        pass
-
-    @staticmethod
-    def onFinalize():
         pass
 
     @staticmethod

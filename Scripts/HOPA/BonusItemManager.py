@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class BonusItemManager(object):
+class BonusItemManager(Manager):
     s_items = {}
     s_bonusItems = []
 
@@ -11,8 +12,9 @@ class BonusItemManager(object):
             self.params = params
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         BonusItemManager.s_items = {}
+        BonusItemManager.s_bonusItems = []
         pass
 
     @staticmethod

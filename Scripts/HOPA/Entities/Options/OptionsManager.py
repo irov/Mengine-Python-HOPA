@@ -1,28 +1,31 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 
-
-class SoundCheckParam(object):
-    def __init__(self, soundType, sliderMovieName, sliderMovieSlotName, playButtonPrototype, stopButtonPrototype,
-                 checkSoundTracklist):
-        self.soundType = soundType
-        self.sliderMovieName = sliderMovieName
-        self.sliderMovieSlotName = sliderMovieSlotName
-        self.playButtonPrototype = playButtonPrototype
-        self.stopButtonPrototype = stopButtonPrototype
-        self.checkSoundTracklist = checkSoundTracklist
-
-
-class OptionsManager(object):
+class OptionsManager(Manager):
     s_options = {}
     s_scrollBars = {}
 
     s_soundCheckParams = []
 
+    class SoundCheckParam(object):
+        def __init__(self, soundType, sliderMovieName, sliderMovieSlotName, playButtonPrototype, stopButtonPrototype,
+                     checkSoundTracklist):
+            self.soundType = soundType
+            self.sliderMovieName = sliderMovieName
+            self.sliderMovieSlotName = sliderMovieSlotName
+            self.playButtonPrototype = playButtonPrototype
+            self.stopButtonPrototype = stopButtonPrototype
+            self.checkSoundTracklist = checkSoundTracklist
+
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         OptionsManager.s_options = {}
+        OptionsManager.s_scrollBars = {}
+        OptionsManager.s_soundCheckParams = []
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -76,7 +79,7 @@ class OptionsManager(object):
                 Trace.log("Manager", 0, msg)
                 continue
 
-            param = SoundCheckParam(soundType, slider, slot, playButton, stopButton, checkSoundList)
+            param = OptionsManager.SoundCheckParam(soundType, slider, slot, playButton, stopButton, checkSoundList)
             params.append(param)
 
         OptionsManager.s_soundCheckParams = params

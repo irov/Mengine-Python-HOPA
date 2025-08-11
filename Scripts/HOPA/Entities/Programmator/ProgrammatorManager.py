@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ProgrammatorManager(object):
+class ProgrammatorManager(Manager):
     # Temporary storage
     carrier_slot = "Carrier"
     hand_slot = "Item"
@@ -20,7 +21,7 @@ class ProgrammatorManager(object):
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ProgrammatorManager.s_objects = {}
         pass
 

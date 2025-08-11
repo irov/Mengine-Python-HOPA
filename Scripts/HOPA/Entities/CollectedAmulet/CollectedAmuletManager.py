@@ -1,8 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 
-class CollectedAmuletManager(object):
+class CollectedAmuletManager(Manager):
     s_objects = {}
 
     class CollectedAmuletData(object):
@@ -14,19 +16,15 @@ class CollectedAmuletManager(object):
 
         def getStates(self):
             return self.states
-            pass
 
         def getValues(self):
             return self.values
-            pass
 
         def getState(self, state):
             return self.states[state]
-            pass
 
         def getValue(self, value):
             return self.values[value]
-            pass
 
         def getSocket(self):
             return self.socket
@@ -69,7 +67,6 @@ class CollectedAmuletManager(object):
             values[Value] = movie
             pass
         return values
-        pass
 
     @staticmethod
     def loadStates(module, param, demon):
@@ -82,24 +79,19 @@ class CollectedAmuletManager(object):
             states[Value] = movie
             pass
         return states
-        pass
 
     @staticmethod
     def getData(obj):
         if CollectedAmuletManager.hasData(obj) is False:
             return None
-            pass
         record = CollectedAmuletManager.s_objects[obj]
         return record
-        pass
 
     @staticmethod
     def hasData(obj):
         if obj not in CollectedAmuletManager.s_objects:
             Trace.log("CollectedAmuletManager", 0, "CollectedAmuletManager.hasData invalid param obj %s" % (obj))
             return False
-            pass
         return True
-        pass
 
     pass

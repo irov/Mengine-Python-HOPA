@@ -1,12 +1,13 @@
 from Foundation.Bootstrapper import checkBuildMode
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.SceneManager import SceneManager
+from Foundation.Manager import Manager
 from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioRunner import ScenarioRunner
 from Notification import Notification
 
 
-class ScenarioManager(object):
+class ScenarioManager(Manager):
     class EmptyScenario(object):
         def __init__(self):
             pass
@@ -31,19 +32,15 @@ class ScenarioManager(object):
             self.PlusName = PlusName
 
     @staticmethod
-    def onInitialize():
-        ScenarioManager.onScenarioInit = Notification.addObserver(Notificator.onScenarioInit, ScenarioManager.__onScenarioInit)
-        ScenarioManager.onScenarioEnter = Notification.addObserver(Notificator.onScenarioEnter, ScenarioManager.__onScenarioEnter)
-        ScenarioManager.onScenarioLeave = Notification.addObserver(Notificator.onScenarioLeave, ScenarioManager.__onScenarioLeave)
-        ScenarioManager.onSceneRemoved = Notification.addObserver(Notificator.onSceneRemoved, ScenarioManager.__onSceneRemoved)
+    def _onInitialize(*args):
+        ScenarioManager.addObserver(Notificator.onScenarioInit, ScenarioManager.__onScenarioInit)
+        ScenarioManager.addObserver(Notificator.onScenarioEnter, ScenarioManager.__onScenarioEnter)
+        ScenarioManager.addObserver(Notificator.onScenarioLeave, ScenarioManager.__onScenarioLeave)
+        ScenarioManager.addObserver(Notificator.onSceneRemoved, ScenarioManager.__onSceneRemoved)
         pass
 
     @staticmethod
-    def onFinalize():
-        Notification.removeObserver(ScenarioManager.onScenarioInit)
-        Notification.removeObserver(ScenarioManager.onScenarioEnter)
-        Notification.removeObserver(ScenarioManager.onScenarioLeave)
-        Notification.removeObserver(ScenarioManager.onSceneRemoved)
+    def _onFinalize():
         pass
 
     @staticmethod
@@ -53,7 +50,6 @@ class ScenarioManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def __onScenarioEnter(Scenario_Id):
@@ -62,7 +58,6 @@ class ScenarioManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def __onScenarioLeave(Scenario_Id):
@@ -71,12 +66,10 @@ class ScenarioManager(object):
                 if ScenarioManager.Scenario_Enter[i] == Scenario_Id:
                     del ScenarioManager.Scenario_Enter[i]
                     break
-                    pass
                 pass
             pass
 
         return False
-        pass
 
     @staticmethod
     def __onSceneRemoved(SceneName):
@@ -88,17 +81,14 @@ class ScenarioManager(object):
             pass
 
         return False
-        pass
 
     @staticmethod
     def isScenarioInit(Scenario_Id):
         return Scenario_Id in ScenarioManager.Scenario_Init
-        pass
 
     @staticmethod
     def isScenarioEnter(Scenario_Id):
         return Scenario_Id in ScenarioManager.Scenario_Enter
-        pass
 
     @staticmethod
     def addScenario(ScenarioID, SceneName, ZoomName, Module, ScenarioName, PlusName, Survey, CE, BuildModeTags):
@@ -124,17 +114,14 @@ class ScenarioManager(object):
             Trace.log("Manager", 0, "ScenarioManager.getScenario not found scenario %s" % (id))
 
             return None
-            pass
 
         scenario = ScenarioManager.s_scenarios[id]
 
         return scenario
-        pass
 
     @staticmethod
     def hasScenario(id):
         return id in ScenarioManager.s_scenarios
-        pass
 
     @staticmethod
     def getScenarioIdBySceneName(SceneName):
@@ -143,10 +130,8 @@ class ScenarioManager(object):
                 continue
             if (SceneName == val.SceneName):
                 return key
-                pass
             pass
         return None
-        pass
 
     @staticmethod
     def getScenarioIdsBySceneName(SceneName):
@@ -159,7 +144,6 @@ class ScenarioManager(object):
                 pass
             pass
         return scenarios
-        pass
 
     @staticmethod
     def getScenarioIdBySceneName2(SceneName, ZoomName=None):
@@ -168,10 +152,8 @@ class ScenarioManager(object):
                 continue
             if (SceneName == val.SceneName) and (ZoomName == val.ZoomName):
                 return key
-                pass
             pass
         return None
-        pass
 
     @staticmethod
     def getScenarioIdsBySceneName2(SceneName, ZoomName=None):
@@ -185,7 +167,6 @@ class ScenarioManager(object):
             pass
 
         return scenarios
-        pass
 
     @staticmethod
     def getSceneRunScenarios(SceneName, GroupName):
@@ -205,14 +186,12 @@ class ScenarioManager(object):
 
         if currentChapter is None:
             return RunSceneScenarios
-            pass
 
         ChapterScenarios = currentChapter.findSceneGroupScenarios(SceneName, GroupName)
 
         SceneScenarios = RunSceneScenarios + ChapterScenarios
 
         return SceneScenarios
-        pass
 
     @staticmethod
     def importScenario(module, name):
@@ -223,7 +202,6 @@ class ScenarioManager(object):
         ScenarioType = getattr(Module, Name)
 
         return ScenarioType
-        pass
 
     @staticmethod
     def getScenarioType(module, name):
@@ -231,14 +209,12 @@ class ScenarioManager(object):
 
         if path in ScenarioManager.s_scenarioType:
             return ScenarioManager.s_scenarioType[path]
-            pass
 
         ScenarioType = ScenarioManager.importScenario(module, name)
 
         ScenarioManager.s_scenarioType[path] = ScenarioType
 
         return ScenarioType
-        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -250,7 +226,6 @@ class ScenarioManager(object):
             if SceneManager.hasScene(SceneName) is False:
                 Trace.log("Manager", 0, "ScenarioManager.loadScenarios: scene [%s] not found" % (SceneName))
                 return False
-                pass
 
             ZoomName = record.get("ZoomName")
             Module = record.get("Module")
@@ -264,7 +239,6 @@ class ScenarioManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def createScenario(scenarioID):
@@ -274,7 +248,6 @@ class ScenarioManager(object):
             Trace.log("Manager", 0, "ChapterManager.createScenario invalid generate scenario %s" % (scenarioID))
 
             return None
-            pass
 
         Chapter = ScenarioChapter()
 
@@ -284,10 +257,8 @@ class ScenarioManager(object):
             Trace.log("Manager", 0, "ChapterManager.createScenario '%s' invalid initialize scenario chapter" % (scenarioID))
 
             return None
-            pass
 
         return Chapter
-        pass
 
     @staticmethod
     def addRunScenario(scenarioID, scenarioChapter):
@@ -300,8 +271,8 @@ class ScenarioManager(object):
         scenarioChapter.run()
 
         ScenarioManager.addRunScenario(scenarioID, scenarioChapter)
+
         return scenarioChapter
-        pass
 
     @staticmethod
     def runScenarioOptions(scenarioID, **kwg):
@@ -310,15 +281,14 @@ class ScenarioManager(object):
         scenarioChapter.run()
 
         ScenarioManager.addRunScenario(scenarioID, scenarioChapter)
+
         return scenarioChapter
-        pass
 
     @staticmethod
     def cancelScenario(scenarioID):
         if scenarioID not in ScenarioManager.s_runScenarios.keys():
             Trace.log("Manager", 0, "ScenarioManager runScenario error, %s not run" % (scenarioID))
             return
-            pass
 
         scenarioRunner = ScenarioManager.s_runScenarios.pop(scenarioID)
         scenarioRunner.stop()
@@ -337,7 +307,6 @@ class ScenarioManager(object):
         if ScenarioManager.hasScenario(ScenarioID) is False:
             Trace.log("Manager", 0, "ScenarioManager.generateScenario not found scenario %s" % (ScenarioID))
             return None
-            pass
 
         ScenarioDesc = ScenarioManager.getScenario(ScenarioID)
 
@@ -365,19 +334,16 @@ class ScenarioManager(object):
         Runner = ScenarioRunner(ScenarioDesc.ScenarioName, ScenarioDesc.SceneName, GroupName, isZoom, Scenario, isPlusScene)
 
         return Runner
-        pass
 
     @staticmethod
     def getScenarioGroupName(ScenarioID):
         if isinstance(ScenarioManager.getScenario(ScenarioID), ScenarioManager.EmptyScenario):
             return None
-            pass
 
         ScenarioDesc = ScenarioManager.getScenario(ScenarioID)
 
         if ScenarioDesc is None:
             return None
-            pass
 
         isZoom = ScenarioDesc.ZoomName is not None
 

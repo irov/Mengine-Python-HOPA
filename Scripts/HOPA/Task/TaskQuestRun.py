@@ -1,7 +1,6 @@
 from Foundation.Task.Task import Task
 from Notification import Notification
 
-
 class TaskQuestRun(Task):
     Skiped = False
 
@@ -25,3 +24,4 @@ class TaskQuestRun(Task):
 
     def _onSkip(self):
         Notification.notify(Notificator.onQuestEnd, self.Quest)
+        pass

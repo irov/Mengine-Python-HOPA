@@ -1,4 +1,6 @@
 def onInitialize():
+    Trace.msg("HOPA.onInitialize")
+
     from Foundation.TaskManager import TaskManager
 
     tasks = [
@@ -1023,16 +1025,13 @@ def onInitialize():
     def __findInventoryItem(name):
         if ItemManager.hasItem(name) is False:
             return None
-            pass
 
         if ItemManager.hasItemObject(name) is False:
             return None
-            pass
 
         obj = ItemManager.getItemObject(name)
 
         return obj
-        pass
 
     from HOPA.FanItemManager import FanItemManager
     from HOPA.MacroManager import MacroManager
@@ -1042,16 +1041,13 @@ def onInitialize():
     def __findFanItem(name):
         if FanItemManager.hasItem(name) is False:
             return None
-            pass
 
         if FanItemManager.hasItemObject(name) is False:
             return None
-            pass
 
         obj = FanItemManager.getItemObject(name)
 
         return obj
-        pass
 
     MacroManager.addFinder("FanItem", __findFanItem)
 
@@ -1183,6 +1179,7 @@ def onInitialize():
 
     from Foundation.EntityManager import EntityManager
     from Foundation.ObjectManager import ObjectManager
+
     Types = [
         "Item"
         , "MovieItem"
@@ -1449,6 +1446,8 @@ def onInitialize():
             Notification.notify(Notificator.onChangeDifficulty, value)
 
         def __changeDifficulty_Cursore(account_id, value):
+            from HOPA.CursorManager import CursorManager
+
             if value == "True":
                 CursorManager.setBlockCursorUpdate(False)
             if value == "False":
@@ -1765,73 +1764,49 @@ def onInitialize():
     ObjectManager.importObject("HOPA.Entities.InGameMenu", "InGameMenu")
     EntityManager.importEntity("HOPA.Entities", "InGameMenu")
 
-    from HOPA.CursorManager import CursorManager
-    CursorManager.onInitialize()
+    from Foundation.Managers import Managers
 
-    from HOPA.ScenarioManager import ScenarioManager
-    ScenarioManager.onInitialize()
-
-    from HOPA.QuestManager import QuestManager
-    QuestManager.onInitialize()
-
-    from HOPA.TransitionManager import TransitionManager
-    TransitionManager.onInitialize()
-
-    from HOPA.ZoomManager import ZoomManager
-    ZoomManager.onInitialize()
-
-    from HOPA.HOGManager import HOGManager
-    HOGManager.onInitialize()
-
-    from HOPA.ChapterManager import ChapterManager
-    ChapterManager.onInitialize()
+    Managers.importManager("HOPA", "CursorManager")
+    Managers.importManager("HOPA", "TransitionManager")
+    Managers.importManager("HOPA", "ZoomManager")
+    Managers.importManager("HOPA", "ChapterManager")
+    Managers.importManager("HOPA", "PopUpItemManager")
+    Managers.importManager("HOPA", "BonusItemManager")
+    Managers.importManager("HOPA", "HOGManager")
+    Managers.importManager("HOPA", "InventoryItemUseMovieManager")
+    Managers.importManager("HOPA", "StaticPopUpManager")
+    Managers.importManager("HOPA", "HintManager")
+    Managers.importManager("HOPA", "ScenarioManager")
+    Managers.importManager("HOPA", "QuestManager")
+    Managers.importManager("HOPA", "MacroManager")
 
     return True
     pass
 
 
 def onFinalize():
+    Trace.msg("HOPA.onFinalize")
+
     from Foundation.Utils import isSurvey
+
     if isSurvey():
         survey_url = Mengine.getGameParamUnicode("SurveyUrl")
         if Mengine.getGameParamBool("SurveyLink", False) is True:
             Mengine.openUrlInDefaultBrowser(survey_url)
 
-    from HOPA.CursorManager import CursorManager
-    CursorManager.onFinalize()
+    from Foundation.Managers import Managers
 
-    from HOPA.TransitionManager import TransitionManager
-    TransitionManager.onFinalize()
-
-    from HOPA.ZoomManager import ZoomManager
-    ZoomManager.onFinalize()
-
-    from HOPA.ChapterManager import ChapterManager
-    ChapterManager.onFinalize()
-
-    from HOPA.PopUpItemManager import PopUpItemManager
-    PopUpItemManager.onFinalize()
-
-    from HOPA.BonusItemManager import BonusItemManager
-    BonusItemManager.onFinalize()
-
-    from HOPA.HOGManager import HOGManager
-    HOGManager.onFinalize()
-
-    from HOPA.InventoryItemUseMovieManager import InventoryItemUseMovieManager
-    InventoryItemUseMovieManager.onFinalize()
-
-    from HOPA.StaticPopUpManager import StaticPopUpManager
-    StaticPopUpManager.onFinalize()
-
-    from HOPA.HintManager import HintManager
-    HintManager.onFinalize()
-
-    from HOPA.ScenarioManager import ScenarioManager
-    ScenarioManager.onFinalize()
-
-    from HOPA.QuestManager import QuestManager
-    QuestManager.onFinalize()
-
-    from HOPA.MacroManager import MacroManager
-    MacroManager.onFinalize()
+    Managers.removeManager("CursorManager")
+    Managers.removeManager("TransitionManager")
+    Managers.removeManager("ZoomManager")
+    Managers.removeManager("ChapterManager")
+    Managers.removeManager("PopUpItemManager")
+    Managers.removeManager("BonusItemManager")
+    Managers.removeManager("HOGManager")
+    Managers.removeManager("InventoryItemUseMovieManager")
+    Managers.removeManager("StaticPopUpManager")
+    Managers.removeManager("HintManager")
+    Managers.removeManager("ScenarioManager")
+    Managers.removeManager("QuestManager")
+    Managers.removeManager("MacroManager")
+    pass

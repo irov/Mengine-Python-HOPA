@@ -402,7 +402,7 @@ class SystemDebugMenu(System):
         def _utilFindWidgetPh(dict_, paragraph_id):
             widgets = dict_.get("buttons", {})
             for widget in widgets:
-                widget_id = str(widget.getId())
+                widget_id = str(widget.getWidgetId())
                 if paragraph_id == widget_id.split("__")[1]:
                     return True
             return False

@@ -729,6 +729,8 @@ class Scenario(object):
         return
 
     def onFinalize(self):
+        self._onFinalize()
+
         for paragraph in self.paragraphs:
             paragraph.onFinalize()
 
@@ -738,6 +740,9 @@ class Scenario(object):
             repeat.onFinalize()
 
         self.repeats = []
+
+    def _onFinalize(self):
+        pass
 
     def onGenerator(self, ScenarioRunner, ScenarioChapter):
         paragraphs_taskChain = TaskManager.createTaskChain(GroupName=self.GroupName)

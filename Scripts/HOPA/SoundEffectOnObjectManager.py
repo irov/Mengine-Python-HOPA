@@ -1,10 +1,17 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class SoundEffectOnObjectManager(object):
+class SoundEffectOnObjectManager(Manager):
     s_soundEffects = {}
     s_soundEffectsOnce = {}
+
+    @staticmethod
+    def _onFinalize():
+        SoundEffectOnObjectManager.s_soundEffects = {}
+        SoundEffectOnObjectManager.s_soundEffectsOnce = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):
@@ -18,9 +25,10 @@ class SoundEffectOnObjectManager(object):
             Sound = record.get("Sound")
             Once = bool(record.get("Once", 1))
 
-            if Mengine.hasSound(Sound) is False:
-                Trace.log("Manager", 0, "SoundEffectOnObjectManager.loadSoundEffect '%s' not found sound '%s' for object '%s' group '%s'" % (param, Sound, ObjectName, GroupName))
-                continue
+            if _DEVELOPMENT is True:
+                if Mengine.hasSound(Sound) is False:
+                    Trace.log("Manager", 0, "SoundEffectOnObjectManager.loadSoundEffect '%s' not found sound '%s' for object '%s' group '%s'" % (param, Sound, ObjectName, GroupName))
+                    continue
 
             if GroupName is None and ObjectName is None and DemonName is None:
                 Object = None
@@ -37,21 +45,17 @@ class SoundEffectOnObjectManager(object):
             pass
 
         return True
-        pass
 
     @staticmethod
     def getObjectSounds():
         return SoundEffectOnObjectManager.s_soundEffects
-        pass
 
     @staticmethod
     def getSound(Object, Tag):
         if (Object, Tag) in SoundEffectOnObjectManager.s_soundEffects:
             return SoundEffectOnObjectManager.s_soundEffects[(Object, Tag)]
-            pass
 
         return None
-        pass
 
     @staticmethod
     def getObjectsByTag(Tag):
@@ -63,17 +67,10 @@ class SoundEffectOnObjectManager(object):
             pass
 
         return objects
-        pass
 
     @staticmethod
     def getOnce(Object, Tag):
         if (Object, Tag) in SoundEffectOnObjectManager.s_soundEffectsOnce:
             return SoundEffectOnObjectManager.s_soundEffectsOnce[(Object, Tag)]
-            pass
 
         return None
-        pass
-
-    @staticmethod
-    def onDeactivate():
-        pass

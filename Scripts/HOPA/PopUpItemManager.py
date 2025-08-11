@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class PopUpItemManager(object):
+class PopUpItemManager(Manager):
     s_items = {}
 
     class ItemPopUpParam(object):
@@ -18,7 +19,7 @@ class PopUpItemManager(object):
             return self.inventoryItem
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         PopUpItemManager.s_items = {}
         pass
 

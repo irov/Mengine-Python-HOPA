@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ExtrasConceptManager(object):
+class ExtrasConceptManager(Manager):
     s_data = []
 
     @staticmethod
@@ -17,6 +18,3 @@ class ExtrasConceptManager(object):
     @staticmethod
     def getData():
         return ExtrasConceptManager.s_data
-        pass
-
-    pass

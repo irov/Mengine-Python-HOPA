@@ -1,9 +1,10 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from HOPA.ItemManager import ItemManager
 
-
-class MindBranchManager(object):
+class MindBranchManager(Manager):
     s_branch = []
 
     class MindBranch(object):
@@ -17,24 +18,19 @@ class MindBranchManager(object):
         def getObserveSocket(self):
             SocketInstance = GroupManager.getObject(self.GroupName, self.SocketName)
             return SocketInstance
-            pass
 
         def getAttachedItem(self):
             ItemInstance = ItemManager.getItemInventoryItem(self.InventoryItemName)
             return ItemInstance
-            pass
 
         def getItemName(self):
             return self.InventoryItemName
-            pass
 
         def getGroupName(self):
             return self.GroupName
-            pass
 
         def getMind(self):
             return self.MindId
-            pass
 
     @staticmethod
     def loadParams(module, param):

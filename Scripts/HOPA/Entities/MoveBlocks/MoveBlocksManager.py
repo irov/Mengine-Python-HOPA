@@ -1,9 +1,11 @@
+from Foundation.Manager import Manager
+
 import copy
 
 from Foundation.DatabaseManager import DatabaseManager
 
 
-class MoveBlocksManager(object):
+class MoveBlocksManager(Manager):
     s_objects = {}
 
     class Data(object):
@@ -65,6 +67,11 @@ class MoveBlocksManager(object):
 
         def getOnName(self):
             return self.on
+
+    @staticmethod
+    def _onFinalize():
+        MoveBlocksManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

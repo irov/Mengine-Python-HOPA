@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ExtrasManager(object):
+class ExtrasManager(Manager):
     s_extras = {}
 
     class Extra(object):
@@ -15,25 +16,18 @@ class ExtrasManager(object):
 
         def getButtonName(self):
             return self.buttonName
-            pass
 
         def getGroupName(self):
             return self.groupName
-            pass
 
         def getData(self):
             return self.entityData
-            pass
 
         def getEntityType(self):
             return self.entityType
-            pass
 
         def getObjectName(self):
             return self.objectName
-            pass
-
-        pass
 
     class ExtrasEnigma(object):
         def __init__(self, movieName, enigmaName, scenarioID):
@@ -44,16 +38,16 @@ class ExtrasManager(object):
 
         def getMovieName(self):
             return self.movieName
-            pass
 
         def getEnigmaName(self):
             return self.enigmaName
-            pass
 
         def getScenarioID(self):
             return self.scenarioID
-            pass
 
+    @staticmethod
+    def _onFinalize():
+        ExtrasManager.s_extras = {}
         pass
 
     @staticmethod
@@ -94,38 +88,23 @@ class ExtrasManager(object):
             dataElement = ExtrasManager.ExtrasEnigma(movieName, enigmaName, scenarioID)
             data.append(dataElement)
             pass
+
         return data
-        pass
 
     @staticmethod
     def hasExtra(extraName):
         if extraName not in ExtrasManager.s_extras:
             return False
-            pass
-
         return True
-        pass
 
     @staticmethod
     def getExtra(extraName):
         return ExtrasManager.s_extras[extraName]
-        pass
-
-    pass
 
     @staticmethod
     def getExtras():
         if len(ExtrasManager.s_extras) == 0:
             Trace.log("Manager", 0, "ExtrasManager.getExtras: s_extras is empty")
             return None
-            pass
 
         return ExtrasManager.s_extras
-        pass
-
-    pass
-
-    @staticmethod
-    def onFinalize():
-        ExtrasManager.s_extras = {}
-        pass

@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class TransitionHighlightManager(object):
+class TransitionHighlightManager(Manager):
     s_transitionHighlights = {}
 
     class TransitionHighlight(object):
@@ -9,6 +10,11 @@ class TransitionHighlightManager(object):
             self.transitionName = transitionName
             self.prototypeGroupName = prototypeGroupName
             self.prototypeName = prototypeName
+
+    @staticmethod
+    def _onFinalize():
+        TransitionHighlightManager.s_transitionHighlights = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

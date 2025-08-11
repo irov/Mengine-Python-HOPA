@@ -1,8 +1,9 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.EnigmaManager import EnigmaManager
 
-
-class PlumberManager(object):
+class PlumberManager(Manager):
     s_objects = {}
 
     class Plumber(object):
@@ -19,37 +20,27 @@ class PlumberManager(object):
 
         def getButtons(self):
             return self.buttons
-            pass
 
         def getWallsData(self):
             return self.wallsData
-            pass
 
         def getMetric(self):
             return self.metric
-            pass
 
         def getCellMetric(self):
             return self.cellMetric
-            pass
 
         def getFieldData(self):
             return self.fieldData
-            pass
 
         def getItemData(self):
             return self.itemData
-            pass
 
         def getCellItemData(self):
             return self.cellItemData
-            pass
 
         def getMovementMovies(self):
             return self.movementMovies
-            pass
-
-        pass
 
     class CellItem(object):
         def __init__(self, movie, movieSelected, directionMovieNames):
@@ -62,7 +53,6 @@ class PlumberManager(object):
 
         def getParentCell(self):
             return self.parentCell
-            pass
 
         def setParentCell(self, cell):
             self.parentCell = cell
@@ -74,17 +64,12 @@ class PlumberManager(object):
 
         def getMovie(self):
             return self.movie
-            pass
 
         def getSelectedMovie(self):
             return self.movieSelected
-            pass
 
         def getDirectionMovieNames(self):
             return self.directionMovieNames
-            pass
-
-        pass
 
     class ItemData(object):
         def __init__(self, id, row, column, name, movie, winMovie, crashMovie, directionMovie, winPos):
@@ -101,44 +86,34 @@ class PlumberManager(object):
 
         def getID(self):
             return self.id
-            pass
 
         def getWinPos(self):
             return self.winPos
-            pass
 
         def getRow(self):
             return self.row
-            pass
 
         def getColumn(self):
             return self.column
-            pass
 
         def getName(self):
             return self.name
-            pass
 
         def getMovie(self):
             return self.movie
-            pass
 
         def getWinMovie(self):
             return self.winMovie
-            pass
 
         def getCrashMovie(self):
             return self.crashMovie
-            pass
 
         def getDirectionMovie(self):
             return self.directionMovie
-            pass
-
         pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         PlumberManager.s_objects = {}
         pass
 

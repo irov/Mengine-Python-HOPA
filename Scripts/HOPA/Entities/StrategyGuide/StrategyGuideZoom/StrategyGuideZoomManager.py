@@ -1,9 +1,15 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
-
-class StrategyGuideZoomManager(object):
+class StrategyGuideZoomManager(Manager):
     s_objects = {}
+
+    @staticmethod
+    def _onFinalize():
+        StrategyGuideZoomManager.s_objects = {}
+        pass
 
     @staticmethod
     def loadParams(module, Param):
@@ -27,6 +33,3 @@ class StrategyGuideZoomManager(object):
     @staticmethod
     def getZooms():
         return StrategyGuideZoomManager.s_objects
-        pass
-
-    pass

@@ -1,8 +1,10 @@
-class InventoryFXManager(object):
+from Foundation.Manager import Manager
+
+class InventoryFXManager(Manager):
     s_actions = {}
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         InventoryFXManager.s_questsType = {}
         pass
 
@@ -31,7 +33,6 @@ class InventoryFXManager(object):
     @staticmethod
     def getAction(actionType):
         return InventoryFXManager.s_actions[actionType]
-        pass
 
     @staticmethod
     def createAction(actionType, *args):
@@ -42,6 +43,3 @@ class InventoryFXManager(object):
         invAction.onInitialize()
 
         return invAction
-        pass
-
-    pass

@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class SpinCirclesDependsPluginManager(object):
+class SpinCirclesDependsPluginManager(Manager):
     s_objects = {}
 
     class DependData(object):
@@ -16,32 +17,24 @@ class SpinCirclesDependsPluginManager(object):
 
         def getDepend(self):
             return self.Depend
-            pass
 
         def getDirection(self):
             return self.Direction
-            pass
 
         def getMovieName(self):
             return self.MovieName
-            pass
 
         def getL(self):
             return self.OwnCheck
-            pass
 
         def getR(self):
             return self.dependCheck
-            pass
 
         def getInitValues(self):
             return self.InitValues
-            pass
-
-        pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         SpinCirclesDependsPluginManager.s_objects = {}
         pass
 
@@ -76,16 +69,13 @@ class SpinCirclesDependsPluginManager(object):
             pass
 
         return depend
-        pass
 
     @staticmethod
     def getData(name):
         if SpinCirclesDependsPluginManager.hasData(name) is False:
             return None
-            pass
         record = SpinCirclesDependsPluginManager.s_objects[name]
         return record
-        pass
 
     @staticmethod
     def hasData(name):
@@ -93,8 +83,4 @@ class SpinCirclesDependsPluginManager(object):
             Trace.log("SpinCirclesDependsPluginManager", 0,
                       "SpinCirclesDependsPluginManager.hasData invalid param name %s" % (name))
             return False
-            pass
         return True
-        pass
-
-    pass

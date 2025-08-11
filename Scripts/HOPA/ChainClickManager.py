@@ -1,7 +1,7 @@
+from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ChainClickManager(object):
+class ChainClickManager(Manager):
     s_games = {}
 
     class ChainClickGame(object):
@@ -16,6 +16,11 @@ class ChainClickManager(object):
 
         def appendElements(self, element):
             self.elements.append(element)
+
+    @staticmethod
+    def _onFinalize():
+        ChainClickManager.s_games.clear()
+        pass
 
     @staticmethod
     def loadGames(module, param):

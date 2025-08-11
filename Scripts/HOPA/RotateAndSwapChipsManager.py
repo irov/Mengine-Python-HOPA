@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class RotateAndSwapChipsManager(object):
+class RotateAndSwapChipsManager(Manager):
     s_games = {}
 
     class RotateAndSwapChipsGame(object):
@@ -12,6 +13,11 @@ class RotateAndSwapChipsManager(object):
             self.rules = rules
             self.connectionsSlots = connectionsSlots
             self.slotsControllers = slotsControllers
+
+    @staticmethod
+    def _onFinalize():
+        RotateAndSwapChipsManager.s_games = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

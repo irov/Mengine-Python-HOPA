@@ -1,7 +1,8 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class ButtonConjunctionManager(object):
+class ButtonConjunctionManager(Manager):
     TraceName = "ButtonConjunctionManager"
     s_objects = {}
 
@@ -15,26 +16,22 @@ class ButtonConjunctionManager(object):
 
         def getSockets(self):
             return self.sockets
-            pass
 
         def getMoviesActive(self):
             return self.moviesActive
-            pass
 
         def getMoviesDown(self):
             return self.moviesDown
-            pass
 
         def getMoviesOver(self):
             return self.moviesOver
-            pass
 
         def __repr__(self):
             return self.__dict__.__repr__()
             pass
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         ButtonConjunctionManager.s_objects = {}
         pass
 

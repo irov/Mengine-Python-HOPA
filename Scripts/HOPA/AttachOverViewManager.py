@@ -1,17 +1,18 @@
+from Foundation.Manager import Manager
+
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 
 from TraceManager import TraceManager
 
 
-class AttachOverViewManager(object):
+class AttachOverViewManager(Manager):
     bound_attached_dict = {}  # (itemName,objectName)->SOV
     attached_dict = {}  # objectName->SOV
 
     ObjectNameList = {}
 
     class SingleOverView(object):
-
         def __init__(self, ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject):
             self.ObjectName = ObjectName
             self.MovieGroupName = MovieGroupName
@@ -45,8 +46,11 @@ class AttachOverViewManager(object):
             return bool(self.Loop)
 
     @staticmethod
-    def onFinalize():
+    def _onFinalize():
         AttachOverViewManager.bound_attached_dict = {}
+        AttachOverViewManager.attached_dict = {}
+        AttachOverViewManager.ObjectNameList = {}
+        pass
 
     @staticmethod
     def loadParams(module, param):

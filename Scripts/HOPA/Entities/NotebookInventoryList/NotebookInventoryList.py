@@ -107,7 +107,7 @@ class NotebookInventoryList(BaseEntity):
 
         movie.setEnable(False)
 
-    def finaliseTasksMovie(self, movie, movieLocalID):
+    def finalizeTasksMovie(self, movie, movieLocalID):
         movieEntity = movie.getEntity()
         movieEntity.removeFromParent()
         movie.setEnable(False)
@@ -163,20 +163,20 @@ class NotebookInventoryList(BaseEntity):
             parallel.addEnable(self.Movies[movieLocalID][0])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][0])
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][0])
-            parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][0], movieLocalID)
+            parallel.addFunction(self.finalizeTasksMovie, self.Movies[movieLocalID][0], movieLocalID)
             # [1] - movieIdle
             parallel.addFunction(self.prepareTasksMovie, self.Movies[movieLocalID][1], movieLocalID)
             parallel.addEnable(self.Movies[movieLocalID][1])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][1])
             parallel.addDelay(self.delay)
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][1])
-            parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][1], movieLocalID)
+            parallel.addFunction(self.finalizeTasksMovie, self.Movies[movieLocalID][1], movieLocalID)
             # [2] - movieHide
             parallel.addFunction(self.prepareTasksMovie, self.Movies[movieLocalID][2], movieLocalID)
             parallel.addEnable(self.Movies[movieLocalID][2])
             parallel.addScope(self.playMovies, self.Movies[movieLocalID][2])
             parallel.addTask("TaskMovie2Rewind", Movie2=self.Movies[movieLocalID][2])
-            parallel.addFunction(self.finaliseTasksMovie, self.Movies[movieLocalID][2], movieLocalID)
+            parallel.addFunction(self.finalizeTasksMovie, self.Movies[movieLocalID][2], movieLocalID)
 
         scope.addFunction(self.cleanNodes)
 
