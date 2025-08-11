@@ -2,7 +2,6 @@ from Foundation.Manager import Manager
 
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
-from Notification import Notification
 
 class MindManager(Manager):
     s_minds = {}

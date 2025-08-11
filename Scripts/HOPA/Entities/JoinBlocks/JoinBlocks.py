@@ -1,17 +1,13 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.JoinBlocksManager import JoinBlocksManager
-from Notification import Notification
 
 from Block import Block
 from Road import Road
 from Slot import Slot
 
-
 Enigma = Mengine.importEntity("Enigma")
 
-
 class JoinBlocks(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

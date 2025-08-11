@@ -1,10 +1,8 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
 
 from ExtrasMusicManager import ExtrasMusicManager
-
 
 class ExtrasMusic(BaseEntity):
     @staticmethod

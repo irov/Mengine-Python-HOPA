@@ -2,11 +2,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
 
-
 InventoryBase = Mengine.importEntity("InventoryBase")
-
-from Notification import Notification
-
 
 class HOGInventorySlot(object):
     def __init__(self, textID):

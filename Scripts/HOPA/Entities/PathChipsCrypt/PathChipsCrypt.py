@@ -1,6 +1,5 @@
 from Foundation.GroupManager import GroupManager
 from HOPA.PathChipsCryptManager import PathChipsCryptManager
-from Notification import Notification
 
 from ChipElementAuto import ChipElementAuto
 from ChipElementDragDrop import ChipElementDragDrop
@@ -9,9 +8,7 @@ from ChipsMoving import ChipsMoving
 from ChipsTransporter import ChipsTransporter
 from Path import Path
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class PathChipsCrypt(Enigma):
     def __init__(self):

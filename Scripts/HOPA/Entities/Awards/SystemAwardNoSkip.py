@@ -1,10 +1,8 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardNoSkip(System):
     def _onParams(self, params):

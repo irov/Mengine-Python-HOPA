@@ -1,14 +1,10 @@
 from HOPA.ColumnChainManager import ColumnChainManager
-from Notification import Notification
 
 from Column import Column
 
-
 Enigma = Mengine.importEntity("Enigma")
 
-
 class ColumnChain(Enigma):
-
     def __init__(self):
         super(ColumnChain, self).__init__()
         self.GameData = {}

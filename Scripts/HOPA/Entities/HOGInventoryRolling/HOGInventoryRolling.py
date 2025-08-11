@@ -3,13 +3,10 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 InventoryBase = Mengine.importEntity("InventoryBase")
 
 HOGROLLING_MOVIE_SLOT_TEXTALIAS = "$text"
-
 
 class HOGInventorySlot(object):
     def __init__(self):

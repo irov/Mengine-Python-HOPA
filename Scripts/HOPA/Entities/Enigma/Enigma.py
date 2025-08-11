@@ -4,11 +4,8 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 ID_EMPTY_TEXT = "ID_EMPTY_TEXT"
-
 
 class Enigma(BaseEntity):
     @staticmethod

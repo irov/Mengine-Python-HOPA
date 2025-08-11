@@ -2,11 +2,8 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 InventoryItem = Mengine.importEntity("InventoryItem")
-
 
 class InventoryCountItem(InventoryItem):
     @staticmethod

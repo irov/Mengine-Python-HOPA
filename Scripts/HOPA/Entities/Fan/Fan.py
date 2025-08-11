@@ -5,11 +5,8 @@ from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from HOPA.FanItemManager import FanItemManager
 from HOPA.FanManager import FanManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
-
 
 class Fan(Enigma):
     STATE_MOVIEOPEN = 1

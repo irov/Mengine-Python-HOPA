@@ -1,6 +1,4 @@
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class LetItSlideElement(object):
     def __init__(self, id, movieObject, isHorizontal, socket, length, field):

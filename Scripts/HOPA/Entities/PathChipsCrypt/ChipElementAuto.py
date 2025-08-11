@@ -1,8 +1,5 @@
-from Notification import Notification
-
 from ChipElement import ChipElement
 from Path import Path
-
 
 class ChipElementAuto(ChipElement):
     def __init__(self):

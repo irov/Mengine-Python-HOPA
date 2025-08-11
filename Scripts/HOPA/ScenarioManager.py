@@ -4,8 +4,6 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Manager import Manager
 from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioRunner import ScenarioRunner
-from Notification import Notification
-
 
 class ScenarioManager(Manager):
     class EmptyScenario(object):

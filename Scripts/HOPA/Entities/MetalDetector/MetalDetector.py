@@ -2,11 +2,8 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from HOPA.ItemManager import ItemManager
 from HOPA.CursorManager import CursorManager
 from HOPA.MetalDetectorManager import MetalDetectorManager
-from Notification import Notification
-
 
 class MetalDetector(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

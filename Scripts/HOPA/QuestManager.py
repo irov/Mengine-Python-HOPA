@@ -3,8 +3,6 @@ from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.ScenarioManager import ScenarioManager
 
-from Notification import Notification
-
 class QuestManager(Manager):
     s_enumerate = 0
     s_questGlobalCache = []

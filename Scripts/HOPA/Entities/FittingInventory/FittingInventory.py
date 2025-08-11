@@ -3,8 +3,6 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
-from Notification import Notification
-
 
 class InventorySlot(object):
     def __init__(self, slotId, point, hotspot):

@@ -1,6 +1,3 @@
-from Notification import Notification
-
-
 class ColoringPuzzleFragment(object):
     def __init__(self, stateObject, socketObject):
         super(ColoringPuzzleFragment, self).__init__()
@@ -53,4 +50,3 @@ class ColoringPuzzleFragment(object):
 
         callback(self)
         return False
-        pass

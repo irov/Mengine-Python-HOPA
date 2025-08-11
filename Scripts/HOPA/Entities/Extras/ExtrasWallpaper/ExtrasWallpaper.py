@@ -1,9 +1,7 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
 
 from ExtrasWallpaperManager import ExtrasWallpaperManager
-
 
 class ExtrasWallpaper(BaseEntity):
     @staticmethod

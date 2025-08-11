@@ -3,10 +3,8 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
-from Notification import Notification
 
 from MagicVisionManager import MagicVisionManager
-
 
 class SystemMagicVision(System):
     def __init__(self):

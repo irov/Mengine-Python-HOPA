@@ -1,8 +1,6 @@
 from Foundation.System import System
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardsHogItemTime(System):
     def _onParams(self, params):

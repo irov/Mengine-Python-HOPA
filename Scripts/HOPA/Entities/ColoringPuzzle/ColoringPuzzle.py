@@ -1,12 +1,10 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ColoringPuzzleManager import ColoringPuzzleManager
-from Notification import Notification
 
 from ColoringPuzzleBrush import ColoringPuzzleBrush
 from ColoringPuzzleFragment import ColoringPuzzleFragment
 from ColoringPuzzlePalette import ColoringPuzzlePalette
-
 
 class ColoringPuzzleColor(object):
     def __init__(self, colorId, colorName):

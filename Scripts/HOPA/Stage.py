@@ -3,8 +3,6 @@ from Foundation.Initializer import Initializer
 from Foundation.Params import Params
 from Foundation.SceneManager import SceneManager
 from HOPA.ChapterManager import ChapterManager
-from Notification import Notification
-
 
 class Stage(Params, Initializer):
     def __init__(self):

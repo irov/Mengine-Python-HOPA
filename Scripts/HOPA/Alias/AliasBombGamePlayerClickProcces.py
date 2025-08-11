@@ -1,8 +1,5 @@
 from Foundation.Task.TaskAlias import TaskAlias
 
-from Notification import Notification
-
-
 class AliasBombGamePlayerClickProcces(TaskAlias):
     def __init__(self):
         super(AliasBombGamePlayerClickProcces, self).__init__()

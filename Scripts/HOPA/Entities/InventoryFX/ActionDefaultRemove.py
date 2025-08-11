@@ -1,7 +1,5 @@
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class ActionDefaultRemove(Initializer):
     def __init__(self):

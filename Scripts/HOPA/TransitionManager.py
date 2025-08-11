@@ -10,7 +10,6 @@ from Foundation.TaskManager import TaskManager
 from Foundation.PolicyManager import PolicyManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
 from Graph import Graph
 
 class TransitionManager(Manager):

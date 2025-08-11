@@ -7,11 +7,8 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.ItemManager import ItemManager
-from Notification import Notification
-
 
 InventoryBase = Mengine.importEntity("InventoryBase")
-
 
 class InventorySlot(object):
     def __init__(self, inventoryObject, slotId, point, hotspot):

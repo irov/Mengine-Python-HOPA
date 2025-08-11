@@ -3,8 +3,6 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 class CloseZoom(BaseEntity):
     def _onActivate(self):

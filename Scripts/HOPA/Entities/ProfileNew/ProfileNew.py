@@ -2,8 +2,6 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class ProfileNew(BaseEntity):
     @staticmethod

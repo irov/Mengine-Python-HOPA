@@ -2,8 +2,6 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class HogPenalty(BaseEntity):
     def __init__(self):

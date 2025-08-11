@@ -1,13 +1,11 @@
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from HOPA.FragmentsRollManager import FragmentsRollManager
-from Notification import Notification
 
 from FragmentsRollElementDragDrop import FragmentsRollElementDragDrop
 from FragmentsRollGrid import FragmentsRollGrid
 from FragmentsRollMovieGrid import FragmentsRollMovieGrid
 from FragmentsRollMoving import FragmentsRollMoving
-
 
 def getMaxMin(first, second):
     if first > second:

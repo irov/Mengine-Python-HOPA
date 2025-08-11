@@ -5,7 +5,6 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
-from Notification import Notification
 
 class ZoomManager(Manager):
     s_activeZooms = {}

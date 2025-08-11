@@ -1,6 +1,3 @@
-from Notification import Notification
-
-
 class ConnectorsConnection(object):
     def __init__(self, socketObject, stateObject):
         self.elements = []

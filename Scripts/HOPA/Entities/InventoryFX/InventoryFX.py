@@ -6,8 +6,6 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
-from Notification import Notification
-
 
 class InventorySlot(object):
     def __init__(self, inventoryObject, slotId, slot, hotspot):

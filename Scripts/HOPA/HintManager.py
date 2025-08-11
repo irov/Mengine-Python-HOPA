@@ -7,8 +7,6 @@ from Foundation.SceneManager import SceneManager
 from HOPA.QuestManager import QuestManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 class HintManager(Manager):
     s_hintTypes = {}

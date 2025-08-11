@@ -1,8 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
-from Notification import Notification
 
 from ExtrasHOGManager import ExtrasHOGManager
-
 
 class ExtrasHOG(BaseEntity):
     @staticmethod

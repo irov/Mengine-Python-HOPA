@@ -1,9 +1,6 @@
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
-
 
 class HOG2(Enigma):
     @staticmethod

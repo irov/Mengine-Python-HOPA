@@ -1,8 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.StateManager import StateManager
 from Foundation.System import System
-from Notification import Notification
-
 
 class SystemMana(System):
     s_currentMana = None

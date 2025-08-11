@@ -5,11 +5,9 @@ from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from Foundation.Utils import getCurrentPublisher
-from Notification import Notification
 
 from HOPA.Entities.GameStore.StoreCards.StoreCardAdvert import StoreCardAdvert
 from HOPA.Entities.GameStore.StoreCards.StoreCardDefault import StoreCardDefault
-
 
 ALIAS_COINS = "$AliasGameStoreCoinsCount"
 ALIAS_ENV = ""
@@ -18,9 +16,7 @@ TEXT_ID_EMPTY = "ID_EMPTY"
 
 _Log = SimpleLogger("GameStore")
 
-
 class GameStore(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

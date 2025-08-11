@@ -6,12 +6,9 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from HOPA.JournalManager import JournalManager
-from Notification import Notification
-
 
 SCENE_EFFECT_MOVIE_OPEN = "Movie2_Open"
 SCENE_EFFECT_MOVIE_CLOSE = "Movie2_Close"
-
 
 class SystemJournal(System):
     s_dev_to_debug = False

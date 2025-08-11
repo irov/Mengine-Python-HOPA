@@ -1,8 +1,6 @@
 from Functor import Functor
-from Notification import Notification
 
 from ChessPuzzleElement import ChessPuzzleElement
-
 
 class ChessPuzzleShift(ChessPuzzleElement):
     def __init__(self, dx, dy):

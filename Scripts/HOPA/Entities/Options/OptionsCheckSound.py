@@ -1,6 +1,4 @@
 from HOPA.Entities.Options.OptionsManager import OptionsManager
-from Notification import Notification
-
 
 class CheckSoundController(object):
     def __init__(self, optionsObject):

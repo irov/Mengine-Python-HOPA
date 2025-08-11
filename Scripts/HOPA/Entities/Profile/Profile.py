@@ -4,8 +4,6 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Profile.ProfileManager import ProfileManager
-from Notification import Notification
-
 
 class Profile(BaseEntity):
     @staticmethod

@@ -2,8 +2,6 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
-from Notification import Notification
-
 
 class Dialog(BaseEntity):
     def __init__(self):

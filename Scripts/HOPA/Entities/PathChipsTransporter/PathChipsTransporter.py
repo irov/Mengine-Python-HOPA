@@ -1,14 +1,12 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
-from Notification import Notification
 
 MOV_TRANSPORTER = "Movie2_Transporter"
 MOV_TRANSPORTER_REV = "Movie2_Transporter_Reverse"
 MOV_TRANSPORTER_SOUND = "Movie2_Sound_Transporter"
 SOCKET_TRANSPORTER = "Socket_Transporter"
 SLOT_MOVE = "move"
-
 
 class PathChipsTransporter(BaseEntity):
     def __init__(self):

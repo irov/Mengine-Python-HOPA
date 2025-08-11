@@ -3,11 +3,8 @@ from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipsInTheRightOrderManager import ClickOnChipsInTheRightOrderManager
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
-
 
 class ClickOnChipsInTheRightOrder(Enigma):
     class Chip(object):

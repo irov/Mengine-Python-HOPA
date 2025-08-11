@@ -13,11 +13,8 @@ from HOPA.System.SystemItemCollect import SystemItemCollect
 from HOPA.System.SystemItemPlusScene import SystemItemPlusScene
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 class Hint(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

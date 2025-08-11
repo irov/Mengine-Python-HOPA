@@ -2,11 +2,8 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Object.DemonObject import DemonObject
 from HOPA.ItemManager import ItemManager
-from Notification import Notification
-
 
 class ObjectInventoryFX(DemonObject):
-
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)

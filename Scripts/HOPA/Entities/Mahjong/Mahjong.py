@@ -5,11 +5,8 @@ from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Entities.Mahjong.MahjongManager import MahjongManager
 from HOPA.QuestManager import QuestManager
 from Holder import Holder
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
-
 
 class Mahjong(Enigma):
     @staticmethod

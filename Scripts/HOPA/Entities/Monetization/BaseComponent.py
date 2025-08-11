@@ -1,7 +1,5 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.MonetizationManager import MonetizationManager
-from Notification import Notification
-
 
 class BaseComponent(object):
     component_id = None     # type: str

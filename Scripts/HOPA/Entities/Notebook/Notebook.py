@@ -1,12 +1,9 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
 
 from NotebookManager import NotebookManager
 
-
 class Notebook(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

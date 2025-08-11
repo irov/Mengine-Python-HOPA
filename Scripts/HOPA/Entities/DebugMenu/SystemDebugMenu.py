@@ -9,12 +9,9 @@ from HOPA.ItemManager import ItemManager
 from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 ALIAS_ENV = ""
 ALIAS_TEXT_NAME = "$ID_LineSpeed"
-
 
 class SystemDebugMenu(System):
     s_dev_to_debug = False

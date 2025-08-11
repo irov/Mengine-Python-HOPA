@@ -4,11 +4,8 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from HOPA.DialogWindowManager import DialogWindowManager
-from Notification import Notification
-
 
 Log = SimpleLogger("DialogWindow", enable=False)
-
 
 class DialogWindow(BaseEntity):
     EVENT_WINDOW_DISAPPEAR = Event("onDialogWindowDisappear")

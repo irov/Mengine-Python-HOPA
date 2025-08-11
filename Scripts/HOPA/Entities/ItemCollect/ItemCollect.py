@@ -6,8 +6,6 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.System.SystemItemCollect import SystemItemCollect
 from Holder import Holder
-from Notification import Notification
-
 
 class ItemCollect(BaseEntity):
     s_openingProcessProgress = False

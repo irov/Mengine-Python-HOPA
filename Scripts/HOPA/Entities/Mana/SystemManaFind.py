@@ -1,11 +1,8 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class SystemManaFind(System):
-
     def __init__(self):
         super(SystemManaFind, self).__init__()
         self.onManaFindObserver = None

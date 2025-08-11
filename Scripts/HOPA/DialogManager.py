@@ -3,8 +3,6 @@ from Foundation.Manager import Manager
 from Foundation.Bootstrapper import checkBuildMode
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
-from Notification import Notification
-
 
 DEMON_DIALOG = "Demon_Dialog"
 DEMON_DIALOG_AVATAR = "Demon_Switch_Avatar"

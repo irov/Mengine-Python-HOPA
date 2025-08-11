@@ -1,6 +1,3 @@
-from Notification import Notification
-
-
 class ColoringPuzzlePalette(object):
     def __init__(self, color, socketObject):
         super(ColoringPuzzlePalette, self).__init__()

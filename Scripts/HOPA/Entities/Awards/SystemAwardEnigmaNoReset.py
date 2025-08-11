@@ -2,10 +2,8 @@ from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.Object.ObjectHOGRolling import ObjectHOGRolling
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardEnigmaNoReset(System):
     def _onParams(self, params):

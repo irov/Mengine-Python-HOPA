@@ -1,10 +1,7 @@
 from Foundation.Initializer import Initializer
-from Notification import Notification
 from Path import Path
 
-
 THING_THAT_SHOULD_NOT_BE = 1000
-
 
 class ChipsTransporter(Initializer):
     def __init__(self):

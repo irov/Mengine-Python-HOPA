@@ -1,7 +1,5 @@
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
-from Notification import Notification
-
 
 class ChainClickElement(object):
     def __init__(self, item, itemClick, movieComplete):

@@ -4,11 +4,8 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.PopUpItemManager import PopUpItemManager
-from Notification import Notification
-
 
 class ItemPopUp(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

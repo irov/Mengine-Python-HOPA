@@ -5,8 +5,6 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from HOPA.MindManager import MindManager
-from Notification import Notification
-
 
 class Mind(BaseEntity):
     @staticmethod

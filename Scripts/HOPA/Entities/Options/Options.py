@@ -5,11 +5,8 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Options.OptionsCheckSound import CheckSoundController
 from HOPA.Entities.Options.OptionsManager import OptionsManager
-from Notification import Notification
-
 
 BUTTON_LANGUAGE_SELECT_NAME = "Movie2Button_LanguageSelect"
-
 
 class Options(BaseEntity):
     s_start_volume_values = []

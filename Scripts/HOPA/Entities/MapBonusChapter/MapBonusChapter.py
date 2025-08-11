@@ -6,12 +6,9 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.TransitionManager import TransitionManager
-from Notification import Notification
-
 
 EVENT_SHOW_OVERVIEW = Event("onShowOverview")
 EVENT_HIDE_OVERVIEW = Event("onHideOverview")
-
 
 class MapBonusChapter(BaseEntity):
     quest_check_types = ["UseInventoryItem", "GiveItemOr", "CompleteItemCount"]

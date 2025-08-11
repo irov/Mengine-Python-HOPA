@@ -6,8 +6,6 @@ from Foundation.SystemManager import SystemManager
 from Foundation.Task.MixinScene import MixinScene
 from HOPA.HintManager import HintManager
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 class HintAction(MixinScene, Params, Initializer):
     def __init__(self):

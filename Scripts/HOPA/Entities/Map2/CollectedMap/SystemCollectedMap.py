@@ -1,11 +1,8 @@
 from Foundation.System import System
-from Notification import Notification
 
 from CollectedMapManager import CollectedMapManager
 
-
 class SystemCollectedMap(System):
-
     def __init__(self):
         super(SystemCollectedMap, self).__init__()
         self.onCollectedMapAddObserver = None

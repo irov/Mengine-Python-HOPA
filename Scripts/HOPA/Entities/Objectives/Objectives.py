@@ -2,11 +2,8 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ObjectiveManager import ObjectiveManager
-from Notification import Notification
-
 
 class Objectives(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

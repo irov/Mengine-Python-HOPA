@@ -3,14 +3,10 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
 
-
 class HOG(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

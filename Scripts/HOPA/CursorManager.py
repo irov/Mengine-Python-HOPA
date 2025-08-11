@@ -8,8 +8,6 @@ from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
 from Foundation.TaskManager import TaskManager
 from HOPA.QuestManager import QuestManager
-from Notification import Notification
-
 
 class CursorManager(Manager):
     s_block_Cursore_Update_in_Puzzle = False

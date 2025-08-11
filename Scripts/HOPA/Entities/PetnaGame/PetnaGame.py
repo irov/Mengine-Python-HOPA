@@ -1,15 +1,11 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.PetnaGameManager import PetnaGameManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
 
 import math
 
-
 class PetnaGame(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

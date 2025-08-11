@@ -1,13 +1,9 @@
 from Foundation.Initializer import Initializer
+from Notification import Notification
 from HOPA.Prefetcher.PrefetchScope import PrefetchScope
 from HOPA.ZoomManager import ZoomManager
-from Notification import Notification
-
 
 DEBUG_MODE = True
-
-
-# debug
 
 # debug
 def dumpPrefetch(prefetch):
@@ -16,7 +12,6 @@ def dumpPrefetch(prefetch):
         print(group)
         pass
     pass
-
 
 class Prefetcher(Initializer):
     def __init__(self):
@@ -38,7 +33,6 @@ class Prefetcher(Initializer):
         # for debug
         if DEBUG_MODE is False:
             return
-            pass
 
         self.onKeyEventObserver = Notification.addObserver(Notificator.onKeyEvent, self.__onKeyEvent)
         pass
@@ -54,7 +48,6 @@ class Prefetcher(Initializer):
         # for debug
         if DEBUG_MODE is False:
             return
-            pass
 
         Notification.removeObserver(self.onKeyEventObserver)
         pass
@@ -94,21 +87,17 @@ class Prefetcher(Initializer):
 
         self.currentPrefetchScope = newPrefetchScope
         return False
-        pass
 
     def _getPrefetchIntersect(self, prefetchScope1, prefetchScope2):
         intersectPrefetch = prefetchScope1.getIntersection(prefetchScope2)
         return intersectPrefetch
-        pass
 
     def _getPrefetchDifference(self, prefetchScope1, prefetchScope2):
         diffPrefetch = prefetchScope1.getDifference(prefetchScope2)
         return diffPrefetch
-        pass
 
     def __onSceneLeave(self, sceneName):
         return False
-        pass
 
     #    def __onObjectEnable(self,object):
     #        type = object.getType()
@@ -130,19 +119,16 @@ class Prefetcher(Initializer):
     def __onZoomBlockOpen(self, object, value):
         if value is True:
             return False
-            pass
 
         group = object.getGroup()
         sceneName = group.getSceneName()
 
         if self.currentPrefetchScope.getSceneName() != sceneName:
             return False
-            pass
 
         enable = object.getParam("Enable")
         if enable is False:
             return False
-            pass
 
         ZoomGroupName = ZoomManager.getZoomGroupName(object)
 
@@ -150,40 +136,33 @@ class Prefetcher(Initializer):
         self._loadPrefetch(self.currentPrefetchScope)
         # debug
         return False
-        pass
 
     def __onTransitionBlockOpen(self, object, value):
         if value is True:
             return False
-            pass
 
         group = object.getGroup()
         sceneName = group.getSceneName()
 
         if self.currentPrefetchScope.getSceneName() != sceneName:
             return False
-            pass
 
         enable = object.getParam("Enable")
         if enable is False:
             return False
-            pass
 
         sceneTo = TransitionManager.getTransitionSceneTo(object)
         if self.currentPrefetchScope.isNeighbor(sceneTo):
             return
-            pass
 
         self.currentPrefetchScope.addGroupsFromScene(sceneTo)
         self._loadPrefetch(self.currentPrefetchScope)
 
         return False
-        pass
 
     def __onKeyEvent(self, key, x, y, isDown, isRepeating):
         if isDown != 1:
             return False
-            pass
 
         if key == Mengine.KC_S:
             for group in self.groupsTrace.itervalues():
@@ -194,7 +173,6 @@ class Prefetcher(Initializer):
             pass
 
         return False
-        pass
 
     ##################################################################
 
@@ -202,7 +180,6 @@ class Prefetcher(Initializer):
     def __addToHistory(self, prefetchScope):
         if DEBUG_MODE is False:
             return
-            pass
 
         groups = prefetchScope.getGroupsList()
         for group in groups:
@@ -230,4 +207,3 @@ class Prefetcher(Initializer):
     def _isCompletePrefetch(self, prefetchScope):
         state = prefetchScope.isComplete()
         return state
-        pass

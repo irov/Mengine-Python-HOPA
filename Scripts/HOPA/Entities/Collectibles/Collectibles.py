@@ -5,13 +5,10 @@ from Foundation.SystemManager import SystemManager
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager
-from Notification import Notification
-
 
 FADE_TIME = DefaultManager.getDefaultFloat("CollectiblesSceneTextFade", 300.0)
 ALIAS_COUNT = '$AliasCollectiblesCount'
 TEXT_ID_COUNT = 'ID_COLLECTIBLES_COUNT'
-
 
 class CollectibleInfoPlate(object):
     def __init__(self, button_plate, movie_plate_content, movie_open, movie_close):

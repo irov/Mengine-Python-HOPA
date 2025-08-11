@@ -2,8 +2,6 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from HOPA.MenuHelpManager import MenuHelpManager
-from Notification import Notification
-
 
 class MenuHelp(BaseEntity):
     def __init__(self):

@@ -1,12 +1,9 @@
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
 
 from Field import Field
 from PlumberManager import PlumberManager
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class Plumber(Enigma):
     def __init__(self):

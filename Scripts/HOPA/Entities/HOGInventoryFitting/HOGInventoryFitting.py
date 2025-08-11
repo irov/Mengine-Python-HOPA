@@ -2,14 +2,11 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryBase import InventoryBase
 from HOPA.HOGFittingItemManager import HOGFittingItemManager
-from Notification import Notification
-
 
 InventoryBase = Mengine.importEntity("InventoryBase")
 
 ALPHA_TIME = 200.0
 TC_ZOOM_ALPHA_NAME = "HOGFittingZoomAlpha"
-
 
 class InventoryFittingSlot(object):
     def __init__(self, slotID, SocketName, hotspot, MovieSlot, inventoryObject):

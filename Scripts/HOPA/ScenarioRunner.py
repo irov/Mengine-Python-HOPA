@@ -1,6 +1,4 @@
 from Foundation.Initializer import Initializer
-from Notification import Notification
-
 
 class ScenarioRunner(Initializer):
     class MacroCommandHandler(object):

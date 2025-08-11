@@ -1,6 +1,4 @@
 from Foundation.Entity.BaseEntity import BaseEntity
-from Notification import Notification
-
 
 class InventoryItem(BaseEntity):
     ITEM_STORE = 0

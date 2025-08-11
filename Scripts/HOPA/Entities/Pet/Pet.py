@@ -2,13 +2,10 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
-from Notification import Notification
 
 from MovieChanger import MovieChanger
 
-
 class Pet(BaseEntity):
-
     def __init__(self):
         super(Pet, self).__init__()
         self.taken = False

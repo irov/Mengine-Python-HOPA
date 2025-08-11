@@ -4,11 +4,8 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
-
 
 class PuzzleButtons(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

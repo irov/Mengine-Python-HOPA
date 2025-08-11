@@ -1,9 +1,7 @@
 from Foundation.System import System
 from HOPA.Object.ObjectHOGRolling import ObjectHOGRolling
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardsHogClickCount(System):
     def _onParams(self, params):

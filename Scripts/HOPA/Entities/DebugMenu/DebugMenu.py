@@ -8,12 +8,9 @@ from HOPA.ScenarioChapter import ScenarioChapter
 from HOPA.ScenarioManager import ScenarioManager
 from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
-from Notification import Notification
 from SystemDebugMenu import SystemDebugMenu
 
-
 class DebugMenu(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

@@ -1,6 +1,4 @@
 from Foundation.Task.TaskAlias import TaskAlias
-from Notification import Notification
-
 
 class AliasBombGameBombRotate(TaskAlias):
     def __init__(self):

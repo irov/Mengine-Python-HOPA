@@ -1,7 +1,5 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.OrderMatchesManager import OrderMatchesManager
-from Notification import Notification
-
 
 class OrderMatchesElementSource(object):
     def __init__(self, stateObjectObject):
@@ -17,7 +15,6 @@ class OrderMatchesElementSource(object):
 
     def setWait(self):
         self.stateObject.setCurrentState("Wait")
-
 
 class OrderMatchesElementDestination(object):
     def __init__(self, elementType, stateObjectObject, socketObject, movButtonName, MovieButtonGroup):

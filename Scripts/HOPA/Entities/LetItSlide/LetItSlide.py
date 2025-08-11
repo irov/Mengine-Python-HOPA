@@ -1,12 +1,8 @@
-from Notification import Notification
-
 from Field import Field
 from LetItSlideElement import LetItSlideElement
 from LetItSlideManager import LetItSlideManager
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class LetItSlide(Enigma):
     def __init__(self):

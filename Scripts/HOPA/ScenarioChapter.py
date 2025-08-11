@@ -1,7 +1,5 @@
 from Foundation.Initializer import Initializer
 from Foundation.Notificator import Notificator
-from Notification import Notification
-
 
 class ScenarioChapter(Initializer):
     def __init__(self):

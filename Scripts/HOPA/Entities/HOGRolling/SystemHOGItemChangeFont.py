@@ -2,8 +2,6 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.System import System
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 class SystemHOGItemChangeFont(System):
     def _onParams(self, params):

@@ -1,8 +1,6 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
-
 
 class SystemExtrasEnigma(System):
     def __init__(self):

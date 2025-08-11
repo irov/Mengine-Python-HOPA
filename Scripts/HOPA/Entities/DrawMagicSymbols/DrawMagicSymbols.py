@@ -4,15 +4,12 @@ from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.DrawMagicSymbolsManager import DrawMagicSymbolsManager
 from Holder import Holder
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
 
 ENIGMA_NAME_HOLDER = Holder()
 
 MSG_SYMBOL_MOVIE_SOCKET_404 = "Enigma DrawMagicSymbols '{}' error in create Symbol instance: not found socket {} in movie {}"
-
 
 class BackgroundTimer(object):
     " Implement live background with timer == (background_animation_duration * f_timer_scale) for timer chalange in mg"

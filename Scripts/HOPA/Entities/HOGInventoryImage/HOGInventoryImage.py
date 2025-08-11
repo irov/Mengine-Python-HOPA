@@ -4,8 +4,6 @@ from Foundation.Entity.BaseEntity import BaseEntity
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGImageManager import HOGImageManager
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 class HOGInventorySlot(object):
     def __init__(self):

@@ -1,8 +1,6 @@
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.Manager import Manager
 from Foundation.SceneManager import SceneManager
-from Notification import Notification
-
 
 class StageManager(Manager):
     s_stages = {}

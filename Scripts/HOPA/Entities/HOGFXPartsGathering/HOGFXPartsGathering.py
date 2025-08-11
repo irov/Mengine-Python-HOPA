@@ -1,11 +1,8 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 from HOPA.HOGManager import HOGManager
-from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
-
 
 class HOGFXPartsGathering(Enigma):
     @staticmethod

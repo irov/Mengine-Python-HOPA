@@ -1,8 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
-from Notification import Notification
 
 from Journal2Manager import Journal2Manager
-
 
 class Journal2(BaseEntity):
     @staticmethod

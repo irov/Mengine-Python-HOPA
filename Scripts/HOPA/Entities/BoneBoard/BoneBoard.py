@@ -5,14 +5,12 @@ from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.HintManager import HintManager
 from HOPA.ItemManager import ItemManager
-from Notification import Notification
 
 from BoneBoardManager import BoneBoardManager
 from BoneHelpChainManager import BoneHelpChainManager
 from BoneHelper import HelpChain, CasualHelper
 from BoneItem import BoneItem
 from BoneMinds import BoneMinds
-
 
 class BoneBoard(BaseEntity):
     CASUAL_HELP = "Movie_CasualHelper"

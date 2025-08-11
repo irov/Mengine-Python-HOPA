@@ -4,8 +4,6 @@ from Foundation.DatabaseManager import DatabaseManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
-
 
 class FanManager(Manager):
     s_fans = {}

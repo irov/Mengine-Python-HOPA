@@ -1,9 +1,7 @@
 from Foundation.System import System
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardsEnigmaTime(System):
     def _onParams(self, params):

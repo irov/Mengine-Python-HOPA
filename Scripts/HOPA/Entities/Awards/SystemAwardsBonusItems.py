@@ -1,9 +1,7 @@
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
 
 from AwardsManager import AwardsManager
-
 
 class SystemAwardsBonusItems(System):
     def _onParams(self, params):
