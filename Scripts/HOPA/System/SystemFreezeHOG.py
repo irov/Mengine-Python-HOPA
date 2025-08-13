@@ -17,7 +17,7 @@ class SystemFreezeHOG(System):
         self.addObserver(Notificator.onMovieSocketClick, self.__cbClearFailCounter)
         self.addObserver(Notificator.onMovie2ButtonClick, self.__cbClearFailCounter)
         self.addObserver(Notificator.onSocketClick, self.__cbSocketClick)
-        self.addObserver(Notificator.onNodeSocketClickSuccessful, self.__cbSocketClick)
+        self.addObserver(Notificator.onNodeSocketClickSuccess, self.__cbSocketClick)
 
         return True
 
