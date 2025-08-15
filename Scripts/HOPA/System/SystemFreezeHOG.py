@@ -35,6 +35,6 @@ class SystemFreezeHOG(System):
         self.semaphore.setValue(True)
         return False
 
-    def __cbClearFailCounter(self, item, *args):
+    def __cbClearFailCounter(self, item=None, *args):
         self.semaphore.setValue(True)
         return False
