@@ -36,7 +36,7 @@ class SystemEnergy(System):
     in_free_mode = False        # consume method always return True if free mode is True
     in_infinity_mode = False    # free mode, but shows it for user
 
-    s_paid_enigmas = SecureStringValue("EnergyPaidEnigmas", "")
+    s_paid_enigmas = None
 
     def __init__(self):
         super(SystemEnergy, self).__init__()
@@ -54,6 +54,8 @@ class SystemEnergy(System):
     def _onInitialize(self):
         if Mengine.getConfigBool("Energy", "Enable", False) is False:
             return
+
+        s_paid_enigmas = SecureStringValue("EnergyPaidEnigmas", "")
 
         settings = {
             "enable": True,
@@ -83,6 +85,7 @@ class SystemEnergy(System):
     def _onFinalize(self):
         self.removeTimer()
         self.__remDevToDebug()
+        s_paid_enigmas = None
 
     def _onRun(self):
         if Mengine.hasTouchpad() is False:

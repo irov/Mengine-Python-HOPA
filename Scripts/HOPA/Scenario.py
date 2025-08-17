@@ -753,7 +753,7 @@ class Scenario(object):
         try:
             self.__onGeneratorParagraphs(paragraphs_source, ScenarioRunner, ScenarioChapter)
         except TaskGeneratorException as ex:
-            Trace.log("Manager", 0, "Scenario invalid generate paragraphs: %s", ex)
+            Trace.log_exception("Manager", 0, "Scenario invalid generate paragraphs: %s", ex)
 
             return False
             pass
@@ -766,7 +766,7 @@ class Scenario(object):
         try:
             self.__onGeneratorRepeats(repeats_source, ScenarioRunner, ScenarioChapter)
         except TaskGeneratorException as ex:
-            Trace.log("Manager", 0, "Scenario invalid generate repeats paragraphs: %s", ex)
+            Trace.log_exception("Manager", 0, "Scenario invalid generate repeats paragraphs: %s", ex)
 
             return False
             pass

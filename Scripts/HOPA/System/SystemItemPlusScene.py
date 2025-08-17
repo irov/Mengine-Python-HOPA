@@ -211,12 +211,14 @@ class SystemItemPlusScene(System):
 
                 for ScenarioRunner in Scenarios:
                     ScenarioRunner.skip()
+                    pass
 
                 Notification.notify(Notificator.onSceneLeave, ScenePlus)
 
                 SystemItemPlusScene.Open_Zoom = None
 
                 # print 'ItemPlus Fix Fired'
+                pass
 
         if SceneManager.hasLayerScene(self.ItemPlusInventoryName) is False:
             return False
@@ -278,9 +280,10 @@ class SystemItemPlusScene(System):
 
         GroupZoom = SystemItemPlusScene.Open_Zoom[0]
         ScenePlus = SystemItemPlusScene.Open_Zoom[1]
-        SystemItemPlusScene.Open_Zoom = None
 
         self._CloseZoomEnd(GroupZoom, ScenePlus, *args)
+
+        SystemItemPlusScene.Open_Zoom = None
 
         return False
 
@@ -451,8 +454,7 @@ class SystemItemPlusScene(System):
             with GuardBlockInput(source_close) as guard_close:
                 # close effect
                 with guard_close.addParallelTask(4) as (tc_fade, tc_move, tc_scale, tc_alpha):
-                    tc_fade.addTask("AliasFadeOut", FadeGroupName=self.ItemPlusFadeGroup, Time=fade_time,
-                                    From=self.ItemPlusFadeValue)
+                    tc_fade.addTask("AliasFadeOut", FadeGroupName=self.ItemPlusFadeGroup, Time=fade_time, From=self.ItemPlusFadeValue)
 
                     tc_move.addTask(task_node_move_to, Node=self.Node_Fade, To=point, Time=move_tome)
 
@@ -466,10 +468,10 @@ class SystemItemPlusScene(System):
                     guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
 
                 else:  # if no remove item from inventory, then clean itemPlus
-                    guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
-
                     for ScenarioRunner in Scenarios:
                         guard_close.addFunction(ScenarioRunner.skip)
+
+                    guard_close.addFunction(self._Clear_ScenePlus, GroupZoom)
 
                 guard_close.addNotify(Notificator.onSceneLeave, ScenePlus)
 

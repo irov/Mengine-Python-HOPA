@@ -135,9 +135,7 @@ class ScenarioRunner(Initializer):
                     return False
                     pass
             except Exception as ex:
-                traceback.print_exc()
-
-                Trace.log("Manager", 0, "ScenarioRunner.run: SceneName '%s' GroupName '%s' except run task chain: %s" % (self.SceneName, self.GroupName, ex))
+                Trace.log_exception("Manager", 0, "ScenarioRunner.run: SceneName '%s' GroupName '%s' except run task chain: %s" % (self.SceneName, self.GroupName, ex))
 
                 return False
                 pass

@@ -93,7 +93,7 @@ class MacroManager(Manager):
             Module = __import__(ModuleName, fromlist=[FromName])
             Type = getattr(Module, commandType)
         except ImportError as ex:
-            Trace.log("Manager", 0, "invalid import macro command %s command name %s type %s except error: %s", module, commandName, commandType, ex)
+            Trace.log_exception("Manager", 0, "invalid import macro command %s command name %s type %s except error: %s", module, commandName, commandType, ex)
 
             return False
             pass

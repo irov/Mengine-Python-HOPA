@@ -134,7 +134,7 @@ class CursorManager(Manager):
         try:
             Module = __import__(ModuleName, fromlist=[FromName])
         except ImportError as ex:
-            Trace.log("System", 0, "CursorManager.importCursorCheck: invalid import module '%s' from '%s' ex '%s'" % (Name, FromName, ex))
+            Trace.log_exception("System", 0, "CursorManager.importCursorCheck: invalid import module '%s' from '%s' ex '%s'" % (Name, FromName, ex))
             return None
 
         cursorCheckAction = getattr(Module, Name)

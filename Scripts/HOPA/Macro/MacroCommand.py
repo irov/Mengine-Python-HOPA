@@ -86,8 +86,8 @@ class MacroCommand(Initializer):
         except Exception as ex:
             traceback.print_exc()
 
-            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) params %s ERROR: %s" %
-                                  (self.CommandType, self.GroupName, self.Index, params, ex))
+            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) params %s ERROR: %s" %(self.CommandType, self.GroupName, self.Index, params, ex))
+            pass
 
     def _onParams(self, params):
         self.GroupName = params["GroupName"]
@@ -99,8 +99,8 @@ class MacroCommand(Initializer):
         except Exception as ex:
             traceback.print_exc()
 
-            Trace.log("Command", 0, "MacroCommand '%s' Group '%s' index %d values %s ERROR: '%s'" % (
-                self.CommandType, self.GroupName, self.Index, values, ex))
+            Trace.log("Command", 0, "MacroCommand '%s' Group '%s' index %d values %s ERROR: '%s'" % (self.CommandType, self.GroupName, self.Index, values, ex))
+            pass
 
     def _onValues(self, values):
         pass
