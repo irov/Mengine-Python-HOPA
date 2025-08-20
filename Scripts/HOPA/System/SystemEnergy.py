@@ -55,7 +55,7 @@ class SystemEnergy(System):
         if Mengine.getConfigBool("Energy", "Enable", False) is False:
             return
 
-        s_paid_enigmas = SecureStringValue("EnergyPaidEnigmas", "")
+        SystemEnergy.s_paid_enigmas = SecureStringValue("EnergyPaidEnigmas", "")
 
         settings = {
             "enable": True,
@@ -85,7 +85,7 @@ class SystemEnergy(System):
     def _onFinalize(self):
         self.removeTimer()
         self.__remDevToDebug()
-        s_paid_enigmas = None
+        SystemEnergy.s_paid_enigmas = None
 
     def _onRun(self):
         if Mengine.hasTouchpad() is False:
