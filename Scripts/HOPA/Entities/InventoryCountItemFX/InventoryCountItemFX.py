@@ -115,6 +115,7 @@ class InventoryCountItemFX(InventoryItem):
         super(InventoryCountItemFX, self)._onFinalize()
 
         self._destroyMovies()
+        self._destroySubMovies()
         self._destroyTextField()
 
     # - admin logic ----------------------------------------------
@@ -159,6 +160,9 @@ class InventoryCountItemFX(InventoryItem):
             Mengine.destroyNode(movie)
 
         self.movies = {}
+
+    def _destroySubMovies(self):
+        self.submovies = {}
 
     def _initSubMovies(self):
         if self.current_movie is None:

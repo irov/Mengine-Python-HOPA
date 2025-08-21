@@ -468,6 +468,8 @@ class AmuletPowerButton(object):
     def cleanUp(self):
         self.disableShowInfoOnCursorHandler()
 
+        self.rune_submovies = {}
+
         for obj_movie in self.movies.values():
             obj_movie.onDestroy()
 

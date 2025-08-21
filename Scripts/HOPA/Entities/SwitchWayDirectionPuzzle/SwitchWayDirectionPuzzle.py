@@ -50,7 +50,8 @@ class SwitchWayDirectionPuzzle(Enigma):
             self.state = state
 
         def scopeChangeState(self, source, movie):
-            movie.entity.movie.getSubComposition(self.submovieName).setEnable(self.state)
+            sub_composition = movie.entity.movie.getSubComposition(self.submovieName)
+            sub_composition.setEnable(self.state)
 
             if self.state is True:
                 source.addTask('TaskSubMovie2Play', Movie2=movie, SubMovie2Name=self.submovieName)
