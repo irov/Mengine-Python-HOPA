@@ -1,14 +1,11 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.Entity.BaseScopeEntity import BaseScopeEntity
 from Foundation.TaskManager import TaskManager
 from Foundation.SystemManager import SystemManager
 from Foundation.SceneManager import SceneManager
 
-
-class AdvertisingScene(BaseEntity):
-
+class AdvertisingScene(BaseScopeEntity):
     def __init__(self):
         super(AdvertisingScene, self).__init__()
-        self.tc = None
         self.prev_scene_name = None
 
     @staticmethod
@@ -17,27 +14,18 @@ class AdvertisingScene(BaseEntity):
         Type.addAction(Type, "AdvertSceneName")
         Type.addAction(Type, "CacheNoAds")
 
-    def _onActivate(self):
-        self.__runTaskChain()
+    def _onScopeActivate(self, source):
+        source.addScope(self._scopeAds)
+
+        # ---- to use this task, set Bypass to False at object.runNextTransition method
+        # source.addTask("TaskTransitionUnblock", IsGameScene=False)
+        source.addDelay(1)
+        source.addFunction(self.object.runNextTransition)
+
         self.prev_scene_name = SceneManager.getPrevSceneName()
 
     def _onDeactivate(self):
         SceneManager.s_prevSceneName = self.prev_scene_name
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
-
-    def __runTaskChain(self):
-        self.tc = TaskManager.createTaskChain()
-
-        with self.tc as tc:
-            tc.addScope(self._scopeAds)
-
-            # ---- to use this task, set Bypass to False at object.runNextTransition method
-            # tc.addTask("TaskTransitionUnblock", IsGameScene=False)
-            tc.addDelay(1)
-
-            tc.addFunction(self.object.runNextTransition)
 
     def _scopeAds(self, source):
         if self.object.getParam("CacheNoAds") is True:
