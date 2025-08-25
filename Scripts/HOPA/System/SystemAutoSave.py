@@ -6,7 +6,7 @@ from Notification import Notification
 
 
 IGNORE_SAVE_SCENES = ["Advertising"]
-NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store"]
+NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store", "Advertising"]
 ALWAYS_SAVE_SCENES = ["CutScene"]
 
 SCHEDULE_NOT_ACTIVE = 0
