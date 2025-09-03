@@ -5,7 +5,6 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ZoomManager import ZoomManager
 
-
 class AliasTransition(TaskAlias):
     # Skiped = False
 
