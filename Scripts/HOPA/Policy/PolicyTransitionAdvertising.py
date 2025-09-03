@@ -2,6 +2,7 @@ from Foundation.Task.Task import Task
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from Foundation.DemonManager import DemonManager
+from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 
 class PolicyTransitionAdvertising(Task):
     PLACEMENT = "transition"
@@ -32,9 +33,7 @@ class PolicyTransitionAdvertising(Task):
             return True
 
         if __checkAdInterstitial(self.TransitionData, PolicyTransitionAdvertising.PLACEMENT) is False:
-            if Skip is False:
-                TaskManager.runAlias("AliasTransition", __cbTransition, Bypass=True, **self.TransitionData)
-                pass
+            TaskManager.runAlias("AliasTransition", __cbTransition, Bypass=True, **self.TransitionData)
             return False
 
         AdvertisingScene = DemonManager.getDemon("AdvertisingScene")
