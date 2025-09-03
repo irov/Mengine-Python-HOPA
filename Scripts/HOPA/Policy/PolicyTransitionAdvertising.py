@@ -6,6 +6,7 @@ from Foundation.DemonManager import DemonManager
 class PolicyTransitionAdvertising(Task):
     PLACEMENT = "transition"
     ADVERTISING_SCENE = "Advertising"
+    IGNORE_SCENES = ["CutScene", "Dialog"]
 
     def _onParams(self, params):
         self.TransitionData = params
@@ -15,7 +16,22 @@ class PolicyTransitionAdvertising(Task):
             self.complete(isSkiped=isSkip)
             pass
 
-        if self.__checkAdInterstitial(self.TransitionData, PolicyTransitionAdvertising.PLACEMENT) is False:
+        def __checkAdInterstitial(TransitionData, Placement):
+            if TransitionData.get("SceneName") in PolicyTransitionAdvertising.IGNORE_SCENES:
+                return False
+
+            if Placement is None:
+                return False
+
+            if AdvertisementProvider.hasInterstitialAdvert() is False:
+                return False
+
+            if AdvertisementProvider.canYouShowInterstitialAdvert(Placement) is False:
+                return False
+
+            return True
+
+        if __checkAdInterstitial(self.TransitionData, PolicyTransitionAdvertising.PLACEMENT) is False:
             if Skip is False:
                 TaskManager.runAlias("AliasTransition", __cbTransition, Bypass=True, **self.TransitionData)
                 pass
