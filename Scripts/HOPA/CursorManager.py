@@ -513,8 +513,8 @@ class CursorManager(Manager):
 
         if currentMovieGroup.getEnable() is False:
             if _DEVELOPMENT is True:
-                Trace.log("Manager", 0, "CursorManager.updateArrowCursor movie {!r} is not enable!!!"
-                          .format(currentMovie.getName()))
+                Trace.msg_warn("CursorManager.updateArrowCursor movie {!r} is not enable!!!"
+                               .format(currentMovie.getName()))
             return True
 
         # if TaskManager.existTaskChain("CursorShow"):
