@@ -45,7 +45,6 @@ class Splash(object):
 
 
 class SplashScreen(BaseEntity):
-
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)

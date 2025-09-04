@@ -15,12 +15,9 @@ class TaskSplashScreenPlay(MixinObserver, Task):
         self.SplashScreen.setParam("Play", True)
 
         return False
-        pass
 
     def _onPlaySplashScreens(self):
         self.SplashScreen.setParam("Play", False)
 
         return True
-        pass
-
     pass
