@@ -27,8 +27,7 @@ class ScenarioElement(object):
         sc_count_after = len(source.getSource())
 
         if sc_count == sc_count_after:
-            Trace.log("Macro", 0, "ScenarioElement.onGenerator %s:%d generator %s not add task!" % (
-            ScenarioRunner.Name, self.Index, self.CommandType))
+            Trace.log_dev_err("Macro", 0, "ScenarioElement.onGenerator %s:%d generator %s not add task!" % (ScenarioRunner.Name, self.Index, self.CommandType))
 
         if self.Repeat is False:
             source.addFunction(ScenarioRunner.endMacro, self.Index)
