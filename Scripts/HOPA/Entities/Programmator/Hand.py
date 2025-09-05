@@ -149,7 +149,7 @@ class Hand(object):
             return dump
             pass
 
-        def calls(bound_method):
+        def calls(self, bound_method):
             """
             print current run method
             """
@@ -331,7 +331,7 @@ class Hand(object):
         self.terminate = False
         pass
 
-    def calls(bound_method):
+    def calls(self, bound_method):
         """
         print current run method
         """
@@ -342,7 +342,7 @@ class Hand(object):
         return show
         pass
 
-    def term(bound_method):
+    def term(self, bound_method):
         def wrap(self, *args):
             if self.terminate is True:
                 return

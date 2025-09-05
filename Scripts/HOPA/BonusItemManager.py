@@ -68,7 +68,7 @@ class BonusItemManager(Manager):
             SceneObject = GroupManager.getObject(sceneGroupName, sceneObjectName)
             objType = SceneObject.getParam("Type")
             if objType != "Socket":
-                Trace.log("Manager", 0, "BonusItemManager.addItem %name: sceneObject invalid Type %s must be Socket" % (name, objType))
+                Trace.log("Manager", 0, "BonusItemManager.addItem name: %s sceneObject invalid Type %s must be Socket" % (name, objType))
                 pass
             pass
 

@@ -31,7 +31,7 @@ class MacroShowItem(MacroCommand):
                     pass
             else:
                 if self.hasObject(self.SocketName, params) is False:
-                    self.initializeFailed("Socket %s not found in group" % (self.SocketName, params["GroupName"]))
+                    self.initializeFailed("Socket %s not found in group %s" % (self.SocketName, params["GroupName"]))
                     pass
                 pass
             pass

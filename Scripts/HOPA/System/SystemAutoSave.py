@@ -1,5 +1,6 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.SessionManager import SessionManager
+from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 from Foundation.System import System
 from HOPA.StageManager import StageManager
 from Notification import Notification
@@ -52,6 +53,14 @@ class SystemAutoSave(System):
             return False
         elif cur_scene.getName() in NO_RESTART_FORCE_SAVE_SCENES:
             self.__cheatAutoSave()
+            return False
+
+        if AdvertisementProvider.isShowingInterstitialAdvert() is True:
+            self._schedule()
+            return False
+
+        if AdvertisementProvider.isShowingRewardedAdvert() is True:
+            self._schedule()
             return False
 
         def _cbRestart(scene, isActive, isError):

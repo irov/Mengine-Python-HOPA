@@ -34,21 +34,21 @@ class HintAction(MixinScene, Params, Initializer):
         P0 = Hint.getPoint()
         return P0
 
-    def appendInterruptCb(self, isSkip, __complete_cb, policy):
+    def appendInterruptCb(self, isSkip, cb, policy):
         if isSkip is False:
             self.appendInterrupt(policy)
         else:
             pass
 
-        __complete_cb(False)
+        cb(False)
 
-    def removeInterruptCb(self, isSkip, __complete_cb, policy):
+    def removeInterruptCb(self, isSkip, cb, policy):
         if isSkip is False:
             self.removeInterrupt(policy)
         else:
             pass
 
-        __complete_cb(False)
+        cb(False)
 
     def appendInterrupt(self, name):
         self.listInterrupt.append(name)
