@@ -30,15 +30,17 @@ class AliasTransition(TaskAlias):
         self.alphaFadeIn = 1
         self.alphaFadeOut = 1
 
-        self.timeFadeIn = DefaultManager.getDefaultFloat("TransitionFadeInTime", 0.15)
-        self.timeFadeIn *= 1000  # speed fix
-        self.timeFadeOut = DefaultManager.getDefaultFloat("TransitionFadeOutTime", 0.1)
-        self.timeFadeOut *= 1000  # speed fix
+        default_fade_in_time = DefaultManager.getDefaultFloat("TransitionFadeInTime", 0.15) * 1000
+        self.timeFadeIn = params.get("TimeFadeIn", default_fade_in_time)
+
+        default_fade_out_time = DefaultManager.getDefaultFloat("TransitionFadeOutTime", 0.1) * 1000
+        self.timeFadeOut = params.get("TimeFadeOut", default_fade_out_time)
 
         self.ZoomEffectTransitionObject = params.get("ZoomEffectTransitionObject", None)
         self.ZoomEffectTransitionBackObject = params.get("ZoomEffectTransitionBackObject", None)
 
-        self.ZoomEffectZoomFactor = DefaultManager.getDefaultFloat("TransitionZoomEffectFactor", 1.5)
+        default_zoom_effect_factor = DefaultManager.getDefaultFloat("TransitionZoomEffectFactor", 1.5)
+        self.ZoomEffectZoomFactor = params.get("ZoomEffectZoomFactor", default_zoom_effect_factor)
 
         default_in_easing = DefaultManager.getDefault("TransitionTweenIn", "easyLinear")
         self.easingIn = params.get("EasingIn", default_in_easing)
@@ -140,8 +142,7 @@ class AliasTransition(TaskAlias):
         with source.addFork() as fork:
             fork.addTask("TaskNodeSetPosition", Node=MainLayer, Value=point)
             fork.addTask("TaskNodeSetOrigin", Node=MainLayer, Value=point)
-            fork.addTask("TaskNodeScaleTo", Node=MainLayer, From=scale_from,
-                         To=cur_scale, Time=self.timeFadeOut, Easing=self.easingOut)
+            fork.addTask("TaskNodeScaleTo", Node=MainLayer, From=scale_from, To=cur_scale, Time=self.timeFadeOut, Easing=self.easingOut)
 
     def _onGenerate(self, source):
         CurrentSceneName = SceneManager.getCurrentSceneName()
@@ -174,17 +175,13 @@ class AliasTransition(TaskAlias):
                             Slot = SceneManager.getSceneDescription(CurrentSceneName)
                             if Slot.hasSlotsGroup("Fade") is True:
                                 FadeGroupName = Slot.getSlotsGroup("Fade")
-                                guard_source.addTask("AliasFadeIn", FadeGroupName=FadeGroupName,
-                                                     To=self.alphaFadeIn, Time=self.timeFadeIn)
+                                guard_source.addTask("AliasFadeIn", FadeGroupName=FadeGroupName, To=self.alphaFadeIn, Time=self.timeFadeIn)
                         else:
-                            guard_source.addEnable(self.MovieIn)
-                            guard_source.addTask("TaskMoviePlay", Movie=self.MovieIn, Wait=True, LastFrame=False)
-                            guard_source.addDisable(self.MovieIn)
+                            guard_source.addTask("TaskMoviePlay", Movie=self.MovieIn, AutoEnable=True, Wait=True, LastFrame=False)
 
                     guard_source.addTask("TaskSceneLeaving")
 
-            guard_source.addTask("TaskTransition", SceneName=self.SceneName, Wait=self.Wait,
-                                 SkipTaskChains=self.SkipTaskChains, CheckToScene=self.CheckToScene)
+            guard_source.addTask("TaskTransition", SceneName=self.SceneName, Wait=self.Wait, SkipTaskChains=self.SkipTaskChains, CheckToScene=self.CheckToScene)
 
             if self.ZoomGroupName is not None:
                 guard_source.addNotify(Notificator.onZoomForceOpen, self.ZoomGroupName)
@@ -213,9 +210,7 @@ class AliasTransition(TaskAlias):
                                                  # enable fade out from IDLE state (alpha=0)
                                                  ResetFadeCount=True)
                     else:
-                        guard_source.addEnable(self.MovieOut)
-                        guard_source.addTask("TaskMoviePlay", Movie=self.MovieOut, Wait=True, LastFrame=False)
-                        guard_source.addDisable(self.MovieOut)
+                        guard_source.addTask("TaskMoviePlay", Movie=self.MovieOut, AutoEnable=True, Wait=True, LastFrame=False)
 
         if self.Bypass is False:
             source.addTask("TaskTransitionBlock", Value=False, IsGameScene=GameScene)

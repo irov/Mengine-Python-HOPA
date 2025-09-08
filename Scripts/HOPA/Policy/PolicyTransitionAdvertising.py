@@ -33,14 +33,19 @@ class PolicyTransitionAdvertising(Task):
             return True
 
         if __checkAdInterstitial(self.TransitionData, PolicyTransitionAdvertising.PLACEMENT) is False:
-            TaskManager.runAlias("AliasTransition", __cbTransition, Bypass=True, **self.TransitionData)
+            TaskManager.runAlias("AliasTransition", __cbTransition, **self.TransitionData)
             return False
 
         AdvertisingScene = DemonManager.getDemon("AdvertisingScene")
         AdvertisingScene.setParam("TransitionData", self.TransitionData)
         AdvertisingScene.setParam("Placement", PolicyTransitionAdvertising.PLACEMENT)
 
-        AdvertisingTransitionData = dict(self.TransitionData, SceneName=PolicyTransitionAdvertising.ADVERTISING_SCENE)
+        #ToDo: Fix MovieIn
+        MovieIn = self.TransitionData.get("MovieIn")
+        ZoomEffectTransitionObject = self.TransitionData.get("ZoomEffectTransitionObject")
+        AdvertisingTransitionData = dict(SceneName=PolicyTransitionAdvertising.ADVERTISING_SCENE, MovieIn=MovieIn, ZoomEffectTransitionObject=ZoomEffectTransitionObject)
+
+        #AdvertisingTransitionData = dict(SceneName=PolicyTransitionAdvertising.ADVERTISING_SCENE)
 
         TaskManager.runAlias("AliasTransition", __cbTransition, **AdvertisingTransitionData)
 
