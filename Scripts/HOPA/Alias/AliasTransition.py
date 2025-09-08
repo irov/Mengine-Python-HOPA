@@ -2,6 +2,7 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
+from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ZoomManager import ZoomManager
 
@@ -181,7 +182,11 @@ class AliasTransition(TaskAlias):
 
                     guard_source.addTask("TaskSceneLeaving")
 
-            guard_source.addTask("TaskTransition", SceneName=self.SceneName, Wait=self.Wait, SkipTaskChains=self.SkipTaskChains, CheckToScene=self.CheckToScene)
+            PolicyAliasTransitionNormal = PolicyManager.getPolicy("AliasTransition", "PolicyAliasTransitionNormal")
+
+            guard_source.addTask(PolicyAliasTransitionNormal, SceneName=self.SceneName, Wait=self.Wait, SkipTaskChains=self.SkipTaskChains, CheckToScene=self.CheckToScene)
+
+
 
             if self.ZoomGroupName is not None:
                 guard_source.addNotify(Notificator.onZoomForceOpen, self.ZoomGroupName)

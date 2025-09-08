@@ -445,6 +445,8 @@ def onInitialize():
         , "PolicyEnergyClickItem"
 
         , "PolicyTransitionAdvertising"
+        , "PolicyAliasTransitionNormal"
+        , "PolicyAliasTransitionAdvertising"
     ]
 
     TaskManager.importTasks("HOPA.Policy", policies)

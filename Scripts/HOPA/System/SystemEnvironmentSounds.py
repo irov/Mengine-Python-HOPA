@@ -58,7 +58,7 @@ class SystemEnvironmentSounds(System):
                 Mengine.soundFadeIn(Sound, self.EnvironmentSoundFadeIn, self.easing, None)
                 pass
             else:
-                Trace.log("System", 0, "self.currentSounds.pop(SoundResource) get error")
+                Trace.log("System", 0, "self.currentSounds.pop({}) get error".format(SoundResource))
                 pass
             pass
 
@@ -77,14 +77,11 @@ class SystemEnvironmentSounds(System):
         for SoundResource in PlaySoundResources:
             if SoundResource is None:
                 continue
-                pass
 
             if SoundResource in self.currentSounds:
-                Sound = self.currentSounds.pop(SoundResource)
-                Mengine.soundStop(Sound)
-                pass
+                continue
 
-            Sound = Mengine.soundFadeOut(str(SoundResource), True, self.EnvironmentSoundFadeOut, self.easing, None)
+            Sound = Mengine.soundFadeOut(SoundResource, True, self.EnvironmentSoundFadeOut, self.easing, None)
 
             if Sound is None:
                 Trace.log("System", 0, "SystemEnvironmentSounds __onTransitionEnd Mengine.soundFadeOut error %s" % (SoundResource))
