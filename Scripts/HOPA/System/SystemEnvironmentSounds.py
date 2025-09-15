@@ -55,10 +55,12 @@ class SystemEnvironmentSounds(System):
                 Sound = self.currentSounds.pop(SoundResource)
 
                 def __stop(isEnd):
+                    Trace.fmsg("[SystemEnvironmentSounds] __stop {}", SoundResource)
+
                     Mengine.soundStop(Sound)
                     pass
 
-                Mengine.soundFadeIn(Sound, True, self.EnvironmentSoundFadeIn, self.easing, __stop)
+                Mengine.soundFadeIn(Sound, self.EnvironmentSoundFadeIn, self.easing, __stop)
                 pass
             else:
                 Trace.log("System", 0, "self.currentSounds.pop({}) get error".format(SoundResource))
@@ -74,9 +76,9 @@ class SystemEnvironmentSounds(System):
         OldSoundResources = [ORM.SoundResource for ORM in ORM_OldEnvironmentSound]
         NewSoundResources = [ORM.SoundResource for ORM in ORM_NewEnvironmentSound]
 
-        Trace.msg("[SystemEnvironmentSounds] OldSoundResources", OldSoundResources)
-        Trace.msg("[SystemEnvironmentSounds] NewSoundResources", NewSoundResources)
-        Trace.msg("[SystemEnvironmentSounds] CurrentSounds", self.currentSounds)
+        Trace.fmsg("[SystemEnvironmentSounds] OldSoundResources {}", str(OldSoundResources))
+        Trace.fmsg("[SystemEnvironmentSounds] NewSoundResources {}", str(NewSoundResources))
+        Trace.fmsg("[SystemEnvironmentSounds] CurrentSounds {}", str(self.currentSounds))
 
         PlaySoundResources = set(NewSoundResources) - set(OldSoundResources)
 
