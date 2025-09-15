@@ -27,9 +27,10 @@ class SystemEnvironmentSounds(System):
         self.addObserver(Notificator.onTransitionEnd, self.__onTransitionEnd)
 
         return True
-        pass
 
     def _onStop(self):
+        Trace.msg("[SystemEnvironmentSounds] STOP", self.currentSounds)
+
         for Sound in self.currentSounds.itervalues():
             Mengine.soundStop(Sound)
             pass
@@ -53,9 +54,11 @@ class SystemEnvironmentSounds(System):
             if SoundResource in self.currentSounds:
                 Sound = self.currentSounds.pop(SoundResource)
 
-                # print "SystemEnvironmentSounds __onTransitionBegin  FadeIn", SoundResource
+                def __stop(isEnd):
+                    Mengine.soundStop(Sound)
+                    pass
 
-                Mengine.soundFadeIn(Sound, self.EnvironmentSoundFadeIn, self.easing, None)
+                Mengine.soundFadeIn(Sound, True, self.EnvironmentSoundFadeIn, self.easing, __stop)
                 pass
             else:
                 Trace.log("System", 0, "self.currentSounds.pop({}) get error".format(SoundResource))
@@ -63,7 +66,6 @@ class SystemEnvironmentSounds(System):
             pass
 
         return False
-        pass
 
     def __onTransitionEnd(self, sceneFrom, sceneTo, zoomName):
         ORM_OldEnvironmentSound = DatabaseManager.select(self.ORM_EnvironmentSounds, SceneName=sceneFrom)
@@ -71,6 +73,10 @@ class SystemEnvironmentSounds(System):
 
         OldSoundResources = [ORM.SoundResource for ORM in ORM_OldEnvironmentSound]
         NewSoundResources = [ORM.SoundResource for ORM in ORM_NewEnvironmentSound]
+
+        Trace.msg("[SystemEnvironmentSounds] OldSoundResources", OldSoundResources)
+        Trace.msg("[SystemEnvironmentSounds] NewSoundResources", NewSoundResources)
+        Trace.msg("[SystemEnvironmentSounds] CurrentSounds", self.currentSounds)
 
         PlaySoundResources = set(NewSoundResources) - set(OldSoundResources)
 
