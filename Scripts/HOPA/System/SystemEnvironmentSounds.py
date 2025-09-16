@@ -29,7 +29,7 @@ class SystemEnvironmentSounds(System):
         return True
 
     def _onStop(self):
-        Trace.msg("[SystemEnvironmentSounds] STOP", self.currentSounds)
+        Trace.fmsg("[SystemEnvironmentSounds] STOP {}", self.currentSounds)
 
         for Sound in self.currentSounds.itervalues():
             Mengine.soundStop(Sound)
