@@ -51,20 +51,25 @@ class SystemEnvironmentSounds(System):
             if SoundResource is None:
                 continue
 
-            if SoundResource in self.currentSounds:
-                Sound = self.currentSounds.pop(SoundResource)
-
-                def __stop(isEnd):
-                    Trace.fmsg("[SystemEnvironmentSounds] __stop {}", SoundResource)
-
-                    Mengine.soundStop(Sound)
-                    pass
-
-                Mengine.soundFadeIn(Sound, self.EnvironmentSoundFadeIn, self.easing, __stop)
-                pass
-            else:
+            if SoundResource not in self.currentSounds:
                 Trace.log("System", 0, "self.currentSounds.pop({}) get error".format(SoundResource))
+
+                continue
+
+            Sound = self.currentSounds.pop(SoundResource)
+
+            def __stop(isEnd, SoundResource, Sound):
+                Trace.fmsg("[SystemEnvironmentSounds] __stop {} state {} end {}", SoundResource, Sound.getState(), isEnd)
+
+                state = Sound.getState()
+
+                if state == Mengine.ESS_STOP:
+                    return
+
+                Mengine.soundStop(Sound)
                 pass
+
+            Mengine.soundFadeOut(Sound, self.EnvironmentSoundFadeOut, self.easing, __stop, SoundResource, Sound)
             pass
 
         return False
@@ -89,10 +94,10 @@ class SystemEnvironmentSounds(System):
             if SoundResource in self.currentSounds:
                 continue
 
-            Sound = Mengine.soundFadeOut(SoundResource, True, self.EnvironmentSoundFadeOut, self.easing, None)
+            Sound = Mengine.soundFadeIn(SoundResource, True, self.EnvironmentSoundFadeIn, self.easing, None)
 
             if Sound is None:
-                Trace.log("System", 0, "SystemEnvironmentSounds __onTransitionEnd Mengine.soundFadeOut error %s" % (SoundResource))
+                Trace.log("System", 0, "SystemEnvironmentSounds __onTransitionEnd Mengine.soundFadeIn error %s" % (SoundResource))
                 continue
 
             self.currentSounds[SoundResource] = Sound
