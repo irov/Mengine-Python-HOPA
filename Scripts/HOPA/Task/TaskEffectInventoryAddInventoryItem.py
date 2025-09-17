@@ -363,7 +363,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             if _DEVELOPMENT is True:
                 Trace.log("Task", 0, "TaskEffectInventoryAddInventoryItem: not found slot for {} in {}".format(
                     InventoryItem.getName(), self.Inventory.getName()))
-            return
+            return None
 
         self.slot = slot
 

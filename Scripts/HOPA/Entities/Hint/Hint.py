@@ -887,3 +887,5 @@ class Hint(BaseEntity):
 
         if HintAction.onCheck():
             return HintAction
+
+        return None

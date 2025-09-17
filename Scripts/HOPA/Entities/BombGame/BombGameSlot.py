@@ -32,13 +32,12 @@ class BombGameSlot(object):
             if (self.SameCount <= 0):
                 self.Item = Item
                 self.SameCount = 0
-                return True;
-                pass
+                return True
             else:
                 self.SameCount = self.SameCount - 1
                 pass
             pass
-        return False;
+        return False
         pass
 
     def UpdateTypeVisual(self):

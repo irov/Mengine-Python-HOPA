@@ -20,7 +20,7 @@ class FreezeHOG(BaseEntity):
     def __runTaskChain(self):
         current_scene_name = SceneManager.getCurrentSceneName()
         if not GroupManager.hasObject(current_scene_name, "Socket_SocketFreeze"):
-            return False
+            return
 
         self.movie_freeze = self.object.getObject("Movie2_Freeze")
 

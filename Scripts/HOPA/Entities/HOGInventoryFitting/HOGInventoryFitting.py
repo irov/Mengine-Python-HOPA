@@ -47,7 +47,7 @@ class InventoryFittingSlot(object):
             return
 
         if Mengine.hasTouchpad() is True:
-            return True  # If player set cursor via touchpad over item - it will play effects - we need to block it
+            return
 
         if self.SlotIsFitting is False:
             Notification.notify(Notificator.onInventoryItemMouseLeave, self.ItemStore)

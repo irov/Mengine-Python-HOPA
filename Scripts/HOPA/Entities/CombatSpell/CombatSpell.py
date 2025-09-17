@@ -351,7 +351,7 @@ class CombatSpell(Enigma):
         pos3 = positions[2]
         posMidl = positions[3]
 
-        positionNear = 0;
+        positionNear = 0
 
         if (self.__PosLimitCheck(pos) is True):
             slot = self.slots[pos[0]][pos[1]]
