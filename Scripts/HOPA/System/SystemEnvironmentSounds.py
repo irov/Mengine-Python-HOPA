@@ -29,8 +29,6 @@ class SystemEnvironmentSounds(System):
         return True
 
     def _onStop(self):
-        Trace.fmsg("[SystemEnvironmentSounds] STOP {}", self.currentSounds)
-
         for Sound in self.currentSounds.itervalues():
             Mengine.soundStop(Sound)
             pass
@@ -59,8 +57,6 @@ class SystemEnvironmentSounds(System):
             Sound = self.currentSounds.pop(SoundResource)
 
             def __stop(isEnd, SoundResource, Sound):
-                Trace.fmsg("[SystemEnvironmentSounds] __stop {} state {} end {}", SoundResource, Sound.getState(), isEnd)
-
                 state = Sound.getState()
 
                 if state == Mengine.ESS_STOP:
@@ -83,10 +79,6 @@ class SystemEnvironmentSounds(System):
 
         OldSoundResources = [ORM.SoundResource for ORM in ORM_OldEnvironmentSound]
         NewSoundResources = [ORM.SoundResource for ORM in ORM_NewEnvironmentSound]
-
-        Trace.fmsg("[SystemEnvironmentSounds] OldSoundResources {}", str(OldSoundResources))
-        Trace.fmsg("[SystemEnvironmentSounds] NewSoundResources {}", str(NewSoundResources))
-        Trace.fmsg("[SystemEnvironmentSounds] CurrentSounds {}", str(self.currentSounds))
 
         PlaySoundResources = set(NewSoundResources) - set(OldSoundResources)
 
