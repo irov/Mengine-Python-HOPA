@@ -62,9 +62,6 @@ class SystemEnvironmentSounds(System):
                 if state == Mengine.ESS_STOP:
                     return
 
-                if state == Mengine.ESS_END:
-                    return
-
                 Mengine.soundStop(Sound)
                 pass
 
