@@ -1435,12 +1435,10 @@ def onInitialize():
         if isGlobal is True:
             return
 
-        Mengine.addCurrentAccountSetting("Default", u"False", None)
-
         def __onAccountChangeName(account_id, newName):
             Notification.notify(Notificator.onAccountChangeName, newName)
 
-        Mengine.addCurrentAccountSetting("Name", u"", __onAccountChangeName)
+        Mengine.addCurrentAccountSetting("Name", u"Player", __onAccountChangeName)
 
         Mengine.addCurrentAccountSetting("SlotID", u"", None)
 
@@ -1469,74 +1467,6 @@ def onInitialize():
         Mengine.addCurrentAccountSetting("GameComplete", u"False", None)
         Mengine.addCurrentAccountSetting("IsBonusChapter", u"0", None)
 
-        def __changeMute(account_id, value):
-            Mute = value == "True"
-            Mengine.soundMute(Mute)
-            Notification.notify(Notificator.onMute, Mute)
-
-        Mute = Mengine.isMute()
-        Mengine.addCurrentAccountSetting("Mute", unicode(Mute), __changeMute)
-
-        def __changeCursor(account_id, value):
-            Cursor = value == u"True"
-            if Cursor == Mengine.getCursorMode():
-                return
-            Mengine.setCursorMode(Cursor)
-
-        Cursor = Mengine.getCursorMode()
-
-        Mengine.addCurrentAccountSetting("Cursor", unicode(Cursor), __changeCursor)
-
-        def __changeCustomCursor(account_id, value):
-            is_custom_cursor = value == u"True"
-            Notification.notify(Notificator.onCustomCursor, is_custom_cursor)
-
-        Mengine.addCurrentAccountSetting("CustomCursor", u"True", __changeCustomCursor)
-
-        def __changeFullscreen(account_id, value):
-            Fullscreen = value == u"True"
-            if Fullscreen == Mengine.getFullscreenMode():
-                return
-            Mengine.setFullscreenMode(Fullscreen)
-
-        Fullscreen = Mengine.getFullscreenMode()
-
-        Mengine.addCurrentAccountSetting("Fullscreen", unicode(Fullscreen), __changeFullscreen)
-
-        def __changeWidescreen(account_id, value):
-            Widescreen = value == u"True"
-
-            if Widescreen == Mengine.getFixedDisplayResolution():
-                return
-
-            Mengine.setFixedDisplayResolution(Widescreen)
-
-        Widescreen = Mengine.getGameParamBool("Widescreen", Mengine.getFixedDisplayResolution())
-        Mengine.addCurrentAccountSetting("Widescreen", unicode(Widescreen), __changeWidescreen)
-
-        # - sound ---------------------------------------------------------
-        def __changeVoiceVolume(account_id, value):
-            volume = float(value)
-            Mengine.voiceSetVolume(volume)
-
-        VoiceVolume = Mengine.voiceGetVolume()
-        Mengine.addCurrentAccountSetting("VoiceVolume", unicode(VoiceVolume), __changeVoiceVolume)
-
-        def __changeMusicVolume(account_id, value):
-            volume = float(value)
-            Mengine.musicSetVolume(volume)
-            pass
-
-        MusicVolume = Mengine.musicGetVolume()
-        Mengine.addCurrentAccountSetting("MusicVolume", unicode(MusicVolume), __changeMusicVolume)
-
-        def __changeSoundVolume(account_id, value):
-            volume = float(value)
-            Mengine.soundSetVolume(volume)
-
-        SoundVolume = Mengine.soundGetVolume()
-        Mengine.addCurrentAccountSetting("SoundVolume", unicode(SoundVolume), __changeSoundVolume)
-
         # -----------------------------------------------------------------
 
         def __changeChapters(account_id, value):
@@ -1546,10 +1476,7 @@ def onInitialize():
         Chapters = 0
         Mengine.addCurrentAccountSetting("Chapters", unicode(Chapters), __changeChapters)
 
-        Mengine.addCurrentAccountSetting("Save", unicode(False), None)
-        Mengine.addCurrentAccountSetting("SessionSave", unicode(False), None)
-
-    AccountManager.setCreateAccount(accountSetuper)
+    AccountManager.addCreateAccountExtra(accountSetuper)
 
     HOGManager.importParamTypes("HOPA", Types)
 
@@ -1768,7 +1695,6 @@ def onInitialize():
 
     from Foundation.Managers import Managers
 
-    Managers.importManager("HOPA", "CursorManager")
     Managers.importManager("HOPA", "TransitionManager")
     Managers.importManager("HOPA", "ZoomManager")
     Managers.importManager("HOPA", "ChapterManager")
@@ -1798,7 +1724,6 @@ def onFinalize():
 
     from Foundation.Managers import Managers
 
-    Managers.removeManager("CursorManager")
     Managers.removeManager("TransitionManager")
     Managers.removeManager("ZoomManager")
     Managers.removeManager("ChapterManager")
