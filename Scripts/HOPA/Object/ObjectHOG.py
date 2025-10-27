@@ -6,7 +6,7 @@ class ObjectHOG(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "FoundItems")
+        Type.declareParam("FoundItems")
         pass
 
     def _onParams(self, params):

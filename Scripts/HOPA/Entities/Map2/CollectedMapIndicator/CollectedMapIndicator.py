@@ -9,8 +9,8 @@ class CollectedMapIndicator(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "CurrentValue", Update=CollectedMapIndicator.__updateCurrentValue)
-        Type.addActionActivate(Type, "CurrentCollectedMap")
+        Type.addActionActivate("CurrentValue", Update=CollectedMapIndicator.__updateCurrentValue)
+        Type.addActionActivate("CurrentCollectedMap")
         pass
 
     def __init__(self):

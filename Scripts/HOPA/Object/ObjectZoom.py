@@ -8,11 +8,11 @@ class ObjectZoom(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addParam(Type, "Polygon")
-        Type.addConst(Type, "HintPoint")
-        Type.addParam(Type, "Point")
-        Type.addParam(Type, "BlockOpen")
-        Type.addParam(Type, "End")
+        Type.declareParam("Polygon")
+        Type.declareConst("HintPoint")
+        Type.declareParam("Point")
+        Type.declareParam("BlockOpen")
+        Type.declareParam("End")
         pass
 
     def _onParams(self, params):

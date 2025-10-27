@@ -17,8 +17,8 @@ class TipItem(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "TipItem", Update=TipItem.__restoreTipItem)
-        Type.addAction(Type, "TipItemID", Update=TipItem.__updateTipItemID)
+        Type.addAction("TipItem", Update=TipItem.__restoreTipItem)
+        Type.addAction("TipItemID", Update=TipItem.__updateTipItemID)
         pass
 
     def __init__(self):

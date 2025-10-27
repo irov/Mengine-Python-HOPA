@@ -8,7 +8,7 @@ class ObjectGameStore(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "UnblockAdTimestamp")
+        Type.declareParam("UnblockAdTimestamp")
 
     def _onParams(self, params):
         super(ObjectGameStore, self)._onParams(params)

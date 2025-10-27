@@ -5,7 +5,7 @@ class ObjectClickOnChipsInTheRightOrder(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, 'finishFlag')
+        Type.declareParam('finishFlag')
 
     def _onParams(self, params):
         super(ObjectClickOnChipsInTheRightOrder, self)._onParams(params)

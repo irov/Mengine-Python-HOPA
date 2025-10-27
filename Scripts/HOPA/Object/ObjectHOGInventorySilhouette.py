@@ -6,11 +6,11 @@ class ObjectHOGInventorySilhouette(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "HOG")
+        Type.declareParam("HOG")
 
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "FindItems")
-        Type.addParam(Type, "FoundItems")
+        Type.declareParam("SlotCount")
+        Type.declareParam("FindItems")
+        Type.declareParam("FoundItems")
 
         pass
 

@@ -7,7 +7,7 @@ class ObjectColoringPuzzle(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "Mix")
+        Type.declareParam("Mix")
         pass
 
     def _onParams(self, params):

@@ -10,9 +10,9 @@ class Transition(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Polygon", Update=Transition._restorePolygon)
-        Type.addAction(Type, "HintPoint")
-        Type.addActionActivate(Type, "BlockOpen", Update=Transition.__updateBlockOpen)
+        Type.addAction("Polygon", Update=Transition._restorePolygon)
+        Type.addAction("HintPoint")
+        Type.addActionActivate("BlockOpen", Update=Transition.__updateBlockOpen)
         pass
 
     NotificatorTransitionEnterDict = {

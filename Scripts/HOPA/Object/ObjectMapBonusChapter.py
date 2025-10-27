@@ -6,11 +6,11 @@ class ObjectMapBonusChapter(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "OpenScenes")
-        Type.addParam(Type, "BlockedScenes")
-        Type.addParam(Type, "OpenHog")
-        Type.addParam(Type, "PlayedOpenHog")
-        Type.addParam(Type, 'CompletedScenes')
+        Type.declareParam("OpenScenes")
+        Type.declareParam("BlockedScenes")
+        Type.declareParam("OpenHog")
+        Type.declareParam("PlayedOpenHog")
+        Type.declareParam('CompletedScenes')
 
     def _onParams(self, params):
         super(ObjectMapBonusChapter, self)._onParams(params)

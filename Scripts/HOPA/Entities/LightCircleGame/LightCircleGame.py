@@ -163,7 +163,7 @@ class LightCircleGame(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "CirclesAngle")
+        Type.addAction("CirclesAngle")
         pass
 
     def __init__(self):

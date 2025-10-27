@@ -10,7 +10,7 @@ class PlanetGame(Enigma):
 
     @staticmethod
     def declareORM(Type):
-        Type.addActionActivate(Type, "Planets", Change=PlanetGame._changePlanetValue)
+        Type.addActionActivate("Planets", Change=PlanetGame._changePlanetValue)
         pass
 
     def __init__(self):

@@ -8,9 +8,9 @@ class MagicGlove(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Point")
-        Type.addActionActivate(Type, "Runes", Append=Type.__appendRune, Remove=Type.__delRune)
-        Type.addAction(Type, "State", Update=Type.__updateState)
+        Type.addAction("Point")
+        Type.addActionActivate("Runes", Append=Type.__appendRune, Remove=Type.__delRune)
+        Type.addAction("State", Update=Type.__updateState)
 
     def __appendRune(self, key, value):
         Notification.notify(Notificator.onRuneListChanges)

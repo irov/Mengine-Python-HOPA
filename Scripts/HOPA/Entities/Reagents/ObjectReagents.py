@@ -6,7 +6,7 @@ class ObjectReagents(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "OpenReagents")
+        Type.declareParam("OpenReagents")
         pass
 
     def _onParams(self, params):

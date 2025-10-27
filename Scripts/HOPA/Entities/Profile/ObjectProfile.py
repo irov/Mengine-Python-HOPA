@@ -6,9 +6,9 @@ class ObjectProfile(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Accounts")
-        Type.addParam(Type, "Current")
-        Type.addConst(Type, "MaxCount")
+        Type.declareParam("Accounts")
+        Type.declareParam("Current")
+        Type.declareConst("MaxCount")
         pass
 
     def _onParams(self, params):

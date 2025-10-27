@@ -66,7 +66,7 @@ class PolicyHOGRollingMovieItemFoundEffect(TaskAlias):
         elif HOGInventory.hasPrototype("Movie_CheckMark"):
             checkMarkEffect = HOGInventory.tryGenerateObjectUnique('CheckMark_{}'.format(self.HOGItemName), 'Movie_CheckMark')
         else:
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.log("Policy", 0, "Not found checkMarkEffect! Please add Movie_CheckMark or Movie2_CheckMark to %s" % HOGInventory.getName())
 
         if checkMarkEffect is not None:

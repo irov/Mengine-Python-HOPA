@@ -10,8 +10,8 @@ class Extras(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "CurrentLayer", Update=Extras._updateLayers)
-        Type.addAction(Type, "OpenedExtraNames", Append=Extras._appendNextExtra)
+        Type.addActionActivate("CurrentLayer", Update=Extras._updateLayers)
+        Type.addAction("OpenedExtraNames", Append=Extras._appendNextExtra)
         pass
 
     def __init__(self):

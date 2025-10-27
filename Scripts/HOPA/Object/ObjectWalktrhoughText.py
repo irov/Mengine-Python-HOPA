@@ -6,7 +6,7 @@ class ObjectWalktrhoughText(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Open")
+        Type.declareParam("Open")
         pass
 
     def _onParams(self, params):

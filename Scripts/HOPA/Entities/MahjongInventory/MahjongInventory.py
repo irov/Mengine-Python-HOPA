@@ -6,11 +6,11 @@ class MahjongInventory(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "EnigmaName")
-        Type.addAction(Type, "TextID", Update=MahjongInventory._updateTextMessage)
+        Type.addAction("EnigmaName")
+        Type.addAction("TextID", Update=MahjongInventory._updateTextMessage)
 
-        Type.addActionActivate(Type, "ItemsCount", Update=MahjongInventory._updateItemsAllCount)
-        Type.addActionActivate(Type, "FoundItems",
+        Type.addActionActivate("ItemsCount", Update=MahjongInventory._updateItemsAllCount)
+        Type.addActionActivate("FoundItems",
                                Append=MahjongInventory._appendFoundItems,
                                Update=MahjongInventory._updateFoundItems)
 

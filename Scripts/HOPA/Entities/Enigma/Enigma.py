@@ -11,14 +11,14 @@ class Enigma(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "Skiping")  # Enigma in skip state
-        Type.addActionActivate(Type, "Skipped")  # set to True if Enigma was Skipped
-        Type.addActionActivate(Type, "Play", Update=Enigma.__updatePlay)
-        Type.addActionActivate(Type, "Playing")
-        Type.addActionActivate(Type, "EnigmaName")
-        Type.addActionActivate(Type, "EnigmaParams")
-        Type.addActionActivate(Type, "Pause")
-        Type.addActionActivate(Type, "Complete")
+        Type.addActionActivate("Skiping")  # Enigma in skip state
+        Type.addActionActivate("Skipped")  # set to True if Enigma was Skipped
+        Type.addActionActivate("Play", Update=Enigma.__updatePlay)
+        Type.addActionActivate("Playing")
+        Type.addActionActivate("EnigmaName")
+        Type.addActionActivate("EnigmaParams")
+        Type.addActionActivate("Pause")
+        Type.addActionActivate("Complete")
 
     def __init__(self):
         super(Enigma, self).__init__()
@@ -142,7 +142,7 @@ class Enigma(BaseEntity):
 
     def __onEnigmaSkip(self):
         if self.object is None:
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.log("Entity", 0, "Enigma.__onEnigmaSkip: '{}'.object is None".format(self.getName()))
             return False
         if self.object.getPlay() is False:

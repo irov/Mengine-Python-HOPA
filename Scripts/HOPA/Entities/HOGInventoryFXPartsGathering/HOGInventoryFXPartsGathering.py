@@ -86,11 +86,11 @@ class HOGInventoryFXPartsGathering(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "HOG", Update=HOGInventoryFXPartsGathering._updateHOG)
-        Type.addActionActivate(Type, "FindItems",
+        Type.addAction("HOG", Update=HOGInventoryFXPartsGathering._updateHOG)
+        Type.addActionActivate("FindItems",
                                Append=HOGInventoryFXPartsGathering._appendFindItems,
                                Update=HOGInventoryFXPartsGathering._updateFindItems)
-        Type.addActionActivate(Type, "FoundItems",
+        Type.addActionActivate("FoundItems",
                                Append=HOGInventoryFXPartsGathering._appendFoundItems,
                                Update=HOGInventoryFXPartsGathering._updateFoundItems)
 

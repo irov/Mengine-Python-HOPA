@@ -5,7 +5,7 @@ class ObjectAchievements(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, 'PreviousSceneName')
+        Type.declareParam('PreviousSceneName')
 
     def _onParams(self, params):
         super(ObjectAchievements, self)._onParams(params)

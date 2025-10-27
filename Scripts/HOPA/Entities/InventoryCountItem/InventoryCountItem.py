@@ -10,15 +10,15 @@ class InventoryCountItem(InventoryItem):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems",
+        Type.addAction("FoundItems",
                        Update=InventoryItem._restoreFoundItems,
                        Append=InventoryCountItem._appendFoundItems,
                        Remove=InventoryItem._removeFoundItems)
 
-        Type.addAction(Type, "SpriteResourceName")
-        Type.addAction(Type, "ArrowPoint")
-        Type.addAction(Type, "SlotPoint")
-        Type.addAction(Type, "FontName")
+        Type.addAction("SpriteResourceName")
+        Type.addAction("ArrowPoint")
+        Type.addAction("SlotPoint")
+        Type.addAction("FontName")
 
     def __init__(self):
         super(InventoryCountItem, self).__init__()

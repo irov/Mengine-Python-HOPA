@@ -79,14 +79,14 @@ class HOGInventoryRolling(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "SlotCount")
-        Type.addAction(Type, "ItemsCount")
+        Type.addAction("SlotCount")
+        Type.addAction("ItemsCount")
 
-        Type.addAction(Type, "HOG")
-        Type.addActionActivate(Type, "FindItems",
+        Type.addAction("HOG")
+        Type.addActionActivate("FindItems",
                                Append=HOGInventoryRolling._appendFindItems,
                                Update=HOGInventoryRolling._updateFindItems)
-        Type.addActionActivate(Type, "FoundItems",
+        Type.addActionActivate("FoundItems",
                                Append=HOGInventoryRolling._appendFoundItems,
                                Update=HOGInventoryRolling._updateFoundItems)
 
@@ -105,7 +105,7 @@ class HOGInventoryRolling(InventoryBase):
     def _onPreparation(self):
         super(HOGInventoryRolling, self)._onPreparation()
 
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             if not self.object.hasObject("Movie2_SlotPoints"):
                 Trace.log("Entity", 0, "%s HOGInventoryRolling missed Movie2_SlotPoints " % self.object.getGroupName())
 

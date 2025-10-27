@@ -8,12 +8,12 @@ class ObjectFan(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "FindItems")
-        Type.addParam(Type, "Polygon")
-        Type.addParam(Type, "Open")
-        Type.addParam(Type, "Hint")
-        Type.addParam(Type, "HoldOpen")
+        Type.declareParam("FoundItems")
+        Type.declareParam("FindItems")
+        Type.declareParam("Polygon")
+        Type.declareParam("Open")
+        Type.declareParam("Hint")
+        Type.declareParam("HoldOpen")
         pass
 
     def _onParams(self, params):

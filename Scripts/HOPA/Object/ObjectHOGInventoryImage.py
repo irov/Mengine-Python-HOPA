@@ -6,12 +6,12 @@ class ObjectHOGInventoryImage(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "HOG")
-        Type.addParam(Type, "FindItems")
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "ItemsCount")
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "Slots")
+        Type.declareParam("HOG")
+        Type.declareParam("FindItems")
+        Type.declareParam("FoundItems")
+        Type.declareParam("ItemsCount")
+        Type.declareParam("SlotCount")
+        Type.declareParam("Slots")
         pass
 
     def _onParams(self, params):

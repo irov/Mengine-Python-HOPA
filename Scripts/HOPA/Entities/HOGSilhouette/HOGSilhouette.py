@@ -9,8 +9,8 @@ class HOGSilhouette(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "FoundItems")
-        Type.addAction(Type, "FindItems")
+        Type.addAction("FoundItems")
+        Type.addAction("FindItems")
         pass
 
     def __init__(self):

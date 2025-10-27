@@ -244,7 +244,7 @@ class SystemAchievements(System):
             return False
 
         achievement.setComplete(True)
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             Trace.msg("<SystemAchievements> external achieve {!r} [{}] is complete!".format(achievement_id, achievement.name))
 
         return False
@@ -272,7 +272,7 @@ class SystemAchievements(System):
         self.__sendAchievementToSteam(achievement)
 
         Notification.notify(Notificator.onAchievementProgress, "unlocked_achievements", 1)
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             Trace.msg("<SystemAchievements> {!r} is complete!".format(actual_achievement_name))
 
         return False

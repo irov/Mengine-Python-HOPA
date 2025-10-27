@@ -6,10 +6,10 @@ class ObjectSpell(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "CurrentState")
-        Type.addParam(Type, "IsValidUse")
-        Type.addParam(Type, "AtmosphericUse")
-        Type.addParam(Type, "HideState")
+        Type.declareParam("CurrentState")
+        Type.declareParam("IsValidUse")
+        Type.declareParam("AtmosphericUse")
+        Type.declareParam("HideState")
         pass
 
     def _onParams(self, params):

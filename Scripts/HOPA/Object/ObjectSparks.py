@@ -6,7 +6,7 @@ class ObjectSparks(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "State")
+        Type.declareParam("State")
 
     def _onParams(self, params):
         super(ObjectSparks, self)._onParams(params)

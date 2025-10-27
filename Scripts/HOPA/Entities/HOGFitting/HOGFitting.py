@@ -11,9 +11,9 @@ class HOGFitting(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addActionActivate(Type, "PrepareItems", Append=HOGFitting._appendPrepareItems)
-        Type.addActionActivate(Type, "Items", Append=HOGFitting._appendItems, Remove=HOGFitting._removeItems)
-        Type.addActionActivate(Type, "QueueItems", Append=HOGFitting._appendQueueItems)
+        Type.addActionActivate("PrepareItems", Append=HOGFitting._appendPrepareItems)
+        Type.addActionActivate("Items", Append=HOGFitting._appendItems, Remove=HOGFitting._removeItems)
+        Type.addActionActivate("QueueItems", Append=HOGFitting._appendQueueItems)
 
     def __init__(self):
         super(HOGFitting, self).__init__()

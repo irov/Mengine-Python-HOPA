@@ -6,7 +6,7 @@ class ObjectHOGFXPartsGathering(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "FoundItems")
+        Type.declareParam("FoundItems")
 
     def _onParams(self, params):
         super(ObjectHOGFXPartsGathering, self)._onParams(params)

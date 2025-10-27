@@ -18,7 +18,7 @@ class ResetPuzzle(BaseEntity):
 
         elif self.object.hasObject("MovieButton_Reset"):
             self.reset_button = self.object.getObject("MovieButton_Reset")
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.msg("<ResetPuzzle> You are using old version of Movie T_T. Pls, update button 'Reset'")
 
         else:

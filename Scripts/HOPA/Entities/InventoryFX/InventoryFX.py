@@ -263,15 +263,15 @@ class InventoryFX(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "InventoryItems",
+        Type.addActionActivate("InventoryItems",
                                Append=InventoryFX._appendInventoryItems,
                                Remove=InventoryFX._removeInventoryItems)
 
-        Type.addAction(Type, "SlotPoints")
-        Type.addAction(Type, "SlotCount")
-        Type.addActionActivate(Type, "CurrentSlotIndex", Update=InventoryFX._updateCurrentSlotIndex)
+        Type.addAction("SlotPoints")
+        Type.addAction("SlotCount")
+        Type.addActionActivate("CurrentSlotIndex", Update=InventoryFX._updateCurrentSlotIndex)
 
-        Type.addAction(Type, "SlotPolygon")
+        Type.addAction("SlotPolygon")
         pass
 
     def __init__(self):

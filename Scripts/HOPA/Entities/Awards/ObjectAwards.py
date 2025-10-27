@@ -6,8 +6,8 @@ class ObjectAwards(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Open")
-        Type.addParam(Type, "Count")
+        Type.declareParam("Open")
+        Type.declareParam("Count")
         pass
 
     def _onParams(self, params):

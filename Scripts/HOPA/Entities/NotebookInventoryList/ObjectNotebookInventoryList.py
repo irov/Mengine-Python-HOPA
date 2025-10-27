@@ -6,7 +6,7 @@ class ObjectNotebookInventoryList(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "OpenNotes")
+        Type.declareParam("OpenNotes")
         pass
 
     def _onParams(self, params):

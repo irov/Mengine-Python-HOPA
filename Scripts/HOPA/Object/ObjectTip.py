@@ -6,8 +6,8 @@ class ObjectTip(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "FixedPoint")
-        Type.addParam(Type, "PlayPolicy")
+        Type.declareParam("FixedPoint")
+        Type.declareParam("PlayPolicy")
         pass
 
     def _onParams(self, params):

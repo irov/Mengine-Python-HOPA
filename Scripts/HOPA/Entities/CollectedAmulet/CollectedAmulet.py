@@ -14,10 +14,10 @@ class CollectedAmulet(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "CurrentState", Update=CollectedAmulet.__updateCurrentState)
-        Type.addActionActivate(Type, "CurrentCount", Update=CollectedAmulet.__updateCurrentCount)
-        Type.addAction(Type, "Size")
-        Type.addAction(Type, "HintPoint")
+        Type.addActionActivate("CurrentState", Update=CollectedAmulet.__updateCurrentState)
+        Type.addActionActivate("CurrentCount", Update=CollectedAmulet.__updateCurrentCount)
+        Type.addAction("Size")
+        Type.addAction("HintPoint")
         pass
 
     def __init__(self):

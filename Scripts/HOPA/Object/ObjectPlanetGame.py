@@ -6,7 +6,7 @@ class ObjectPlanetGame(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "Planets")
+        Type.declareParam("Planets")
         pass
 
     def _onParams(self, params):

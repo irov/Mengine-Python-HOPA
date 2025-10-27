@@ -23,10 +23,10 @@ class Spell(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "CurrentState", Update=Spell.__updateCurrentState)
-        Type.addActionActivate(Type, "IsValidUse")
-        Type.addActionActivate(Type, "AtmosphericUse")
-        Type.addActionActivate(Type, "HideState", Update=Spell.__updateHideState)
+        Type.addActionActivate("CurrentState", Update=Spell.__updateCurrentState)
+        Type.addActionActivate("IsValidUse")
+        Type.addActionActivate("AtmosphericUse")
+        Type.addActionActivate("HideState", Update=Spell.__updateHideState)
         pass
 
     def __init__(self):

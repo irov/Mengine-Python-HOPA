@@ -6,10 +6,10 @@ class ObjectTrafficJam(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "PoleSize")
-        Type.addParam(Type, "CellWrap")
-        Type.addParam(Type, "CellPosition")
-        Type.addParam(Type, "Goal")
+        Type.declareParam("PoleSize")
+        Type.declareParam("CellWrap")
+        Type.declareParam("CellPosition")
+        Type.declareParam("Goal")
         pass
 
     def _onParams(self, params):

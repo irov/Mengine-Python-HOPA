@@ -8,9 +8,9 @@ class ObjectStore(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, 'CurrentPageID')
-        Type.addParam(Type, 'HiddenPagesID')
-        Type.addParam(Type, 'UnvisitedPagesID')
+        Type.declareParam('CurrentPageID')
+        Type.declareParam('HiddenPagesID')
+        Type.declareParam('UnvisitedPagesID')
 
     def _onParams(self, params):
         super(ObjectStore, self)._onParams(params)

@@ -24,9 +24,9 @@ class MagicVision(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "State", Update=MagicVision.stateUpdate)
-        Type.addAction(Type, "AllDoneScenes")
-        Type.addAction(Type, "BlockedScenes")
+        Type.addActionActivate("State", Update=MagicVision.stateUpdate)
+        Type.addAction("AllDoneScenes")
+        Type.addAction("BlockedScenes")
         pass
 
     def __init__(self):

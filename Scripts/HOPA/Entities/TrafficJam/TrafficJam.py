@@ -225,10 +225,10 @@ class TrafficJam(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "PoleSize")
-        Type.addAction(Type, "CellWrap")
-        Type.addAction(Type, "CellPosition")
-        Type.addAction(Type, "Goal")
+        Type.addAction("PoleSize")
+        Type.addAction("CellWrap")
+        Type.addAction("CellPosition")
+        Type.addAction("Goal")
         pass
 
     def __init__(self):

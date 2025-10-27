@@ -12,7 +12,7 @@ class Mahjong(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "FoundPairs", Append=Type._appendFoundPairs)
+        Type.addAction("FoundPairs", Append=Type._appendFoundPairs)
 
     def _appendFoundPairs(self, index, value):
         self.Inventory.appendParam("FoundItems", [value, ])

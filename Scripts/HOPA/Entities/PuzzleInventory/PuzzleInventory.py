@@ -6,8 +6,8 @@ class PuzzleInventory(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "TextID", Update=PuzzleInventory._updateTextID)
-        Type.addAction(Type, "EnigmaName")
+        Type.addAction("TextID", Update=PuzzleInventory._updateTextID)
+        Type.addAction("EnigmaName")
 
     def __init__(self):
         super(PuzzleInventory, self).__init__()

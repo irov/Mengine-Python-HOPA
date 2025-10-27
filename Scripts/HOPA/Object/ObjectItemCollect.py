@@ -5,13 +5,13 @@ class ObjectItemCollect(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, 'ItemCollectArea')
-        Type.addParam(Type, 'ItemsList')
-        # Type.addParam(Type, 'AreasCenter')
-        Type.addParam(Type, 'Radius')
-        Type.addParam(Type, 'DeviationAngle')
-        Type.addParam(Type, 'AttachItem')
-        Type.addParam(Type, 'PreAttach')
+        Type.declareParam('ItemCollectArea')
+        Type.declareParam('ItemsList')
+        # Type.declareParam('AreasCenter')
+        Type.declareParam('Radius')
+        Type.declareParam('DeviationAngle')
+        Type.declareParam('AttachItem')
+        Type.declareParam('PreAttach')
 
     def _onParams(self, params):
         super(ObjectItemCollect, self)._onParams(params)

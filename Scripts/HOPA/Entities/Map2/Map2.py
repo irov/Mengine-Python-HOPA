@@ -18,11 +18,11 @@ class Map2(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "OpenScenes", Append=Map2.__appendOpenScenes, Update=Map2.__updateOpenScenes)
-        Type.addActionActivate(Type, "BlockedScenes")
-        Type.addActionActivate(Type, "OpenHog")
-        Type.addActionActivate(Type, "PlayedOpenHog")
-        Type.addActionActivate(Type, "CompletedScenes")
+        Type.addActionActivate("OpenScenes", Append=Map2.__appendOpenScenes, Update=Map2.__updateOpenScenes)
+        Type.addActionActivate("BlockedScenes")
+        Type.addActionActivate("OpenHog")
+        Type.addActionActivate("PlayedOpenHog")
+        Type.addActionActivate("CompletedScenes")
 
     def __appendOpenScenes(self, index, scene_name):
         Map2Manager.s_open_scenes.append(scene_name)

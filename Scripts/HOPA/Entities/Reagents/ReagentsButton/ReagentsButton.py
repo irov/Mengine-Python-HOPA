@@ -6,7 +6,7 @@ class ReagentsButton(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "EnablePaper", Update=ReagentsButton._updateButton)
+        Type.addActionActivate("EnablePaper", Update=ReagentsButton._updateButton)
         pass
 
     def _updateButton(self, value):

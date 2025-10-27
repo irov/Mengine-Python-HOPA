@@ -7,8 +7,8 @@ class ObjectCirclePairElements(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "SaveNames")
-        Type.addParam(Type, "SaveCircles")
+        Type.declareParam("SaveNames")
+        Type.declareParam("SaveCircles")
         pass
 
     def _onParams(self, params):

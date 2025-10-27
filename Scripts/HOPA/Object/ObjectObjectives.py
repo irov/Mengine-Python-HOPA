@@ -6,7 +6,7 @@ class ObjectObjectives(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "ObjectivesList")
+        Type.declareParam("ObjectivesList")
         pass
 
     def _onParams(self, params):

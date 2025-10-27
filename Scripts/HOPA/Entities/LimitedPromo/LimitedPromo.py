@@ -18,8 +18,8 @@ class LimitedPromo(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "EndTimestamps")  # { tag: timestamp }
-        Type.addAction(Type, "ActivatedProducts")  # { prod_id: timestamp }
+        Type.addAction("EndTimestamps")  # { tag: timestamp }
+        Type.addAction("ActivatedProducts")  # { prod_id: timestamp }
 
     def __init__(self):
         super(LimitedPromo, self).__init__()

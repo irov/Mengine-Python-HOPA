@@ -6,14 +6,14 @@ class ObjectEnigma(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Play")
-        Type.addParam(Type, "Playing")
-        Type.addParam(Type, "Skiping")  # Enigma in skip state
-        Type.addParam(Type, "Skipped")  # set to True if Enigma was Skipped
-        Type.addParam(Type, "EnigmaName")
-        Type.addParam(Type, "EnigmaParams")
-        Type.addParam(Type, "Pause")
-        Type.addParam(Type, "Complete")
+        Type.declareParam("Play")
+        Type.declareParam("Playing")
+        Type.declareParam("Skiping")  # Enigma in skip state
+        Type.declareParam("Skipped")  # set to True if Enigma was Skipped
+        Type.declareParam("EnigmaName")
+        Type.declareParam("EnigmaParams")
+        Type.declareParam("Pause")
+        Type.declareParam("Complete")
 
     def _onParams(self, params):
         super(ObjectEnigma, self)._onParams(params)

@@ -6,9 +6,9 @@ class ObjectBalanceIndicator(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "ShowGold")
-        Type.addParam(Type, "ShowEnergy")
-        Type.addParam(Type, "ShowAdvertisement")
+        Type.declareParam("ShowGold")
+        Type.declareParam("ShowEnergy")
+        Type.declareParam("ShowAdvertisement")
 
     def _onParams(self, params):
         super(ObjectBalanceIndicator, self)._onParams(params)

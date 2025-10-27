@@ -6,12 +6,12 @@ class ObjectReloader(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addResource(Type, "ResourceMovieIdle")
-        Type.addResource(Type, "ResourceMovieBegin")
-        Type.addResource(Type, "ResourceMovieProcess")
-        Type.addResource(Type, "ResourceMovieEnd")
+        Type.declareResource("ResourceMovieIdle")
+        Type.declareResource("ResourceMovieBegin")
+        Type.declareResource("ResourceMovieProcess")
+        Type.declareResource("ResourceMovieEnd")
 
-        Type.addParam(Type, "Time")
+        Type.declareParam("Time")
         pass
 
     def _onParams(self, params):

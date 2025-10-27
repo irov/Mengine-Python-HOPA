@@ -8,9 +8,9 @@ class ObjectTransition(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addConst(Type, "Polygon")
-        Type.addConst(Type, "HintPoint")
-        Type.addParam(Type, "BlockOpen")
+        Type.declareConst("Polygon")
+        Type.declareConst("HintPoint")
+        Type.declareParam("BlockOpen")
         pass
 
     def _onParams(self, params):

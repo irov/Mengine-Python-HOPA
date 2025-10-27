@@ -6,7 +6,7 @@ class ObjectBonusItem(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addParam(Type, "ItemsCount")
+        Type.declareParam("ItemsCount")
         pass
 
     def _onParams(self, params):

@@ -5,7 +5,7 @@ class ObjectSameElements(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, "Collections")
+        Type.declareParam("Collections")
         pass
 
     def _onParams(self, params):

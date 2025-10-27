@@ -23,7 +23,7 @@ class BonusVideo(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "CurrentPageIndex")
+        Type.addAction("CurrentPageIndex")
 
     def __init__(self):
         super(BonusVideo, self).__init__()

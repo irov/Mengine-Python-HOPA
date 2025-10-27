@@ -10,8 +10,8 @@ class Awards(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "Open", Update=Awards.__updateOpen)
-        Type.addActionActivate(Type, "Count", Update=Awards.__updateCount)
+        Type.addActionActivate("Open", Update=Awards.__updateOpen)
+        Type.addActionActivate("Count", Update=Awards.__updateCount)
         pass
 
     def __init__(self):

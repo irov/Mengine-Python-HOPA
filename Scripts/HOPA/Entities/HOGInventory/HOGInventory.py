@@ -86,16 +86,16 @@ class HOGInventory(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "MaxItemTextWrap", Update=HOGInventory._restoreMaxItemTextWrap)
+        Type.addAction("MaxItemTextWrap", Update=HOGInventory._restoreMaxItemTextWrap)
 
-        Type.addAction(Type, "Wrap")
-        Type.addAction(Type, "MaxColumn")
-        Type.addAction(Type, "MaxRow")
+        Type.addAction("Wrap")
+        Type.addAction("MaxColumn")
+        Type.addAction("MaxRow")
 
-        Type.addAction(Type, "HOGName")
-        Type.addActionActivate(Type, "HOGItems", Update=HOGInventory._updateHOGItems)
+        Type.addAction("HOGName")
+        Type.addActionActivate("HOGItems", Update=HOGInventory._updateHOGItems)
 
-        Type.addAction(Type, "FoundItems", Append=HOGInventory._appendFoundItems)
+        Type.addAction("FoundItems", Append=HOGInventory._appendFoundItems)
         pass
 
     def __init__(self):

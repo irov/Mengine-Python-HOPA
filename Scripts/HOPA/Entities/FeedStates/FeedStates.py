@@ -12,7 +12,7 @@ class FeedStates(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "Saves")
+        Type.addAction("Saves")
 
     def __init__(self):
         super(FeedStates, self).__init__()

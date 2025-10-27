@@ -6,8 +6,8 @@ class ObjectZenElements(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "ItemParentMap")
-        Type.addParam(Type, "Frames")
+        Type.declareParam("ItemParentMap")
+        Type.declareParam("Frames")
         pass
 
     def _onParams(self, params):

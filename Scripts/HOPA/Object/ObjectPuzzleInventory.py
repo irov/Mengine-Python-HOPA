@@ -6,8 +6,8 @@ class ObjectPuzzleInventory(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "TextID")
-        Type.addParam(Type, "EnigmaName")
+        Type.declareParam("TextID")
+        Type.declareParam("EnigmaName")
 
     def _onParams(self, params):
         super(ObjectPuzzleInventory, self)._onParams(params)

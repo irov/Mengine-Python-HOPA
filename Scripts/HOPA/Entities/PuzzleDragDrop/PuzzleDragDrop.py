@@ -13,10 +13,10 @@ class PuzzleDragDrop(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "Items")
-        Type.addAction(Type, "Places")
-        Type.addAction(Type, "HoldItems")
-        Type.addAction(Type, "DisableItems")
+        Type.addAction("Items")
+        Type.addAction("Places")
+        Type.addAction("HoldItems")
+        Type.addAction("DisableItems")
         pass
 
     def __init__(self):

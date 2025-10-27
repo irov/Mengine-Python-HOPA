@@ -14,8 +14,8 @@ class Mana(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "ManaCount", Update=Mana.__updateManaCount)
-        Type.addActionActivate(Type, "HideState", Update=Mana.__updateHideState)
+        Type.addActionActivate("ManaCount", Update=Mana.__updateManaCount)
+        Type.addActionActivate("HideState", Update=Mana.__updateHideState)
         pass
 
     def __init__(self):

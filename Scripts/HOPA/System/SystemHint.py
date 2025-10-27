@@ -49,7 +49,7 @@ class SystemHint(System):
             StateManager.changeState("StateHintCharge", False)
             StateManager.changeState("StateHintReady", False)
 
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             def checkEditBox():
                 if SystemManager.hasSystem("SystemEditBox"):
                     system_edit_box = SystemManager.getSystem("SystemEditBox")

@@ -19,13 +19,13 @@ class Options(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "MusicVolume", Activate=True, Update=Options._updateMusicVolume)
-        Type.addAction(Type, "SoundVolume", Activate=True, Update=Options._updateSoundVolume)
-        Type.addAction(Type, "VoiceVolume", Activate=True, Update=Options._updateVoiceVolume)
-        Type.addAction(Type, "Mute", Activate=True, Update=Options._updateMute)
-        Type.addAction(Type, "Fullscreen", Activate=True, Update=Options._updateFullscreen)
-        Type.addAction(Type, "Widescreen", Activate=True, Update=Options._updateWidescreen)
-        Type.addAction(Type, "Cursor", Activate=True, Update=Options.__updateCursor)
+        Type.addAction("MusicVolume", Activate=True, Update=Options._updateMusicVolume)
+        Type.addAction("SoundVolume", Activate=True, Update=Options._updateSoundVolume)
+        Type.addAction("VoiceVolume", Activate=True, Update=Options._updateVoiceVolume)
+        Type.addAction("Mute", Activate=True, Update=Options._updateMute)
+        Type.addAction("Fullscreen", Activate=True, Update=Options._updateFullscreen)
+        Type.addAction("Widescreen", Activate=True, Update=Options._updateWidescreen)
+        Type.addAction("Cursor", Activate=True, Update=Options.__updateCursor)
 
     def __init__(self):
         super(Options, self).__init__()

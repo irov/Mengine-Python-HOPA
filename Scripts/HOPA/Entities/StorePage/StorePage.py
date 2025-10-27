@@ -17,14 +17,14 @@ class StorePage(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "PageID")
-        Type.addAction(Type, "Scrollable")
-        Type.addAction(Type, "ScrollMode")
-        Type.addAction(Type, "WaitButtons")
+        Type.addAction("PageID")
+        Type.addAction("Scrollable")
+        Type.addAction("ScrollMode")
+        Type.addAction("WaitButtons")
 
-        Type.addAction(Type, "ColumnsCount")
-        Type.addAction(Type, "OffsetY")
-        Type.addAction(Type, "AllowArrow")
+        Type.addAction("ColumnsCount")
+        Type.addAction("OffsetY")
+        Type.addAction("AllowArrow")
 
     def __init__(self):
         super(StorePage, self).__init__()

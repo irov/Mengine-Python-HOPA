@@ -6,11 +6,11 @@ class ObjectMahjongInventory(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "TextID")
-        Type.addParam(Type, "EnigmaName")
+        Type.declareParam("TextID")
+        Type.declareParam("EnigmaName")
 
-        Type.addParam(Type, "ItemsCount")
-        Type.addParam(Type, "FoundItems")
+        Type.declareParam("ItemsCount")
+        Type.declareParam("FoundItems")
 
     def _onParams(self, params):
         super(ObjectMahjongInventory, self)._onParams(params)

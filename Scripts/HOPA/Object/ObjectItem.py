@@ -6,15 +6,15 @@ class ObjectItem(ObjectInteraction):
     def declareORM(Type):
         ObjectInteraction.declareORM(Type)
 
-        Type.addResource(Type, "SpriteResourceNamePure")
-        Type.addResource(Type, "SpriteResourceNameFull")
-        Type.addResource(Type, "HotspotImageResourceName")
+        Type.declareResource("SpriteResourceNamePure")
+        Type.declareResource("SpriteResourceNameFull")
+        Type.declareResource("HotspotImageResourceName")
 
-        Type.addConst(Type, "PureOffset")
-        Type.addConst(Type, "PickOffset")
+        Type.declareConst("PureOffset")
+        Type.declareConst("PickOffset")
 
-        Type.addParam(Type, "ArrowPoint")
-        Type.addParam(Type, "SlotPoint")
+        Type.declareParam("ArrowPoint")
+        Type.declareParam("SlotPoint")
         pass
 
     def _onParams(self, params):

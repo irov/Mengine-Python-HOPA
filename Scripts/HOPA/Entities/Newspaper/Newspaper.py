@@ -12,9 +12,9 @@ class Newspaper(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "NewspaperID")
-        Type.addAction(Type, "ShowComplete")
-        Type.addAction(Type, "Open")
+        Type.addAction("NewspaperID")
+        Type.addAction("ShowComplete")
+        Type.addAction("Open")
         pass
 
     def __init__(self):

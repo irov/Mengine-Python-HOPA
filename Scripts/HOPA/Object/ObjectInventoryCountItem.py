@@ -9,11 +9,11 @@ class ObjectInventoryCountItem(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addResource(Type, "SpriteResourceName")
-        Type.addParam(Type, "FontName")
-        Type.addParam(Type, "SlotPoint")
-        Type.addParam(Type, "ArrowPoint")
-        Type.addParam(Type, "FoundItems")
+        Type.declareResource("SpriteResourceName")
+        Type.declareParam("FontName")
+        Type.declareParam("SlotPoint")
+        Type.declareParam("ArrowPoint")
+        Type.declareParam("FoundItems")
 
     def _onParams(self, params):
         super(ObjectInventoryCountItem, self)._onParams(params)

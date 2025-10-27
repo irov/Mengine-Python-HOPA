@@ -9,11 +9,11 @@ class ObjectStorePage(DemonObject):
         Type.addConst(Type, 'PageID')
         Type.addConst(Type, 'Scrollable')
         Type.addConst(Type, 'ScrollMode')
-        Type.addParam(Type, 'WaitButtons')
+        Type.declareParam('WaitButtons')
 
-        Type.addConst(Type, "ColumnsCount")
-        Type.addConst(Type, "OffsetY")
-        Type.addConst(Type, "AllowArrow")
+        Type.declareConst("ColumnsCount")
+        Type.declareConst("OffsetY")
+        Type.declareConst("AllowArrow")
 
     def _onParams(self, params):
         super(ObjectStorePage, self)._onParams(params)

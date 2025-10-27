@@ -8,7 +8,7 @@ class NotebookDescription(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "CurrentNote", Update=NotebookDescription._updateCurrentNote)
+        Type.addActionActivate("CurrentNote", Update=NotebookDescription._updateCurrentNote)
         pass
 
     def __init__(self):

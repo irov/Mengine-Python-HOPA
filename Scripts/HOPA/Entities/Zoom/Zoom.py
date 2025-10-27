@@ -10,11 +10,11 @@ class Zoom(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "Polygon", Update=Zoom._restorePolygon)
-        Type.addAction(Type, "HintPoint")
-        Type.addAction(Type, "Point")
-        Type.addAction(Type, "BlockOpen")
-        Type.addAction(Type, "End")
+        Type.addAction("Polygon", Update=Zoom._restorePolygon)
+        Type.addAction("HintPoint")
+        Type.addAction("Point")
+        Type.addAction("BlockOpen")
+        Type.addAction("End")
         pass
 
     def __init__(self):

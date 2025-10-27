@@ -5,8 +5,8 @@ class ObjectLanguageSelect(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "bPrevLangSetted")
-        Type.addParam(Type, "PrevLanguage")
+        Type.declareParam("bPrevLangSetted")
+        Type.declareParam("PrevLanguage")
 
     def _onParams(self, params):
         super(ObjectLanguageSelect, self)._onParams(params)

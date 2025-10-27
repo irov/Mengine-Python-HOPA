@@ -199,17 +199,17 @@ class Inventory(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "InventoryItems",
+        Type.addAction("InventoryItems",
                        Append=Inventory.__appendInventoryItems,
                        Remove=Inventory.__removeInventoryItems)
 
-        Type.addAction(Type, "SlotPoints")
-        Type.addAction(Type, "SlotCount")
-        Type.addActionActivate(Type, "CurrentSlotIndex", Update=Inventory._updateCurrentSlotIndex)
+        Type.addAction("SlotPoints")
+        Type.addAction("SlotCount")
+        Type.addActionActivate("CurrentSlotIndex", Update=Inventory._updateCurrentSlotIndex)
 
-        Type.addAction(Type, "SlotPolygon")
+        Type.addAction("SlotPolygon")
 
-        Type.addAction(Type, "BlockScrolling", Update=Inventory._updateItemReturn)
+        Type.addAction("BlockScrolling", Update=Inventory._updateItemReturn)
 
     def __init__(self):
         super(Inventory, self).__init__()

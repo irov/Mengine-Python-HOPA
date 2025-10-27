@@ -6,13 +6,13 @@ class ObjectHOGInventory(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "HOGName")
-        Type.addParam(Type, "HOGItems")
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "Wrap")
-        Type.addParam(Type, "MaxItemTextWrap")
-        Type.addParam(Type, "MaxColumn")
-        Type.addParam(Type, "MaxRow")
+        Type.declareParam("HOGName")
+        Type.declareParam("HOGItems")
+        Type.declareParam("FoundItems")
+        Type.declareParam("Wrap")
+        Type.declareParam("MaxItemTextWrap")
+        Type.declareParam("MaxColumn")
+        Type.declareParam("MaxRow")
         pass
 
     def _onParams(self, params):

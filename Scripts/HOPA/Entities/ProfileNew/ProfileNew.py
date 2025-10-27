@@ -8,8 +8,8 @@ class ProfileNew(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "AccountID", Update=ProfileNew.__updateAccountID)
-        Type.addAction(Type, "ClickSlotID")
+        Type.addAction("AccountID", Update=ProfileNew.__updateAccountID)
+        Type.addAction("ClickSlotID")
 
     def __updateAccountID(self, newValue):
         if TaskManager.existTaskChain("MakeProfile"):

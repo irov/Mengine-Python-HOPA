@@ -11,7 +11,7 @@ class Mind(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "PlayPolicy")
+        Type.addAction("PlayPolicy")
         pass
 
     def __init__(self):

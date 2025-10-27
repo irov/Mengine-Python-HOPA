@@ -6,8 +6,8 @@ class ObjectItemPopUp(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "ItemName")
-        Type.addParam(Type, "Open")
+        Type.declareParam("ItemName")
+        Type.declareParam("Open")
         pass
 
     def _onParams(self, params):

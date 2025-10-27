@@ -20,7 +20,7 @@ class GameStore(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "UnblockAdTimestamp")
+        Type.addAction("UnblockAdTimestamp")
 
     def __init__(self):
         super(GameStore, self).__init__()

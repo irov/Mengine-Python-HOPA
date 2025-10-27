@@ -9,7 +9,7 @@ class Objective(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "ObjectiveID", Update=Objective._updateObjectiveID)
+        Type.addAction("ObjectiveID", Update=Objective._updateObjectiveID)
         pass
 
     def __init__(self):

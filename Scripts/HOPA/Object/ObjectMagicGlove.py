@@ -10,9 +10,9 @@ class ObjectMagicGlove(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Point")
-        Type.addParam(Type, "Runes")
-        Type.addParam(Type, "State")
+        Type.declareParam("Point")
+        Type.declareParam("Runes")
+        Type.declareParam("State")
 
     def _onParams(self, params):
         super(ObjectMagicGlove, self)._onParams(params)

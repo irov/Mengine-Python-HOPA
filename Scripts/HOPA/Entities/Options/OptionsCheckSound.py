@@ -36,7 +36,7 @@ class CheckSoundController(object):
                     Trace.log("Entity", 0, msg)
 
             else:
-                if _DEVELOPMENT:
+                if _DEVELOPMENT is True:
                     msg = "Options Entity not found slot '{}' for slider bar movie '{}'"
                     msg = msg.format(param.sliderMovieSlotName, param.sliderMovieName)
                     Trace.log("Entity", 0, msg)

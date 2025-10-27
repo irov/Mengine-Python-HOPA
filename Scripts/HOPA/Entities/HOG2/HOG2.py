@@ -6,10 +6,10 @@ class HOG2(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addActionActivate(Type, "FoundItems",
+        Type.addActionActivate("FoundItems",
                                Append=HOG2._appendFoundItems,
                                Update=HOG2._updateFoundItems)
-        Type.addActionActivate(Type, "PrepareItems",
+        Type.addActionActivate("PrepareItems",
                                Update=HOG2._updatePrepareItems,
                                Append=HOG2._appendPrepareItems)
         pass

@@ -18,13 +18,13 @@ class Fan(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "Polygon", Update=Fan._restorePolygon)
-        Type.addActionActivate(Type, "Open", Update=Fan._updateOpen)
+        Type.addAction("Polygon", Update=Fan._restorePolygon)
+        Type.addActionActivate("Open", Update=Fan._updateOpen)
 
-        Type.addActionActivate(Type, "FoundItems", Update=Fan._appendFoundItems)
-        Type.addAction(Type, "FindItems")
-        Type.addAction(Type, "Hint")
-        Type.addAction(Type, "HoldOpen")
+        Type.addActionActivate("FoundItems", Update=Fan._appendFoundItems)
+        Type.addAction("FindItems")
+        Type.addAction("Hint")
+        Type.addAction("HoldOpen")
         pass
 
     def __init__(self):

@@ -14,8 +14,8 @@ class DebugMenu(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "Font")
-        Type.addAction(Type, "Zoom")
+        Type.addAction("Font")
+        Type.addAction("Zoom")
 
     def __init__(self):
         super(DebugMenu, self).__init__()

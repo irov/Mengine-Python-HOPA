@@ -6,16 +6,16 @@ class ObjectInventoryCountItemFX(ObjectInventoryItem):
     def declareORM(Type):
         ObjectInventoryItem.declareORM(Type)
 
-        Type.addParam(Type, "FontName")
+        Type.declareParam("FontName")
 
-        Type.addResource(Type, "ResourceMovieParts")
-        Type.addResource(Type, "ResourceMovieCombine")
-        Type.addResource(Type, "ResourceMovieFull")
+        Type.declareResource("ResourceMovieParts")
+        Type.declareResource("ResourceMovieCombine")
+        Type.declareResource("ResourceMovieFull")
 
-        Type.addParam(Type, "ItemMovies")
+        Type.declareParam("ItemMovies")
 
-        Type.addParam(Type, "PlayedItems")
-        Type.addParam(Type, "Combined")
+        Type.declareParam("PlayedItems")
+        Type.declareParam("Combined")
 
     def _onParams(self, params):
         super(ObjectInventoryCountItemFX, self)._onParams(params)

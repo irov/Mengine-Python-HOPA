@@ -15,7 +15,7 @@ class OpenJournal(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "State", Update=OpenJournal.__updateState)
+        Type.addActionActivate("State", Update=OpenJournal.__updateState)
         pass
 
     def __init__(self):

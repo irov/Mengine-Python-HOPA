@@ -59,7 +59,7 @@ class SystemInventoryPanel(System):
 
         InventoryName = self.scene_cached_inv_data[SceneName]
 
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             Trace.msg("<SystemInventoryPanel> InventoryChange from {!r} to {!r}".format(self.CurrentInventory, InventoryName))
 
         SceneManager.disableSceneLayerGroup(self.CurrentScene, self.CurrentInventory)

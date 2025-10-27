@@ -6,9 +6,9 @@ class ObjectNewspaper(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "NewspaperID")
-        Type.addParam(Type, "Open")
-        Type.addParam(Type, "ShowComplete")
+        Type.declareParam("NewspaperID")
+        Type.declareParam("Open")
+        Type.declareParam("ShowComplete")
         pass
 
     def _onParams(self, params):

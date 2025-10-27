@@ -47,16 +47,16 @@ class InventoryCountItemFX(InventoryItem):
     def declareORM(Type):
         InventoryItem.declareORM(Type)
 
-        Type.addAction(Type, "FontName")
+        Type.addAction("FontName")
 
-        Type.addAction(Type, "ResourceMovieParts")
-        Type.addAction(Type, "ResourceMovieCombine")
-        Type.addAction(Type, "ResourceMovieFull")
+        Type.addAction("ResourceMovieParts")
+        Type.addAction("ResourceMovieCombine")
+        Type.addAction("ResourceMovieFull")
 
-        Type.addAction(Type, "ItemMovies")
+        Type.addAction("ItemMovies")
 
-        Type.addAction(Type, "PlayedItems")
-        Type.addAction(Type, "Combined")
+        Type.addAction("PlayedItems")
+        Type.addAction("Combined")
         pass
 
     def __init__(self):

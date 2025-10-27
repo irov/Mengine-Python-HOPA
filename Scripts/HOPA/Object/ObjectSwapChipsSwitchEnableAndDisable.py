@@ -5,8 +5,8 @@ class ObjectSwapChipsSwitchEnableAndDisable(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, 'visibleChipsParam')
-        Type.addParam(Type, 'finishFlag')
+        Type.declareParam('visibleChipsParam')
+        Type.declareParam('finishFlag')
 
     def _onParams(self, params):
         super(ObjectSwapChipsSwitchEnableAndDisable, self)._onParams(params)

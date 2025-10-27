@@ -7,7 +7,7 @@ class ObjectElementalMagic(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Element")
+        Type.declareParam("Element")
 
     def _onParams(self, params):
         super(ObjectElementalMagic, self)._onParams(params)

@@ -13,12 +13,12 @@ class InventoryItemAccumulate(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "FoundItems",
+        Type.addAction("FoundItems",
                        Update=InventoryItemAccumulate._restoreFoundItems,
                        Append=InventoryItemAccumulate._appendFoundItems,
                        Remove=InventoryItemAccumulate._removeFoundItems)
 
-        Type.addActionActivate(Type, "Value", Update=InventoryItemAccumulate.__updateValue)
+        Type.addActionActivate("Value", Update=InventoryItemAccumulate.__updateValue)
         pass
 
     def __init__(self):

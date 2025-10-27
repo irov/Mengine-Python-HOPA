@@ -17,8 +17,8 @@ class LanguageSelect(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "bPrevLangSetted")
-        Type.addAction(Type, "PrevLanguage")
+        Type.addAction("bPrevLangSetted")
+        Type.addAction("PrevLanguage")
 
     def __init__(self):
         super(LanguageSelect, self).__init__()

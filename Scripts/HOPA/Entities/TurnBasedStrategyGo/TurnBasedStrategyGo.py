@@ -102,8 +102,8 @@ class TurnBasedStrategyGo(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "NotCompleteLevels")
-        Type.addAction(Type, "CurrentLevel")
+        Type.addAction("NotCompleteLevels")
+        Type.addAction("CurrentLevel")
 
     def __init__(self):
         super(TurnBasedStrategyGo, self).__init__()

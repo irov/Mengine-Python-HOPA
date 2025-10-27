@@ -6,11 +6,11 @@ class ObjectMap(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "VisitScenes")
-        Type.addParam(Type, "MarkedDone")
-        Type.addParam(Type, "Teleport")
-        Type.addParam(Type, "OpenPages")
-        Type.addParam(Type, "CurrentID")
+        Type.declareParam("VisitScenes")
+        Type.declareParam("MarkedDone")
+        Type.declareParam("Teleport")
+        Type.declareParam("OpenPages")
+        Type.declareParam("CurrentID")
         pass
 
     def _onParams(self, params):

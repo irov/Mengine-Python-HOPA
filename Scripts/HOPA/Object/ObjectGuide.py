@@ -5,7 +5,7 @@ class ObjectGuide(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, 'PreviousSceneName')
+        Type.declareParam('PreviousSceneName')
 
     def _onParams(self, params):
         super(ObjectGuide, self)._onParams(params)

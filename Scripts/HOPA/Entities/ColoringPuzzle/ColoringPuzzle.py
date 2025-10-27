@@ -26,7 +26,7 @@ class ColoringPuzzle(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "Mix")
+        Type.addAction("Mix")
         pass
 
     def __init__(self):

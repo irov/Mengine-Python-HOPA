@@ -360,7 +360,7 @@ class SystemItemPlusScene(System):
                         else:
                             content_node = content_movie.getEntityNode()
 
-                            if _DEVELOPMENT:
+                            if _DEVELOPMENT is True:
                                 Trace.msg_err("You can add 'slot:%s' in '%s' of '%s' to get more control...",
                                               content_slot_name, content_movie_name, self.ItemPlusDefaultName)
 

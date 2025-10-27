@@ -14,11 +14,11 @@ class BalanceIndicator(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "ShowGold",
+        Type.addAction("ShowGold",
                        Update=Functor(BalanceIndicator._cbUpdateShowIndicator, GoldIndicator.type.lower()))
-        Type.addAction(Type, "ShowEnergy",
+        Type.addAction("ShowEnergy",
                        Update=Functor(BalanceIndicator._cbUpdateShowIndicator, EnergyIndicator.type.lower()))
-        Type.addAction(Type, "ShowAdvertisement",
+        Type.addAction("ShowAdvertisement",
                        Update=Functor(BalanceIndicator._cbUpdateShowIndicator, AdvertisementIndicator.type.lower()))
 
     def __init__(self):

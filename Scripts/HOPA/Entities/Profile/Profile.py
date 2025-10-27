@@ -10,9 +10,9 @@ class Profile(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "MaxCount")
-        Type.addActionActivate(Type, "Current", Update=Profile._updateCurrent)
-        Type.addActionActivate(Type, "Accounts",
+        Type.addAction("MaxCount")
+        Type.addActionActivate("Current", Update=Profile._updateCurrent)
+        Type.addActionActivate("Accounts",
                                Update=Profile._restoreAccounts,
                                Append=Profile._appendAccount,
                                Remove=Profile._removeAccount)

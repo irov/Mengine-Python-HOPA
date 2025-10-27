@@ -6,8 +6,8 @@ class ObjectCutScene(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "CutSceneName")
-        Type.addParam(Type, "Play")
+        Type.declareParam("CutSceneName")
+        Type.declareParam("Play")
         pass
 
     def _onParams(self, params):

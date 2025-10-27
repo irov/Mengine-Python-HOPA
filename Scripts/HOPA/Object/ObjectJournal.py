@@ -6,8 +6,8 @@ class ObjectJournal(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Pages")
-        Type.addParam(Type, "CurrentPage")
+        Type.declareParam("Pages")
+        Type.declareParam("CurrentPage")
         pass
 
     def _onParams(self, params):

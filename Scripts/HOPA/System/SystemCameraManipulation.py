@@ -373,7 +373,7 @@ class SystemCameraManipulation(System):
 
         self.finalizeVirtualArea()
 
-        if _DEVELOPMENT:
+        if _DEVELOPMENT is True:
             self.dev_hud.onStop()  # self.debug_camera_gizmo.onStop()
 
     def _onScenePreparation(self, scene_name):

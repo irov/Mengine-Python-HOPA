@@ -6,10 +6,10 @@ class ObjectSpinCircles(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "TwistSaves")
-        Type.addParam(Type, "IndicatorSaves")
-        Type.addParam(Type, "MovieLoop")
-        Type.addParam(Type, "Related")
+        Type.declareParam("TwistSaves")
+        Type.declareParam("IndicatorSaves")
+        Type.declareParam("MovieLoop")
+        Type.declareParam("Related")
         pass
 
     def _onParams(self, params):

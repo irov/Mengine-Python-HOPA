@@ -21,7 +21,7 @@ class SkipPuzzle(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "ForceReload")
+        Type.addAction("ForceReload")
 
     def runReloadSkipTC(self):
         if TaskManager.existTaskChain("SkipPuzzle"):

@@ -7,7 +7,7 @@ class BonusItem(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "ItemsCount")
+        Type.addAction("ItemsCount")
         pass
 
     def __init__(self):

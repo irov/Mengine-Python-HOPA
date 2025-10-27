@@ -12,10 +12,10 @@ class ObjectHint(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Point")
-        Type.addParam(Type, "ZoomCheck")
-        Type.addParam(Type, "ItemCollectCheck")
-        Type.addParam(Type, "AroundSceneCheck")
+        Type.declareParam("Point")
+        Type.declareParam("ZoomCheck")
+        Type.declareParam("ItemCollectCheck")
+        Type.declareParam("AroundSceneCheck")
         pass
 
     def _onParams(self, params):

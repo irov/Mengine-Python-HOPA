@@ -6,9 +6,9 @@ class Journal2(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "OpenPages")
-        Type.addActionActivate(Type, "CurrentIndex", Update=Journal2.__updateIndex)
-        Type.addAction(Type, "PageSize")
+        Type.addActionActivate("OpenPages")
+        Type.addActionActivate("CurrentIndex", Update=Journal2.__updateIndex)
+        Type.addAction("PageSize")
         pass
 
     def __init__(self):

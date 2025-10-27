@@ -8,11 +8,11 @@ class ObjectInventoryFX(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "CurrentSlotIndex")
-        Type.addParam(Type, "InventoryItems")
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "SlotPolygon")
-        Type.addParam(Type, "SlotPoints")
+        Type.declareParam("CurrentSlotIndex")
+        Type.declareParam("InventoryItems")
+        Type.declareParam("SlotCount")
+        Type.declareParam("SlotPolygon")
+        Type.declareParam("SlotPoints")
 
     def _onParams(self, params):
         super(ObjectInventoryFX, self)._onParams(params)

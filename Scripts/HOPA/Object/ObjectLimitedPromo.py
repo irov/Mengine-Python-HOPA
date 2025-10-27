@@ -10,8 +10,8 @@ class ObjectLimitedPromo(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "EndTimestamps")
-        Type.addParam(Type, "ActivatedProducts")
+        Type.declareParam("EndTimestamps")
+        Type.declareParam("ActivatedProducts")
 
     def _onParams(self, params):
         super(ObjectLimitedPromo, self)._onParams(params)

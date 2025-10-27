@@ -7,7 +7,7 @@ class ObjectColorCollect(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "BulbAction")
+        Type.declareParam("BulbAction")
         pass
 
     def _onParams(self, params):

@@ -98,14 +98,14 @@ class CombatSpell(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "FieldWidth")
-        Type.addAction(Type, "FieldHeight")
-        Type.addAction(Type, "StartAiCount")
-        Type.addAction(Type, "StartPlayerCount")
+        Type.addAction("FieldWidth")
+        Type.addAction("FieldHeight")
+        Type.addAction("StartAiCount")
+        Type.addAction("StartPlayerCount")
 
-        Type.addAction(Type, "FieldXY")
-        Type.addAction(Type, "AITurn")
-        Type.addAction(Type, "CheckWin")
+        Type.addAction("FieldXY")
+        Type.addAction("AITurn")
+        Type.addAction("CheckWin")
         pass
 
     def __init__(self):

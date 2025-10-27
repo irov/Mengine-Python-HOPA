@@ -181,16 +181,16 @@ class HOGInventoryFitting(InventoryBase):
     @staticmethod
     def declareORM(Type):
         InventoryBase.declareORM(Type)
-        Type.addAction(Type, "SlotCount")
-        Type.addAction(Type, "SlotItems")
-        Type.addAction(Type, "SlotIsFitting")
-        Type.addActionActivate(Type, "SlotFittingItemList",
+        Type.addAction("SlotCount")
+        Type.addAction("SlotItems")
+        Type.addAction("SlotIsFitting")
+        Type.addActionActivate("SlotFittingItemList",
                                Append=HOGInventoryFitting._AppendSlotFittingItemList,
                                Update=HOGInventoryFitting._updateSlotFittingItemList)
-        Type.addActionActivate(Type, "ItemList",
+        Type.addActionActivate("ItemList",
                                Append=HOGInventoryFitting._AppendItemList,
                                Update=HOGInventoryFitting._updateItemList)
-        Type.addActionActivate(Type, "SlotFittingItemListUsed",
+        Type.addActionActivate("SlotFittingItemListUsed",
                                Append=HOGInventoryFitting._AppendSlotFittingItemListUsed,
                                Update=HOGInventoryFitting._updateSlotFittingItemListUsed)
         pass

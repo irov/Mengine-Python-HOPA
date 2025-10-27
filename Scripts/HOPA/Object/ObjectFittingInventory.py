@@ -6,11 +6,11 @@ class ObjectFittingInventory(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "SlotPoints")
-        Type.addParam(Type, "SlotPolygon")
-        Type.addParam(Type, "InventoryItems")
-        Type.addParam(Type, "Fittings")
+        Type.declareParam("SlotCount")
+        Type.declareParam("SlotPoints")
+        Type.declareParam("SlotPolygon")
+        Type.declareParam("InventoryItems")
+        Type.declareParam("Fittings")
         pass
 
     def _onParams(self, params):

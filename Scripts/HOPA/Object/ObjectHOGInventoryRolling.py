@@ -6,12 +6,12 @@ class ObjectHOGInventoryRolling(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "HOG")
-        Type.addParam(Type, "FindItems")
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "ItemsCount")
+        Type.declareParam("HOG")
+        Type.declareParam("FindItems")
+        Type.declareParam("FoundItems")
+        Type.declareParam("ItemsCount")
 
-        Type.addParam(Type, "SlotCount")
+        Type.declareParam("SlotCount")
 
     def _onParams(self, params):
         super(ObjectHOGInventoryRolling, self)._onParams(params)

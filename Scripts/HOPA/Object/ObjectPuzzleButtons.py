@@ -6,7 +6,7 @@ class ObjectPuzzleButtons(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Slot")
+        Type.declareParam("Slot")
         pass
 
     def _onParams(self, params):

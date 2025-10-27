@@ -8,7 +8,7 @@ class ElementalMagic(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "Element", Update=ElementalMagic._updateElement)
+        Type.addActionActivate("Element", Update=ElementalMagic._updateElement)
 
     def __init__(self):
         super(ElementalMagic, self).__init__()

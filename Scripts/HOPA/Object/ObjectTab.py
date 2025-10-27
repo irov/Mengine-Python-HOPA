@@ -6,8 +6,8 @@ class ObjectTab(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Tabs")
-        Type.addParam(Type, "CurrentTab")
+        Type.declareParam("Tabs")
+        Type.declareParam("CurrentTab")
         pass
 
     def _onParams(self, params):

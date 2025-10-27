@@ -6,7 +6,7 @@ class ObjectJoinBlocks(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "BlockSave")
+        Type.declareParam("BlockSave")
         pass
 
     def _onParams(self, params):

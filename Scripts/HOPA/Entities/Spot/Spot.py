@@ -10,7 +10,7 @@ class Spot(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "FadeColor")
+        Type.addAction("FadeColor")
         pass
 
     def __init__(self):

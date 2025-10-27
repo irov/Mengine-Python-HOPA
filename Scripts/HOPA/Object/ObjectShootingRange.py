@@ -6,8 +6,8 @@ class ObjectShootingRange(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "Atitude")
-        Type.addParam(Type, "GunPos")
+        Type.declareParam("Atitude")
+        Type.declareParam("GunPos")
         pass
 
     def _onParams(self, params):

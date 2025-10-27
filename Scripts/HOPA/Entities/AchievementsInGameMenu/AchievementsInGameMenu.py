@@ -46,11 +46,11 @@ class AchievementsInGameMenu(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "isOpen")
+        Type.addAction("isOpen")
 
-        Type.addAction(Type, "AchievementsQueue", Append=AchievementsInGameMenu.__appendQueue)
-        Type.addAction(Type, "CollectiblesQueue", Append=AchievementsInGameMenu.__appendQueue)
-        Type.addAction(Type, "MorphsQueue", Append=AchievementsInGameMenu.__appendQueue)
+        Type.addAction("AchievementsQueue", Append=AchievementsInGameMenu.__appendQueue)
+        Type.addAction("CollectiblesQueue", Append=AchievementsInGameMenu.__appendQueue)
+        Type.addAction("MorphsQueue", Append=AchievementsInGameMenu.__appendQueue)
 
     @staticmethod
     def __appendQueue(*args):

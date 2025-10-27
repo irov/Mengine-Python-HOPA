@@ -75,12 +75,12 @@ class HOGInventorySilhouette(InventoryBase):
     def declareORM(Type):
         InventoryBase.declareORM(Type)
 
-        Type.addAction(Type, "HOG")
+        Type.addAction("HOG")
 
-        Type.addAction(Type, "SlotCount")
+        Type.addAction("SlotCount")
 
-        Type.addActionActivate(Type, "FindItems", Update=Type.__updateFindItems, Append=Type.__appendFindItems)
-        Type.addActionActivate(Type, "FoundItems", Update=Type.__updateFoundItems, Append=Type.__appendFoundItems)
+        Type.addActionActivate("FindItems", Update=Type.__updateFindItems, Append=Type.__appendFindItems)
+        Type.addActionActivate("FoundItems", Update=Type.__updateFoundItems, Append=Type.__appendFoundItems)
 
     def __updateFindItems(self, list):
         if len(list) == 0:
@@ -111,7 +111,7 @@ class HOGInventorySilhouette(InventoryBase):
             self.Movie = self.object.getObject("Movie2_SlotPoints")
         elif self.object.hasObject("Movie_SlotPoints"):
             self.Movie = self.object.getObject("Movie_SlotPoints")
-        elif _DEVELOPMENT:
+        elif _DEVELOPMENT is True:
             Trace.log("Entity", 0, "%s HOGInventorySilhouette missing Movie(2)_SlotPoints" % self.object.getGroupName())
 
         self.setupSlots()

@@ -7,7 +7,7 @@ class CollectedMap(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "OpenParts")
+        Type.addActionActivate("OpenParts")
         pass
 
     def _onPreparation(self):

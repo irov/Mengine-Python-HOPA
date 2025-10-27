@@ -9,7 +9,7 @@ class HOGFXPartsGathering(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems",
+        Type.addAction("FoundItems",
                        Append=Type._appendFoundItems,
                        Update=Type._updateFoundItems)
 

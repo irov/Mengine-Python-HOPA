@@ -17,9 +17,9 @@ class CutScene(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "CutSceneName")
-        Type.addAction(Type, "Play", Update=CutScene._updatePlay)
-        Type.addAction(Type, "isFade")
+        Type.addAction("CutSceneName")
+        Type.addAction("Play", Update=CutScene._updatePlay)
+        Type.addAction("isFade")
 
     def __init__(self):
         super(CutScene, self).__init__()

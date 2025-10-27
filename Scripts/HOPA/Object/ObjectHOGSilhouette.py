@@ -6,8 +6,8 @@ class ObjectHOGSilhouette(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "FindItems")
+        Type.declareParam("FoundItems")
+        Type.declareParam("FindItems")
         pass
 
     def _onParams(self, params):

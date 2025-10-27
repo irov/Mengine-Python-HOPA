@@ -15,8 +15,8 @@ class CirclePairElements(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "SaveNames")
-        Type.addAction(Type, "SaveCircles")
+        Type.addAction("SaveNames")
+        Type.addAction("SaveCircles")
         pass
 
     def __init__(self):

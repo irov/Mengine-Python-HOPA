@@ -6,9 +6,9 @@ class ObjectHOG2(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "FoundItems")
+        Type.declareParam("FoundItems")
 
-        Type.addParam(Type, "PrepareItems")
+        Type.declareParam("PrepareItems")
 
         pass
 

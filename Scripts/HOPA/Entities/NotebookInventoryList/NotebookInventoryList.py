@@ -16,7 +16,7 @@ class NotebookInventoryList(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "OpenNotes")
+        Type.addAction("OpenNotes")
 
     def __init__(self):
         super(NotebookInventoryList, self).__init__()

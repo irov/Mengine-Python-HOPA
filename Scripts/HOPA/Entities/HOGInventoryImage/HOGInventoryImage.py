@@ -92,16 +92,16 @@ class HOGInventoryImage(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "SlotCount")
-        Type.addAction(Type, "Slots")
+        Type.addAction("SlotCount")
+        Type.addAction("Slots")
 
-        Type.addAction(Type, "HOG")
-        Type.addActionActivate(Type, "FindItems",
+        Type.addAction("HOG")
+        Type.addActionActivate("FindItems",
                                Append=HOGInventoryImage._appendFindItems,
                                Update=HOGInventoryImage._updateFindItems)
-        Type.addAction(Type, "ItemsCount", Update=HOGInventoryImage._updateItemsAllCount)
+        Type.addAction("ItemsCount", Update=HOGInventoryImage._updateItemsAllCount)
 
-        Type.addActionActivate(Type, "FoundItems",
+        Type.addActionActivate("FoundItems",
                                Append=HOGInventoryImage._appendFoundItems,
                                Update=HOGInventoryImage._updateFoundItems)
         pass

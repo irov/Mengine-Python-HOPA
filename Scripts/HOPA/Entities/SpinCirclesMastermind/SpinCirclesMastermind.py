@@ -12,8 +12,8 @@ class SpinCirclesMastermind(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addActionActivate(Type, "UpNum")
-        Type.addActionActivate(Type, "DownNum")
+        Type.addActionActivate("UpNum")
+        Type.addActionActivate("DownNum")
         pass
 
     def __init__(self):

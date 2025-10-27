@@ -10,8 +10,8 @@ class HOGRolling(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "FoundItems")
-        Type.addAction(Type, "FindItems")
+        Type.addAction("FoundItems")
+        Type.addAction("FindItems")
 
     def __init__(self):
         super(HOGRolling, self).__init__()

@@ -24,7 +24,7 @@ class FindingAndPlacingChipsOnMovie(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "RemainingChips")
+        Type.addAction("RemainingChips")
         pass
 
     def __init__(self):

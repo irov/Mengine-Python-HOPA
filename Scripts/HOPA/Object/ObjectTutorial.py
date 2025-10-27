@@ -6,7 +6,7 @@ class ObjectTutorial(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "Polygon")
+        Type.declareParam("Polygon")
         pass
 
     def _onParams(self, params):

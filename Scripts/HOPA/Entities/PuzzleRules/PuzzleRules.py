@@ -9,7 +9,7 @@ class PuzzleRules(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "PuzzleName", Update=PuzzleRules._updatePuzzleName)
+        Type.addAction("PuzzleName", Update=PuzzleRules._updatePuzzleName)
         pass
 
     def __init__(self):

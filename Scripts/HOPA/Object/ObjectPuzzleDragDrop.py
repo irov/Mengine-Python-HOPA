@@ -6,10 +6,10 @@ class ObjectPuzzleDragDrop(ObjectEnigma):
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
 
-        Type.addParam(Type, "Items")
-        Type.addParam(Type, "Places")
-        Type.addParam(Type, "HoldItems")
-        Type.addParam(Type, "DisableItems")
+        Type.declareParam("Items")
+        Type.declareParam("Places")
+        Type.declareParam("HoldItems")
+        Type.declareParam("DisableItems")
         pass
 
     def _onParams(self, params):

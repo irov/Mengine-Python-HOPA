@@ -5,7 +5,7 @@ class ObjectMoveChipsOnGraphNodes(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, 'savedSlotChips')
+        Type.declareParam('savedSlotChips')
 
     def _onParams(self, params):
         super(ObjectMoveChipsOnGraphNodes, self)._onParams(params)

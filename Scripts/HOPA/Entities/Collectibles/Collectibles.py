@@ -223,9 +223,9 @@ class Collectibles(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "PreviousSceneName")
-        Type.addActionActivate(Type, "CompleteScene")  # True if user collect all collectibles
-        Type.addActionActivate(Type, "FinishAnimation")  # True if finish animation has been playing
+        Type.addActionActivate("PreviousSceneName")
+        Type.addActionActivate("CompleteScene")  # True if user collect all collectibles
+        Type.addActionActivate("FinishAnimation")  # True if finish animation has been playing
 
         Type.addActionActivate(Type, 'TransitionBackFromSceneName')
         Type.addActionActivate(Type, 'TransitionBackToSceneName')

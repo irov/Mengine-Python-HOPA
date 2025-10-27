@@ -14,8 +14,8 @@ class ZenElements(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "ItemParentMap")
-        Type.addAction(Type, "Frames")
+        Type.addAction("ItemParentMap")
+        Type.addAction("Frames")
         pass
 
     def __init__(self):

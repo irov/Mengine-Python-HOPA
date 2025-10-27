@@ -11,7 +11,7 @@ class ColorCollect(Enigma):
 
     @staticmethod
     def declareORM(Type):
-        Type.addActionActivate(Type, "BulbAction", Update=ColorCollect._onBulbPlaced)
+        Type.addActionActivate("BulbAction", Update=ColorCollect._onBulbPlaced)
         pass
 
     def __init__(self):

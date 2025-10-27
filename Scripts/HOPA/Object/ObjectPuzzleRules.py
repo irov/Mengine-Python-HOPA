@@ -6,7 +6,7 @@ class ObjectPuzzleRules(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addParam(Type, "PuzzleName")
+        Type.declareParam("PuzzleName")
         pass
 
     def _onParams(self, params):

@@ -14,8 +14,8 @@ class ShootingRange(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "Atitude")
-        Type.addAction(Type, "GunPos")
+        Type.addAction("Atitude")
+        Type.addAction("GunPos")
         pass
 
     def __init__(self):

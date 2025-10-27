@@ -11,7 +11,7 @@ class HOG(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems")
+        Type.addAction("FoundItems")
 
     def __init__(self):
         super(HOG, self).__init__()

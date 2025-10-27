@@ -18,7 +18,7 @@ class NFS(Enigma):
     def declareORM(Type):
         Enigma.declareORM(Type)
 
-        Type.addAction(Type, "ProgressBar")
+        Type.addAction("ProgressBar")
         pass
 
     def __init__(self):

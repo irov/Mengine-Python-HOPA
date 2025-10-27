@@ -49,7 +49,7 @@ class SplashScreen(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "Play", Update=SplashScreen._updatePlay)
+        Type.addActionActivate("Play", Update=SplashScreen._updatePlay)
 
     def __init__(self):
         super(SplashScreen, self).__init__()

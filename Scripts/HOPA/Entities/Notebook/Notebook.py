@@ -7,11 +7,11 @@ class Notebook(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "PageSize")
-        Type.addAction(Type, "OpenNotes")
-        Type.addAction(Type, "CloseNotes")
-        Type.addActionActivate(Type, "CurrentNote")
-        Type.addActionActivate(Type, "CurrentPageID", Update=Notebook.__updateCurrentPageID)
+        Type.addActionActivate("PageSize")
+        Type.addAction("OpenNotes")
+        Type.addAction("CloseNotes")
+        Type.addActionActivate("CurrentNote")
+        Type.addActionActivate("CurrentPageID", Update=Notebook.__updateCurrentPageID)
 
         pass
 

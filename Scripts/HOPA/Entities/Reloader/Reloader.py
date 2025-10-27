@@ -7,12 +7,12 @@ class Reloader(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "ResourceMovieIdle")
-        Type.addAction(Type, "ResourceMovieBegin")
-        Type.addAction(Type, "ResourceMovieProcess")
-        Type.addAction(Type, "ResourceMovieEnd")
+        Type.addAction("ResourceMovieIdle")
+        Type.addAction("ResourceMovieBegin")
+        Type.addAction("ResourceMovieProcess")
+        Type.addAction("ResourceMovieEnd")
 
-        Type.addAction(Type, "Time", Update=Type.__updateTime)
+        Type.addAction("Time", Update=Type.__updateTime)
         pass
 
     def __init__(self):

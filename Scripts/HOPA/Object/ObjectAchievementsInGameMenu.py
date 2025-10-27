@@ -8,10 +8,10 @@ class ObjectAchievementsInGameMenu(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "isOpen")
+        Type.declareParam("isOpen")
 
         for type_ in ObjectAchievementsInGameMenu.s_queue_types:
-            Type.addParam(Type, "{}Queue".format(type_))
+            Type.declareParam("{}Queue".format(type_))
 
     def _onParams(self, params):
         super(ObjectAchievementsInGameMenu, self)._onParams(params)

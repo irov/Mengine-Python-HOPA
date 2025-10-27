@@ -7,7 +7,7 @@ class MetalDetector(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "DetectPoint")
+        Type.addAction("DetectPoint")
         pass
 
     def __init__(self):

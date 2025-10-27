@@ -7,12 +7,12 @@ class ObjectHOGInventoryFitting(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "SlotItems")
-        Type.addParam(Type, "SlotIsFitting")
-        Type.addParam(Type, "ItemList")
-        Type.addParam(Type, "SlotFittingItemList")
-        Type.addParam(Type, "SlotFittingItemListUsed")
+        Type.declareParam("SlotCount")
+        Type.declareParam("SlotItems")
+        Type.declareParam("SlotIsFitting")
+        Type.declareParam("ItemList")
+        Type.declareParam("SlotFittingItemList")
+        Type.declareParam("SlotFittingItemListUsed")
 
     def _onParams(self, params):
         super(ObjectHOGInventoryFitting, self)._onParams(params)

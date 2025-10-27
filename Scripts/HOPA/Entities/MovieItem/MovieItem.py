@@ -7,8 +7,8 @@ class MovieItem(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "ResourceMovieIdle")
-        Type.addAction(Type, "ResourceMoviePick")
+        Type.addAction("ResourceMovieIdle")
+        Type.addAction("ResourceMoviePick")
         pass
 
     def __init__(self):

@@ -16,8 +16,8 @@ class NotebookInventory(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "OpenNotes", Append=NotebookInventory._appendOpenNotes)
-        Type.addAction(Type, "CloseNotes", Append=NotebookInventory._appendCloseNotes)
+        Type.addAction("OpenNotes", Append=NotebookInventory._appendOpenNotes)
+        Type.addAction("CloseNotes", Append=NotebookInventory._appendCloseNotes)
 
     def __init__(self):
         super(NotebookInventory, self).__init__()

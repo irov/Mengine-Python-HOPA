@@ -6,9 +6,9 @@ class ObjectMagicVision(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "State")
-        Type.addParam(Type, "AllDoneScenes")
-        Type.addParam(Type, "BlockedScenes")
+        Type.declareParam("State")
+        Type.declareParam("AllDoneScenes")
+        Type.declareParam("BlockedScenes")
         pass
 
     def _onParams(self, params):

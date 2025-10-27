@@ -9,10 +9,10 @@ class Movie2Item(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "CompositionNameIdle")
-        Type.addAction(Type, "CompositionNamePick")
+        Type.addAction("CompositionNameIdle")
+        Type.addAction("CompositionNamePick")
 
-        Type.addAction(Type, "ResourceMovie")
+        Type.addAction("ResourceMovie")
 
     def __init__(self):
         super(Movie2Item, self).__init__()

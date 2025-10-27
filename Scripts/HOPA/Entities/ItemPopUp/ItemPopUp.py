@@ -10,8 +10,8 @@ class ItemPopUp(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "ItemName")
-        Type.addAction(Type, "Open", Update=ItemPopUp._updateOpen)
+        Type.addAction("ItemName")
+        Type.addAction("Open", Update=ItemPopUp._updateOpen)
 
     def _updateOpen(self, value):
         if value is not True:

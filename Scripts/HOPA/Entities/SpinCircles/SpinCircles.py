@@ -14,10 +14,10 @@ class SpinCircles(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "TwistSaves")
-        Type.addAction(Type, "IndicatorSaves")
-        Type.addAction(Type, "MovieLoop")
-        Type.addAction(Type, "Related")
+        Type.addAction("TwistSaves")
+        Type.addAction("IndicatorSaves")
+        Type.addAction("MovieLoop")
+        Type.addAction("Related")
         pass
 
     def __init__(self):

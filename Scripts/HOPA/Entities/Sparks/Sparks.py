@@ -14,7 +14,7 @@ class Sparks(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "State")
+        Type.addAction("State")
 
     def __init__(self):
         super(Sparks, self).__init__()

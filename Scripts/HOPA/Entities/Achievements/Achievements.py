@@ -10,7 +10,7 @@ class Achievements(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addActionActivate(Type, "PreviousSceneName")
+        Type.addActionActivate("PreviousSceneName")
 
     def __init__(self):
         super(Achievements, self).__init__()

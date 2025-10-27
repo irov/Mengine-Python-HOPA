@@ -10,11 +10,11 @@ class Map(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "VisitScenes")
-        Type.addAction(Type, "Teleport")
-        Type.addAction(Type, "MarkedDone")
-        Type.addAction(Type, "OpenPages")
-        Type.addActionActivate(Type, "CurrentID", Update=Map._updateCurrentID)
+        Type.addAction("VisitScenes")
+        Type.addAction("Teleport")
+        Type.addAction("MarkedDone")
+        Type.addAction("OpenPages")
+        Type.addActionActivate("CurrentID", Update=Map._updateCurrentID)
         pass
 
     def __init__(self):

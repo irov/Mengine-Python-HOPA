@@ -5,8 +5,8 @@ class ObjectTurnBasedStrategyGo(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, "NotCompleteLevels")
-        Type.addParam(Type, "CurrentLevel")
+        Type.declareParam("NotCompleteLevels")
+        Type.declareParam("CurrentLevel")
 
     def _onParams(self, params):
         super(ObjectTurnBasedStrategyGo, self)._onParams(params)

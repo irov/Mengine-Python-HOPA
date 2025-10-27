@@ -5,7 +5,7 @@ class ObjectAchievementsPlate(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "AchievementsQueue")
+        Type.declareParam("AchievementsQueue")
 
     def _onParams(self, params):
         super(ObjectAchievementsPlate, self)._onParams(params)

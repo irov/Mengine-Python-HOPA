@@ -8,8 +8,8 @@ class Tab(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Tabs")
-        Type.addAction(Type, "CurrentTab")
+        Type.addAction("Tabs")
+        Type.addAction("CurrentTab")
         pass
 
     def __init__(self):

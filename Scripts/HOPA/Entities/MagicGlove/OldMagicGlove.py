@@ -10,13 +10,13 @@ class MagicGlove(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Point")
+        Type.addAction("Point")
         # addActionActivate means that update of this param will be after onActivate
-        Type.addActionActivate(Type, "Runes",
+        Type.addActionActivate("Runes",
                                Update=Type.__updateRunes,
                                Append=Type.__appendRunes,
                                Remove=Type.__delParam)
-        Type.addAction(Type, "State", Update=Type.__updateState)
+        Type.addAction("State", Update=Type.__updateState)
 
     def __init__(self):
         super(MagicGlove, self).__init__()

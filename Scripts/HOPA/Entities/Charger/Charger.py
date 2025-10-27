@@ -9,18 +9,18 @@ class Charger(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "ResourceMovieIdle")
-        Type.addAction(Type, "ResourceMovieEnter")
-        Type.addAction(Type, "ResourceMovieOver")
-        Type.addAction(Type, "ResourceMovieLeave")
-        Type.addAction(Type, "ResourceMovieRelease")
-        Type.addAction(Type, "ResourceMovieCharge")
-        Type.addAction(Type, "ResourceMovieCharged")
+        Type.addAction("ResourceMovieIdle")
+        Type.addAction("ResourceMovieEnter")
+        Type.addAction("ResourceMovieOver")
+        Type.addAction("ResourceMovieLeave")
+        Type.addAction("ResourceMovieRelease")
+        Type.addAction("ResourceMovieCharge")
+        Type.addAction("ResourceMovieCharged")
 
-        Type.addAction(Type, "TimeReload", Update=Type.__updateTimeReload)
-        Type.addAction(Type, "WaitCharge")
-        Type.addAction(Type, "NoCharge")
-        Type.addAction(Type, "State")
+        Type.addAction("TimeReload", Update=Type.__updateTimeReload)
+        Type.addAction("WaitCharge")
+        Type.addAction("NoCharge")
+        Type.addAction("State")
         pass
 
     def __updateTimeReload(self, value):

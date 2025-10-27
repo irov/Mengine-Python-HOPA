@@ -18,11 +18,11 @@ class Hint(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "Point")
-        Type.addAction(Type, "ZoomCheck")
-        Type.addAction(Type, "ItemCollectCheck")
-        Type.addAction(Type, "AroundSceneCheck")
-        Type.addAction(Type, "AnimationSequenceCount")
+        Type.addAction("Point")
+        Type.addAction("ZoomCheck")
+        Type.addAction("ItemCollectCheck")
+        Type.addAction("AroundSceneCheck")
+        Type.addAction("AnimationSequenceCount")
 
     def __init__(self):
         super(Hint, self).__init__()

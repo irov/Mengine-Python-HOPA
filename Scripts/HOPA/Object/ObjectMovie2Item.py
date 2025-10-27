@@ -5,10 +5,10 @@ class ObjectMovie2Item(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addConst(Type, "CompositionNameIdle")
-        Type.addConst(Type, "CompositionNamePick")
+        Type.declareConst("CompositionNameIdle")
+        Type.declareConst("CompositionNamePick")
 
-        Type.addConst(Type, "ResourceMovie")
+        Type.declareConst("ResourceMovie")
         pass
 
     def _onParams(self, params):

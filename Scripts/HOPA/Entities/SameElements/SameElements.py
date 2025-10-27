@@ -10,7 +10,7 @@ class SameElements(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addActionActivate(Type, "Collections")
+        Type.addActionActivate("Collections")
         pass
 
     def __init__(self):

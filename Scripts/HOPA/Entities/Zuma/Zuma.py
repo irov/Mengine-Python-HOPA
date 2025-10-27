@@ -14,7 +14,7 @@ class Zuma(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        #        Type.addAction(Type, "Places")
+        #        Type.addAction("Places")
         pass
 
     def __init__(self):

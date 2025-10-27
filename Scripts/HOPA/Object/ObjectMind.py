@@ -6,7 +6,7 @@ class ObjectMind(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "DetectPoint")
+        Type.declareParam("DetectPoint")
         pass
 
     def _onParams(self, params):

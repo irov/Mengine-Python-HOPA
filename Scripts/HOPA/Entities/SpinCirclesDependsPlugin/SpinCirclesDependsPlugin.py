@@ -72,7 +72,7 @@ class SpinCirclesDependsPlugin(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "StoreData")
+        Type.addAction("StoreData")
         pass
 
     def __init__(self):

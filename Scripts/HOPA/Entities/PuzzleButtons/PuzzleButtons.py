@@ -9,7 +9,7 @@ class PuzzleButtons(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "Slot")
+        Type.addAction("Slot")
         pass
 
     def __init__(self):

@@ -14,14 +14,14 @@ class InventoryItem(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "FoundItems",
+        Type.addAction("FoundItems",
                        Update=InventoryItem._restoreFoundItems,
                        Append=InventoryItem._appendFoundItems,
                        Remove=InventoryItem._removeFoundItems)
 
-        Type.addAction(Type, "SpriteResourceName")
-        Type.addAction(Type, "SlotPoint")
-        Type.addAction(Type, "ArrowPoint")
+        Type.addAction("SpriteResourceName")
+        Type.addAction("SlotPoint")
+        Type.addAction("ArrowPoint")
 
     def __init__(self):
         super(InventoryItem, self).__init__()

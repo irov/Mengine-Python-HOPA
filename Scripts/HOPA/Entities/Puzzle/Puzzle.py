@@ -11,7 +11,7 @@ class Puzzle(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "PlacedItems")
+        Type.addAction("PlacedItems")
         pass
 
     def __init__(self):

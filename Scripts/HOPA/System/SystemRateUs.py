@@ -98,7 +98,7 @@ class SystemRateUs(System):
         """ show group RateUs """
 
         if GroupManager.hasGroup("RateUs") is False:
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.log("System", 0, "SystemRateUs can't show `RateUs` - group 'RateUs' not found")
             SystemRateUs.showRate()
             return
@@ -123,7 +123,7 @@ class SystemRateUs(System):
         """ show `DialogWindow` - ask RateUs, then calls `showRate` """
 
         if DemonManager.hasDemon("DialogWindow") is False:
-            if _DEVELOPMENT:
+            if _DEVELOPMENT is True:
                 Trace.log("System", 0, "Can't show `RateUs` window, coz demon `DialogWindow` not found")
             SystemRateUs.showRate()
             return

@@ -10,12 +10,12 @@ class ObjectInventory(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "CurrentSlotIndex")
-        Type.addParam(Type, "InventoryItems")
-        Type.addParam(Type, "SlotCount")
-        Type.addParam(Type, "SlotPolygon")
-        Type.addParam(Type, "SlotPoints")
-        Type.addParam(Type, "ItemReturn")
+        Type.declareParam("CurrentSlotIndex")
+        Type.declareParam("InventoryItems")
+        Type.declareParam("SlotCount")
+        Type.declareParam("SlotPolygon")
+        Type.declareParam("SlotPoints")
+        Type.declareParam("ItemReturn")
         pass
 
     def _onParams(self, params):

@@ -8,8 +8,8 @@ class LocationComplete(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        # Type.addAction(Type, "CompleteScenes", Append=LocationComplete._appendCompleteScenes)
-        Type.addAction(Type, "CompleteScenes")
+        # Type.addAction("CompleteScenes", Append=LocationComplete._appendCompleteScenes)
+        Type.addAction("CompleteScenes")
 
     def __init__(self):
         super(LocationComplete, self).__init__()

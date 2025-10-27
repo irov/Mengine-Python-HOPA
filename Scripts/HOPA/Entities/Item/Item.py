@@ -10,15 +10,15 @@ class Item(Interaction):
     def declareORM(Type):
         Interaction.declareORM(Type)
 
-        Type.addAction(Type, "PureOffset")
+        Type.addAction("PureOffset")
 
-        Type.addAction(Type, "SpriteResourceNamePure")
-        Type.addAction(Type, "SpriteResourceNameFull")
+        Type.addAction("SpriteResourceNamePure")
+        Type.addAction("SpriteResourceNameFull")
 
-        Type.addAction(Type, "HotspotImageResourceName")
-        Type.addAction(Type, "PickOffset")
-        Type.addAction(Type, "ArrowPoint")
-        Type.addAction(Type, "SlotPoint")
+        Type.addAction("HotspotImageResourceName")
+        Type.addAction("PickOffset")
+        Type.addAction("ArrowPoint")
+        Type.addAction("SlotPoint")
 
     def __init__(self):
         super(Item, self).__init__()

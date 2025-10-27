@@ -6,7 +6,7 @@ class ObjectSpot(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "FadeColor")
+        Type.declareParam("FadeColor")
         pass
 
     def _onParams(self, params):

@@ -5,7 +5,7 @@ class ObjectFindSimilarChipsForActivate(ObjectEnigma):
     @staticmethod
     def declareORM(Type):
         ObjectEnigma.declareORM(Type)
-        Type.addParam(Type, 'availablePlaces')
+        Type.declareParam('availablePlaces')
 
     def _onParams(self, params):
         super(ObjectFindSimilarChipsForActivate, self)._onParams(params)

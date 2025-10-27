@@ -8,7 +8,7 @@ class Objectives(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "ObjectivesList",
+        Type.addAction("ObjectivesList",
                        Append=Objectives._appendObjectives,
                        Remove=Objectives._removeObjectives)
         pass

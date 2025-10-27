@@ -18,12 +18,12 @@ class Store(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "CurrentPageID",
+        Type.addAction("CurrentPageID",
                        Update=Store._cbUpdatePageID)
-        Type.addAction(Type, "UnvisitedPagesID",
+        Type.addAction("UnvisitedPagesID",
                        Append=Store._cbAppendUnvisitedPagesID,
                        Remove=Store._cbRemoveUnvisitedPagesID)
-        Type.addAction(Type, "HiddenPagesID",
+        Type.addAction("HiddenPagesID",
                        Append=Store._cbAppendHiddenPagesID,
                        Remove=Store._cbRemoveHiddenPagesID)
 

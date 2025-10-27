@@ -6,10 +6,10 @@ class ObjectBoneBoard(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "HelperState")
-        Type.addParam(Type, "BoneActivities")
-        Type.addParam(Type, "ButtonAvailable")
-        Type.addParam(Type, "UseAvailable")
+        Type.declareParam("HelperState")
+        Type.declareParam("BoneActivities")
+        Type.declareParam("ButtonAvailable")
+        Type.declareParam("UseAvailable")
         pass
 
     def _onParams(self, params):

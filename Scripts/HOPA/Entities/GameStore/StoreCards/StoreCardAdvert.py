@@ -79,7 +79,7 @@ class StoreCardAdvert(StoreCardMixin):
             Mengine.setTextAliasArguments(self.env, self.ALIAS_PRICE, "{}:{}:{}".format(hours, min, sec))
 
             if self.timer is not None:
-                if _DEVELOPMENT:
+                if _DEVELOPMENT is True:
                     Trace.log("Entity", 0, "Why you set time block when it was already in time block?")
                 Mengine.removeChronometer(self.timer)
 

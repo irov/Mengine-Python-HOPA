@@ -165,22 +165,22 @@ class FittingInventory(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "InventoryItems",
+        Type.addAction("InventoryItems",
                        Append=FittingInventory.__appendInventoryItems,
                        Remove=FittingInventory.__removeInventoryItems,
                        Change=FittingInventory.__changeInventoryItems)
 
-        Type.addAction(Type, "Fittings",
+        Type.addAction("Fittings",
                        Append=FittingInventory.__appendFittings,
                        Remove=FittingInventory.__removeFittings,
                        Change=FittingInventory.__changeFittings)
 
-        Type.addAction(Type, "SlotCount")
+        Type.addAction("SlotCount")
 
-        Type.addAction(Type, "SlotPoints")
-        Type.addAction(Type, "SlotPolygon")
+        Type.addAction("SlotPoints")
+        Type.addAction("SlotPolygon")
 
-        Type.addAction(Type, "EnablePopUp")
+        Type.addAction("EnablePopUp")
         pass
 
     def __init__(self):

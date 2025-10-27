@@ -9,7 +9,7 @@ class Isometric(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Animations")
+        Type.addAction("Animations")
         pass
 
     def __init__(self):

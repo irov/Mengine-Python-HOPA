@@ -5,14 +5,14 @@ class ObjectHOGInventoryCount(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addParam(Type, "HOG")
+        Type.declareParam("HOG")
 
-        Type.addParam(Type, "TextID")
-        Type.addParam(Type, "EnigmaName")
+        Type.declareParam("TextID")
+        Type.declareParam("EnigmaName")
 
-        Type.addParam(Type, "FindItems")
-        Type.addParam(Type, "FoundItems")
-        Type.addParam(Type, "ItemsCount")
+        Type.declareParam("FindItems")
+        Type.declareParam("FoundItems")
+        Type.declareParam("ItemsCount")
 
     def _onParams(self, params):
         super(ObjectHOGInventoryCount, self)._onParams(params)

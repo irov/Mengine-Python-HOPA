@@ -6,8 +6,8 @@ class ObjectProfileNew(Object):
     def declareORM(Type):
         Object.declareORM(Type)
 
-        Type.addParam(Type, "AccountID")
-        Type.addParam(Type, "ClickSlotID")
+        Type.declareParam("AccountID")
+        Type.declareParam("ClickSlotID")
         pass
 
     def _onParams(self, params):

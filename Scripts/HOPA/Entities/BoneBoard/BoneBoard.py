@@ -18,10 +18,10 @@ class BoneBoard(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, "HelperState")
-        Type.addAction(Type, "BoneActivities")
-        Type.addAction(Type, "ButtonAvailable")
-        Type.addAction(Type, "UseAvailable")
+        Type.addAction("HelperState")
+        Type.addAction("BoneActivities")
+        Type.addAction("ButtonAvailable")
+        Type.addAction("UseAvailable")
         pass
 
     def __init__(self):

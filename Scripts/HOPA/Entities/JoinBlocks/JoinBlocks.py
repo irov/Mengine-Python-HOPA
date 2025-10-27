@@ -11,7 +11,7 @@ class JoinBlocks(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, "BlockSave")
+        Type.addAction("BlockSave")
         pass
 
     def __init__(self):

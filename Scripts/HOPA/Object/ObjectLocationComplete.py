@@ -6,7 +6,7 @@ class ObjectLocationComplete(DemonObject):
     def declareORM(Type):
         DemonObject.declareORM(Type)
 
-        Type.addParam(Type, "CompleteScenes")
+        Type.declareParam("CompleteScenes")
         pass
 
     def _onParams(self, params):

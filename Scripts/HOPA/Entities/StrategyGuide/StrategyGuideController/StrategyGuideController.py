@@ -11,7 +11,7 @@ class StrategyGuideController(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addActionActivate(Type, "CurrentPage", Update=StrategyGuideController.__updateCurrentPage)
+        Type.addActionActivate("CurrentPage", Update=StrategyGuideController.__updateCurrentPage)
         pass
 
     def __updateCurrentPage(self, value):

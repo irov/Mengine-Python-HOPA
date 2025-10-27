@@ -26,8 +26,8 @@ class Journal(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Pages", Append=Journal.__cbAppendPage)
-        Type.addAction(Type, "CurrentPage")
+        Type.addAction("Pages", Append=Journal.__cbAppendPage)
+        Type.addAction("CurrentPage")
 
     def __cbAppendPage(self, page_index, page_id):
         Notification.notify(Notificator.onBonusVideoOpenCutScene, page_id)

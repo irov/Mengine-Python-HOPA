@@ -10,7 +10,7 @@ class WalktrhoughText(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "Open")
+        Type.addAction("Open")
         pass
 
     def __init__(self):

@@ -12,7 +12,7 @@ class Reagents(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, "OpenReagents",
+        Type.addAction("OpenReagents",
                        Append=Reagents._appendReagent,
                        Remove=Reagents._removeReagent,
                        Update=Reagents._updateReagents)
