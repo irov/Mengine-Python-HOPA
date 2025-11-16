@@ -35,26 +35,31 @@ class CollectiblesManager(Manager):
             self.button_whitelist_names = button_whitelist_names
             self.blocked_button_objects_buffer = []
 
-        def visitor(self, obj_):
-            obj_type = obj_.getType()
-            if obj_type == 'ObjectMovie2Button' or obj_type == 'ObjectMovieButton':
-                if obj_.getBlock():
-                    return
-                if obj_.getName() in self.button_whitelist_names:
-                    return
-
-                obj_.setBlock(True)
-                self.blocked_button_objects_buffer.append(obj_)
-
         def blockButtons(self, group_manager):
             if group_manager.hasGroup(self.group_name) is False:
                 return
 
             group = group_manager.getGroup(self.group_name)
+
             if isinstance(group, GroupManager.EmptyGroup) is True:
                 return
 
-            group.visitObjects2(self.visitor)
+            def __visitor(self, obj):
+                obj_type = obj.getType()
+                if obj_type == 'ObjectMovie2Button' or obj_type == 'ObjectMovieButton':
+                    if obj.getBlock():
+                        return
+
+                    if obj.getName() in self.button_whitelist_names:
+                        return
+
+                    obj.setBlock(True)
+
+                    self.blocked_button_objects_buffer.append(obj)
+                    pass
+                pass
+
+            group.visitObjects(__visitor)
 
         def revertButtonBlock(self):
             for button in self.blocked_button_objects_buffer:

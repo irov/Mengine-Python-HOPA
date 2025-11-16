@@ -111,7 +111,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
     def _scopeClickOnChip(self, source):
         clickOnChip = Holder()
         for (chipID, chip), race in source.addRaceTaskList(self.chips.iteritems()):
-            if self.movieSlots.getEntityType() is "Movie2":
+            if self.movieSlots.getType() is "ObjectMovie2":
                 race.addTask("TaskMovie2SocketClick", Movie2=self.movieSlots, SocketName="socket_{}".format(chipID))
             else:
                 race.addTask('TaskMovieSocketClick', Movie=self.movieSlots, SocketName='socket_{}'.format(chipID))
@@ -125,7 +125,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
 
     def _failClick(self, source, chip):
         chip.failState.setEnable(False)
-        if chip.failState.getEntityType() is "Movie2":
+        if chip.failState.getType() is "ObjectMovie2":
             source.addTask("TaskMovie2Play", Movie2=chip.failState, Wait=True)
         else:
             source.addTask('TaskMoviePlay', Movie=chip.failState, Wait=True)

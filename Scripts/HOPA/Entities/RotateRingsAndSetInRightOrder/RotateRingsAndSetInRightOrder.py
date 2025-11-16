@@ -3,9 +3,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.RotateRingsAndSetInRightOrderManager import RotateRingsAndSetInRightOrderManager
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class RotateRingsAndSetInRightOrder(Enigma):
     class Ring(object):
@@ -48,7 +46,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             pass
 
         def scopeClickDown(self, source):
-            if self.movie.getEntityType() is "Movie2":
+            if self.movie.getType() is "ObjectMovie2":
                 source.addTask("TaskMovie2SocketClick", Movie2=self.movie, SocketName="ring", isDown=True)
             else:
                 source.addTask("TaskMovieSocketClick", Movie=self.movie, SocketName="ring", isDown=True)
