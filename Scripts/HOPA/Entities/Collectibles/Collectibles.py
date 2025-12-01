@@ -227,9 +227,9 @@ class Collectibles(BaseEntity):
         Type.addActionActivate("CompleteScene")  # True if user collect all collectibles
         Type.addActionActivate("FinishAnimation")  # True if finish animation has been playing
 
-        Type.addActionActivate(Type, 'TransitionBackFromSceneName')
-        Type.addActionActivate(Type, 'TransitionBackToSceneName')
-        Type.addActionActivate(Type, 'TransitionBackToTextId')
+        Type.addActionActivate('TransitionBackFromSceneName')
+        Type.addActionActivate('TransitionBackToSceneName')
+        Type.addActionActivate('TransitionBackToTextId')
 
     def __init__(self):
         super(Collectibles, self).__init__()
