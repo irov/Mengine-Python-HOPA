@@ -70,8 +70,8 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, 'visibleChipsParam')
-        Type.addAction(Type, 'finishFlag')
+        Type.addAction('visibleChipsParam')
+        Type.addAction('finishFlag')
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
     def _playEnigma(self):

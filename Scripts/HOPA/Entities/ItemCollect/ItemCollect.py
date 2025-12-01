@@ -37,12 +37,12 @@ class ItemCollect(BaseEntity):
     @staticmethod
     def declareORM(Type):
         BaseEntity.declareORM(Type)
-        Type.addAction(Type, 'ItemCollectArea')
-        Type.addAction(Type, 'ItemsList')
-        Type.addAction(Type, 'Radius')
-        Type.addAction(Type, 'DeviationAngle')
-        Type.addAction(Type, 'AttachItem')
-        Type.addAction(Type, 'PreAttach')
+        Type.addAction('ItemCollectArea')
+        Type.addAction('ItemsList')
+        Type.addAction('Radius')
+        Type.addAction('DeviationAngle')
+        Type.addAction('AttachItem')
+        Type.addAction('PreAttach')
 
     def __init__(self):
         super(ItemCollect, self).__init__()

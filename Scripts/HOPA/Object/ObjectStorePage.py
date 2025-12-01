@@ -6,9 +6,9 @@ class ObjectStorePage(DemonObject):
     @staticmethod
     def declareORM(Type):
         DemonObject.declareORM(Type)
-        Type.addConst(Type, 'PageID')
-        Type.addConst(Type, 'Scrollable')
-        Type.addConst(Type, 'ScrollMode')
+        Type.declareConst('PageID')
+        Type.declareConst('Scrollable')
+        Type.declareConst('ScrollMode')
         Type.declareParam('WaitButtons')
 
         Type.declareConst("ColumnsCount")

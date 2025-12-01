@@ -107,7 +107,7 @@ class ChipsInNet(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, 'finishFlag')
+        Type.addAction('finishFlag')
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
     def _playEnigma(self):

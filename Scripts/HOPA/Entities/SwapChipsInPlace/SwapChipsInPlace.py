@@ -39,7 +39,7 @@ class SwapChipsInPlace(Enigma):
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)
-        Type.addAction(Type, 'completeEnigma')
+        Type.addAction('completeEnigma')
 
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):

@@ -9,9 +9,9 @@ class OptionsMore(BaseEntity):
     def declareORM(Type):
         BaseEntity.declareORM(Type)
 
-        Type.addAction(Type, 'Arrow', Activate=True, Update=OptionsMore._updateArrow)
-        # Type.addAction(Type, 'FullScreen', Activate=True, Update=OptionsMore._updateFullScreen)
-        Type.addAction(Type, 'WideScreen', Activate=True, Update=OptionsMore._updateWideScreen)
+        Type.addAction('Arrow', Activate=True, Update=OptionsMore._updateArrow)
+        # Type.addAction('FullScreen', Activate=True, Update=OptionsMore._updateFullScreen)
+        Type.addAction('WideScreen', Activate=True, Update=OptionsMore._updateWideScreen)
 
     def _updateArrow(self, value):
         Mengine.changeCurrentAccountSetting("CustomCursor", unicode(value))
