@@ -38,7 +38,6 @@ class Options(BaseEntity):
 
     def _onPreparation(self):
         super(Options, self)._onPreparation()
-        # sound volume sliders
 
         self.firstMusicChange = True
         self.firstSoundChange = True
@@ -47,6 +46,7 @@ class Options(BaseEntity):
         Options.startMusicVolumeValue = Mengine.getCurrentAccountSettingFloat('MusicVolume')
         Options.startSoundVolumeValue = Mengine.getCurrentAccountSettingFloat('SoundVolume')
         Options.startVoiceVolumeValue = Mengine.getCurrentAccountSettingFloat('VoiceVolume')
+
         if 'Music' in self.Sliders:
             self.Sliders['Music'][0] = Options.startMusicVolumeValue
         if 'Sound' in self.Sliders:
@@ -66,6 +66,7 @@ class Options(BaseEntity):
             "WideScreen": Mengine.getCurrentAccountSettingBool('Widescreen'),
             "Mute": Mengine.getCurrentAccountSettingBool('Mute'),
         }
+
         self.firstCheckChange = {key: True for key in Options.s_start_check_box_values.keys()}
 
         # Check sound volume buttons:

@@ -15,7 +15,7 @@ class ObjectInventory(DemonObject):
         Type.declareParam("SlotCount")
         Type.declareParam("SlotPolygon")
         Type.declareParam("SlotPoints")
-        Type.declareParam("ItemReturn")
+        Type.declareParam("BlockScrolling")
         pass
 
     def _onParams(self, params):

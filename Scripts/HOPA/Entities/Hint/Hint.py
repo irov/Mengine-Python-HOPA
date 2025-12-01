@@ -22,7 +22,6 @@ class Hint(BaseEntity):
         Type.addAction("ZoomCheck")
         Type.addAction("ItemCollectCheck")
         Type.addAction("AroundSceneCheck")
-        Type.addAction("AnimationSequenceCount")
 
     def __init__(self):
         super(Hint, self).__init__()

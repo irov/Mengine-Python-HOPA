@@ -2,9 +2,15 @@ from Foundation.Object.DemonObject import DemonObject
 
 
 class ObjectSkipPuzzle(DemonObject):
-    def _onParams(self, params):
-        super(ObjectSkipPuzzle, self)._onParams(params)
-        self.initParam("ForceReload", params, None)
+    @staticmethod
+    def declareORM(Type):
+        DemonObject.declareORM(Type)
+
+        Type.declareParam("ForceReload")
         pass
 
-    pass
+    def _onParams(self, params):
+        super(ObjectSkipPuzzle, self)._onParams(params)
+
+        self.initParam("ForceReload", params, None)
+        pass

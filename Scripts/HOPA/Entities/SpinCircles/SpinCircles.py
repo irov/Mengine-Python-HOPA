@@ -54,8 +54,7 @@ class SpinCircles(Enigma):
         pass
 
     def disableAll(self):
-        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, \
-            Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()
+        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()
         for movieNames in MovieNames:
             for movieName in movieNames:
                 movie = self.object.getObject(movieName)
@@ -188,8 +187,7 @@ class SpinCircles(Enigma):
         pass
 
     def __DataPreparation(self):
-        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, \
-            MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()  # unpacked
+        EnigmaObject, RotateItem, RotateInDepends, FinalState, DependRotate, Indicators, MovieNames, MovieNamesRevert, Overs, isHold = self.SpinCircles.getParams()
         self.EnigmaObject = EnigmaObject
         # Design Data
         for it, key in enumerate(RotateItem):

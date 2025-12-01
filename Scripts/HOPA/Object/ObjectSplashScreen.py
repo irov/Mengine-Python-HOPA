@@ -2,8 +2,11 @@ from Foundation.Object.DemonObject import DemonObject
 
 
 class ObjectSplashScreen(DemonObject):
-    def __init__(self):
-        super(ObjectSplashScreen, self).__init__()
+    @staticmethod
+    def declareORM(Type):
+        DemonObject.declareORM(Type)
+
+        Type.declareParam("Play")
         pass
 
     def _onParams(self, params):
@@ -21,5 +24,3 @@ class ObjectSplashScreen(DemonObject):
             object.superParam("Enable", False)
             pass
         pass
-
-    pass
