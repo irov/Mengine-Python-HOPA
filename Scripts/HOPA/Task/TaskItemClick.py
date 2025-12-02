@@ -4,7 +4,6 @@ from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from Notification import Notification
 
-
 class TaskItemClick(MixinItem, MixinObserver, Task):
     def _onParams(self, params):
         super(TaskItemClick, self)._onParams(params)
@@ -26,7 +25,6 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
         self.addObserverFilter(Notificator.onItemClick, self._onItemFindFilter, self.Item)
 
         return False
-        pass
 
     def _onFinally(self):
         super(TaskItemClick, self)._onFinally()
@@ -40,19 +38,12 @@ class TaskItemClick(MixinItem, MixinObserver, Task):
         if self.Filter is not None:
             if self.Filter(item) is False:
                 return False
-                pass
-            pass
 
         if ArrowManager.emptyArrowAttach() is False:
             if self.TradeMode:
                 Notification.notify(Notificator.onAttachTrade)
                 return True
-                pass
 
             return False
-            pass
 
         return True
-        pass
-
-    pass

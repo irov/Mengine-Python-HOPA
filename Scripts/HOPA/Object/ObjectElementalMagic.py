@@ -18,7 +18,7 @@ class ObjectElementalMagic(DemonObject):
         return self.getParam("Element")
 
     def setPlayerElement(self, element):
-        return self.setParam("Element", element)
+        self.setParam("Element", element)
 
     def getRing(self):
         if self.isActive() is False:
