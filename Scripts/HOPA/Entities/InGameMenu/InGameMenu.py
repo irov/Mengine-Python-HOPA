@@ -1,7 +1,7 @@
 from Event import Event
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
-from Foundation.Systems.SystemGoogleServices import SystemGoogleServices
+from Foundation.Systems.SystemGoogleServices import SystemGoogleServices, GOOGLE_GAME_SOCIAL_PLUGIN
 from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.MonetizationManager import MonetizationManager
@@ -51,7 +51,7 @@ class InGameMenu(BaseEntity):
         if Mengine.getConfigBool("GoogleService", "EnableInGameMenuSignOut", False) is False:
             return False
 
-        _plugin = SystemGoogleServices.b_plugins["GoogleGameSocial"] is True
+        _plugin = SystemGoogleServices.b_plugins[GOOGLE_GAME_SOCIAL_PLUGIN] is True
         if _plugin is False:
             if _DEVELOPMENT is False:
                 return False
