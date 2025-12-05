@@ -407,7 +407,7 @@ class SystemCameraManipulation(System):
             return False
 
         default_render_viewport = Mengine.getDefaultRenderViewport2D()
-        default_viewport = default_render_viewport.getViewport()
+        default_viewport = default_render_viewport.getViewportWM()
         self.bounds["begin"] = default_viewport.begin
         self.bounds["end"] = default_viewport.end
 
