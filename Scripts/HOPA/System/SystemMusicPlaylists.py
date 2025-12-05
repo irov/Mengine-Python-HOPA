@@ -61,13 +61,9 @@ class Playlist(object):
         fade_out_time = DefaultManager.getDefaultFloat('DefaultMusicFadeOutTime', 1000.0)
         self.track.fadeOut(fade_out_time, self.__end_track)
 
-    def __end_track(self, id=None, is_removed=None):
-        # print "__end_track", id, is_removed
-        if id == 2:
-            # #print "__end_track Track is skiped",id
-            return
-        # #print " __end_track is False"
-        if id == 3:
+    def __end_track(self, state=None, sound_identity_interface=None):
+        # print "__end_track", state, sound_identity_interface
+        if state == "onAmplifierMusicEnd":
             # self.EventMusicPlaySchedulerId = 0
             # Mengine.musicStop()
             self.track.fadeIn()
