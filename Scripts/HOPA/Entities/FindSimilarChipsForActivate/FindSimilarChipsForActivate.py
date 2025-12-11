@@ -111,7 +111,7 @@ class FindSimilarChipsForActivate(Enigma):
     @staticmethod
     def declareORM(type_):
         Enigma.declareORM(type_)
-        type_.addAction(type_, 'availablePlaces')
+        type_.addAction('availablePlaces')
 
     # -------------- Preparation ---------------------------------------------------------------------------------------
     def _loadParam(self):

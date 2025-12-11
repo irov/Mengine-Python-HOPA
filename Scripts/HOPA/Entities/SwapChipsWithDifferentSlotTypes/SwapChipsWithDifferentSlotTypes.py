@@ -253,7 +253,7 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
     @staticmethod
     def declareORM(type_):
         Enigma.declareORM(type_)
-        type_.addAction(type_, 'savedSlotChips')  # store chip/slot position for Save/Load MG
+        type_.addAction('savedSlotChips')  # store chip/slot position for Save/Load MG
 
     # -------------- Main ----------------------------------------------------------------------------------------------
     def loadParam(self):

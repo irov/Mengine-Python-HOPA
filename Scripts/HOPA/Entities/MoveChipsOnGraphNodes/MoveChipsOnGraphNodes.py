@@ -201,7 +201,7 @@ class MoveChipsOnGraphNodes(Enigma):
     @staticmethod
     def declareORM(type_):
         Enigma.declareORM(type_)
-        type_.addAction(type_, 'savedSlotChips')
+        type_.addAction('savedSlotChips')
 
     # -------------- Preparation ---------------------------------------------------------------------------------------
     def loadParam(self):
