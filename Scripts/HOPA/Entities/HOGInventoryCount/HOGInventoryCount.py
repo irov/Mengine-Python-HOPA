@@ -9,17 +9,16 @@ class HOGInventoryCount(InventoryBase):
     def declareORM(type_):
         InventoryBase.declareORM(type_)
 
-        type_.addAction(type_, "HOG")
+        type_.addAction("HOG")
 
-        type_.addAction(type_, 'EnigmaName')
-        type_.addAction(type_, 'TextID', Update=HOGInventoryCount._updateTextMessage)
+        type_.addAction('EnigmaName')
+        type_.addAction('TextID', Update=HOGInventoryCount._updateTextMessage)
 
-        type_.addActionActivate(type_, "ItemsCount",
-                                Update=HOGInventoryCount._updateItemsAllCount)
-        type_.addActionActivate(type_, "FindItems",
+        type_.addActionActivate("ItemsCount", Update=HOGInventoryCount._updateItemsAllCount)
+        type_.addActionActivate("FindItems",
                                 Append=HOGInventoryCount._appendFindItems,
                                 Update=HOGInventoryCount._updateFindItems)
-        type_.addActionActivate(type_, "FoundItems",
+        type_.addActionActivate("FoundItems",
                                 Append=HOGInventoryCount._appendFoundItems,
                                 Update=HOGInventoryCount._updateFoundItems)
 
