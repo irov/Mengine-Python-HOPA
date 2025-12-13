@@ -1,6 +1,6 @@
 from Foundation.Entity.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
-from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
+from Foundation.Providers.ConsentProvider import ConsentProvider
 from Foundation.DefaultManager import DefaultManager
 
 BUTTON_NAME = DefaultManager.getDefault("ConsentFlowButtonName", "Movie2Button_ConsentFlow")
@@ -30,7 +30,7 @@ class ConsentFlow(BaseEntity):
         self.tc = TaskManager.createTaskChain(Name="ConsentFlowButton", Repeat=True)
         with self.tc as tc:
             tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.button)
-            tc.addFunction(AdvertisementProvider.showConsentFlow)
+            tc.addFunction(ConsentProvider.showConsentFlow)
             tc.addDelay(1000)  # anti-spam
 
     def _onDeactivate(self):
@@ -40,6 +40,6 @@ class ConsentFlow(BaseEntity):
         self.button = None
 
     def _prepareEnable(self):
-        self._active = AdvertisementProvider.isConsentFlow() is True
+        self._active = ConsentProvider.isConsentFlow() is True
         return self._active
 
