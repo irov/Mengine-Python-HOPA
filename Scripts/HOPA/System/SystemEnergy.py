@@ -257,17 +257,33 @@ class SystemEnergy(System):
     def setFreeMode(state):
         SystemEnergy.in_free_mode = bool(state)
 
+    @staticmethod
+    def isFreeMode():
+        return SystemEnergy.in_free_mode is True
+
     def setInfinityMode(self, state):
         SystemEnergy.in_infinity_mode = state
         self.notifyUpdateBalance()
         if state is True:
             self.onCharged()
+        SystemEnergy.setAccountEnergyInfinity(state)
+
+    @staticmethod
+    def isInfinityMode():
+        system_state = SystemEnergy.in_infinity_mode
+        if system_state is True:
+            _Log("Infinity Energy Mode")
+        return system_state
+
+    @staticmethod
+    def setAccountEnergyInfinity(state):
         Mengine.changeCurrentAccountSettingBool("EnergyInfinity", state)
         Mengine.saveAccounts()
 
     @staticmethod
-    def isFreeMode():
-        return SystemEnergy.in_free_mode is True or SystemEnergy.in_infinity_mode is True
+    def isAccountEnergyInfinity():
+        is_energy_infinity = Mengine.getCurrentAccountSettingBool("EnergyInfinity")
+        return is_energy_infinity
 
     @staticmethod
     def getMaxEnergy():
@@ -317,6 +333,9 @@ class SystemEnergy(System):
 
     @balanceChanger("withdraw")  # noqa
     def withdrawEnergy(self, energy):
+        if SystemEnergy.isInfinityMode() is True:       # user bought infinity energy
+            return False
+
         if self.current_energy - energy < 0:
             self.current_energy = 0
         else:
@@ -325,6 +344,9 @@ class SystemEnergy(System):
 
     @balanceChanger("add")  # noqa
     def addEnergy(self, energy):
+        if SystemEnergy.isInfinityMode() is True:  # user bought infinity energy
+            return False
+
         self.current_energy += energy
         return False
 
@@ -345,6 +367,9 @@ class SystemEnergy(System):
         if SystemEnergy.isFreeMode() is True:
             return True
 
+        if SystemEnergy.isInfinityMode() is True:       # user bought infinity energy
+            return True
+
         action_value = self.getActionEnergy(action_name)
         return self.payEnergy(action_value, action_name, notify_not_enough_energy)
 
@@ -353,6 +378,10 @@ class SystemEnergy(System):
 
             :returns: `True` if payment success, `False` if not enough energy.
         """
+        if SystemEnergy.isInfinityMode() is True:       # user bought infinity energy
+            Notification.notify(Notificator.onEnergyConsumed, action_name, 0)
+            return True
+
         if self.isEnoughEnergy(amount) is False:
             if notify_not_enough_energy is True:
                 Notification.notify(Notificator.onEnergyNotEnough, action_name, amount)
@@ -539,7 +568,7 @@ class SystemEnergy(System):
             Trace.log("System", 0, "SystemEnergy._onLoad current_energy is not integer: {} {}".format(self.current_energy, type(self.current_energy)))
             self._setupInitialCurrentEnergy()
 
-        if Mengine.getCurrentAccountSettingBool("EnergyInfinity") is True:
+        if SystemEnergy.isAccountEnergyInfinity() is True:
             SystemEnergy.in_infinity_mode = True
             self.current_energy = max(self.current_energy, self.getMaxEnergy())
         else:
