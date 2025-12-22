@@ -38,34 +38,7 @@ class TechnicalSupport(BaseEntity):
         return self._active
 
     def getSupportMessageBody(self):
-        kwargs = dict(
-            BUILD_VERSION=_BUILD_VERSION,
-            BUILD_VERSION_NUMBER=_BUILD_VERSION_NUMBER,
-            BUILD_VERSION_CODE=_BUILD_VERSION,
-            PUBLISHER=Utils.getCurrentPublisher(),
-            OS_NAME=Utils.getCurrentPlatform(),
-            OS_VERSION="unknown",
-            USER_ID="unknown",
-        )
-        if _ANDROID:
-            kwargs["OS_VERSION"] = Mengine.androidStringMethod("Application", "getOSVersion")
-            kwargs["USER_ID"] = Mengine.androidStringMethod("Application", "getUserId")
-            kwargs["BUILD_VERSION_CODE"] = Mengine.androidIntegerMethod("Application", "getVersionCode")
-
-        body = u"""
-        
------ Please Describe Your Issue Above Here -----
-
-        Important Details for our Support Team:
-        * game publisher: {PUBLISHER}
-        * build version: {BUILD_VERSION} ({BUILD_VERSION_NUMBER})
-        * {OS_NAME} version: {OS_VERSION}
-        """.format(**kwargs)
-
-        if _ANDROID:
-            body += u"""* version code: {BUILD_VERSION_CODE}
-            * user id: {USER_ID}
-            """.format(**kwargs)
+        body = u""
 
         return body
 
