@@ -94,8 +94,7 @@ class MetalDetector(BaseEntity):
         pass
 
     def updateSpeedTiming(self, *params):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         arrowPosition = arrow_node.getLocalPosition()
 

@@ -573,8 +573,7 @@ class SystemZoom(System):
                     def __mask_debug(scope):
                         parent = zoomScene.getParent()
 
-                        arrow = Mengine.getArrow()
-                        arrow_node = arrow.getNode()
+                        arrow_node = Mengine.getArrowNode()
                         arrow_node.addChild(zoomScene)
 
                         zoomScene.setLocalPosition((-zoomSize.x * 0.5, -zoomSize.y * 0.5))

@@ -123,12 +123,14 @@ class StoreCardAdvert(StoreCardMixin):
             source.addDummy()
             return
 
-        with source.addRaceTask(2) as (viewed, hidden):
-            viewed.addListener(Notificator.onAdvertRewarded)
+        def __scope(scope_rewarded, scope_hidden):
+            scope_rewarded.addListener(Notificator.onAdvertRewarded)
+            scope_hidden.addListener(Notificator.onAdvertHidden)
+
+        with source.addRaceScope(2, __scope) as (viewed, hidden):
             viewed.addFunction(self.setTimeBlock, True)
             # viewed.addPrint("  - viewed")
 
-            hidden.addListener(Notificator.onAdvertHidden)
             hidden.addDelay(0)  # fix: setTimeBlock has no time for call  # hidden.addPrint("  - hidden")
 
     def _scopeInteractDummy(self, source):

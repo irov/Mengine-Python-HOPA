@@ -94,8 +94,7 @@ class Gun(object):
         pass
 
     def __onMouseMove(self):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         point = arrow_node.getLocalPosition()
         numGun = self.getGunMovieFromPos(point)
         if numGun != self.nowGun:

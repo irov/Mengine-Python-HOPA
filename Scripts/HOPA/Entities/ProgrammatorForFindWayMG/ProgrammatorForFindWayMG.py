@@ -52,8 +52,7 @@ class ProgrammatorForFindWayMG(Enigma):
             else:
                 self.preAttachPosition = self.node.getWorldPosition()
                 self.node.removeFromParent()
-                arrow = Mengine.getArrow()
-                arrow_node = arrow.getNode()
+                arrow_node = Mengine.getArrowNode()
                 arrowPos = arrow_node.getLocalPosition()
 
                 arrow_node.addChildFront(self.node)

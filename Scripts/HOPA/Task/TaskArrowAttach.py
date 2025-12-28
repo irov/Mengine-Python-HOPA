@@ -39,8 +39,7 @@ class TaskArrowAttach(MixinObject, Task):
         position = (position[0] + self.OffsetValue[0], position[1] + self.OffsetValue[1])
 
         if CursorManager.hasSlotItem() is False or self.MovieAttach is False:
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
 
             if self.Origin is True:
                 origin = Image.getLocalImageCenter()

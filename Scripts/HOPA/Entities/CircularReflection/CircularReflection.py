@@ -124,8 +124,7 @@ class CircularReflection(Enigma):
             self.allow_rotate = True
             self.clearence()
             self.suppressInteraction(False)
-            arrow = Mengine.getArrow()
-            node = arrow.getNode()
+            node = Mengine.getArrowNode()
             self.mouseTouchVec = node.getLocalPosition()
         elif event.isDown is False:
             self.allow_rotate = False
@@ -143,8 +142,7 @@ class CircularReflection(Enigma):
         if self.mouseTouchVec is None:
             return False
 
-        arrow = Mengine.getArrow()
-        node = arrow.getNode()
+        node = Mengine.getArrowNode()
         arrowPosition = node.getLocalPosition()
         basePosition = self.current_rotatable.getPosition()
         #         basePosition = self.mouseTouchVec

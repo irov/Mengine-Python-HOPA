@@ -20,8 +20,7 @@ class ZumaTurret(object):
         if event.isDown is True:
             return False
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         arrowPosition = arrow_node.getLocalPosition()
 
         #        arrowPosition= (arrowPosition[0],arrowPosition[1]-20)
@@ -93,8 +92,7 @@ class ZumaWatcher(object):
     #        self.GunObject.setRotate(-1)
 
     def __MakeRotate(self, *args):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         arrowPosition = arrow_node.getLocalPosition()
         #        basePosition = (0,0)
         basePosition = self.GunObject.getPosition()

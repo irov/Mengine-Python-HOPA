@@ -277,8 +277,7 @@ class Collectibles(BaseEntity):
         if self.object.hasPrototype('Movie2_TransitionTextBlock'):
             text_block_prototype_name = 'Movie2_TransitionTextBlock'
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         system_collectibles = SystemManager.getSystem("SystemCollectibles")
         collectibles_groups = system_collectibles.getCollectibleGroups()

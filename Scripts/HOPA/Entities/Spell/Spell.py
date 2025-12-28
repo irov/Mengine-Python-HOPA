@@ -451,8 +451,7 @@ class Spell(BaseEntity):
             if self.useMovie is None:
                 return
                 pass
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             movieEntityNode = self.useMovie.getEntityNode()
             ArrowManager.attachArrow(self.useMovie)
             arrow_node.addChild(movieEntityNode)
@@ -498,14 +497,7 @@ class Spell(BaseEntity):
         pass
 
     def __invalidUseScope(self, scope):
-        arrow = Mengine.getArrow()
-        dir_arrow = dir(arrow)
-        # print
-        # for attr in dir_arrow:
-        #     print attr
-        #     pass
-        # print
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         pos = arrow_node.getWorldPosition()
         with scope.addParallelTask(2) as (tc_invalidMind, tc_invalidMovie):
             tc_invalidMind.addTask("AliasMindPlay", MindID="ID_MIND_SPELL_INVALIDUSE")
@@ -521,8 +513,7 @@ class Spell(BaseEntity):
         pass
 
     def __noManaScope(self, scope):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         pos = arrow_node.getWorldPosition()
         with scope.addParallelTask(2) as (tc_invalidMind, tc_invalidMovie):
             tc_invalidMind.addTask("AliasMindPlay", MindID="ID_MIND_SPELL_NO_MANA")

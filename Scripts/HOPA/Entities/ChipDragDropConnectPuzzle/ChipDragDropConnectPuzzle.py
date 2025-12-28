@@ -23,8 +23,7 @@ class ChipDragDropConnectPuzzle(Enigma):
             source.addTask("TaskMouseButtonClick", isDown=False)
 
         def attach(self):
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             arrowPos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()
@@ -36,8 +35,7 @@ class ChipDragDropConnectPuzzle(Enigma):
 
         def deattach(self):
             self.movie.returnToParent()
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             arrow_pos = arrow_node.getLocalPosition()
 
             entity_node = self.movie.getEntityNode()

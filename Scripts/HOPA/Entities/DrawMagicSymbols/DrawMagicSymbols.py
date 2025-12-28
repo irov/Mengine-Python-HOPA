@@ -660,8 +660,7 @@ class DrawMagicSymbols(Enigma):
         if not self.params.hide_cursor:
             return
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         if time == -1:
             arrow_node.getRender().setLocalAlpha(alpha_to)

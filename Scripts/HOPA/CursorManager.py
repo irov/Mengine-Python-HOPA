@@ -473,8 +473,7 @@ class CursorManager(Manager):
 
             return True
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         SystemCursor = Mengine.getCursorMode()
         CursorSystemAttachX = None
@@ -738,12 +737,6 @@ class CursorManager(Manager):
         CursorManager.updateArrowCursor(True)
 
         return False
-
-    @staticmethod
-    def getArrow():
-        arrow = Mengine.getArrow()
-
-        return arrow
 
     @staticmethod
     def macroAttached(attach):

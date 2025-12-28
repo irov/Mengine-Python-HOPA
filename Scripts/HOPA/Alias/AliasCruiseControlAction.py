@@ -26,8 +26,7 @@ class AliasCruiseControlAction(TaskAlias):
 
     def _onInitialize(self):
         super(AliasCruiseControlAction, self)._onInitialize()
-        arrow = Mengine.getArrow()
-        self.Node = arrow.getNode()
+        self.Node = Mengine.getArrowNode()
 
     def _onValidate(self):
         super(AliasCruiseControlAction, self)._onValidate()

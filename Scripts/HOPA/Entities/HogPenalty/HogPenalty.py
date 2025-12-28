@@ -64,8 +64,7 @@ class HogPenalty(BaseEntity):
             mainLayer = scene.getSlot("HogUpEffect")
             mainLayer.addChild(MovieEn)
             self.MovieEntity = MovieEn
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             MainLayer = self.getParent()
             centre = MainLayer.getSize()
             origin = (centre[0] / 2, centre[1] / 2)
@@ -92,8 +91,7 @@ class HogPenalty(BaseEntity):
         pass
 
     def updatePosition(self, *params):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         new_position = arrow_node.getLocalPosition()
         Movie = self.object.getObject("Movie_Penalty")
         Movie.setPosition(new_position)

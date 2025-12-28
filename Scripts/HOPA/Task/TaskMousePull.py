@@ -30,21 +30,17 @@ class TaskMousePull(MixinObserver, Task):
         pass
 
     def _onRun(self):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         self.startPoint = arrow_node.getLocalPosition()
 
         self.addObserver(Notificator.onMouseButtonEvent, self.__PullListener)
 
         return False
-        pass
 
     def __PullListener(self, event):
         if event.isDown is True:
             return False
-            pass
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         endPoint = arrow_node.getLocalPosition()
 
         pullVector = (self.startPoint[0] - endPoint[0], self.startPoint[1] - endPoint[1])
@@ -53,12 +49,10 @@ class TaskMousePull(MixinObserver, Task):
         if size_vect < self.MinDistance ** 2:
             Notification.notify(Notificator.onMousePull, self.Direction, False)  # min dist not accept
             return True
-            pass
 
         base = self.base[self.Direction]
         self.validateDirection(base, pullVector)
         return True
-        pass
 
     def validateDirection(self, baseDir, customDir):
         x, y = baseDir  # norm vector 1

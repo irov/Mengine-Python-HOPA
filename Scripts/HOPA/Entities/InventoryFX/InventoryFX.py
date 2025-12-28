@@ -436,8 +436,7 @@ class InventoryFX(BaseEntity):
             tc.addFunction(self.inventoryGlobalMouseEvent, True)
             pass
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         InventoryItemEntity = InventoryItem.getEntity()
         InventoryItemEntityNode = InventoryItem.getEntityNode()

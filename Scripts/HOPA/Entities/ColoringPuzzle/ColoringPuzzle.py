@@ -76,8 +76,7 @@ class ColoringPuzzle(Enigma):
             self.onSocketBlockCursorLeaveObserver = None
             pass
 
-        arrow = Mengine.getArrow()
-        arrow_radius_curr = arrow.getRadius()
+        arrow_radius_curr = Mengine.getArrowNode()
 
         if arrow_radius_curr != self.arrow_radius_saved and self.arrow_radius_saved is not None:
             arrow.setRadius(self.arrow_radius_saved)
@@ -138,8 +137,7 @@ class ColoringPuzzle(Enigma):
             self.brushes[brushId] = brush
             pass
 
-        arrow = Mengine.getArrow()
-        arrow_radius_curr = arrow.getRadius()
+        arrow_radius_curr = Mengine.getArrowNode()
 
         if arrow_radius_curr != self.GameData.arrow_radius:
             arrow.setRadius(self.GameData.arrow_radius)

@@ -274,8 +274,7 @@ class Spot(BaseEntity):
         self.translate((0, 0))
         self.setLocalPosition((0, 0))
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         self.setRelationTransformation(arrow_node)
         pass
 
@@ -285,8 +284,7 @@ class Spot(BaseEntity):
 
         self.__attached = False
 
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         tempPos = arrow_node.getWorldPosition()
 
         self.removeRelationTransformation()

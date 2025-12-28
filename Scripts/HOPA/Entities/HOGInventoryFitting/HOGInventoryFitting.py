@@ -382,8 +382,7 @@ class HOGInventoryFitting(InventoryBase):
             slot.PickItem()
             Item = slot.ItemStore
             ArrowManager.attachArrow(Item)
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             ItemEntityNode = Item.getEntityNode()
             arrow_node.addChildFront(ItemEntityNode)
             self.ItemIsPicked = True
@@ -632,8 +631,7 @@ class HOGInventoryFitting(InventoryBase):
         self.CurrentItemZoomStore.setEnable(True)
 
         node = self.CurrentItemZoomStore.entity.node
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         arrow_node.addChild(node)
 
         offset_vec2 = self.CurrentItemZoomStore.entity.sprite.getSurfaceSize()

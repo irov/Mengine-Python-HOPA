@@ -207,8 +207,7 @@ class AssemblyDesigner(Enigma):
             source.addTask("TaskMovie2SocketClick", SocketName="socket", Movie2=self.current_movie, isDown=True)
 
         def attachToCursor(self):
-            arrow = Mengine.getArrow()
-            node = arrow.getNode()
+            node = Mengine.getArrowNode()
             self.__temp_parent = self.current_movie.getEntityNode().getParent()
             self.movie_on_set.setEnable(False)
             self.movie_on_shelf.setEnable(True)
@@ -620,8 +619,7 @@ class AssemblyDesigner(Enigma):
 
     def __scopeTryAddItemToSet(self, source, item, semaphore):
         def __check_arrow_on_carcass():
-            arrow = Mengine.getArrow()
-            node = arrow.getNode()
+            node = Mengine.getArrowNode()
 
             screen_position = Mengine.getNodeScreenAdaptPosition(node)
             hotspots_names = Mengine.pickAllHotspot(screen_position)

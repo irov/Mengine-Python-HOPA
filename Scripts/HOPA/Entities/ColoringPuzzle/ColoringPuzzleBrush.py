@@ -22,8 +22,7 @@ class ColoringPuzzleBrush(object):
         pos = slotOffset.getLocalPosition()
         self.movieObject.setOrigin(pos)
 
-        arrow = Mengine.getArrow()
-        itemNode = arrow.getCursorNode()
+        itemNode = Mengine.getArrowNode()
         # itemNode.removeAllChild()
         itemNode.addChild(movieEntityNode)
 

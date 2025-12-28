@@ -46,8 +46,7 @@ class Achievements(BaseEntity):
 
             movie_text = self.object.getObject(param.movie_text)
 
-            arrow = Mengine.getArrow()
-            arrow_node = arrow.getNode()
+            arrow_node = Mengine.getArrowNode()
             arrow_node.addChild(movie_text.getEntityNode())
 
             movie_text.setAlpha(0.0)

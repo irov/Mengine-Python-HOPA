@@ -367,8 +367,7 @@ class CursorMaskFindInvisibleChip(Enigma):
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def setCursorSmoothAlpha(self, alpha_to):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
 
         if self.params.cursor_movie_alpha_time == -1:
             arrow_node.getRender().setLocalAlpha(alpha_to)

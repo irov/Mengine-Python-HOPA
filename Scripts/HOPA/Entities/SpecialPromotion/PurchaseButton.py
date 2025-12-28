@@ -48,10 +48,13 @@ class PurchaseButton(object):
         semaphore_rewarded_ok = Semaphore(False, "AdvertRewardedStatus")
 
         def _scopeWhileView(src):
-            with src.addRaceTask(2) as (ok, skip):
-                ok.addListener(Notificator.onAdvertRewarded, Filter=lambda name, *_: name == self.product.name)
+            def __scope(scope_rewarded, scope_skipped):
+                scope_rewarded.addListener(Notificator.onAdvertRewarded, Filter=lambda name, *_: name == self.product.name)
+                scope_skipped.addListener(Notificator.onAdvertSkipped, Filter=lambda _, ad_name: ad_name == self.product.name)
+                pass
+
+            with src.addRaceScope(2, __scope) as (ok, skip):
                 ok.addSemaphore(semaphore_rewarded_ok, To=True)
-                skip.addListener(Notificator.onAdvertSkipped, Filter=lambda _, ad_name: ad_name == self.product.name)
 
         source.addTask("AliasShowRewardedAdvert", AdPlacement=self.product.name, WhileShowScope=_scopeWhileView)
 

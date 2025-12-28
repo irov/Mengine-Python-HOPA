@@ -109,8 +109,7 @@ class FindingAndPlacingChipsOnMovie(Enigma):
             tc.addFunction(self.__setNewCurrentChip)
 
     def __prepareChip(self):
-        arrow = Mengine.getArrow()
-        arrow_node = arrow.getNode()
+        arrow_node = Mengine.getArrowNode()
         arrow_node.addChild(self.current_chip.chip_movie.getEntityNode())
 
         self.current_chip.chip_movie.setEnable(True)
