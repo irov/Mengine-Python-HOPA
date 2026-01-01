@@ -45,8 +45,6 @@ class PolicyTransitionAdvertising(Task):
         ZoomEffectTransitionObject = self.TransitionData.get("ZoomEffectTransitionObject")
         AdvertisingTransitionData = dict(SceneName=PolicyTransitionAdvertising.ADVERTISING_SCENE, MovieIn=MovieIn, ZoomEffectTransitionObject=ZoomEffectTransitionObject)
 
-        #AdvertisingTransitionData = dict(SceneName=PolicyTransitionAdvertising.ADVERTISING_SCENE)
-
         TaskManager.runAlias("AliasTransition", __cbTransition, **AdvertisingTransitionData)
 
         return False
