@@ -5,8 +5,7 @@ class ObjectMenuGreeting(DemonObject):
     def _onParams(self, params):
         super(ObjectMenuGreeting, self)._onParams(params)
 
-        #        self.params["LabelID"] = params.get("LabelID", None)
-        #        self.params["TitleID"] = params.get("TitleID", None)
+        #self.initParam("LabelID", params, None)
+        #self.initParam("TitleID", params, None)
         pass
-
     pass

@@ -23,12 +23,12 @@ class ObjectOptions(DemonObject):
         SoundVolumeValue = DefaultManager.getDefaultFloat('DefaultSoundVolume', 0.5)
         VoiceVolumeValue = DefaultManager.getDefaultFloat('DefaultVoiceVolume', 0.5)
 
-        self.params["MusicVolume"] = params.get("MusicVolume", MusicVolumeValue)
-        self.params["SoundVolume"] = params.get("SoundVolume", SoundVolumeValue)
-        self.params["VoiceVolume"] = params.get("VoiceVolume", VoiceVolumeValue)
-        self.params["Mute"] = params.get("Mute", False)
-        self.params["Fullscreen"] = params.get("Fullscreen", True)
-        self.params["Widescreen"] = params.get("WideScreen", False)
-        self.params["Cursor"] = params.get("Cursor", False)
+        self.initParam("MusicVolume", params, MusicVolumeValue)
+        self.initParam("SoundVolume", params, SoundVolumeValue)
+        self.initParam("VoiceVolume", params, VoiceVolumeValue)
+        self.initParam("Mute", params, False)
+        self.initParam("Fullscreen", params, True)
+        self.initParam("Widescreen", params, False)
+        self.initParam("Cursor", params, False)
         pass
     pass
