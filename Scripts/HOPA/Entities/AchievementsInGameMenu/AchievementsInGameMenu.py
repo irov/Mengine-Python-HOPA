@@ -414,8 +414,7 @@ class AchievementsInGameMenu(BaseEntity):
             self.__setMorphsText(morph_id)
             return True
 
-        Trace.log("Entity", 0,
-                  "AchievementsInGameMenu.__setTexts: No achievement_name or collectible_scene inputted, also Morphs are disabled")
+        Trace.msg_dev("AchievementsInGameMenu.__setTexts: No achievement_name or collectible_scene inputted, also Morphs are disabled")
 
         return False
 
