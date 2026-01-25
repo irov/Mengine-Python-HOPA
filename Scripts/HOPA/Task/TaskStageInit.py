@@ -24,35 +24,26 @@ class TaskStageInit(MixinObserver, Task):
         Stage = StageManager.getCurrentStage()
         if Stage is None:
             return True
-            pass
 
         if self.StageName is None:
             return False
-            pass
 
         if Stage.getName() == self.StageName:
             return False
-            pass
 
         return True
-        pass
 
     def _onRun(self):
         self.addObserver(Notificator.onStageInit, self._onStageFilter)
 
         return False
-        pass
 
     def _onStageFilter(self, stageName):
         if self.StageName is None:
             return True
-            pass
 
         if self.StageName != stageName:
             return False
-            pass
 
         return True
-        pass
-
     pass

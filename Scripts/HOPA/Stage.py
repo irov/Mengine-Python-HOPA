@@ -237,8 +237,8 @@ class Stage(Params, Initializer):
         self.PrefetchSpriteResources = []
         pass
 
-    def initializeGroups(self, Tag):
-        if GroupManager.initializeGroupTag(Tag) is False:
+    def initializeGroups(self, stageName):
+        if GroupManager.initializeGroupStageName(stageName) is False:
             return False
             pass
 

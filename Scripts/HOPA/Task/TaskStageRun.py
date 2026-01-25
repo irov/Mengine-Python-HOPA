@@ -18,6 +18,4 @@ class TaskStageRun(Task):
             pass
 
         return True
-        pass
-
     pass

@@ -122,7 +122,6 @@ class StageManager(Manager):
             stageName = values[0].strip()
             if stageName == "":
                 return
-                pass
 
             StageManager.importStage(module, stageName)
             pass
