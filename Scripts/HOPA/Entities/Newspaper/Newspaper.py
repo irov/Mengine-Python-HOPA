@@ -30,18 +30,16 @@ class Newspaper(BaseEntity):
         if self.Open is True:
             self.__openNewspaper()
             return
-            pass
 
         SceneName = SceneManager.getCurrentSceneName()
         GroupName = SceneManager.getSceneMainGroupName(SceneName)
 
-        if TaskManager.existTaskChain("Newspaper%s" % (self.NewspaperID)):
-            TaskManager.cancelTaskChain("Newspaper%s" % (self.NewspaperID))
+        if TaskManager.existTaskChain("NewspaperShow_%s" % (self.NewspaperID)):
+            TaskManager.cancelTaskChain("NewspaperShow_%s" % (self.NewspaperID))
             pass
 
-        with TaskManager.createTaskChain(Name="Newspaper%s" % (self.NewspaperID)) as tc:
-            self.Quest = QuestManager.createLocalQuest("NewspaperRepeat", SceneName=SceneName,
-                                                       GroupName=GroupName, Object=self.newspaper.socket_Open)
+        with TaskManager.createTaskChain(Name="NewspaperShow_%s" % (self.NewspaperID)) as tc:
+            self.Quest = QuestManager.createLocalQuest("NewspaperRepeat", SceneName=SceneName, GroupName=GroupName, Object=self.newspaper.socket_Open)
             with QuestManager.runQuest(tc, self.Quest) as tc_quest:
                 tc_quest.addTask("TaskSocketClick", Socket=self.newspaper.socket_Open)
                 tc_quest.addFunction(self.__openNewspaper)
@@ -53,21 +51,11 @@ class Newspaper(BaseEntity):
         if self.NewspaperID is None:
             return
 
-        layerAttachGroupEntity = self.AttachLayerGroup.getEntity()
-
         movieOpenGroup = self.newspaper.movie_Open.getGroup()
-        if movieOpenGroup != self.newspaper.socket_Open.getGroup():
-            self.tempEnableGroups.append(movieOpenGroup)
-            pass
+        movieOpenGroup.onEnable()
 
         movieCloseGroup = self.newspaper.movie_Close.getGroup()
-        if movieCloseGroup != self.newspaper.socket_Close.getGroup():
-            self.tempEnableGroups.append(movieCloseGroup)
-            pass
-
-        for group in self.tempEnableGroups:
-            group.onEnable()
-            pass
+        movieCloseGroup.onEnable()
 
         self.newspaper.movie_Open.setEnable(True)
         self.newspaper.movie_Close.setEnable(True)
@@ -78,10 +66,12 @@ class Newspaper(BaseEntity):
         slotMovieCloseEntity = self.newspaper.movie_Close.getEntity()
         slotClose = slotMovieCloseEntity.getMovieSlot("group")
 
+        layerAttachGroupEntity = self.AttachLayerGroup.getEntity()
+
         NewspaperFade = DefaultManager.getDefaultFloat("NewspaperFade", 0.5)
 
         if self.Open is True:
-            with TaskManager.createTaskChain(Name="NewspaperOpen%s" % (self.NewspaperID), Cb=self._showComplete) as tc:
+            with TaskManager.createTaskChain(Name="NewspaperOpen_%s" % (self.NewspaperID), Cb=self._showComplete) as tc:
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=True)
                 tc.addParam(self.newspaper.movie_Open, "LastFrame", False)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotOpen, ChildNode=layerAttachGroupEntity)
@@ -117,7 +107,7 @@ class Newspaper(BaseEntity):
                 pass
             pass
         else:
-            with TaskManager.createTaskChain(Name="NewspaperOpen", Cb=self._showComplete) as tc:
+            with TaskManager.createTaskChain(Name="NewspaperClose_%s" % (self.NewspaperID), Cb=self._showComplete) as tc:
                 tc.addEnable(self.newspaper.socket_Close)
                 tc.addTask("TaskInteractive", Object=self.newspaper.socket_Close, Value=True)
                 tc.addTask("TaskNodeAddChild", ParentNode=slotOpen, ChildNode=layerAttachGroupEntity)
@@ -160,22 +150,20 @@ class Newspaper(BaseEntity):
         if NewspaperManager.hasNewspaperID(GroupName, ObjectName) is False:
             Trace.log("Entity", 0, "Newspaper._onActivate not found NewspaperID %s:%s" % (GroupName, ObjectName))
             return
-            pass
 
         newspaperID = NewspaperManager.getNewspaperID(GroupName, ObjectName)
 
         self.object.setNewspaperID(newspaperID)
 
-        if TaskManager.existTaskChain(self.NewspaperID):
-            TaskManager.cancelTaskChain(self.NewspaperID)
-            pass
+        newspaper = NewspaperManager.getNewspaper(self.NewspaperID)
 
-        self.newspaper = NewspaperManager.getNewspaper(self.NewspaperID)
-        if self.ShowComplete is True and self.newspaper.repeat is False:
+        if self.ShowComplete is True and newspaper.repeat is False:
             return
-            pass
+
+        self.newspaper = newspaper
 
         self.AttachLayerGroup = GroupManager.getGroup(self.newspaper.attachGroupName)
+
         self.__showNewspaper()
         pass
 
@@ -183,53 +171,51 @@ class Newspaper(BaseEntity):
         if self.object is None or self.newspaper is None:
             return
 
-        for group in self.tempEnableGroups:
-            group.onDisable()
-            pass
-
-        self.tempEnableGroups = []
-
         self.object.setShowComplete(True)
+
         if self.newspaper.repeat is True:
             self.__showNewspaper()
             pass
+
+        movieOpenGroup = self.newspaper.movie_Open.getGroup()
+        movieOpenGroup.onDisable()
+
+        movieCloseGroup = self.newspaper.movie_Close.getGroup()
+        movieCloseGroup.onDisable()
         pass
 
     def _cleanData(self):
-        if self.NewspaperID is None or self.newspaper is None:
-            return
-
-        if self.AttachLayerGroup is None:
-            return
-
-        if self.AttachLayerGroup.isActive() is False:
-            return
-
-        layerAttachGroupEntity = self.AttachLayerGroup.getEntity()
-        layerAttachGroupEntity.removeFromParent()
-        self.AttachLayerGroup = None
-        #
-        for group in self.tempEnableGroups:
-            group.onDisable()
+        if self.AttachLayerGroup is not None:
+            if self.AttachLayerGroup.isActive() is True:
+                layerAttachGroupEntity = self.AttachLayerGroup.getEntity()
+                layerAttachGroupEntity.removeFromParent()
+                self.AttachLayerGroup = None
+                pass
             pass
 
-        self.newspaper.movie_Open.setEnable(False)
-        self.newspaper.movie_Close.setEnable(False)
-        self.newspaper = None
-        #
-        self.tempEnableGroups = []
+        if self.newspaper is not None:
+            self.newspaper.movie_Open.setEnable(False)
+            self.newspaper.movie_Close.setEnable(False)
+            self.newspaper = None
+            pass
 
-        QuestManager.cancelQuest(self.Quest)
-        self.Quest = None
+        if self.Quest is not None:
+            QuestManager.cancelQuest(self.Quest)
+            self.Quest = None
+            pass
         pass
 
     def _onDeactivate(self):
-        if TaskManager.existTaskChain("Newspaper%s" % (self.NewspaperID)):
-            TaskManager.cancelTaskChain("Newspaper%s" % (self.NewspaperID))
+        if TaskManager.existTaskChain("NewspaperShow_%s" % (self.NewspaperID)):
+            TaskManager.cancelTaskChain("NewspaperShow_%s" % (self.NewspaperID))
             pass
 
         if TaskManager.existTaskChain("NewspaperOpen%s" % (self.NewspaperID)):
             TaskManager.cancelTaskChain("NewspaperOpen%s" % (self.NewspaperID))
+            pass
+
+        if TaskManager.existTaskChain("NewspaperClose%s" % (self.NewspaperID)):
+            TaskManager.cancelTaskChain("NewspaperClose%s" % (self.NewspaperID))
             pass
 
         self._cleanData()

@@ -24,13 +24,13 @@ class AliasDialogPlay(TaskAlias):
         with source.addRaceTask(2) as (tc_play, tc_skip):
             tc_play.addTask("TaskDialogPlay", DialogID=self.DialogID)
 
-            for group in self.Groups:
-                tc_play.addTask("TaskSceneLayerGroupEnable", LayerName=group, Value=False)
-                pass
-
             tc_skip.addTask("TaskDialogSkip", DialogID=self.DialogID)
             pass
 
         # source.addNotify(Notificator.onMusicFadeOut, MusicFadeDialog)
         source.addTask("TaskMusicSetVolume", Tag="Dialog", To=1.0, From=MusicFadeDialog)
+
+        for group in self.Groups:
+            tc_play.addTask("TaskSceneLayerGroupEnable", LayerName=group, Value=False)
+            pass
 

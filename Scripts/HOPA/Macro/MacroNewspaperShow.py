@@ -40,8 +40,7 @@ class MacroNewspaperShow(MacroCommand):
         newspaper = NewspaperManager.getNewspaper(self.NewspaperName)
         clickObject = newspaper.socket_Open
 
-        Quest = self.addQuest(source, "Newspaper", SceneName=self.SceneName, GroupName=self.GroupName,
-                              Object=clickObject)
+        Quest = self.addQuest(source, "Newspaper", SceneName=self.SceneName, GroupName=self.GroupName, Object=clickObject)
 
         with Quest as tc_quest:
             with tc_quest.addIfTask(NewspaperManager.isOpenNewspaper, self.NewspaperName) as (tc_quest_yes, tc_quest_no):

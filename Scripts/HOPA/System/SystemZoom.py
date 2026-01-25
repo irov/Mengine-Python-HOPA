@@ -210,8 +210,7 @@ class SystemZoom(System):
                 ShowFrameLayer = ShowFrameGroup.getMainLayer()
 
                 with guard_tc.addParallelTask(2) as (tc_show, tc_hide):
-                    tc_show.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                    LayerName=zoomFrameGroup, Value=True)
+                    tc_show.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=zoomFrameGroup, Value=True)
                     tc_show.addTask("TaskNodeAlphaTo", Node=ShowFrameLayer, From=0, To=1.0, Time=timeOpen)
 
                     def _check(layer):
@@ -223,8 +222,7 @@ class SystemZoom(System):
                     with tc_hide.addIfTask(_check, HideFrameLayer) as (tc_true, tc_false):
                         tc_true.addTask("TaskNodeAlphaTo", Node=HideFrameLayer, From=1, To=0, Time=timeOpen)
 
-                    tc_hide.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                    LayerName=OldFrameGroupName, Value=False)
+                    tc_hide.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=OldFrameGroupName, Value=False)
             pass
 
         with self.createTaskChain(Name="ZoomChangeGroupName", Cb=self.__openZoomAfterFadeIn) as tc:
@@ -288,13 +286,11 @@ class SystemZoom(System):
                 ShowFrameLayer = ShowFrameGroup.getMainLayer()
 
                 with guard_tc.addParallelTask(2) as (tc_show, tc_hide):
-                    tc_show.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                    LayerName=zoomFrameGroup, Value=True)
+                    tc_show.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=zoomFrameGroup, Value=True)
                     tc_show.addTask("TaskNodeAlphaTo", Node=ShowFrameLayer, From=0, To=1.0, Time=timeOpen)
 
                     tc_hide.addTask("TaskNodeAlphaTo", Node=HideFrameLayer, To=0, Time=timeOpen)
-                    tc_hide.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                    LayerName=OldFrameGroupName, Value=False)
+                    tc_hide.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=OldFrameGroupName, Value=False)
             pass
 
         with self.createTaskChain(Name="ZoomChangeBackGroupName", Cb=self.__openZoomAfterFadeIn) as tc:
@@ -320,14 +316,12 @@ class SystemZoom(System):
             pass
 
         return False
-        pass
 
     def __zoomForceOpen(self, zoomGroupName):
         timeOpen = 0.01
         timeOpen *= 1000  # speed fix
         self.__playOpen(zoomGroupName, timeOpen)
         return False
-        pass
 
     def __zoomOpen(self, zoomGroupName):
         ZoomSpeed = DefaultManager.getDefaultFloat("ZoomOpenSpeed", 25.0)
@@ -335,7 +329,6 @@ class SystemZoom(System):
         timeOpen *= 1000  # speed fix
         self.__playOpen(zoomGroupName, timeOpen)
         return False
-        pass
 
     def __playOpen(self, zoomGroupName, timeOpen):
         if self.existTaskChain("ZoomClose") or self.existTaskChain("ZoomOpen"):
@@ -350,7 +343,6 @@ class SystemZoom(System):
             Trace.log("SystemZoom.__playOpen not found zoom %s" % (zoomGroupName))
 
             return False
-            pass
 
         self.Zoom = ZoomManager.getZoom(zoomGroupName)
 
@@ -362,7 +354,6 @@ class SystemZoom(System):
                     zoomGroupName, ZoomObject.getGroupName(), ZoomObject.getName()))
 
                 return False
-                pass
             pass
         self.Zoom.setOpen(True)
 
@@ -497,14 +488,10 @@ class SystemZoom(System):
                     def _zoomMainLayerOpen(source):
                         with source.addParallelTask(5) as (tc1, tc2, tc3, tc4, tc_SceneZoom):
                             tc_SceneZoom.addScope(self._scope_scene_Zoom_effect, timeOpen)
-                            tc1.addTask("TaskNodeScaleTo", Node=zoomMainLayer, To=(1.0, 1.0, 1.0), Time=timeOpen,
-                                        Easing=zoom_easing_in)
-                            tc2.addTask("TaskNodeAlphaTo", Node=zoomMainLayer, From=0.0, To=1.0, Time=timeOpen,
-                                        Easing=zoom_easing_in)
-                            tc3.addTask("AliasFadeIn", FadeGroupName="FadeZoom", To=fadeTo, Time=fadeTime,
-                                        ReturnItem=not ZoomItemOpen, Easing=zoom_easing_in)
-                            tc4.addTask("TaskNodeMoveTo", Node=zoomScene, To=self.zoomPoint, Time=timeOpen,
-                                        Easing=zoom_easing_in)
+                            tc1.addTask("TaskNodeScaleTo", Node=zoomMainLayer, To=(1.0, 1.0, 1.0), Time=timeOpen, Easing=zoom_easing_in)
+                            tc2.addTask("TaskNodeAlphaTo", Node=zoomMainLayer, From=0.0, To=1.0, Time=timeOpen, Easing=zoom_easing_in)
+                            tc3.addTask("AliasFadeIn", FadeGroupName="FadeZoom", To=fadeTo, Time=fadeTime, ReturnItem=not ZoomItemOpen, Easing=zoom_easing_in)
+                            tc4.addTask("TaskNodeMoveTo", Node=zoomScene, To=self.zoomPoint, Time=timeOpen, Easing=zoom_easing_in)
                             pass
                         pass
 
@@ -513,25 +500,18 @@ class SystemZoom(System):
                         frameScene = FrameGroup.getScene()
                         frameLayer = FrameGroup.getMainLayer()
 
-                        ZoomFrameGroupsPositionAuto = DefaultManager.getDefaultBool("ZoomFrameGroupsPositionAuto",
-                                                                                    False)
+                        ZoomFrameGroupsPositionAuto = DefaultManager.getDefaultBool("ZoomFrameGroupsPositionAuto", False)
 
                         if ZoomFrameGroupsPositionAuto is True:
                             framePoint = ZoomManager.getZoomPoint(self.Zoom, FrameGroup)
                         else:
                             framePoint = ZoomOffset
 
-                        source.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                       LayerName=self.FrameGroupName, Value=True)
+                        source.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=self.FrameGroupName, Value=True)
                         with source.addParallelTask(3) as (tc1, tc2, tc3):
-                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(1.0, 1.0, 1.0), Time=timeOpen,
-                                        Easing=zoom_easing_in)
-
-                            tc2.addTask("TaskNodeMoveTo", Node=frameScene, To=framePoint, Time=timeOpen,
-                                        Easing=zoom_easing_in)
-
-                            tc3.addTask("TaskNodeAlphaTo", Node=frameLayer, From=0.0, To=1.0, Time=timeOpen,
-                                        Easing=zoom_easing_in)
+                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(1.0, 1.0, 1.0), Time=timeOpen, Easing=zoom_easing_in)
+                            tc2.addTask("TaskNodeMoveTo", Node=frameScene, To=framePoint, Time=timeOpen, Easing=zoom_easing_in)
+                            tc3.addTask("TaskNodeAlphaTo", Node=frameLayer, From=0.0, To=1.0, Time=timeOpen, Easing=zoom_easing_in)
 
                     def _overFrameGroupOpen(source):
                         OverFrameGroup = GroupManager.getGroup(self.OverFrameGroupName)
@@ -545,18 +525,11 @@ class SystemZoom(System):
                         else:
                             overFramePoint = ZoomOffset
 
-                        source.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                       LayerName=self.OverFrameGroupName, Value=True)
+                        source.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=self.OverFrameGroupName, Value=True)
                         with source.addParallelTask(3) as (tc1, tc2, tc3):
-                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer,
-                                        To=(1.0, 1.0, 1.0), Time=timeOpen, Easing=zoom_easing_in)
-
-                            # tc2.addTask("TaskNodeMoveTo", Node=frameScene, To=ZoomOffset, Time=timeOpen)
-                            tc2.addTask("TaskNodeMoveTo", Node=frameScene, To=overFramePoint, Time=timeOpen,
-                                        Easing=zoom_easing_in)
-
-                            tc3.addTask("TaskNodeAlphaTo", Node=frameLayer, From=0.0, To=1.0, Time=timeOpen,
-                                        Easing=zoom_easing_in)
+                            tc1.addTask("TaskNodeScaleTo", Node=frameLayer, To=(1.0, 1.0, 1.0), Time=timeOpen, Easing=zoom_easing_in)
+                            tc2.addTask("TaskNodeMoveTo", Node=frameScene, To=overFramePoint, Time=timeOpen, Easing=zoom_easing_in)
+                            tc3.addTask("TaskNodeAlphaTo", Node=frameLayer, From=0.0, To=1.0, Time=timeOpen, Easing=zoom_easing_in)
 
                     parallels = [_zoomMainLayerOpen]
 
@@ -595,13 +568,11 @@ class SystemZoom(System):
                                      ReturnItem=not ZoomItemOpen)
 
                     if self.FrameGroupName is not None:
-                        guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                         LayerName=self.FrameGroupName, Value=True)
+                        guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=self.FrameGroupName, Value=True)
                         pass
 
                     if self.OverFrameGroupName is not None:
-                        guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName,
-                                         LayerName=self.OverFrameGroupName, Value=True)
+                        guard_tc.addTask("TaskSceneLayerGroupEnable", SceneName=CurrentSceneName, LayerName=self.OverFrameGroupName, Value=True)
                         pass
                     pass
                 pass
@@ -936,8 +907,6 @@ class SystemZoom(System):
             if self.openZoomGroup.isActive() is True:
                 self.openZoomGroup.onDeactivate()
                 pass
-            frameGroup = GroupManager.getGroup(self.FrameGroupName)
-            frameGroup.onDisable()
             pass
 
         self.openZoomGroup = None
@@ -979,19 +948,13 @@ class SystemZoom(System):
     def __onPressEsc(self, layerName):
         if layerName != "Zoom":
             return False
-            pass
 
         if ZoomManager.isZoomEmpty() is True:
             return False
-            pass
 
         if self.zoomGroupName != ZoomManager.getZoomOpenGroupName():
             return False
-            pass
 
         ZoomManager.closeZoom(self.zoomGroupName)
 
         return False
-        pass
-
-    pass

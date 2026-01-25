@@ -81,7 +81,6 @@ class PrefetchScope(Initializer):
         for groupName in sceneGroups:
             if self.isZoom(groupName) is True:
                 continue
-                pass
 
             self.addGroup(groupName, GroupPrefetch.PRIORITY_COMMON)
             pass
