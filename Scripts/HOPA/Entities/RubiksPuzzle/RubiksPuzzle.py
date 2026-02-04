@@ -137,7 +137,7 @@ class RubiksPuzzle(Enigma):
             if Movie is None:
                 continue
 
-            self.object.removeObject(Movie.getName())
+            self.object.removeObject(Movie)
 
             Movie.onDeactivate()
             Movie.onFinalize()
