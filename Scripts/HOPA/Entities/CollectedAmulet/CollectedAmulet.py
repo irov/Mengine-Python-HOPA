@@ -80,7 +80,7 @@ class CollectedAmulet(BaseEntity):
         self.__disableValuesMovies(Data)
         movie = Data.getState(self.CurrentState)
         with TaskManager.createTaskChain(Name="Ready_" + self.object.getName()) as tc_ready:
-            tc_ready.addTask("TaskEnable", Object=movie)
+            tc_ready.addEnable(movie)
             tc_ready.addTask("TaskMoviePlay", Movie=movie, Wait=True, Loop=False)
             tc_ready.addParam(self.object, "CurrentState", CollectedAmulet.IDLE)
             pass
