@@ -9,7 +9,6 @@ class ProfileManager(Manager):
 
     @staticmethod
     def _onFinalize():
-        Trace.log("Manager", 0, "ProfileManager._onFinalize")
         for profile in ProfileManager.s_profiles.itervalues():
             profile.onFinalize()
 
