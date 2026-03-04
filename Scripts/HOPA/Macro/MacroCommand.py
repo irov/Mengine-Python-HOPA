@@ -78,15 +78,13 @@ class MacroCommand(Initializer):
 
     def onParams(self, params):
         if len(params) == 0:
-            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) ERROR: params is empty" %
-                                  (self.CommandType, self.GroupName, self.Index))
+            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) ERROR: params is empty" % (self.CommandType, self.GroupName, self.Index))
+            pass
 
         try:
             self._onParams(params)
         except Exception as ex:
-            traceback.print_exc()
-
-            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) params %s ERROR: %s" %(self.CommandType, self.GroupName, self.Index, params, ex))
+            self.initializeFailed("MacroCommand '%s' Group '%s' (index %s) params %s ERROR: %s" % (self.CommandType, self.GroupName, self.Index, params, ex))
             pass
 
     def _onParams(self, params):
@@ -97,9 +95,7 @@ class MacroCommand(Initializer):
         try:
             self._onValues(values)
         except Exception as ex:
-            traceback.print_exc()
-
-            Trace.log("Command", 0, "MacroCommand '%s' Group '%s' index %d values %s ERROR: '%s'" % (self.CommandType, self.GroupName, self.Index, values, ex))
+            Trace.log_exception("Command", 0, "MacroCommand '%s' Group '%s' index %d values %s ERROR: '%s'" % (self.CommandType, self.GroupName, self.Index, values, ex))
             pass
 
     def _onValues(self, values):
@@ -109,6 +105,7 @@ class MacroCommand(Initializer):
         if _DEVELOPMENT is True and "hint" in Mengine.getOptionValues("debug"):
             Params["FromMacroCommand"] = self.__class__.__name__
             Params["__INDEX"] = self.Index
+
         Quest = QuestManager.createScenarioQuest(questType, self.isTechnical, **Params)
 
         if Quest is None:
@@ -128,28 +125,22 @@ class MacroCommand(Initializer):
     def _onGenerate(self, source):
         pass
 
-    def _onInitializeFailed(self, msg):
-        description = "MacroCommand '%s' initialize failed at Group '%s' (index %d) failed with error: %s" % (
-            self.CommandType, self.GroupName, self.Index, msg)
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("Command", 0, "MacroCommand '%s' initialize failed at Group '%s' (index %d) failed with error: %s" % (self.CommandType, self.GroupName, self.Index, ex))
+        pass
 
-        Trace.log("Command", 0, description)
-
-    def _onFinalizeFailed(self, msg):
-        description = "MacroCommand '%s' finalize failed at Group '%s' (index %d) failed with error: %s" % (
-            self.CommandType, self.GroupName, self.Index, msg)
-
-        Trace.log("Command", 0, description)
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("Command", 0, "MacroCommand '%s' finalize failed at Group '%s' (index %d) failed with error: %s" % (self.CommandType, self.GroupName, self.Index, ex))
+        pass
 
     def hasObject(self, name, filter=None):
         FinderType, Object = MacroManager.findObject(name, filter)
 
         if Object is not None:
             return True
-            pass
 
         if GroupManager.hasObject(self.GroupName, name) is True:
             return True
-            pass
 
         if ZoomManager.hasZoom(self.GroupName) is True:
             Zoom = ZoomManager.getZoom(self.GroupName)

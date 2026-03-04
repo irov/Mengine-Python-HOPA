@@ -36,12 +36,12 @@ class CruiseAction(MixinScene, Params, Initializer):
     def getType(self):
         return self.actionType
 
-    def _onInitializeFailed(self, msg):
-        Trace.log("CruiseAction", 0, "CruiseAction %s:%s initialize failed: %s" % (self.actionType, self.Quest, msg))
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("CruiseAction", 0, "CruiseAction %s:%s initialize failed: %s" % (self.actionType, self.Quest, ex))
         pass
 
-    def _onFinalizeFailed(self, msg):
-        Trace.log("CruiseAction", 0, "CruiseAction %s:%s finalize failed: %s" % (self.actionType, self.Quest, msg))
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("CruiseAction", 0, "CruiseAction %s:%s finalize failed: %s" % (self.actionType, self.Quest, ex))
         pass
 
     def getCruiseObject(self):

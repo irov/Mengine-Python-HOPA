@@ -92,14 +92,12 @@ class Stage(Params, Initializer):
             pass
         pass
 
-    def _onInitializeFailed(self, msg):
-        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid initialize: %s" % (
-            self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid initialize: %s" % (self.Name, self.Tag, self.SceneName, self.ZoomName, ex))
         pass
 
-    def _onFinalizeFailed(self, msg):
-        Trace.log("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid finalize: %s" % (
-            self.Name, self.Tag, self.SceneName, self.ZoomName, msg))
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("Manager", 0, "Stage '%s' tag '%s' SceneName '%s' ZoomName '%s' invalid finalize: %s" % (self.Name, self.Tag, self.SceneName, self.ZoomName, ex))
         pass
 
     def preparation(self):

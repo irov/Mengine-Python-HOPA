@@ -80,12 +80,12 @@ class HintAction(MixinScene, Params, Initializer):
         return self.actionType
         pass
 
-    def _onInitializeFailed(self, msg):
-        Trace.log("HintAction", 0, "HintAction %s:%s initialize failed: %s" % (self.actionType, self.Quest.getType(), msg))
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("HintAction", 0, "HintAction %s:%s initialize failed: %s" % (self.actionType, self.Quest.getType(), ex))
         pass
 
-    def _onFinalizeFailed(self, msg):
-        Trace.log("HintAction", 0, "HintAction %s:%s finalize failed: %s" % (self.actionType, self.Quest.getType(), msg))
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("HintAction", 0, "HintAction %s:%s finalize failed: %s" % (self.actionType, self.Quest.getType(), ex))
         pass
 
     def getHintObject(self):

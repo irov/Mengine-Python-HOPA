@@ -54,4 +54,4 @@ class TechnicalSupport(BaseEntity):
         try:
             Mengine.openMail(receiver, subject, body)
         except Exception as ex:
-            Trace.log("Manager", 0, "TechnicalSupport.sendSupportMail: %s" % ex)
+            Trace.log_exception("Manager", 0, "TechnicalSupport.sendSupportMail: %s" % ex)

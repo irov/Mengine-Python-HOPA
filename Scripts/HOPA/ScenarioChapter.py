@@ -68,12 +68,12 @@ class ScenarioChapter(Initializer):
         self.scenarios = {}
         pass
 
-    def _onInitializeFailed(self, msg):
-        Trace.log("Manager", 0, "ScenarioChapter initialize failed: %s" % (msg))
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("Manager", 0, "ScenarioChapter initialize failed: %s" % (ex))
         pass
 
-    def _onFinalizeFailed(self, msg):
-        Trace.log("Manager", 0, "ScenarioChapter finalize failed: %s" % (msg))
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("Manager", 0, "ScenarioChapter finalize failed: %s" % (ex))
         pass
 
     def run(self):

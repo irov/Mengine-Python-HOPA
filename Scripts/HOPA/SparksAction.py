@@ -41,12 +41,12 @@ class SparksAction(MixinScene, Params, Initializer):
         super(SparksAction, self)._onInitialize()
         pass
 
-    def _onInitializeFailed(self, msg):
-        Trace.log("SparksAction", 0, "SparksAction %s:%s initialize failed: %s" % (self.actionType, self.ID, msg))
+    def _onInitializeFailed(self, ex):
+        Trace.log_exception("SparksAction", 0, "SparksAction %s:%s initialize failed: %s" % (self.actionType, self.ID, ex))
         pass
 
-    def _onFinalizeFailed(self, msg):
-        Trace.log("SparksAction", 0, "SparksAction %s:%s finalize failed: %s" % (self.actionType, self.ID, msg))
+    def _onFinalizeFailed(self, ex):
+        Trace.log_exception("SparksAction", 0, "SparksAction %s:%s finalize failed: %s" % (self.actionType, self.ID, ex))
         pass
 
     def onCheck(self):
