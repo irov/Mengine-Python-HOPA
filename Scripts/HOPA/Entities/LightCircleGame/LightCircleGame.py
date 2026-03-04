@@ -1,5 +1,4 @@
 from Foundation.TaskManager import TaskManager
-import math
 from HOPA.LightCircleGameManager import LightCircleGameManager
 
 Enigma = Mengine.importEntity("Enigma")
@@ -78,7 +77,7 @@ class LightCircleGame(Enigma):
             if (self.IsOn is True):
                 return self.IsOn
             circleDif = RefOn.CircleId - self.CircleId
-            if (math.fabs(circleDif) == 1):
+            if (Mengine.fabsf(circleDif) == 1):
                 if UseDiagonal is True:
                     self.__TryOnDiagonal(RefOn)
                 else:
@@ -96,7 +95,7 @@ class LightCircleGame(Enigma):
                     difX = pPos[0] - mPos[0]
                     difY = pPos[1] - mPos[1]
 
-                    len = math.sqrt(difX * difX + difY * difY)
+                    len = Mengine.sqrtf(difX * difX + difY * difY)
 
                     if (len <= Range):
                         # print pPos, " ", mPos
@@ -115,7 +114,7 @@ class LightCircleGame(Enigma):
                     angM = LightCircleGame.getDegree(mPos, LightCircleGame.Midle_Point)
                     angM = LightCircleGame.getDegree360(angM)
                     dif = angP - angM
-                    dif = math.fabs(dif)
+                    dif = Mengine.fabsf(dif)
                     if (dif <= Range):
                         self.IsOn = True
 
@@ -397,8 +396,8 @@ class LightCircleGame(Enigma):
     def getDegree(pos, Midl):
         xDif = pos[0] - Midl[0]
         yDif = pos[1] - Midl[1]
-        angRadian = math.atan2(xDif, -yDif)
-        angDeg = math.degrees(angRadian)
+        angRadian = Mengine.atan2f(xDif, -yDif)
+        angDeg = Mengine.rad2deg(angRadian)
         return angDeg
         pass
 
@@ -448,3 +447,4 @@ class LightCircleGame(Enigma):
         hotspot = MovieEnt.getSocket(socketName)
         return hotspot
         pass
+

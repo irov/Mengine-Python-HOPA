@@ -1,5 +1,5 @@
-from Foundation.DefaultManager import DefaultManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.DefaultManager import DefaultManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Notificator import Notificator
 from Foundation.SceneManager import SceneManager

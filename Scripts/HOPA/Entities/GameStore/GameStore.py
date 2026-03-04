@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SystemManager import SystemManager

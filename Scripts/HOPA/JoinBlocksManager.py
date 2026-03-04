@@ -2,8 +2,7 @@ from Foundation.Manager import Manager
 
 from Foundation.DatabaseManager import DatabaseManager
 
-
-class JoinBlocksManager(object):
+class JoinBlocksManager(Manager):
     s_objects = {}
 
     class JoinBlocks(object):

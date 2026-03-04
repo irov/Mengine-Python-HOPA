@@ -1,6 +1,6 @@
-from Foundation.ArrowManager import ArrowManager
+﻿from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
-from Foundation.Object.DemonObject import DemonObject
+from Foundation.DemonObject import DemonObject
 from HOPA.ItemManager import ItemManager
 
 class ObjectInventoryFX(DemonObject):

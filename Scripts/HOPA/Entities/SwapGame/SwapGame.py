@@ -1,10 +1,6 @@
 from Foundation.TaskManager import TaskManager
 
-
 Enigma = Mengine.importEntity("Enigma")
-
-import math
-
 
 class SwapGame(Enigma):
     class Slot(object):
@@ -18,7 +14,6 @@ class SwapGame(Enigma):
             self.Movie = mov
             self.Movie.setPosition(self.Pos)
             pass
-
         pass
 
     @staticmethod
@@ -104,7 +99,7 @@ class SwapGame(Enigma):
                 pass
             else:
                 dif = self.Click - id
-                if (math.fabs(dif) > 1):
+                if (Mengine.fabsf(dif) > 1):
                     self.Click = None
                     return
                     pass

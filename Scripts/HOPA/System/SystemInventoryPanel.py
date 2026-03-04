@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
@@ -11,9 +10,7 @@ from HOPA.InventoryPanelManager import InventoryPanelManager
 from HOPA.SemaphoreManager import SemaphoreManager
 from Holder import Holder
 
-
 # fixme: guard block input can't save as from game closing through window closing, possibly can corrupt save games
-
 
 class SystemInventoryPanel(System):
     tc_Inventory_finish_event = None

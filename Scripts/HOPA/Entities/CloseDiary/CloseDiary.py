@@ -1,5 +1,5 @@
-import Trace
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿import Trace
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 
 

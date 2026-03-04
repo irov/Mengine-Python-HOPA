@@ -1,5 +1,5 @@
-from Foundation.ArrowManager import ArrowManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.ArrowManager import ArrowManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Notificator import Notificator
 from Foundation.SceneManager import SceneManager

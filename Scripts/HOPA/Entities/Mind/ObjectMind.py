@@ -1,0 +1,17 @@
+from Foundation.DemonObject import DemonObject
+
+class ObjectMind(DemonObject):
+    @staticmethod
+    def declareORM(Type):
+        DemonObject.declareORM(Type)
+
+        Type.declareParam("PlayPolicy")
+        pass
+
+    def _onParams(self, params):
+        super(ObjectMind, self)._onParams(params)
+
+        self.initParam("PlayPolicy", params, None)
+        pass
+
+    pass

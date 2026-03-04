@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from HOPA.TutorialManager import TutorialManager
 from Notification import Notification
 

@@ -1,9 +1,5 @@
-from math import atan2
-
-from Event import Event
 from Foundation.TaskManager import TaskManager
 from HOPA.AmazingMazeManager import AmazingMazeManager
-
 
 Enigma = Mengine.importEntity("Enigma")
 
@@ -153,7 +149,7 @@ class HeroAnimHandler(object):
         dot = vec_2.x * vec_1.x + vec_2.y * vec_1.y
         det = vec_2.x * vec_1.y - vec_2.y * vec_1.x
 
-        rotate_to = atan2(det, dot)
+        rotate_to = Mengine.atan2f(det, dot)
 
         positive_angle = rotate_to % 6.28319
         negative_angle = positive_angle - 6.28319
@@ -641,3 +637,4 @@ class AmazingMaze(Enigma):
 
     def _skipEnigma(self):
         self._tc_main.cancel()
+

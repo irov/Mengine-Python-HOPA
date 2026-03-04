@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 from Foundation.Notificator import Notificator
@@ -7,7 +6,6 @@ from Foundation.StateManager import StateManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
-
 
 class SystemHint(System):
     def __init__(self):

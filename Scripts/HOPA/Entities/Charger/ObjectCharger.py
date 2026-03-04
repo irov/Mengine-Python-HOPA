@@ -1,4 +1,4 @@
-from Foundation.Object.DemonObject import DemonObject
+﻿from Foundation.DemonObject import DemonObject
 
 
 class ObjectCharger(DemonObject):
@@ -36,3 +36,4 @@ class ObjectCharger(DemonObject):
         self.initParam("WaitCharge", params, False)
         self.initParam("NoCharge", params, False)
         self.initParam("State", params, "Idle")
+

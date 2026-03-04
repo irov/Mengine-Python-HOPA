@@ -1,5 +1,5 @@
-from Foundation.ArrowManager import ArrowManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.ArrowManager import ArrowManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager

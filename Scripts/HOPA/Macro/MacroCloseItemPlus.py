@@ -1,8 +1,9 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
-from Foundation.Object.ObjectPoint import ObjectPoint
 from Foundation.SystemManager import SystemManager
 from HOPA.Macro.MacroCommand import MacroCommand
+
+from Foundation.Entities.Point.ObjectPoint import ObjectPoint
 
 
 class MacroCloseItemPlus(MacroCommand):

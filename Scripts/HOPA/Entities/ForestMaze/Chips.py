@@ -1,7 +1,4 @@
-# coding=utf-8
-import math
 from abc import ABCMeta, abstractmethod
-
 
 class Chip:
     __metaclass__ = ABCMeta
@@ -188,7 +185,7 @@ class EnemyChip(Chip):
         super(EnemyChip, self).cleanUp()
 
     def __updateRotateAngle(self, angle):
-        angle_in_radians = math.radians(angle)
+        angle_in_radians = Mengine.deg2rad(angle)
         self.rotate_angle -= angle_in_radians
 
     def scopeRotateChip(self, source, angle):

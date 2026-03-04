@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.MonetizationManager import MonetizationManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SystemManager import SystemManager
@@ -6,8 +6,6 @@ from Foundation.TaskManager import TaskManager
 from Foundation.Utils import SimpleLogger
 from HOPA.Entities.SpecialPromotion.RewardPlate import RewardPlate
 from HOPA.Entities.SpecialPromotion.PurchaseButton import PurchaseButton, DeprecatedPurchaseButton
-from Event import Event
-
 
 _Log = SimpleLogger("SpecialPromotion")
 

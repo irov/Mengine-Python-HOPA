@@ -1,12 +1,12 @@
 from Foundation.Manager import Manager
 
-from Foundation.ArrowBlackListManager import ArrowBlackListManager
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DatabaseManager import DatabaseManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
 from Foundation.TaskManager import TaskManager
+from HOPA.ArrowBlackListManager import ArrowBlackListManager
 from HOPA.QuestManager import QuestManager
 
 class CursorManager(Manager):

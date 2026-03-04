@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 
@@ -22,7 +22,6 @@ class InstructionPullOut(BaseEntity):
     def _forceClean(self, *params):
         self._onDeactivate()
         return True
-        pass
 
     def _onDeactivate(self):
         for trash in self.clean_up:

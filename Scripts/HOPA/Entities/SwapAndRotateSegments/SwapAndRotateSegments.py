@@ -1,5 +1,3 @@
-import math
-
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
@@ -22,7 +20,7 @@ class Chip(object):
         self.isSelected = False
         self.numOfChips = numbers_of_chips
         rotate_angle_degree = 360 / numbers_of_chips
-        self.rotateAngle = rotate_angle_degree * math.pi / 180
+        self.rotateAngle = rotate_angle_degree * Mengine.pi / 180
         self.set_select(False)
         self.currentAngle = 0
         slot.addChild(self.node)

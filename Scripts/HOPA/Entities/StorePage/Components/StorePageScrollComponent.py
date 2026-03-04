@@ -1,14 +1,12 @@
-from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
+﻿from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
 from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
-
 
 MOVIE_VA = "Movie2_VirtualArea"
 MOVIE_ARROW = "Movie2_Arrow"
 SOCKET_TOUCH = "touch"
 SLOT_CONTENT = "content"
-
 
 class StorePageScrollComponent(StorePageBaseComponent):
 

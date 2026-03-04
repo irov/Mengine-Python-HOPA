@@ -1,5 +1,4 @@
-from Event import Event
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.Systems.SystemGoogleServices import SystemGoogleServices, GOOGLE_GAME_SOCIAL_PLUGIN
 from Foundation.Providers.AchievementsProvider import AchievementsProvider

@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from HOPA.MenuHelpManager import MenuHelpManager

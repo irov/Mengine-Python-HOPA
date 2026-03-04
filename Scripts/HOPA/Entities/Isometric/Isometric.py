@@ -1,6 +1,4 @@
-import math
-
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.BaseEntity import BaseEntity
 from Foundation.ObjectManager import ObjectManager
 
 
@@ -62,7 +60,7 @@ class Isometric(BaseEntity):
 
     def setIsometricAngle(self, angle):
         self.isometricAngle = angle
-        rad = math.radians(angle)
+        rad = Mengine.deg2rad(angle)
 
         v = Mengine.vec2f(Mengine.cosf(rad), -Mengine.sinf(rad))
         new_isometricIndex = Mengine.rotateToTrimetric(v, (2, 1), (2, -1))

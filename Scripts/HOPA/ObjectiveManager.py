@@ -2,7 +2,7 @@ from Foundation.Manager import Manager
 
 from Foundation.DatabaseManager import DatabaseManager
 
-class ObjectiveManager(object):
+class ObjectiveManager(Manager):
     s_objectives = {}
 
     class Object(object):

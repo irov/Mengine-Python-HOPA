@@ -1,6 +1,6 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.BaseEntity import BaseEntity
 from Foundation.SystemManager import SystemManager
 from Foundation.TaskManager import TaskManager
 from HOPA.TransitionManager import TransitionManager

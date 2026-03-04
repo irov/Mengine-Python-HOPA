@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation import Utils
 from Foundation.Notificator import Notificator
 from Foundation.Task.TaskGenerator import TaskSource
@@ -6,7 +5,6 @@ from Foundation.TaskManager import TaskManager
 from HOPA.SwapChipsWithDifferentSlotTypesManager import SwapChipsWithDifferentSlotTypesManager
 from Holder import Holder
 from Notification import Notification
-
 
 Enigma = Mengine.importEntity("Enigma")
 

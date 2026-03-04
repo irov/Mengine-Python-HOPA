@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from HOPA.LampOnCursorManager import LampOnCursorManager
 

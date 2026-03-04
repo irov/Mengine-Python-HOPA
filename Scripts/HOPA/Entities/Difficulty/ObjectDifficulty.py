@@ -1,5 +1,4 @@
-from Foundation.Object.Object import Object
-
+from Foundation.Object import Object
 
 class ObjectDifficulty(Object):
     def _onParams(self, params):

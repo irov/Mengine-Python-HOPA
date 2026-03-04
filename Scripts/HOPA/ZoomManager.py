@@ -83,7 +83,7 @@ class ZoomManager(Manager):
 
     @staticmethod
     def _onInitialize():
-        from HOPA.Object.ObjectInventoryItem import ObjectInventoryItem
+        from HOPA.Entities.InventoryItem.ObjectInventoryItem import ObjectInventoryItem
         ZoomManager.setAllowObjectTypes([ObjectInventoryItem])
 
         ZoomManager.addObserver(Notificator.onZoomInit, ZoomManager._zoomInit)

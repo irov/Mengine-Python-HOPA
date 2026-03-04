@@ -1,5 +1,3 @@
-from math import fabs
-
 from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
@@ -7,9 +5,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ProgrammatorForFindWayMGManager import ProgrammatorForFindWayMGManager
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class ProgrammatorForFindWayMG(Enigma):
     class Chip(object):
@@ -389,7 +385,7 @@ class ProgrammatorForFindWayMG(Enigma):
         for place in self.places.values():
             power = place.chip.power
             routList.append(self.getRouteList(tempCell, tempCell + power))
-            tempCell = fabs(tempCell + power)
+            tempCell = Mengine.fabsf(tempCell + power)
 
         self.SemaphoreMoveRace = Semaphore(False, "MoveRace")
         with source.addRaceTask(2) as (race_1, race_2):
@@ -415,7 +411,7 @@ class ProgrammatorForFindWayMG(Enigma):
 
     def getRouteList(self, moveFrom, moveTo):
         routeList = []
-        routLength = fabs(moveFrom - moveTo)
+        routLength = Mengine.fabsf(moveFrom - moveTo)
         if moveTo > moveFrom:
             routeList = [i for i in range(int(moveFrom) + 1, int(moveTo) + 1)]
         else:

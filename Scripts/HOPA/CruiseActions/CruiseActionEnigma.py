@@ -5,12 +5,10 @@ from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.Entities.HOGFitting.ObjectHOGFitting import ObjectHOGFitting
-from HOPA.Object.ObjectHOG import ObjectHOG
-from HOPA.Object.ObjectHOGRolling import ObjectHOGRolling
-
+from HOPA.Entities.HOG.ObjectHOG import ObjectHOG
+from HOPA.Entities.HOGRolling.ObjectHOGRolling import ObjectHOGRolling
 
 class CruiseActionEnigma(MixinGroup, CruiseAction):
-
     def _onParams(self, params):
         super(CruiseActionEnigma, self)._onParams(params)
         self.EnigmaName = params.get("EnigmaName")

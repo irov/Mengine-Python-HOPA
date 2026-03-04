@@ -1,4 +1,4 @@
-from Foundation.Object.DemonObject import DemonObject
+﻿from Foundation.DemonObject import DemonObject
 
 
 class ObjectAwards(DemonObject):
@@ -14,3 +14,4 @@ class ObjectAwards(DemonObject):
         super(ObjectAwards, self)._onParams(params)
         self.initParam("Open", params, False)
         self.initParam("Count", params, 0)
+

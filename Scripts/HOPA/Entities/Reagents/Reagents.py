@@ -1,5 +1,5 @@
-from HOPA.CursorManager import CursorManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from HOPA.CursorManager import CursorManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from Notification import Notification

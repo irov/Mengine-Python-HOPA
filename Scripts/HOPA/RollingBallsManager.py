@@ -2,7 +2,7 @@ from Foundation.Manager import Manager
 
 from Foundation.DatabaseManager import DatabaseManager
 
-class RollingBallsManager(object):
+class RollingBallsManager(Manager):
     s_games = {}
 
     class RollingBallsSlot(object):

@@ -1,4 +1,4 @@
-from Foundation.Object.DemonObject import DemonObject
+﻿from Foundation.DemonObject import DemonObject
 
 
 class ObjectReagentsButton(DemonObject):
@@ -9,3 +9,4 @@ class ObjectReagentsButton(DemonObject):
         pass
 
     pass
+

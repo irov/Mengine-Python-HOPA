@@ -1,4 +1,4 @@
-from HOPA.Object.ObjectEnigma import ObjectEnigma
+from HOPA.ObjectEnigma import ObjectEnigma
 
 
 class ObjectChekersCR(ObjectEnigma):

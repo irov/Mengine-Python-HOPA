@@ -1,5 +1,4 @@
-from HOPA.Object.ObjectEnigma import ObjectEnigma
-
+from HOPA.ObjectEnigma import ObjectEnigma
 
 class ObjectMoveBlocks(ObjectEnigma):
     def _onParams(self, params):

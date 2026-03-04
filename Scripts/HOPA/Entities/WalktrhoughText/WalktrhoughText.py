@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from HOPA.WalktrhoughTextManager import WalktrhoughTextManager
 from HOPA.ZoomManager import ZoomManager

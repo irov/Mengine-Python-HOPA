@@ -1,5 +1,3 @@
-import math
-
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipsAndRotateArrowManager import ClickOnChipsAndRotateArrowManager
@@ -35,7 +33,7 @@ class ClickOnChipsAndRotateArrow(Enigma):
             self.onChip = onChip
             self.startChip = onChip
             self.numOfChips = numOfChips
-            self.angleTo = (math.pi * 2 / numOfChips)
+            self.angleTo = (Mengine.pi * 2 / numOfChips)
             self.timeOnChip = 200  # time of passing one chip
             self.rotateAngle = 0
 

@@ -1,13 +1,8 @@
-from math import radians, degrees
-
-from Event import Event
 from Foundation.TaskManager import TaskManager
 from HOPA.RotateTilesWhichRotateEachOtherManager import RotateTilesWhichRotateEachOtherManager
 from Holder import Holder
 
-
 Enigma = Mengine.importEntity("Enigma")
-
 
 class Tile(object):
     def __init__(self, params, obj_generator, tiles_dict_ref, root_node):
@@ -24,12 +19,12 @@ class Tile(object):
 
         root_node.addChild(self.node)
         self.node.setLocalPosition(self.params.pos)
-        self.node.setAngle(radians(self.params.start_rot))
+        self.node.setAngle(Mengine.deg2rad(self.params.start_rot))
 
         self.is_end_rotation = False
 
     def __setEndRotationValue(self):
-        current = round(degrees(self.node.getAngle())) % 360.0
+        current = round(Mengine.rad2deg(self.node.getAngle())) % 360.0
         end = self.params.finish_rot % 360.0
 
         self.is_end_rotation = current == end
@@ -43,7 +38,7 @@ class Tile(object):
 
         source.addFunction(self.movie.setPlay, True)  # play anim and sound
 
-        source.addTask("TaskNodeRotateTo", Node=self.node, To=radians(angle), Additive=True, Time=time)
+        source.addTask("TaskNodeRotateTo", Node=self.node, To=Mengine.deg2rad(angle), Additive=True, Time=time)
 
         source.addFunction(self.movie.setPlay, False)  # stop play anim and sound
 
@@ -164,7 +159,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
 
         with TaskManager.createTaskChain() as tc:
             for tile, parallel in tc.addParallelTaskList(self.tiles.values()):
-                rot_value = tile.params.start_rot % 360.0 - round(degrees(tile.node.getAngle())) % 360.0
+                rot_value = tile.params.start_rot % 360.0 - round(Mengine.rad2deg(tile.node.getAngle())) % 360.0
 
                 parallel.addScope(tile.scopeRotate, rot_value)
 
@@ -178,6 +173,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
             self.__tc_main = None
 
         for tile in self.tiles.values():
-            rot_value = tile.params.finish_rot % 360.0 - round(degrees(tile.node.getAngle())) % 360.0
+            rot_value = tile.params.finish_rot % 360.0 - round(Mengine.rad2deg(tile.node.getAngle())) % 360.0
 
             skip_source.addScope(tile.scopeRotate, rot_value)
+

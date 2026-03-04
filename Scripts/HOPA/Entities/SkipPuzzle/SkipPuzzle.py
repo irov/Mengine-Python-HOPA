@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from Notification import Notification

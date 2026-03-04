@@ -1,10 +1,8 @@
-from math import atan2
-
+from Foundation.Manager import Manager
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.CounterbalanceManager import CounterbalanceManager
-
 
 Enigma = Mengine.importEntity("Enigma")
 
@@ -52,7 +50,7 @@ def CREATE_HOT_SPOT_GRID_WITH_CHILD_MOVIES(parent_node, child_nodes, child_name_
 def GET_VEC_ATAN_2(vec_1, vec_2):
     dot = vec_1.x * vec_2.x + vec_1.y * vec_2.y
     det = vec_1.x * vec_2.y - vec_1.y * vec_2.x
-    return atan2(det, dot)
+    return Mengine.atan2f(det, dot)
 
 
 def DOT_DIST(dot_1, dot_2):
@@ -197,7 +195,7 @@ class Rope(object):
             self.__movie.onDestroy()
 
 
-class RopeManager(object):
+class RopeManager(Manager):
     def __init__(self, rope_hand_movie, rope_movies_generator, teams_params):
         self.__hand_movie = rope_hand_movie
         self.__movie_generator = rope_movies_generator
@@ -432,7 +430,7 @@ class Wheel(object):
             self.__parent_node = None
 
 
-class WheelManager(object):
+class WheelManager(Manager):
     def __init__(self, matrix_size, wheels_movies, object_generator, teams_params, continue_chain_mod):
         self.__wheels_by_name = dict()
         self.__wheels_by_index = dict()
@@ -865,3 +863,4 @@ class Counterbalance(Enigma):
         self._nodeAlphaTo(self.reward_node, 0, 1, 1000)
 
         return
+

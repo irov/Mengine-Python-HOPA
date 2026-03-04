@@ -1,11 +1,9 @@
-from Event import Event
 from Foundation.Notificator import Notificator
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinGroup import MixinGroup
 from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 from HOPA.QuestManager import QuestManager
-
 
 class PolicySocketShiftCollect(MixinGroup, Task):
     Skiped = False

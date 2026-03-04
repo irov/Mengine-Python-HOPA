@@ -1,11 +1,11 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
-from Foundation.Object.ObjectPoint import ObjectPoint
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 from HOPA.ItemManager import ItemManager
 
+from Foundation.Entities.Point.ObjectPoint import ObjectPoint
 
 class TaskEffectInventoryAddInventoryItem(TaskAlias):
     def __init__(self):

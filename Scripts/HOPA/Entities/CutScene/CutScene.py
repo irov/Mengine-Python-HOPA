@@ -1,5 +1,5 @@
 from Foundation.DefaultManager import DefaultManager
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.BaseEntity import BaseEntity
 from Foundation.GuardBlockMusicVolumeFade import GuardBlockMusicVolumeFade
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager

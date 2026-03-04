@@ -1,8 +1,7 @@
-from Foundation.ArrowBlackListManager import ArrowBlackListManager
 from Foundation.ArrowManager import ArrowManager
 from Foundation.System import System
+from HOPA.ArrowBlackListManager import ArrowBlackListManager
 from HOPA.CursorManager import CursorManager
-
 
 class SystemMovieCursor(System):
     custom_arrows = {}

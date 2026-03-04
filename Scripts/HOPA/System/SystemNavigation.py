@@ -1,5 +1,5 @@
-from HOPA.Object.ObjectZoom import ObjectZoom
-from HOPA.Object.ObjectTransition import ObjectTransition
+from HOPA.Entities.Zoom.ObjectZoom import ObjectZoom
+from HOPA.Entities.Transition.ObjectTransition import ObjectTransition
 from HOPA.TransitionHighlightManager import TransitionHighlightManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager

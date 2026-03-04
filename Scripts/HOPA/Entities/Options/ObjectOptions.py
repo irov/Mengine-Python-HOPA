@@ -1,5 +1,5 @@
-from Foundation.DefaultManager import DefaultManager
-from Foundation.Object.DemonObject import DemonObject
+﻿from Foundation.DefaultManager import DefaultManager
+from Foundation.DemonObject import DemonObject
 
 
 class ObjectOptions(DemonObject):

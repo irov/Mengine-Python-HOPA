@@ -88,32 +88,27 @@ class StageManager(Manager):
     def __onSessionLoadComplete():
         if StageManager.hasCurrentStage() is False:
             return False
-            pass
 
         stage = StageManager.getCurrentStage()
 
         if stage.runScenarioChapter() is False:
             return False
-            pass
 
         Notification.notify(Notificator.onStageInit, stage.Name)
 
         return False
-        pass
 
     @staticmethod
     def __onSessionRemove():
         StageManager.stopStage()
 
         return False
-        pass
 
     @staticmethod
     def __onSessionRemoveComplete():
         StageManager.removeCurrentStage()
 
         return False
-        pass
 
     @staticmethod
     def importStages(module, param):

@@ -3,10 +3,7 @@ from Notification import Notification
 
 from ZumaTurret import ZumaTurret
 
-
-# from HOPA.Enities.Zuma.ZumaTurret import ZumaTurret
 Enigma = Mengine.importEntity("Enigma")
-
 
 class Zuma(Enigma):
     ChainDelay = 0.2 * 1000  # speed fix
@@ -29,13 +26,11 @@ class Zuma(Enigma):
         self.flow = []
         self.active_flow = []
         self.timing = {}
-
         pass
 
     def _stopEnigma(self):
         self.__cleanUp()
         return True
-        pass
 
     def _playEnigma(self):
         Gun = self.object.getObject("Sprite_Frogg")

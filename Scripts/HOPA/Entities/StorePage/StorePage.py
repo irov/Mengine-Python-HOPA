@@ -1,5 +1,5 @@
-from Foundation.DemonManager import DemonManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.DemonManager import DemonManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.Entities.StorePage.ButtonFactory import ButtonFactory
 from HOPA.Entities.StorePage.Components.StorePageAdvertComponent import StorePageAdvertComponent

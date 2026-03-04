@@ -3,8 +3,6 @@ from HOPA.PetnaGameManager import PetnaGameManager
 
 Enigma = Mengine.importEntity("Enigma")
 
-import math
-
 class PetnaGame(Enigma):
     @staticmethod
     def declareORM(Type):
@@ -166,8 +164,8 @@ class PetnaGame(Enigma):
             if (self.Selected[0] != -1):
                 disX = self.Selected[0] - x
                 disY = self.Selected[1] - y
-                dxA = math.fabs(disX)
-                dyA = math.fabs(disY)
+                dxA = Mengine.fabsf(disX)
+                dyA = Mengine.fabsf(disY)
                 if ((disX == 0 and disY == 0) or dxA > 1 or dyA > 1):
                     #####################
                     id_sel = self.__getMovieId(self.Selected[0], self.Selected[1])

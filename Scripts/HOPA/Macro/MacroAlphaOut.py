@@ -1,6 +1,6 @@
-from Foundation.Object.ObjectMovie2 import ObjectMovie2
 from HOPA.Macro.MacroCommand import MacroCommand
 
+from Foundation.Entities.Movie2.ObjectMovie2 import ObjectMovie2
 
 class MacroAlphaOut(MacroCommand):
     def _onValues(self, values):

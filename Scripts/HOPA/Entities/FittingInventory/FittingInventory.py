@@ -1,6 +1,6 @@
-from Foundation.ArrowManager import ArrowManager
+﻿from Foundation.ArrowManager import ArrowManager
 from Foundation.DemonManager import DemonManager
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 

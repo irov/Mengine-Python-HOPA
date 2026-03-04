@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseScopeEntity import BaseScopeEntity
+﻿from Foundation.BaseScopeEntity import BaseScopeEntity
 from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.SceneManager import SceneManager

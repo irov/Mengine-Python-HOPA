@@ -1,5 +1,3 @@
-import math
-
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
@@ -279,7 +277,7 @@ class SwapChipsInPlace(Enigma):
     def __scopeRotateChip(self, source, chip, node, time=1, angle=None):
         if angle is None:
             angle = self.rotates.get((chip.id, chip.place.id), 0)
-        source.addTask('TaskNodeRotateTo', Node=node, To=angle * math.pi / 180, Time=time)
+        source.addTask('TaskNodeRotateTo', Node=node, To=angle * Mengine.pi / 180, Time=time)
 
     def __checkWinsCombination(self):
         flag = True

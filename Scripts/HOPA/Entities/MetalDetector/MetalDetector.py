@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from HOPA.ItemManager import ItemManager
 from HOPA.CursorManager import CursorManager
 from HOPA.MetalDetectorManager import MetalDetectorManager

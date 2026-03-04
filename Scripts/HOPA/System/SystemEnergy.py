@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager
 from Foundation.SecureStringValue import SecureStringValue
@@ -9,7 +8,6 @@ from Foundation.Utils import SimpleLogger, calcTime
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.TransitionManager import TransitionManager
 from Notification import Notification
-
 
 _Log = SimpleLogger("SystemEnergy", option="energy")
 

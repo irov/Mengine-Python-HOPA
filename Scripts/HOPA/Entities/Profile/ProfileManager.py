@@ -9,8 +9,9 @@ class ProfileManager(Manager):
 
     @staticmethod
     def _onFinalize():
+        Trace.log("Manager", 0, "ProfileManager._onFinalize")
         for profile in ProfileManager.s_profiles.itervalues():
-            profile.selectButton.onDestroy()
+            profile.onFinalize()
 
         ProfileManager.s_profiles = {}
 
@@ -20,6 +21,15 @@ class ProfileManager(Manager):
             self.deleteButton = bDelete
             self.createButton = bCreate
             self.editButton = bEdit
+
+        def onFinalize(self):
+            if self.selectButton is not None:
+                self.selectButton.onDestroy()
+                self.selectButton = None
+
+            self.deleteButton = None
+            self.createButton = None
+            self.editButton = None
 
         def getSelectButton(self):
             return self.selectButton
@@ -140,4 +150,3 @@ class ProfileManager(Manager):
             return None
 
         return ProfileManager.s_profiles
-

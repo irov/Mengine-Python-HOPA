@@ -1,11 +1,12 @@
 from Foundation.DefaultManager import DefaultManager
-from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.Utils import SimpleLogger
 from HOPA.SemaphoreManager import SemaphoreManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
+
+from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
 
 
 _Log = SimpleLogger("SystemCameraManipulation")

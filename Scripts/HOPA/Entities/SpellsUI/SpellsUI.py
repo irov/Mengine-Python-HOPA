@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.Notificator import Notificator
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager

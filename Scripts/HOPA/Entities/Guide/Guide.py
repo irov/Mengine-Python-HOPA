@@ -1,5 +1,4 @@
-from Event import Event
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from HOPA.GuideManager import GuideManager
 from HOPA.System.SystemGuide import SystemGuide

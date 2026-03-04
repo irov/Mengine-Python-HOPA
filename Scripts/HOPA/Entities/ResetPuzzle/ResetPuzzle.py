@@ -1,6 +1,6 @@
-from Foundation.Entities.Movie2Button.ObjectMovie2Button import ObjectMovie2Button
+﻿from Foundation.Entities.Movie2Button.ObjectMovie2Button import ObjectMovie2Button
 from Foundation.Entities.MovieButton.ObjectMovieButton import ObjectMovieButton
-from Foundation.Entity.BaseEntity import BaseEntity
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 
 

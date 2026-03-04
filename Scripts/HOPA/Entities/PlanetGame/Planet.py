@@ -1,5 +1,3 @@
-import math
-
 from Foundation.Initializer import Initializer
 from Foundation.TaskManager import TaskManager
 
@@ -36,7 +34,7 @@ class Planet(Initializer):
         MovieSlot.addChild(self.socketEntity)
 
         self.duration = self.movie.getDuration()
-        self.degree = self.duration / (2 * math.pi)
+        self.degree = self.duration / (2 * Mengine.pi)
         worldPos = MovieSlot.getWorldPosition()
         anchorPos = MovieSlot.getOrigin()
         self.centreVec = (worldPos.x + anchorPos.x, worldPos.y + anchorPos.y)
@@ -118,7 +116,7 @@ class Planet(Initializer):
 
         v = (x1 * x2 + y1 * y2) / pow((pow(x1, 2) + pow(y1, 2)) * (pow(x2, 2) + pow(y2, 2)), 0.5)
         cos = round(v, 13)
-        value = math.acos(cos)
+        value = Mengine.acosf(cos)
         increase = value * self.degree
         increase_timing = round(increase)
 

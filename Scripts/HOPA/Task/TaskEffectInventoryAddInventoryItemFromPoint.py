@@ -1,8 +1,8 @@
 from Foundation.DefaultManager import DefaultManager
-from Foundation.Object.ObjectPoint import ObjectPoint
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.TaskAlias import TaskAlias
 
+from Foundation.Entities.Point.ObjectPoint import ObjectPoint
 
 class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
     def _onParams(self, params):

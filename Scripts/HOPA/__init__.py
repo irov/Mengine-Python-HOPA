@@ -1,5 +1,5 @@
 def onInitialize():
-    Trace.msg("HOPA.onInitialize")
+    Trace.msg_dev("HOPA.onInitialize")
 
     from Foundation.TaskManager import TaskManager
 
@@ -1182,7 +1182,7 @@ def onInitialize():
     from Foundation.EntityManager import EntityManager
     from Foundation.ObjectManager import ObjectManager
 
-    Types = [
+    EntityTypes = [
         "Item"
         , "MovieItem"
         , "Movie2Item"
@@ -1389,21 +1389,88 @@ def onInitialize():
         , "ConsentFlow"
 
         , "ElementalMagic"
+
+        , "DebugMenu"
+        , "Awards"
+        , "Toolbar"
+        , "Navigation"
+        , "StrategyGuide"
+        , "Notebook"
+        , "NotebookInventory"
+        , "NotebookInventoryList"
+        , "NotebookDescription"
+        , "SpinCirclesMastermind"
+        , "SpinCirclesDependsPlugin"
+        , "Difficulty"
+        , "Difficulty2"
+        , "Plumber"
+        , "MoveBlocks"
+        , "RotateAndReflectElement"
+        , "AssociationElements2"
+        , "LetItSlide"
+        , "InventoryItemAccumulate"
+        , "Spell"
+        , "Map2"
+        , "OpenJournal"
+        , "Journal2"
+        , "CloseDiary"
+        , "Extras"
+        , "LightLock"
+        , "Mana"
+        , "Reagents"
+        , "ProfileNew"
+        , "Puzzle"
+        , "Profile"
+        , "HOGFitting"
+        , "HOGInventoryFitting"
+        , "InventoryFX"
+        , "CombatSpell"
+        , "LightCircleGame"
+        , "PaperConnectGame"
+        , "ZoomAfterFrame"
+        , "GlobeGame"
+        , "HanoisTower"
+        , "PatchesGame"
+        , "PetnaGame"
+        , "RailRoadGame"
+        , "CollectedAmulet"
+        , "ShootGame"
+        , "Sandglass"
+        , "ConnectLamp"
+        , "ChekersCR"
+        , "ClickSequence"
+        , "SwapGame"
+        , "SameElements"
+        , "Mahjong"
+        , "Isometric"
+        , "Options"
+        , "OptionsMore"
+        , "Reloader"
+        , "InGameMenu"
     ]
 
     if Mengine.getGameParamBool("NotUseDefaultEntitiesList", False) is True:
-        Types = []
+        EntityTypes = []
         from Foundation.DatabaseManager import DatabaseManager
         records = DatabaseManager.getDatabaseRecordsFilterBy("Database", "Entities", Module="HOPA")
 
         for record in records:
-            Types.append(record.get("Type"))
+            EntityTypes.append(record.get("Type"))
 
-    EntityManager.importEntities("HOPA.Entities", Types)
-    ObjectManager.importObjects("HOPA.Object", Types)
+    for EntityType in EntityTypes:
+        ModuleName = "HOPA.Entities.{}".format(EntityType)
+
+        Module = __import__(ModuleName, fromlist=[ModuleName])
+
+        if hasattr(Module, "onInitialize") is True:
+            getattr(Module, "onInitialize")()
+        else:
+            EntityManager.importEntity(ModuleName, EntityType)
+            ObjectManager.importObject(ModuleName, EntityType)
 
     from HOPA.HOGManager import HOGManager
-    Types = [
+
+    HOGTypes = [
         "HOGParamDefault"
         , "HOGParamRolling"
         , "HOGParamRollingLikeDefault"
@@ -1478,242 +1545,109 @@ def onInitialize():
 
     AccountManager.addCreateAccountExtra(accountSetuper)
 
-    HOGManager.importParamTypes("HOPA", Types)
-
-    EntityManager.importEntity("HOPA.Entities", "DebugMenu")
-    ObjectManager.importObject("HOPA.Entities.DebugMenu", "DebugMenu")
-
-    ObjectManager.importObject("HOPA.Entities.Awards", "Awards")
-    EntityManager.importEntity("HOPA.Entities", "Awards")
-
-    EntityManager.importEntity("HOPA.Entities", "GUI")
-    ObjectManager.importObject("HOPA.Entities.GUI", "GUI")
-
-    EntityManager.importEntity("HOPA.Entities", "Toolbar")
-    ObjectManager.importObject("HOPA.Entities.Toolbar", "Toolbar")
-
-    EntityManager.importEntity("HOPA.Entities", "Navigation")
-    ObjectManager.importObject("HOPA.Entities.Navigation", "Navigation")
-
-    EntityManager.importEntity("HOPA.Entities.StrategyGuide", "StrategyGuideMenu")
-    ObjectManager.importObject("HOPA.Entities.StrategyGuide.StrategyGuideMenu", "StrategyGuideMenu")
-
-    EntityManager.importEntity("HOPA.Entities.StrategyGuide", "StrategyGuideZoom")
-    ObjectManager.importObject("HOPA.Entities.StrategyGuide.StrategyGuideZoom", "StrategyGuideZoom")
-
-    EntityManager.importEntity("HOPA.Entities.StrategyGuide", "StrategyGuidePage")
-    ObjectManager.importObject("HOPA.Entities.StrategyGuide.StrategyGuidePage", "StrategyGuidePage")
-
-    EntityManager.importEntity("HOPA.Entities.StrategyGuide", "StrategyGuideController")
-    ObjectManager.importObject("HOPA.Entities.StrategyGuide.StrategyGuideController", "StrategyGuideController")
-
-    EntityManager.importEntity("HOPA.Entities", "Notebook")
-    EntityManager.importEntity("HOPA.Entities", "NotebookInventory")
-    EntityManager.importEntity("HOPA.Entities", "NotebookInventoryList")
-    EntityManager.importEntity("HOPA.Entities", "NotebookDescription")
-    EntityManager.importEntity("HOPA.Entities", "SpinCirclesMastermind")
-    EntityManager.importEntity("HOPA.Entities", "SpinCirclesDependsPlugin")
-    ObjectManager.importObject("HOPA.Entities.Notebook", "Notebook")
-    ObjectManager.importObject("HOPA.Entities.NotebookInventory", "NotebookInventory")
-    ObjectManager.importObject("HOPA.Entities.NotebookInventoryList", "NotebookInventoryList")
-    ObjectManager.importObject("HOPA.Entities.NotebookDescription", "NotebookDescription")
-    ObjectManager.importObject("HOPA.Entities.SpinCirclesMastermind", "SpinCirclesMastermind")
-    ObjectManager.importObject("HOPA.Entities.SpinCirclesDependsPlugin", "SpinCirclesDependsPlugin")
-
-    ObjectManager.importObject("HOPA.Entities.Difficulty", "Difficulty")
-    EntityManager.importEntity("HOPA.Entities", "Difficulty")
-
-    ObjectManager.importObject("HOPA.Entities.Difficulty2", "Difficulty2")
-    EntityManager.importEntity("HOPA.Entities", "Difficulty2")
-
-    EntityManager.importEntity("HOPA.Entities", "Plumber")
-    ObjectManager.importObject("HOPA.Entities.Plumber", "Plumber")
-
-    EntityManager.importEntity("HOPA.Entities", "MoveBlocks")
-    ObjectManager.importObject("HOPA.Entities.MoveBlocks", "MoveBlocks")
-
-    EntityManager.importEntity("HOPA.Entities", "RotateAndReflectElement")
-    ObjectManager.importObject("HOPA.Entities.RotateAndReflectElement", "RotateAndReflectElement")
-
-    EntityManager.importEntity("HOPA.Entities", "AssociationElements2")
-    ObjectManager.importObject("HOPA.Entities.AssociationElements2", "AssociationElements2")
-
-    EntityManager.importEntity("HOPA.Entities", "LetItSlide")
-    ObjectManager.importObject("HOPA.Entities.LetItSlide", "LetItSlide")
-
-    EntityManager.importEntity("HOPA.Entities", "InventoryItemAccumulate")
-    ObjectManager.importObject("HOPA.Entities.InventoryItemAccumulate", "InventoryItemAccumulate")
-
-    EntityManager.importEntity("HOPA.Entities", "Spell")
-    ObjectManager.importObject("HOPA.Entities.Spell", "Spell")
-
-    EntityManager.importEntity("HOPA.Entities", "Map2")
-    ObjectManager.importObject("HOPA.Entities.Map2", "Map2")
-
-    EntityManager.importEntity("HOPA.Entities.Map2", "OpenMap")
-    ObjectManager.importObject("HOPA.Entities.Map2.OpenMap", "OpenMap")
-
-    EntityManager.importEntity("HOPA.Entities", "OpenJournal")
-    ObjectManager.importObject("HOPA.Entities.OpenJournal", "OpenJournal")
-
-    EntityManager.importEntity("HOPA.Entities.Map2", "MapSwitch")
-    ObjectManager.importObject("HOPA.Entities.Map2.MapSwitch", "MapSwitch")
-
-    EntityManager.importEntity("HOPA.Entities.Map2", "CollectedMap")
-    ObjectManager.importObject("HOPA.Entities.Map2.CollectedMap", "CollectedMap")
-
-    EntityManager.importEntity("HOPA.Entities", "Journal2")
-    ObjectManager.importObject("HOPA.Entities.Journal2", "Journal2")
-
-    EntityManager.importEntity("HOPA.Entities.Map2", "CollectedMapIndicator")
-    ObjectManager.importObject("HOPA.Entities.Map2.CollectedMapIndicator", "CollectedMapIndicator")
-
-    EntityManager.importEntity("HOPA.Entities", "CloseDiary")
-    ObjectManager.importObject("HOPA.Entities.CloseDiary", "CloseDiary")
-
-    EntityManager.importEntity("HOPA.Entities", "Extras")
-    ObjectManager.importObject("HOPA.Entities.Extras", "Extras")
-
-    EntityManager.importEntity("HOPA.Entities.Extras", "ExtrasConcept")
-    ObjectManager.importObject("HOPA.Entities.Extras.ExtrasConcept", "ExtrasConcept")
-
-    EntityManager.importEntity("HOPA.Entities.Extras", "ExtrasWallpaper")
-    ObjectManager.importObject("HOPA.Entities.Extras.ExtrasWallpaper", "ExtrasWallpaper")
-
-    EntityManager.importEntity("HOPA.Entities.Extras", "ExtrasEnigma")
-    ObjectManager.importObject("HOPA.Entities.Extras.ExtrasEnigma", "ExtrasEnigma")
-
-    EntityManager.importEntity("HOPA.Entities.Extras", "ExtrasMusic")
-    ObjectManager.importObject("HOPA.Entities.Extras.ExtrasMusic", "ExtrasMusic")
-
-    EntityManager.importEntity("HOPA.Entities.Extras", "ExtrasHOG")
-    ObjectManager.importObject("HOPA.Entities.Extras.ExtrasHOG", "ExtrasHOG")
-
-    EntityManager.importEntity("HOPA.Entities", "LightLock")
-    ObjectManager.importObject("HOPA.Entities.LightLock", "LightLock")
-
-    EntityManager.importEntity("HOPA.Entities", "Mana")
-    ObjectManager.importObject("HOPA.Entities.Mana", "Mana")
-
-    EntityManager.importEntity("HOPA.Entities", "Reagents")
-    ObjectManager.importObject("HOPA.Entities.Reagents", "Reagents")
-
-    EntityManager.importEntity("HOPA.Entities.Reagents", "ReagentsEnigma")
-    ObjectManager.importObject("HOPA.Entities.Reagents.ReagentsEnigma", "ReagentsEnigma")
-
-    EntityManager.importEntity("HOPA.Entities.Reagents", "ReagentsButton")
-    ObjectManager.importObject("HOPA.Entities.Reagents.ReagentsButton", "ReagentsButton")
-    TaskManager.importTask("HOPA.Entities.Reagents.Macro", "AliasPickReagentPaper")
-
-    ObjectManager.importObject("HOPA.Entities.ProfileNew", "ProfileNew")
-    EntityManager.importEntity("HOPA.Entities", "ProfileNew")
-    ObjectManager.importObject("HOPA.Entities.Puzzle", "Puzzle")
-    EntityManager.importEntity("HOPA.Entities", "Puzzle")
-
-    ObjectManager.importObject("HOPA.Entities.Profile", "Profile")
-    EntityManager.importEntity("HOPA.Entities", "Profile")
-
-    ObjectManager.importObject("HOPA.Entities.HOGFitting", "HOGFitting")
-    EntityManager.importEntity("HOPA.Entities", "HOGFitting")
-
-    ObjectManager.importObject("HOPA.Entities.HOGInventoryFitting", "HOGInventoryFitting")
-    EntityManager.importEntity("HOPA.Entities", "HOGInventoryFitting")
-
-    ObjectManager.importObject("HOPA.Entities.InventoryFX", "InventoryFX")
-    EntityManager.importEntity("HOPA.Entities", "InventoryFX")
-    InvFXTasks = ["TaskInventoryFXAddItem", ]
-    TaskManager.importTasks("HOPA.Entities.InventoryFX", InvFXTasks)
-
-    ObjectManager.importObject("HOPA.Entities.CombatSpell", "CombatSpell")
-    EntityManager.importEntity("HOPA.Entities", "CombatSpell")
-
-    ObjectManager.importObject("HOPA.Entities.LightCircleGame", "LightCircleGame")
-    EntityManager.importEntity("HOPA.Entities", "LightCircleGame")
-
-    ObjectManager.importObject("HOPA.Entities.PaperConnectGame", "PaperConnectGame")
-    EntityManager.importEntity("HOPA.Entities", "PaperConnectGame")
-
-    ObjectManager.importObject("HOPA.Entities.ZoomAfterFrame", "ZoomAfterFrame")
-    EntityManager.importEntity("HOPA.Entities", "ZoomAfterFrame")
-
-    ObjectManager.importObject("HOPA.Entities.GlobeGame", "GlobeGame")
-    EntityManager.importEntity("HOPA.Entities", "GlobeGame")
-
-    ObjectManager.importObject("HOPA.Entities.HanoisTower", "HanoisTower")
-    EntityManager.importEntity("HOPA.Entities", "HanoisTower")
-
-    ObjectManager.importObject("HOPA.Entities.PatchesGame", "PatchesGame")
-    EntityManager.importEntity("HOPA.Entities", "PatchesGame")
-
-    ObjectManager.importObject("HOPA.Entities.PetnaGame", "PetnaGame")
-    EntityManager.importEntity("HOPA.Entities", "PetnaGame")
-
-    ObjectManager.importObject("HOPA.Entities.RailRoadGame", "RailRoadGame")
-    EntityManager.importEntity("HOPA.Entities", "RailRoadGame")
-
-    ObjectManager.importObject("HOPA.Entities.CollectedAmulet", "CollectedAmulet")
-    EntityManager.importEntity("HOPA.Entities", "CollectedAmulet")
-
-    ObjectManager.importObject("HOPA.Entities.ShootGame", "ShootGame")
-    EntityManager.importEntity("HOPA.Entities", "ShootGame")
-
-    ObjectManager.importObject("HOPA.Entities.Sandglass", "Sandglass")
-    EntityManager.importEntity("HOPA.Entities", "Sandglass")
-
-    ObjectManager.importObject("HOPA.Entities.ConnectLamp", "ConnectLamp")
-    EntityManager.importEntity("HOPA.Entities", "ConnectLamp")
-
-    ObjectManager.importObject("HOPA.Entities.ChekersCR", "ChekersCR")
-    EntityManager.importEntity("HOPA.Entities", "ChekersCR")
-
-    ObjectManager.importObject("HOPA.Entities.ClickSequence", "ClickSequence")
-    EntityManager.importEntity("HOPA.Entities", "ClickSequence")
-
-    ObjectManager.importObject("HOPA.Entities.SwapGame", "SwapGame")
-    EntityManager.importEntity("HOPA.Entities", "SwapGame")
-
-    ObjectManager.importObject("HOPA.Entities.SameElements", "SameElements")
-    EntityManager.importEntity("HOPA.Entities", "SameElements")
-
-    ObjectManager.importObject("HOPA.Entities.Mahjong", "Mahjong")
-    EntityManager.importEntity("HOPA.Entities", "Mahjong")
-
-    ObjectManager.importObject("HOPA.Entities.Isometric", "Isometric")
-    EntityManager.importEntity("HOPA.Entities", "Isometric")
-
-    ObjectManager.importObject("HOPA.Entities.Options", "Options")
-    EntityManager.importEntity("HOPA.Entities", "Options")
-
-    ObjectManager.importObject("HOPA.Entities.OptionsMore", "OptionsMore")
-    EntityManager.importEntity("HOPA.Entities", "OptionsMore")
-
-    ObjectManager.importObject("HOPA.Entities.Reloader", "Reloader")
-    EntityManager.importEntity("HOPA.Entities", "Reloader")
-
-    ObjectManager.importObject("HOPA.Entities.InGameMenu", "InGameMenu")
-    EntityManager.importEntity("HOPA.Entities", "InGameMenu")
+    HOGManager.importParamTypes("HOPA", HOGTypes)
 
     from Foundation.Managers import Managers
 
+    Managers.importManager("HOPA", "AchievementManager")
+    Managers.importManager("HOPA", "AssemblyDesignerManager")
+    Managers.importManager("HOPA", "CruiseControlManager")
+    Managers.importManager("HOPA", "CursorManager")
+    Managers.importManager("HOPA", "CutSceneManager")
+    Managers.importManager("HOPA", "DialogManager")
+    Managers.importManager("HOPA", "DialogWindowManager")
+    Managers.importManager("HOPA", "DrawMagicSymbolsManager")
+    Managers.importManager("HOPA", "EnigmaManager")
+    Managers.importManager("HOPA", "ForestMazeManager")
+    Managers.importManager("HOPA", "HOGFittingItemManager")
+    Managers.importManager("HOPA", "InventoryPanelManager")
+    Managers.importManager("HOPA", "ItemManager")
+    Managers.importManager("HOPA", "LanguageSelectManager")
+    Managers.importManager("HOPA", "MacroManager")
+    Managers.importManager("HOPA", "MindBranchManager")
+    Managers.importManager("HOPA", "MindManager")
+    Managers.importManager("HOPA", "MonetizationManager")
+    Managers.importManager("HOPA", "MusicManager")
+    Managers.importManager("HOPA", "NewspaperManager")
+    Managers.importManager("HOPA", "PopUpItemManager")
+    Managers.importManager("HOPA", "QuestManager")
+    Managers.importManager("HOPA", "RotateTilesWhichRotateEachOtherManager")
+    Managers.importManager("HOPA", "RubiksPuzzleManager")
+    Managers.importManager("HOPA", "ScenarioManager")
+    Managers.importManager("HOPA", "SoundEffectManager")
+    Managers.importManager("HOPA", "SoundEffectOnObjectManager")
+    Managers.importManager("HOPA", "SparksManager")
+    Managers.importManager("HOPA", "StageManager")
+    Managers.importManager("HOPA", "StoreManager")
+    Managers.importManager("HOPA", "TipManager")
     Managers.importManager("HOPA", "TransitionManager")
+    Managers.importManager("HOPA", "TransitionHighlightManager")
+    Managers.importManager("HOPA", "TooltipsManager")
     Managers.importManager("HOPA", "ZoomManager")
     Managers.importManager("HOPA", "ChapterManager")
-    Managers.importManager("HOPA", "PopUpItemManager")
     Managers.importManager("HOPA", "BonusItemManager")
     Managers.importManager("HOPA", "HOGManager")
     Managers.importManager("HOPA", "InventoryItemUseMovieManager")
     Managers.importManager("HOPA", "StaticPopUpManager")
     Managers.importManager("HOPA", "HintManager")
-    Managers.importManager("HOPA", "ScenarioManager")
-    Managers.importManager("HOPA", "QuestManager")
-    Managers.importManager("HOPA", "MacroManager")
+    Managers.importManager("HOPA", "ArrowBlackListManager")
+
+    Managers.importManager("HOPA.Entities.AssociationElements2", "AssociationElements2Manager")
+    Managers.importManager("HOPA.Entities.Awards", "AwardsManager")
+    Managers.importManager("HOPA.Entities.BoneBoard", "BoneBoardManager")
+    Managers.importManager("HOPA.Entities.BoneBoard", "BoneHelpChainManager")
+    Managers.importManager("HOPA.Entities.ButtonConjunction", "ButtonConjunctionManager")
+    Managers.importManager("HOPA.Entities.CircularReflection", "CircularReflectionManager")
+    Managers.importManager("HOPA.Entities.CollectedAmulet", "CollectedAmuletManager")
+    Managers.importManager("HOPA.Entities.Difficulty", "DifficultyManager")
+    Managers.importManager("HOPA.Entities.Difficulty2", "Difficulty2Manager")
+    Managers.importManager("HOPA.Entities.Extras", "ExtrasManager")
+    Managers.importManager("HOPA.Entities.Extras.ExtrasConcept", "ExtrasConceptManager")
+    Managers.importManager("HOPA.Entities.Extras.ExtrasEnigma", "ExtrasEnigmaManager")
+    Managers.importManager("HOPA.Entities.Extras.ExtrasHOG", "ExtrasHOGManager")
+    Managers.importManager("HOPA.Entities.Extras.ExtrasMusic", "ExtrasMusicManager")
+    Managers.importManager("HOPA.Entities.Extras.ExtrasWallpaper", "ExtrasWallpaperManager")
+    Managers.importManager("HOPA.Entities.InventoryFX", "InventoryFXManager")
+    Managers.importManager("HOPA.Entities.Journal2", "Journal2Manager")
+    Managers.importManager("HOPA.Entities.LetItSlide", "LetItSlideManager")
+    Managers.importManager("HOPA.Entities.LightLock", "LightLockManager")
+    Managers.importManager("HOPA.Entities.MagicVision", "MagicVisionManager")
+    Managers.importManager("HOPA.Entities.MagneticLabyrinth", "MagneticLabyrinthManager")
+    Managers.importManager("HOPA.Entities.Mana", "ManaManager")
+    Managers.importManager("HOPA.Entities.Map2", "Map2Manager")
+    Managers.importManager("HOPA.Entities.Map2.CollectedMap", "CollectedMapManager")
+    Managers.importManager("HOPA.Entities.Map2.CollectedMapIndicator", "CollectedMapIndicatorManager")
+    Managers.importManager("HOPA.Entities.Map2.MapSwitch", "MapSwitchManager")
+    Managers.importManager("HOPA.Entities.MoveBlocks", "MoveBlocksManager")
+    Managers.importManager("HOPA.Entities.Notebook", "NotebookManager")
+    Managers.importManager("HOPA.Entities.NotebookDescription", "NotebookDescriptionManager")
+    Managers.importManager("HOPA.Entities.NotebookInventory", "NotebookInventoryManager")
+    Managers.importManager("HOPA.Entities.NotebookInventoryList", "NotebookInventoryListManager")
+    Managers.importManager("HOPA.Entities.OpenJournal", "OpenJournalManager")
+    Managers.importManager("HOPA.Entities.Options", "OptionsManager")
+    Managers.importManager("HOPA.Entities.OptionsMore", "OptionsMoreManager")
+    Managers.importManager("HOPA.Entities.Plumber", "PlumberManager")
+    Managers.importManager("HOPA.Entities.Profile", "ProfileManager")
+    Managers.importManager("HOPA.Entities.Programmator", "ProgrammatorManager")
+    Managers.importManager("HOPA.Entities.Puzzle", "PuzzleManager")
+    Managers.importManager("HOPA.Entities.Reagents", "ReagentsManager")
+    Managers.importManager("HOPA.Entities.RotateAndReflectElement", "RotateAndReflectElementManager")
+    Managers.importManager("HOPA.Entities.SameElements", "SameElementsManager")
+    Managers.importManager("HOPA.Entities.Spell", "SpellManager")
+    Managers.importManager("HOPA.Entities.SpinCirclesDependsPlugin", "SpinCirclesDependsPluginManager")
+    Managers.importManager("HOPA.Entities.SpinCirclesMastermind", "SpinCirclesMastermindManager")
+    Managers.importManager("HOPA.Entities.SplashScreen", "SplashScreenManager")
+    Managers.importManager("HOPA.Entities.StrategyGuide.StrategyGuideController", "StrategyGuideControllerManager")
+    Managers.importManager("HOPA.Entities.StrategyGuide.StrategyGuideMenu", "StrategyGuideMenuManager")
+    Managers.importManager("HOPA.Entities.StrategyGuide.StrategyGuidePage", "StrategyGuidePageManager")
+    Managers.importManager("HOPA.Entities.StrategyGuide.StrategyGuideZoom", "StrategyGuideZoomManager")
+
+    Managers.importManager("HOPA.Entities.Mahjong", "MahjongManager")
 
     return True
-    pass
-
 
 def onFinalize():
-    Trace.msg("HOPA.onFinalize")
+    Trace.msg_dev("HOPA.onFinalize")
 
     from Foundation.Utils import isSurvey
 
@@ -1724,16 +1658,97 @@ def onFinalize():
 
     from Foundation.Managers import Managers
 
-    Managers.removeManager("TransitionManager")
-    Managers.removeManager("ZoomManager")
-    Managers.removeManager("ChapterManager")
-    Managers.removeManager("PopUpItemManager")
-    Managers.removeManager("BonusItemManager")
-    Managers.removeManager("HOGManager")
-    Managers.removeManager("InventoryItemUseMovieManager")
-    Managers.removeManager("StaticPopUpManager")
-    Managers.removeManager("HintManager")
-    Managers.removeManager("ScenarioManager")
-    Managers.removeManager("QuestManager")
-    Managers.removeManager("MacroManager")
+    Managers.removeManager("HOPA", "AchievementManager")
+    Managers.removeManager("HOPA", "AssemblyDesignerManager")
+    Managers.removeManager("HOPA", "CruiseControlManager")
+    Managers.removeManager("HOPA", "CursorManager")
+    Managers.removeManager("HOPA", "CutSceneManager")
+    Managers.removeManager("HOPA", "DialogManager")
+    Managers.removeManager("HOPA", "DialogWindowManager")
+    Managers.removeManager("HOPA", "DrawMagicSymbolsManager")
+    Managers.removeManager("HOPA", "EnigmaManager")
+    Managers.removeManager("HOPA", "ForestMazeManager")
+    Managers.removeManager("HOPA", "HOGFittingItemManager")
+    Managers.removeManager("HOPA", "InventoryPanelManager")
+    Managers.removeManager("HOPA", "ItemManager")
+    Managers.removeManager("HOPA", "LanguageSelectManager")
+    Managers.removeManager("HOPA", "MacroManager")
+    Managers.removeManager("HOPA", "MindBranchManager")
+    Managers.removeManager("HOPA", "MindManager")
+    Managers.removeManager("HOPA", "MonetizationManager")
+    Managers.removeManager("HOPA", "MusicManager")
+    Managers.removeManager("HOPA", "NewspaperManager")
+    Managers.removeManager("HOPA", "PopUpItemManager")
+    Managers.removeManager("HOPA", "QuestManager")
+    Managers.removeManager("HOPA", "RotateTilesWhichRotateEachOtherManager")
+    Managers.removeManager("HOPA", "RubiksPuzzleManager")
+    Managers.removeManager("HOPA", "ScenarioManager")
+    Managers.removeManager("HOPA", "SoundEffectManager")
+    Managers.removeManager("HOPA", "SoundEffectOnObjectManager")
+    Managers.removeManager("HOPA", "SparksManager")
+    Managers.removeManager("HOPA", "StageManager")
+    Managers.removeManager("HOPA", "StoreManager")
+    Managers.removeManager("HOPA", "TipManager")
+    Managers.removeManager("HOPA", "TransitionManager")
+    Managers.removeManager("HOPA", "TransitionHighlightManager")
+    Managers.removeManager("HOPA", "TooltipsManager")
+    Managers.removeManager("HOPA", "ZoomManager")
+    Managers.removeManager("HOPA", "ChapterManager")
+    Managers.removeManager("HOPA", "BonusItemManager")
+    Managers.removeManager("HOPA", "HOGManager")
+    Managers.removeManager("HOPA", "InventoryItemUseMovieManager")
+    Managers.removeManager("HOPA", "StaticPopUpManager")
+    Managers.removeManager("HOPA", "HintManager")
+    Managers.removeManager("HOPA", "ArrowBlackListManager")
+
+    Managers.removeManager("HOPA.Entities.AssociationElements2", "AssociationElements2Manager")
+    Managers.removeManager("HOPA.Entities.Awards", "AwardsManager")
+    Managers.removeManager("HOPA.Entities.BoneBoard", "BoneBoardManager")
+    Managers.removeManager("HOPA.Entities.BoneBoard", "BoneHelpChainManager")
+    Managers.removeManager("HOPA.Entities.ButtonConjunction", "ButtonConjunctionManager")
+    Managers.removeManager("HOPA.Entities.CircularReflection", "CircularReflectionManager")
+    Managers.removeManager("HOPA.Entities.CollectedAmulet", "CollectedAmuletManager")
+    Managers.removeManager("HOPA.Entities.Difficulty", "DifficultyManager")
+    Managers.removeManager("HOPA.Entities.Difficulty2", "Difficulty2Manager")
+    Managers.removeManager("HOPA.Entities.Extras", "ExtrasManager")
+    Managers.removeManager("HOPA.Entities.Extras.ExtrasConcept", "ExtrasConceptManager")
+    Managers.removeManager("HOPA.Entities.Extras.ExtrasEnigma", "ExtrasEnigmaManager")
+    Managers.removeManager("HOPA.Entities.Extras.ExtrasHOG", "ExtrasHOGManager")
+    Managers.removeManager("HOPA.Entities.Extras.ExtrasMusic", "ExtrasMusicManager")
+    Managers.removeManager("HOPA.Entities.Extras.ExtrasWallpaper", "ExtrasWallpaperManager")
+    Managers.removeManager("HOPA.Entities.InventoryFX", "InventoryFXManager")
+    Managers.removeManager("HOPA.Entities.Journal2", "Journal2Manager")
+    Managers.removeManager("HOPA.Entities.LetItSlide", "LetItSlideManager")
+    Managers.removeManager("HOPA.Entities.LightLock", "LightLockManager")
+    Managers.removeManager("HOPA.Entities.MagicVision", "MagicVisionManager")
+    Managers.removeManager("HOPA.Entities.MagneticLabyrinth", "MagneticLabyrinthManager")
+    Managers.removeManager("HOPA.Entities.Mana", "ManaManager")
+    Managers.removeManager("HOPA.Entities.Map2", "Map2Manager")
+    Managers.removeManager("HOPA.Entities.Map2.CollectedMap", "CollectedMapManager")
+    Managers.removeManager("HOPA.Entities.Map2.CollectedMapIndicator", "CollectedMapIndicatorManager")
+    Managers.removeManager("HOPA.Entities.Map2.MapSwitch", "MapSwitchManager")
+    Managers.removeManager("HOPA.Entities.MoveBlocks", "MoveBlocksManager")
+    Managers.removeManager("HOPA.Entities.Notebook", "NotebookManager")
+    Managers.removeManager("HOPA.Entities.NotebookDescription", "NotebookDescriptionManager")
+    Managers.removeManager("HOPA.Entities.NotebookInventory", "NotebookInventoryManager")
+    Managers.removeManager("HOPA.Entities.NotebookInventoryList", "NotebookInventoryListManager")
+    Managers.removeManager("HOPA.Entities.OpenJournal", "OpenJournalManager")
+    Managers.removeManager("HOPA.Entities.Options", "OptionsManager")
+    Managers.removeManager("HOPA.Entities.OptionsMore", "OptionsMoreManager")
+    Managers.removeManager("HOPA.Entities.Plumber", "PlumberManager")
+    Managers.removeManager("HOPA.Entities.Profile", "ProfileManager")
+    Managers.removeManager("HOPA.Entities.Programmator", "ProgrammatorManager")
+    Managers.removeManager("HOPA.Entities.Puzzle", "PuzzleManager")
+    Managers.removeManager("HOPA.Entities.Reagents", "ReagentsManager")
+    Managers.removeManager("HOPA.Entities.RotateAndReflectElement", "RotateAndReflectElementManager")
+    Managers.removeManager("HOPA.Entities.SameElements", "SameElementsManager")
+    Managers.removeManager("HOPA.Entities.Spell", "SpellManager")
+    Managers.removeManager("HOPA.Entities.SpinCirclesDependsPlugin", "SpinCirclesDependsPluginManager")
+    Managers.removeManager("HOPA.Entities.SpinCirclesMastermind", "SpinCirclesMastermindManager")
+    Managers.removeManager("HOPA.Entities.SplashScreen", "SplashScreenManager")
+    Managers.removeManager("HOPA.Entities.StrategyGuide.StrategyGuideController", "StrategyGuideControllerManager")
+    Managers.removeManager("HOPA.Entities.StrategyGuide.StrategyGuideMenu", "StrategyGuideMenuManager")
+    Managers.removeManager("HOPA.Entities.StrategyGuide.StrategyGuidePage", "StrategyGuidePageManager")
+    Managers.removeManager("HOPA.Entities.StrategyGuide.StrategyGuideZoom", "StrategyGuideZoomManager")
+    Managers.removeManager("HOPA.Entities.Mahjong", "MahjongManager")
     pass

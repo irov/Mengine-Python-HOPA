@@ -3,7 +3,6 @@ from Foundation.Manager import Manager
 from Foundation.DatabaseManager import DatabaseManager
 from HOPA.Macro.MacroCommandFactory import MacroCommandFactory
 
-
 class MacroManager(Manager):
     s_macroTypes = {}
     s_commandsQuestFilter = {}
@@ -187,7 +186,6 @@ class MacroManager(Manager):
         SceneCommands = MacroManager.filterAllSceneMacro(SceneName, MacroTypeFilter)
 
         return SceneCommands
-        pass
 
     @staticmethod
     def filterSceneMacroRun(SceneName, MacroTypeFilter):

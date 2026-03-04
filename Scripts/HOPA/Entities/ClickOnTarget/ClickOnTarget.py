@@ -2,7 +2,6 @@
 Documentation:
 https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/170754049/ClickOnTarget
 """
-from Event import Event
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput

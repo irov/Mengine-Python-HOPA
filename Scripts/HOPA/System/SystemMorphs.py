@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
@@ -8,9 +7,7 @@ from Foundation.Utils import isCollectorEdition
 from HOPA.MorphManager import MorphManager
 from Notification import Notification
 
-
 # Confluence doc: https://wonderland-games.atlassian.net/wiki/spaces/HOG/pages/1858666545/Morphs
-
 
 class SystemMorphs(System):
     s_dev_to_debug = False

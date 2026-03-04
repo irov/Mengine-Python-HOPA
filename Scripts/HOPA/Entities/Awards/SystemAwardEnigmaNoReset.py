@@ -1,7 +1,7 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.TaskManager import TaskManager
-from HOPA.Object.ObjectHOGRolling import ObjectHOGRolling
+from HOPA.Entities.HOGRolling.ObjectHOGRolling import ObjectHOGRolling
 
 from AwardsManager import AwardsManager
 

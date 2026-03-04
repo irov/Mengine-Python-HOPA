@@ -1,4 +1,3 @@
-from Event import Event
 from Foundation.Notificator import Notificator
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.Task.TaskAlias import TaskAlias

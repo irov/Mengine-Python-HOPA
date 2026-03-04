@@ -1,5 +1,5 @@
-from Foundation.DemonManager import DemonManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.DemonManager import DemonManager
+from Foundation.BaseEntity import BaseEntity
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from Foundation.DefaultManager import DefaultManager

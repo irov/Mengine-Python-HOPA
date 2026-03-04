@@ -1,4 +1,4 @@
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.SceneManager import SceneManager
@@ -181,7 +181,6 @@ class Profile(BaseEntity):
         for slotID in ActiveSlotIDs:
             if slotID == currentSlotID:
                 continue
-                pass
 
             self._disableButtonSelectProfile(slotID)
             pass
@@ -240,7 +239,6 @@ class Profile(BaseEntity):
         for slotID in NewSlotIDs:
             self._openWindowPlayerNew(slotID)
             break
-            pass
         pass
 
     def _enableButtonNewProfile(self, slotID):
@@ -276,7 +274,6 @@ class Profile(BaseEntity):
         buttonSelectProfile = self.profiles[slotID].getSelectButton()
         if TaskManager.existTaskChain("ProfileButtonSelectPlayer_%s" % (slotID)):
             return
-            pass
 
         accID = self.getAccountID(slotID)
 

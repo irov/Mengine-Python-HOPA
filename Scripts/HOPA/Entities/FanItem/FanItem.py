@@ -1,5 +1,5 @@
-from Foundation.ArrowManager import ArrowManager
-from Foundation.Entity.BaseEntity import BaseEntity
+﻿from Foundation.ArrowManager import ArrowManager
+from Foundation.BaseEntity import BaseEntity
 
 class FanItem(BaseEntity):
     ITEM_NONE = 0
