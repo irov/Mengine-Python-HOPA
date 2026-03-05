@@ -194,7 +194,7 @@ class HOGInventory(InventoryBase):
         count = len(self.slots)
 
         if self.MaxColumn * self.MaxRow < count:
-            Trace.log("HOGInventory", 0, "HOGInventory %s FindItems %s > max count %s" % (
+            Trace.log("Entity", 0, "HOGInventory %s FindItems %s > max count %s" % (
                 self.object.name, self.HOGItems, self.MaxColumn * self.MaxRow))
             return
 
