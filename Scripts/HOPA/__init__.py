@@ -1449,24 +1449,9 @@ def onInitialize():
         , "InGameMenu"
     ]
 
-    if Mengine.getGameParamBool("NotUseDefaultEntitiesList", False) is True:
-        EntityTypes = []
-        from Foundation.DatabaseManager import DatabaseManager
-        records = DatabaseManager.getDatabaseRecordsFilterBy("Database", "Entities", Module="HOPA")
-
-        for record in records:
-            EntityTypes.append(record.get("Type"))
-
-    for EntityType in EntityTypes:
-        ModuleName = "HOPA.Entities.{}".format(EntityType)
-
-        Module = __import__(ModuleName, fromlist=[ModuleName])
-
-        if hasattr(Module, "onInitialize") is True:
-            getattr(Module, "onInitialize")()
-        else:
-            EntityManager.importEntity(ModuleName, EntityType)
-            ObjectManager.importObject(ModuleName, EntityType)
+    from Foundation.Bootstrapper import Bootstrapper
+    if Bootstrapper.loadEntities("HOPA", EntityTypes) is False:
+        return False
 
     from HOPA.HOGManager import HOGManager
 
