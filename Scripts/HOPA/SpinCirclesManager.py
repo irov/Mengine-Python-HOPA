@@ -130,7 +130,7 @@ class SpinCirclesManager(Manager):
     @staticmethod
     def hasSpinCircle(name):
         if name not in SpinCirclesManager.s_objects:
-            Trace.log("SpinCirclesManager", 0, "SpinSirclesManager.hasSpinCircle: : invalid param")
+            Trace.log("Manager", 0, "SpinSirclesManager.hasSpinCircle: : invalid param")
             return False
             pass
         return True

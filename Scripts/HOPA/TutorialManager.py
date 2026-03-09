@@ -47,7 +47,7 @@ class TutorialManager(Manager):
     @staticmethod
     def getMovieName(Name):
         if TutorialManager.hasEntry(Name) is False:
-            Trace.log(TutorialManager.TraceName, 0, "TutorialManager: name-key %s doest exist" % Name)
+            Trace.log("Manager", 0, "TutorialManager: name-key %s doest exist" % Name)
             return
 
         tutorialEntry = TutorialManager.s_object[Name]
@@ -57,7 +57,7 @@ class TutorialManager(Manager):
     @staticmethod
     def getText(Name):
         if TutorialManager.hasEntry(Name) is False:
-            Trace.log(TutorialManager.TraceName, 0, "TutorialManager: name-key %s doest exist" % Name)
+            Trace.log("Manager", 0, "TutorialManager: name-key %s doest exist" % Name)
             return
 
         tutorialEntry = TutorialManager.s_object[Name]

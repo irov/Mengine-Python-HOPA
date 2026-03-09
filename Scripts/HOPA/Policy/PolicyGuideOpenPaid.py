@@ -72,7 +72,7 @@ class PolicyGuideOpenPaid(TaskAlias):
             elif self._variant == "Store":
                 purchase.addScope(self._scopeStorePage)
             else:
-                Trace.log("Task", 0, "PolicyGuideOpenPaid unknown purchase variant {!r}".format(self._variant))
+                Trace.log("Policy", 0, "PolicyGuideOpenPaid unknown purchase variant {!r}".format(self._variant))
 
             with purchase.addIfTask(SystemMonetization.isProductPurchased, self.ProdParams.id) as (transition, fail):
                 transition.addScope(self._scopeTransition)

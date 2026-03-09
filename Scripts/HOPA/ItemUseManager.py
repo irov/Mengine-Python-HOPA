@@ -77,7 +77,7 @@ class ItemUseManager(Manager):
     @staticmethod
     def getItem(ItemName, SocketName):
         if ItemUseManager.hasItem(ItemName) is False or ItemUseManager.hasSocket(ItemName, SocketName) is False:
-            Trace.log("ItemUseManager.getItem: not found item %s or couple with Socket %s" % (ItemName, SocketName), 0, '')
+            Trace.log("Manager", 0, "ItemUseManager.getItem: not found item %s or couple with Socket %s" % (ItemName, SocketName), 0, '')
             return None
 
         item = ItemUseManager.manager_dict[ItemName][SocketName]

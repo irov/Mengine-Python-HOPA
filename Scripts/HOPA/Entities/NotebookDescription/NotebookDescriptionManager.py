@@ -64,8 +64,7 @@ class NotebookDescriptionManager(Manager):
     @staticmethod
     def hasDescription(id):
         if id not in NotebookDescriptionManager.s_descriptions:
-            Trace.log("NotebookDescriptionManager", 0,
-                      "NotebookDescriptionManager.hasDescription invalid ID, maybe forgot to add in some xls")
+            Trace.log("Manager", 0, "NotebookDescriptionManager.hasDescription invalid ID, maybe forgot to add in some xls")
             return False
             pass
 

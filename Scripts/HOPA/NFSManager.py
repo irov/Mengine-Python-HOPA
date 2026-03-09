@@ -78,11 +78,11 @@ class NFSManager(Manager):
         nfs_group = GroupManager.getGroup(groupName)
 
         if nfs_group is None:
-            Trace.log("NFSManager", 0, "NFSManager.loadNFS: Maybe you forgot to add [%s] in Groups.xls!" % (groupName))
+            Trace.log("Manager", 0, "NFSManager.loadNFS: Maybe you forgot to add [%s] in Groups.xls!" % (groupName))
             return
 
         if sceneName is None:
-            Trace.log("NFSManager", 0, "NFSManager.loadNFS: You forgot to add NFSsceneName!" % (sceneName))
+            Trace.log("Manager", 0, "NFSManager.loadNFS: You forgot to add NFSsceneName!" % (sceneName))
             return
 
         nfs_obj = nfs_group.getObject(objectName)

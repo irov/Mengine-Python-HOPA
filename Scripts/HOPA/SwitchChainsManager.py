@@ -32,7 +32,7 @@ class SwitchChainsManager(Manager):
             switchChain = SwitchChainsManager.loadSwitchChain(ID, module, Param, startOn)
 
             if switchChain is None:
-                Trace.log("HOGManager", 0, "SwitchChainsManager.loadPuzzles: invalid loadSwitchChain")
+                Trace.log("Manager", 0, "SwitchChainsManager.loadPuzzles: invalid loadSwitchChain")
                 return False
                 pass
 

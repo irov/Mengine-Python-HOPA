@@ -42,7 +42,7 @@ class TipManager(Manager):
     @staticmethod
     def getMovieTip(tipId):
         if TipManager.isMovieTip(tipId) is False:
-            Trace.log("TipManager", 0, "TipManager.getMovieTip  tip with id -->%s<-- is not MovieTip" % (tipId,))
+            Trace.log("Manager", 0, "TipManager.getMovieTip  tip with id -->%s<-- is not MovieTip" % (tipId,))
             return None
             pass
         movie = TipManager.s_movieTips[tipId]
@@ -73,7 +73,7 @@ class TipManager(Manager):
     @staticmethod
     def createTip(object, notifies, tipID):
         if TipManager.hasTip(tipID) is False:
-            Trace.log("TipManager", 0, "createTip.addTipObjectParams: TipID is not initialize!")
+            Trace.log("Manager", 0, "createTip.addTipObjectParams: TipID is not initialize!")
             return None
             pass
 

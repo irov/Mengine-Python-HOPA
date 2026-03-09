@@ -998,6 +998,7 @@ def onInitialize():
         , "TipManager"
         , "ItemManager"
         , "MacroCommand"
+        , "CruiseAction"
         , "TaskInventoryReturnItem"
         , "ShootingRangeManager"
         , "SparksAction"

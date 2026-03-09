@@ -95,6 +95,6 @@ class CirclePairElementsManager(Manager):
     @staticmethod
     def hasCirclePairElements(name):
         if name not in CirclePairElementsManager.s_objects:
-            Trace.log("CirclePairElementsManager", 0, "JoinBlocksManager.hasJoinBlocks: : not found %s" % (name))
+            Trace.log("Manager", 0, "JoinBlocksManager.hasJoinBlocks: : not found %s" % (name))
             return False
         return True

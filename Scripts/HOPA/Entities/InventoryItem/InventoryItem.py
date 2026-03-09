@@ -77,10 +77,10 @@ class InventoryItem(BaseEntity):
         self.state = InventoryItem.ITEM_PLACE
 
     def pick(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s pick" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s pick" % (self.object.name))
 
         if self.state is not InventoryItem.ITEM_INVENTORY:
-            Trace.log("InventoryItem", 1, "InventoryItem invalid pick, state %d" % (self.state))
+            Trace.log("Entity", 1, "InventoryItem invalid pick, state %d" % (self.state))
             return
 
         self.state = InventoryItem.ITEM_PICK
@@ -90,26 +90,26 @@ class InventoryItem(BaseEntity):
         Notification.notify(Notificator.onSoundEffectOnObject, self.object, "InventoryItemInvalidUse")
 
     def pickAfterPlace(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s pick after place" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s pick after place" % (self.object.name))
 
         self.state = InventoryItem.ITEM_RETURN
 
     def place(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s place" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s place" % (self.object.name))
 
         Notification.notify(Notificator.onInventoryItemPlace, self.object)
 
         self.state = InventoryItem.ITEM_PLACE
 
     def take(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s take" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s take" % (self.object.name))
 
         Notification.notify(Notificator.onInventoryItemTake, self.object)
 
         self.state = InventoryItem.ITEM_TAKE
 
     def takeItem(self, itemName):
-        Trace.log("InventoryItem", 3, "InventoryItem %s take" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s take" % (self.object.name))
         self.state = InventoryItem.ITEM_RETURN
 
         foundItems = self.object.getParam("FoundItems")
@@ -120,11 +120,11 @@ class InventoryItem(BaseEntity):
             self.state = InventoryItem.ITEM_TAKE
 
     def tryCombine(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s try combine" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s try combine" % (self.object.name))
         self.state = InventoryItem.ITEM_TRY_COMBINE
 
     def combine(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s combine" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s combine" % (self.object.name))
         self.state = InventoryItem.ITEM_COMBINE
 
     def store(self):

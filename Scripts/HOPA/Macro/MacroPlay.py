@@ -67,7 +67,7 @@ class MacroPlay(MacroCommand):
 
                 pass
             else:
-                Trace.log("Macro", 0, "MacroPlay._onGenerate type %s not support Group %s Index %d" % (
+                Trace.log("Command", 0, "MacroPlay._onGenerate type %s not support Group %s Index %d" % (
                 ObjectType, self.GroupName, self.Index))
 
                 tc_quest.addDummy()

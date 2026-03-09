@@ -69,7 +69,7 @@ class MacroCloseItemPlus(MacroCommand):
         SystemItemPlusScene = SystemManager.getSystem("SystemItemPlusScene")
         if SystemItemPlusScene.hasOpenItemPlus() is False:
             if _DEVELOPMENT is True:
-                Trace.log("Macro", 0, "MacroCloseItemPlus {} invalid, no item plus are open".format(self.GroupName))
+                Trace.log("Command", 0, "MacroCloseItemPlus {} invalid, no item plus are open".format(self.GroupName))
             if self.b_remove_from_inv is True:
                 source.addScope(SystemItemPlusScene.remove_from_inventory, self.GroupName)
             else:

@@ -19,7 +19,7 @@ class MacroCollectiblesTransitionPadlock(MacroCommand):
 
         if collectible_group_param is None:
             if _DEVELOPMENT is True:
-                Trace.log("Macro", 0, "MacroCollectiblesTransitionPadlock: not exist collectibles on scene {!r}".format(self.SceneName))
+                Trace.log("Command", 0, "MacroCollectiblesTransitionPadlock: not exist collectibles on scene {!r}".format(self.SceneName))
             source.addDummy()
         else:
             collectible_group_param.transition_padlock = True

@@ -17,7 +17,7 @@ class MacroCommandFactory(object):
     @staticmethod
     def createCommand(commandTypeName):
         if commandTypeName not in MacroCommandFactory.s_commandType:
-            Trace.log("Macro", 0, "MacroCommandFactory.createCommand not found commandType %s" % (commandTypeName))
+            Trace.log("Command", 0, "MacroCommandFactory.createCommand not found commandType %s" % (commandTypeName))
             return None
             pass
 

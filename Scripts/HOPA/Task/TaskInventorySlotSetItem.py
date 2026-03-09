@@ -29,7 +29,7 @@ class TaskInventorySlotSetItem(MixinInventoryItem, Task):
         slots = InventoryEntity.getSlots()
         if self.SlotID >= len(slots):
             # Trace.log("TaskInventorySlotSetItem", 0, "TaskInventorySlotSetItem._onCheck trying ti get Slot %s, but Inventory size is %s (lesser)"%(self.SlotID, len(slots)))
-            Trace.log("Entity", 0, "TaskInventorySlotSetItem._onCheck trying ti get Slot %s, but Inventory size is %s (lesser)" % (self.SlotID, len(slots)))
+            Trace.log("Task", 0, "TaskInventorySlotSetItem._onCheck trying ti get Slot %s, but Inventory size is %s (lesser)" % (self.SlotID, len(slots)))
             return False
             pass
 

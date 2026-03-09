@@ -57,6 +57,6 @@ class MapSwitchManager(Manager):
     @staticmethod
     def hasData(demon):
         if demon not in MapSwitchManager.s_objects:
-            Trace.log("MapSwitchManager", 0, "MapSwitchManager.hasData invalid param for demon %s" % (demon.getName()))
+            Trace.log("Manager", 0, "MapSwitchManager.hasData invalid param for demon %s" % (demon.getName()))
             return False
         return True

@@ -65,6 +65,6 @@ class PuzzleManager(Manager):
     @staticmethod
     def hasPuzzle(name):
         if name not in PuzzleManager.s_puzzles:
-            Trace.log("PuzzleManager", 0, "PuzzleManager.getPuzzle: not found puzzle %s" % (name))
+            Trace.log("Manager", 0, "PuzzleManager.getPuzzle: not found puzzle %s" % (name))
             return False
         return True

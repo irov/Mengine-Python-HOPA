@@ -62,8 +62,7 @@ class CollectedMapManager(Manager):
     @staticmethod
     def hasData(demon):
         if demon not in CollectedMapManager.s_objects:
-            Trace.log("CollectedMapManager", 0,
-                      "CollectedMapManager.hasData invalid param demon %s" % (demon.getName()))
+            Trace.log("Manager", 0, "CollectedMapManager.hasData invalid param demon %s" % (demon.getName()))
             return False
             pass
         return True

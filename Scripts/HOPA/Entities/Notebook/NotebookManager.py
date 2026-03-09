@@ -102,7 +102,7 @@ class NotebookManager(Manager):
     @staticmethod
     def hasNote(id):
         if id not in NotebookManager.s_notes:
-            Trace.log("NotebookManager", 0, "NotebookManager.hasNote invalid ID, maybe forgot to add in some xls")
+            Trace.log("Manager", 0, "NotebookManager.hasNote invalid ID, maybe forgot to add in some xls")
             return False
             pass
 
@@ -122,7 +122,7 @@ class NotebookManager(Manager):
     @staticmethod
     def hasEntry(pos):
         if pos not in NotebookManager.s_entries:
-            Trace.log("NotebookManager", 0, "NotebookManager.hasEntry invalid position for entry, maybe forgot to add in some xls")
+            Trace.log("Manager", 0, "NotebookManager.hasEntry invalid position for entry, maybe forgot to add in some xls")
             return False
             pass
 

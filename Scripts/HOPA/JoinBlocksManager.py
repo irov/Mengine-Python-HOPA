@@ -84,6 +84,6 @@ class JoinBlocksManager(Manager):
     @staticmethod
     def hasJoinBlocks(name):
         if name not in JoinBlocksManager.s_objects:
-            Trace.log("JoinBlocksManager", 0, "JoinBlocksManager.hasJoinBlocks: : invalid param")
+            Trace.log("Manager", 0, "JoinBlocksManager.hasJoinBlocks: : invalid param")
             return False
         return True

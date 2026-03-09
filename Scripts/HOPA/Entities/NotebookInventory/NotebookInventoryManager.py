@@ -77,8 +77,7 @@ class NotebookInventoryManager(Manager):
     @staticmethod
     def hasActivateEntry(id):
         if id not in NotebookInventoryManager.s_activateEntries:
-            Trace.log("NotebookInventoryManager", 0,
-                      "NotebookInventoryManager.hasActivateEntry invalid data for entry %s, maybe forgot to add in some xls" % (id,))
+            Trace.log("Manager", 0, "NotebookInventoryManager.hasActivateEntry invalid data for entry %s, maybe forgot to add in some xls" % (id,))
             return False
         return True
 

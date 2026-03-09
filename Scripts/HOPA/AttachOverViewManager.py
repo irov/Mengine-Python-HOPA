@@ -72,7 +72,7 @@ class AttachOverViewManager(Manager):
         ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, ItemsList = params
 
         if not ObjectName or not MovieGroupName or not MovieGroupName:
-            Trace.log("AttachOverViewManager", 0, "AttachOverViewManager.loadViewer: : invalid param")
+            Trace.log("Manager", 0, "AttachOverViewManager.loadViewer: : invalid param")
             return
 
         data = AttachOverViewManager.SingleOverView(ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject)
@@ -102,7 +102,7 @@ class AttachOverViewManager(Manager):
     @staticmethod
     def getAnyViewObject(ViewId):
         if AttachOverViewManager.hasAnyView(ViewId) is False:
-            Trace.log("AttachOverViewManager", 0, "AttachOverViewManager.getAnyViewObject: : invalid param")
+            Trace.log("Manager", 0, "AttachOverViewManager.getAnyViewObject: : invalid param")
             return None
 
         object = AttachOverViewManager.ObjectNameList[ViewId]
@@ -111,7 +111,7 @@ class AttachOverViewManager(Manager):
     @staticmethod
     def getView(ViewID, ItemName=None):
         if AttachOverViewManager.hasView(ViewID, ItemName) is False:
-            # Trace.log("AttachOverViewManager", 0, "AttachOverViewManager.getView: : invalid param")
+            # Trace.log("Manager", 0, "AttachOverViewManager.getView: : invalid param")
             return None
 
         if ItemName is None:

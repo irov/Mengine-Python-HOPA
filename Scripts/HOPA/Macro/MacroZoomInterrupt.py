@@ -50,7 +50,7 @@ class MacroZoomInterrupt(MacroCommand):
                         continue
 
                     is_safe = False
-                    Trace.log("Macro", 0, "MacroZoomInterrupt failed - found active macro {!r}:{} {!r}"
+                    Trace.log("Command", 0, "MacroZoomInterrupt failed - found active macro {!r}:{} {!r}"
                                           " - fix ScenarioMacro_{}: user should pick item before end zoom!!!"
                               .format(scenario_macro.CommandType, scenario_macro.Index,
                                       scenario_paragraph.Paragraphs, self.GroupName))

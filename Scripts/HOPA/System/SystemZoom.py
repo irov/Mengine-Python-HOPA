@@ -340,7 +340,7 @@ class SystemZoom(System):
         ZoomItemOpen = DefaultManager.getDefaultBool("ZoomItemOpen", False)
 
         if ZoomManager.hasZoom(zoomGroupName) is False:
-            Trace.log("SystemZoom.__playOpen not found zoom %s" % (zoomGroupName))
+            Trace.log("System", 0, "SystemZoom.__playOpen not found zoom %s" % (zoomGroupName))
 
             return False
 
@@ -350,8 +350,7 @@ class SystemZoom(System):
             ZoomObject = self.Zoom.getObject()
 
             if ZoomObject.isActive() is False:
-                Trace.log("SystemZoom.__playOpen zoom %s object %s:%s is not entity" % (
-                    zoomGroupName, ZoomObject.getGroupName(), ZoomObject.getName()))
+                Trace.log("System", 0, "SystemZoom.__playOpen zoom %s object %s:%s is not entity" % (zoomGroupName, ZoomObject.getGroupName(), ZoomObject.getName()))
 
                 return False
             pass

@@ -87,6 +87,6 @@ class AssociationElements2Manager(Manager):
     @staticmethod
     def hasData(name):
         if name not in AssociationElements2Manager.s_objects:
-            Trace.log("AssociationElements2Manager", 0, "AssociationElements2Manager.hasData invalid mapID %s" % (name))
+            Trace.log("Manager", 0, "AssociationElements2Manager.hasData invalid mapID %s" % (name))
             return False
         return True

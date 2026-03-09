@@ -94,7 +94,7 @@ class BonusItemManager(Manager):
     @staticmethod
     def getItem(name):
         if BonusItemManager.hasItem(name) is False:
-            Trace.log("BonusItemManager", 0, "BonusItemManager.getItem: not found item %s" % (name))
+            Trace.log("Manager", 0, "BonusItemManager.getItem: not found item %s" % (name))
 
             return None
             pass
@@ -156,7 +156,7 @@ class BonusItemManager(Manager):
                 pass
             pass
 
-        Trace.log("ItemManager", 0, "BonusItemManager.findItemStoreObject: not found item %s" % (storeObjectName))
+        Trace.log("Manager", 0, "BonusItemManager.findItemStoreObject: not found item %s" % (storeObjectName))
 
         return None
         pass

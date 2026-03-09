@@ -189,7 +189,7 @@ class LightLockManager(Manager):
     @staticmethod
     def hasLightLock(name):
         if name not in LightLockManager.s_objects:
-            Trace.log("LightLockManager", 0, "LightLockManager.hasLightLock: : invalid param")
+            Trace.log("Manager", 0, "LightLockManager.hasLightLock: : invalid param")
             return False
             pass
         return True

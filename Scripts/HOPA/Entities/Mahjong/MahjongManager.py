@@ -69,7 +69,7 @@ class MahjongManager(Manager):
             return
 
         if DemonManager.hasDemon(inventory) is None:
-            Trace.log("MahjongManager", 0, "MahjongManager.loadGame: not found inventory demon %s" % inventory)
+            Trace.log("Manager", 0, "MahjongManager.loadGame: not found inventory demon %s" % inventory)
             return
 
         MahjongManager.s_inventories[enigmaName] = inventory
@@ -82,13 +82,11 @@ class MahjongManager(Manager):
     def getInventory(enigmaName):
         inventoryName = MahjongManager.s_inventories.get(enigmaName)
         if inventoryName is None:
-            Trace.log("MahjongManager", 0,
-                      "MahjongManager.getInventory: not found inventory demon name for enigma '%s'" % enigmaName)
+            Trace.log("Manager", 0, "MahjongManager.getInventory: not found inventory demon name for enigma '%s'" % enigmaName)
             return None
 
         if DemonManager.hasDemon(inventoryName) is False:
-            Trace.log("MahjongManager", 0,
-                      "MahjongManager.getInventory: not found inventory demon '%s'" % inventoryName)
+            Trace.log("Manager", 0, "MahjongManager.getInventory: not found inventory demon '%s'" % inventoryName)
             return None
 
         return DemonManager.getDemon(inventoryName)

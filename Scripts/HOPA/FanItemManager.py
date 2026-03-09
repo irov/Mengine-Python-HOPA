@@ -55,7 +55,7 @@ class FanItemManager(Manager):
     @staticmethod
     def getItem(name):
         if FanItemManager.hasItem(name) is False:
-            Trace.log("FanItemManager", 0, "FanItemManager.getFan: not found item %s" % (name))
+            Trace.log("Manager", 0, "FanItemManager.getFan: not found item %s" % (name))
             return None
 
         item = FanItemManager.s_items[name]

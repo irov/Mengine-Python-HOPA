@@ -25,7 +25,7 @@ class PolicyNotEnoughEnergyDialog(TaskAlias):
         elif SystemMonetization.hasComponent(self.Action) is True:
             energy_amount = SystemMonetization.getComponent(self.Action).getProductPrice()
         else:
-            Trace.log("Task", 0, "PolicyNotEnoughEnergyDialog: not found price for Action {}".format(self.Action))
+            Trace.log("Policy", 0, "PolicyNotEnoughEnergyDialog: not found price for Action {}".format(self.Action))
             energy_amount = 0
 
         text_args = {"icon_value": [energy_amount]}

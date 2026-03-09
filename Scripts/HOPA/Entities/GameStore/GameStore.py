@@ -210,7 +210,7 @@ class GameStore(BaseEntity):
         card_slot_name = "item%s" % num
         card_slot = self.content["window"].getMovieSlot(card_slot_name)
         if card_slot is None:
-            Trace.log("GameStore::_createStoreCard #{} - can't find slot {!r} for attach card on window".format(num, card_slot_name))
+            Trace.log("Entity", 0, "GameStore::_createStoreCard #{} - can't find slot {!r} for attach card on window".format(num, card_slot_name))
             store_card.cleanUp()
             return False
 

@@ -126,8 +126,7 @@ class NotebookInventoryListManager(Manager):
     @staticmethod
     def hasText(value):
         if value not in NotebookInventoryListManager.s_textes:
-            Trace.log("NotebookInventoryListManager", 0,
-                      "NotebookInventoryListManager.hasText invalid value %s, maybe forgot to add in xls" % (value,))
+            Trace.log("Manager", 0, "NotebookInventoryListManager.hasText invalid value %s, maybe forgot to add in xls" % (value,))
             return False
             pass
 
@@ -164,8 +163,7 @@ class NotebookInventoryListManager(Manager):
             ShowMovie = Setup_Movie(ShowGroupName, ShowName, Value)
 
             if ShowMovie is None:
-                Trace.log("NotebookInventoryListManager", 0,
-                          "NotebookInventoryListManager.addShowMovies invalid %s:%s, maybe it doesn't exist" % (ShowGroupName, ShowName,))
+                Trace.log("Manager", 0, "NotebookInventoryListManager.addShowMovies invalid %s:%s, maybe it doesn't exist" % (ShowGroupName, ShowName,))
                 return False
                 pass
 

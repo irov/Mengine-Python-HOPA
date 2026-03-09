@@ -280,7 +280,7 @@ class Map2Manager(Manager):
     @staticmethod
     def hasMapData(map_id):
         if map_id not in Map2Manager.s_objects:
-            Trace.log("Map2Manager", 0, "Map2Manager.hasMapData invalid mapID %s" % (map_id))
+            Trace.log("Manager", 0, "Map2Manager.hasMapData invalid mapID %s" % (map_id))
             return False
 
         return True

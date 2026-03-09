@@ -85,7 +85,7 @@ class ColumnChainManager(Manager):
     @staticmethod
     def hasColumnChain(name):
         if name not in ColumnChainManager.s_objects:
-            Trace.log("ColumnChainManager", 0, "ColumnChainManager.hasColumnChain: : invalid param")
+            Trace.log("Manager", 0, "ColumnChainManager.hasColumnChain: : invalid param")
             return False
             pass
         return True

@@ -181,7 +181,7 @@ class PlumberManager(Manager):
             movieName = values.get("MovieName")
 
             if enigmaObject.hasObject(movieName) is False:
-                Trace.log("PlumberManager.loadMovementMovies", "object has no movieName: '%s' " % (movieName))
+                Trace.log("Manager", 0, "PlumberManager.loadMovementMovies", "object has no movieName: '%s' " % (movieName))
                 pass
 
             movie = enigmaObject.getObject(movieName)
@@ -203,10 +203,10 @@ class PlumberManager(Manager):
             directionMovieNames = values.get("DirectionMovieNames")
 
             if enigmaObject.hasObject(movieName) is False:
-                Trace.log("PlumberManager.loadCellItems", "object has no movieName: '%s' " % (movieName))
+                Trace.log("Manager", 0, "PlumberManager.loadCellItems", "object has no movieName: '%s' " % (movieName))
                 pass
             if enigmaObject.hasObject(movieSelectedName) is False:
-                Trace.log("PlumberManager.loadCellItems", "object has no movieName: '%s' " % (movieSelectedName))
+                Trace.log("Manager", 0, "PlumberManager.loadCellItems", "object has no movieName: '%s' " % (movieSelectedName))
                 pass
 
             movie = enigmaObject.getObject(movieName)
@@ -235,17 +235,17 @@ class PlumberManager(Manager):
             winPos = values.get("WinPos")
 
             if enigmaObject.hasObject(movieName) is False:
-                Trace.log("PlumberManager.loadItems", "object has no movieName: '%s' " % (movieName))
+                Trace.log("Manager", 0, "PlumberManager.loadItems", "object has no movieName: '%s' " % (movieName))
                 pass
             if enigmaObject.hasObject(winMovieName) is False:
-                Trace.log("PlumberManager.loadItems", "object has no movieName: '%s' " % (winMovieName))
+                Trace.log("Manager", 0, "PlumberManager.loadItems", "object has no movieName: '%s' " % (winMovieName))
                 pass
             if enigmaObject.hasObject(directionMovieName) is False:
-                Trace.log("PlumberManager.loadItems", "object has no movieName: '%s' " % (directionMovieName))
+                Trace.log("Manager", 0, "PlumberManager.loadItems", "object has no movieName: '%s' " % (directionMovieName))
                 pass
 
             if enigmaObject.hasObject(crashMovieName) is False:
-                Trace.log("PlumberManager.loadItems", "object has no movieName: '%s' " % (crashMovieName))
+                Trace.log("Manager", 0, "PlumberManager.loadItems", "object has no movieName: '%s' " % (crashMovieName))
                 pass
 
             movie = enigmaObject.getObject(movieName)
@@ -284,7 +284,7 @@ class PlumberManager(Manager):
     @staticmethod
     def hasGameData(name):
         if name not in PlumberManager.s_objects:
-            Trace.log("PlumberManager", 0, "PlumberManager.hasGameData: : invalid param")
+            Trace.log("Manager", 0, "PlumberManager.hasGameData: : invalid param")
             return False
             pass
         return True

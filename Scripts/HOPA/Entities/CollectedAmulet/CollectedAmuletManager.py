@@ -90,7 +90,7 @@ class CollectedAmuletManager(Manager):
     @staticmethod
     def hasData(obj):
         if obj not in CollectedAmuletManager.s_objects:
-            Trace.log("CollectedAmuletManager", 0, "CollectedAmuletManager.hasData invalid param obj %s" % (obj))
+            Trace.log("Manager", 0, "CollectedAmuletManager.hasData invalid param obj %s" % (obj))
             return False
         return True
 

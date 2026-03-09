@@ -37,7 +37,7 @@ class TrafficJamManager(Manager):
             hog = TrafficJamManager.loadTrafficJam(Name, module, Param)
 
             if hog is None:
-                Trace.log("HOGManager", 0, "TrafficJamManager.loadPuzzles: invalid load puzzle %s" % (Name))
+                Trace.log("Manager", 0, "TrafficJamManager.loadPuzzles: invalid load puzzle %s" % (Name))
                 return False
 
         return True

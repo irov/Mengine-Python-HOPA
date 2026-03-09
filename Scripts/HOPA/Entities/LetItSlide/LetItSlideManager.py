@@ -150,7 +150,7 @@ class LetItSlideManager(Manager):
     @staticmethod
     def hasGameData(name):
         if name not in LetItSlideManager.s_objects:
-            Trace.log("PlumberManager", 0, "PlumberManager.hasGameData: : invalid param")
+            Trace.log("Manager", 0, "PlumberManager.hasGameData: : invalid param")
             return False
             pass
         return True

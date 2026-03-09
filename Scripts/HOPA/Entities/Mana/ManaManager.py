@@ -90,7 +90,7 @@ class ManaManager(Manager):
     @staticmethod
     def hasManaData(object):
         if object not in ManaManager.s_objects:
-            Trace.log("ManaManager", 0, "ManaManager.hasManaData: : invalid param")
+            Trace.log("Manager", 0, "ManaManager.hasManaData: : invalid param")
             return False
             pass
         return True

@@ -115,7 +115,7 @@ class ThimbleGameManager(Manager):
     @staticmethod
     def hasGame(name):
         if name not in ThimbleGameManager.s_objects:
-            Trace.log("ThimbleGameManager", 0, "ThimbleGameManager.hasGame: : invalid param")
+            Trace.log("Manager", 0, "ThimbleGameManager.hasGame: : invalid param")
             return False
             pass
         return True

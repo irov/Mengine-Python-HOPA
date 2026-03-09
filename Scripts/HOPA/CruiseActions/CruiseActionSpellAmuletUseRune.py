@@ -60,7 +60,7 @@ class CruiseActionSpellAmuletUseRune(CruiseAction):
 
             if stone_button_socket is None:
                 if _DEVELOPMENT is True:
-                    Trace.log("No socket 'socket' in rune {!r} for calculate hint point".format(power_name))
+                    Trace.log("CruiseAction", 0, "No socket 'socket' in rune {!r} for calculate hint point".format(power_name))
                 position = self.__getAmuletPosition()
             else:
                 position = stone_button_socket.getWorldPolygonCenter()

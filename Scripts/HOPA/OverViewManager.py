@@ -74,7 +74,7 @@ class OverViewManager(Manager):
         ViewID, ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, Immediately, isFindItem = params
 
         if not ObjectName or not MovieGroupName or not MovieGroupName:
-            Trace.log("OverViewManager", 0, "OverViewManager.loadViewer: : invalid param")
+            Trace.log("Manager", 0, "OverViewManager.loadViewer: : invalid param")
             return
 
         data = OverViewManager.SingleOverView(ObjectName, MovieGroupName, MovieName, Enable, Loop, SubObject, isFindItem)
@@ -98,7 +98,7 @@ class OverViewManager(Manager):
     @staticmethod
     def getView(ViewID):
         if OverViewManager.hasView(ViewID) is False:
-            Trace.log("OverViewManager", 0, "OverViewManager.getView: : invalid param")
+            Trace.log("Manager", 0, "OverViewManager.getView: : invalid param")
             return None
             pass
 

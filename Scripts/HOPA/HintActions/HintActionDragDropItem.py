@@ -32,8 +32,7 @@ class HintActionDragDropItem(MixinItem, MixinObject, HintActionMultiTarget):
             if Pos is not None and Pos2 is not None:
                 return Pos, Pos2
 
-        Trace.log("HintAction", 0, "HintActionDragDropItem %s ItemType %s or ItemName %s ItemType %s "
-                                   "cant calculate position" % (self.Item.name, self.Item.getType(), self.Object.name, self.Object.getType()))
+        Trace.log("HintAction", 0, "HintActionDragDropItem %s ItemType %s or ItemName %s ItemType %s cant calculate position" % (self.Item.name, self.Item.getType(), self.Object.name, self.Object.getType()))
 
         return (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)
 

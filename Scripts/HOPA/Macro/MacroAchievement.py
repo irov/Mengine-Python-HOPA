@@ -8,7 +8,7 @@ class MacroAchievement(MacroCommand):
 
     def _onGenerate(self, source):
         if self.AchievementName is None:
-            Trace.log("Macro", 0, "MacroAchievement {} not exist".format(self.AchievementName))
+            Trace.log("Command", 0, "MacroAchievement {} not exist".format(self.AchievementName))
             return
             pass
 

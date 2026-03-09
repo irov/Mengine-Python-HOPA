@@ -36,14 +36,14 @@ class MagicVisionManager(Manager):
                 movieActivate = GroupManager.getObject(GroupName, ActivateMovieName)
                 pass
             else:
-                Trace.log("MagicVisionManager", 0, "loadMagicVision :: invalid parameters for Activate movies on Group:%s Scene:%s" % (GroupName, SceneName))
+                Trace.log("Manager", 0, "loadMagicVision :: invalid parameters for Activate movies on Group:%s Scene:%s" % (GroupName, SceneName))
                 pass
 
             if GroupManager.hasObject(GroupNameTo, DeactivateMovieName) is True:
                 movieDeactivate = GroupManager.getObject(GroupNameTo, DeactivateMovieName)
                 pass
             else:
-                Trace.log("MagicVisionManager", 0, "loadMagicVision :: invalid parameters for Deactivate movies on Group:%s Scene:%s" % (GroupNameTo, SceneNameTo))
+                Trace.log("Manager", 0, "loadMagicVision :: invalid parameters for Deactivate movies on Group:%s Scene:%s" % (GroupNameTo, SceneNameTo))
                 pass
 
             MagicVisionManager.s_scenes[SceneName] = SceneNameTo

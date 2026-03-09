@@ -90,12 +90,11 @@ class InventoryItemAccumulate(BaseEntity):
         pass
 
     def pick(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s pick" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s pick" % (self.object.name))
 
         if self.state is not InventoryItemAccumulate.ITEM_INVENTORY:
-            Trace.log("InventoryItem", 1, "InventoryItem invalid pick, state %d" % (self.state))
+            Trace.log("Entity", 1, "InventoryItem invalid pick, state %d" % (self.state))
             return
-            pass
 
         self.state = InventoryItemAccumulate.ITEM_PICK
         pass
@@ -105,13 +104,13 @@ class InventoryItemAccumulate(BaseEntity):
         pass
 
     def pickAfterPlace(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s pick after place" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s pick after place" % (self.object.name))
 
         self.state = InventoryItemAccumulate.ITEM_RETURN
         pass
 
     def place(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s place" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s place" % (self.object.name))
 
         Notification.notify(Notificator.onInventoryItemPlace, self.object)
 
@@ -119,7 +118,7 @@ class InventoryItemAccumulate(BaseEntity):
         pass
 
     def take(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s take" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s take" % (self.object.name))
 
         Notification.notify(Notificator.onInventoryItemTake, self.object)
 
@@ -127,7 +126,7 @@ class InventoryItemAccumulate(BaseEntity):
         pass
 
     def takeItem(self, itemName):
-        Trace.log("InventoryItem", 3, "InventoryItem %s take" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s take" % (self.object.name))
         self.state = InventoryItemAccumulate.ITEM_RETURN
 
         foundItems = self.object.getParam("FoundItems")
@@ -140,12 +139,12 @@ class InventoryItemAccumulate(BaseEntity):
         pass
 
     def tryCombine(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s try combine" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s try combine" % (self.object.name))
         self.state = InventoryItemAccumulate.ITEM_TRY_COMBINE
         pass
 
     def combine(self):
-        Trace.log("InventoryItem", 3, "InventoryItem %s combine" % (self.object.name))
+        Trace.log("Entity", 3, "InventoryItem %s combine" % (self.object.name))
         self.state = InventoryItemAccumulate.ITEM_COMBINE
         pass
 

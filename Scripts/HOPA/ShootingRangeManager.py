@@ -19,11 +19,11 @@ class ShootingRangeManager(Manager):
 
         def accept_fill(self):
             if self.ball_limit is None:
-                Trace.log("ShootingRangeManager", 0, "ShootingRangeManager ball limit was not set!!! ")
+                Trace.log("Manager", 0, "ShootingRangeManager ball limit was not set!!! ")
             if len(self.balls) != len(self.gunMovies):
-                Trace.log("ShootingRangeManager", 0, "ShootingRangeManager not equal number of gun and shoot movies!!! ")
+                Trace.log("Manager", 0, "ShootingRangeManager not equal number of gun and shoot movies!!! ")
             if not self.carriers or not self.ball_sprite or not self.markers:
-                Trace.log("ShootingRangeManager", 0, "ShootingRangeManager not all column was filled !!! ")
+                Trace.log("Manager", 0, "ShootingRangeManager not all column was filled !!! ")
             pass
 
         def addGunMovie(self, gunMovie):

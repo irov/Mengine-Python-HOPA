@@ -33,7 +33,7 @@ class MacroNewspaperShow(MacroCommand):
             pass
 
         if NewspaperManager.hasNewspaper(self.NewspaperName) is False:
-            Trace.log("Entity", 0, "MacroNewspaperShow not found newspaper ID %s" % (self.NewspaperName))
+            Trace.log("Command", 0, "MacroNewspaperShow not found newspaper ID %s" % (self.NewspaperName))
             return
             pass
 

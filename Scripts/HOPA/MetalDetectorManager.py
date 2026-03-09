@@ -48,7 +48,7 @@ class MetalDetectorManager(Manager):
     @staticmethod
     def getDetector(DemonName):
         if not MetalDetectorManager.hasDetector(DemonName):
-            Trace.log("MetalDetectorManager.hasDetector: not found item %s " % (DemonName), 0, '')
+            Trace.log("Manager", 0, "MetalDetectorManager.hasDetector: not found item %s " % (DemonName), 0, '')
             return False
 
         return MetalDetectorManager.detectors[DemonName]

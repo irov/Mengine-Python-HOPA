@@ -80,7 +80,6 @@ class SpinCirclesDependsPluginManager(Manager):
     @staticmethod
     def hasData(name):
         if name not in SpinCirclesDependsPluginManager.s_objects:
-            Trace.log("SpinCirclesDependsPluginManager", 0,
-                      "SpinCirclesDependsPluginManager.hasData invalid param name %s" % (name))
+            Trace.log("Manager", 0, "SpinCirclesDependsPluginManager.hasData invalid param name %s" % (name))
             return False
         return True

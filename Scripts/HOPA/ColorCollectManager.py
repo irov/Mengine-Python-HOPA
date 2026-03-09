@@ -139,7 +139,7 @@ class ColorCollectManager(Manager):
     @staticmethod
     def hasColorCollect(name):
         if name not in ColorCollectManager.s_objects:
-            Trace.log("ColorCollectManager", 0, "ColorCollectManager.hasColorCollect: : invalid enigmaName")
+            Trace.log("Manager", 0, "ColorCollectManager.hasColorCollect: : invalid enigmaName")
             return False
             pass
         return True

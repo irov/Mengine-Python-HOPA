@@ -66,6 +66,6 @@ class MagneticLabyrinthManager(Manager):
     @staticmethod
     def hasGameData(name):
         if name not in MagneticLabyrinthManager.s_objects:
-            Trace.log("MagneticLabyrinthManager", 0, "MagneticLabyrinthManager.hasGameData: : invalid param")
+            Trace.log("Manager", 0, "MagneticLabyrinthManager.hasGameData: : invalid param")
             return False
         return True

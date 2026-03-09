@@ -57,8 +57,7 @@ class CollectedMapIndicatorManager(Manager):
     @staticmethod
     def hasData(demonName):
         if demonName not in CollectedMapIndicatorManager.s_objects:
-            Trace.log("CollectedMapIndicatorManager", 0,
-                      "CollectedMapIndicatorManager.hasData invalid param demonName %s" % (demonName))
+            Trace.log("Manager", 0, "CollectedMapIndicatorManager.hasData invalid param demonName %s" % (demonName))
             return False
             pass
         return True
@@ -67,8 +66,7 @@ class CollectedMapIndicatorManager(Manager):
     @staticmethod
     def getCurrentValueMovie(demonName, value):
         if CollectedMapIndicatorManager.hasData(demonName) is False:
-            Trace.log("CollectedMapIndicator", 0,
-                      "CollectedMapIndicatorManager.getCurrentValueMovie invalid params demonName::%s" % (demonName,))
+            Trace.log("Manager", 0, "CollectedMapIndicatorManager.getCurrentValueMovie invalid params demonName::%s" % (demonName,))
             return None
             pass
         values = CollectedMapIndicatorManager.s_objects[demonName]

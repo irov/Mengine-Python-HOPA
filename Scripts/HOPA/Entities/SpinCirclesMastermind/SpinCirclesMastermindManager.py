@@ -91,6 +91,6 @@ class SpinCirclesMastermindManager(Manager):
     @staticmethod
     def hasMastermind(name):
         if name not in SpinCirclesMastermindManager.s_objects:
-            Trace.log("SpinCirclesMastermindManager", 0, "SpinCirclesMastermindManager.hasMastermind: : invalid param")
+            Trace.log("Manager", 0, "SpinCirclesMastermindManager.hasMastermind: : invalid param")
             return False
         return True

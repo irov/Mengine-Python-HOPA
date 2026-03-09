@@ -221,7 +221,7 @@ class SpellManager(Manager):
     @staticmethod
     def hasSpellData(name):
         if name not in SpellManager.s_objects:
-            Trace.log("SpellManager", 0, "SpellManager.hasSpellData: : invalid param")
+            Trace.log("Manager", 0, "SpellManager.hasSpellData: : invalid param")
             return False
             pass
         return True
@@ -253,7 +253,7 @@ class SpellManager(Manager):
     @staticmethod
     def hasSpellObject(id):
         if id not in SpellManager.s_ids:
-            Trace.log("SpellManager", 0, "SpellManager.hasSpellObject: : invalid param")
+            Trace.log("Manager", 0, "SpellManager.hasSpellObject: : invalid param")
             return False
             pass
         return True
@@ -262,7 +262,7 @@ class SpellManager(Manager):
     @staticmethod
     def hasSpellID(obj):
         if obj not in SpellManager.s_obj:
-            Trace.log("SpellManager", 0, "SpellManager.hasSpellID: : invalid param")
+            Trace.log("Manager", 0, "SpellManager.hasSpellID: : invalid param")
             return False
             pass
         return True

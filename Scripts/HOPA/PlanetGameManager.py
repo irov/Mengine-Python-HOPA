@@ -71,7 +71,7 @@ class PlanetGameManager(Manager):
     @staticmethod
     def hasPlanetGame(name):
         if name not in PlanetGameManager.s_objects:
-            Trace.log("PlanetGameManager", 0, "PlanetGameManager.hasPlanetGame: : invalid param")
+            Trace.log("Manager", 0, "PlanetGameManager.hasPlanetGame: : invalid param")
             return False
             pass
         return True

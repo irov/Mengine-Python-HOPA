@@ -54,7 +54,7 @@ class OpenJournalManager(Manager):
     @staticmethod
     def hasData(demon):
         if demon not in OpenJournalManager.s_objects:
-            Trace.log("OpenJournalManager", 0, "OpenJournalManager.hasData invalid param demon %s" % (demon.getName()))
+            Trace.log("Manager", 0, "OpenJournalManager.hasData invalid param demon %s" % (demon.getName()))
             return False
 
         return True

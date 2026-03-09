@@ -43,7 +43,7 @@ class StaticPopUpManager(Manager):
             pass
         else:
             if GroupManager.hasObject(groupName, objectName) is False:
-                Trace.log("StaticPopUpManager", 0, "StaticPopUpManager.addPopUpObject: : invalid objectName name %s:%s, maybe it does not exist" % (groupName, objectName))
+                Trace.log("Manager", 0, "StaticPopUpManager.addPopUpObject: : invalid objectName name %s:%s, maybe it does not exist" % (groupName, objectName))
                 return
                 pass
             Object = GroupManager.getObject(groupName, objectName)
