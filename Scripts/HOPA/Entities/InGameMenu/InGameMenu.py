@@ -1,12 +1,11 @@
 ﻿from Foundation.BaseEntity import BaseEntity
 from Foundation.GroupManager import GroupManager
-from Foundation.Systems.SystemGoogleServices import SystemGoogleServices, GOOGLE_GAME_SOCIAL_PLUGIN
+from Foundation.Providers.AuthProvider import AuthProvider
 from Foundation.Providers.AchievementsProvider import AchievementsProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.MonetizationManager import MonetizationManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.StageManager import StageManager
-
 
 class InGameMenu(BaseEntity):
     def __init__(self):
@@ -50,11 +49,6 @@ class InGameMenu(BaseEntity):
         if Mengine.getConfigBool("GoogleService", "EnableInGameMenuSignOut", False) is False:
             return False
 
-        _plugin = SystemGoogleServices.b_plugins[GOOGLE_GAME_SOCIAL_PLUGIN] is True
-        if _plugin is False:
-            if _DEVELOPMENT is False:
-                return False
-
         buttons_names = {"login": "Movie2_Google", "logout": "Movie2_Logout"}
         for id_, movie_name in buttons_names.items():
             if GroupManager.hasObject("InGameMenu", movie_name) is False:
@@ -64,8 +58,8 @@ class InGameMenu(BaseEntity):
             self.auth_buttons[id_] = movie
 
         if len(self.auth_buttons) != len(buttons_names):
-            if _DEVELOPMENT is True and _plugin is True:
-                Trace.log("Entity", 0, "InGameMenu fail to setup Google Auth buttons: {} != {}".format(self.auth_buttons, buttons_names))
+            if _DEVELOPMENT is True:
+                Trace.log("Entity", 0, "InGameMenu fail to setup Auth buttons: {} != {}".format(self.auth_buttons, buttons_names))
 
             for movie in self.auth_buttons.values():
                 movie.setEnable(False)
@@ -76,7 +70,7 @@ class InGameMenu(BaseEntity):
         return True
 
     def _cbManageAuthButtons(self):
-        is_logged_in = SystemGoogleServices.isLoggedIn() is True
+        is_logged_in = AuthProvider.isLoggedIn() is True
         self.auth_buttons["logout"].setEnable(is_logged_in)
         self.auth_buttons["login"].setEnable(not is_logged_in)
 
@@ -88,29 +82,19 @@ class InGameMenu(BaseEntity):
 
         done_event = Event("onDoneGoogleAuth")
 
-        # def _login():
-        #     SystemGoogleServices.login_data = 1
-        #
-        # def _logout():
-        #     SystemGoogleServices.login_data = None
-
         with self._createTaskChain(Name="InGameMenuAuth", Repeat=True) as tc:
-            with tc.addIfTask(SystemGoogleServices.isLoggedIn) as (tc_logout, tc_login):
+            with tc.addIfTask(AuthProvider.isLoggedIn) as (tc_logout, tc_login):
                 tc_logout.addTask("TaskMovie2SocketClick", Movie2=self.auth_buttons["logout"], SocketName="socket")
-                tc_logout.addFunction(SystemGoogleServices.signOut)
-                # tc_logout.addFunction(_logout)
-                # tc_logout.addFunction(SystemGoogleServices.logout_event)
+                tc_logout.addFunction(AuthProvider.logout)
 
                 tc_login.addTask("TaskMovie2SocketClick", Movie2=self.auth_buttons["login"], SocketName="socket")
-                tc_login.addFunction(SystemGoogleServices.signIn)
-                # tc_login.addFunction(_login)
-                # tc_login.addFunction(SystemGoogleServices.login_event, True)
+                tc_login.addFunction(AuthProvider.login)
             tc.addEvent(done_event)
 
         with self._createTaskChain(Name="InGameMenuAuthUpdater", Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_login, tc_logout):
-                tc_login.addEvent(SystemGoogleServices.login_event)
-                tc_logout.addEvent(SystemGoogleServices.logout_event)
+                tc_login.addListener(Notificator.onUserLoggedIn)
+                tc_logout.addListener(Notificator.onUserLoggedOut)
             tc.addFunction(self._cbManageAuthButtons)
             tc.addDelay(1.0)
             tc.addFunction(done_event)

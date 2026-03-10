@@ -56,8 +56,6 @@ class AliasInventoryReturnInventoryItem(TaskAlias):
 
             source.addNotify(Notificator.onInventoryReturnInventoryItem, self.Inventory, InventoryItem)
             source.addTask("TaskInventorySlotReturnItem", Inventory=self.Inventory, InventoryItem=InventoryItem)
-            # source.addTask("TaskNotify", ID=Notificator.onInventoryReturnInventoryItem,
-            #                Args=(self.Inventory, InventoryItem))
 
         if self.UnblockInventory is True:
             source.addTask("TaskInventoryDetachItem", Inventory=self.Inventory, InventoryItem=InventoryItem)

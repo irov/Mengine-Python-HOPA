@@ -190,7 +190,6 @@ class AliasTransition(TaskAlias):
 
             if self.ZoomGroupName is not None:
                 guard_source.addNotify(Notificator.onZoomForceOpen, self.ZoomGroupName)
-                # source.addTask("TaskNotify", ID = Notificator.onZoomOpen, Args = (self.ZoomGroupName, ))
                 pass
 
             # - Zoom effect -----------------------------------------------------------------------------

@@ -549,14 +549,7 @@ class Profile(BaseEntity):
         GroupManager.getObject("Menu_Background", "Demon_MenuGreeting").getEntity().updateText()
 
         if len(accounts) <= 1:
-            # if ProfileGroup.hasObject("Movie2_Open") is True:
             with TaskManager.createTaskChain(Group=self.object, ) as tc:
-                #         with GuardBlockInput(tc) as guard_tc:
-                #             guard_tc.addTask("TaskMovie2Play", GroupName = "Profile", Movie2Name = "Movie2_Open", Wait = True)
-                #             # guard_tc.addTask("TaskNotify", ID = Notificator.onProfileDelete)
-                #             pass
-                #         pass
-                #     pass
                 tc.addScope(self.scopeOpen, "Profile")
                 tc.addNotify(Notificator.onProfileDelete)
             self._openWindowPlayerNew(0, False)

@@ -17,9 +17,6 @@ class MacroEnigmaComplete(MacroCommand):
     def _onGenerate(self, source):
         Enigma = EnigmaManager.getEnigmaObject(self.EnigmaName)
 
-        # source.addTask("TaskNotify", ID = Notificator.onEnigmaComplete, Args = (Enigma, ))
-        # source.addTask("TaskFunction", Fn = Enigma.setPlay, Args = (False, ))
-
         def _complete(enigmaObject):
             enigmaEntity = enigmaObject.getEntity()
             enigmaEntity.enigmaComplete()

@@ -220,8 +220,8 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
                     Trace.log("Scenario", 0, "ScenarioParagraph.onGenerator: %s:%d Paragraph %s invalid - 'PH_'" % (
                     ScenarioRunner.getName(), Index, paragraphID))
 
-                def __checkParagraph(id):
-                    return ScenarioChapter.isParagraphComplete(id)
+                def __checkParagraph(paragraphID):
+                    return ScenarioChapter.isParagraphComplete(paragraphID)
 
                 def __filterParagraph(paragraphID, id):
                     if id != paragraphID:
@@ -229,7 +229,7 @@ def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter
 
                     return True
 
-                tci.addTask("TaskListener", ID=Notificator.onParagraphRun, Check=__checkParagraph, Filter=__filterParagraph, Args=(paragraphID,))
+                tci.addListener(Notificator.onParagraphRun, paragraphID, Check=__checkParagraph, Filter=__filterParagraph)
 
 
 def generatorSceneInitial(source, ScenarioRunner):
