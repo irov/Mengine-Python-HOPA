@@ -1,10 +1,7 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 
 from SameElementsManager import SameElementsManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SameElements(Enigma):
     @staticmethod

@@ -1,8 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.StonePyramidsManager import StonePyramidsManager
-from Holder import Holder
-
-Enigma = Mengine.importEntity("Enigma")
 
 class Stone(object):
     def __init__(self, slot_name, slot, slot_to_name, movie_start, movie_select, movie_finish, movie_fall):

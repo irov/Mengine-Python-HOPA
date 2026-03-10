@@ -1,10 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.SwapAndRotateMovieChipsManager import SwapAndRotateMovieChipsManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SwapAndRotateMovieChips(Enigma):
     # - Service classes ----------------------------------------------

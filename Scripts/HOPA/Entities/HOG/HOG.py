@@ -3,8 +3,7 @@ from Foundation.PolicyManager import PolicyManager
 from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
-
-Enigma = Mengine.importEntity("Enigma")
+from HOPA.Enigma import Enigma
 
 class HOG(Enigma):
     @staticmethod

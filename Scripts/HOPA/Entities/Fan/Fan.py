@@ -2,11 +2,9 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
-from Functor import Functor
+from HOPA.Enigma import Enigma
 from HOPA.FanItemManager import FanItemManager
 from HOPA.FanManager import FanManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class Fan(Enigma):
     STATE_MOVIEOPEN = 1

@@ -1,11 +1,8 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipsAndRotateArrowManager import ClickOnChipsAndRotateArrowManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ClickOnChipsAndRotateArrow(Enigma):
     class Chip(object):

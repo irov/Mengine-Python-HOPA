@@ -1,16 +1,12 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.ZenElementsManager import ZenElementsManager
+from HOPA.Enigma import Enigma
 
 from Circle import Circle
 from DragMiniSystem import DragMiniSystem
 from RotateMiniSystem import RotateMiniSystem
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class ZenElements(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

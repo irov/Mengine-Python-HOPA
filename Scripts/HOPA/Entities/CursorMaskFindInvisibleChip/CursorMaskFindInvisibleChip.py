@@ -1,9 +1,7 @@
 from Foundation.Manager import Manager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.CursorMaskFindInvisibleChipManager import CursorMaskFindInvisibleChipManager
-from Holder import Holder
-
-Enigma = Mengine.importEntity("Enigma")
 
 class SymbolHint(object):
     IDLE_STATE = 'idle'

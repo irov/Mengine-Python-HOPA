@@ -1,10 +1,8 @@
 from Foundation.TaskManager import TaskManager
-from Functor import Functor
+from HOPA.Enigma import Enigma
 
 from Field import Field
 from MagneticLabyrinthManager import MagneticLabyrinthManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class MagneticLabyrinth(Enigma):
     TaskName = "MagneticLabyrinth_Move"

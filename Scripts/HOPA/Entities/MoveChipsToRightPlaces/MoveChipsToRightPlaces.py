@@ -1,13 +1,10 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 from HOPA.MoveChipsToRightPlacesManager import MoveChipsToRightPlacesManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class MoveChipsToRightPlaces(Enigma):
     class Chip(object):

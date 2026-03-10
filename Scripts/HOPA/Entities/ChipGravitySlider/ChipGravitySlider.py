@@ -1,9 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ChipGravitySliderManager import ChipGravitySliderManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipGravitySlider(Enigma):
     def _onActivate(self):

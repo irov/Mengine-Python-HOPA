@@ -2,11 +2,8 @@ from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Notificator import Notificator
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.DrawMagicSymbolsFightManager import DrawMagicSymbolsFightManager
-from Holder import Holder
-
-
-Enigma = Mengine.importEntity("Enigma")
 
 ENIGMA_NAME_HOLDER = Holder()
 

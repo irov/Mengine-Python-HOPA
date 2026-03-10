@@ -1190,7 +1190,6 @@ def onInitialize():
         , "Zoom"
         , "Transition"
         , "TransitionBack"
-        , "Enigma"
         , "EnigmaUndo"
         , "HOG"
         , "HOG2"

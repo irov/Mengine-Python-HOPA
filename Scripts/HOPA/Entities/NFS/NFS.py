@@ -1,16 +1,13 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.NFSManager import NFSManager
-
-
-Enigma = Mengine.importEntity("Enigma")
 
 PI = 3.14159265
 
 min_speed = 0.05
 max_speed = 0.25
-
 
 class NFS(Enigma):
 

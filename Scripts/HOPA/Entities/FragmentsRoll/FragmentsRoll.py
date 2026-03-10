@@ -1,6 +1,6 @@
 from Foundation.TaskManager import TaskManager
-from Functor import Functor
 from HOPA.FragmentsRollManager import FragmentsRollManager
+from HOPA.Enigma import Enigma
 
 from FragmentsRollElementDragDrop import FragmentsRollElementDragDrop
 from FragmentsRollGrid import FragmentsRollGrid
@@ -29,10 +29,6 @@ class FragmentsRollShift(object):
             pass
 
         return True
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class FragmentsRoll(Enigma):
     def __init__(self):

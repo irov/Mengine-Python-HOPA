@@ -1,14 +1,12 @@
+from HOPA.Enigma import Enigma
 from HOPA.MazeScreensManager import MazeScreensManager
 from HOPA.MazeScreensManager import MSTransition
 from HOPA.Entities.MazeScreens.Room import Room
+from HOPA.TransitionManager import TransitionManager
 from Foundation.TaskManager import TaskManager
 from Foundation.GuardBlockInput import GuardBlockInput
-from HOPA.TransitionManager import TransitionManager
 
-
-Enigma = Mengine.importEntity("Enigma")
 FADE_TIME = 350.0
-
 
 class MazeScreens(Enigma):
 

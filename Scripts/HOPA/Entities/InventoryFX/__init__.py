@@ -8,3 +8,5 @@ def onInitialize():
 
     InvFXTasks = ["TaskInventoryFXAddItem"]
     TaskManager.importTasks("HOPA.Entities.InventoryFX", InvFXTasks)
+    
+    return True

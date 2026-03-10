@@ -3,11 +3,8 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipsInNetManager import ChipsInNetManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipsInNet(Enigma):
     class Chip(object):

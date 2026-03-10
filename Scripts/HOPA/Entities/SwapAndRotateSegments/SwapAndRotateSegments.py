@@ -1,12 +1,9 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapAndRotateSegmentsManager import SwapAndRotateSegmentsManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class Chip(object):
     def __init__(self, chip_id, movie, start_position, finish_position, numbers_of_chips, slot):

@@ -1,7 +1,6 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.GeksManager import GeksManager
-
-Enigma = Mengine.importEntity("Enigma")
+from HOPA.Enigma import Enigma
 
 class Geks(Enigma):
     def __init__(self):

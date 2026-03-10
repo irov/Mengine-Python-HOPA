@@ -1,17 +1,13 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.CirclePairElementsManager import CirclePairElementsManager
 
 from GameField import GameField
 from Symbol import Symbol
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class CirclePairElements(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

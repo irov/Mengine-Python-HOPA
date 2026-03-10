@@ -4,12 +4,10 @@ Using in 04_FashionMG in HolidayFun2
 """
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.AssemblyDesignerManager import AssemblyDesignerManager
 
-
-Enigma = Mengine.importEntity("Enigma")
 TEXT_ALIAS_SET_NAME = '$AliasSetName'
-
 
 def _log(message, is_error=True):
     if _DEVELOPMENT is True:

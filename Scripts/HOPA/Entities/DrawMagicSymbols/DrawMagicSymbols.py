@@ -1,10 +1,8 @@
 from Foundation.Notificator import Notificator
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.DrawMagicSymbolsManager import DrawMagicSymbolsManager
-from Holder import Holder
-
-Enigma = Mengine.importEntity("Enigma")
 
 ENIGMA_NAME_HOLDER = Holder()
 

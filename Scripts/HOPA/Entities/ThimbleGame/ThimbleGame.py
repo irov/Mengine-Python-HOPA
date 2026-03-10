@@ -1,11 +1,8 @@
 import Foundation.Utils as Utils
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ThimbleGameManager import ThimbleGameManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ThimbleGame(Enigma):
 

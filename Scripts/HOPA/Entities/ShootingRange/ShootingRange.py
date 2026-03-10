@@ -1,14 +1,10 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ShootingRangeManager import ShootingRangeManager
-from Notification import Notification
 
 from BallStack import BallStack
 from ChasingSystem import ChasingSystem
 from Gun import Gun
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ShootingRange(Enigma):
     @staticmethod

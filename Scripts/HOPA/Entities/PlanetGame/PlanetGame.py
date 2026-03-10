@@ -1,13 +1,9 @@
 from HOPA.PlanetGameManager import PlanetGameManager
+from HOPA.Enigma import Enigma
 
 from Planet import Planet
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class PlanetGame(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Type.addActionActivate("Planets", Change=PlanetGame._changePlanetValue)

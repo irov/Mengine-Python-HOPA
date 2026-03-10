@@ -1,10 +1,7 @@
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ChipMoveAtomManager import ChipMoveAtomManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipMoveAtom(Enigma):
     # - Service classes -----------------------------------------------------------------------------------------------

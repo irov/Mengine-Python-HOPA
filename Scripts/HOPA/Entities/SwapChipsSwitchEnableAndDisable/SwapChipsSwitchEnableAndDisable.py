@@ -1,10 +1,7 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapChipsSwitchEnableAndDisableManager import SwapChipsSwitchEnableAndDisableManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SwapChipsSwitchEnableAndDisable(Enigma):
     class Chip(object):

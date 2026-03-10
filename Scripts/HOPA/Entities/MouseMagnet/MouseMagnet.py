@@ -1,10 +1,7 @@
+from HOPA.Enigma import Enigma
+from HOPA.MouseMagnetManager import MouseMagnetManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
-from HOPA.MouseMagnetManager import MouseMagnetManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class MouseMagnet(Enigma):
     def __init__(self):

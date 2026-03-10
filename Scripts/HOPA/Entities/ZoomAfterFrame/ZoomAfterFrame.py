@@ -1,11 +1,5 @@
 from Foundation.BaseEntity import BaseEntity
 
-from Notification import Notification
-
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class ZoomAfterFrame(BaseEntity):
     def __init__(self):
         super(ZoomAfterFrame, self).__init__()

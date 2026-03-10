@@ -1,6 +1,5 @@
 from Foundation.TaskManager import TaskManager
-
-Enigma = Mengine.importEntity("Enigma")
+from HOPA.Enigma import Enigma
 
 class SwapGame(Enigma):
     class Slot(object):

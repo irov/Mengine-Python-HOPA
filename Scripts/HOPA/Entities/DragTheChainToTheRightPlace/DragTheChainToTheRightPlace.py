@@ -1,11 +1,8 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.DragTheChainToTheRightPlaceManager import DragTheChainToTheRightPlaceManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class DragTheChainToTheRightPlace(Enigma):
     class Chip(object):

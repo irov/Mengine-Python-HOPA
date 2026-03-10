@@ -1,11 +1,8 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ColorCollectManager import ColorCollectManager
 
 from Bulb import Bulb
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ColorCollect(Enigma):
 

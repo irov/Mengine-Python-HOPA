@@ -16,3 +16,5 @@ def onInitialize():
 
     EntityManager.importEntity("HOPA.Entities.Map2.CollectedMapIndicator", "CollectedMapIndicator")
     ObjectManager.importObject("HOPA.Entities.Map2.CollectedMapIndicator", "CollectedMapIndicator")
+    
+    return True

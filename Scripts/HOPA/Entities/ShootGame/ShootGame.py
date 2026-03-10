@@ -1,13 +1,8 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ShootGameManager import ShootGameManager
-from Notification import Notification
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ShootGame(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

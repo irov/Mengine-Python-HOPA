@@ -1,10 +1,7 @@
 from HOPA.ChainClickManager import ChainClickManager
+from HOPA.Enigma import Enigma
 
 from ChainClickElement import ChainClickElement
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChainClick(Enigma):
     def __init__(self):

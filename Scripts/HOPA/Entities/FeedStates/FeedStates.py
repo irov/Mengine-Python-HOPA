@@ -1,14 +1,10 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.FeedStatesManager import FeedStatesManager
 
 from StatesControl import StatesControl
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class FeedStates(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

@@ -1,12 +1,9 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.RollingBallsManager import RollingBallsManager
 
 from RollManager import RollManager
 from Segment import SegmentSlot
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class RollingBalls(Enigma):
     def __init__(self):

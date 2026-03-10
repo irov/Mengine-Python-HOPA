@@ -1,9 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ChipsMoveOnMouseMoveManager import ChipsMoveOnMouseMoveManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipsMoveOnMouseMove(Enigma):
     def __init__(self):

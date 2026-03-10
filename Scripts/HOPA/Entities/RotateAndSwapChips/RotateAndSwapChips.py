@@ -1,14 +1,10 @@
 from HOPA.RotateAndSwapChipsManager import RotateAndSwapChipsManager
-from Notification import Notification
+from HOPA.Enigma import Enigma
 
 from RotateAndSwapChipsConnection import RotateAndSwapChipsConnection
 from RotateAndSwapChipsSlot import RotateAndSwapChipsSlot
 from RotateAndSwapChipsSlotController import RotateAndSwapChipsSlotController
 from RotateChipElement import RotateChipElement
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class RotateAndSwapChips(Enigma):
     def __init__(self):

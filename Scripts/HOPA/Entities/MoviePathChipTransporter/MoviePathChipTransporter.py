@@ -1,12 +1,8 @@
 from Foundation.Notificator import Notificator
 from Foundation.ObjectManager import ObjectManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.MoviePathChipTransporterManager import MoviePathChipTransporterManager
-from Holder import Holder
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class MoviePathChipTransporter(Enigma):
     # - service classes ----------------------------------------------

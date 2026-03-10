@@ -1,8 +1,7 @@
+from HOPA.Enigma import Enigma
 from HOPA.ColumnChainManager import ColumnChainManager
 
 from Column import Column
-
-Enigma = Mengine.importEntity("Enigma")
 
 class ColumnChain(Enigma):
     def __init__(self):

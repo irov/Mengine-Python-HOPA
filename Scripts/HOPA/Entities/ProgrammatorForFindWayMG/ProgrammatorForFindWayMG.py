@@ -2,10 +2,9 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.ProgrammatorForFindWayMGManager import ProgrammatorForFindWayMGManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class ProgrammatorForFindWayMG(Enigma):
     class Chip(object):

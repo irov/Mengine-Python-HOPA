@@ -3,11 +3,8 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipDragDropOnRightPlaceManager import ChipDragDropOnRightPlaceManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipDragDropOnRightPlace(Enigma):
     class Chip(object):

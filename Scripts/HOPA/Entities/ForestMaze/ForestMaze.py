@@ -5,11 +5,9 @@ Using in 03_ForrestMG in HolidayFun2
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.ForestMazeManager import ForestMazeManager
+from HOPA.Enigma import Enigma
 
 import Chips
-
-
-Enigma = Mengine.importEntity("Enigma")
 
 _CHIP_TYPES = {
     'Block': Chips.BlockChip,

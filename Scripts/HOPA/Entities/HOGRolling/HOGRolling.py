@@ -1,12 +1,10 @@
 import Foundation.Utils as Utils
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.HOGManager import HOGManager
 
-Enigma = Mengine.importEntity("Enigma")
-
 class HOGRolling(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

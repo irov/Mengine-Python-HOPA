@@ -1,13 +1,8 @@
 from Foundation.TaskManager import TaskManager
-
+from HOPA.Enigma import Enigma
 from HOPA.ConnectLampManager import ConnectLampManager
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class ConnectLamp(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

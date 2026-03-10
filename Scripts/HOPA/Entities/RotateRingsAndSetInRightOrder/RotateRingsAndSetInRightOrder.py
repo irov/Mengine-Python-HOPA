@@ -1,9 +1,8 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.RotateRingsAndSetInRightOrderManager import RotateRingsAndSetInRightOrderManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class RotateRingsAndSetInRightOrder(Enigma):
     class Ring(object):

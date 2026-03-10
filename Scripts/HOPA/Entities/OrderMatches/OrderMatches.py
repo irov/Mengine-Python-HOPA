@@ -1,4 +1,5 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.OrderMatchesManager import OrderMatchesManager
 
 class OrderMatchesElementSource(object):
@@ -104,10 +105,6 @@ class OrderMatchesElementDestination(object):
     #        return False
     #        pass
     pass
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class OrderMatches(Enigma):
     def __init__(self):

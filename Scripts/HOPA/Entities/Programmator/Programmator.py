@@ -1,11 +1,11 @@
+from HOPA.Enigma import Enigma
+
 from Executable import Executable
 from Hand import Hand
 from Partition import Partition, FinalPartition
 from ProgrammatorManager import ProgrammatorManager
 from Tap import Tap
 from Wheel import Wheel
-
-Enigma = Mengine.importEntity("Enigma")
 
 class Programmator(Enigma):
     # static fields

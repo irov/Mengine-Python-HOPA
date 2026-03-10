@@ -1,9 +1,8 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 
 from AssociationElements2Manager import AssociationElements2Manager
 from Element import Element
-
-Enigma = Mengine.importEntity("Enigma")
 
 class AssociationElements2(Enigma):
     def __init__(self):

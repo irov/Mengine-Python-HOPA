@@ -1,8 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.HOGManager import HOGManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class HOGFXPartsGathering(Enigma):
     @staticmethod

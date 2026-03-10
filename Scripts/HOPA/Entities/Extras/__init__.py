@@ -19,3 +19,5 @@ def onInitialize():
 
     EntityManager.importEntity("HOPA.Entities.Extras.ExtrasHOG", "ExtrasHOG")
     ObjectManager.importObject("HOPA.Entities.Extras.ExtrasHOG", "ExtrasHOG")
+    
+    return True

@@ -1,12 +1,9 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.SwapChipsInPlaceManager import SwapChipsInPlaceManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SwapChipsInPlace(Enigma):
     class Chip(object):

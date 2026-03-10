@@ -1,7 +1,6 @@
 import Foundation.Utils as Utils
+from HOPA.Enigma import Enigma
 from HOPA.TrafficJamManager import TrafficJamManager
-from Notification import Notification
-
 
 class TrafficJamElement(object):
     def __init__(self, trafficjam, sprite, hotspot, element):
@@ -216,9 +215,6 @@ class TrafficJamElement(object):
             pass
         pass
     pass
-
-
-Enigma = Mengine.importEntity("Enigma")
 
 class TrafficJam(Enigma):
     @staticmethod

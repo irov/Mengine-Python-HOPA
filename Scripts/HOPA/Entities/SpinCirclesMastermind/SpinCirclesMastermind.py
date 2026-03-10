@@ -1,12 +1,8 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-from Notification import Notification
 
 from SpinCirclesMastermindManager import SpinCirclesMastermindManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SpinCirclesMastermind(Enigma):
     @staticmethod

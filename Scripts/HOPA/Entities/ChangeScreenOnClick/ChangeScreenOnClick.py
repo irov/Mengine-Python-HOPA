@@ -1,12 +1,10 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ChangeScreenOnClickManager import ChangeScreenOnClickManager
 from HOPA.ChangeScreenOnClickManager import BoardCell
 from HOPA.Entities.ChangeScreenOnClick.Cell import Cell
 from HOPA.Entities.ChangeScreenOnClick.Direction import Direction
 from HOPA.Entities.ChangeScreenOnClick.GateHandler import GateHandler
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChangeScreenOnClick(Enigma):
 

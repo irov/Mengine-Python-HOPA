@@ -1,13 +1,8 @@
 from Foundation.TaskManager import TaskManager
-
+from HOPA.Enigma import Enigma
 from HOPA.SandGlassManager import SandGlassManager
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class Sandglass(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

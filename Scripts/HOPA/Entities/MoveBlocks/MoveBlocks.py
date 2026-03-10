@@ -1,6 +1,5 @@
+from HOPA.Enigma import Enigma
 from MoveBlocksManager import MoveBlocksManager
-
-Enigma = Mengine.importEntity("Enigma")
 
 class MoveBlocks(Enigma):
     def __init__(self):

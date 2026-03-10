@@ -1,12 +1,8 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.SpinCirclesManager import SpinCirclesManager
-from Notification import Notification
 
 from Twist import Twist, MultiFinalTwist
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SpinCircles(Enigma):
     MainTask = "Spin_Change_State"

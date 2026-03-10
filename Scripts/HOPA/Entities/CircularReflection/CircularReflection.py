@@ -1,7 +1,6 @@
 from CircularReflectionManager import CircularReflectionManager
 from Connections import Connectable
-
-Enigma = Mengine.importEntity("Enigma")
+from HOPA.Enigma import Enigma
 
 class CircularReflection(Enigma):
     Movies = ["Movie_Circle1", "Movie_Circle2", "Movie_Circle3", "Movie_Circle4", "Movie_Receiver"]

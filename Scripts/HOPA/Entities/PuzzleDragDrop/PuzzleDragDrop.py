@@ -1,14 +1,9 @@
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.PuzzleDragDropManager import PuzzleDragDropManager
-from Notification import Notification
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class PuzzleDragDrop(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

@@ -1,13 +1,9 @@
 from Foundation.TaskManager import TaskManager
 
 from HOPA.GlobeGameManager import GlobeGameManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class GlobeGame(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

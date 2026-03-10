@@ -2,17 +2,14 @@ from Foundation.Manager import Manager
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.CounterbalanceManager import CounterbalanceManager
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 # todo: parameterize rope hand scaling
 # todo: rope hand attach to new special created top layer
 # todo: maybe add appearing from alpha
 # todo: bug sometimes movie2_rope_hand don't appear (in node debugger too, same bug as in MoveChipsOnGraphNodes)
 # todo: fancy skip
-
 
 def CREATE_BOX_POLYGON(size):
     size = size / 2.0

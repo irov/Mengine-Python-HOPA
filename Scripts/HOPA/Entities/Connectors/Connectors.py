@@ -1,11 +1,8 @@
+from HOPA.Enigma import Enigma
 from HOPA.ConnectorsManager import ConnectorsManager
 
 from ConnectorsConnection import ConnectorsConnection
 from ConnectorsElement import ConnectorsElement
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class Connectors(Enigma):
     def __init__(self):

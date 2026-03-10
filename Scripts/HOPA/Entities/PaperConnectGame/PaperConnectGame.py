@@ -1,10 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.PaperConnectGameManager import PaperConnectGameManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class PaperConnectGame(Enigma):
     Click_Pos = None

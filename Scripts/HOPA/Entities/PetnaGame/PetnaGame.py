@@ -1,7 +1,7 @@
-from Foundation.TaskManager import TaskManager
 from HOPA.PetnaGameManager import PetnaGameManager
+from HOPA.Enigma import Enigma
 
-Enigma = Mengine.importEntity("Enigma")
+from Foundation.TaskManager import TaskManager
 
 class PetnaGame(Enigma):
     @staticmethod

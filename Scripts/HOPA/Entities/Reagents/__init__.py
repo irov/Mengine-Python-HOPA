@@ -13,3 +13,5 @@ def onInitialize():
     ObjectManager.importObject("HOPA.Entities.Reagents.ReagentsButton", "ReagentsButton")
 
     TaskManager.importTask("HOPA.Entities.Reagents.Macro", "AliasPickReagentPaper")
+    
+    return True

@@ -1,11 +1,10 @@
 from HOPA.ChessPuzzleManager import ChessPuzzleManager
+from HOPA.Enigma import Enigma
 
 from ChessPuzzleBoard import ChessPuzzleBoard
 from ChessPuzzleFigure import ChessPuzzleFigure
 from ChessPuzzleMovieGrid import ChessPuzzleMovieGrid
 from ChessPuzzleShift import ChessPuzzleShift
-
-Enigma = Mengine.importEntity("Enigma")
 
 class ChessPuzzle(Enigma):
     def __init__(self):

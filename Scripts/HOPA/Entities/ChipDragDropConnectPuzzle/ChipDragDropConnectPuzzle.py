@@ -2,11 +2,8 @@ from Foundation.ArrowManager import ArrowManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChipDragDropConnectPuzzleManager import ChipDragDropConnectPuzzleManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipDragDropConnectPuzzle(Enigma):
     class Chip(object):

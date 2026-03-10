@@ -2,11 +2,8 @@ from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnChipAndPlacesForActionOverPlaceManager import ClickOnChipAndPlacesForActionOverPlaceManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ClickOnChipAndPlacesForActionOverPlace(Enigma):
     class Place(object):

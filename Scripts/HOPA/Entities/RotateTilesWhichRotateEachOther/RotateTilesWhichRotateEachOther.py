@@ -1,8 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.RotateTilesWhichRotateEachOtherManager import RotateTilesWhichRotateEachOtherManager
-from Holder import Holder
-
-Enigma = Mengine.importEntity("Enigma")
 
 class Tile(object):
     def __init__(self, params, obj_generator, tiles_dict_ref, root_node):

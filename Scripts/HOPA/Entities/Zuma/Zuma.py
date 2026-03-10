@@ -1,9 +1,7 @@
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
+from HOPA.Enigma import Enigma
 
 from ZumaTurret import ZumaTurret
-
-Enigma = Mengine.importEntity("Enigma")
 
 class Zuma(Enigma):
     ChainDelay = 0.2 * 1000  # speed fix

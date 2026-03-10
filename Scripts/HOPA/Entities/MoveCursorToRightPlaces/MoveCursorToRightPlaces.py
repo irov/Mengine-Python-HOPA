@@ -1,12 +1,9 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.MoveCursorToRightPlacesManager import MoveCursorToRightPlacesManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class MoveCursorToRightPlaces(Enigma):
     class Place(object):

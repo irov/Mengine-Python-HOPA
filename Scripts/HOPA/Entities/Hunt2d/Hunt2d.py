@@ -3,10 +3,7 @@ from Foundation.GroupManager import GroupManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.Hunt2dManager import Hunt2dManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class Weapon(object):
     def __init__(self, movie_weapon_in_attack, movie_weapon_shot_effect, movie_weapon_in_hand, movie_weapon_start):

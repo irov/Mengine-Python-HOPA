@@ -1,11 +1,8 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.RotateCirclesWithChipsManager import RotateCirclesWithChipsManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class RotateCirclesWithChips(Enigma):
     # -------------- Classes -------------------------------------------------------------------------------------------

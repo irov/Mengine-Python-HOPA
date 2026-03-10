@@ -13,3 +13,5 @@ def onInitialize():
 
     EntityManager.importEntity("HOPA.Entities.StrategyGuide.StrategyGuideController", "StrategyGuideController")
     ObjectManager.importObject("HOPA.Entities.StrategyGuide.StrategyGuideController", "StrategyGuideController")
+    
+    return True

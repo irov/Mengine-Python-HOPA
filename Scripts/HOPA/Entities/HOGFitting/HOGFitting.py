@@ -1,12 +1,8 @@
 from Foundation.DemonManager import DemonManager
 from HOPA.HOGFittingInventoryManager import HOGFittingInventoryManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class HOGFitting(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

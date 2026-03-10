@@ -1,12 +1,10 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 
 from ButtonConjunctionManager import ButtonConjunctionManager
 from MoviesButton import MoviesButton
 
-Enigma = Mengine.importEntity("Enigma")
-
 class ButtonConjunction(Enigma):
-
     def __init__(self):
         super(ButtonConjunction, self).__init__()
         self.socketToButton = {}

@@ -1,9 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.RubiksPuzzleManager import RubiksPuzzleManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class RubiksPuzzle(Enigma):
     class PuzzleSlot(object):

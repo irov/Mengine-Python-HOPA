@@ -1,7 +1,7 @@
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 from HOPA.TurnBasedStrategyGoManager import TurnBasedStrategyGoManager
-
+from HOPA.Enigma import Enigma
 
 TEXT_EMPTY = 'ID_EMPTY'
 TEXT_WIN = 'ID_GO_RESULTS_WIN'
@@ -11,9 +11,6 @@ TEXT_PLAYER_COUNTER = 'ID_GO_PLAYER_COUNTER'
 ALIAS_ENEMY_COUNTER = '$GoEnemyCounter'
 ALIAS_PLAYER_COUNTER = '$GoPlayerCounter'
 ALIAS_RESULTS = '$GoResults'
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class Chip(object):
     def __init__(self, chip_id, movie_chip, owner, place):

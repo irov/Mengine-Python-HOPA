@@ -1,11 +1,8 @@
 from Foundation import Utils
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.MoveChipsOnGraphNodesManager import MoveChipsOnGraphNodesManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class Graph(object):
     def __init__(self, nodes):

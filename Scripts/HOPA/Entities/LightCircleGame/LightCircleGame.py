@@ -1,8 +1,6 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.LightCircleGameManager import LightCircleGameManager
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class LightCircleGame(Enigma):
     class Reflector(object):

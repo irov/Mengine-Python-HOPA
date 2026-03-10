@@ -2,11 +2,8 @@ from Foundation import Utils
 from Foundation.Notificator import Notificator
 from Foundation.Task.TaskGenerator import TaskSource
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.SwapChipsWithDifferentSlotTypesManager import SwapChipsWithDifferentSlotTypesManager
-from Holder import Holder
-from Notification import Notification
-
-Enigma = Mengine.importEntity("Enigma")
 
 SOCKET_CLICK_EVENT = Event('SwapChipsWithDifferentSlotTypesSocketClick')
 SOCKET_ENTER_EVENT = Event('SwapChipsWithDifferentSlotTypesSocketEnter')

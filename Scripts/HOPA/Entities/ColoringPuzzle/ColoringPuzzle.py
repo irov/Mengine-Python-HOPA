@@ -1,5 +1,6 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ColoringPuzzleManager import ColoringPuzzleManager
 
 from ColoringPuzzleBrush import ColoringPuzzleBrush
@@ -17,12 +18,7 @@ class ColoringPuzzleColor(object):
     def getColorName(self):
         return self.colorName
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class ColoringPuzzle(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

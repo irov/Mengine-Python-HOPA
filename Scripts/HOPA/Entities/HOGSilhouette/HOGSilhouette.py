@@ -2,8 +2,7 @@ import Foundation.Utils as Utils
 from Foundation.DefaultManager import DefaultManager
 from Foundation.TaskManager import TaskManager
 from HOPA.HOGManager import HOGManager
-
-Enigma = Mengine.importEntity("Enigma")
+from HOPA.Enigma import Enigma
 
 class HOGSilhouette(Enigma):
     @staticmethod

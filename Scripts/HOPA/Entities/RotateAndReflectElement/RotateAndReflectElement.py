@@ -1,11 +1,7 @@
 from Foundation.TaskManager import TaskManager
-from Notification import Notification
+from HOPA.Enigma import Enigma
 
 from RotateAndReflectElementManager import RotateAndReflectElementManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class RotateAndReflectElement(Enigma):
     Slots = [

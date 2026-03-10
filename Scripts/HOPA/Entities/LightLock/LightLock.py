@@ -1,14 +1,10 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 
 from Element import Element
 from LightLockManager import LightLockManager
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 class LightLock(Enigma):
-
     @staticmethod
     def declareORM(Type):
         Enigma.declareORM(Type)

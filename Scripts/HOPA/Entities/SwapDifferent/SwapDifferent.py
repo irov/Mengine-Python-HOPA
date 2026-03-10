@@ -1,21 +1,14 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.SwapDifferentManager import SwapDifferentManager
 
 from SwapDifferentElement import SwapDifferentElement
 
-
-Enigma = Mengine.importEntity("Enigma")
-
-
 def getMaxMin(first, second):
     if first > second:
         return (first, second)
-        pass
     else:
         return (second, first)
-        pass
-    pass
-
 
 class SwapDifferent(Enigma):
     def __init__(self):

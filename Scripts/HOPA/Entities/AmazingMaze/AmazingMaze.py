@@ -1,8 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.AmazingMazeManager import AmazingMazeManager
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class DirectionMovie(object):
     """

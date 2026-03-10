@@ -1,10 +1,6 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.FindSymbolsSetsMatchingCenterManager import FindSymbolsSetsMatchingCenterManager
-from Holder import Holder
-
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class Symbol(object):
     def __init__(self, movie_idle, movie_select):

@@ -1,9 +1,6 @@
 from Foundation.TaskManager import TaskManager
+from HOPA.Enigma import Enigma
 from HOPA.ChipMoveCountManager import ChipMoveCountManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class ChipMoveCount(Enigma):
     def _setupPos(self):

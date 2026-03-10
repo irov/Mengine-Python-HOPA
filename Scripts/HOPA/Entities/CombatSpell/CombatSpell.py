@@ -1,8 +1,5 @@
 from Foundation.TaskManager import TaskManager
-
-
-Enigma = Mengine.importEntity("Enigma")
-
+from HOPA.Enigma import Enigma
 
 class Slot(object):
     offset_Ai = (-10, 6)

@@ -1,7 +1,6 @@
 from Foundation.TaskManager import TaskManager
-from Functor import Functor
+from HOPA.Enigma import Enigma
 from HOPA.SwitchChainsManager import SwitchChainsManager
-
 
 class SwitchChainElement(object):
     def __init__(self, group, switchName, chainsList):
@@ -88,10 +87,6 @@ class SwitchChainElement(object):
         # socketEntity.removeFromParent()
         self.socket = None
         pass
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class SwitchChains(Enigma):
     def __init__(self):

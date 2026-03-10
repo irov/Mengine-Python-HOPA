@@ -1,11 +1,10 @@
 from Foundation.TaskManager import TaskManager
 from HOPA.JoinBlocksManager import JoinBlocksManager
+from HOPA.Enigma import Enigma
 
 from Block import Block
 from Road import Road
 from Slot import Slot
-
-Enigma = Mengine.importEntity("Enigma")
 
 class JoinBlocks(Enigma):
     @staticmethod

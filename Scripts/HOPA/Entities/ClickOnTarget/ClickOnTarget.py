@@ -9,14 +9,11 @@ from Foundation.SceneManager import SceneManager
 from Foundation.Task.Semaphore import Semaphore
 from Foundation.TaskManager import TaskManager
 from HOPA.ClickOnTargetManager import ClickOnTargetManager
+from HOPA.Enigma import Enigma
 from HOPA.EnigmaManager import EnigmaManager
-
-
-Enigma = Mengine.importEntity("Enigma")
 
 SCENE_MG_INVENTORY_GROUP = "MahjongInventory"
 SCENE_COUNTER_DEMON_OBJECT = "Demon_MahjongInventory"
-
 
 class Target(object):
     def __init__(self, movie_idle, movie_down, hit_movies, miss_movies, group_movie_with_target_slot,

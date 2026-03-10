@@ -2,11 +2,8 @@ from Foundation import Utils
 from Foundation.Notificator import Notificator
 from Foundation.TaskManager import TaskManager
 from HOPA.ChainClickMovieManager import ChainClickMovieManager
+from HOPA.Enigma import Enigma
 from Holder import Holder
-
-
-Enigma = Mengine.importEntity("Enigma")
-
 
 class Slot(object):
     def __init__(self, SlotID, Socket, Node):
