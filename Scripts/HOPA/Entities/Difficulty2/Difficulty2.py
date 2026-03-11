@@ -349,7 +349,6 @@ class Difficulty2(BaseEntity):
 
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)
             tc.addNotify(Notificator.onSelectedDifficulty)
-            tc.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=False)
 
     def cancelScope(self, source):
         source.addTask('TaskMovie2ButtonClick', GroupName='Difficulty', Movie2ButtonName='Movie2Button_Cancel')

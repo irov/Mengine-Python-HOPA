@@ -89,6 +89,7 @@ class SystemInGameMenuCall(System):
                 true.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=True)
                 true.addScope(self.__scopeOpen, "Difficulty")
                 true.addTask('TaskListener', ID=Notificator.onSelectedDifficulty)
+                true.addTask('TaskSceneLayerGroupEnable', LayerName='Difficulty', Value=False)
                 true.addTask('TaskSceneLayerGroupEnable', LayerName='InGameMenu', Value=True)
                 true.addScope(self.__scopeOpen, "InGameMenu")
 
