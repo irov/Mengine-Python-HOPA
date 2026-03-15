@@ -74,14 +74,11 @@ class LanguageSelect(BaseEntity):
 
     @staticmethod
     def __setLanguage(scene_name, lang):
-        if SceneManager.getCurrentScene() is not None:
-            SceneManager.disableCurrentScene()
-
         def cbOnSceneRestartChangeLocale(scene, isActive, isError):  # CB for actual changing game localization
             if scene is None:
                 Mengine.setLocale(lang)  # set locale can only work when current scene is None
 
-        Mengine.restartCurrentScene(True, cbOnSceneRestartChangeLocale)
+        SceneManager.restartCurrentScene(cbOnSceneRestartChangeLocale)
 
     def __handleLanguageChange(self, lang):
         if lang is None or str(Mengine.getLocale()) == lang:
@@ -97,8 +94,6 @@ class LanguageSelect(BaseEntity):
                 scene_name = SceneManager.getCurrentSceneName()
 
                 guard_tc.addFunction(self.__setLanguage, scene_name, lang)
-                # Need to proper scene restart
-                guard_tc.addTask("AliasTransition", SceneName=scene_name, CheckToScene=False, Fade=False)
                 guard_tc.addTask("AliasFadeIn", FadeGroupName='FadeUI', To=0.5, Time=250.0)
                 guard_tc.addTask('TaskSceneLayerGroupEnable', LayerName='LanguageSelect', Value=True)
                 guard_tc.addScope(self.scopeOpen, "LanguageSelect")

@@ -13,22 +13,21 @@ class TaskDelayPointer(MixinTime, Task):
 
     def _onRun(self):
         self.time = self.timePointer[0]
+
         if (self.time <= 0):
             return True
+
         self.id = Mengine.schedule(self.time, self._onDelay)
 
         if self.id == 0:
             self.log("_onRun Mengine.schedule return 0 (%f)" % (self.time))
             return True
-            pass
 
         return False
-        pass
 
     def _onDelay(self, id, isRemoved):
         if self.id != id:
             return
-            pass
 
         self.complete()
         pass

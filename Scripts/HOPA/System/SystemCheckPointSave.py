@@ -8,9 +8,7 @@ from HOPA.StageManager import StageManager
 from HOPA.TransitionManager import TransitionManager
 from HOPA.ZoomManager import ZoomManager
 
-
 # todo: add keyboard shortcut feature
-
 
 class SystemCheckPointSave(System):
     def _onParams(self, params):
@@ -58,7 +56,7 @@ class SystemCheckPointSave(System):
                 else:
                     Trace.msg("<SystemCheckPointSave> checkpoint successfully created as {!r}".format(checkpoint_name))
 
-            Mengine.restartCurrentScene(True, __onSceneRestart)
+            SceneManager.restartCurrentScene(__onSceneRestart)
 
         elif key == DefaultManager.getDefaultKey("DevDebugLoadCheckpoint", "VK_X"):
             Trace.msg("<SystemCheckPointSave> load checkpoint...")

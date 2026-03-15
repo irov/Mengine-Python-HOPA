@@ -572,6 +572,7 @@ class CursorManager(Manager):
                     TaskManager.cancelTaskChain("CursorShow")
 
                 with TaskManager.createTaskChain(Name="CursorShow", Cb=CursorManager.cursorShowCbEnd, CbArgs=(show_movie, currentMovie)) as tc:
+                    tc.addDelay(1.0)
                     tc.addScope(CursorManager.__scopePlayCursor, show_movie)
 
                 return True

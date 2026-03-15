@@ -1,5 +1,6 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.SessionManager import SessionManager
+from Foundation.SceneManager import SceneManager
 from Foundation.Providers.AdvertisementProvider import AdvertisementProvider
 from Foundation.System import System
 from HOPA.StageManager import StageManager
@@ -63,16 +64,14 @@ class SystemAutoSave(System):
             self._schedule()
             return False
 
-        def _cbRestart(scene, isActive, isError):
+        def __cbRestart(scene, isActive, isError):
             if scene is None:
                 self.__cheatAutoSave()
                 return
             if isActive is True:
                 Notification.notify(Notificator.onSceneInit, scene.sceneName)
 
-        Notification.notify(Notificator.onSceneRestartBegin)
-        Mengine.restartCurrentScene(True, _cbRestart)
-        Notification.notify(Notificator.onSceneRestartEnd)
+        SceneManager.restartCurrentScene(__cbRestart)
 
         return False
 
