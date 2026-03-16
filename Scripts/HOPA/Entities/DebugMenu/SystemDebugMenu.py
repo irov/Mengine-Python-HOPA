@@ -205,12 +205,11 @@ class SystemDebugMenu(System):
                     Trace.msg_err("Wrong locale {!r}".format(lang))
                     return
 
-                def cbOnSceneRestartChangeLocale(scene, isActive, isError):
-                    if scene is None:
-                        Mengine.setLocale(lang)
-                        Trace.msg("Locale changed to {!r}".format(lang))
+                def __cbOnSceneRestartChangeLocale():
+                    Mengine.setLocale(lang)
+                    Trace.msg("Locale changed to {!r}".format(lang))
 
-                SceneManager.restartCurrentScene(cbOnSceneRestartChangeLocale)
+                SceneManager.restartCurrentScene(None, cb_removed=__cbOnSceneRestartChangeLocale)
 
             w_locale = Mengine.createDevToDebugWidgetCommandLine("change_locale")
             w_locale.setTitle("Change locale")

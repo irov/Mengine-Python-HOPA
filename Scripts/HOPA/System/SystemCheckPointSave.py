@@ -35,10 +35,7 @@ class SystemCheckPointSave(System):
 
         checkpoint_name = u"checkpoint.save"
         if key == DefaultManager.getDefaultKey("DevDebugSaveCheckpoint", "VK_S"):
-            def __onSceneRestart(scene, isActive, isError):
-                if scene is not None:
-                    return
-
+            def __onSceneRestart():
                 currentStage = StageManager.getCurrentStage()
 
                 if currentStage is None:
@@ -56,7 +53,7 @@ class SystemCheckPointSave(System):
                 else:
                     Trace.msg("<SystemCheckPointSave> checkpoint successfully created as {!r}".format(checkpoint_name))
 
-            SceneManager.restartCurrentScene(__onSceneRestart)
+            SceneManager.restartCurrentScene(None, cb_removed=__onSceneRestart)
 
         elif key == DefaultManager.getDefaultKey("DevDebugLoadCheckpoint", "VK_X"):
             Trace.msg("<SystemCheckPointSave> load checkpoint...")
