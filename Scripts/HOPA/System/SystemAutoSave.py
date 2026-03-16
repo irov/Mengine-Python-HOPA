@@ -64,14 +64,10 @@ class SystemAutoSave(System):
             self._schedule()
             return False
 
-        def __cbRestart(scene, isActive, isError):
-            if scene is None:
-                self.__cheatAutoSave()
-                return
-            if isActive is True:
-                Notification.notify(Notificator.onSceneInit, scene.sceneName)
+        def __cbRestart():
+            self.__cheatAutoSave()
 
-        SceneManager.restartCurrentScene(__cbRestart)
+        SceneManager.restartCurrentScene(None, cb_removed=__cbRestart)
 
         return False
 

@@ -78,11 +78,11 @@ class LanguageSelect(BaseEntity):
             print "LanguageSelect: restart scene '%s' complete, set locale to '%s'" % (scene_name, lang)
             Mengine.setLocale(lang)  # set locale can only work when current scene is None
 
-        SceneName = SceneManager.getCurrentSceneName()
+        #SceneName = SceneManager.getCurrentSceneName()
 
-        SceneManager.changeScene(SceneName, None, cb_removed=__cbOnSceneRestartChangeLocale, check_current=False)  # restart current scene to change locale
+        #SceneManager.changeScene(SceneName, None, cb_removed=__cbOnSceneRestartChangeLocale, check_current=False)  # restart current scene to change locale
 
-        #SceneManager.restartCurrentScene(cbOnSceneRestartChangeLocale)
+        SceneManager.restartCurrentScene(None, cb_removed=__cbOnSceneRestartChangeLocale)
 
     def __handleLanguageChange(self, lang):
         if lang is None or str(Mengine.getLocale()) == lang:
