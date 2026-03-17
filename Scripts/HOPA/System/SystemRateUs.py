@@ -3,7 +3,7 @@ from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
-from Foundation.Providers.RatingAppProvider import RatingAppProvider
+from Foundation.Providers.RateAppProvider import RateAppProvider
 from Foundation.TaskManager import TaskManager
 from Foundation.Utils import getCurrentBusinessModel
 
@@ -166,7 +166,7 @@ class SystemRateUs(System):
     @staticmethod
     def showRate():
         """ shows RateUs OS interface """
-        RatingAppProvider.rateApp()
+        RateAppProvider.rateApp()
 
     # --- utils
 
