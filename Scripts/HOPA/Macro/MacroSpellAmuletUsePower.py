@@ -52,8 +52,7 @@ class MacroSpellAmuletUsePower(MacroCommand):
 
         with quest as tc_quest:
             with tc_quest.addIfTask(self.__isRuneLocked) as (wait, _):
-                wait.addListener(Notificator.onSpellAmuletAddPower,
-                                 Filter=lambda power_type, *args: power_type == self.power_type)
+                wait.addListener(Notificator.onSpellAmuletAddPower, Filter=lambda power_type, *args: power_type == self.power_type)
 
             tc_quest.addNotify(self.notificator, self.power_name, self.open, self.ScenarioQuests[-1])
 

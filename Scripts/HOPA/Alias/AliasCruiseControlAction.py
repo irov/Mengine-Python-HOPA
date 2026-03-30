@@ -27,10 +27,10 @@ class AliasCruiseControlAction(TaskAlias):
         super(AliasCruiseControlAction, self)._onInitialize()
         self.Node = Mengine.getArrowNode()
 
-    def _onValidate(self):
-        super(AliasCruiseControlAction, self)._onValidate()
+    def _onValidate(self, params):
+        super(AliasCruiseControlAction, self)._onValidate(params)
         if self.Object is None and self.Position is None:
-            self.validateFailed("AliasCruiseControlAction should have Object or Position param")
+            self.validateFailed(params, "AliasCruiseControlAction should have Object or Position param")
 
     def __getClickPosition(self):
         obj_type = self.Object.getType() if self.Object else None

@@ -321,8 +321,7 @@ class SystemUnittest(System):
 
     @staticmethod
     def __scopePressKey(source, key_code):
-        source.addListener(Notificator.onKeyEvent,
-                           lambda key, x, y, isDown, isRepeating: isRepeating is False and isDown is False and key == key_code)
+        source.addListener(Notificator.onKeyEvent, Filter=lambda key, x, y, isDown, isRepeating: isRepeating is False and isDown is False and key == key_code)
 
     @staticmethod
     def __printTimestamp(msg, time_getter, *args):

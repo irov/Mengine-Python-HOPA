@@ -107,8 +107,7 @@ class Charger(BaseEntity):
             source_idle_enter.addTask("TaskMovieSocketEnter", SocketName="socket", Movie=MovieIdle)
             source_idle_enter.addFunction(self.__setState, "Enter", 11)
 
-            source_idle_listener.addListener(Notificator.onChargerRun,
-                                         Filter=lambda obj: obj is self.object)
+            source_idle_listener.addListener(Notificator.onChargerRun, Filter=lambda obj: obj is self.object)
             source_idle_listener.addFunction(self.__setState, "Release", 12)
             pass
 

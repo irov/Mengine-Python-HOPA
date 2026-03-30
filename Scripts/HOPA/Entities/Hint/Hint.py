@@ -279,8 +279,7 @@ class Hint(BaseEntity):
         click_event = Event("HintRightClick")
         with source.addRepeatTask() as (repeat, until):
             with repeat.addRaceTask(2) as (click, reset):
-                reset.addListener(Notificator.onStateChange,
-                                  Filter=lambda id, state: id == "StateHintReady" and state is False)
+                reset.addListener(Notificator.onStateChange, Filter=lambda id, state: id == "StateHintReady" and state is False)
 
                 click.addTask("TaskStateMutex", ID="StateHintReady", From=True)
                 click.addTask(self.PolicyHintClick)

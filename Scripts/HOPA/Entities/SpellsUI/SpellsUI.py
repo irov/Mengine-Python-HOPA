@@ -219,7 +219,7 @@ class SpellButton(object):
 
         with source.addRepeatTask() as (repeat, until):
             with repeat.addRaceTask(2) as (race_0, race_1):
-                race_0.addListener(SpellButton.NOTIFICATOR_ButtonStateChange, lambda obj, state: obj is self)
+                race_0.addListener(SpellButton.NOTIFICATOR_ButtonStateChange, Filter=lambda obj, state: obj is self)
                 race_1.addScope(self.__scopeTaskMovie2SocketClick, semaphore)
 
             until.addSemaphore(semaphore, From=True)

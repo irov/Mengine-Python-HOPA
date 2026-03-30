@@ -59,8 +59,7 @@ class DisableAds(BaseComponent):
 
         with TaskManager.createTaskChain(Name=TC_NAME) as tc:
             with tc.addRepeatTask() as (repeat, until):
-                repeat.addListener(Notificator.onAdvertHidden,
-                                   Filter=lambda ad_type, ad_name: ad_type == "Interstitial")
+                repeat.addListener(Notificator.onAdvertHidden, Filter=lambda ad_type, ad_name: ad_type == "Interstitial")
                 repeat.addFunction(self.demon.run, self.product.id)
                 repeat.addFunction(event_run)
 

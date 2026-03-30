@@ -194,8 +194,7 @@ class SystemInventoryPanel(System):
                     with source.addRaceTask(2) as (race_scene_leave, race_zoom_leave):
                         race_scene_leave.addListener(Notificator.onSceneLeave)
 
-                        race_zoom_leave.addListener(Notificator.onZoomLeave,
-                                                    Filter=lambda groupName: groupName == zoomGroupName)
+                        race_zoom_leave.addListener(Notificator.onZoomLeave, Filter=lambda groupName: groupName == zoomGroupName)
                         race_zoom_leave.addDelay(0)
                         race_zoom_leave.addScope(self.__swapInventoryScope, self.getCurrentInventory)
 

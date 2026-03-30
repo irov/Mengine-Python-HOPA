@@ -325,8 +325,7 @@ class SystemSpells(System):
                         with tc.addSwitchTask(3, __amuletCurState) as (tc_IDLE, tc_HIDE, tc_OPEN):
                             tc_IDLE.addScope(spell_amulet_demon.scopeCloseAmulet)
 
-                            tc_OPEN.addListener(Amulet.NOTIFICATOR_AmuletStateChange,
-                                                lambda state: state is Amulet.OPEN)
+                            tc_OPEN.addListener(Amulet.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state is Amulet.OPEN)
                             tc_OPEN.addScope(spell_amulet_demon.scopeCloseAmulet)
 
                             tc_HIDE.addDummy()

@@ -306,7 +306,7 @@ class AmuletPowerButton(object):
 
         with source.addRepeatTask() as (repeat, until):
             with repeat.addRaceTask(2) as (race_0, race_1):
-                race_0.addListener(AmuletPowerButton.NOTIFICATOR_ButtonStateChange, lambda obj, state: obj is self)
+                race_0.addListener(AmuletPowerButton.NOTIFICATOR_ButtonStateChange, Filter=lambda obj, state: obj is self)
                 race_1.addScope(self.__scopeCurrentMovieSocketTask, task, semaphore, **params)
 
             until.addSemaphore(semaphore, From=True)
@@ -643,12 +643,11 @@ class Amulet(object):
         self.__tcs.append(tc_power_hint_button_appear)
 
         with tc_power_hint_button_appear as tc:
-            tc.addListener(self.NOTIFICATOR_AmuletStateChange, lambda state: state is self.OPEN)
+            tc.addListener(self.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state is self.OPEN)
             tc.addSemaphore(self.SEMAPHORE_APPEAR_AMULET, From=False)
 
             with tc.addRaceTask(2) as (race_interrupt, race_enter):
-                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange,
-                                           lambda state: state in [self.HIDE, AmuletPowerButton.AIM])
+                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state in [self.HIDE, AmuletPowerButton.AIM])
 
                 race_enter.addFunction(self.disableAmuletHintButton, False)
                 race_enter.addEnable(self.button_hint)
@@ -662,12 +661,11 @@ class Amulet(object):
         self.__tcs.append(tc_power_hint_button_disappear)
 
         with tc_power_hint_button_disappear as tc:
-            tc.addListener(self.NOTIFICATOR_AmuletStateChange, lambda state: state is self.HIDE)
+            tc.addListener(self.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state is self.HIDE)
             tc.addSemaphore(self.SEMAPHORE_APPEAR_AMULET, From=True)
 
             with tc.addRaceTask(2) as (race_interrupt, race_leave):
-                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange,
-                                           lambda state: state in [self.OPEN, AmuletPowerButton.AIM])
+                race_interrupt.addListener(self.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state in [self.OPEN, AmuletPowerButton.AIM])
 
                 race_leave.addFunction(self.disableAmuletHintButton, True)
                 race_leave.addEnable(self.button_hint)
@@ -685,7 +683,7 @@ class Amulet(object):
         self.__tcs.append(tc_power_hint_button_hide_on_aim)
 
         with tc_power_hint_button_hide_on_aim as tc:
-            tc.addListener(self.NOTIFICATOR_AmuletStateChange, lambda state: state is AmuletPowerButton.AIM)
+            tc.addListener(self.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state is AmuletPowerButton.AIM)
             tc.addDisable(self.button_hint)
             tc.addFunction(self.button_hint.setAlpha, 0.0)
             tc.addFunction(self.disableAmuletHintButton, True)
@@ -765,15 +763,13 @@ class SpellAmulet(BaseEntity):
             with tc.addRaceTask(2) as (idle, interrupt):
                 with idle.addIfTask(self.amulet.isOpen, True) as (true, false):
                     true.addDummy()
-                    false.addListener(self.amulet.NOTIFICATOR_AmuletStateChange,
-                                      lambda state: state == self.amulet.IDLE)
+                    false.addListener(self.amulet.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state == self.amulet.IDLE)
 
                 idle.addScope(self.amulet.scopeClick, "close")
                 with GuardBlockInput(idle) as guard_parallel_1:
                     guard_parallel_1.addScope(self.amulet.scopeCloseAmulet)
 
-                interrupt.addListener(self.amulet.NOTIFICATOR_AmuletStateChange,
-                                      lambda state: state != self.amulet.HIDE)
+                interrupt.addListener(self.amulet.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state != self.amulet.HIDE)
 
     def __cleanUp(self):
         if self.__tc is not None:

@@ -75,10 +75,8 @@ class MacroSpellAmuletWaitState(MacroCommand):
 
         with quest as tc_quest:
             if self.target == "amulet":
-                tc_quest.addListener(Notificator.onSpellAmuletStateChange,
-                                     Filter=self.__filterAmuletStateUpdate)
+                tc_quest.addListener(Notificator.onSpellAmuletStateChange, Filter=self.__filterAmuletStateUpdate)
             elif self.target == "stone":
-                tc_quest.addListener(Notificator.onSpellAmuletPowerButtonStateChange,
-                                     Filter=self.__filterSpellUIStateUpdate)
+                tc_quest.addListener(Notificator.onSpellAmuletPowerButtonStateChange, Filter=self.__filterSpellUIStateUpdate)
 
         # source.addPrint("------ COMPLETE {} : {} {}".format(self.target, self.state, self.power_type))

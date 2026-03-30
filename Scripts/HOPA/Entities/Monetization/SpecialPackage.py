@@ -79,8 +79,7 @@ class SpecialPackage(BaseComponent):
                 repeat.addTask("TaskMovie2ButtonClick", Group=self.group, Movie2Button=self.button)
                 repeat.addFunction(self.demon.run, self.product.id)
 
-                until.addListener(Notificator.onPaySuccess,
-                                  Filter=lambda prod_id: prod_id in [self.product.id, self.bonus_chapter_prod_id])
+                until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id in [self.product.id, self.bonus_chapter_prod_id])
 
         return False
 
