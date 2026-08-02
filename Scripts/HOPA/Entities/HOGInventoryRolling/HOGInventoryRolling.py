@@ -53,7 +53,7 @@ class HOGInventorySlot(object):
         return self.found
 
     def getPoint(self):
-        return self.movie.getEntityNode().getWorldPosition()
+        return self.getTextField().getWorldPosition()
 
     def getTextField(self):
         return self.movie.getEntity().getMovieText(HOGROLLING_MOVIE_SLOT_TEXTALIAS)

@@ -38,7 +38,7 @@ class TaskEffectFittingInventoryReturnInventoryItem(Task):
 
         scaleTo = DefaultManager.getDefaultFloat("InventoryItemScale", 1.0)
 
-        length = Mengine.length_v2_v2(P0, P2)
+        length = Mengine.length_bezier2(P0, P1, P2)
 
         SpeedEffectFittingInventoryReturnInventoryItem = DefaultManager.getDefaultFloat(
             "SpeedEffectFittingInventoryReturnInventoryItem", 2000)

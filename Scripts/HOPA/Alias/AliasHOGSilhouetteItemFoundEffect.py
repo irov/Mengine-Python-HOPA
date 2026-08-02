@@ -64,7 +64,7 @@ class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
         pureCenter = pure.getLocalImageCenter()
         pure.coordinate(pureCenter)
 
-        length = Mengine.length_v2_v2(P1, P2)
+        length = Mengine.length_bezier2(P0, P1, P2)
 
         HOGItemHideEffectSpeed = DefaultManager.getDefaultFloat("HOGItemHideEffectSpeed", 1000)
         HOGItemHideEffectSpeed *= 0.001  # speed fix

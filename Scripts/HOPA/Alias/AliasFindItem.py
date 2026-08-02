@@ -28,7 +28,7 @@ class AliasFindItem(TaskAlias):
         ItemObject = ItemManager.getItemObject(self.ItemName)
         ObjectType = ItemObject.getType()
 
-        if ObjectType is "ObjectMovieItem" or ObjectType is "ObjectMovie2Item":
+        if ObjectType == "ObjectMovieItem" or ObjectType == "ObjectMovie2Item":
             source.addParam(ItemObject, "Interactive", 1)
             source.addTask("TaskMovieItemClickOBS", MovieItem=ItemObject)
             with source.addParallelTask(2) as (parallel_1, parallel_2):

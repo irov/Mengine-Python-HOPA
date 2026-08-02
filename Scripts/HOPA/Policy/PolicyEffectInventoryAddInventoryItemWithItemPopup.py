@@ -144,7 +144,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
         scaleTo = min(scaleToX, scaleToY)
 
         # calc time
-        length = Mengine.length_v2_v2(self.start_pos, self.end_pos)
+        length = Mengine.length_bezier2(self.start_pos, self.start_pos, self.end_pos)
         SpeedEffectInventoryAddInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000.0)
         SpeedEffectInventoryAddInventoryItem *= 0.001  # speed fix
         time = length / SpeedEffectInventoryAddInventoryItem

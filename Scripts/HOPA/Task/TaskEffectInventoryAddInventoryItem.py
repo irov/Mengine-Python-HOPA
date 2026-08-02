@@ -186,7 +186,8 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             source.addEnable(self.InventoryItem)
 
         P0 = PositionFrom + Offset
-        Speed, Time = self.calcSpeedAndTimeForItemScale(P0, P2)
+        Point1 = P2[0], P0[1]
+        Speed, Time = self.calcSpeedAndTimeForItemScale(P0, Point1, P2)
 
         # print "! P0={} FROM={} P2={} ||| time={} speed={} offset={}".format(P0, PositionFrom, P2, Time, Speed, Offset)
 
@@ -255,7 +256,7 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         sprite.setLocalPosition(P0)
         scaleTo = self.calcItemScaleTo(sprite)
 
-        Speed, Time = self.calcSpeedAndTimeForItemScale(Point1, P2)
+        Speed, Time = self.calcSpeedAndTimeForItemScale(P0, Point1, P2)
 
         # print "!!! P0={} P1={} P2={} ||| time={} speed={}".format(P0, Point1, P2, Time, Speed)
 
@@ -268,11 +269,11 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         source.addTask("TaskNodeDestroy", Node=sprite)
 
     @staticmethod
-    def calcSpeedAndTimeForItemScale(pos_1, pos_2):
+    def calcSpeedAndTimeForItemScale(pos_0, pos_1, pos_2):
         """ Helper """
 
         speed = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000) * 0.001  # speed fix
-        time = Mengine.length_v2_v2(pos_1, pos_2) / speed
+        time = Mengine.length_bezier2(pos_0, pos_1, pos_2) / speed
 
         return speed, time
 

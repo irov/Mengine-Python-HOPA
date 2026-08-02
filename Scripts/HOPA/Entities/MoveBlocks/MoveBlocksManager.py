@@ -1,7 +1,4 @@
 from Foundation.Manager import Manager
-
-import copy
-
 from Foundation.DatabaseManager import DatabaseManager
 
 
@@ -17,8 +14,7 @@ class MoveBlocksManager(Manager):
             pass
 
         def getField(self):
-            res = copy.deepcopy(self.field)
-            return res
+            return dict((row, values[:]) for row, values in self.field.iteritems())
             pass
 
         def getWin(self):

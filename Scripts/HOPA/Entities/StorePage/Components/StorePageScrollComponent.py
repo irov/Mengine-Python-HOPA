@@ -1,5 +1,5 @@
 ﻿from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageBaseComponent
-from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
+from Foundation.VirtualAreaHelper import createVirtualArea, destroyVirtualArea
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.TaskManager import TaskManager
 
@@ -44,8 +44,9 @@ class StorePageScrollComponent(StorePageBaseComponent):
         self._button_counter_y = 0
 
         self._cancelDragEndTC()
-        self.virtual_area.onFinalize()
-        self.virtual_area = None
+        if self.virtual_area is not None:
+            destroyVirtualArea(self.virtual_area)
+            self.virtual_area = None
 
     # --- scroll -------------------------------------------------------------------------------------------------------
 
@@ -146,13 +147,17 @@ class StorePageScrollComponent(StorePageBaseComponent):
     def initVirtualArea(self):
         self._va_movie = self.object.getObject(MOVIE_VA)
         self._va_bounds = self._va_movie.getCompositionBounds()
-        self.virtual_area = VirtualArea()
-        self.virtual_area.onInitialize(dragging_mode=self.page.ScrollMode, enable_scale=False, disable_drag_if_invalid=False)
+        self.virtual_area = createVirtualArea(
+            dragging_mode=self.page.ScrollMode,
+            enable_scale=False,
+            disable_drag_if_invalid=False
+        )
 
         self._setupVirtualArea()
         if self.isScrollNeeded() is False:
             # TODO: fix error - VirtualArea width/height must be less than Content ()
             self._va_movie.setInteractive(False)
+            self.virtual_area.setVirtualAreaFrozen(True)
         else:
             self._setArrowEnable(self.page.AllowArrow)
 
@@ -172,19 +177,17 @@ class StorePageScrollComponent(StorePageBaseComponent):
         bb = self._va_bounds
         vp_width = (bb.maximum.x - bb.minimum.x)
         vp_height = (bb.maximum.y - bb.minimum.y)
-        self.virtual_area.setup_viewport(0, 0, vp_width, vp_height)
+        self.virtual_area.setVirtualAreaViewport(Mengine.Viewport((0, 0), (vp_width, vp_height)))
 
-        slot.addChild(self.virtual_area._root)
+        slot.addChild(self.virtual_area)
         node = self.page.content.getEntityNode()
         node.removeFromParent()
-        self.virtual_area.add_node(node)
+        self.virtual_area.addVirtualAreaContentNode(node, False)
 
-        # setup sockets handle for scroll
-        self.virtual_area.init_handlers(socket)
         self._va_movie.setInteractive(True)
 
-        virtual_area_socket = self.virtual_area.get_socket()
-        virtual_area_socket.setDefaultHandle(False)
+        socket.setDefaultHandle(False)
+        self.virtual_area.setVirtualAreaDefaultHandle(False)
 
         entity = self._va_movie.getEntity()
         entity.setSocketHandle(SOCKET_TOUCH, "button", False)
@@ -193,12 +196,14 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
         # content size
         width, height = self.calculateContentSize()
-        self.virtual_area.set_content_size(0.0, 0.0, width, height)
+        self.virtual_area.setVirtualAreaContentSize(0.0, 0.0, width, height)
 
         # callbacks
-        self.virtual_area.on_drag_start += self._cbDragStart
-        self.virtual_area.on_drag += self._cbDrag
-        self.virtual_area.on_drag_end += self._cbDragEnd
+        self.virtual_area.setVirtualAreaEventListener(
+            onDragStart=self._cbDragStart,
+            onDrag=self._cbDrag,
+            onDragEnd=self._cbDragEnd
+        )
 
     def _setArrowEnable(self, value):
         if self.object.hasObject(MOVIE_ARROW) is False:
@@ -256,15 +261,15 @@ class StorePageScrollComponent(StorePageBaseComponent):
 
         return False
 
-    def _cbDragStart(self):
+    def _cbDragStart(self, position):
         GuardBlockInput.enableBlockSocket(True)
 
-    def _cbDrag(self, x, y):
+    def _cbDrag(self, position, percentage):
         if self.page.AllowArrow is True:
-            self._setArrowAlpha(y)
+            self._setArrowAlpha(percentage.y)
 
-    def _cbDragEnd(self):
-        if self.virtual_area.is_dragging() is False:
+    def _cbDragEnd(self, position, velocity):
+        if self.virtual_area.isVirtualAreaDragging() is False:
             return
 
         self._cancelDragEndTC()

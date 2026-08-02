@@ -28,11 +28,11 @@ class AliasHOGSilhouetteFoundItem(TaskAlias):
 
         PolicyFoundEffect = None
 
-        if ItemType is "ObjectItem":
+        if ItemType == "ObjectItem":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGSilhouetteItemFoundEffect", "AliasHOGSilhouetteItemFoundEffect")
-        elif ItemType is "ObjectMovieItem":
+        elif ItemType == "ObjectMovieItem":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGSilhouetteMovieItemFoundEffect", "PolicyHOGRollingMovieItemFoundEffect")
-        elif ItemType is "ObjectMovie2Item":
+        elif ItemType == "ObjectMovie2Item":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGSilhouetteMovie2ItemFoundEffect", "PolicyHOGRollingMovie2ItemFoundEffect")
 
             PolicyCheckMarkNearItem = PolicyManager.getPolicy("HOGSilhouetteICheckMark", "PolicyCheckMarkNearItem")

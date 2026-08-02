@@ -1,4 +1,4 @@
-from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
+from Foundation.VirtualAreaHelper import createVirtualArea, destroyVirtualArea
 from Foundation.TaskManager import TaskManager
 from Foundation.GuardBlockInput import GuardBlockInput
 
@@ -20,8 +20,11 @@ class TabSection(object):
 
         self._observers = []
 
-        self.virtual_area = VirtualArea()
-        self.virtual_area.onInitialize(dragging_mode='vertical', enable_scale=False, disable_drag_if_invalid=False)
+        self.virtual_area = createVirtualArea(
+            dragging_mode='vertical',
+            enable_scale=False,
+            disable_drag_if_invalid=False
+        )
         self._va_bounds = None
         self._va_tabs_height = 0
         self._va_total_height = 0
@@ -30,8 +33,10 @@ class TabSection(object):
         self._createBack()
         self._createTabs(ignored_pages, unvisited_pages)
 
-        self.virtual_area.on_drag_start += self._cbDragStart
-        self.virtual_area.on_drag_end += self._cbDragEnd
+        self.virtual_area.setVirtualAreaEventListener(
+            onDragStart=self._cbDragStart,
+            onDragEnd=self._cbDragEnd
+        )
 
         self._observers.append(Notification.addObserver(Notificator.onStoreTabSectionClickedTab, self._cbTabClicked))
 
@@ -114,7 +119,7 @@ class TabSection(object):
 
     def setupViewport(self):
         bb = self._va_bounds
-        self.virtual_area.setup_viewport(bb.minimum.x, bb.minimum.y, bb.maximum.x, bb.maximum.y)
+        self.virtual_area.setVirtualAreaViewport(Mengine.Viewport(bb.minimum, bb.maximum))
 
     def setupVirtualArea(self, parent, slot_name="tabs", socket_name="touch"):
         self._va_bounds = parent.getCompositionBounds()
@@ -127,17 +132,15 @@ class TabSection(object):
 
         self.setupViewport()
 
-        slot.addChild(self.virtual_area._root)
+        slot.addChild(self.virtual_area)
         node = self._parent_movie.getEntityNode()
         node.removeFromParent()
-        self.virtual_area.add_node(node)
+        self.virtual_area.addVirtualAreaContentNode(node, False)
 
-        # setup sockets handle for scroll
-        self.virtual_area.init_handlers(socket)
         parent.setInteractive(True)
 
-        virtual_area_socket = self.virtual_area.get_socket()
-        virtual_area_socket.setDefaultHandle(False)
+        socket.setDefaultHandle(False)
+        self.virtual_area.setVirtualAreaDefaultHandle(False)
 
         content_entity = parent.getEntity()
         content_entity.setSocketHandle(socket_name, "button", False)
@@ -146,11 +149,11 @@ class TabSection(object):
 
         # content size
         width, height = self.calculateContentSize()
-        self.virtual_area.set_content_size(0.0, 0.0, width, height)
+        self.virtual_area.setVirtualAreaContentSize(0.0, 0.0, width, height)
 
     def update_va_size(self):
         width, height = self.calculateContentSize()
-        self.virtual_area.set_content_size(0.0, 0.0, width, height)
+        self.virtual_area.setVirtualAreaContentSize(0.0, 0.0, width, height)
 
     def calculateContentSize(self):
         bb = self._va_bounds
@@ -166,11 +169,11 @@ class TabSection(object):
             return True
         return False
 
-    def _cbDragStart(self):
+    def _cbDragStart(self, position):
         GuardBlockInput.enableBlockSocket(True)
 
-    def _cbDragEnd(self):
-        if self.virtual_area.is_dragging() is False:
+    def _cbDragEnd(self, position, velocity):
+        if self.virtual_area.isVirtualAreaDragging() is False:
             return
 
         self._cancelDragEndTC()
@@ -246,7 +249,7 @@ class TabSection(object):
             self._parent_movie.returnToParent()
 
             self._cancelDragEndTC()
-            self.virtual_area.onFinalize()
+            destroyVirtualArea(self.virtual_area)
             self.virtual_area = None
             self._va_bounds = None
 
@@ -322,10 +325,8 @@ class Tab(object):
         if self.red_dot is None:
             return
 
-        state = not value
-
-        self.red_dot.setEnable(state)
-        self.visited = state
+        self.red_dot.setEnable(not value)
+        self.visited = value
 
     def destroy(self):
         if self.red_dot is not None:

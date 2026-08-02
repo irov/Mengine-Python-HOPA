@@ -1,7 +1,7 @@
 from Foundation.ArrowManager import ArrowManager
 from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
-from Foundation.Task.c import MixinObject
+from Foundation.Task.MixinObject import MixinObject
 
 
 class TaskAnimatableButtonClick(MixinObject, MixinObserver, Task):

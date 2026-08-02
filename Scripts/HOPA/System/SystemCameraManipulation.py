@@ -6,7 +6,7 @@ from HOPA.SemaphoreManager import SemaphoreManager
 from HOPA.ZoomManager import ZoomManager
 from Notification import Notification
 
-from Foundation.Entities.MovieVirtualArea.VirtualArea import VirtualArea
+from Foundation.VirtualAreaHelper import createVirtualArea, destroyVirtualArea
 
 
 _Log = SimpleLogger("SystemCameraManipulation")
@@ -143,7 +143,7 @@ class DebugCameraGizmo(object):
         self.mouse_wheel_id = Mengine.addMouseWheelHandler(self.onMouseWheel)
 
         self.observers.append(Notification.addObserver(Notificator.onSceneInit, self._onSceneInit))
-        self.observers.append(Notification.addObserver(Notificator.onSceneInit, self._onSceneInit))
+        self.observers.append(Notification.addObserver(Notificator.onSceneDeactivate, self._onSceneDeactivate))
 
         self.enable = True
 
@@ -399,8 +399,7 @@ class SystemCameraManipulation(System):
     # virtual area
 
     def get_bounds_viewport(self):
-        target = self.virtual_area._target
-        return target.get_bounds_viewport()
+        return self.virtual_area.getVirtualAreaLocalBounds()
 
     def initVirtualArea(self):
         if self.virtual_area is not None:
@@ -420,39 +419,45 @@ class SystemCameraManipulation(System):
         else:
             scale_factor = DefaultManager.getDefaultFloat("TouchpadScaleFactor", 0.005)
 
-        self.virtual_area = VirtualArea()
-        self.virtual_area.onInitialize(
+        self.virtual_area = createVirtualArea(
             dragging_mode='free',
             disable_drag_if_invalid=False,
             enable_scale=DefaultManager.getDefaultBool("TouchpadEnableScale", True),
             max_scale=DefaultManager.getDefaultFloat("TouchpadMaxScale", 2.0),
             scale_factor=scale_factor,
-            allow_out_of_bounds=False
+            allow_out_of_bounds=False,
+            drag_start_threshold=50.0
         )
 
         hotspot = self.hotspot
 
-        self.virtual_area.setup_viewport(hotspot)
-        self.virtual_area.init_handlers(hotspot)
+        self.virtual_area.setVirtualAreaViewportFromHotSpot(hotspot)
+        self.virtual_area.setVirtualAreaDefaultHandle(False)
 
         scene = SceneManager.getCurrentScene()
         layer = scene.getMainLayer()
 
-        scene.node.addChildFront(self.virtual_area._root)
+        scene.node.addChildFront(self.virtual_area)
 
         # FIX DESCR: I don't know why, but when we do it - it calls onDeactivate for GameArea - bugs, bugs, bugs...
         # layer.removeFromParent()
 
-        self.virtual_area.add_node(layer)
+        self.virtual_area.addVirtualAreaContentNode(layer, False)
 
-        self.virtual_area.on_touch += self._on_touch
-        self.virtual_area.on_drag_start += self._on_drag_start
-        self.virtual_area.on_drag_end += self._on_drag_end
-        self.virtual_area.on_scale += self._on_scale
-        self.virtual_area.on_drag += self._on_drag
+        self.virtual_area.setVirtualAreaEventListener(
+            onTouch=self._on_touch,
+            onDragStart=self._on_drag_start,
+            onDragEnd=self._on_drag_end,
+            onScale=self._on_scale,
+            onDrag=self._on_drag
+        )
 
-        self.virtual_area.set_content_size(self.bounds["begin"].x, self.bounds["begin"].y,
-                                           self.bounds["end"].x, self.bounds["end"].y)
+        self.virtual_area.setVirtualAreaContentSize(
+            self.bounds["begin"].x,
+            self.bounds["begin"].y,
+            self.bounds["end"].x,
+            self.bounds["end"].y
+        )
 
         if self.isBlocked() is True:
             self.setEnableHotspot(False)
@@ -463,7 +468,7 @@ class SystemCameraManipulation(System):
         if self.virtual_area is None:
             return True
 
-        self.virtual_area.onFinalize()
+        destroyVirtualArea(self.virtual_area)
         self.virtual_area = None
         self.destroyHotspot()
         return True
@@ -537,8 +542,12 @@ class SystemCameraManipulation(System):
 
         if value is True and self.isBlocked() is False:
             self.hotspot.enable()
+            if self.virtual_area is not None:
+                self.virtual_area.setVirtualAreaFrozen(False)
         elif value is False:
             self.hotspot.disable()
+            if self.virtual_area is not None:
+                self.virtual_area.setVirtualAreaFrozen(True)
 
     def destroyHotspot(self):
         if self.hotspot is None:
@@ -557,10 +566,8 @@ class SystemCameraManipulation(System):
         semaphore = SemaphoreManager.getSemaphore("SkipFreezeHOGCounter")
         semaphore.setValue(True)
 
-    def _on_touch(self, touch_id):
-        if touch_id not in self._touch_ids:
-            self._touch_ids.append(touch_id)
-        if len(self._touch_ids) >= 2:
+    def _on_touch(self, touch_count):
+        if touch_count >= 2:
             ZoomManager.setBlockOpen(True)
             self._resetFreezeHOG()
 
@@ -576,11 +583,11 @@ class SystemCameraManipulation(System):
         self._touch_ids = []
         self.dev_hud.update("drag_status", "drag status: False")
 
-    def _on_drag(self, x, y):
-        bounds = self.virtual_area._target._bounds
-        begin, end = bounds['begin'], bounds['end']
+    def _on_drag(self, position, percentage):
+        bounds = self.virtual_area.getVirtualAreaLocalBounds()
+        begin, end = bounds.begin, bounds.end
 
-        self.dev_hud.update("on_drag", "drag: {}".format((x, y)))
+        self.dev_hud.update("on_drag", "drag: {}".format((percentage.x, percentage.y)))
         self.dev_hud.update("on_drag_move", "bounds: {}, {}".format((begin.x, begin.y), (end.x, end.y)))
 
     def _on_scale(self, scale_factor):
@@ -588,7 +595,10 @@ class SystemCameraManipulation(System):
         self._resetFreezeHOG()
 
     def resetZoom(self):
-        self.virtual_area.set_scale(1.0)
+        if self.virtual_area is None:
+            return False
+
+        self.virtual_area.setVirtualAreaScale(1.0)
         return True
 
     # observers:
@@ -640,7 +650,7 @@ class SystemCameraManipulation(System):
     # input handlers:
 
     def _onMouseWheel(self, event):
-        scale_factor = self.virtual_area._target._scale_factor if self.virtual_area else None
+        scale_factor = self.virtual_area.getVirtualAreaScaleFactor() if self.virtual_area else None
         self.dev_hud.onMouseWheel(event.position.world.x, event.position.world.y, event.scroll, scale_factor)
 
         # print "WHEEL --- [{}] ({}, {}) ".format(direction, rel_x, rel_y)

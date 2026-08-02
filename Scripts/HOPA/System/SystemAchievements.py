@@ -108,7 +108,7 @@ class SystemAchievements(System):
 
         __hardcode_checker = False
         if check_fn_name in dir(self):
-            check_fn = self.__getattribute__(check_fn_name)
+            check_fn = getattr(self, check_fn_name)
             if callable(check_fn):
                 __hardcode_checker = True
 
@@ -203,7 +203,7 @@ class SystemAchievements(System):
                 Trace.msg_err("SystemAchievement: no reaction on change achievement progress {!r}. Create method {}".format(stat_name, check_fn_name))
             return False
 
-        check_fn = self.__getattribute__(check_fn_name)
+        check_fn = getattr(self, check_fn_name)
         if callable(check_fn):
             check_fn(self)
 

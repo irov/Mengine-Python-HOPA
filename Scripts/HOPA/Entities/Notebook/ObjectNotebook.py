@@ -2,6 +2,15 @@
 
 
 class ObjectNotebook(DemonObject):
+    @staticmethod
+    def declareORM(Type):
+        DemonObject.declareORM(Type)
+        Type.declareParam("OpenNotes")
+        Type.declareParam("CloseNotes")
+        Type.declareParam("CurrentNote")
+        Type.declareParam("CurrentPageID")
+        Type.declareParam("PageSize")
+
     def _onParams(self, params):
         super(ObjectNotebook, self)._onParams(params)
         self.initParam("OpenNotes", params, [])

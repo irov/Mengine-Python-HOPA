@@ -71,7 +71,7 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
 
         scaleTo = DefaultManager.getDefaultFloat("InventoryItemScale", 1.0)
 
-        length = Mengine.length_v2_v2(P0, P2)
+        length = Mengine.length_bezier2(P0, P1, P2)
 
         SpeedEffectInventoryReturnInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryReturnInventoryItem", 1000)
         SpeedEffectInventoryReturnInventoryItem *= 0.001  # speed fix

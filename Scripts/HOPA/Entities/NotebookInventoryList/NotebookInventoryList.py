@@ -209,10 +209,10 @@ class NotebookInventoryList(BaseEntity):
 
         self.tc = TaskManager.createTaskChain(Name="NotebookInventoryList", Repeat=True)
         with self.tc as tc:
-            if trigger_obj_type is "ObjectMovie2Button":
+            if trigger_obj_type == "ObjectMovie2Button":
                 tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.Trigger)
 
-            elif trigger_obj_type is "ObjectSocket":
+            elif trigger_obj_type == "ObjectSocket":
                 tc.addTask("TaskSocketClick", Socket=self.Trigger)
 
             with tc.addIfTask(self.checkValidate) as (true_source, false_source):

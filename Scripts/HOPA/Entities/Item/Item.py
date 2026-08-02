@@ -156,7 +156,7 @@ class Item(Interaction):
             self.itemGlobalMouseEvent(False)
             return
 
-        if self.state is Item.ITEM_HAND:
+        if self.state == Item.ITEM_HAND:
             Notification.notify(Notificator.onItemInvalidUse, self.object)
 
     def _mouseEnter(self, x, y):

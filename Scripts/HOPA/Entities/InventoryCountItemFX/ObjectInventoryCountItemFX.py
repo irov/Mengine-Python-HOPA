@@ -1,4 +1,4 @@
-from HOPA.ObjectInventoryItem import ObjectInventoryItem
+from HOPA.Entities.InventoryItem.ObjectInventoryItem import ObjectInventoryItem
 
 class ObjectInventoryCountItemFX(ObjectInventoryItem):
     @staticmethod

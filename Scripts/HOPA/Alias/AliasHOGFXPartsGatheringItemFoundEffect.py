@@ -97,7 +97,7 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
             HOGItemIncreaseTime = 100.0
             itemSpriteSize = (0.0, 0.0)
 
-        length = Mengine.length_v2_v2(P1, P2)
+        length = Mengine.length_bezier2(P0, P1, P2)
 
         time = length / HOGItemHideEffectSpeed
         source.addTask("TaskNodeScaleTo", Node=pure, To=scale1, Time=HOGItemIncreaseTime)

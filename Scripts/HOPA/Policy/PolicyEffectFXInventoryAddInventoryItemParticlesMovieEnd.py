@@ -72,7 +72,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
 
         scaleTo = min(scaleToX, scaleToY)
 
-        length = Mengine.length_v2_v2(P1, P2)
+        length = Mengine.length_bezier2(P0, P1, P2)
 
         SpeedEffectInventoryAddInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000.0)
         SpeedEffectInventoryAddInventoryItem *= 0.001  # speed fix

@@ -146,7 +146,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         scaleTo = min(scaleToX, scaleToY)
 
         # calc time
-        length = Mengine.length_v2_v2(self.start_pos, self.end_pos)
+        length = Mengine.length_bezier2(self.start_pos, self.start_pos, self.end_pos)
         SpeedEffectInventoryAddInventoryItem = DefaultManager.getDefaultFloat("SpeedEffectInventoryAddInventoryItem", 1000.0)
         SpeedEffectInventoryAddInventoryItem *= 0.001  # speed fix
         time = length / SpeedEffectInventoryAddInventoryItem
@@ -278,7 +278,7 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         SpeedEffectInventoryGetInventoryItem *= 0.001  # speed fix
 
         positionFrom = node.getLocalPosition()
-        length = Mengine.length_v2_v2(positionFrom, P2)
+        length = Mengine.length_bezier2(positionFrom, P1, P2)
         Time = length / SpeedEffectInventoryGetInventoryItem
 
         with source.addParallelTask(2) as (source_move, source_scale):

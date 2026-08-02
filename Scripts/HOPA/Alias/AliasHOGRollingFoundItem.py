@@ -27,13 +27,13 @@ class AliasHOGRollingFoundItem(TaskAlias):
 
         PolicyFoundEffect = None
         PolicyCheckMarkNearItem = None
-        if ItemType is "ObjectItem":
+        if ItemType == "ObjectItem":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGRollingItemFoundEffect", "AliasHOGRollingItemFoundEffect")
             PolicyCheckMarkNearItem = PolicyManager.getPolicy("HOGRollingCheckMark", "PolicyCheckMarkNearItem")
-        elif ItemType is "ObjectMovieItem":
+        elif ItemType == "ObjectMovieItem":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGRollingMovieItemFoundEffect", "PolicyHOGRollingMovieItemFoundEffect")
             PolicyCheckMarkNearItem = PolicyManager.getPolicy("HOGRollingMovieItemCheckMark", "PolicyCheckMarkNearMovieItem")
-        elif ItemType is "ObjectMovie2Item":
+        elif ItemType == "ObjectMovie2Item":
             PolicyFoundEffect = PolicyManager.getPolicy("HOGRollingMovie2ItemFoundEffect", "PolicyHOGRollingMovie2ItemFoundEffect")
 
         PolicyDeleteItemFromInventory = PolicyManager.getPolicy("HOGRollingDeleteItemFromInventory",
