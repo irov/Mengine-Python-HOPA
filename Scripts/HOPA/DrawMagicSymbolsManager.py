@@ -165,10 +165,15 @@ class DrawMagicSymbolsManager(Manager):
                 if symbol_path_pair[0] == symbol_name:
                     symbol_path_pair[1].append((socket_index, socket_name))
 
-        for symbol_name, symbol_path_list in symbols:
+        for symbol_path_pair in symbols:
+            symbol_path_list = symbol_path_pair[1]
             symbol_path_list.sort()
+
+            ordered_symbol_path = [None] * len(symbol_path_list)
             for socket_index, socket_name in symbol_path_list:
-                symbol_path_list[socket_index] = socket_name
+                ordered_symbol_path[socket_index] = socket_name
+
+            symbol_path_pair[1] = ordered_symbol_path
 
         param = DrawMagicSymbolParam(symbols, symbols_complete, symbols_fail, boundary_name, all_symbols_complete_name,
                                      cursor_movie_name, symbol_appear_all_at_once, auto_draw_animation_speed,

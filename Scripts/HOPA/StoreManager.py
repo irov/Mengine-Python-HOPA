@@ -129,7 +129,7 @@ class StoreManager(Manager):
 
         selected_tabs = []  # page ids with selected=True
 
-        for tab in StoreManager.s_tabs.values():
+        for tab in list(StoreManager.s_tabs.values()):
             # Check page Selected param
             if tab.selected is True:
                 selected_tabs.append(tab.page_id)
