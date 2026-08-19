@@ -185,6 +185,7 @@ class SystemStore(System):
         self.addObserver(Notificator.onIndicatorClicked, self._cbIndicatorClicked)
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
+        self.addObserver(Notificator.onSessionNew, self._cbSessionNew)
 
         if MonetizationManager.getGeneralSetting("ShowStoreGoldBalance", False) is True:
             alias_gold_balance_id = MonetizationManager.getGeneralSetting("StoreGoldBalanceAliasId", "$GoldBalance")
@@ -207,6 +208,12 @@ class SystemStore(System):
             return False
 
         Notification.notify(Notificator.onStorePageNewActions, advert_page_id)
+        return False
+
+    def _cbSessionNew(self, account_id):
+        self._setupPageID()
+        self._setupHiddenPagesID()
+        self._setupUnvisitedPagesID()
         return False
 
     def _cbPageNewActions(self, page_id):
