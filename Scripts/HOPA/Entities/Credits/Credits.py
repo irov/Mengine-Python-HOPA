@@ -67,23 +67,28 @@ class Credits(BaseEntity):
         if self.button_link_1 is not None and self.url_link_1 is not None:
             self.tc_button_link_1 = TaskManager.createTaskChain(Repeat=True)
             with self.tc_button_link_1 as tc:
-                tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.button_link_1)
-                tc.addFunction(Mengine.openUrlInDefaultBrowser, self.url_link_1)
+                tc.addScope(self._scopeOpenLink, self.button_link_1, self.url_link_1)
 
         if self.button_link_2 is not None and self.url_link_2 is not None:
             self.tc_button_link_2 = TaskManager.createTaskChain(Repeat=True)
             with self.tc_button_link_2 as tc:
-                tc.addTask("TaskMovie2ButtonClick", Movie2Button=self.button_link_2)
-                tc.addFunction(Mengine.openUrlInDefaultBrowser, self.url_link_2)
+                tc.addScope(self._scopeOpenLink, self.button_link_2, self.url_link_2)
+
+    @staticmethod
+    def _scopeOpenLink(source, button, url):
+        def _filterButton(clicked_button):
+            return clicked_button is button
+
+        source.addListener(Notificator.onMovie2ButtonClickEnd, Filter=_filterButton)
+        source.addNextFrame()
+        source.addFunction(Mengine.openUrlInDefaultBrowser, url)
 
     def _scopePlayCredits(self, source):
         animation = self.movie.entity.getAnimation()
         pressed_speed = DefaultManager.getDefaultFloat("DefaultCreditPressedScrollSpeed", 5.0)
 
         def _updateSpeedFactor(source, speed):
-            time = animation.getTime()
-            source.addTask("TaskMovie2Play", Movie2=self.movie, StartTiming=time, SpeedFactor=speed,
-                           DefaultSpeedFactor=1.0, Wait=False)
+            source.addFunction(animation.setAnimationSpeedFactor, speed)
 
         event_credits_done = Event("onCreditsDone")
 

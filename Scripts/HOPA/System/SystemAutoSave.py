@@ -8,7 +8,7 @@ from Notification import Notification
 
 
 IGNORE_SAVE_SCENES = ["Advertising"]
-NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store", "Advertising"]
+NO_RESTART_FORCE_SAVE_SCENES = ["CutScene", "PreIntro", "Intro", "SplashScreen", "Store", "Advertising", "Credits"]
 ALWAYS_SAVE_SCENES = ["CutScene"]
 
 SCHEDULE_NOT_ACTIVE = 0
@@ -47,12 +47,12 @@ class SystemAutoSave(System):
         self._removeSchedule()
 
     def _forceSave(self):
-        cur_scene = Mengine.getCurrentScene()
+        current_scene_name = SceneManager.getCurrentSceneName()
 
-        if cur_scene is None:
+        if current_scene_name is None:
             self.__cheatAutoSave()
             return False
-        elif cur_scene.getName() in NO_RESTART_FORCE_SAVE_SCENES:
+        elif current_scene_name in NO_RESTART_FORCE_SAVE_SCENES:
             self.__cheatAutoSave()
             return False
 
