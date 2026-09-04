@@ -108,6 +108,9 @@ class CursorManager(Manager):
 
     @staticmethod
     def __removeCursorChildren():
+        if TaskManager.existTaskChain("CursorShow") is True:
+            TaskManager.cancelTaskChain("CursorShow")
+
         if len(CursorManager.s_currentCursorChildren) != 0:
             for currentMovie in CursorManager.s_currentCursorChildren:
                 if currentMovie.isActive() is False:
@@ -646,7 +649,7 @@ class CursorManager(Manager):
             if ArrowManager.emptyArrowAttach() is False:
                 return False
 
-        if cursor.type is "Tip":
+        if cursor.type == "Tip":
             if QuestManager.hasActiveTipObject(obj) is False:
                 return False
 

@@ -42,6 +42,7 @@ class SystemBalanceIndicator(System):
 
         self.addObserver(Notificator.onLayerGroupEnable, self._cbLayerGroupEnable)
         self.addObserver(Notificator.onLayerGroupDisable, self._cbLayerGroupDisable)
+        self.addObserver(Notificator.onSceneDeactivate, self._cbSceneDeactivate)
 
         if self.__hide_on_Dialog is True:
             self.addObserver(Notificator.onDialogBoxShow, self._cbHideOnActionStart)
@@ -128,14 +129,36 @@ class SystemBalanceIndicator(System):
         if group_name not in self.__trigger:
             return False
 
-        self._appearIndicators()
+        self.toggleIfPossible(True)
         return False
 
     def _cbLayerGroupDisable(self, group_name):
         if group_name not in self.__trigger:
             return False
 
-        self._disappearIndicators()
+        if SceneManager.isTransitionProgress() is True:
+            self._cbSceneDeactivate(None)
+            return False
+
+        self.toggleIfPossible(False)
+        return False
+
+    def _cbSceneDeactivate(self, scene_name):
+        if self.existTaskChain("SystemBalanceIndicator_TempShow") is True:
+            self.removeTaskChain("SystemBalanceIndicator_TempShow")
+        if self.existTaskChain("SystemBalanceIndicator_Disappear") is True:
+            self.removeTaskChain("SystemBalanceIndicator_Disappear")
+        if self.existTaskChain("SystemBalanceIndicator_Appear") is True:
+            self.removeTaskChain("SystemBalanceIndicator_Appear")
+
+        if self.update_timer_observer is not None:
+            EVENT_UPDATE_TIMER.removeObserver(self.update_timer_observer)
+            self.update_timer_observer = None
+
+        balance_indicator_group = GroupManager.getGroup("BalanceIndicator")
+        if balance_indicator_group.getEnable() is True:
+            balance_indicator_group.onDisable()
+
         return False
 
     def _cbHideOnActionComplete(self, *args, **kwargs):
@@ -197,7 +220,10 @@ class SystemBalanceIndicator(System):
             self.removeTaskChain("SystemBalanceIndicator_Appear")
 
         with self.createTaskChain(Name="SystemBalanceIndicator_Appear", Repeat=False) as tc:
-            tc.addTask("TaskSceneLayerGroupEnable", LayerName="BalanceIndicator", Value=True)
+            balance_indicator_group = GroupManager.getGroup("BalanceIndicator")
+            with tc.addIfTask(balance_indicator_group.getEnable) as (enabled, disabled):
+                enabled.addDummy()
+                disabled.addTask("TaskSceneLayerGroupEnable", LayerName="BalanceIndicator", Value=True)
             tc.addTask("AliasObjectAlphaTo", GroupName="BalanceIndicator", ObjectName="Demon_BalanceIndicator",
                        From=0.0, To=1.0, Time=self.__alpha_time)
 

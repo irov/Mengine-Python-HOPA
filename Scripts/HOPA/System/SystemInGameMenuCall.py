@@ -27,13 +27,13 @@ class SystemInGameMenuCall(System):
 
     def __scopeOpen(self, source, group_name, ingame_menu_first_open=False):
         source.addScope(self.__scopeSceneEffect, group_name, SCENE_EFFECT_MOVIE_OPEN)
-        if group_name is "InGameMenu" and ingame_menu_first_open is True:
+        if group_name == "InGameMenu" and ingame_menu_first_open is True:
             source.addNotify(Notificator.onInGameMenuShow, True)
             source.addNotify(Notificator.onMacroArrowAttach, False)
 
     def __scopeClose(self, source, group_name, ingame_menu_full_close=False):
         source.addScope(self.__scopeSceneEffect, group_name, SCENE_EFFECT_MOVIE_CLOSE)
-        if group_name is "InGameMenu" and ingame_menu_full_close is True:
+        if group_name == "InGameMenu" and ingame_menu_full_close is True:
             source.addNotify(Notificator.onInGameMenuShow, False)
             source.addNotify(Notificator.onMacroArrowAttach, True)
 
@@ -49,12 +49,17 @@ class SystemInGameMenuCall(System):
         movie2_button_menu = GroupManager.getObject("Toolbar", "Movie2Button_Menu")
 
         with self.createTaskChain(Name="Toolbar_Menu", Global=True, Repeat=True) as tc:
-            tc.addTask("TaskMovie2ButtonClick", Movie2Button=movie2_button_menu)
-            tc.addFunction(movie2_button_menu.setBlock, True)
-            tc.addTask("TaskSceneLayerGroupEnable", LayerName="InGameMenu", Value=True)
-            with tc.addParallelTask(2) as (guard_source_movie, guard_source_fade):
-                guard_source_movie.addScope(self.__scopeOpen, "InGameMenu", True)
-                guard_source_fade.addTask("AliasFadeIn", FadeGroupName="FadeUI", To=self.MenuFade, Time=250.0)
+            with tc.addRaceTask(2) as (tc_open, tc_scene_deactivate):
+                tc_open.addTask("TaskMovie2ButtonClick", Movie2Button=movie2_button_menu)
+                tc_open.addFunction(movie2_button_menu.setBlock, True)
+                tc_open.addTask("TaskSceneLayerGroupEnable", LayerName="InGameMenu", Value=True)
+                with tc_open.addParallelTask(2) as (guard_source_movie, guard_source_fade):
+                    guard_source_movie.addScope(self.__scopeOpen, "InGameMenu", True)
+                    guard_source_fade.addTask("AliasFadeIn", FadeGroupName="FadeUI", To=self.MenuFade, Time=250.0)
+
+                tc_scene_deactivate.addListener(Notificator.onSceneDeactivate)
+                tc_scene_deactivate.addFunction(movie2_button_menu.setBlock, False)
+                tc_scene_deactivate.addFunction(self.__disableInGameMenu)
 
         with self.createTaskChain(Name="InGameMenu", Global=True, Repeat=True) as tc:
             with tc.addRepeatTask() as (tc_repeat, tc_until):
@@ -63,10 +68,21 @@ class SystemInGameMenuCall(System):
                 with tc_until.addRaceTask(4) as (tc_resume, tc_quit, tc_skip, tc_click_out_resume):
                     tc_skip.addListener(Notificator.onSceneDeactivate)
                     tc_skip.addFunction(movie2_button_menu.setBlock, False)
+                    tc_skip.addFunction(self.__disableInGameMenu)
 
                     tc_click_out_resume.addScope(self._scopeResumeMenuOutClick, movie2_button_menu)
                     tc_resume.addScope(self._scopeResume, movie2_button_menu)
                     tc_quit.addScope(self._scopeQuit, movie2_button_menu)
+
+    @staticmethod
+    def __disableInGameMenu():
+        in_game_menu_group = GroupManager.getGroup("InGameMenu")
+        if in_game_menu_group.getEnable() is False:
+            return
+
+        in_game_menu_group.onDisable()
+        Notification.notify(Notificator.onInGameMenuShow, False)
+        Notification.notify(Notificator.onMacroArrowAttach, True)
 
     # ---- InGameMenu methods ------------------------------------------------------------------------------------------
 

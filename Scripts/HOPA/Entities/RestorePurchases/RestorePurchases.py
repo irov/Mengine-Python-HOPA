@@ -51,7 +51,7 @@ class RestorePurchases(BaseEntity):
         self.button_center = self.button.getCurrentMovieSocketCenter()
 
         with TaskManager.createTaskChain(Name="RestorePurchasesListener", Repeat=True) as tc:
-            tc.addListener(Notificator.onRestorePurchasesDone)
+            tc.addListener(Notificator.onRestorePurchasesResult)
             tc.addFunction(self.startAnimation)
 
         with TaskManager.createTaskChain(Name="RestorePurchasesButton", Repeat=True) as tc:
