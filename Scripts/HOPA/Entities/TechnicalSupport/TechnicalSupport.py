@@ -1,5 +1,7 @@
 ﻿from Foundation.BaseEntity import BaseEntity
+from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
+from HOPA.ChapterManager import ChapterManager
 
 MAIL_BUTTON_NAME = "Movie2Button_SendMail"
 
@@ -42,16 +44,27 @@ class TechnicalSupport(BaseEntity):
 
         return body
 
+    def getSupportTechnicalInfo(self):
+        return u"\n".join([
+            u"Game context:",
+            u"Language: {}".format(Mengine.getLocale()),
+            u"Build mode: {}".format(Mengine.getGameParamUnicode("BuildMode") or u"Unknown"),
+            u"Chapter: {}".format(ChapterManager.getCurrentChapterName() or u"Not started"),
+            u"Current scene: {}".format(SceneManager.getCurrentSceneName() or u"None"),
+            u"Game location: {}".format(SceneManager.getCurrentGameSceneName() or u"Not started"),
+        ])
+
     def sendSupportMail(self):
         receiver = Mengine.getGameParamUnicode("TechnicalSupportEmail")
         subject = u"[{}] Technical Support Request".format(Mengine.getProjectName())
         body = self.getSupportMessageBody()
+        technically = self.getSupportTechnicalInfo()
 
         if _DEVELOPMENT is True:
             Trace.msg("DUMMY send support mail:\n  Receiver: {!r}\n  Subject: {!r}"
-                      "\n{}\n  (Include player save)".format(receiver, subject, body))
+                      "\n{}\n{}\n  (Include player save)".format(receiver, subject, body, technically))
 
         try:
-            Mengine.openMail(receiver, subject, body)
+            Mengine.openMail(receiver, subject, body, technically)
         except Exception as ex:
             Trace.log_exception("Manager", 0, "TechnicalSupport.sendSupportMail: %s" % ex)
