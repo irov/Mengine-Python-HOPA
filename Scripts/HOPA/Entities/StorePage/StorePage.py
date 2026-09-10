@@ -32,6 +32,7 @@ class StorePage(BaseEntity):
         self.content = None  # movie with all interactive content
         self.buttons = []
         self.tc = None
+        self.products_update_observer = None
 
         self.advert_component = None
         self.scroll_component = None
@@ -57,6 +58,10 @@ class StorePage(BaseEntity):
             self.scroll_component.run()
 
     def _onActivate(self):
+        self.products_update_observer = Notification.addObserver(
+            Notificator.onProductsUpdateDone, self._onProductsUpdateDone)
+        self._onProductsUpdateDone()
+
         if self.advert_component is not None:
             self.advert_component.run()
         for group_component in self.grouped_products_components.values():
@@ -65,6 +70,10 @@ class StorePage(BaseEntity):
         self.runTaskChain()
 
     def _onDeactivate(self):
+        if self.products_update_observer is not None:
+            Notification.removeObserver(self.products_update_observer)
+            self.products_update_observer = None
+
         if self.tc is not None:
             self.tc.cancel()
             self.tc = None
@@ -86,6 +95,12 @@ class StorePage(BaseEntity):
 
         ButtonFactory.cleanPageObjects(self.PageID)
         self.buttons = []
+
+    def _onProductsUpdateDone(self):
+        for button in self.buttons:
+            if button.action == "purchase":
+                button.setText()
+        return False
 
     def initComponents(self):
         for button in self.buttons:
