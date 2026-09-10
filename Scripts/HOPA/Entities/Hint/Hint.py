@@ -502,7 +502,7 @@ class Hint(BaseEntity):
                     TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, HintSceneName)
 
                     if TransitionObject is not None:
-                        if TransitionObject.active is False:
+                        if TransitionObject.isActive() is False:
                             TransitionGroupName = TransitionObject.getGroupName()
                             HintAction = self.createZoomEnterHintAction(currentSceneName, TransitionGroupName, False)
                             if HintAction is not None:
