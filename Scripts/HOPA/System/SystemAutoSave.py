@@ -19,7 +19,7 @@ class SystemAutoSave(System):
     """
         saves game automatically:
             - AutoTransitionSave is True: after scene removed if ready (every AutoTransitionSaveDelaySeconds seconds)
-            - Every time game was hidden on mobile device
+            - After game enters background on a mobile device
             - When onCheatAutoSave (use -cheats)
     """
 
@@ -33,7 +33,11 @@ class SystemAutoSave(System):
         self.addObserver(Notificator.onCheatAutoSave, self.__cheatAutoSave)
 
         if Mengine.hasTouchpad() is True:
-            self.addObserver(Notificator.onApplicationWillResignActive, self._forceSave)
+            # Android processes WillResignActive while holding activityMutex.
+            # A synchronous session save here can block surfaceDestroyed on
+            # the UI thread and eventually cause an ANR. DidEnterBackground
+            # is delivered after surface teardown, outside that critical path.
+            self.addObserver(Notificator.onApplicationDidEnterBackground, self._forceSave)
 
         if DefaultManager.getDefaultBool("AutoTransitionSave", False) is True:
             self.addObserver(Notificator.onSceneRemoved, self.__onSceneRemoved)
