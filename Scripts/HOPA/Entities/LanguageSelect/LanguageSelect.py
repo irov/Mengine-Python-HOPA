@@ -85,10 +85,14 @@ class LanguageSelect(BaseEntity):
             Mengine.setLocale(lang)  # set locale can only work when current scene is None
 
         def __cbOnSceneRestart(scene):
+            if restore_language_select is False:
+                return
+
             language_select_group = GroupManager.getGroup("LanguageSelect")
-            if (restore_language_select is True and
-                    language_select_group.getEnable() is True and
-                    language_select_group.scene.isEnable() is False):
+            if language_select_group.getEnable() is False:
+                # The old scene may have released the dynamic layer's enable reference.
+                language_select_group.onEnable()
+            elif language_select_group.scene.isEnable() is False:
                 language_select_group.restoreEnable()
 
         SceneManager.restartCurrentScene(__cbOnSceneRestart, cb_removed=__cbOnSceneRestartChangeLocale)
