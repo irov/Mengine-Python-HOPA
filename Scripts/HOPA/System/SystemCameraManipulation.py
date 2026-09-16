@@ -309,6 +309,9 @@ class SystemCameraManipulation(System):
         self.bounds = None
 
         self._touch_ids = []
+        self._touch_count = 0
+        self._gesture_block_active = False
+        self._gesture_block_owned = False
 
     def _onParams(self, params):
         self.bounds = {"begin": None, "end": None}
@@ -465,6 +468,9 @@ class SystemCameraManipulation(System):
         return True
 
     def finalizeVirtualArea(self):
+        self._touch_count = 0
+        self._releaseGestureBlock()
+
         if self.virtual_area is None:
             return True
 
@@ -566,20 +572,46 @@ class SystemCameraManipulation(System):
         semaphore = SemaphoreManager.getSemaphore("SkipFreezeHOGCounter")
         semaphore.setValue(True)
 
+    def _acquireGestureBlock(self):
+        if self._gesture_block_active is True:
+            return
+
+        already_blocked = getattr(ZoomManager, "blockOpen", False) is True
+        ZoomManager.setBlockOpen(True)
+
+        self._gesture_block_active = True
+        self._gesture_block_owned = already_blocked is False
+
+    def _releaseGestureBlock(self):
+        if self._gesture_block_active is False:
+            return
+
+        if self._gesture_block_owned is True:
+            ZoomManager.setBlockOpen(False)
+
+        self._gesture_block_active = False
+        self._gesture_block_owned = False
+
     def _on_touch(self, touch_count):
+        self._touch_count = touch_count
+
         if touch_count >= 2:
-            ZoomManager.setBlockOpen(True)
+            self._acquireGestureBlock()
             self._resetFreezeHOG()
+        elif touch_count == 0:
+            self._releaseGestureBlock()
 
     def _on_drag_start(self, *args, **kwargs):
         # print "$$$ _on_drag_start"
-        ZoomManager.setBlockOpen(True)
+        self._acquireGestureBlock()
         self.dev_hud.update("drag_status", "drag status: True")
         self._resetFreezeHOG()
 
     def _on_drag_end(self, *args, **kwargs):
         # print "$$$ _on_drag_end"
-        ZoomManager.setBlockOpen(False)
+        if self._touch_count == 0:
+            self._releaseGestureBlock()
+
         self._touch_ids = []
         self.dev_hud.update("drag_status", "drag status: False")
 
