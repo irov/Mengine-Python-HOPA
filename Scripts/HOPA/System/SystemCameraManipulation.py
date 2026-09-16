@@ -447,13 +447,17 @@ class SystemCameraManipulation(System):
 
         self.virtual_area.addVirtualAreaContentNode(layer, False)
 
-        self.virtual_area.setVirtualAreaEventListener(
+        listeners = dict(
             onTouch=self._on_touch,
             onDragStart=self._on_drag_start,
-            onDragEnd=self._on_drag_end,
-            onScale=self._on_scale,
-            onDrag=self._on_drag
+            onDragEnd=self._on_drag_end
         )
+
+        if _DEVELOPMENT and DefaultManager.getDefaultBool("DebugTouchpadVirtualAreaHUD", False):
+            listeners["onScale"] = self._on_scale
+            listeners["onDrag"] = self._on_drag
+
+        self.virtual_area.setVirtualAreaEventListener(**listeners)
 
         self.virtual_area.setVirtualAreaContentSize(
             self.bounds["begin"].x,
@@ -581,6 +585,7 @@ class SystemCameraManipulation(System):
 
         self._gesture_block_active = True
         self._gesture_block_owned = already_blocked is False
+        self._resetFreezeHOG()
 
     def _releaseGestureBlock(self):
         if self._gesture_block_active is False:
@@ -597,7 +602,6 @@ class SystemCameraManipulation(System):
 
         if touch_count >= 2:
             self._acquireGestureBlock()
-            self._resetFreezeHOG()
         elif touch_count == 0:
             self._releaseGestureBlock()
 
@@ -605,7 +609,6 @@ class SystemCameraManipulation(System):
         # print "$$$ _on_drag_start"
         self._acquireGestureBlock()
         self.dev_hud.update("drag_status", "drag status: True")
-        self._resetFreezeHOG()
 
     def _on_drag_end(self, *args, **kwargs):
         # print "$$$ _on_drag_end"
@@ -624,7 +627,6 @@ class SystemCameraManipulation(System):
 
     def _on_scale(self, scale_factor):
         self.dev_hud.update("on_scale", "scale: {}".format(scale_factor))
-        self._resetFreezeHOG()
 
     def resetZoom(self):
         if self.virtual_area is None:
