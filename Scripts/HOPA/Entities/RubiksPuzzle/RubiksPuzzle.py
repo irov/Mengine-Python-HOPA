@@ -108,9 +108,9 @@ class RubiksPuzzle(Enigma):
 
             Movie = None
 
-            if state is 1:
+            if state == 1:
                 Movie = self.object.generateObject(MovieName, PrototypeMovieChip1, Params)
-            elif state is 2:
+            elif state == 2:
                 Movie = self.object.generateObject(MovieName, PrototypeMovieChip2, Params)
 
             puzzle_slot = RubiksPuzzle.PuzzleSlot(puzzle_slot)
@@ -147,7 +147,7 @@ class RubiksPuzzle(Enigma):
 
         for adjacent_vertex in adjacent_vertices:
             state = self.slots_state[adjacent_vertex]
-            if state is 0:
+            if state == 0:
                 return self.puzzle_slots[adjacent_vertex]
 
         return None

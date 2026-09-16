@@ -86,7 +86,7 @@ class MagicGlove(BaseEntity):
             Notification.notify(Notificator.onGroupEnable, "MagicGlove_2", True)
             return
 
-        if Object.getType() is "ObjectSocket":
+        if Object.getType() == "ObjectSocket":
             source.addNotify(Notificator.onStartUseRune, RuneID, Object)
             source.addScope(self.scopeUseRune, RuneID, Object)
             # source.addNotify(Notificator.onUseRune, RuneID, Object)

@@ -15,7 +15,7 @@ class CruiseActionItem(CruiseActionDefault, MixinItem):
             if entity is not None:
                 return entity.getHintPoint()
 
-        elif Item.getType() is "ObjectItem":
+        elif Item.getType() == "ObjectItem":
             return Item.calcWorldHintPoint()
 
         Trace.log("CruiseAction", 0, "CruiseActionItem ItemName %s ItemType %s cant calculate position" % (Item.getName(), Item.getType()))

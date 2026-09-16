@@ -181,7 +181,7 @@ class SpellUIRunesSettings(object):
         return self.found_runes
 
     def addFoundRune(self, rune_type):
-        if len(self.found_runes) is 0:
+        if len(self.found_runes) == 0:
             self.found_runes.append(rune_type)
             self.setReady(True)
         elif rune_type not in self.found_runes:

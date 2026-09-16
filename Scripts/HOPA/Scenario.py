@@ -336,7 +336,7 @@ class ScenarioCommands(Initializer):
                         else it's parallel and we increment completed threads counter
                             and check next thread in parallel
                         '''
-                        if quests_type is 'race':
+                        if quests_type == 'race':
                             completed_threads = len(quest)
                             break
 
@@ -407,7 +407,7 @@ class ScenarioCommands(Initializer):
                     if completed_threads == len(quest):
                         continue
 
-                    elif quests_type is 'race':
+                    elif quests_type == 'race':
                         if completed_threads > 0:
                             print('ScenarioCommands.visitQuests race fix fired !!!')
                             continue

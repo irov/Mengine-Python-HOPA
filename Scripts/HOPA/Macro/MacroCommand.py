@@ -156,7 +156,7 @@ class MacroCommand(Initializer):
         FinderType, Object = MacroManager.findObject(name, filter)
 
         if Object is not None:
-            if Object.getType() is "ObjectItem":
+            if Object.getType() == "ObjectItem":
                 ItemGroupName = Object.getGroupName()
                 if self.GroupName != ItemGroupName:
                     Trace.log("Command", 0, "MacroCommand '%s' findObject: Item '%s' in ItemManager has group '%s', not '%s' as expected" %

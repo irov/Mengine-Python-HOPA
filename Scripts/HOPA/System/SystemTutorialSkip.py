@@ -39,7 +39,7 @@ class SystemTutorialSkip(System):
 
         for key in self.progress:
             if GroupManager.hasObject(self.progress[key][1] + spike, key) is False:
-                if self.progress[key][0] is "ZoomBlockClose":
+                if self.progress[key][0] == "ZoomBlockClose":
                     Notification.notify(Notificator.onZoomBlockClose, key, False)
                 continue
 

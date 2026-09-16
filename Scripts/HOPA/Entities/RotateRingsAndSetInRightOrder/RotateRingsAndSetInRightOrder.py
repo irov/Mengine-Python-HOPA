@@ -45,7 +45,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             pass
 
         def scopeClickDown(self, source):
-            if self.movie.getType() is "ObjectMovie2":
+            if self.movie.getType() == "ObjectMovie2":
                 source.addTask("TaskMovie2SocketClick", Movie2=self.movie, SocketName="ring", isDown=True)
             else:
                 source.addTask("TaskMovieSocketClick", Movie=self.movie, SocketName="ring", isDown=True)

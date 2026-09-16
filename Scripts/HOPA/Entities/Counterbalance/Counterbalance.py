@@ -121,11 +121,11 @@ class Rope(object):
         if prev is None:
             pos = Rope.__getRelativeWheelPos(next_, cur)
 
-            if pos is 'up':
+            if pos == 'up':
                 self.__setSprites('Sprite_Up')
-            elif pos is 'right':
+            elif pos == 'right':
                 self.__setSprites('Sprite_Right')
-            elif pos is 'down':
+            elif pos == 'down':
                 self.__setSprites('Sprite_Down')
             else:
                 self.__setSprites('Sprite_Left')
@@ -133,11 +133,11 @@ class Rope(object):
         elif next_ is None:
             pos = Rope.__getRelativeWheelPos(prev, cur)
 
-            if pos is 'up':
+            if pos == 'up':
                 self.__setSprites('Sprite_Up')
-            elif pos is 'right':
+            elif pos == 'right':
                 self.__setSprites('Sprite_Right')
-            elif pos is 'down':
+            elif pos == 'down':
                 self.__setSprites('Sprite_Down')
             else:
                 self.__setSprites('Sprite_Left')
@@ -146,34 +146,34 @@ class Rope(object):
             pos_prev = Rope.__getRelativeWheelPos(prev, cur)
             pos_next = Rope.__getRelativeWheelPos(next_, cur)
 
-            if pos_prev is 'up':
-                if pos_next is 'right':
+            if pos_prev == 'up':
+                if pos_next == 'right':
                     self.__setSprites('Sprite_Up', 'Sprite_Right')
-                elif pos_next is 'left':
+                elif pos_next == 'left':
                     self.__setSprites('Sprite_Up', 'Sprite_Left')
                 else:
                     self.__setSprites('Sprite_Vertical')
 
-            elif pos_prev is 'down':
-                if pos_next is 'right':
+            elif pos_prev == 'down':
+                if pos_next == 'right':
                     self.__setSprites('Sprite_Down', 'Sprite_Right')
-                elif pos_next is 'left':
+                elif pos_next == 'left':
                     self.__setSprites('Sprite_Down', 'Sprite_Left')
                 else:
                     self.__setSprites('Sprite_Vertical')
 
-            elif pos_prev is 'left':
-                if pos_next is 'up':
+            elif pos_prev == 'left':
+                if pos_next == 'up':
                     self.__setSprites('Sprite_Left', 'Sprite_Up')
-                elif pos_next is 'down':
+                elif pos_next == 'down':
                     self.__setSprites('Sprite_Left', 'Sprite_Down')
                 else:
                     self.__setSprites('Sprite_Horizontal')
 
             else:
-                if pos_next is 'up':
+                if pos_next == 'up':
                     self.__setSprites('Sprite_Right', 'Sprite_Up')
-                elif pos_next is 'down':
+                elif pos_next == 'down':
                     self.__setSprites('Sprite_Right', 'Sprite_Down')
                 else:
                     self.__setSprites('Sprite_Horizontal')

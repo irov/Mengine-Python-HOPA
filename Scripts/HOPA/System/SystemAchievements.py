@@ -374,7 +374,7 @@ class SystemAchievements(System):
             return False
 
         current_hint_action_type = hint_entity.currentHint.getType()
-        if current_hint_action_type is 'HintActionDummy':
+        if current_hint_action_type == 'HintActionDummy':
             return False
 
         Notification.notify(Notificator.onAchievementProgress, "hint_used_count", 1)

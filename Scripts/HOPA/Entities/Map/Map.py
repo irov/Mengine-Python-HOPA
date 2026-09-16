@@ -114,7 +114,7 @@ class Map(BaseEntity):
 
     def activatePage(self):
         curStage = StageManager.getCurrentStage()
-        if curStage.getTag() is not "FX":
+        if curStage.getTag() != "FX":
             return
 
         if self.object.hasObject("Button_Left"):

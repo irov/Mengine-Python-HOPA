@@ -167,7 +167,7 @@ class DebugMenu(BaseEntity):
         # GroupName = SceneManager.getSceneMainGroupName(SceneName)
 
         curStage = StageManager.getCurrentStage()
-        if curStage.getTag() is not "FX":
+        if curStage.getTag() != "FX":
             return False
 
         scenarioParagraphs = []

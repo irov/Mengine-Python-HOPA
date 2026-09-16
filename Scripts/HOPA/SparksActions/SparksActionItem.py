@@ -11,7 +11,7 @@ class SparksActionItem(SparksActionDefault, MixinItem):
         return self.Item
 
     def _getSparksPosition(self, Item):
-        if Item.getType() is "ObjectMovieItem" or Item.getType() is "ObjectMovie2Item":
+        if Item.getType() == "ObjectMovieItem" or Item.getType() == "ObjectMovie2Item":
             entity = Item.getEntity()
 
             if entity is not None:

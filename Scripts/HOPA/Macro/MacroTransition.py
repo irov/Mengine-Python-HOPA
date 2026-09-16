@@ -30,7 +30,7 @@ class MacroTransition(MacroCommand):
 
         if len(values) == 2:
             self.zoom_group_name = values[1]
-            if self.zoom_group_name is 0:
+            if self.zoom_group_name == 0:
                 self.zoom_group_name = None
 
         if len(values) == 3:

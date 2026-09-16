@@ -396,7 +396,7 @@ class Chapter(object):
         return False
 
     def __setPrevPage(self):
-        if self.chapter_page_in_focus_index is 0:
+        if self.chapter_page_in_focus_index == 0:
             return
 
         self.chapter_page_in_focus.setFocus(False)
@@ -410,7 +410,7 @@ class Chapter(object):
         source.addFunction(EVENT_PREV_PAGE_FB, False, self)
 
     def __setNextPage(self):
-        if self.chapter_page_in_focus_index + 1 is len(self.chapter_pages):
+        if self.chapter_page_in_focus_index + 1 == len(self.chapter_pages):
             return
 
         self.chapter_page_in_focus.setFocus(False)
@@ -519,7 +519,7 @@ class Menu(object):
         return focus_getter()
 
     def __setPrevPage(self):
-        if self.menu_page_in_focus_index is 0:
+        if self.menu_page_in_focus_index == 0:
             return
 
         self.menu_page_in_focus.setFocus(False)
@@ -533,7 +533,7 @@ class Menu(object):
         source.addFunction(EVENT_PREV_PAGE_FB, True, self)
 
     def __setNextPage(self):
-        if self.menu_page_in_focus_index + 1 is len(self.menu_pages):
+        if self.menu_page_in_focus_index + 1 == len(self.menu_pages):
             return
 
         self.menu_page_in_focus.setFocus(False)

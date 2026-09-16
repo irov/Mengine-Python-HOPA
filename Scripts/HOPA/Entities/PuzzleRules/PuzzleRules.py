@@ -33,7 +33,7 @@ class PuzzleRules(BaseEntity):
         Difficulty = Mengine.getCurrentAccountSetting("Difficulty")
         self.PuzzleRules = PuzzleRulesManager.getPuzzleRules(self.PuzzleName)
 
-        if Difficulty is "Expert":
+        if Difficulty == "Expert":
             self.textID = self.PuzzleRules.expertTextID
         else:
             self.textID = self.PuzzleRules.casualTextID

@@ -630,13 +630,13 @@ class DrawMagicSymbolsFight(Enigma):
         symbols = self.symbols
         filtered_symbols = list()
 
-        if filter_ is 'Completed':
+        if filter_ == 'Completed':
             for symbol in symbols:
                 if symbol.isComplete() is True:
                     filtered_symbols.append(symbol)
             return filtered_symbols
 
-        if filter_ is 'NotCompleted':
+        if filter_ == 'NotCompleted':
             for symbol in symbols:
                 if symbol.isComplete() is False:
                     filtered_symbols.append(symbol)

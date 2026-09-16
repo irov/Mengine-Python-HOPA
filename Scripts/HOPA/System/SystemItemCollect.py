@@ -122,7 +122,7 @@ class SystemItemCollect(System):
         SocketName = None
         if value is not None:
             SocketName = value.getName()
-            if value.getName() is 'Socket_Click':
+            if value.getName() == 'Socket_Click':
                 return False
 
         Demon.cancelTaskChain()

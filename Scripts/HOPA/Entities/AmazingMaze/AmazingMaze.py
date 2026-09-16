@@ -84,12 +84,12 @@ class HeroAnimHandler(object):
         self.hero_movie_node.addChild(hero_move_movie.getEntityNode())
         self.hero_movie_node.addChild(hero_finish_movie.getEntityNode())
 
-        if self.hero_move_mode is 0:
+        if self.hero_move_mode == 0:
             self.stateMovies['idle'] = DirectionMovie(hero_idle_movie, 'idle')
             self.stateMovies['move'] = DirectionMovie(hero_move_movie, 'move')
             self.stateMovies['finish'] = hero_finish_movie
 
-        elif self.hero_move_mode is 1:
+        elif self.hero_move_mode == 1:
             self.stateMovies['idle'] = hero_idle_movie
             self.stateMovies['move'] = hero_move_movie
             self.stateMovies['finish'] = hero_finish_movie
@@ -112,10 +112,10 @@ class HeroAnimHandler(object):
         self.rotation_speed = rotation_speed
 
     def changeDirectionTo(self, direction):
-        if self.hero_move_mode is 0:
+        if self.hero_move_mode == 0:
             self.curStateMovie.changeDirection(direction)  # swap submovie
 
-        elif self.hero_move_mode is 1:  # rotate
+        elif self.hero_move_mode == 1:  # rotate
             self.lerpRotation(direction)
 
         else:

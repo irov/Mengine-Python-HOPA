@@ -21,7 +21,7 @@ class MacroUseRune(MacroCommand):
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onRuneReady)
-            if self.Object.getType() is "ObjectSocket":
+            if self.Object.getType() == "ObjectSocket":
                 tc_quest.addFunction(self.Object.setInteractive, True)
 
             if self.Wait:
@@ -29,7 +29,7 @@ class MacroUseRune(MacroCommand):
             else:
                 tc_quest.addListener(Notificator.onStartUseRune, Filter=(lambda RuneID, Socket: RuneID is self.Rune_ID))
 
-            if self.Object.getType() is "ObjectSocket":
+            if self.Object.getType() == "ObjectSocket":
                 tc_quest.addFunction(self.Object.setInteractive, False)
 
     # def _Set_New_Rune_State(self,source):

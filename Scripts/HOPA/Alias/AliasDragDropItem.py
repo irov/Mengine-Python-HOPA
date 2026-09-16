@@ -22,7 +22,7 @@ class AliasDragDropItem(TaskAlias):
 
     def _scopeValidClick(self, source):
         socket_object_type = self.SocketObject.getType()
-        if socket_object_type is "ObjectSocket":
+        if socket_object_type == "ObjectSocket":
             source.addTask("TaskSocketUseItem", Socket=self.SocketObject, Item=self.ItemObject, Taken=False)
         else:
             source.addTask("TaskItemPlaceItem", SocketItem=self.SocketObject, Item=self.ItemObject)

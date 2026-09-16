@@ -297,7 +297,7 @@ class SystemInventoryPanel(System):
 
     @staticmethod
     def Spiker_Ultimate(name):
-        if name is "HOGFittingInventory":
+        if name == "HOGFittingInventory":
             return "HOGInventoryFitting"
         else:
             return name

@@ -113,7 +113,7 @@ class SpellButton(object):
         self.cur_movie.setEnable(False)
         new_cur_movie.setEnable(True)
 
-        if len(found_runes) is not 0 and runes_settings.getReady() is not False:
+        if len(found_runes) != 0 and runes_settings.getReady() is not False:
             add_new_rune = True
             for rune in found_runes:
                 if rune is found_runes[-1]:
@@ -123,17 +123,17 @@ class SpellButton(object):
                     self.spell_runes[rune].movies["idle"].setEnable(True)
             runes_settings.setReady(False)
 
-        if len(found_runes) is not 0 and add_new_rune is False:
-            if state is "ready":
+        if len(found_runes) != 0 and add_new_rune is False:
+            if state == "ready":
                 rune_state = state
             else:
                 rune_state = "idle"
 
-            if len(found_runes) is not 0 and rune_state is "idle":
+            if len(found_runes) != 0 and rune_state == "idle":
                 for rune in found_runes:
                     self.spell_runes[rune].movies[rune_state].setEnable(True)
 
-            if rune_to_use is not None and rune_state is "ready":
+            if rune_to_use is not None and rune_state == "ready":
                 for rune in found_runes:
                     if rune == rune_to_use:
                         self.spell_runes[rune].movies[rune_state].setEnable(True)
@@ -155,7 +155,7 @@ class SpellButton(object):
         Notification.notify(SpellButton.NOTIFICATOR_ButtonStateChange, self, state)
 
     def playLoopReloadRune(self, task, found_runes, state, play_loop):
-        if len(found_runes) is not 0:
+        if len(found_runes) != 0:
             for rune in found_runes:
                 if task == "play":
                     self.spell_runes[rune].movies[state].setPlay(play_loop)

@@ -109,7 +109,7 @@ class SystemLocationComplete(System):
 
     def __cbCheckLocationComplete(self, *_, **__):
         cur_stage = StageManager.getCurrentStage()
-        if cur_stage is None or cur_stage.getTag() is not "FX":
+        if cur_stage is None or cur_stage.getTag() != "FX":
             return False
 
         cur_scene_name = SceneManager.getCurrentSceneName()

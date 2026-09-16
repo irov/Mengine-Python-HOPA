@@ -75,10 +75,10 @@ class MoveCursorToRightPlaces(Enigma):
 
             movie_chip = None
             movie_place_type = movie_place.getType()
-            if movie_place_type is 'ObjectMovie':
+            if movie_place_type == 'ObjectMovie':
                 movie_chip = group.getObject('Movie_chip_{}'.format(place_id))
 
-            elif movie_place_type is 'ObjectMovie2':
+            elif movie_place_type == 'ObjectMovie2':
                 movie_chip = group.getObject('Movie2_chip_{}'.format(place_id))
 
             else:
@@ -114,12 +114,12 @@ class MoveCursorToRightPlaces(Enigma):
         for (place_id, place), parallel in source.addParallelTaskList(self.places.iteritems()):
             movie_chip_type = place.movie_chip.getType()
 
-            if movie_chip_type is 'ObjectMovie':
+            if movie_chip_type == 'ObjectMovie':
                 parallel.addTask('TaskMovieSocketEnter', SocketName='place', Movie=place.movie_place, isMouseEnter=False)
                 parallel.addFunction(place.setEnableChip, True)
                 parallel.addTask('TaskMoviePlay', Movie=place.movie_chip, Wait=False)
 
-            elif movie_chip_type is 'ObjectMovie2':
+            elif movie_chip_type == 'ObjectMovie2':
                 parallel.addTask('TaskMovie2SocketEnter', SocketName='place', Movie2=place.movie_place, isMouseEnter=False)
                 parallel.addFunction(place.setEnableChip, True)
                 parallel.addTask('TaskMovie2Play', Movie2=place.movie_chip, Wait=False)

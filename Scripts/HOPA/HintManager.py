@@ -268,7 +268,7 @@ class HintManager(Manager):
             # if item collect is open, localQuestCache will have one quest for item collect
             # also there are other quests, but we prioritize this one among others
             # if item collect is open, we need only hint for item collect quests
-            if hintAction.getType() is 'HintActionItemCollect':
+            if hintAction.getType() == 'HintActionItemCollect':
                 return hintAction
 
             hintActions.append(hintAction)

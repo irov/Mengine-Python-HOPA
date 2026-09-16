@@ -143,7 +143,7 @@ class CollectiblePlate(object):
         return True
 
     def runSocketEvents(self):
-        if self.current_state is not 'Idle':
+        if self.current_state != 'Idle':
             return
 
         current_movie = self.states[self.current_state]

@@ -79,9 +79,9 @@ class SystemDebugPlayMovie(System):
             if obj.getPlay() is True:
                 continue
 
-            if objType is "ObjectMovie":
+            if objType == "ObjectMovie":
                 TaskManager.runAlias("TaskMoviePlay", None, Movie=obj)
-            elif objType is "ObjectMovie2":
+            elif objType == "ObjectMovie2":
                 TaskManager.runAlias("TaskMovie2Play", None, Movie2=obj)
 
     def _onStop(self):
