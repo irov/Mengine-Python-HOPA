@@ -1,19 +1,12 @@
-from abc import ABCMeta, abstractmethod
-
 class Chip:
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
     def __init__(self, chip_id, place_id, movie_chip):
         self.chip_id = chip_id
         self.place_id = place_id
         self.movie_chip = movie_chip
 
-    @abstractmethod
     def scopeClick(self, source):
         source.addTask('TaskMovie2SocketClick', SocketName='socket', Movie2=self.movie_chip)
 
-    @abstractmethod
     def cleanUp(self):
         self.movie_chip.onDestroy()
 

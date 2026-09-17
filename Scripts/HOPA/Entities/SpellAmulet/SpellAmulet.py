@@ -1,5 +1,3 @@
-﻿import re
-
 from Foundation.DefaultManager import DefaultManager
 from Foundation.BaseEntity import BaseEntity
 from Foundation.GuardBlockInput import GuardBlockInput
@@ -91,9 +89,9 @@ class AmuletPowerButton(object):
         third_submovie = movie_entity.getSubMovie(third_submovie_name)
 
         self.rune_submovies = {
-            re.findall('(?<=_).*$', first_submovie_name)[0].lower(): first_submovie,
-            re.findall('(?<=_).*$', second_submovie_name)[0].lower(): second_submovie,
-            re.findall('(?<=_).*$', third_submovie_name)[0].lower(): third_submovie
+            first_submovie_name.split('_', 1)[1].lower(): first_submovie,
+            second_submovie_name.split('_', 1)[1].lower(): second_submovie,
+            third_submovie_name.split('_', 1)[1].lower(): third_submovie
         }
 
         for value in self.rune_submovies.values():
