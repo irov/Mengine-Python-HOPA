@@ -1,4 +1,4 @@
-class Chip:
+class Chip(object):
     def __init__(self, chip_id, place_id, movie_chip):
         self.chip_id = chip_id
         self.place_id = place_id
