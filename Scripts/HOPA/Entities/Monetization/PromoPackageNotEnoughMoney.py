@@ -39,7 +39,7 @@ class PromoPackageNotEnoughMoney(BaseComponent):
             PolicyManager.setPolicy("NotEnoughEnergyAction", "PolicyNotEnoughEnergyStoreWithPack")
         return False
 
-    def _cbPaySuccess(self, prod_id):
+    def _cbPaySuccess(self, prod_id, transaction_id=None):
         if prod_id != self.getProductId():
             return False
 

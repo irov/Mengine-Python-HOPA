@@ -141,7 +141,7 @@ class SystemProductGroups(System):
     def addObservers(self):
         self.addObserver(Notificator.onPaySuccess, self._cbPaySuccess)
 
-    def _cbPaySuccess(self, product_id):
+    def _cbPaySuccess(self, product_id, transaction_id=None):
         if product_id not in self.prod_to_group:
             return False
 

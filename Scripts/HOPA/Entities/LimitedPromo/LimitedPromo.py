@@ -232,7 +232,7 @@ class LimitedPromo(BaseEntity):
 
                 with until.addRaceTask(2) as (timeout, purchased):
                     timeout.addEvent(EVENT_TIMEOUT)  # promotion ended
-                    purchased.addListener(Notificator.onPaySuccess, Filter=lambda purchased_id: purchased_id == prod_id)
+                    purchased.addListener(Notificator.onPaySuccess, Filter=lambda purchased_id, transaction_id=None: purchased_id == prod_id)
                     purchased.addFunction(self.object.endPromoByTag, self.current_tag)
 
             tc.addScope(self.scopeDisappear)

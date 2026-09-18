@@ -66,7 +66,7 @@ class DisableAds(BaseComponent):
                 if self._show_once_per_session is True:
                     until.addEvent(event_run)
                 else:
-                    until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.product.id)
+                    until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id, transaction_id=None: prod_id == self.product.id)
 
         return False
 

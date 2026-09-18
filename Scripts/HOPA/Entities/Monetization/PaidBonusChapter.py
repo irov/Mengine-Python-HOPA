@@ -97,7 +97,7 @@ class PaidBonusChapter(BaseComponent):
                     delayed.addNotify(Notificator.onReleasePurchased, self.product.id)
                     default.addScope(SystemMonetization.scopePay, prod_id=self.product.id)
 
-                until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.product.id)
+                until.addListener(Notificator.onPaySuccess, Filter=lambda prod_id, transaction_id=None: prod_id == self.product.id)
 
             # unblock chapter and remove purchase button
             tc.addNotify(Notificator.onChapterSelectionBlock, "Bonus", False)

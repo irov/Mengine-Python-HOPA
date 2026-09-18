@@ -82,7 +82,7 @@ class StorePageGroupComponent(StorePageBaseComponent):
 
     # observers
 
-    def _cbPaySuccess(self, prod_id):
+    def _cbPaySuccess(self, prod_id, transaction_id=None):
         if prod_id not in self.prod_buttons:
             return False
 

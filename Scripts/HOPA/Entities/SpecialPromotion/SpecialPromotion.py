@@ -446,7 +446,7 @@ class SpecialPromotion(BaseEntity):
                 source.addScope(self.content["purchase"].scopeClick)
 
             with source.addParallelTask(2) as (purchased, release):
-                purchased.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == product_id)
+                purchased.addListener(Notificator.onPaySuccess, Filter=lambda prod_id, transaction_id=None: prod_id == product_id)
                 purchased.addScope(scopeSuccess)
                 release.addNotify(Notificator.onReleasePurchased, product_id)
         else:

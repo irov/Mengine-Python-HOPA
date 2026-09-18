@@ -48,7 +48,7 @@ class PolicyGuideOpenPaid(TaskAlias):
         Store.open()
 
         with source.addRaceTask(2) as (purchase, leave):
-            purchase.addListener(Notificator.onPaySuccess, Filter=lambda prod_id: prod_id == self.ProdParams.id)
+            purchase.addListener(Notificator.onPaySuccess, Filter=lambda prod_id, transaction_id=None: prod_id == self.ProdParams.id)
             leave.addListener(Notificator.onSceneDeactivate, Filter=lambda scene_name: scene_name == "Store")
 
     def _onGenerate(self, source):

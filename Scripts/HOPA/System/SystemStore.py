@@ -234,7 +234,7 @@ class SystemStore(System):
 
     def __createTabObserver(self, params):
         if params.trigger_hide_products_id is not None:
-            def _cbPaySuccess(prod_id):
+            def _cbPaySuccess(prod_id, transaction_id=None):
                 product = MonetizationManager.getProductInfo(prod_id)
 
                 for trigger_product_id in params.trigger_hide_products_id:
