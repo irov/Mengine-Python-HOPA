@@ -1,9 +1,11 @@
 from Foundation.Systems.SystemMonetization import SystemMonetization as SystemMonetizationBase
 from Foundation.MonetizationManager import MonetizationManager
+from Foundation.SecureStringValue import SecureStringValue
 from Foundation.TaskManager import TaskManager
 from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager
+from Foundation.SystemManager import SystemManager
 from Foundation.Utils import SimpleLogger
 from HOPA.ItemManager import ItemManager
 
@@ -13,12 +15,62 @@ _Log = SimpleLogger("SystemMonetization")
 
 class SystemMonetization(SystemMonetizationBase):
 
-    @classmethod
-    def _getPossibleRewards(cls):
-        rewards = SystemMonetizationBase._getPossibleRewards()
-        rewards["Chapter"] = cls.unlockChapter
-        rewards["ForceChapter"] = cls.forceUnlockChapter
-        return rewards
+    def _onInitialize(self):
+        super(SystemMonetization, self)._onInitialize()
+
+        for key in ("unlockedChapters", "openedChapters", "unlockedScenes"):
+            SystemMonetization.addStorageType(key, SecureStringValue, "")
+
+        SystemMonetization.addRewardType("Energy", SystemMonetization._prepareEnergy, SystemMonetization._validAmount,
+                                         additive=True, ready=SystemMonetization._isEnergyReady)
+        SystemMonetization.addRewardType("EnergyInfinity", SystemMonetization._prepareInfinityEnergy,
+                                         SystemMonetization._validEnableFlag, ready=SystemMonetization._isEnergyReady)
+        SystemMonetization.addRewardType("Chapter", SystemMonetization._prepareChapter, SystemMonetization._validContentId,
+                                         ready=SystemMonetization._isChapterReady,
+                                         restore=lambda transaction, value: transaction.addListValue("unlockedChapters", value))
+        SystemMonetization.addRewardType("ForceChapter", SystemMonetization._prepareForceChapter, SystemMonetization._validContentId,
+                                         ready=SystemMonetization._isChapterReady,
+                                         restore=lambda transaction, value: transaction.addListValue("openedChapters", value))
+        SystemMonetization.addRewardType("SceneUnlock", SystemMonetization._prepareScene, SystemMonetization._validContentId,
+                                         ready=SceneManager.hasScene,
+                                         restore=lambda transaction, value: transaction.addListValue("unlockedScenes", value))
+
+    @staticmethod
+    def _validContentId(value):
+        return isinstance(value, basestring) and len(value) > 0
+
+    # ==== Energy ======================================================================================================
+
+    @staticmethod
+    def _getEnergySystem():
+        if SystemManager.hasSystem("SystemEnergy") is False:
+            return None
+
+        system = SystemManager.getSystem("SystemEnergy")
+        if system.isRun() is False or system.isEnable() is False or system.current_energy is None:
+            return None
+
+        return system
+
+    @staticmethod
+    def _isEnergyReady(value):
+        return SystemMonetization._getEnergySystem() is not None
+
+    @staticmethod
+    def _prepareEnergy(transaction, value):
+        return SystemMonetization._getEnergySystem().preparePurchaseEnergy(transaction, value)
+
+    @staticmethod
+    def _prepareInfinityEnergy(transaction, value):
+        return SystemMonetization._getEnergySystem().preparePurchaseEnergy(transaction, 0, infinity=True)
+
+    @staticmethod
+    def addEnergy(energy):
+        return SystemMonetization.sendReward(rew_dict={"Energy": energy})
+
+    @staticmethod
+    def setInfinityEnergy(code):
+        return SystemMonetization.sendReward(rew_dict={"EnergyInfinity": code})
 
     # ==== Policies ====================================================================================================
 
@@ -62,6 +114,9 @@ class SystemMonetization(SystemMonetizationBase):
     # ==== Observers ===================================================================================================
 
     def _setupObservers(self):
+        self.addObserver(Notificator.onPayUnavailable, self._onPayUnavailable)
+        self.addObserver(Notificator.onSessionLoadComplete, self._restoreEntitlements)
+        self.addObserver(Notificator.onSelectAccount, self._restoreEntitlements)
         self.addObserver(Notificator.onRequestPromoCodeResult, self._onGiftExchangeRequestResult)
         self.addObserver(Notificator.onGiftExchangeRedeemResult, self._onGiftExchangeRedeemResult)
 
@@ -70,6 +125,18 @@ class SystemMonetization(SystemMonetizationBase):
 
         # Gold Balance updater
         self.addObserver(Notificator.onLayerGroupEnable, self._cbLayerGroupEnable)
+
+    def _onPayUnavailable(self, prod_id, reason):
+        text_ids = {
+            "storage_error": "ID_TEXT_PURCHASE_STORAGE_ERROR",
+            "not_ready": "ID_TEXT_PURCHASE_NOT_READY",
+            "unsupported": "ID_TEXT_PURCHASE_UNAVAILABLE",
+        }
+        text_id = MonetizationManager.getGeneralSetting("PurchaseErrorText_" + reason, text_ids[reason])
+        if TaskManager.existTaskChain("MonetizationPurchaseError") is False:
+            with TaskManager.createTaskChain(Name="MonetizationPurchaseError") as tc:
+                tc.addTask("AliasSystemMessage", TextID=text_id)
+        return False
 
     def _onGameStoreNotEnoughGold(self, gold, descr):
         if descr == "Exchange":
@@ -97,27 +164,50 @@ class SystemMonetization(SystemMonetizationBase):
 
     # ==== Chapter block ===============================================================================================
 
-    @classmethod
-    def unlockChapter(cls, chapter_id):
-        Notification.notify(Notificator.onChapterSelectionBlock, chapter_id, False)
-        _Log("unlock chapter '{}'".format(chapter_id))
+    @staticmethod
+    def _isChapterReady(chapter_id):
+        if SystemManager.hasSystem("SystemChapterSelection") is False:
+            return False
 
-        if MonetizationManager.getGeneralSetting("CompleteProductsOnChapterUnlock", True) is False:
-            return
+        system = SystemManager.getSystem("SystemChapterSelection")
+        return system.isRun() is True and system.getChapterSelection(chapter_id) is not None
 
-        for product in MonetizationManager.getProductsInfo().values():
-            reward_chapter_id = product.reward.get("Chapter")
-            if reward_chapter_id != chapter_id:
-                continue
-            if SystemMonetization.isProductPurchased(product.id) is False:
-                SystemMonetization.addStorageListValue("purchased", product.id)
-                _Log("autosave product {!r} - chapter {!r} is already unlocked!".format(
-                    product.id, chapter_id), optional=True)
+    @staticmethod
+    def _prepareChapter(transaction, chapter_id):
+        transaction.addListValue("unlockedChapters", chapter_id)
+        transaction.afterCommit(Notification.notify, Notificator.onChapterSelectionBlock, chapter_id, False)
+        return True
 
-    @classmethod
-    def forceUnlockChapter(cls, chapter_id):
-        cls.unlockChapter(chapter_id)
-        Notification.notify(Notificator.onChapterOpen, chapter_id)
+    @staticmethod
+    def _prepareForceChapter(transaction, chapter_id):
+        SystemMonetization._prepareChapter(transaction, chapter_id)
+        transaction.addListValue("openedChapters", chapter_id)
+        transaction.afterCommit(Notification.notify, Notificator.onChapterOpen, chapter_id)
+        return True
+
+    @staticmethod
+    def _prepareScene(transaction, scene_id):
+        transaction.addListValue("unlockedScenes", scene_id)
+        return True
+
+    @staticmethod
+    def unlockChapter(chapter_id):
+        return SystemMonetization.sendReward(rew_dict={"Chapter": chapter_id})
+
+    @staticmethod
+    def forceUnlockChapter(chapter_id):
+        return SystemMonetization.sendReward(rew_dict={"ForceChapter": chapter_id})
+
+    def _restoreEntitlements(self, *args):
+        if self._isStorageReady() is False:
+            return False
+        for chapter_id in self.getStorageListValues("unlockedChapters") + self.getStorageListValues("openedChapters"):
+            if self._isChapterReady(chapter_id) is True:
+                Notification.notify(Notificator.onChapterSelectionBlock, chapter_id, False)
+        for chapter_id in self.getStorageListValues("openedChapters"):
+            if self._isChapterReady(chapter_id) is True:
+                Notification.notify(Notificator.onChapterOpen, chapter_id)
+        return False
 
     # ==== Promo codes =================================================================================================
 

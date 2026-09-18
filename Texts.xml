@@ -27,4 +27,8 @@
     <Text Key="ID_CURRENCY_POUND" Value="£"/>
     <Text Key="ID_CURRENCY_EURO" Value="€"/>
     <Text Key="ID_CURRENCY_HRYVNIA" Value="₴"/>
+    <!-- Purchase errors; games may override these texts in their localization. -->
+    <Text Key="ID_TEXT_PURCHASE_STORAGE_ERROR" Value="Purchases are unavailable because your saved progress could not be loaded or saved. Please restart the game. If the problem continues, contact support."/>
+    <Text Key="ID_TEXT_PURCHASE_NOT_READY" Value="The store is still loading. Please try again shortly."/>
+    <Text Key="ID_TEXT_PURCHASE_UNAVAILABLE" Value="This item is unavailable in this version of the game."/>
 </Texts>

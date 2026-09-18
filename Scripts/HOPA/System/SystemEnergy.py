@@ -348,6 +348,31 @@ class SystemEnergy(System):
         self.current_energy += energy
         return False
 
+    def preparePurchaseEnergy(self, transaction, amount, infinity=False):
+        if self.isInfinityMode() is True:
+            return True
+
+        energy = int(transaction.getSetting("Energy", self.current_energy)) + amount
+        if infinity is True:
+            transaction.setSetting("EnergyInfinity", "true")
+            energy = max(energy, self.getMaxEnergy())
+        transaction.setSetting("Energy", energy)
+        transaction.setSetting("EnergyLastSave", self._getTimestamp())
+        transaction.setSetting("EnergyRefill", None if energy >= self.getMaxEnergy() else self.end_refill_timestamp)
+        transaction.setSetting("EnergyCooldown", None if energy >= self.getMaxEnergy() else self.cooldown_timestamp)
+        transaction.afterCommit(self._applyPurchaseEnergy, transaction.settings)
+        return True
+
+    def _applyPurchaseEnergy(self, settings):
+        self.current_energy = int(settings["Energy"])
+        if settings.get("EnergyInfinity") == "true":
+            SystemEnergy.in_infinity_mode = True
+        self.end_refill_timestamp = None if settings["EnergyRefill"] == "None" else float(settings["EnergyRefill"])
+        self.cooldown_timestamp = None if settings["EnergyCooldown"] == "None" else float(settings["EnergyCooldown"])
+        if self.current_energy >= self.getMaxEnergy():
+            self.onCharged()
+        self.notifyUpdateBalance()
+
     @balanceChanger("set")  # noqa
     def setEnergy(self, energy):
         if energy == ENERGY_INFINITY_CODE:
@@ -566,8 +591,8 @@ class SystemEnergy(System):
             Trace.log("System", 0, "SystemEnergy._onLoad current_energy is not integer: {} {}".format(self.current_energy, type(self.current_energy)))
             self._setupInitialCurrentEnergy()
 
-        if SystemEnergy.isAccountEnergyInfinity() is True:
-            SystemEnergy.in_infinity_mode = True
+        SystemEnergy.in_infinity_mode = SystemEnergy.isAccountEnergyInfinity() is True
+        if SystemEnergy.in_infinity_mode is True:
             self.current_energy = max(self.current_energy, self.getMaxEnergy())
         else:
             self.chargeOnLoad(save_time)

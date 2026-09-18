@@ -6,6 +6,7 @@ from HOPA.Entities.StorePage.Buttons.ButtonLink import ButtonLink
 from Foundation.DemonManager import DemonManager
 from Foundation.GroupManager import GroupManager
 from Foundation.MonetizationManager import MonetizationManager
+from Foundation.Systems.SystemMonetization import SystemMonetization
 from HOPA.StoreManager import StoreManager
 
 
@@ -36,6 +37,8 @@ class ButtonFactory(object):
 
         button_params = StoreManager.getButtonsParamsById(page_id)
         for param in button_params.values():
+            if param.action == "purchase" and SystemMonetization.isProductAvailable(param.product_id) is False:
+                continue
             group_name = param.prototype_group
 
             if group_name.startswith("Demon_"):

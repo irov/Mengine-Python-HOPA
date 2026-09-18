@@ -399,6 +399,9 @@ class SpecialPromotion(BaseEntity):
             Trace.log("Entity", 0, "SpecialPromotion start failed [{}] - not found product with id {}".format(special_prod_id, params.id))
             return False
 
+        if SystemMonetization.isProductAvailable(params.id) is False:
+            return False
+
         if self.setup(params.tag) is False:
             return False
 
