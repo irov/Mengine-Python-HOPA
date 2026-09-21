@@ -7,12 +7,16 @@ from HOPA.Entities.StorePage.Components.StorePageBaseComponent import StorePageB
 
 class StorePageAdvertComponent(StorePageBaseComponent):
 
+    OFFER_RETRY_DELAY = 1000
+
     def __init__(self, page, button):
         super(StorePageAdvertComponent, self).__init__(page)
 
         self.button = button
         self.timer = None
         self.reset_timestamp = None
+        self.offer_timer = None
+        self.next_offer_check = 0
 
     def _run(self):
         self.handleAdvertButton()
@@ -20,6 +24,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
 
     def _cleanUp(self):
         self.removeAdvertTimer()
+        self.removeOfferTimer()
         self.button = None
 
     def _check(self):
@@ -56,7 +61,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
 
         self.updateAdvertCounter()
         self.removeAdvertTimer()
-        self.button.setBlock(False)
+        self.checkOffer()
         return False
 
     def _cbAvailableAdsEnded(self, ad_name):
@@ -64,6 +69,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
             return False
 
         self.updateAdvertCounter()
+        self.removeOfferTimer()
         self.startAdvertTimer()
         self.button.setBlock(True)
         return False
@@ -71,11 +77,11 @@ class StorePageAdvertComponent(StorePageBaseComponent):
     def handleAdvertButton(self):
         advert_button = self.button
 
-        self.checkOffer()
-
-        if advert_button.id not in self.page.WaitButtons:
+        if SystemMonetization.isAdsEnded(advert_button.getAdvertName()) is True:
             advert_button.setBlock(True)
             self.startAdvertTimer()
+        else:
+            self.checkOffer()
 
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onAvailableAdsEnded, self._cbAvailableAdsEnded)
@@ -94,6 +100,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         return unblock_timestamp
 
     def startAdvertTimer(self):
+        self.removeOfferTimer()
         if self.timer is not None:
             self.removeAdvertTimer()
         self.reset_timestamp = self.calcAdvertResetTimestamp()
@@ -111,13 +118,39 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         SystemMonetization.updateAvailableAds()
 
     def checkOffer(self):
-        if AdvertisementProvider.canOfferRewardedAdvert("Rewarded") is False:
+        ad_name = self.button.getAdvertName()
+        if AdvertisementProvider.canOfferRewardedAdvert(ad_name) is False:
             # fixme: get localized text
             no_offer_text = "no offer now"
             self.button.updateTimer(no_offer_text)
             self.button.setBlock(True)
-        else:
-            self.button.setBlock(False)
+            self.startOfferTimer()
+            return False
+
+        self.removeOfferTimer()
+        self.button.updateTimer("")
+        self.button.setBlock(False)
+        return True
+
+    def startOfferTimer(self):
+        if self.offer_timer is not None:
+            return
+        self.next_offer_check = 0
+        self.offer_timer = Mengine.addChronometer(self._onOfferTimer)
+
+    def removeOfferTimer(self):
+        if self.offer_timer is None:
+            return
+        Mengine.removeChronometer(self.offer_timer)
+        self.offer_timer = None
+        self.next_offer_check = 0
+
+    def _onOfferTimer(self, time):
+        now = Mengine.getTimeMs()
+        if now < self.next_offer_check:
+            return
+        self.next_offer_check = now + self.OFFER_RETRY_DELAY
+        self.checkOffer()
 
     def updateTimerText(self, h=0, m=0, s=0):
         text = "{}h {}m {}s".format(h, m, s)
