@@ -41,6 +41,13 @@ class StorePageAdvertComponent(StorePageBaseComponent):
         self.updateAdvertCounter()
         return False
 
+    def _cbRewardedAdUserRewarded(self, params):
+        if params.get("placement") != self.button.getAdvertName():
+            return False
+
+        self.updateAdvertCounter()
+        return False
+
     def updateAdvertCounter(self):
         ad_name = self.button.getAdvertName()
         key_viewed_ads = SystemMonetization.getAdvertStorageKey(ad_name, "today_viewed_ads")
@@ -52,6 +59,7 @@ class StorePageAdvertComponent(StorePageBaseComponent):
     def handleAdvertCounter(self):
         self.updateAdvertCounter()
         self.addObserver(Notificator.onAdvertHidden, self._cbAdvertHidden)
+        self.addObserver(Notificator.onRewardedAdUserRewarded, self._cbRewardedAdUserRewarded)
 
     # --- advert button ------------------------------------------------------------------------------------------------
 
