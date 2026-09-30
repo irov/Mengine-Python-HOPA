@@ -31,6 +31,6 @@ class AliasDialogPlay(TaskAlias):
         source.addTask("TaskMusicSetVolume", Tag="Dialog", To=1.0, From=MusicFadeDialog)
 
         for group in self.Groups:
-            tc_play.addTask("TaskSceneLayerGroupEnable", LayerName=group, Value=False)
+            source.addTask("TaskSceneLayerGroupEnable", LayerName=group, Value=False)
             pass
 
