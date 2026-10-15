@@ -198,6 +198,11 @@ class HOGInventoryRolling(InventoryBase):
 
         movie_slot_entity = movie_slot.getEntityNode()
 
+        text_field = movie_slot.getEntity().getMovieText(HOGROLLING_MOVIE_SLOT_TEXTALIAS)
+        if text_field.getMaxLength() < 0.0:
+            text_field.setMaxLength(DefaultManager.getDefaultFloat("HOGInventoryRollingTextMaxLength", 156.0))
+            text_field.setAutoScale(True)
+
         """ Set text """
         alias_env = movie_slot_entity.getName()
         movie_slot.setTextAliasEnvironment(alias_env)
