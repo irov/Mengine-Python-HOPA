@@ -7,6 +7,7 @@ from Foundation.TaskManager import TaskManager
 from HOPA.ChapterSelectionManager import ChapterSelectionManager
 from HOPA.CutSceneManager import CutSceneManager
 from HOPA.DialogManager import DialogManager
+from HOPA.Entities.Difficulty.DifficultyManager import DifficultyManager
 from HOPA.Entities.Difficulty2.Difficulty2Manager import Difficulty2Manager
 from HOPA.Entities.Map2.Map2Manager import Map2Manager
 from HOPA.StageManager import StageManager
@@ -160,6 +161,20 @@ class SystemFastStart(System):
             return
 
         DIFFICULTY_PARAMS = {ID: params for ID, params in Difficulty2Manager.s_difficultiesSettings.items()}
+
+        if not DIFFICULTY_PARAMS and DifficultyManager.s_difficulties:
+            requested = Mengine.getOptionValue("fastdif").title() or "Casual"
+            difficulty = requested
+            if difficulty not in DifficultyManager.s_difficulties:
+                difficulty = "Casual" if "Casual" in DifficultyManager.s_difficulties else sorted(DifficultyManager.s_difficulties)[0]
+                Trace.msg_err("SystemFastStart difficulty {!r} not found in Difficulty; using {!r}".format(requested, difficulty))
+
+            # The legacy difficulty screen only changes this setting. Custom
+            # settings are initialized by the account/profile systems.
+            Mengine.changeCurrentAccountSetting("Difficulty", unicode(difficulty))
+            Trace.msg("SystemFastStart set legacy difficulty to {!r}".format(difficulty))
+            return
+
         cur_difficulty = DIFFICULTY_PARAMS.get(Mengine.getOptionValue("fastdif").title() or "Casual")
 
         if cur_difficulty is None:
