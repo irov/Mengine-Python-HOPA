@@ -30,6 +30,11 @@ class SystemDebugSceneInfo(System):
 
         return True
 
+    def _onStop(self):
+        self.enable = False
+        self.__removeSchedule()
+        self.__destroyNode()
+
     def __removeSchedule(self):
         if self._scheduleId == SCHEDULE_NOT_ACTIVE:
             return
@@ -37,10 +42,11 @@ class SystemDebugSceneInfo(System):
         if self.textNode is not None and self.enable is False:
             self.__destroyNode()
 
+        schedule_id = self._scheduleId
         self._scheduleId = SCHEDULE_NOT_ACTIVE
 
-        if Mengine.scheduleRemove(self._scheduleId) is False:
-            Trace.log("System", 0, "Failed to remove local schedule with id {}".format(self._scheduleId))
+        if Mengine.scheduleRemove(schedule_id) is False:
+            Trace.log("System", 0, "Failed to remove local schedule with id {}".format(schedule_id))
 
     def __attachSchedule(self, reloadTime):
         self.__removeSchedule()
