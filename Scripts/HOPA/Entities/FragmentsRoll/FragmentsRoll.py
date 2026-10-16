@@ -75,7 +75,7 @@ class FragmentsRoll(Enigma):
             pass
 
         for generatedObject in self.generatedObjects:
-            generatedObject.removeFromParent()
+            generatedObject.onDestroy()
             pass
 
         self.grid = None

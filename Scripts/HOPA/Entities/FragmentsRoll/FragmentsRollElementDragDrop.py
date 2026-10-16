@@ -85,15 +85,17 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
             self.moving = None
             pass
 
-        if self.item is not None:
-            # self.entity.removeEventListener()
+        if self.MouseButtonHandlerID is not None:
             Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
-            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
-            # self.entity.enableGlobalMouseEvent(False)
+            self.MouseButtonHandlerID = None
 
-            self.entity = None
-            self.entityNode = None
-            pass
+        if self.MouseMoveHandlerID is not None:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = None
+
+        self.entity = None
+        self.entityNode = None
+        self.game = None
         pass
 
     def refresh(self):
