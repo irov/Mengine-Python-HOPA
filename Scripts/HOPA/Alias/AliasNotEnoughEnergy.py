@@ -24,4 +24,4 @@ class AliasNotEnoughEnergy(TaskAlias):
 
             task = PolicyOnSkipAction or PolicyMessage
 
-        source.addTask(task, Action=self.Action, PageID=self.Amount, Amount=self.Amount)
+        source.addTask(task, Action=self.Action, PageID=self.PageID, Amount=self.Amount)
