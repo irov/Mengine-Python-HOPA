@@ -14,6 +14,7 @@ class RotateChipElement(object):
 
         self.needSlot = needSlot
         self.needAngle = needAngle
+        self.angleInDegree = 0.0
 
         self.states.setCurrentState("Default")
         # self.rotationNode =  Mengine.createNode("Interender")
@@ -176,21 +177,17 @@ class RotateChipElement(object):
         return False
 
     def setAngleInDegree(self, angle):
-        angleRadian = angle / RotateChipElement.RADIAN
+        self.angleInDegree = angle % 360.0
+        angleRadian = self.angleInDegree / RotateChipElement.RADIAN
         self.rotationNode.setAngle(angleRadian)
         pass
 
     def rotateOnAngleInDegree(self, deltaAngle):
-        angleRadian = deltaAngle / RotateChipElement.RADIAN
-        angle = self.rotationNode.getAngle()
-        resultAngle = angle + angleRadian
-        self.rotationNode.setAngle(resultAngle)
+        self.setAngleInDegree(self.angleInDegree + deltaAngle)
         pass
 
     def getAngleInDegree(self):
-        angle = self.rotationNode.getAngle()
-        angle *= RotateChipElement.RADIAN
-        return angle
+        return self.angleInDegree
         pass
 
     pass
