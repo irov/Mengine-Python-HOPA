@@ -86,17 +86,17 @@ class SystemGetItemRound(System):
 
                 source.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=True)
 
-                with source.addFork() as source_fork:
-                    source_fork.addTask("TaskItemPopUp", GroupName="ItemPopUp", ItemName=itemName)
-                    source_fork.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=False)
-                    source_fork.addTask("AliasFadeOut", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0)
+                with source.addParallelTask(2) as (source_popup, source_item):
+                    source_popup.addTask("TaskItemPopUp", GroupName="ItemPopUp", ItemName=itemName)
+                    source_popup.addTask("TaskSceneLayerGroupEnable", LayerName="ItemPopUp", Value=False)
+                    source_popup.addTask("AliasFadeOut", FadeGroupName="FadeDialog", To=0.3, Time=0.2 * 1000.0)
 
-                source.addListener(Notificator.onItemPopUpEnd)
+                    source_item.addListener(Notificator.onItemPopUpEnd)
 
-                with GuardBlockInput(source) as guard_source:
-                    guard_source.addScope(self.__addInventoryItem, itemName)
-                    guard_source.addNotify(Notificator.onInventoryAddItem, self.Inventory, InventoryItem)
-                    guard_source.addNotify(Notificator.onGetItem, self.Inventory, InventoryItem)
+                    with GuardBlockInput(source_item) as guard_source:
+                        guard_source.addScope(self.__addInventoryItem, itemName)
+                        guard_source.addNotify(Notificator.onInventoryAddItem, self.Inventory, InventoryItem)
+                        guard_source.addNotify(Notificator.onGetItem, self.Inventory, InventoryItem)
 
     def __addInventoryItem(self, scope, itemName):
         self.itemsRound.remove(itemName)

@@ -17,6 +17,10 @@ class ItemPopUp(BaseEntity):
         if value is not True:
             return
 
+        # Shared popup layers can remain active while the game scene restarts.
+        if TaskManager.existTaskChain("ItemPopUp") is True:
+            return
+
         self.InventoryItem = PopUpItemManager.getItemInventoryItem(self.ItemName)
         if self.InventoryItem is not None and self.InventoryItem.isActive() is False:
             return
