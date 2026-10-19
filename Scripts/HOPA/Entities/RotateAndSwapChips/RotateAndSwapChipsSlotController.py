@@ -99,6 +99,10 @@ class RotateAndSwapChipsSlotController(object):
         pass
 
     def finalize(self):
+        self.onAction = False
+        if TaskManager.existTaskChain(self.taskName) is True:
+            TaskManager.cancelTaskChain(self.taskName)
+
         Mengine.removeGlobalHandler(self.globalHandleMouseButtonEvent)
         self.globalHandleMouseButtonEvent = None
 
