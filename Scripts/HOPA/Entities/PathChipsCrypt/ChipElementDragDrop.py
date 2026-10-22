@@ -119,12 +119,8 @@ class ChipElementDragDrop(ChipElement):
         return
         pass
 
-    def _onMouseButtonEvent(self, touchId, x, y, button, pressure, isDown, isPressed):
-        # if hs != self.hotspot:
-        #     return False
-        #     pass
-
-        if button != 0:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0:
             return False
             pass
 
@@ -132,7 +128,7 @@ class ChipElementDragDrop(ChipElement):
             return False
             pass
 
-        if isDown is False:
+        if event.isDown is False:
             self.refresh()
             return False
             pass
