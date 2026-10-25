@@ -31,6 +31,9 @@ class LanguageSelect(BaseEntity):
 
     def _onPreparation(self):
         slot_index = LanguageSelectParam.slot_index_begin
+        # Fixed two-column layout with room for six rows in the existing window.
+        row_step = 65.0
+        button_scale = 0.8
 
         for param in LanguageSelectManager.getParams():
             movie_slot_holder, button_prototype, alias, alias_over, text, text_over, lang = param.get()
@@ -44,12 +47,19 @@ class LanguageSelect(BaseEntity):
 
             button = self.object.tryGenerateObjectUnique(button_prototype + slot_name, button_prototype, Enable=True)
 
-            slot_in_slots_movie = parent_movie.getMovieSlot(slot_name)
+            index = slot_index - LanguageSelectParam.slot_index_begin
+            column_slot_name = LanguageSelectParam.getSlotFormat(LanguageSelectParam.slot_index_begin + index % 2)
+            slot_in_slots_movie = parent_movie.getMovieSlot(column_slot_name)
             if slot_in_slots_movie is None:
-                Trace.log("Entity", 0, "[LanguageSelect] movie: %s not found slot: %s for lang: %s" % (parent_movie.name, slot_name, lang))
+                Trace.log("Entity", 0, "[LanguageSelect] movie: %s not found slot: %s for lang: %s" % (parent_movie.name, column_slot_name, lang))
                 continue
 
-            slot_in_slots_movie.addChild(button.getEntityNode())
+            node = button.getEntityNode()
+            slot_in_slots_movie.addChild(node)
+            position = node.getLocalPosition()
+            node.setLocalPosition((position[0], position[1] + (index // 2) * row_step, position[2]))
+            scale = node.getLocalScale()
+            node.setLocalScale((scale[0] * button_scale, scale[1] * button_scale, scale[2]))
 
             if Mengine.getLocale() == lang:
                 button.setBlock(True)  # highlight current language
