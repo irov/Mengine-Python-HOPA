@@ -349,7 +349,7 @@ class SystemEnergy(System):
         return False
 
     def preparePurchaseEnergy(self, transaction, amount, infinity=False):
-        if self.isInfinityMode() is True:
+        if self.isInfinityMode() is True and self.isAccountEnergyInfinity() is True:
             return True
 
         energy = int(transaction.getSetting("Energy", self.current_energy)) + amount

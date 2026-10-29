@@ -24,7 +24,8 @@ class SystemMonetization(SystemMonetizationBase):
         SystemMonetization.addRewardType("Energy", SystemMonetization._prepareEnergy, SystemMonetization._validAmount,
                                          additive=True, ready=SystemMonetization._isEnergyReady)
         SystemMonetization.addRewardType("EnergyInfinity", SystemMonetization._prepareInfinityEnergy,
-                                         SystemMonetization._validEnableFlag, ready=SystemMonetization._isEnergyReady)
+                                         SystemMonetization._validEnableFlag, ready=SystemMonetization._isEnergyReady,
+                                         restore=SystemMonetization._restoreInfinityEnergy)
         SystemMonetization.addRewardType("Chapter", SystemMonetization._prepareChapter, SystemMonetization._validContentId,
                                          ready=SystemMonetization._isChapterReady,
                                          restore=lambda transaction, value: transaction.addListValue("unlockedChapters", value))
@@ -63,6 +64,17 @@ class SystemMonetization(SystemMonetizationBase):
     @staticmethod
     def _prepareInfinityEnergy(transaction, value):
         return SystemMonetization._getEnergySystem().preparePurchaseEnergy(transaction, 0, infinity=True)
+
+    @staticmethod
+    def _restoreInfinityEnergy(transaction, value):
+        if Mengine.hasCurrentAccountSetting("EnergyInfinity") is True and Mengine.getCurrentAccountSettingBool("EnergyInfinity") is True:
+            return True
+
+        transaction.setSetting("EnergyInfinity", "true")
+        energy_system = SystemMonetization._getEnergySystem()
+        if energy_system is not None:
+            transaction.afterCommit(energy_system.setInfinityMode, True)
+        return True
 
     @staticmethod
     def addEnergy(energy):
