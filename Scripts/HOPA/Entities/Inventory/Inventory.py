@@ -380,10 +380,12 @@ class Inventory(InventoryBase):
             self._updateButtonInteractive()
 
     def _updateInventoryItem(self):
-        Notification.notify(Notificator.onInventoryUpdateItem)
         self.object.setParam("BlockScrolling", False)
 
     def _updateItemReturn(self, _value):
+        if _value is True:
+            return
+
         Notification.notify(Notificator.onInventoryUpdateItem)
 
     def _updateCurrentSlotIndex(self, _CurrentSlotIndex):
