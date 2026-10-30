@@ -105,7 +105,7 @@ class LanguageSelect(BaseEntity):
             elif language_select_group.scene.isEnable() is False:
                 language_select_group.restoreEnable()
 
-        SceneManager.restartCurrentScene(__cbOnSceneRestart, cb_removed=__cbOnSceneRestartChangeLocale)
+        SceneManager.reloadCurrentScene(__cbOnSceneRestart, cb_removed=__cbOnSceneRestartChangeLocale)
 
     def __handleLanguageChange(self, lang):
         if lang is None or str(Mengine.getLocale()) == lang:
