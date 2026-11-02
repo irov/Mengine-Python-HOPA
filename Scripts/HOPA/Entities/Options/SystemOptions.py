@@ -101,7 +101,16 @@ class SystemOptions(System):
     def _onLoad(self, language):
         self.language = language
 
-        ''' Language Select, Apply Current Saved Language On Start '''
-        if DemonManager.hasDemon("LanguageSelect"):
-            if self.language is not None and str(Mengine.getLocale()) != self.language:
-                Mengine.setLocale(self.language)
+        if Mengine.hasOption("locale") is True:
+            return
+
+        if DemonManager.hasDemon("LanguageSelect") is False:
+            return
+
+        if self.language is None:
+            return
+
+        if Mengine.getLocale() == self.language:
+            return
+
+        Mengine.setLocale(self.language)
