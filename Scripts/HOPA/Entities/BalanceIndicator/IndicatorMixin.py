@@ -48,14 +48,15 @@ class IndicatorMixin(object):
         if parent.hasObject(bg_name) is True:
             bg_movie = parent.getObject(bg_name)
             bg_movie.setEnable(False)
-        return True
+        return False
 
     def prepare(self, parent, icon_provider_object):
-        if self.isEnabled() is False:
-            return self._prepareDisable(parent)
-
+        # Movie text layers need valid aliases even when the indicator is disabled.
         Mengine.setTextAlias(self.alias_env, self.text_alias, self.text_id)
         self.refreshIndicatorText(self.prepare_load_text)
+
+        if self.isEnabled() is False:
+            return self._prepareDisable(parent)
 
         bg_name = self._getBackgroundName()
         if parent.hasObject(bg_name) is False:

@@ -41,26 +41,27 @@ class EnergyIndicator(IndicatorMixin):
         return super(EnergyIndicator, self).isEnabled()
 
     def _prepareDisable(self, parent):
-        if parent.hasObject(self.timer_text_alias) is True:
+        if parent.hasObject(self.timer_movie_name) is True:
             timer_movie = parent.getObject(self.timer_movie_name)
             timer_movie.setEnable(False)
         return super(EnergyIndicator, self)._prepareDisable(parent)
 
     def prepare(self, parent, icon_provider_object):
+        Mengine.setTextAlias(self.alias_env, self.timer_text_alias, self.timer_text_id)
+        default_text = DefaultManager.getDefault("BalanceIndicatorEnergyTimerDefaultText", "0:0:0")
+        Mengine.setTextAliasArguments(self.alias_env, self.timer_text_alias, default_text)
+
         timer_movie = None
         if parent.hasObject(self.timer_movie_name) is True:
             timer_movie = parent.getObject(self.timer_movie_name)
 
-        SystemEnergy = SystemManager.getSystem("SystemEnergy")
-        self.max_energy = SystemEnergy.getMaxEnergy()
+        if SystemManager.hasSystem("SystemEnergy") is True:
+            SystemEnergy = SystemManager.getSystem("SystemEnergy")
+            self.max_energy = SystemEnergy.getMaxEnergy()
         if super(EnergyIndicator, self).prepare(parent, icon_provider_object) is False:
             return False
 
         if timer_movie is not None:
-            Mengine.setTextAlias(self.alias_env, self.timer_text_alias, self.timer_text_id)
-            default_text = DefaultManager.getDefault("BalanceIndicatorEnergyTimerDefaultText", "0:0:0")
-            Mengine.setTextAliasArguments(self.alias_env, self.timer_text_alias, default_text)
-
             timer_node = timer_movie.getEntityNode()
             timer_node.removeFromParent()
             self.bg_movie.addChildToSlot(timer_node, "timer")
