@@ -1,4 +1,5 @@
 ﻿from Foundation.BaseEntity import BaseEntity
+from Foundation.Providers.SupportProvider import SupportProvider
 from Foundation.SceneManager import SceneManager
 from Foundation.TaskManager import TaskManager
 from HOPA.ChapterManager import ChapterManager
@@ -55,16 +56,8 @@ class TechnicalSupport(BaseEntity):
         ])
 
     def sendSupportMail(self):
-        receiver = Mengine.getGameParamUnicode("TechnicalSupportEmail")
         subject = u"[{}] Technical Support Request".format(Mengine.getProjectName())
         body = self.getSupportMessageBody()
         technically = self.getSupportTechnicalInfo()
 
-        if _DEVELOPMENT is True:
-            Trace.msg("DUMMY send support mail:\n  Receiver: {!r}\n  Subject: {!r}"
-                      "\n{}\n{}\n  (Include player save)".format(receiver, subject, body, technically))
-
-        try:
-            Mengine.openMail(receiver, subject, body, technically)
-        except Exception as ex:
-            Trace.log_exception("Manager", 0, "TechnicalSupport.sendSupportMail: %s" % ex)
+        SupportProvider.openSupport(subject, body, technically)
