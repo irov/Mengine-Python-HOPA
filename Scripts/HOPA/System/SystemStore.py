@@ -51,11 +51,7 @@ class SystemStore(System):
         self.setCurrentPageID(page_id)
 
     def _setupAlreadyBoughtPagesID(self):
-        """ Analyze every page hide trigger and hides page if product already purchased
-            Page could be not hidden because these pages saves with all game
-            If user bought something and immediately leave game - on next enter page will be shown
-            This method fixes this bug :)
-        """
+        """Synchronize purchase-controlled tabs with the account's current entitlements."""
 
         tab_params = StoreManager.getTabsSettings()
         for page_id, params in tab_params.items():
@@ -65,10 +61,21 @@ class SystemStore(System):
             # Do not forget to check real id, not alias !
             for trigger_product_id in params.trigger_hide_products_id:
                 product = MonetizationManager.getProductInfo(trigger_product_id)
+                if product is None:
+                    continue
                 
                 if SystemMonetization.isProductPurchased(product.id) is True:
                     self.hidePageID(page_id)
                     break
+            else:
+                # Preserve tabs controlled by explicit defaults or gameplay notifications.
+                if params.hidden is True:
+                    continue
+                if params.trigger_hide_identity is not None:
+                    continue
+                if params.trigger_show_identity is not None:
+                    continue
+                self.showPageID(page_id)
 
     def _setupHiddenPagesID(self):
         Store = DemonManager.getDemon("Store")
@@ -185,6 +192,7 @@ class SystemStore(System):
         self.addObserver(Notificator.onIndicatorClicked, self._cbIndicatorClicked)
         self.addObserver(Notificator.onAvailableAdsNew, self._cbAvailableAdsNew)
         self.addObserver(Notificator.onStageInit, self._cbStageInit)
+        self.addObserver(Notificator.onProductRevoked, self._cbProductRevoked)
         self.addObserver(Notificator.onSessionNew, self._cbSessionNew)
 
         if MonetizationManager.getGeneralSetting("ShowStoreGoldBalance", False) is True:
@@ -240,7 +248,7 @@ class SystemStore(System):
                 for trigger_product_id in params.trigger_hide_products_id:
                     if trigger_product_id in [prod_id, product.alias_id]:
                         SystemStore.hidePageID(params.page_id)
-                        return True
+                        return False
 
                 return False
 
@@ -325,6 +333,10 @@ class SystemStore(System):
 
     def _onLoad(self, save_dict):
         pass
+
+    def _cbProductRevoked(self, prod_id):
+        self._setupAlreadyBoughtPagesID()
+        return False
 
     def _cbStageInit(self, stage):
         self._setupAlreadyBoughtPagesID()

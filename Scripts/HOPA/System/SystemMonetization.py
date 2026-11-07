@@ -25,7 +25,7 @@ class SystemMonetization(SystemMonetizationBase):
                                          additive=True, ready=SystemMonetization._isEnergyReady)
         SystemMonetization.addRewardType("EnergyInfinity", SystemMonetization._prepareInfinityEnergy,
                                          SystemMonetization._validEnableFlag, ready=SystemMonetization._isEnergyReady,
-                                         restore=SystemMonetization._restoreInfinityEnergy)
+                                         restore=SystemMonetization._restoreInfinityEnergy, revoke=SystemMonetization._revokeInfinityEnergy)
         SystemMonetization.addRewardType("Chapter", SystemMonetization._prepareChapter, SystemMonetization._validContentId,
                                          ready=SystemMonetization._isChapterReady,
                                          restore=lambda transaction, value: transaction.addListValue("unlockedChapters", value))
@@ -67,7 +67,13 @@ class SystemMonetization(SystemMonetizationBase):
 
     @staticmethod
     def _restoreInfinityEnergy(transaction, value):
-        if Mengine.hasCurrentAccountSetting("EnergyInfinity") is True and Mengine.getCurrentAccountSettingBool("EnergyInfinity") is True:
+        infinity_enabled = (
+            Mengine.hasCurrentAccountSetting("EnergyInfinity") is True
+            and Mengine.getCurrentAccountSettingBool("EnergyInfinity") is True
+        )
+        default_setting = "true" if infinity_enabled else "false"
+        current_setting = transaction.getSetting("EnergyInfinity", default_setting)
+        if current_setting == "true":
             return True
 
         transaction.setSetting("EnergyInfinity", "true")
@@ -75,6 +81,13 @@ class SystemMonetization(SystemMonetizationBase):
         if energy_system is not None:
             transaction.afterCommit(energy_system.setInfinityMode, True)
         return True
+
+    @staticmethod
+    def _revokeInfinityEnergy(transaction, value):
+        transaction.setSetting("EnergyInfinity", "false")
+        energy_system = SystemMonetization._getEnergySystem()
+        if energy_system is not None:
+            transaction.afterCommit(energy_system.setInfinityMode, False)
 
     @staticmethod
     def addEnergy(energy):
