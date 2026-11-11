@@ -14,9 +14,13 @@ class ChainClickElement(object):
         self.movieComplete.setParam("Enable", False)
         self.item.addObject(self.movieComplete)
         self.active = False
+        self.onItemClickObserver = None
+        self.onItemMouseEnterObserver = None
+        self.onItemMouseLeaveObserver = None
         pass
 
     def initialize(self, callback):
+        self.__removeObservers()
         self.item.setInteractive(True)
         self.onItemClickObserver = Notification.addObserver(Notificator.onItemClick, Functor(self._onItemClick, self.item, callback))
         self.onItemMouseEnterObserver = Notification.addObserver(Notificator.onItemMouseEnter, Functor(self._onItemMouseEnter, self.item))
@@ -72,20 +76,45 @@ class ChainClickElement(object):
         with TaskManager.createTaskChain(Name=taskName, Group=group) as tc:
             tc.addEnable(movieName)
             tc.addTask("TaskMoviePlay", MovieName=movieName)
-            tc.addFunction(self.finalize)
+            tc.addFunction(self.__onComplete)
             pass
         pass
 
     def finalize(self):
-        self.movieComplete.removeFromParent()
-        self.movieComplete.setParam("Enable", False)
-        self.item.setParam("Enable", False)
-        self.itemClick.setParam("Enable", False)
+        if self.item is None:
+            return
 
+        taskName = "%s_PLAY" % (self.item.getName())
+        TaskManager.cancelTaskChain(taskName, exist=False)
+        self.__onComplete()
+
+    def __removeObservers(self):
         Notification.removeObserver(self.onItemClickObserver)
         Notification.removeObserver(self.onItemMouseEnterObserver)
         Notification.removeObserver(self.onItemMouseLeaveObserver)
-        pass
+        self.onItemClickObserver = None
+        self.onItemMouseEnterObserver = None
+        self.onItemMouseLeaveObserver = None
+
+    def __onComplete(self):
+        movie = self.movieComplete
+        if movie is None:
+            return
+
+        self.movieComplete = None
+        item = self.item
+        self.item = None
+        item_click = self.itemClick
+        self.itemClick = None
+        self.chainId = None
+        self.active = False
+
+        self.__removeObservers()
+
+        if movie.isDestroy() is False:
+            movie.onDestroy()
+        item.setParam("Enable", False)
+        item_click.setParam("Enable", False)
 
     def _onItemClick(self, item, x, y, wait, callback):
         if item is not wait:

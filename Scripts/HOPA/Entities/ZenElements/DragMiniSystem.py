@@ -145,7 +145,8 @@ class DragMiniSystem(object):
         self.clean_list = []
 
         for gen_socked in self.sockets.iterkeys():
-            gen_socked.removeFromParent()
+            # generated in bound_slots: destroy, removeFromParent alone orphans it
+            gen_socked.onDestroy()
             pass
 
         self.sockets = {}

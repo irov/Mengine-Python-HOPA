@@ -9,6 +9,7 @@ class Planet(Initializer):
         super(Planet, self).__init__()
         self.enigmaObject = enigmaObject
         self.socket = None
+        self.socketEntity = None
         self.movieName = None
         self.movie = None
         self.duration = 0
@@ -56,16 +57,32 @@ class Planet(Initializer):
         self.playTasks()
         pass
 
+    def release(self):
+        # release this helper's task chain and generated socket
+        TaskManager.cancelTaskChain(self.movieName, exist=False)
+
+        socket_entity = self.socketEntity
+        self.socketEntity = None
+        if socket_entity is not None:
+            socket_entity.enableGlobalMouseEvent(False)
+            socket_entity.setEventListener(onGlobalHandleMouseMove=None)
+
+        if self.socket is not None:
+            self.socket.onDestroy()
+            self.socket = None
+            pass
+        pass
+
     def onFinalize(self):
+        self.release()
+
         if self.movie is not None:
             self.movie.removeFromParent()
             self.movie = None
             pass
 
-        if self.socket is not None:
-            self.socket.removeFromParent()
-            self.socket = None
-            pass
+        self.enigmaObject = None
+        self.initialData = None
         pass
 
     def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
@@ -87,7 +104,7 @@ class Planet(Initializer):
 
                 tc_up.addTask("TaskMouseButtonClick", isDown=False)
                 tc_up.addFunction(self.enableGlobalEvent, False)
-                tc_up.addTaskaddFunction(self.addPlanet)
+                tc_up.addFunction(self.addPlanet)
                 tc_up.addFunction(self.playTasks)
                 pass
             pass

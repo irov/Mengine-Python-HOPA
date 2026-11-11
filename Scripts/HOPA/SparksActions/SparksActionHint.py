@@ -30,6 +30,14 @@ class SparksActionHint(SparksActionDefault, MixinZoom):
                 if hintAction is None:
                     return False
 
+        result = self.__changeEmmiterFormByHint(effectObject, hintAction)
+
+        # the hint action is only a probe for the sparks position
+        HintManager.finalizeHintAction(hintAction)
+
+        return result
+
+    def __changeEmmiterFormByHint(self, effectObject, hintAction):
         hintActionObj = hintAction.getHintObject()
         if hintActionObj is None:
             return False

@@ -11,7 +11,7 @@ class LanguageSelectParam(object):
     def getSlotFormat(index):
         return LanguageSelectParam.slot_format.format(index)
 
-    def __init__(self, movie_with_slot, button_proto, alias, alias_over, text, text_over, lang):
+    def __init__(self, movie_with_slot, button_proto, alias, alias_over, text, text_over, lang, aliases=()):
         self.movie_with_slot = movie_with_slot
         self.button_proto = button_proto
         self.alias = alias
@@ -19,6 +19,7 @@ class LanguageSelectParam(object):
         self.text = text
         self.text_over = text_over
         self.lang = lang
+        self.aliases = aliases
 
     def get(self):
         return self.movie_with_slot, self.button_proto, self.alias, self.alias_over, self.text, self.text_over, self.lang
@@ -43,12 +44,13 @@ class LanguageSelectManager(Manager):
             TextId = str(record.get("TextId"))
             TextId_Over = str(record.get("TextId_Over"))
             Language = str(record.get("Language"))
+            LanguageAliases = record.get("LanguageAliases", [])
 
             LanguageSelectManager.validateText(TextId)
             LanguageSelectManager.validateText(TextId_Over)
 
             param = LanguageSelectParam(MovieWithSlot, ButtonPrototype, PrototypeTextAlias,
-                                        PrototypeTextAlias_Over, TextId, TextId_Over, Language)
+                                        PrototypeTextAlias_Over, TextId, TextId_Over, Language, LanguageAliases)
             LanguageSelectManager.s_params.append(param)
 
         return True
@@ -59,6 +61,17 @@ class LanguageSelectManager(Manager):
             Trace.log("Manager", 0, "TEXT ID %s NOT EXISTS!!!!" % text)
             return False
         return True
+
+    @staticmethod
+    def getLanguageForLocale(locale):
+        for param in LanguageSelectManager.s_params:
+            if param.lang == locale:
+                return param.lang
+
+            if locale in param.aliases:
+                return param.lang
+
+        return locale
 
     @staticmethod
     def getParams():

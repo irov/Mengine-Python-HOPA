@@ -62,25 +62,33 @@ class AliasDragDropItem(TaskAlias):
         if self.AutoAttach is True:
             source.addTask("AliasItemAttach", Item=self.ItemObject, AutoAttach=True)
 
-        with source.addRepeatTask() as (repeat, until):
-            if self.Touchpad is True:
-                repeat.addTask("AliasItemAttach", Item=self.ItemObject, AddArrowChild=False)
-                repeat.addFunction(self.playItemSelectEffect)
-            else:
-                repeat.addTask("AliasItemAttach", Item=self.ItemObject)
-            repeat.addNotify(Notificator.onSoundEffectOnObject, self.SocketObject, "DragDropItem_PressOnItem")
+        def __guardItemSelectEffect(value, name, event_end):
+            if value is True:
+                return
+            if name is not None:
+                if TaskManager.existTaskChain(name) is True:
+                    event_end()
 
-            with repeat.addRaceTask(3) as (valid, invalid, leave):
-                # CASE 1: valid click ----------------------------------------------
-                valid.addScope(self._scopeValidClick)
+        with source.addGuardTask(True, __guardItemSelectEffect, self.SelectEffectTCName, self.EventEnd) as guard_source:
+            with guard_source.addRepeatTask() as (repeat, until):
+                if self.Touchpad is True:
+                    repeat.addTask("AliasItemAttach", Item=self.ItemObject, AddArrowChild=False)
+                    repeat.addFunction(self.playItemSelectEffect)
+                else:
+                    repeat.addTask("AliasItemAttach", Item=self.ItemObject)
+                repeat.addNotify(Notificator.onSoundEffectOnObject, self.SocketObject, "DragDropItem_PressOnItem")
 
-                # CASE 2: invalid click --------------------------------------------
-                invalid.addScope(self._scopeInvalidClick)
+                with repeat.addRaceTask(3) as (valid, invalid, leave):
+                    # CASE 1: valid click ----------------------------------------------
+                    valid.addScope(self._scopeValidClick)
 
-                # CASE 3: scene leave ----------------------------------------------
-                leave.addScope(self._scopeInterrupt)
+                    # CASE 2: invalid click --------------------------------------------
+                    invalid.addScope(self._scopeInvalidClick)
 
-            until.addEvent(self.EventValidClick)
+                    # CASE 3: scene leave ----------------------------------------------
+                    leave.addScope(self._scopeInterrupt)
+
+                until.addEvent(self.EventValidClick)
 
         source.addTask("AliasRemoveItemAttach", Item=self.ItemObject)
         source.addDisable(self.ItemObject)
@@ -101,8 +109,3 @@ class AliasDragDropItem(TaskAlias):
                 repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(SCALE_TO, SCALE_TO, 1.0), Time=SCALE_TIME)
                 repeat.addTask("TaskNodeScaleTo", Node=itemNode, To=(1.0, 1.0, 1.0), Time=SCALE_TIME)
                 until.addEvent(self.EventEnd)
-
-    def _onFinalize(self):
-        super(AliasDragDropItem, self)._onFinalize()
-        if self.SelectEffectTCName is not None and TaskManager.existTaskChain(self.SelectEffectTCName) is True:
-            TaskManager.cancelTaskChain(self.SelectEffectTCName)

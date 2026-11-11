@@ -41,13 +41,21 @@ class MacroGiveItemTip(MacroCommand):
         self.Inventory = DemonManager.getDemon("Inventory")
 
     def _onGenerate(self, source):
+        def __removeTipGuard(value, TipName):
+            if value is True:
+                return
+
+            Notification.notify(Notificator.onTipRemoveWithoutParagraphs, TipName)
+
         Quest = self.addQuest(source, "UseInventoryItem", SceneName=self.SceneName, Inventory=self.Inventory,
                               GroupName=self.GroupName, InventoryItem=self.InventoryItemObject, Object=self.SocketObject)
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
-            tc_quest.addTask("AliasGiveItem", Object=self.SocketObject, SocketName=self.SocketName,
+
+            # the guard removes the tip on every exit, also when the scenario chain is cancelled
+            tc_guard = tc_quest.makeGuardSource(True, __removeTipGuard, self.TipName)
+            tc_guard.addTask("AliasGiveItem", Object=self.SocketObject, SocketName=self.SocketName,
                              ItemName=self.ItemName, TipName=self.TipName)
-            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
 
         source.addListener(Notificator.onInventoryUpdateItem)

@@ -190,6 +190,10 @@ class Rope(object):
 
             self.__movie.onFinalize()
             self.__movie.onDestroy()
+            self.__movie = None
+
+        self.__wheel = None
+        self.__enabled_sprites = []
 
 
 class RopeManager(Manager):
@@ -319,9 +323,17 @@ class RopeManager(Manager):
             self.__ropes.remove(rope)
 
     def cleanUp(self):
+        if self.__hand_movie is not None:
+            self.detachRopeHand()
+            self.__hand_movie = None
+
         for rope in self.__ropes:
             rope.cleanUp()
-        self._removeAffector()
+        self.__ropes = []
+        self.__movie_generator = None
+        self.__rope_prototype_names.clear()
+        self.__rope_hand_movie_sprite_names.clear()
+        self.__current_hand_movie_sprite = None
 
 
 class Wheel(object):
@@ -408,11 +420,18 @@ class Wheel(object):
         source.addScope(self.__rope.scopePlay)
 
     def cleanUp(self):
-        node = self.__movie.getEntityNode()
-        if node.hasParent():
-            node.removeFromParent()
-        self.__movie.onFinalize()
-        self.__movie.onDestroy()
+        self.__sibling = None
+        self.__neighbors.clear()
+        self.cleanUpNextPrev()
+        self.__rope = None
+
+        if self.__movie is not None:
+            node = self.__movie.getEntityNode()
+            if node.hasParent():
+                node.removeFromParent()
+            self.__movie.onFinalize()
+            self.__movie.onDestroy()
+            self.__movie = None
 
         if self.__effect_movie is not None:
             node = self.__effect_movie.getEntityNode()
@@ -420,9 +439,11 @@ class Wheel(object):
                 node.removeFromParent()
             self.__effect_movie.onFinalize()
             self.__effect_movie.onDestroy()
+            self.__effect_movie = None
 
-        if self.__parent_node.hasParent():
-            self.__parent_node.removeFromParent()
+        if self.__parent_node is not None:
+            if self.__parent_node.hasParent():
+                self.__parent_node.removeFromParent()
             Mengine.destroyNode(self.__parent_node)
             self.__parent_node = None
 
@@ -638,6 +659,13 @@ class WheelManager(Manager):
     def cleanUp(self):
         for wheel in self.__wheels_by_index.values():
             wheel.cleanUp()
+        self.__wheels_by_name.clear()
+        self.__wheels_by_index.clear()
+        self.__wheels_chain_initiators = []
+        self.__current_wheel = None
+        self.__current_wheel_valid_neighbors = []
+        self.__wheels_team_sprites.clear()
+        self.__team_complete_status.clear()
 
 
 class Counterbalance(Enigma):
@@ -705,9 +733,11 @@ class Counterbalance(Enigma):
 
         if self.rope_manager is not None:
             self.rope_manager.cleanUp()
+            self.rope_manager = None
 
         if self.wheel_manager is not None:
             self.wheel_manager.cleanUp()
+            self.wheel_manager = None
 
     def _nodeAlphaTo(self, Node, From, To, Time):
         with TaskManager.createTaskChain() as tc:
@@ -788,6 +818,11 @@ class Counterbalance(Enigma):
 
     def _onDeactivate(self):
         super(Counterbalance, self)._onDeactivate()
+        self._cleanUp()
+
+    def _onFinalize(self):
+        super(Counterbalance, self)._onFinalize()
+
         self._cleanUp()
 
     # -------------- Enigma control ------------------------------------------------------------------------------------

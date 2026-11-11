@@ -1,5 +1,4 @@
 from Foundation.DemonManager import DemonManager
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
 
@@ -16,7 +15,7 @@ class CruiseActionPlusScene(CruiseAction):
 
         return True
 
-    def onAction(self):
+    def _onAction(self, source):
         SlotCount = self.Inventory.getParam("SlotCount")
         InventoryItemIndex = self.Inventory.indexInventoryItem(self.InventoryItem)
         NeedSlotIndex = int(InventoryItemIndex / SlotCount) * SlotCount
@@ -30,38 +29,30 @@ class CruiseActionPlusScene(CruiseAction):
             else:
                 cb(isSkip, 1)
 
-        if TaskManager.existTaskChain("CruiseActionScenePlus_Scrolling"):
-            TaskManager.cancelTaskChain("CruiseActionScenePlus_Scrolling")
+        with source.addRepeatTask() as (tc_repeat, tc_until):
+            with tc_repeat.addSwitchTask(2, __isDoneScroll) as (tc_scroll, tc_done):
+                tc_scroll.addTask("AliasCruiseControlAction",
+                                  Position=InventoryButtonPosition, Object=self.getInvButton())
+                tc_scroll.addListener(Notificator.onInventorySlotsShiftEnd)
 
-        with TaskManager.createTaskChain(Name="CruiseActionScenePlus_Scrolling") as tc:
-            with tc.addRepeatTask() as (tc_repeat, tc_until):
-                with tc_repeat.addSwitchTask(2, __isDoneScroll) as (tc_scroll, tc_done):
-                    tc_scroll.addTask("AliasCruiseControlAction",
-                                      Position=InventoryButtonPosition, Object=self.getInvButton())
-                    tc_scroll.addListener(Notificator.onInventorySlotsShiftEnd)
+                tc_done.addSemaphore(self.sem_done_scroll, From=0, To=1)
 
-                    tc_done.addSemaphore(self.sem_done_scroll, From=0, To=1)
+            tc_until.addSemaphore(self.sem_done_scroll, From=1)
 
-                tc_until.addSemaphore(self.sem_done_scroll, From=1)
+        source.addScope(self.showCruise)
 
-            tc.addFunction(self.showCruise)
-
-    def showCruise(self):
+    def showCruise(self, source):
         InventoryItemEntity = self.InventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
 
         PositionTo = Sprite.getWorldImageCenter()
 
-        if TaskManager.existTaskChain("CruiseActionScenePlus_Cruise"):
-            TaskManager.cancelTaskChain("CruiseActionScenePlus_Cruise")
+        with source.addParallelTask(2) as (check, run):
+            check.addListener(Notificator.onQuestEnd, Filter=lambda quest: quest == self.Quest)
+            run.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.InventoryItem)
 
-        with TaskManager.createTaskChain(Name="CruiseActionScenePlus_Cruise") as tc:
-            with tc.addParallelTask(2) as (check, run):
-                check.addListener(Notificator.onQuestEnd, Filter=lambda quest: quest == self.Quest)
-                run.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.InventoryItem)
-
-            tc.addDelay(1500.0)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addDelay(1500.0)
+        source.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getInvButton(self):
         CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")

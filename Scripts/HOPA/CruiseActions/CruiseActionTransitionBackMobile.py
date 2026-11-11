@@ -1,5 +1,4 @@
 from Foundation.Task.MixinObjectTemplate import MixinTransition
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.System.SystemNavigation import SystemNavigation
@@ -20,13 +19,10 @@ class CruiseActionTransitionBackMobile(MixinTransition, CruiseActionDefault):
         position = entity.getCurrentMovieSocketCenter()
         return position
 
-    def _onAction(self):
+    def _onAction(self, source):
         transition = self._getCruiseObject()
         position = self._getCruisePosition(transition)
 
-        if TaskManager.existTaskChain("CruiseActionTransitionBackMobile") is True:
-            TaskManager.cancelTaskChain("CruiseActionTransitionBackMobile")
-        with TaskManager.createTaskChain(Name="CruiseActionTransitionBackMobile") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=position, Object=transition)
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addTask("AliasCruiseControlAction", Position=position, Object=transition)
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

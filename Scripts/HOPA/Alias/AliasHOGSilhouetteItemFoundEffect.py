@@ -1,23 +1,21 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
-from Foundation.Task.TaskAlias import TaskAlias
+from Foundation.Task.TaskAliasFinally import TaskAliasFinally
 from HOPA.HOGManager import HOGManager
 
 
-class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
+class AliasHOGSilhouetteItemFoundEffect(TaskAliasFinally):
     def _onParams(self, params):
         super(AliasHOGSilhouetteItemFoundEffect, self)._onParams(params)
         self.HOGItemName = params.get("HOGItemName")
         self.HOG = params.get("HOG")
         self.EnigmaName = params.get("EnigmaName")
 
-    def _onGenerate(self, source):
+    def _onGenerate(self, source, finurce):
         HOGInventory = HOGManager.getInventory(self.EnigmaName)
 
         if HOGInventory.isActive() is False:
             return
-
-        effect = HOGInventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         hogItem = HOGManager.getHOGItem(self.EnigmaName, self.HOGItemName)
         self.ItemName = hogItem.objectName
@@ -76,6 +74,8 @@ class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
 
         source.addTask("TaskNodeScaleTo", Node=pure, To=(1.5, 1.5, 1.0), Time=HOGItemIncreaseTime)
 
+        effect = HOGInventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
+
         if effect is not None:
             effectEntityNode = effect.getEntityNode()
 
@@ -96,14 +96,13 @@ class AliasHOGSilhouetteItemFoundEffect(TaskAlias):
 
         source.addTask("TaskNodeEnable", Node=pure, Value=False)
 
-        with source.addFork() as source_fork:
-            if effect is not None:
-                source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
-                source_fork.addTask("TaskObjectDestroy", Object=effect)
-                pass
-
-            source_fork.addTask("TaskNodeDestroy", Node=node)
+        if effect is not None:
+            finurce.addTask("TaskMovie2Interrupt", Movie2=effect)
+            finurce.addTask("TaskObjectDestroy", Object=effect)
             pass
+
+        finurce.addTask("TaskNodeDestroy", Node=pure)
+        finurce.addTask("TaskNodeDestroy", Node=node)
 
         def __playMovie(scope):
             # Inventory can be switched during the time item flies. Just to ensure we take movie from right inventory.

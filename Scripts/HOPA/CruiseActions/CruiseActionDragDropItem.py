@@ -1,7 +1,6 @@
 from Foundation.Notificator import Notificator
 from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObjectTemplate import MixinItem
-from Foundation.TaskManager import TaskManager
 
 from HOPA.CruiseAction import CruiseAction
 
@@ -19,7 +18,7 @@ class CruiseActionDragDropItem(MixinItem, MixinObject, CruiseAction):
 
         return True
 
-    def _onAction(self):
+    def _onAction(self, source):
         if self.Item.hasParam("HintPoint") and self.Object.hasParam("HintPoint"):
             Pos = self.Item.calcWorldHintPoint()
             Pos2 = self.Object.calcWorldHintPoint()
@@ -36,14 +35,6 @@ class CruiseActionDragDropItem(MixinItem, MixinObject, CruiseAction):
             Pos = (0.0, 0.0, 0.0)
             Pos2 = (0.0, 0.0, 0.0)
 
-        if TaskManager.existTaskChain("CruiseActionDragDropItem") is True:
-            TaskManager.cancelTaskChain("CruiseActionDragDropItem")
-
-        with TaskManager.createTaskChain(Name="CruiseActionDragDropItem") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=Pos, Object=self.Item)
-            tc.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionDragDropItem") is True:
-            TaskManager.cancelTaskChain("CruiseActionDragDropItem")
+        source.addTask("AliasCruiseControlAction", Position=Pos, Object=self.Item)
+        source.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

@@ -5,6 +5,8 @@ from HOPA.RotateTilesWhichRotateEachOtherManager import RotateTilesWhichRotateEa
 class Tile(object):
     def __init__(self, params, obj_generator, tiles_dict_ref, root_node):
         self.params = params
+        self.movie = None
+        self.node = None
 
         self.tiles_dict_ref = tiles_dict_ref
 
@@ -51,9 +53,22 @@ class Tile(object):
             source.addScope(tile.scopeRotate, angle)
 
     def destroy(self):
-        self.movie.entity.node.removeFromParent()
-        self.movie.onFinalize()
-        self.movie.onDestroy()
+        movie = self.movie
+        node = self.node
+
+        self.tiles_dict_ref = None
+        self.params = None
+        self.movie = None
+        self.node = None
+
+        if movie is None:
+            return
+
+        if node is not None:
+            node.removeFromParent()
+
+        movie.onFinalize()
+        movie.onDestroy()
 
 
 class RotateTilesWhichRotateEachOther(Enigma):
@@ -65,6 +80,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
         self.tiles = {}
 
         self.__tc_main = None
+        self.__tc_reset = None
 
         self.is_reseting = False
 
@@ -79,6 +95,9 @@ class RotateTilesWhichRotateEachOther(Enigma):
             Tile(tile_param, self.object.generateObjectUnique, self.tiles, self.node)
 
     def __cleanUp(self):
+        # the reset chain rotates the tiles, so it has to stop before they are destroyed
+        self.__cancelReset()
+
         if self.__tc_main is not None:
             self.__tc_main.cancel()
             self.__tc_main = None
@@ -86,7 +105,8 @@ class RotateTilesWhichRotateEachOther(Enigma):
         for tile in self.tiles.values():
             tile.destroy()
 
-        self.tiles = {}
+        self.tiles.clear()
+        self.params = None
 
     def checkComplete(self):
         for tile in self.tiles.values():
@@ -135,6 +155,11 @@ class RotateTilesWhichRotateEachOther(Enigma):
         super(RotateTilesWhichRotateEachOther, self)._onDeactivate()
         self.__cleanUp()
 
+    def _onFinalize(self):
+        super(RotateTilesWhichRotateEachOther, self)._onFinalize()
+
+        self.__cleanUp()
+
     # -------------- Enigma control ------------------------------------------------------------------------------------
     def _playEnigma(self):
         self.__runTaskChain()
@@ -152,20 +177,35 @@ class RotateTilesWhichRotateEachOther(Enigma):
             self.__tc_main.cancel()
             self.__tc_main = None
 
-        def setNotReseting():
-            self.is_reseting = False
-
-        with TaskManager.createTaskChain() as tc:
+        self.__tc_reset = TaskManager.createTaskChain()
+        with self.__tc_reset as tc:
             for tile, parallel in tc.addParallelTaskList(self.tiles.values()):
                 rot_value = tile.params.start_rot % 360.0 - round(Mengine.rad2deg(tile.node.getAngle())) % 360.0
 
                 parallel.addScope(tile.scopeRotate, rot_value)
 
-            tc.addFunction(self.__runTaskChain)
+            tc.addFunction(self.__onResetEnd)
 
-            tc.addFunction(setNotReseting)
+    def __onResetEnd(self):
+        # also reached from the skip path of a cancelled reset chain: then __tc_reset is already None
+        if self.__tc_reset is None:
+            return
+
+        self.__tc_reset = None
+        self.__runTaskChain()
+        self.is_reseting = False
+
+    def __cancelReset(self):
+        chain = self.__tc_reset
+        self.__tc_reset = None
+        self.is_reseting = False
+
+        if chain is not None:
+            chain.cancel()
 
     def _skipEnigmaScope(self, skip_source):
+        self.__cancelReset()
+
         if self.__tc_main is not None:
             self.__tc_main.cancel()
             self.__tc_main = None

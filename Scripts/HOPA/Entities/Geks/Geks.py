@@ -12,6 +12,8 @@ class Geks(Enigma):
         self.nextButton1 = None
         self.nextButton2 = None
         self.levelsCount = None
+        self.listsButtons = []
+        self.onButtonClickObserver = None
         pass
 
     def _stopEnigma(self):
@@ -22,6 +24,7 @@ class Geks(Enigma):
             pass
 
         Notification.removeObserver(self.onButtonClickObserver)
+        self.onButtonClickObserver = None
         pass
 
     def _skipEnigma(self):
@@ -161,6 +164,19 @@ class Geks(Enigma):
         self.nextButton2 = None
         self.levelsCount = None
         pass
+
+    def _onFinalize(self):
+        super(Geks, self)._onFinalize()
+
+        Notification.removeObserver(self.onButtonClickObserver)
+        self.onButtonClickObserver = None
+        self.buttons = []
+        self.currentListButtons = []
+        self.activeButton = None
+        self.listAllButtons = []
+        self.listsButtons = []
+        self.nextButton1 = None
+        self.nextButton2 = None
 
     def _complete(self, isSkip):
         self.object.setParam("Play", False)

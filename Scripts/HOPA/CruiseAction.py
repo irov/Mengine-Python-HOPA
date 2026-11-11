@@ -1,6 +1,7 @@
 from Foundation.Initializer import Initializer
 from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene
+from Foundation.TaskManager import TaskManager
 from HOPA.CruiseControlManager import CruiseControlManager
 
 
@@ -8,6 +9,7 @@ class CruiseAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(CruiseAction, self).__init__()
         self.Quest = None
+        self._task_chain = None
 
         self.actionType = ''
 
@@ -73,14 +75,29 @@ class CruiseAction(MixinScene, Params, Initializer):
     def _onCheck(self):
         return True
 
-    def onAction(self):
-        self._onAction()
+    def _onFinalize(self):
+        super(CruiseAction, self)._onFinalize()
 
-    def _onAction(self):
+        self._clearTaskChain()
+
+    def _clearTaskChain(self):
+        task_chain = self._task_chain
+        self._task_chain = None
+        if task_chain is not None:
+            task_chain.cancel()
+
+    def onAction(self):
+        self._clearTaskChain()
+
+        self._task_chain = TaskManager.createTaskChain()
+        with self._task_chain as source:
+            source.addScope(self._onAction)
+
+    def _onAction(self, source):
         return
 
     def onEnd(self):
         self._onEnd()
 
     def _onEnd(self):
-        return
+        self._clearTaskChain()

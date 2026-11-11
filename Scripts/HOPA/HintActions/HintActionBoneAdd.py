@@ -11,8 +11,8 @@ class HintActionBoneAdd(HintActionUseInventoryItem):
         super(HintActionBoneAdd, self)._onParams(params)
         pass
 
-    def _onAction(self, hint):
-        super(HintActionBoneAdd, self)._onAction(hint)
+    def onAction(self, hint):
+        super(HintActionBoneAdd, self).onAction(hint)
         BoneBoardObject = DemonManager.getDemon("BoneBoard")
         BoneBoardEntity = BoneBoardObject.getEntity()
         BoneBoardEntity.showBoard()

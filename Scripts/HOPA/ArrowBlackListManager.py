@@ -17,6 +17,10 @@ class ArrowBlackListManager(Manager):
             return self.socketName
 
     @staticmethod
+    def _onFinalize():
+        ArrowBlackListManager.s_ignores = {}
+
+    @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
 

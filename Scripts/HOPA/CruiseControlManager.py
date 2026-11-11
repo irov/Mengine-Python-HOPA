@@ -249,6 +249,16 @@ class CruiseControlManager(Manager):
         pass
 
     @staticmethod
+    def finalizeCruiseAction(cruiseAction):
+        if cruiseAction is None:
+            return
+
+        if cruiseAction.isInitialized() is False:
+            return
+
+        cruiseAction.onFinalize()
+
+    @staticmethod
     def findSceneCruise(sceneName, groupName, checkActive):
         if sceneName == "CutScene":
             cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionCutScene", None)
@@ -282,14 +292,20 @@ class CruiseControlManager(Manager):
         if cruiseActionList.__len__() == 0:
             return  # action not found
 
+        resultCruiseAction = cruiseActionList[0]  # default return
+
         for cruiseAction in cruiseActionList:
             if cruiseAction.getType() == "CruiseActionDummy":
                 continue
 
-            return cruiseAction  # return first not dummy action
+            resultCruiseAction = cruiseAction  # return first not dummy action
+            break
 
-        # default return
-        return cruiseActionList[0]
+        for cruiseAction in cruiseActionList:
+            if cruiseAction is not resultCruiseAction:
+                CruiseControlManager.finalizeCruiseAction(cruiseAction)
+
+        return resultCruiseAction
 
     @staticmethod
     def __createCruiseActionList(questCache, checkActive):
@@ -346,6 +362,7 @@ class CruiseControlManager(Manager):
                 continue
 
             if cruiseAction.onCheck() is False:
+                CruiseControlManager.finalizeCruiseAction(cruiseAction)
                 continue
 
             if cruiseAction.getType() == "CruiseActionDummy":  # hack to flush looping dummy action
@@ -353,6 +370,7 @@ class CruiseControlManager(Manager):
                     object_ = quest.params.get("Object")
                     if object_.getLoop():
                         # "CruiseControlManager quest Dummy is play loop {}, continue", object_.getName()
+                        CruiseControlManager.finalizeCruiseAction(cruiseAction)
                         continue
 
             OutCruiseActions.append(cruiseAction)

@@ -92,10 +92,18 @@ class RotateCirclesWithChips(Enigma):
         super(RotateCirclesWithChips, self)._onActivate()
 
     def _onDeactivate(self):
-        super(RotateCirclesWithChips, self)._onDeactivate()  # self._cleanUp()
+        super(RotateCirclesWithChips, self)._onDeactivate()
+
+        # _onPreparationDeactivate is not an entity hook: release here, _restoreEnigma rebuilds the game
+        self._cleanUp()
 
     def _onPreparationDeactivate(self):
         super(RotateCirclesWithChips, self)._onPreparationDeactivate()
+        self._cleanUp()
+
+    def _onFinalize(self):
+        super(RotateCirclesWithChips, self)._onFinalize()
+
         self._cleanUp()
 
     # ==================================================================================================================
@@ -299,9 +307,10 @@ class RotateCirclesWithChips(Enigma):
     # ==================================================================================================================
 
     def _cleanUp(self):
-        if self.tc is not None:
-            self.tc.cancel()
+        chain = self.tc
         self.tc = None
+        if chain is not None:
+            chain.cancel()
 
         self.param = None
 

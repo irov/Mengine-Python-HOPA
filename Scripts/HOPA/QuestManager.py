@@ -98,6 +98,13 @@ class QuestManager(Manager):
     def _onInitialize():
         QuestManager.addObserver(Notificator.onQuestRun, QuestManager._onAppendQuestList)
         QuestManager.addObserver(Notificator.onQuestEnd, QuestManager._onRemoveQuestList)
+        QuestManager.addObserver(Notificator.onSessionRemoveComplete, QuestManager._onSessionRemoveComplete)
+
+    @staticmethod
+    def _onSessionRemoveComplete():
+        QuestManager.s_questGlobalCache = []
+        QuestManager.s_questLocalCache = {}
+        return False
 
     @staticmethod
     def _onFinalize():
@@ -326,7 +333,10 @@ class QuestManager(Manager):
         action_type = HintManager.getHintActionType(quest.questType)
         hint_action = HintManager.createHintAction(action_type, quest, **quest.params)
 
-        if hint_action.onCheck() is False:
+        isCheck = hint_action.onCheck()
+        HintManager.finalizeHintAction(hint_action)
+
+        if isCheck is False:
             return True
         return False
 

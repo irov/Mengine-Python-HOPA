@@ -6,19 +6,28 @@ from HOPA.ScenarioManager import ScenarioManager
 class SystemExtras(System):
     def __init__(self):
         super(SystemExtras, self).__init__()
+        self._playTaskChains = []
         pass
 
     def _onRun(self):
-        self.onExtraEnigmaPlayObserver = Notification.addObserver(Notificator.onExtraEnigmaPlay, self._playExtraEnigma)
-        pass
+        self.addObserver(Notificator.onExtraEnigmaPlay, self._playExtraEnigma)
+        return True
 
     def _onStop(self):
-        pass
+        chains = self._playTaskChains
+        self._playTaskChains = []
+        for chain in chains:
+            chain.cancel()
 
     def _playExtraEnigma(self, enigmaName, scenarioID):
         sceneName = EnigmaManager.getEnigmaSceneName(enigmaName)
         if scenarioID in ScenarioManager.s_scenarios.iterkeys():
-            with TaskManager.createTaskChain() as tc:
+            # finished chains are finalized, keep only the ones still running
+            self._playTaskChains = [tc for tc in self._playTaskChains if tc.isInitialized() is True]
+
+            chain = TaskManager.createTaskChain()
+            self._playTaskChains.append(chain)
+            with chain as tc:
                 tc.addTask("AliasTransition", SceneName=sceneName)
                 tc.addTask("TaskScenarioRun", ScenarioID=scenarioID)
                 with tc.addRaceTask(2) as (tc_1, tc_2):

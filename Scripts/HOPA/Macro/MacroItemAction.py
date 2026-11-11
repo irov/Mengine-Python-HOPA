@@ -5,6 +5,21 @@ from HOPA.Macro.MacroCommand import MacroCommand
 
 
 class MacroItemAction(MacroCommand):
+    def __init__(self):
+        super(MacroItemAction, self).__init__()
+        self.__generatedObjects = []
+
+    def __clearGeneratedObjects(self):
+        objects = self.__generatedObjects
+        self.__generatedObjects = []
+        for object in objects:
+            object.onDestroy()
+
+    def _onFinalize(self):
+        super(MacroItemAction, self)._onFinalize()
+
+        self.__clearGeneratedObjects()
+
     def _onValues(self, values):
         self.SocketName = values[0]
         self.ItemName = values[1]
@@ -67,6 +82,7 @@ class MacroItemAction(MacroCommand):
         source.addListener(Notificator.onInventoryUpdateItem)
 
     def _AttendMovieSlots(self, MovieName):
+        self.__clearGeneratedObjects()
         fan_group = GroupManager.getGroup("Fan")
         #        FindItems = self.object.getFindItems()
         #        FoundItems = self.object.getFoundItems()
@@ -80,13 +96,13 @@ class MacroItemAction(MacroCommand):
         for i in range(countFindItems):
             slot = Movie_Open_Entity.getMovieSlot("%d" % (i))
             gen_mask = fan_group.generateObject("Gen_BlackMask%d" % (i), "Sprite_Black")
-            #            self.generedObjects.append(gen_mask)
+            self.__generatedObjects.append(gen_mask)
 
             gen_mask_entity = gen_mask.getEntity()
             slot.addChild(gen_mask_entity)
 
             gen_socked = fan_group.generateObject("Gen_Socket%d" % (i), "Socket_Circle")
-            #            self.generedObjects.append(gen_socked)
+            self.__generatedObjects.append(gen_socked)
             gen_socked_entity = gen_socked.getEntity()
             slot.addChild(gen_socked_entity)
 

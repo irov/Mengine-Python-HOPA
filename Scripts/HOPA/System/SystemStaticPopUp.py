@@ -31,7 +31,7 @@ class SystemStaticPopUp(System):
             observer = Notification.addObserver(observerID, self._disableStaticPopUp)
             self.listObservers.append(observer)
             pass
-        pass
+        return True
 
     def _onStop(self):
         for observer in self.listObservers:

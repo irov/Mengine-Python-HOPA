@@ -1,6 +1,5 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Notificator import Notificator
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.SpellsManager import SpellsManager, SPELLS_UI_DEMON_NAME, SPELL_AMULET_TYPE
@@ -69,18 +68,10 @@ class CruiseActionSpellAmuletUseRune(CruiseAction):
 
         return position
 
-    def _onAction(self):
+    def _onAction(self, source):
         Obj = self.Quest.params.get("Object", None) if self.Quest else None
 
-        if TaskManager.existTaskChain("CruiseActionDefault") is True:
-            TaskManager.cancelTaskChain("CruiseActionDefault")
-
-        with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
-            tc.addDelay(self.click_delay)
-            tc.addTask("AliasCruiseControlAction", Position=self.Point, Object=Obj)
-            tc.addDelay(self.move_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionDefault") is True:
-            TaskManager.cancelTaskChain("CruiseActionDefault")
+        source.addDelay(self.click_delay)
+        source.addTask("AliasCruiseControlAction", Position=self.Point, Object=Obj)
+        source.addDelay(self.move_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

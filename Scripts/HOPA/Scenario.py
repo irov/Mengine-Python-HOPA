@@ -71,6 +71,9 @@ class ScenarioMacroCommand(ScenarioElement):
             Trace.log("Macro", 0, "ScenarioMacroCommand._onGenerator command not initialize %s:%d - %s %s" % (ScenarioRunner.Name, self.Index, self.CommandType, self.Values))
             return False
 
+        # runner finalizes the command together with its task chains
+        ScenarioRunner.addGeneratedCommand(command)
+
         if _DEVELOPMENT is True:
             source.setDocument("Scenario macro command '%s' scene '%s' group '%s' macro index [%u]" % (self.CommandType, ScenarioRunner.SceneName, ScenarioRunner.GroupName, self.Index))
             pass

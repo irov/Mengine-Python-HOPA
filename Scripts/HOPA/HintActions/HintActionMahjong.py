@@ -13,9 +13,9 @@ class HintActionMahjong(MixinObject, HintActionMultiTarget):
     def _getHintObject(self):
         return self.Object
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         points = self.getHintDoublePosition(hint)
-        self.showHint(*points)
+        self.showHint(source, *points)
 
     def _getHintDoublePosition(self, hint):
         if self.Object is not None and self.Object2 is not None:

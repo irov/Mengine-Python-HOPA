@@ -10,7 +10,7 @@ class ActionAddItem(ActionDefault):
     def _onCheck(self):
         return True
 
-    def _onRun(self):
+    def _onRun(self, source):
         pass
 
     pass

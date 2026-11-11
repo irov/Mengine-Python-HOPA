@@ -13,14 +13,23 @@ class ScenarioChapter(Initializer):
         self.skipedInjections = []
 
         self.onParagraphRunObserver = None
+        self.__notSaveScenarios = []
 
     def addScenario(self, ScenarioID, Runner):
         if Runner is None:
             Trace.log("Manager", 0, "ScenarioChapter.addScenario %s Runner is None" % (ScenarioID))
             return False
 
+        oldRunner = self.scenarios.get(ScenarioID)
         self.scenarios[ScenarioID] = Runner
+
+        if oldRunner is not None:
+            if oldRunner.isInitialized() is True:
+                oldRunner.onFinalize()
         return True
+
+    def addNotSaveScenario(self, Runner):
+        self.__notSaveScenarios.append(Runner)
 
     def getScenario(self, ScenarioID):
         if ScenarioID not in self.scenarios:
@@ -59,13 +68,22 @@ class ScenarioChapter(Initializer):
         super(ScenarioChapter, self)._onFinalize()
 
         Notification.removeObserver(self.onParagraphRunObserver)
+        self.onParagraphRunObserver = None
+
+        notSaveScenarios = self.__notSaveScenarios
+        self.__notSaveScenarios = []
 
         for scenario in self.scenarios.itervalues():
             scenario.onFinalize()
             pass
 
+        for scenario in notSaveScenarios:
+            if scenario.isInitialized() is True:
+                scenario.onFinalize()
+
         self.paragraphComplete = []
         self.scenarios = {}
+
         pass
 
     def _onInitializeFailed(self, ex):

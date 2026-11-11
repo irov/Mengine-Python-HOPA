@@ -36,6 +36,6 @@ class HintActionDragDropItem(MixinItem, MixinObject, HintActionMultiTarget):
 
         return (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         points = self.getHintDoublePosition(hint)
-        self.showHint(*points)
+        self.showHint(source, *points)

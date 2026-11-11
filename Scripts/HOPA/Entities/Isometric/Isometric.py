@@ -17,6 +17,7 @@ class Isometric(BaseEntity):
         self.isometricAngle = 0.0
         self.isometricIndex = 0
         self.currentAnimation = None
+        self.compiledResources = []
         pass
 
     def _onInitialize(self, obj):
@@ -25,6 +26,7 @@ class Isometric(BaseEntity):
             animation = Mengine.createNode("Movie")
             animation.disable()
             resource.compile()
+            self.compiledResources.append(resource)
             animation.setResourceMovie(resource)
             animation.setLoop(True)
 
@@ -42,6 +44,14 @@ class Isometric(BaseEntity):
             pass
 
         self.animations = []
+        self.currentAnimation = None
+
+        # balance the compile() of _onInitialize
+        for resource in self.compiledResources:
+            resource.release()
+            pass
+
+        self.compiledResources = []
         pass
 
     def _onActivate(self):

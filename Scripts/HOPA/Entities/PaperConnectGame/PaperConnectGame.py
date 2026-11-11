@@ -21,6 +21,12 @@ class PaperConnectGame(Enigma):
             self.doInit()
             pass
 
+        def finalize(self):
+            self.Paper_Group[:] = []
+            self.Game = None
+            self.PapaerData = None
+            self.Movie = None
+
         def doInit(self):
             self.Paper_Group.append(self)
             MovieName = self.PapaerData.PaperMovieName
@@ -175,9 +181,18 @@ class PaperConnectGame(Enigma):
         pass
 
     def _stopEnigma(self):
-        self.__StopAlias()
-        self.ReInitParamentrs()
+        self._cleanUp()
         pass
+
+    def _onFinalize(self):
+        super(PaperConnectGame, self)._onFinalize()
+        self._cleanUp()
+
+    def _cleanUp(self):
+        self.__StopAlias()
+        for paper in self.Papers.itervalues():
+            paper.finalize()
+        self.ReInitParamentrs()
 
     def __PreInit(self):
         self.MovieEntLay1 = self.object.getObject("Movie_Lay").getEntity()

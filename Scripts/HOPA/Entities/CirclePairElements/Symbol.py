@@ -17,6 +17,7 @@ class Symbol(Initializer):
 
         self.isOpen = False
         self.blocked = False
+        self.tcs = []
 
         self.movie_open.setEnable(False)
         self.movie_activate.setEnable(False)
@@ -33,8 +34,29 @@ class Symbol(Initializer):
         self.isOpen = True
         self.activateSymbol()
 
+    def _onFinalize(self):
+        super(Symbol, self)._onFinalize()
+
+        chains = self.tcs
+        self.tcs = []
+        for chain in chains:
+            chain.cancel()
+
+        self.movie_backplate = None
+        self.movie_mouseover = None
+        self.movie_open = None
+        self.movie_activate = None
+        self.movie_close = None
+        self.movie_sound = None
+
     def activateSymbol(self):
-        with TaskManager.createTaskChain() as tc:
+        # finished chains are finalized, keep only the ones still running
+        self.tcs = [tc for tc in self.tcs if tc.isInitialized() is True]
+
+        chain = TaskManager.createTaskChain()
+        self.tcs.append(chain)
+
+        with chain as tc:
             if self.isOpen is False:
                 tc.addEnable(self.movie_close)
                 tc.addTask("TaskMoviePlay", Movie=self.movie_close, Wait=True)

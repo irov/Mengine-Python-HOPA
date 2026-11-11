@@ -71,9 +71,7 @@ class PathChipsTransporter(BaseEntity):
     def _onFinalize(self):
         super(PathChipsTransporter, self)._onFinalize()
 
-        if self.observerFn != None:
-            Notification.removeObserver(self.observerFn)
-            pass
+        self.removeClickObserver()
 
         if self.attachNode is not None:
             Mengine.destroyNode(self.attachNode)
@@ -82,12 +80,19 @@ class PathChipsTransporter(BaseEntity):
         pass
 
     def addClickObserver(self, callback):
-        if self.observerFn != None:
-            Notification.removeObserver(self.observerFn)
-            pass
-        self.observerFn = Notification.addObserver(Notificator.onSocketClick,
-                                                   Functor(self.__onSocketClick, self.socket, callback))
-        pass
+        self.removeClickObserver()
+
+        observer_callback = Functor(self.__onSocketClick, self.socket, callback)
+        observer = Notification.addObserver(Notificator.onSocketClick, observer_callback)
+        self.observerFn = observer
+
+    def removeClickObserver(self):
+        observer = self.observerFn
+        if observer is None:
+            return
+
+        self.observerFn = None
+        Notification.removeObserver(observer)
 
     def __onSocketClick(self, socket, wait, callback):
         if self.block is True:

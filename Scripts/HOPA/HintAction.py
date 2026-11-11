@@ -4,14 +4,19 @@ from Foundation.Params import Params
 from Foundation.SceneManager import SceneManager
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.MixinScene import MixinScene
+from Foundation.TaskManager import TaskManager
 from HOPA.HintManager import HintManager
 from HOPA.ZoomManager import ZoomManager
+
 
 class HintAction(MixinScene, Params, Initializer):
     def __init__(self):
         super(HintAction, self).__init__()
 
         self.Quest = None
+        self._task_chain = None
+        self._scroll_chain = None
+        self._end_chain = None
 
         self.listInterrupt = []
         self.endAction = False
@@ -147,6 +152,23 @@ class HintAction(MixinScene, Params, Initializer):
 
         return None
 
+    def destroy_own_movie(self, name, movie):
+        # Hint movies share fixed names in the "HintEffect" group, so a probe or a replaced
+        # hint action must not destroy the movies that belong to the hint being shown now.
+        if movie is None:
+            return None
+
+        Group = GroupManager.getGroup("HintEffect")
+        if Group.hasObject(name) is False:
+            return None
+
+        if Group.getObject(name) is not movie:
+            return None
+
+        movie.onDestroy()
+
+        return None
+
     def onCheck(self):
         object = self.getHintObject()
         if object is None:
@@ -174,17 +196,85 @@ class HintAction(MixinScene, Params, Initializer):
         return True
         pass
 
-    def onAction(self, hint):
-        Notification.notify(Notificator.onHintActionStart, self)
-        self._onAction(hint)
+    def _onFinalize(self):
+        super(HintAction, self)._onFinalize()
+
+        self._clearScrollChain()
+        self._clearTaskChain()
+        self.cancelEndEffect()
+        self.Quest = None
+        self.listInterrupt = []
+        self.onClickItemCollectHint = None
+
+    def _clearTaskChain(self):
+        task_chain = self._task_chain
+        self._task_chain = None
+        if task_chain is not None:
+            task_chain.cancel()
+
+    def _clearScrollChain(self):
+        scroll_chain = self._scroll_chain
+        self._scroll_chain = None
+        if scroll_chain is not None:
+            scroll_chain.cancel()
+
+    def _runScrolling(self, hint):
+        self._scroll_chain = TaskManager.createTaskChain(Cb=self._onScrollComplete, CbArgs=(hint,))
+        with self._scroll_chain as source:
+            source.addScope(self._onScroll)
+
+    def _onScroll(self, source):
         pass
 
-    def _onAction(self, hint):
+    def _onScrollComplete(self, isSkip, hint):
+        self._scroll_chain = None
+        self._runAction(hint)
+
+    def cancelEndEffect(self):
+        end_chain = self._end_chain
+        self._end_chain = None
+        if end_chain is not None:
+            end_chain.cancel()
+
+    def _runEndEffect(self):
+        self.cancelEndEffect()
+
+        self._end_chain = TaskManager.createTaskChain(Cb=self._onEndEffectComplete)
+        with self._end_chain as source:
+            source.addScope(self._onEndEffect)
+
+    def _onEndEffect(self, source):
+        pass
+
+    def _onEndEffectComplete(self, isSkip):
+        self._end_chain = None
+
+    def onAction(self, hint):
+        Notification.notify(Notificator.onHintActionStart, self)
+
+        self._clearScrollChain()
+        self._clearTaskChain()
+        self.cancelEndEffect()
+        self._onActionStart(hint)
+
+    def _onActionStart(self, hint):
+        self._runAction(hint)
+
+    def _runAction(self, hint):
+        self._task_chain = TaskManager.createTaskChain(Cb=self._onActionComplete)
+        with self._task_chain as source:
+            source.addScope(self._onAction, hint)
+
+    def _onActionComplete(self, isSkip):
+        self._task_chain = None
+
+    def _onAction(self, source, hint):
         pass
 
     def onEnd(self):
+        self._clearScrollChain()
         self._onEnd()
         pass
 
     def _onEnd(self):
-        pass
+        self._clearTaskChain()

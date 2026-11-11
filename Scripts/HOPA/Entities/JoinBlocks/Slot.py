@@ -96,7 +96,7 @@ class Slot(object):
 
     def destroyOwn(self):
         if self._movie is not None:
-            self._movie.removeFromParent()
+            self._movie.onDestroy()
             self._movie = None
             pass
         pass

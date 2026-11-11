@@ -154,7 +154,6 @@ class LightCircleGame(Enigma):
             for ref in self.Reflectors:
                 ref.setRotate(Ang)
 
-    Slot_Movie = None
     Midle_Point = None
 
     @staticmethod
@@ -167,6 +166,11 @@ class LightCircleGame(Enigma):
         super(LightCircleGame, self).__init__()
         self.ReInitParamentrs()
         pass
+
+    def _onFinalize(self):
+        super(LightCircleGame, self)._onFinalize()
+
+        self._stopEnigma()
 
     def ReInitParamentrs(self):
         ###PreInit
@@ -242,8 +246,8 @@ class LightCircleGame(Enigma):
         pass
 
     def __InitMidlPoint(self):
-        LightCircleGame.Slot_Movie = self.object.getObject("Movie_CirclePoints")
-        MovieCirclePointsEntity = LightCircleGame.Slot_Movie.getEntity()
+        movie = self.object.getObject("Movie_CirclePoints")
+        MovieCirclePointsEntity = movie.getEntity()
         id = "midlPoint"
         midlObject = MovieCirclePointsEntity.getMovieSlot(id)
         LightCircleGame.Midle_Point = midlObject.getLocalPosition()

@@ -9,7 +9,9 @@ class HintActionMagicVisionUse(HintActionDefault):
     def _onInitialize(self):
         self.CheckSceneName = self.Quest.params.get("SceneNameTo")
         self.MVDemon = self.Quest.params.get("Demon")
-        self.hintObject = self._getHintObject()
+
+        # the base sets hintObject (needs MVDemon) and the movie/Working fields used by _onEnd
+        super(HintActionMagicVisionUse, self)._onInitialize()
         pass
 
     def _getHintObject(self):

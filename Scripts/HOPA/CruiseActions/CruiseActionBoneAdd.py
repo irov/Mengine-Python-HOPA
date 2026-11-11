@@ -11,8 +11,8 @@ class CruiseActionBoneAdd(CruiseActionUseInventoryItem):
         super(CruiseActionBoneAdd, self)._onParams(params)
         pass
 
-    def _onAction(self, Cruise):
-        super(CruiseActionBoneAdd, self)._onAction(Cruise)
+    def onAction(self):
+        super(CruiseActionBoneAdd, self).onAction()
         BoneBoardObject = DemonManager.getDemon("BoneBoard")
         BoneBoardEntity = BoneBoardObject.getEntity()
         BoneBoardEntity.showBoard()

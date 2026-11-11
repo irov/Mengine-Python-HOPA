@@ -39,6 +39,11 @@ class MoveChipsToKeyPoints(Enigma):
         super(MoveChipsToKeyPoints, self)._onDeactivate()
         self._cleanUp()
 
+    def _onFinalize(self):
+        super(MoveChipsToKeyPoints, self)._onFinalize()
+
+        self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -227,12 +232,18 @@ class MoveChipsToKeyPoints(Enigma):
         self.enigmaComplete()
 
     def _cleanUp(self):
-        if self.tc is not None:
-            self.tc.cancel()
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
 
         for (_, chip) in self.chips.iteritems():
             # chip.movie.setEnable(False)
             chip.node.removeFromParent()
+            chip.slot = None
+
+        for slot in self.slots.values():
+            slot.chip = None
 
         self.tc = None
         self.param = None

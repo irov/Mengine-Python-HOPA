@@ -1,12 +1,12 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.ObjectManager import ObjectManager
 from Foundation.SceneManager import SceneManager
-from Foundation.Task.TaskAlias import TaskAlias
+from Foundation.Task.TaskAliasFinally import TaskAliasFinally
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HOGManager import HOGManager
 
 
-class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
+class AliasHOGFXPartsGatheringItemFoundEffect(TaskAliasFinally):
     def _onParams(self, params):
         super(AliasHOGFXPartsGatheringItemFoundEffect, self)._onParams(params)
         self.HOGItemName = params.get("HOGItemName")
@@ -14,15 +14,13 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
         self.EnigmaName = params.get("EnigmaName")
         pass
 
-    def _onGenerate(self, source):
+    def _onGenerate(self, source, finurce):
         HOGInventory = HOGManager.getInventory(self.EnigmaName)
 
         if HOGInventory.isActive() is False:
             self.log("HOGInventory.isActive() is False  return")
             return
             pass
-
-        effect = HOGInventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         hogItem = HOGManager.getHOGItem(self.EnigmaName, self.HOGItemName)
         self.ItemName = hogItem.objectName
@@ -102,6 +100,8 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
         time = length / HOGItemHideEffectSpeed
         source.addTask("TaskNodeScaleTo", Node=pure, To=scale1, Time=HOGItemIncreaseTime)
 
+        effect = HOGInventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
+
         if effect is not None:
             effectEntityNode = effect.getEntityNode()
 
@@ -118,16 +118,19 @@ class AliasHOGFXPartsGatheringItemFoundEffect(TaskAlias):
             tcp1.addTask("TaskNodeScaleTo", Node=node, To=scale2, Time=time)
             pass
 
-        source.addTask("TaskNodeEnable", Node=pure, Value=False)
+        source.addTask("TaskNodeEnable", Node=node, Value=False)
 
-        with source.addFork() as source_fork:
-            if effect is not None:
-                source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
-                source_fork.addTask("TaskObjectDestroy", Object=effect)
-                pass
-
-            source_fork.addTask("TaskNodeDestroy", Node=node)
+        if effect is not None:
+            finurce.addTask("TaskMovie2Interrupt", Movie2=effect)
+            finurce.addTask("TaskObjectDestroy", Object=effect)
             pass
+
+        if ObjectType == "ObjectItem":
+            finurce.addTask("TaskNodeDestroy", Node=pure)
+        else:
+            finurce.addTask("TaskObjectDestroy", Object=movie)
+
+        finurce.addTask("TaskNodeDestroy", Node=node)
 
         def __playMovie(scope):
             HOGInventory = HOGManager.getInventory(self.EnigmaName)

@@ -19,6 +19,21 @@ class PuzzleDragDrop(Enigma):
         self.clean = []
         self.ParentLayer = "PuzzleDragDrop"
         self.winCase = []
+        self.Note = None
+        self.tc_autoWin = None
+        pass
+
+    def _onFinalize(self):
+        super(PuzzleDragDrop, self)._onFinalize()
+
+        Notification.removeObserver(self.Note)
+        self.Note = None
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
+        chain = self.tc_autoWin
+        self.tc_autoWin = None
+        if chain is not None:
+            chain.cancel()
+        self.clean = []
         pass
 
     def _stopEnigma(self):
@@ -28,12 +43,14 @@ class PuzzleDragDrop(Enigma):
             self.__clean()
             pass
         Notification.removeObserver(self.Note)
+        self.Note = None
         self.clearance()
         return True
         pass
 
     def _playEnigma(self):
         self.__Restore()
+        Notification.removeObserver(self.Note)
         self.Note = Notification.addObserver(Notificator.onPuzzleOutPlaced, fn=self.__rmvFromColection)
         self.PuzzleDragDrop = PuzzleDragDropManager.getPuzzleDragDrop(self.EnigmaName)
         self.winCase = self.PuzzleDragDrop.winCase
@@ -83,7 +100,8 @@ class PuzzleDragDrop(Enigma):
             pickItem.setPosition(position)
             pass
 
-        with TaskManager.createTaskChain(Cb=self._complete) as tc:
+        self.tc_autoWin = TaskManager.createTaskChain(Cb=self._complete)
+        with self.tc_autoWin as tc:
             tc.addDelay(1.5 * 1000)  # speed fix
             pass
         return True

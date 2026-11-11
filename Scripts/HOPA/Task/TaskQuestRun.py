@@ -1,4 +1,5 @@
 from Foundation.Task.Task import Task
+from HOPA.QuestManager import QuestManager
 from Notification import Notification
 
 class TaskQuestRun(Task):
@@ -25,3 +26,12 @@ class TaskQuestRun(Task):
     def _onSkip(self):
         Notification.notify(Notificator.onQuestEnd, self.Quest)
         pass
+
+    def _onFinally(self):
+        super(TaskQuestRun, self)._onFinally()
+
+        QuestManager.cancelQuest(self.Quest)
+
+    def _onFinalize(self):
+        super(TaskQuestRun, self)._onFinalize()
+        self.Quest = None

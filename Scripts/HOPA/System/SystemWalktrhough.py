@@ -9,7 +9,7 @@ class SystemWalktrhough(System):
 
     def _onRun(self):
         self.addObserver(Notificator.onKeyEvent, self.__onKeyEvent)
-        pass
+        return True
 
     def _onStop(self):
         pass

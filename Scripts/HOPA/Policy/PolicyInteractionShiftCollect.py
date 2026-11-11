@@ -32,7 +32,8 @@ class PolicyInteractionShiftCollect(MixinGroup, Task):
 
     def _onFinally(self):
         for index, collect in enumerate(self.Collects):
-            TaskManager.cancelTaskChain("ShiftCollect_%s" % (index))
+            taskName = "ShiftCollect_%s" % (index)
+            TaskManager.cancelTaskChain(taskName, exist=False)
             pass
         pass
 

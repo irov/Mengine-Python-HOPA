@@ -78,6 +78,9 @@ class SystemOverView(System):
             pass
         else:  # if already complete
             currentChapter = ChapterManager.getCurrentChapter()
+            if currentChapter is None:
+                return False
+
             for paragraphId in self.FinalParagraphs:
                 if currentChapter.isParagraphComplete(paragraphId) is True:
                     myObject = self.FinalParagraphs.pop(ParagraphID)

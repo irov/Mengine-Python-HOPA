@@ -491,6 +491,11 @@ class SystemItemPlusScene(System):
         self.posTo = [0.0, 0.0]
         self.posFrom = [0.0, 0.0]
 
+        # this runs at the end of the close animation: if another item+ was opened meanwhile,
+        # the chain with this name is its close button (the old one was cancelled in _OpenZoomEnd)
+        if self.hasOpenItemPlus() is False:
+            self.__CanseltTaskChain("ClickButton_ItemPlus_CloseZoom")
+
         if GroupZoom is not None:
             GroupLayer = GroupZoom.getMainLayer()
             # print " --- Item+ --- GroupZoom={!r} parent='{}' | Fade='{}' | layer={!r} parent='{}'".format(
@@ -540,6 +545,15 @@ class SystemItemPlusScene(System):
         if self.tc_Fade_close != None:
             self.tc_Fade_close.cancel()
             self.tc_Fade_close = None
+
+        self.__CanseltTaskChain("ClickButton_ItemPlus_CloseZoom")
+
+    def _onFinalize(self):
+        super(SystemItemPlusScene, self)._onFinalize()
+
+        if self.Node_Fade is not None:
+            Mengine.destroyNode(self.Node_Fade)
+            self.Node_Fade = None
 
     def __CanseltTaskChain(self, Name):
         if TaskManager.existTaskChain(Name) is True:

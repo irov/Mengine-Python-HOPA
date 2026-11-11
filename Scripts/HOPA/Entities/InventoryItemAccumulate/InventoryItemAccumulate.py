@@ -26,6 +26,7 @@ class InventoryItemAccumulate(BaseEntity):
 
         self.state = InventoryItemAccumulate.ITEM_STORE
         self.sprite = None
+        self.textField = None
         pass
 
     def __updateValue(self, value):
@@ -69,14 +70,18 @@ class InventoryItemAccumulate(BaseEntity):
 
     def _onDeactivate(self):
         super(InventoryItemAccumulate, self)._onDeactivate()
-        self.textField.removeFromParent()
+        # _onPreparation creates a new TextField on every activation
+        if self.textField is not None:
+            Mengine.destroyNode(self.textField)
+            self.textField = None
         pass
 
     def _onFinalize(self):
         super(InventoryItemAccumulate, self)._onFinalize()
 
-        Mengine.destroyNode(self.textField)
-        self.textField = None
+        if self.textField is not None:
+            Mengine.destroyNode(self.textField)
+            self.textField = None
 
         self.sprite = None
         pass

@@ -22,6 +22,9 @@ class Objectives(BaseEntity):
         self.movieIdle = None
         self.movieHide = None
 
+        self.onShowObjectiveObserver = None
+        self.onHideObjectiveObserver = None
+
         self.state = "close"
         pass
 
@@ -50,6 +53,13 @@ class Objectives(BaseEntity):
     def _onDeactivate(self):
         Notification.removeObserver(self.onShowObjectiveObserver)
         Notification.removeObserver(self.onHideObjectiveObserver)
+        self.onShowObjectiveObserver = None
+        self.onHideObjectiveObserver = None
+
+        # Stop the display chains before releasing their slots.
+        TaskManager.cancelTaskChain("Objective_Show", exist=False)
+        TaskManager.cancelTaskChain("Objective_Hide", exist=False)
+
         self._removeObjectiveFromSlot()
         pass
 
@@ -135,7 +145,7 @@ class Objectives(BaseEntity):
 
     def _removeObjectiveFromSlot(self):
         for text in self.textObjects:
-            text.removeFromParent()
+            text.onDestroy()
             pass
 
         self.textObjects = []

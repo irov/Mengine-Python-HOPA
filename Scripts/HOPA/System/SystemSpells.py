@@ -1014,7 +1014,12 @@ class SystemSpells(System):
         tab.addWidget(widget)
 
     def createTaskChain(self, Name, Cb=None, CbArgs=(), **Params):
-        tc = super(SystemSpells, self).createTaskChain(Name, Cb, CbArgs, **Params)
+        # names are unique per call: always pass a Cb, so System drops the chain from its registry on completion
+        def __cbComplete(isSkip, *args):
+            if Cb is not None:
+                Cb(isSkip, *args)
+
+        tc = super(SystemSpells, self).createTaskChain(Name, __cbComplete, CbArgs, **Params)
 
         if "__cbSpellsUICloseAmulet" in Name and Mengine.hasOption("eva"):
             Trace.log("System", 0, "create tc {}".format(Name))
@@ -1026,7 +1031,7 @@ class SystemSpells(System):
             msg_err += " failed! Scene={} Zoom={} - ALREADY HAS THIS NAME".format(SceneManager.getCurrentSceneName(), ZoomManager.getZoomOpenGroupName())
             Trace.log("System", 0, msg_err)
             Name += str(Mengine.getTime())
-            tc = super(SystemSpells, self).createTaskChain(Name, Cb, CbArgs, **Params)
+            tc = super(SystemSpells, self).createTaskChain(Name, __cbComplete, CbArgs, **Params)
 
         self.active_tcs.append(tc)
 
@@ -1034,7 +1039,15 @@ class SystemSpells(System):
 
     def __cbOnSceneLeave(self, _scene_name):
         for tc in self.active_tcs:
+            if tc is None:
+                continue
+
+            tc_name = tc.getName()
             tc.cancel()
+
+            # a cancelled chain never calls its Cb, so drop it from the System registry here
+            if self.existTaskChain(tc_name) is True:
+                self.removeTaskChain(tc_name)
 
         self.active_tcs = []
 

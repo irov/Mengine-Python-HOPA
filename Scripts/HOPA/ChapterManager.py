@@ -124,6 +124,9 @@ class ChapterManager(Manager):
     def chapterAddRunNotSaveInjection(ScenarioChapter, ScenarioID):
         Runner = ChapterManager.chapterAddNotSaveInjection(ScenarioChapter, ScenarioID)
 
+        if Runner is None:
+            return None
+
         Runner.onInitialize()
         Runner.generateScenario(ScenarioChapter)
         Runner.run()
@@ -132,6 +135,11 @@ class ChapterManager(Manager):
 
     @staticmethod
     def chapterAddInjection(ScenarioChapter, ScenarioID):
+        # the current chapter is None while no stage is running (it is reset when the stage is finalized)
+        if ScenarioChapter is None:
+            Trace.log("Manager", 0, "ChapterManager.chapterAddInjection no scenario chapter for scenario %s" % (ScenarioID))
+            return None
+
         Runner = ScenarioManager.generateScenario(ScenarioID)
 
         if Runner is None:
@@ -143,7 +151,17 @@ class ChapterManager(Manager):
 
     @staticmethod
     def chapterAddNotSaveInjection(ScenarioChapter, ScenarioID):
+        if ScenarioChapter is None:
+            Trace.log("Manager", 0, "ChapterManager.chapterAddNotSaveInjection no scenario chapter for scenario %s" % (ScenarioID))
+            return None
+
         Runner = ScenarioManager.generateScenario(ScenarioID)
+
+        if Runner is None:
+            Trace.log("Manager", 0, "ChapterManager.chapterAddNotSaveInjection invalid generate scenario %s" % (ScenarioID))
+            return None
+
+        ScenarioChapter.addNotSaveScenario(Runner)
         return Runner
 
     @staticmethod

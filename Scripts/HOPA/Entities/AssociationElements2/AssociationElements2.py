@@ -1,10 +1,9 @@
-from Foundation.TaskManager import TaskManager
-from HOPA.Enigma import Enigma
+from HOPA.ScopeEnigma import ScopeEnigma
 
 from AssociationElements2Manager import AssociationElements2Manager
 from Element import Element
 
-class AssociationElements2(Enigma):
+class AssociationElements2(ScopeEnigma):
     def __init__(self):
         super(AssociationElements2, self).__init__()
         self.sockets = {}
@@ -13,7 +12,7 @@ class AssociationElements2(Enigma):
         self.bufferElement = None
         self.BlockInput = False
 
-        self.tc = None
+        self.onWinObserver = None
         pass
 
     def _start(self):
@@ -53,22 +52,20 @@ class AssociationElements2(Enigma):
         pass
 
     def _playEnigma(self):
+        self.__clearGame()
         super(AssociationElements2, self)._playEnigma()
+
+    def _onScopePlay(self, source):
         self._start()
         # self.onMovieSocketClickObserver = Notification.addObserver(Notificator.onMovieSocketClick, self.__onMovieSocketClick)
         self.onWinObserver = Notification.addObserver(Notificator.onAssociationElementActive, self.__isComplete)
 
-        self.tc = TaskManager.createTaskChain(Name="AssociationElements2_" + self.getName(), Repeat=True)
-
-        with self.tc as tc:
-            with tc.addRaceTaskList(self.sockets.keys()) as race_tcs:
-                for socketName, tc_race in race_tcs:
-                    tc_race.addTask("TaskMovieSocketClick", SocketName=socketName, Movie=self.MovieSlot)
-                    tc_race.addFunction(self.onMovieSocketClick, socketName, self.MovieSlot)
-                    pass
+        with source.addRaceTaskList(self.sockets.keys()) as race_tcs:
+            for socketName, tc_race in race_tcs:
+                tc_race.addTask("TaskMovieSocketClick", SocketName=socketName, Movie=self.MovieSlot)
+                tc_race.addFunction(self.onMovieSocketClick, socketName, self.MovieSlot)
                 pass
             pass
-
         pass
 
     def onMovieSocketClick(self, socketName, movieObject):
@@ -112,12 +109,10 @@ class AssociationElements2(Enigma):
     def _stopEnigma(self):
         super(AssociationElements2, self)._stopEnigma()
         Notification.removeObserver(self.onWinObserver)
+        self.onWinObserver = None
         # Notification.removeObserver(self.onMovieSocketClickObserver)
 
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
-            pass
+        self._cancelScope()
 
         pass
 
@@ -162,16 +157,24 @@ class AssociationElements2(Enigma):
 
     def _onDeactivate(self):
         super(AssociationElements2, self)._onDeactivate()
-        for movie in self.garbageEntities:
-            movie.onDestroy()
-            pass
+        self.__clearGame()
 
+    def _onFinalize(self):
+        super(AssociationElements2, self)._onFinalize()
+
+        self.__clearGame()
+
+    def __clearGame(self):
+        Notification.removeObserver(self.onWinObserver)
+        self.onWinObserver = None
+        self._cancelScope()
+
+        movies = self.garbageEntities
         self.garbageEntities = []
+        for movie in movies:
+            movie.onDestroy()
 
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
-            pass
-        pass
-
-    pass
+        self.sockets = {}
+        self.MovieSlot = None
+        self.bufferElement = None
+        self.BlockInput = False

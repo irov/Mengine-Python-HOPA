@@ -11,8 +11,11 @@ class SystemBonusItem(System):
         self._currentCount = 0
         self.bonusList = []
 
+    # The count lives in the demon's ItemsCount param; its entity is recreated with the scene,
+    # so it is looked up when needed instead of being cached.
     def _onSave(self):
-        return self.BonusInventory.getItemsCount()
+        BonusItem = DemonManager.getDemon("BonusItem")
+        return BonusItem.getItemsCount()
         pass
 
     def _onLoad(self, data_save):
@@ -21,12 +24,11 @@ class SystemBonusItem(System):
 
     def _onRun(self):
         BonusItem = DemonManager.getDemon("BonusItem")
-        self.BonusInventory = BonusItem.getEntity()
-        self.BonusInventory.setItemsCount(self._currentCount)
+        BonusItem.setItemsCount(self._currentCount)
 
         self.addObserver(Notificator.onSceneEnter, self.__onSceneEnter)
         self.addObserver(Notificator.onSceneLeave, self.__onSceneLeave)
-        pass
+        return True
 
     def _onStop(self):
         self.__cleanBonusList()
@@ -42,9 +44,17 @@ class SystemBonusItem(System):
                 with TaskManager.createTaskChain(Name="BonusItemTaskChain_%s_%s" % (group, item,)) as tc:
                     tc.addTask("TaskItemClick", Item=ItemObject)
                     tc.addTask("TaskItemPick", Item=ItemObject)
-                    tc.addFunction(self.BonusInventory._updateCount)
+                    tc.addFunction(self.__updateCount)
 
         return False
+
+    def __updateCount(self):
+        BonusItem = DemonManager.getDemon("BonusItem")
+        if BonusItem.isActive() is False:
+            return
+
+        BonusInventory = BonusItem.getEntity()
+        BonusInventory._updateCount()
 
     def __cleanBonusList(self):
         for group in self.bonusList:

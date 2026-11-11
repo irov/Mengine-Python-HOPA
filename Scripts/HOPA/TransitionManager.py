@@ -693,11 +693,11 @@ class TransitionManager(Manager):
             pass
 
         transitionGraph = TransitionManager.__makeTransitionGraph()
-
         sceneNodeFrom = transitionGraph.findNode(sceneNameFrom)
         sceneNodeTo = transitionGraph.findNode(sceneNameTo)
 
         way = transitionGraph.findWay(sceneNodeFrom, sceneNodeTo)
+        transitionGraph.destroy()
 
         if len(way) == 1:
             sceneNodeFirstStep = sceneNodeTo
@@ -718,7 +718,6 @@ class TransitionManager(Manager):
                 tempTransitionObject = TransitionManager.getTransition(sceneNameCurrent, sceneNameNext)
                 if tempTransitionObject is not None:
                     if tempTransitionObject.getEnable() is False or tempTransitionObject.isInteractive() is False:
-                        transitionGraph.destroy()
                         return None
                         pass
 
@@ -739,11 +738,9 @@ class TransitionManager(Manager):
                 elif TransitionManager.hasTransitionBack(sceneNameCurrent) is True:
                     TransitionBackScene = TransitionManager.getTransitionBack(sceneNameCurrent)
                     if sceneNameNext != TransitionBackScene:
-                        transitionGraph.destroy()
                         return None
                         pass
                     if TransitionBackObject.getEnable() is False or TransitionBackObject.isInteractive() is False:
-                        transitionGraph.destroy()
                         return None
                         pass
                     pass
@@ -752,8 +749,6 @@ class TransitionManager(Manager):
                     pass
                 pass
             pass
-
-        transitionGraph.destroy()
 
         if sceneNodeFirstStep is None:
             return None
@@ -803,7 +798,6 @@ class TransitionManager(Manager):
             pass
 
         transitionGraph = TransitionManager.__makeTransitionGraph()
-
         sceneNodeFrom = transitionGraph.findNode(sceneNameFrom)
         sceneNodeTo = transitionGraph.findNode(sceneNameTo)
 

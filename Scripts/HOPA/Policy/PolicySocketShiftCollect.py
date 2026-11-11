@@ -1,12 +1,30 @@
 from Foundation.Notificator import Notificator
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinGroup import MixinGroup
+from Foundation.Task.MixinObserver import MixinObserver
 from Foundation.Task.Task import Task
 from Foundation.TaskManager import TaskManager
 from HOPA.QuestManager import QuestManager
 
-class PolicySocketShiftCollect(MixinGroup, Task):
+class PolicySocketShiftCollect(MixinGroup, MixinObserver, Task):
     Skiped = False
+
+    def __init__(self):
+        super(PolicySocketShiftCollect, self).__init__()
+        self.__taskNames = []
+        self.__quests = []
+
+    def __clearTaskChains(self):
+        names = self.__taskNames
+        self.__taskNames = []
+        quests = self.__quests
+        self.__quests = []
+        self.EventComplete = None
+
+        for name in names:
+            TaskManager.cancelTaskChain(name, exist=False)
+        for quest in quests:
+            QuestManager.cancelQuest(quest)
 
     def _onParams(self, params):
         super(PolicySocketShiftCollect, self)._onParams(params)
@@ -32,7 +50,11 @@ class PolicySocketShiftCollect(MixinGroup, Task):
             Quest = QuestManager.createLocalQuest("ShiftCollect", SceneName=SceneName, GroupName=self.Group.getName(),
                                                   Collects=self.Collects, CollectIndex=collect_index)
 
-            with TaskManager.createTaskChain(Name=self.Name + str(collect_index), Group=self.Group) as tc:
+            self.__quests.append(Quest)
+
+            taskName = self.Name + str(collect_index)
+            self.__taskNames.append(taskName)
+            with TaskManager.createTaskChain(Name=taskName, Group=self.Group) as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     with tc_quest.addRepeatTask() as (tc_repeat, tc_until):
                         tc_repeat.addTask("AliasObjectClick", ObjectName=collect["InteractionName"], IsQuest=False,
@@ -45,20 +67,35 @@ class PolicySocketShiftCollect(MixinGroup, Task):
 
                         tc_until.addEvent(self.EventComplete)
 
-        ''' Skip shift collect '''
-        with TaskManager.createTaskChain(Name=self.Name + 'Cancel') as tc:
-            tc.addListener(Notificator.onShiftCollectSkip)
-            tc.addFunction(self.EventComplete)
-            tc.addFunction(self.complete)
+        self.addObserver(Notificator.onShiftCollectSkip, self._onShiftCollectSkip)
 
         return False
+
+    def _onShiftCollectSkip(self):
+        return True
+
+    def _onObserverComplete(self, obj_filter):
+        super(PolicySocketShiftCollect, self)._onObserverComplete(obj_filter)
+
+        self.EventComplete()
 
     def _onFinally(self):
         super(PolicySocketShiftCollect, self)._onFinally()
 
-        self.EventComplete = None
+        self.__clearTaskChains()
+
+    def _onFinalize(self):
+        super(PolicySocketShiftCollect, self)._onFinalize()
+
+        self.__clearTaskChains()
+        self.Collects = None
 
     def _checkCollectsComplete(self, isSkip, cb):
+        # EventComplete is None while __clearTaskChains cancels the chains (their skip path reaches here)
+        if self.EventComplete is None:
+            cb(isSkip)
+            return
+
         if self._test() is False:
             cb(isSkip)
             return

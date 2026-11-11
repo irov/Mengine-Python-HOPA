@@ -23,8 +23,6 @@ class PolicyEffectInventoryAddInventoryItemParticles2(TaskAlias):
             return
             pass
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
 
@@ -79,6 +77,8 @@ class PolicyEffectInventoryAddInventoryItemParticles2(TaskAlias):
         source.addTask("TaskNodeScaleTo", Node=sprite, To=(1.25, 1.25, 1.0), Time=250.0)
         source.addTask("TaskNodeScaleTo", Node=sprite, To=(1.0, 1.0, 1.0), Time=250.0)
 
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
+
         if effect is not None:
             effectEntityNode = effect.getEntityNode()
 
@@ -105,6 +105,7 @@ class PolicyEffectInventoryAddInventoryItemParticles2(TaskAlias):
                 source_fork.addTask("TaskObjectDestroy", Object=effect)
                 pass
 
+            source_fork.addTask("TaskNodeDestroy", Node=sprite)
             source_fork.addTask("TaskNodeDestroy", Node=node)
             pass
         pass

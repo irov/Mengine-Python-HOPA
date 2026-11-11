@@ -13,6 +13,15 @@ class ConnectLamp(Enigma):
         self.ReInitParamentrs()
         pass
 
+    def _onFinalize(self):
+        super(ConnectLamp, self)._onFinalize()
+
+        for name in self.AliasNames:
+            TaskManager.cancelTaskChain(name, exist=False)
+        if self.Game is not None:
+            self.__Finita()
+        self.ReInitParamentrs()
+
     def ReInitParamentrs(self):
         self.Game = None
         self.AliasNames = []

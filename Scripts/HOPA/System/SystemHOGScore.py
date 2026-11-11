@@ -7,7 +7,7 @@ class SystemHOGScore(System):
         pass
 
     def _onRun(self):
-        pass
+        return True
 
     def _onStop(self):
         pass

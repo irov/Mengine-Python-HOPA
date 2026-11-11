@@ -15,8 +15,8 @@ class MusicManager(Manager):
 
     @staticmethod
     def _onInitialize():
-        Manager.addObserver(Notificator.onChangeGameMusic, MusicManager.__onChangeGameMusic)
-        Manager.addObserver(Notificator.onChangeMenuMusic, MusicManager.__onChangeMenuMusic)
+        MusicManager.addObserver(Notificator.onChangeGameMusic, MusicManager.__onChangeGameMusic)
+        MusicManager.addObserver(Notificator.onChangeMenuMusic, MusicManager.__onChangeMenuMusic)
         pass
 
     @staticmethod

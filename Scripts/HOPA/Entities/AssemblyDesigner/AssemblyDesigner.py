@@ -65,14 +65,20 @@ class AssemblyDesigner(Enigma):
                     'play_effect') is True, "Movie2_SetClosePlus dont has slot play_effect"
 
         def cleanUp(self):
-            self.movie_carcass.getEntityNode().removeFromParent()
-            self.movie_carcass.onDestroy()
+            self.assembly = {}
+            self.__finish_items = {}
+            if self.movie_carcass is not None:
+                self.movie_carcass.getEntityNode().removeFromParent()
+                self.movie_carcass.onDestroy()
+                self.movie_carcass = None
 
-            for movie_set_open in self.movie_set_open:
+            for movie_set_open in self.movie_set_open or ():
                 movie_set_open.getEntityNode().removeFromParent()
+            self.movie_set_open = None
 
-            for movie_set_close in self.movie_set_close:
+            for movie_set_close in self.movie_set_close or ():
                 movie_set_close.getEntityNode().removeFromParent()
+            self.movie_set_close = None
 
         def updateText(self):
             text_id = self.set_name_complete_text_id
@@ -182,8 +188,15 @@ class AssemblyDesigner(Enigma):
 
         def cleanUp(self):
             self.current_movie = None
-            self.movie_on_set.onDestroy()
-            self.movie_on_shelf.onDestroy()
+            self.current_set = None
+            self.shelf = None
+            self.__temp_parent = None
+            if self.movie_on_set is not None:
+                self.movie_on_set.onDestroy()
+                self.movie_on_set = None
+            if self.movie_on_shelf is not None:
+                self.movie_on_shelf.onDestroy()
+                self.movie_on_shelf = None
 
         def setCurrentSet(self, set_):
             _log("item {} added on new set {}".format(self.item_id, set_.set_id), is_error=False)
@@ -238,13 +251,19 @@ class AssemblyDesigner(Enigma):
             self.disableShelf()
 
         def cleanUp(self):
-            self.movie_shelf.getEntityNode().removeFromParent()
+            self.current_items = {}
+            self.places = {}
+            if self.movie_shelf is not None:
+                self.movie_shelf.getEntityNode().removeFromParent()
+                self.movie_shelf = None
 
-            for movie_shelf_open in self.movie_shelf_open:
+            for movie_shelf_open in self.movie_shelf_open or ():
                 movie_shelf_open.getEntityNode().removeFromParent()
+            self.movie_shelf_open = None
 
-            for movie_shelf_close in self.movie_shelf_close:
+            for movie_shelf_close in self.movie_shelf_close or ():
                 movie_shelf_close.getEntityNode().removeFromParent()
+            self.movie_shelf_close = None
 
         def runTests(self):
             assert len(self.places) == self.__number_of_places, "shelf {} has {} places, but must has {}".format(
@@ -398,6 +417,15 @@ class AssemblyDesigner(Enigma):
 
     def _onDeactivate(self):
         super(AssemblyDesigner, self)._onDeactivate()
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(AssemblyDesigner, self)._onFinalize()
+
+        chain = self.tc_main
+        self.tc_main = None
+        if chain is not None:
+            chain.cancel()
         self.__cleanUp()
 
     def __loadParams(self):
@@ -713,9 +741,10 @@ class AssemblyDesigner(Enigma):
             guard_source.addFunction(self.__setCurrentShelf, new_shelf)
 
     def __cleanUp(self):
-        if self.tc_main is not None:
-            self.tc_main.cancel()
+        chain = self.tc_main
         self.tc_main = None
+        if chain is not None:
+            chain.cancel()
 
         for obj in self.items.values() + self.sets.values() + self.shelves.values():
             obj.cleanUp()

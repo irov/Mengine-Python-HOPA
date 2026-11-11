@@ -12,7 +12,7 @@ class SystemInventoryItemSelection(System):
     def _onRun(self):
         self.addObserver(Notificator.onInventorySlotItemEnter, self._onSlotMouseEnterFilter)
         self.addObserver(Notificator.onInventorySlotItemLeave, self._onSlotMouseLeaveFilter)
-        pass
+        return True
 
     def _onStop(self):
         pass

@@ -27,6 +27,7 @@ class JoinBlocks(Enigma):
         self.socket = None
         self.BeginBlock = None
         self.PathSoundMovie = None
+        self.EnigmaUndoButton = None
         pass
 
     def _onDeactivate(self):
@@ -38,6 +39,7 @@ class JoinBlocks(Enigma):
         super(JoinBlocks, self)._stopEnigma()
 
         Notification.removeObserver(self.EnigmaUndoButton)
+        self.EnigmaUndoButton = None
 
         self.makeSave()
         self.destroy()
@@ -72,7 +74,7 @@ class JoinBlocks(Enigma):
 
         for key, block in self.blocks.iteritems():
             block.destroy()
-            key.removeFromParent()
+            key.onDestroy()
             pass
 
         self.blocks.clear()
@@ -328,9 +330,8 @@ class JoinBlocks(Enigma):
 
     def clearWaiters(self):
         for socket in self.currentBuildPath.keys():
-            socketEntity = socket.getEntity()
-            socketEntity.removeFromParent()
-            socket.removeFromParent()
+            # generated in generatePathSocket: removeFromParent alone would orphan it
+            socket.onDestroy()
             pass
         self.currentBuildPath = {}
         pass

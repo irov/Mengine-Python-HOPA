@@ -23,6 +23,8 @@ class Programmator(Enigma):
         self.HandInstance = None
         self.ExecutableInstance = None
         self.WheelInstance = None
+        self.FinalPartition = None
+        self.RunButton = None
         self.partitions = []
         self.buttonToMovieGenerator = {}
         self.buttonQueue = []
@@ -31,29 +33,55 @@ class Programmator(Enigma):
         pass
 
     def _stopEnigma(self):
-        Notification.removeObserver(self.ButtonHandler)
-        self.names = None
-        for gb in self.garbage:
-            #            print gb.getObject().getName()
-            #            print gb.getParent()
-            gb.removeFromParent()
-        self.garbage = []
+        self._cleanUp()
+        self.returnToParent()
+        pass
 
-        self.TapInstance.onDeactivate()
-        self.TapInstance = None
+    def _cleanUp(self):
+        Notification.removeObserver(self.ButtonHandler)
+        self.ButtonHandler = None
+        self.names = None  # generator frame holds self
+
+        if self.TapInstance is not None:
+            self.TapInstance.onDeactivate()
+            self.TapInstance = None
+        self._destroyGarbage()
+
         for part in self.partitions:
             part.onDeactivate()
             pass
         self.partitions = []
-        self.HandInstance.onDeactivate()
-        self.HandInstance = None
-        self.ExecutableInstance.onStop()
-        self.ExecutableInstance = None
-        self.WheelInstance.onDeactivate()
-        self.WheelInstance = None
-        self.FinalPartition.onDeactivate()
-        self.FinalPartition = None
-        self.returnToParent()
+        if self.HandInstance is not None:
+            self.HandInstance.onDeactivate()
+            self.HandInstance = None
+        if self.ExecutableInstance is not None:
+            self.ExecutableInstance.onStop()
+            self.ExecutableInstance = None
+        if self.WheelInstance is not None:
+            self.WheelInstance.onDeactivate()
+            self.WheelInstance = None
+        if self.FinalPartition is not None:
+            self.FinalPartition.onDeactivate()
+            self.FinalPartition = None
+        self.buttonToMovieGenerator = {}
+        self.buttonQueue = []
+        self.RunButton = None
+        pass
+
+    def _destroyGarbage(self):
+        # generated task movies: destroy, removeFromParent alone orphans them
+        garbage = self.garbage
+        self.garbage = []
+        for gb in garbage:
+            gb.onDestroy()
+            pass
+        pass
+
+    def _onFinalize(self):
+        super(Programmator, self)._onFinalize()
+
+        self._cleanUp()
+        self.returns = []
         pass
 
     def _playEnigma(self):

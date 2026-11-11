@@ -78,8 +78,22 @@ class SystemInventoryFX(System):
         self.addObserver(Notificator.onStateChange, self._onStateChange)
         self.addObserver(Notificator.onInventoryDeactivate, self.__onInventoryDeactivate)
         self.addObserver(Notificator.onInventoryFXActionEnd, self.__onInventoryFXActionEnd)
+        self.addObserver(Notificator.onSessionRemoveComplete, self.__onSessionRemoveComplete)
 
         return True
+        pass
+
+    def __finalizeActions(self):
+        actions = self.actions
+        self.actions = []
+        self.nextAction = None
+        for action in actions:
+            action.onFinalize()
+
+    def __onSessionRemoveComplete(self):
+        # actions of the removed session hold its inventory items; a head that never ended would block the queue forever
+        self.__finalizeActions()
+        return False
         pass
 
     def __blockDown(self, value):
@@ -190,6 +204,7 @@ class SystemInventoryFX(System):
             pass
 
         self.actions.remove(action)
+        action.onFinalize()
         self.nextAction = None
         if len(self.actions) > 0:
             self.nextAction = self.actions[0]
@@ -601,6 +616,8 @@ class SystemInventoryFX(System):
         if TaskManager.existTaskChain("moveBlocUp"):
             TaskManager.cancelTaskChain("moveBlocUp")
             pass
+
+        self.__finalizeActions()
         pass
 
     pass

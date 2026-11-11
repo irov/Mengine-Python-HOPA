@@ -20,6 +20,20 @@ class PlanetGame(Enigma):
         self.finalize()
         pass
 
+    def _onFinalize(self):
+        super(PlanetGame, self)._onFinalize()
+
+        self._releasePlanets()
+        pass
+
+    def _releasePlanets(self):
+        for planet in self.planetList:
+            planet.release()
+            pass
+
+        self.planetList = []
+        pass
+
     def _resetEnigma(self):
         for planet in self.planetList:
             planet.resetPlanet()

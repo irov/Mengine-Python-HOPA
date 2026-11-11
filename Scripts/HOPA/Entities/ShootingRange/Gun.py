@@ -15,7 +15,6 @@ class Gun(object):
         self.faster = 4
         self.balls = ball_movies
         self.generic = generic
-        self.after_init()
         self.pattern = pattern
         self.position_object = []
         self.generic_count = 0
@@ -24,6 +23,11 @@ class Gun(object):
         self.gun_with_slot = None
         self.tasks_pool = []
         self.ball_bucket = []
+        self.TargetEnter = None
+        self.TargetMove = None
+        self.TargetLeave = None
+        self.TargetClick = None
+        self.after_init()
         pass
 
     def after_init(self):
@@ -60,20 +64,49 @@ class Gun(object):
         self.wind_size = wind_size
         pass
 
-    def destroy(self):  # clean up notification
+    def destroy(self):
+        self.block_observe = False
+        if self.TargetMove is not None:
+            Mengine.removeGlobalHandler(self.TargetMove)
+            self.TargetMove = None
+
+        if self.TargetEnter is not None:
+            Notification.removeObserver(self.TargetEnter)
+            self.TargetEnter = None
+
+        if self.TargetLeave is not None:
+            Notification.removeObserver(self.TargetLeave)
+            self.TargetLeave = None
+
+        if self.TargetClick is not None:
+            Notification.removeObserver(self.TargetClick)
+            self.TargetClick = None
+
+        for name in self.tasks_pool:
+            if TaskManager.existTaskChain(name) is True:
+                TaskManager.cancelTaskChain(name)
+        self.tasks_pool = []
+
+        for movie in self.balls:
+            entity = movie.getEntity()
+            if entity is None:
+                continue
+            if entity.hasMovieEvent("onCross") is True:
+                entity.setMovieEvent("onCross", None)
+
         self.removeStack()
-        Notification.removeObserver(self.TargetEnter)
-        # Notification.removeObserver(self.TargetMove)
-        Notification.removeObserver(self.TargetLeave)
-        Notification.removeObserver(self.TargetClick)
-        [TaskManager.cancelTaskChain(taskName) for taskName in self.tasks_pool if TaskManager.existTaskChain(taskName)]
+        # generated balls: destroy, removeFromParent alone orphans them
         for ball in self.ball_bucket:
-            ball.removeFromParent()
-            #            ballEn  = self.generic.getObject(ball).getEntity()
-            #            DemonEn = self.generic.getEntity()
-            #            DemonEn.addChild(ballEn)
-            pass
-        pass
+            ball.onDestroy()
+        self.ball_bucket = []
+        self.position_object = []
+        self.NotDisableGuns = []
+        self.gun_with_slot = None
+        self.guns = []
+        self.balls = []
+        self.socket = None
+        self.generic = None
+        self.pattern = []
 
     def onMouseEnter(self, socket):
         if socket == self.socket:

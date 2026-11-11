@@ -26,6 +26,13 @@ class HOGInventorySlot(object):
         HOGInventorySlot.Groups[self.group]["movie"] = self.groupMovie
         self.node = self.item_Movie.getEntityNode()
 
+    def finalize(self):
+        self.item = None
+        self.item_Movie = None
+        self.group = None
+        self.groupMovie = None
+        self.node = None
+
     def getPoint(self):
         # box = self.node.getBoundingBox()
         # return Mengine.vec2f((box.minimum.x + box.maximum.x)/2, (box.minimum.y + box.maximum.y)/2)
@@ -108,7 +115,24 @@ class HOGInventoryFXPartsGathering(InventoryBase):
     def _onDeactivate(self):
         super(HOGInventoryFXPartsGathering, self)._onDeactivate()
 
+        self.__cleanUpSlots()
+
+    def _onFinalize(self):
+        super(HOGInventoryFXPartsGathering, self)._onFinalize()
+
+        self.__cleanUpSlots()
+        HOGInventorySlot.HOG = None
+        HOGInventorySlot.Groups = {}
+        self.movie_gathering = None
+
+    def __cleanUpSlots(self):
+        if self.slots is not None:
+            for slot in self.slots:
+                slot.finalize()
+        self.slots = None
+
     def _updateHOG(self, hog):
+        self.__cleanUpSlots()
         HOGInventorySlot.HOG = hog
         if hog is not None:
             self.movie_gathering = hog.getObject('Movie2_Gathering')
@@ -130,6 +154,8 @@ class HOGInventoryFXPartsGathering(InventoryBase):
         pass
 
     def _updateFindItems(self, itemsList):
+        self.__cleanUpSlots()
+
         items = []
         groups = set()
         for itemName in itemsList:

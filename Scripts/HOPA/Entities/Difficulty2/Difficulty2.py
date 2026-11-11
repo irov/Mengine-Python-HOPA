@@ -21,6 +21,7 @@ class Difficulty2(BaseEntity):
         self.difficultiesScrollbars = None
 
         self.currentDifficultyId = None
+        self._scrollObservers = []
 
     @staticmethod
     def declareORM(Type):
@@ -253,9 +254,18 @@ class Difficulty2(BaseEntity):
         self.setScrollbarsTexts()
 
     def setObservers(self):
+        self.__removeScrollObservers()
         for scrollbarId, scrollbarData in self.difficultiesScrollbars['Custom'].iteritems():
             scrollbar_obj = scrollbarData.getScrollbarObject()
-            scrollbar_obj.onScroll.addObserver(self.__onScrollbarEventScroll, scrollbarId)
+            event = scrollbar_obj.onScroll
+            observer = event.addObserver(self.__onScrollbarEventScroll, scrollbarId)
+            self._scrollObservers.append((event, observer))
+
+    def __removeScrollObservers(self):
+        observers = self._scrollObservers
+        self._scrollObservers = []
+        for event, observer in observers:
+            event.removeObserver(observer)
 
     def scopeClose(self, source):
         GropName = "Difficulty"
@@ -362,11 +372,15 @@ class Difficulty2(BaseEntity):
 
     def _onDeactivate(self):
         super(Difficulty2, self)._onDeactivate()
+        TaskManager.cancelTaskChain("Menu_Difficulty", exist=False)
+        self.__removeScrollObservers()
 
-        if TaskManager.existTaskChain("Menu_Difficulty") is True:
-            TaskManager.cancelTaskChain("Menu_Difficulty")
+    def _onFinalize(self):
+        super(Difficulty2, self)._onFinalize()
 
-        for difficultyScrollbarDict in self.difficultiesScrollbars.values():
-            for scrollbarData in difficultyScrollbarDict.values():
-                scrollbar_obj = scrollbarData.getScrollbarObject()
-                scrollbar_obj.onScrollEnd.removeObservers()
+        TaskManager.cancelTaskChain("Menu_Difficulty", exist=False)
+        self.__removeScrollObservers()
+        self.SystemDifficultyInstance = None
+        self.difficulties = None
+        self.difficultiesParams = None
+        self.difficultiesScrollbars = None

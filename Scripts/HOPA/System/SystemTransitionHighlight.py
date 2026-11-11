@@ -29,6 +29,10 @@ class SystemTransitionHighlight(System):
         return True
 
     def _onStop(self):
+        for tc_name in self.tcs_names:
+            self.TC_end(tc_name)
+        self.tcs_names = []
+
         self.removeEffects()
         pass
 
@@ -99,6 +103,12 @@ class SystemTransitionHighlight(System):
             if transition_object not in self.effects.keys():
                 return False
 
+            transition_name = transition_object.getName()
+            tc_name = "TransitionHighlight_{}".format(transition_name)
+            self.TC_end(tc_name)
+            if tc_name in self.tcs_names:
+                self.tcs_names.remove(tc_name)
+
             effect = self.effects[transition_object]
             self.removeEffect(effect)
             del self.effects[transition_object]
@@ -150,7 +160,9 @@ class SystemTransitionHighlight(System):
 
         self.effects[transition_object] = effect
         tc_name = "TransitionHighlight_{}".format(name)
-        self.tcs_names.append(tc_name)
+        self.TC_end(tc_name)
+        if tc_name not in self.tcs_names:
+            self.tcs_names.append(tc_name)
         with TaskManager.createTaskChain(Name=tc_name, Repeat=True) as tc:
             tc.addScope(self.Difficulty_Turn_On)
             tc.addFunction(effect.setEnable, True)

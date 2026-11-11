@@ -14,9 +14,11 @@ class RotateAndSwapChipsSlotController(object):
         self.taskName = "RotateAndSwapChipsSlotController_Rotate_" + self.buttonObject.getName()
         self.observerClick = None
         self.observerClickEnd = None
+        self.globalHandleMouseButtonEvent = None
         pass
 
     def initialize(self):
+        self.finalize()
         self.globalHandleMouseButtonEvent = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
 
         self.observerClick = Notification.addObserver(Notificator.onButtonClick, self._onButtonClick)
@@ -103,11 +105,15 @@ class RotateAndSwapChipsSlotController(object):
         if TaskManager.existTaskChain(self.taskName) is True:
             TaskManager.cancelTaskChain(self.taskName)
 
-        Mengine.removeGlobalHandler(self.globalHandleMouseButtonEvent)
-        self.globalHandleMouseButtonEvent = None
+        # handler and observers exist only after initialize (_playEnigma/_restoreEnigma)
+        if self.globalHandleMouseButtonEvent is not None:
+            Mengine.removeGlobalHandler(self.globalHandleMouseButtonEvent)
+            self.globalHandleMouseButtonEvent = None
 
         Notification.removeObserver(self.observerClick)
         Notification.removeObserver(self.observerClickEnd)
+        self.observerClick = None
+        self.observerClickEnd = None
         pass
 
     pass

@@ -26,6 +26,11 @@ class ChessPuzzle(Enigma):
 
     ####################################################################
 
+    def _onFinalize(self):
+        super(ChessPuzzle, self)._onFinalize()
+
+        self.finalize()
+
     def _stopEnigma(self):
         self.finalize()
         pass
@@ -142,6 +147,16 @@ class ChessPuzzle(Enigma):
         pass
 
     def finalize(self):
+        # Cancelling moves can run their callbacks; do not check completion during cleanup.
+        self.countMovingElements = -1
+
+        if self.observer is not None:
+            Notification.removeObserver(self.observer)
+            self.observer = None
+
+        if self.boardView is not None:
+            self.boardView.finalize()
+
         for shift in self.shifts:
             shift.finalize()
             pass
@@ -153,10 +168,6 @@ class ChessPuzzle(Enigma):
         for targetData in self.targets:
             node = targetData["Node"]
             node.removeFromParent()
-            pass
-
-        if self.observer is not None:
-            Notification.removeObserver(self.observer)
             pass
 
         for obj in self.generatedObjects:

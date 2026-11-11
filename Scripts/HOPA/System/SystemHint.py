@@ -99,6 +99,8 @@ class SystemHint(System):
                         tc.addListener(Notificator.onHintActionEnd)
                         tc.addFunction(cb)
 
+                # make it the current hint, so it is ended and finalized like a hint shown by the button
+                hint.currentHint = hintAction
                 hint.hintShow(hintAction)
 
                 return

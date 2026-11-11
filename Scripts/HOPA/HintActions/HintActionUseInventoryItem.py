@@ -2,7 +2,6 @@ from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.SceneManager import SceneManager
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.HintActions.HintActionMultiTarget import HintActionMultiTarget
 
 
@@ -28,15 +27,13 @@ class HintActionUseInventoryItem(MixinObject, HintActionMultiTarget):
     def getFollow_Node(self):
         return self.InventoryItem.getEntityNode()
 
-    def _onAction(self, hint):
-        if TaskManager.existTaskChain("HintActionUseInventoryItem_Scrolling") is True:
-            TaskManager.cancelTaskChain("HintActionUseInventoryItem_Scrolling")
+    def _onActionStart(self, hint):
+        self._runScrolling(hint)
 
-        with TaskManager.createTaskChain(Name="HintActionUseInventoryItem_Scrolling") as tc:
-            PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling", "PolicyInventoryScrollingDefault")
-            tc.addNotify(Notificator.onInventoryRise)
-            tc.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
-            tc.addFunction(self.UseInventoryItem)
+    def _onScroll(self, source):
+        PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling", "PolicyInventoryScrollingDefault")
+        source.addNotify(Notificator.onInventoryRise)
+        source.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
 
     def getMultiHintPosition(self):
         InventoryItemEntity = self.InventoryItem.getEntity()
@@ -55,11 +52,11 @@ class HintActionUseInventoryItem(MixinObject, HintActionMultiTarget):
 
         return PositionTo1, PositionTo2
 
-    def UseInventoryItem(self):
+    def _onAction(self, source, hint):
         Offset = (50.0, 50.0)
         PositionTo1, PositionTo2 = self.getMultiHintPosition()
 
-        self.showHint(PositionTo1, PositionTo2, Offset)
+        self.showHint(source, PositionTo1, PositionTo2, Offset)
 
     def getHintLayer(self):
         scene = SceneManager.getCurrentScene()

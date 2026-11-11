@@ -21,6 +21,10 @@ class LightCircleGameManager(Manager):
             self.CircleID = CircleID
             self.Reflectors = {}
 
+        def finalize(self):
+            self.Game = None
+            self.Reflectors.clear()
+
         def addReflector(self, ref):
             if (ref.ReflectorID in self.Reflectors):
                 Trace.log("Manager", 0, "LightCircleGameManager Can't add Reflector in Circle %d with id %d reflector already in" % (ref.CircleID, ref.ReflectorID))
@@ -40,6 +44,11 @@ class LightCircleGameManager(Manager):
             for i in range(CirclesNumber):
                 circle = LightCircleGameManager.CircleData(self, i)
                 self.Circles[i] = circle
+
+        def finalize(self):
+            for circle in self.Circles.itervalues():
+                circle.finalize()
+            self.Circles.clear()
 
         def addCircleReflectors(self, CircleID, ReflectorID, ReflectorPlusCount, ReflectorMinusCount,
                                 ReflectorNeedForWin, ReflectorMinusRange):
@@ -83,8 +92,9 @@ class LightCircleGameManager(Manager):
 
     @staticmethod
     def _onFinalize():
+        for game in LightCircleGameManager.Games.itervalues():
+            game.finalize()
         LightCircleGameManager.Games = {}
-        pass
 
     @staticmethod
     def loadParams(module, param):

@@ -18,7 +18,9 @@ class Zuma(Enigma):
         self.Delta = 0.2
         self.BallCases = ["Sprite_Red", "Sprite_Blue", "Sprite_Yellow"]  # non-stohastic  patern
         self.Exit = Notification.addObserver(Notificator.onFinalize, self._stopEnigma)
+        self.turret = None
         self.clean = []
+        self.generated = []
 
         # Flow control
         self.flow = []
@@ -26,13 +28,22 @@ class Zuma(Enigma):
         self.timing = {}
         pass
 
+    def _onFinalize(self):
+        super(Zuma, self)._onFinalize()
+
+        self._stopEnigma()
+
     def _stopEnigma(self):
+        if self.Exit is not None:
+            Notification.removeObserver(self.Exit)
+            self.Exit = None
+
         self.__cleanUp()
         return True
 
     def _playEnigma(self):
         Gun = self.object.getObject("Sprite_Frogg")
-        Tral = ZumaTurret(self.object, Gun)
+        self.turret = ZumaTurret(self.object, Gun)
         self.StartFlow()
         self.RunFlow()
 
@@ -40,6 +51,7 @@ class Zuma(Enigma):
 
     def __genBallEssence(self):
         MovieObj = self.object.generateObject("MovieZuma%d" % (self.BallCount,), "Movie_Track")
+        self.generated.append(MovieObj)
         MovieObj.setSpeedFactor(0.7)
         self.__MovieJoinBall(MovieObj)
         self.BallCount += 1
@@ -51,6 +63,7 @@ class Zuma(Enigma):
         MovieEn = MovieObj.getEntity()
         slot = MovieEn.getMovieSlot("0")
         Ball = self.object.generateObject("BallZuma%d" % (self.BallCount,), color)
+        self.generated.append(Ball)
         BallEn = Ball.getEntity()
         slot.addChild(BallEn)
         self.clean.append(BallEn)
@@ -60,12 +73,28 @@ class Zuma(Enigma):
         pass
 
     def __cleanUp(self):
-        if not self.clean:
-            return
-            pass
+        TaskManager.cancelTaskChain("RunFlow", exist=False)
+        TaskManager.cancelTaskChain("StopBall", exist=False)
+
+        if self.turret is not None:
+            self.turret.stopTurel()
+            self.turret = None
+
         for cl in self.clean:
             cl.removeFromParent()
             pass
+        self.clean = []
+
+        # generated track movies and balls: destroy, they are new objects on every play
+        generated = self.generated
+        self.generated = []
+        for obj in generated:
+            obj.onDestroy()
+            pass
+
+        self.flow = []
+        self.active_flow = []
+        self.timing = {}
         pass
 
     # Controll flow

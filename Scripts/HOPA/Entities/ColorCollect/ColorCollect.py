@@ -48,6 +48,13 @@ class ColorCollect(Enigma):
         self.finalize()
         pass
 
+    def _onFinalize(self):
+        super(ColorCollect, self)._onFinalize()
+
+        # the listener chain filters through this entity, so it must not outlive it
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
+        pass
+
     def _resetEnigma(self):
         self.resetInitValues()
         self._playEnigma()

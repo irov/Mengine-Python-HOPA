@@ -4,9 +4,9 @@ from HOPA.HintAction import HintAction
 
 
 class HintActionHOG(MixinGroup, HintAction):
-    def _onAction(self, hint, cb):
-        cb(False)
-        # dummy
+    def _onAction(self, source, hint):
+        # dummy: ends at once (was the old cb(False) API)
+        self.setEnd()
         pass
 
     def _onCheck(self):

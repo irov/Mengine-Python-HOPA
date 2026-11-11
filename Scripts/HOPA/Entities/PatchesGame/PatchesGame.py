@@ -12,6 +12,11 @@ class PatchesGame(Enigma):
         self.ReInitParamentrs()
         pass
 
+    def _onFinalize(self):
+        super(PatchesGame, self)._onFinalize()
+
+        self.__Finita()
+
     def ReInitParamentrs(self):
         self.Mov_Idle = []
         self.Mov_IdleOpen = []

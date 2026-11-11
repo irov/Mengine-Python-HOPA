@@ -99,6 +99,11 @@ class HOG(Enigma):
 
         Notification.notify(Notificator.onHOGStart, self.object)
 
+    def _onFinalize(self):
+        super(HOG, self)._onFinalize()
+
+        TaskManager.cancelTaskChain("HOGFindItem", exist=False)
+
     def _stopEnigma(self):
         self.HOGInventory.setParams(HOGName=None, HOGItems=None, FoundItems=[])
 

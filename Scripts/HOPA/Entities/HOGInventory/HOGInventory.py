@@ -11,10 +11,11 @@ class HOGInventorySlot(object):
         self.count = None
         self.point = None
         self.found = False
+        self.textLine = None
         pass
 
     def getTextID(self):
-        return textID
+        return self.textID
         pass
 
     def setPoint(self, value):
@@ -74,6 +75,11 @@ class HOGInventorySlot(object):
         pass
 
     def release(self):
+        # the cross-out line is a child of the field, and destroying the field only detaches it
+        if self.textLine is not None:
+            Mengine.destroyNode(self.textLine)
+            self.textLine = None
+
         if self.field is not None:
             Mengine.destroyNode(self.field)
             self.field = None
@@ -169,6 +175,11 @@ class HOGInventory(InventoryBase):
             return
             pass
 
+        # the previous slots own their TextField nodes
+        for slot in self.slots.itervalues():
+            slot.release()
+            pass
+
         self.slots = {}
 
         for name in self.HOGItems:
@@ -209,6 +220,8 @@ class HOGInventory(InventoryBase):
             slot.setTextField(textField)
             slot.updateText()
             self._updateTextFieldPos(textField, column, row, slot)
+
+        TaskManager.cancelTaskChain("HOGInventory", exist=False)
 
         with TaskManager.createTaskChain(Name="HOGInventory", Group=self.object) as tc:
             itemCount = len(self.FoundItems)

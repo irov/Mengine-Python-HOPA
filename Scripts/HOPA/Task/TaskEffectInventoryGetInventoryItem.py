@@ -31,14 +31,14 @@ class TaskEffectInventoryGetInventoryItem(TaskAlias):
             return
             pass
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
         slot = InventoryEntity.findSlot(self.InventoryItem)
 
         if slot is None:
             return False
             pass
+
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         point = slot.getPoint()
 
@@ -123,8 +123,12 @@ class TaskEffectInventoryGetInventoryItem(TaskAlias):
                 pass
 
                 source_fork.addTask("TaskNodeDestroy", Node=node)
-                source_fork.addTask("TaskNodeDestroy", Node=node2)
             pass
+        else:
+            source.addTask("TaskNodeDestroy", Node=node)
+            pass
+
+        source.addTask("TaskNodeDestroy", Node=node2)
 
         return False
         pass

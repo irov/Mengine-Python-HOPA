@@ -49,7 +49,7 @@ class TaskHOGInventoryCrossOut(TaskAlias):
         textField = slot.getTextField()
         textLength = textField.getTextSize()
 
-        textLine = self._createTextLine(textField, textLength)
+        textLine = self._createTextLine(slot, textField, textLength)
 
         time = 0.3
         time *= 1000  # speed fix
@@ -58,9 +58,17 @@ class TaskHOGInventoryCrossOut(TaskAlias):
         source.addTask("TaskNodeColorTo", Node=textField, To=self.HOG_TEXT_COLOR_OFF, Time=time)
         pass
 
-    def _createTextLine(self, textField, textLength):
+    def _createTextLine(self, slot, textField, textLength):
+        # Mengine.destroyNode of the slot text field only detaches its children,
+        # so the line is kept on the slot: HOGInventorySlot.release must destroy slot.textLine
+        oldTextLine = getattr(slot, "textLine", None)
+        if oldTextLine is not None:
+            Mengine.destroyNode(oldTextLine)
+            pass
+
         WhitePixelResource = Mengine.getResourceReference("WhitePixel")
         textLine = Mengine.createSprite("textLine", WhitePixelResource)
+        slot.textLine = textLine
 
         textLine.setLocalPosition((-textLength.x * 0.5, textLength.y * 0.5))
         textLine.setLocalColor((1, 0, 0, 1))
@@ -73,7 +81,7 @@ class TaskHOGInventoryCrossOut(TaskAlias):
         textField = slot.getTextField()
         textLength = textField.getTextSize()
 
-        textLine = self._createTextLine(textField, textLength)
+        textLine = self._createTextLine(slot, textField, textLength)
 
         textLine.setScale((textLength.x, 3.0, 1.0))
         textField.setLocalColor(self.HOG_TEXT_COLOR_OFF)

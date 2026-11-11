@@ -22,7 +22,7 @@ class SystemDisableTransitionMovies(System):
             FadeOutTransition = GroupManager.getObject(DefaultFadeOutGroup, TransitionFadeOutMovie)
             FadeOutTransition.setEnable(False)
             pass
-        pass
+        return True
 
     def _onStop(self):
         pass

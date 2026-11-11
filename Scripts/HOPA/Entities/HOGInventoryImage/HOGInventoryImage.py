@@ -76,9 +76,8 @@ class HOGInventorySlot(object):
             pass
 
         if self.movie is not None:
-            spriteEntity = self.movie.getEntity()
-            spriteEntity.removeFromParent()
-            self.movie.removeFromParent()
+            # generated in __updateHOGSlot: removeFromParent alone would orphan it
+            self.movie.onDestroy()
             self.movie = None
             pass
 

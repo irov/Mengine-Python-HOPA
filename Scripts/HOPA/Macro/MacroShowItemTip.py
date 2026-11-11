@@ -45,6 +45,12 @@ class MacroShowItemTip(MacroCommand):
         pass
 
     def _onGenerate(self, source):
+        def __removeTipGuard(value, TipName):
+            if value is True:
+                return
+
+            Notification.notify(Notificator.onTipRemoveWithoutParagraphs, TipName)
+
         policyPickInventoryItemEffectStop = PolicyManager.getPolicy("PickInventoryItemStop", "TaskDummy")
 
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
@@ -57,10 +63,12 @@ class MacroShowItemTip(MacroCommand):
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, Object, self.TipName)
-            tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
+
+            # the guard removes the tip on every exit, also when the scenario chain is cancelled
+            tc_guard = tc_quest.makeGuardSource(True, __removeTipGuard, self.TipName)
+            tc_guard.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
                              ItemName=self.ItemName, Taken=False, Pick=True)
-            tc_quest.addTask(policyPickInventoryItemEffectStop, InventoryItem=InventoryItem)
-            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
+            tc_guard.addTask(policyPickInventoryItemEffectStop, InventoryItem=InventoryItem)
             pass
         pass
 

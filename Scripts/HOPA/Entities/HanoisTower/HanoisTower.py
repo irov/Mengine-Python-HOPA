@@ -12,6 +12,12 @@ class HanoisTower(Enigma):
         self.ReInitParamentrs()
         pass
 
+    def _cancelTaskChains(self):
+        for i in range(3):
+            taskName = "HanoisTower_%d" % (i)
+            TaskManager.cancelTaskChain(taskName, exist=False)
+        TaskManager.cancelTaskChain("HanoisTowerPick", exist=False)
+
     def ReInitParamentrs(self):
         self.Movie_Points = None
 
@@ -211,16 +217,17 @@ class HanoisTower(Enigma):
 
         pass
 
-    def __Finita(self):
-        for i in range(3):
-            if TaskManager.existTaskChain("HanoisTower_%d" % (i)) is True:
-                TaskManager.cancelTaskChain("HanoisTower_%d" % (i))
-                pass
-            pass
+    def _stopEnigma(self):
+        self.__Finita()
 
-        if TaskManager.existTaskChain("HanoisTowerPick") is True:
-            TaskManager.cancelTaskChain("HanoisTowerPick")
-            pass
+    def _onFinalize(self):
+        super(HanoisTower, self)._onFinalize()
+
+        self._cancelTaskChains()
+        self.ReInitParamentrs()
+
+    def __Finita(self):
+        self._cancelTaskChains()
 
         self.ReInitParamentrs()
         pass

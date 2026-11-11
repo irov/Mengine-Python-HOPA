@@ -9,6 +9,8 @@ class Pet(BaseEntity):
     def __init__(self):
         super(Pet, self).__init__()
         self.taken = False
+        self.switcher = None
+        self.MovieChanger = None
         pass
 
     def _onActivate(self):
@@ -17,12 +19,17 @@ class Pet(BaseEntity):
         pass
 
     def _onDeactivate(self):
+        Notification.removeObserver(self.switcher)
+        self.switcher = None
         Notification.notify(Notificator.onPetLeave)
-        #        SceneName = SceneManager.getChangeSceneName()
-        #        if TaskManager.existTaskChain('Pet_%s'%(SceneName,)):
-        #            TaskManager.cancelTaskChain('Pet_%s'%(SceneName,))
-        #            pass
-        pass
+        self.MovieChanger = None
+
+    def _onFinalize(self):
+        super(Pet, self)._onFinalize()
+
+        Notification.removeObserver(self.switcher)
+        self.switcher = None
+        self.MovieChanger = None
 
     def movie_preparation(self):
         movieIdle = self.object.getObject("Movie_Idle")

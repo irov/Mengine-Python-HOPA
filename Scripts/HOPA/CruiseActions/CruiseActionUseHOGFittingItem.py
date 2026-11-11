@@ -1,5 +1,4 @@
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -20,14 +19,11 @@ class CruiseActionUseHOGFittingItem(MixinObject, CruiseAction):
             return False
         return True
 
-    def _onAction(self):
-        if TaskManager.existTaskChain("CruiseActionUseHOGFittingItem_Cruise") is True:
-            TaskManager.cancelTaskChain("CruiseActionUseHOGFittingItem_Cruise")
-            pass
-        self.showCruise()
+    def _onAction(self, source):
+        self.showCruise(source)
         pass
 
-    def showCruise(self):
+    def showCruise(self, source):
         InventoryItemEntity = self.InventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
 
@@ -51,11 +47,7 @@ class CruiseActionUseHOGFittingItem(MixinObject, CruiseAction):
 
                 PositionTo2 = HotSpot.getWorldPolygonCenter()
 
-        with TaskManager.createTaskChain(Name="CruiseActionUseHOGFittingItem_Cruise") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        super(CruiseActionUseHOGFittingItem, self)._onEnd()
+        source.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

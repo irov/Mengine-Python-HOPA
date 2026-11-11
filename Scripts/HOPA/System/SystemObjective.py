@@ -15,7 +15,7 @@ class SystemObjective(System):
 
         self.addObserver(Notificator.onObjectiveActivate, self.__onObjectiveActivate)
         self.addObserver(Notificator.onParagraphComplete, self.__onParagraphComplete)
-        pass
+        return True
 
     def _onStop(self):
         pass
@@ -38,6 +38,9 @@ class SystemObjective(System):
 
     def __testParagraph(self, paragraphs):
         currentScenarioChapter = ChapterManager.getCurrentChapter()
+
+        if currentScenarioChapter is None:
+            return False
 
         for paragraph in paragraphs:
             if currentScenarioChapter.isParagraphComplete(paragraph) is False:

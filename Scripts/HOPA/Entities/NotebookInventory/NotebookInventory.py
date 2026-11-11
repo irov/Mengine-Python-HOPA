@@ -23,6 +23,7 @@ class NotebookInventory(BaseEntity):
         super(NotebookInventory, self).__init__()
         self.noteRound = []
         self.textField = None
+        self.currentMovie = None
 
     def __disableAll(self):
         all_entries = NotebookInventoryManager.getAllActivateEntries()
@@ -53,6 +54,8 @@ class NotebookInventory(BaseEntity):
         super(NotebookInventory, self)._onDeactivate()
 
         self.__checkTasks()
+        if TaskManager.existTaskChain("NotesRound") is False:
+            self.__destroyTextField()
         self.currentMovie = None
 
     def _appendOpenNotes(self, id_, value):
@@ -120,6 +123,7 @@ class NotebookInventory(BaseEntity):
         elif entity.hasMovieSlot("text"):
             slot_text = entity.getMovieSlot("text")
 
+            self.__destroyTextField()
             self.textField = Mengine.createNode("TextField")
             self.textField.setVerticalCenterAlign()
             self.textField.setHorizontalCenterAlign()
@@ -160,6 +164,7 @@ class NotebookInventory(BaseEntity):
 
         # case when we use slot where will be created textNode in code
         elif entity.hasMovieSlot("text"):
+            self.__destroyTextField()
             self.textField = Mengine.createNode("TextField")
             self.textField.setVerticalCenterAlign()
             self.textField.setHorizontalCenterAlign()
@@ -178,11 +183,14 @@ class NotebookInventory(BaseEntity):
         with TaskManager.createTaskChain(Name="NotesRound", Cb=self.__removeRoundTasks) as tc:
             tc.addTask("TaskMoviePlay", Movie=activate_movie, Wait=True)
 
-    def __removeRoundTasks(self, is_skip):
+    def __destroyTextField(self):
         if self.textField is not None:
             self.textField.removeFromParent()
             Mengine.destroyNode(self.textField)
             self.textField = None
+
+    def __removeRoundTasks(self, is_skip):
+        self.__destroyTextField()
 
         if self.currentMovie is not None:
             self.currentMovie.setEnable(False)

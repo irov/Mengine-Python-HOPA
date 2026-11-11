@@ -56,6 +56,10 @@ class PlayerChip(Chip):
     def cleanUp(self):
         super(PlayerChip, self).cleanUp()
 
+        if self.run_movie is not None:
+            self.run_movie.onDestroy()
+            self.run_movie = None
+
     def enableGlow(self):
         if 'glow' not in self.movie_chip.getParam('DisableLayers'):
             return
@@ -177,6 +181,10 @@ class EnemyChip(Chip):
     def cleanUp(self):
         super(EnemyChip, self).cleanUp()
 
+        if self.attack_movie is not None:
+            self.attack_movie.onDestroy()
+            self.attack_movie = None
+
     def __updateRotateAngle(self, angle):
         angle_in_radians = Mengine.deg2rad(angle)
         self.rotate_angle -= angle_in_radians
@@ -249,6 +257,10 @@ class NeutralChip(Chip):
 
     def cleanUp(self):
         super(NeutralChip, self).cleanUp()
+
+        if self.move_movie is not None:
+            self.move_movie.onDestroy()
+            self.move_movie = None
 
     def enableGlow(self):
         if 'glow' not in self.movie_chip.getParam('DisableLayers'):

@@ -83,9 +83,10 @@ class PolicyHOGRollingMovieItemFoundEffect(TaskAlias):
             if checkMarkEffect is not None:
                 source_fork.addTask("TaskMovieInterrupt", Movie=checkMarkEffect)
                 source_fork.addTask("TaskObjectDestroy", Object=checkMarkEffect)
-                source_fork.addTask("TaskObjectDestroy", Object=PickEffectMovie)
 
+            source_fork.addTask("TaskObjectDestroy", Object=PickEffectMovie)
             source_fork.addTask("TaskNodeDestroy", Node=node)
+            source_fork.addTask("TaskNodeDestroy", Node=node1)
 
     def createMovieFromResource(self, ResourceName, MovieName, AttachNode):
         if ResourceName is None:

@@ -20,6 +20,11 @@ class GlobeGame(Enigma):
         self.PointsMovie.setEnable(False)
         pass
 
+    def _onFinalize(self):
+        super(GlobeGame, self)._onFinalize()
+
+        self._stopppp()
+
     def ReInitParamentrs(self):
         self.MovieNames = ("Movie_GRed", "Movie_GPurpl", "Movie_GYellow")
 
@@ -305,6 +310,19 @@ class GlobeGame(Enigma):
 
         if TaskManager.existTaskChain("GlobeGame_Rotate") is True:
             TaskManager.cancelTaskChain("GlobeGame_Rotate")
+            pass
+
+        # every generated globe is in AllGlob, Lvl_Movies and FreeGlob only share them
+        for movies in self.AllGlob:
+            for mov in movies:
+                mov.onDestroy()
+                pass
+            pass
+
+        for sockets in self.FieldSockets:
+            for movieSock in sockets:
+                movieSock.onDestroy()
+                pass
             pass
 
         self.ReInitParamentrs()

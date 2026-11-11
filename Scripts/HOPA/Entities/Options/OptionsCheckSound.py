@@ -51,7 +51,9 @@ class CheckSoundController(object):
             button.stopAudio()
 
     def cleanUp(self):
-        for button in self.soundCheckButtonList:
+        buttons = self.soundCheckButtonList
+        self.soundCheckButtonList = []
+        for button in buttons:
             button.cleanUp()
 
 
@@ -147,6 +149,9 @@ class CheckAudioButton(object):
         self.stopButton.setEnable(bNewStateIsPlay)
 
     def cleanUp(self):
+        if self.playButton is None:
+            return
+
         self.stopAudio()
 
         self.playButton.entity.EventSetState -= self.eventButtonClicked
@@ -154,6 +159,11 @@ class CheckAudioButton(object):
 
         self.playButton.onDestroy()
         self.stopButton.onDestroy()
+        self.playButton = None
+        self.stopButton = None
+        self.parentScrollbar = None
+        self.soundController = None
+        self.checkAudio = []
 
 
 class CheckSoundButton(CheckAudioButton):

@@ -41,6 +41,14 @@ class SubMovie(object):
 
         self.end()
 
+    def release(self):
+        # the native listener keeps this wrapper (and through on_end the entity) alive
+        if self.movie is not None:
+            self.movie.setEventListener(onAnimatableEnd=None)
+            self.movie = None
+
+        self.on_end.removeObservers()
+
 
 class InventoryCountItemFX(InventoryItem):
     @staticmethod
@@ -114,8 +122,9 @@ class InventoryCountItemFX(InventoryItem):
     def _onFinalize(self):
         super(InventoryCountItemFX, self)._onFinalize()
 
-        self._destroyMovies()
+        # sub movies first: they live inside the movies destroyed below
         self._destroySubMovies()
+        self._destroyMovies()
         self._destroyTextField()
 
     # - admin logic ----------------------------------------------
@@ -162,6 +171,9 @@ class InventoryCountItemFX(InventoryItem):
         self.movies = {}
 
     def _destroySubMovies(self):
+        for submovie in self.submovies.itervalues():
+            submovie.release()
+
         self.submovies = {}
 
     def _initSubMovies(self):
@@ -235,6 +247,8 @@ class InventoryCountItemFX(InventoryItem):
 
         submovie = self.submovies.get(Item.PartSubMovieName)
 
+        # one end observer per play: a repeated play must not stack another one
+        submovie.on_end.removeObservers()
         submovie.on_end += Functor(self._onMoviePartPlayEnd, Item.PartSubMovieName)
         submovie.play()
 

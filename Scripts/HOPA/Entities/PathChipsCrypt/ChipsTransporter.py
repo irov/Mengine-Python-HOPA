@@ -41,6 +41,18 @@ class ChipsTransporter(Initializer):
         super(ChipsTransporter, self)._onFinalize()
 
         Notification.removeObserver(self.observerPlaceChips)
+        self.observerPlaceChips = None
+
+        transporter = self.transporter
+        if transporter is not None:
+            transporter.removeClickObserver()
+
+        chip = self.chip
+        if chip is not None:
+            self.detach(chip)
+            chip.moving = None
+
+        self.transporter = None
         pass
 
     def goTo(self, slot):
@@ -67,12 +79,9 @@ class ChipsTransporter(Initializer):
         pass
 
     def detach(self, chip):
-        if chip != self.chip:
-            pass
-
+        self.chip = None
         node = chip.getMovieNode()
         self.transporter.detachFromMovie(node)
-        self.chip = None
         pass
 
     def _onPlaceChip(self, chip):
@@ -103,8 +112,10 @@ class ChipsTransporter(Initializer):
             self.chip.setBlock(True)
             pass
 
+        transporter = self.transporter
+
         def refresh():
-            self.transporter.setBlock(False)
+            transporter.setBlock(False)
             pass
 
         if self.activeSlot == self.slotFrom:

@@ -17,6 +17,17 @@ class ThimbleGame(Enigma):
         self.chip = None
         self.MovieSound = None
         self.MovieSoundQuestion = None
+        self.tc_chip = None
+        pass
+
+    def _onFinalize(self):
+        super(ThimbleGame, self)._onFinalize()
+        # the chip chain goes first: __onChipShown sees tc_chip None and does not restart the game chain
+        chain = self.tc_chip
+        self.tc_chip = None
+        if chain is not None:
+            chain.cancel()
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
         pass
 
     def _onActivate(self):
@@ -93,7 +104,8 @@ class ThimbleGame(Enigma):
 
     def showChip(self, thimbleId):
         Movie = self.shows[thimbleId]
-        with TaskManager.createTaskChain() as tc_chip:
+        self.tc_chip = TaskManager.createTaskChain()
+        with self.tc_chip as tc_chip:
             if thimbleId == self.chipPosition:
                 tc_chip.addFunction(self.attachChip, Movie)
             tc_chip.addEnable(Movie)
@@ -102,14 +114,24 @@ class ThimbleGame(Enigma):
             tc_chip.addTask("TaskMoviePlay", Movie=Movie)
             tc_chip.addTask("TaskMovieReverse", Movie=Movie, Reverse=False)
             tc_chip.addTask("TaskMovieLastFrame", Movie=Movie, Value=False)
-            if thimbleId != self.chipPosition:
-                tc_chip.addFunction(self.__playTasks)
-            if thimbleId == self.chipPosition:
-                tc_chip.addFunction(self.deattachChip)
-                tc_chip.addFunction(self._complete)
+            tc_chip.addFunction(self.__onChipShown, thimbleId == self.chipPosition)
             pass
 
         pass
+
+    def __onChipShown(self, isChip):
+        # also reached through the skip path of a cancelled chain: then tc_chip is already None
+        if self.tc_chip is None:
+            return
+
+        self.tc_chip = None
+
+        if isChip is False:
+            self.__playTasks()
+            return
+
+        self.deattachChip()
+        self._complete()
 
     def attachChip(self, Movie):
         MovieEntity = Movie.getEntity()

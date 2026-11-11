@@ -9,11 +9,13 @@ class ZumaTurret(object):
     BlockShoot = 0
 
     def __init__(self, Group, gunObj):
-        self.Shoot = Notification.addObserver(Notificator.onMouseButtonEvent, self.__MakeShoot)
+        self.Shoot = None
         self.group = Group
         self.Shoots = 0
+        self.shots = {}
         self.shootPattern = ["Sprite_Red", "Sprite_Blue", "Sprite_Yellow"]
         self.watcher = ZumaWatcher(gunObj)
+        self.Shoot = Notification.addObserver(Notificator.onMouseButtonEvent, self.__MakeShoot)
         pass
 
     def __MakeShoot(self, event):
@@ -39,9 +41,14 @@ class ZumaTurret(object):
             self.Shoot = Notification.addObserver(Notificator.onMouseButtonEvent, self.__MakeShoot)
 
         pointTo, timeTo = findSolution(ZumaTurret.ViewPoint, arrowPosition)
-        with TaskManager.createTaskChain() as tc:
-            tc.addTask("AliasObjectMoveTo", Object=self.__generateShoot(), To=pointTo, Time=timeTo)
+        Ball = self.__generateShoot()
+        BallName = Ball.getName()
+        chain = TaskManager.createTaskChain()
+        self.shots[BallName] = (chain, Ball)
+        with chain as tc:
+            tc.addTask("AliasObjectMoveTo", Object=Ball, To=pointTo, Time=timeTo)
             tc.addDelay(ZumaTurret.BlockShoot)
+            tc.addFunction(self.__destroyShoot, BallName)
         unblock(True)
         return True
         pass
@@ -70,8 +77,30 @@ class ZumaTurret(object):
         return Ball
         pass
 
+    def __destroyShoot(self, BallName):
+        # one generated ball per click, it is off-screen after the move
+        shot = self.shots.pop(BallName, None)
+        if shot is None:
+            return
+        chain, Ball = shot
+        Ball.onDestroy()
+
     def stopTurel(self):
-        Notification.removeObserver(self.Shoot)
+        if self.Shoot is not None:
+            Notification.removeObserver(self.Shoot)
+            self.Shoot = None
+
+        if self.watcher is not None:
+            self.watcher.finalize()
+            self.watcher = None
+        shots = self.shots
+        self.shots = {}
+        for chain, Ball in shots.values():
+            chain.cancel()
+            Ball.onDestroy()
+
+        self.group = None
+        self.shootPattern = []
         pass
 
     pass
@@ -80,11 +109,19 @@ class ZumaTurret(object):
 class ZumaWatcher(object):
 
     def __init__(self, GunObject=None):
-        self.Rotate = Notification.addObserver(Notificator.onMouseMove, self.__MakeRotate)
+        self.Rotate = None
         self.GunObject = GunObject
         self.phaza = 1.15
         self.__preparation()
+        self.Rotate = Notification.addObserver(Notificator.onMouseMove, self.__MakeRotate)
         pass
+
+    def finalize(self):
+        if self.Rotate is not None:
+            Notification.removeObserver(self.Rotate)
+            self.Rotate = None
+
+        self.GunObject = None
 
     def __preparation(self):
         ZumaTurret.setCentreAtach(self.GunObject)

@@ -18,25 +18,46 @@ class MagneticLabyrinth(Enigma):
         self.Ball = None
         self.MovieFall = None
         self.buttonsMap = {}
+        self.ButtonHandler = None
         pass
 
     def _stopEnigma(self):
+        # cancel first: skipping the move chain may still call returnBall, which uses Field
+        TaskManager.cancelTaskChain(MagneticLabyrinth.TaskName, exist=False)
         self.Field = None
         self.buttonsMap = {}
-        self.Ball.setEnable(False)
-        self.Ball = None
-        self.object.removeObject("Movie_Main")
-        Notification.removeObserver(self.ButtonHandler)
-        if TaskManager.existTaskChain(MagneticLabyrinth.TaskName):
-            TaskManager.cancelTaskChain(MagneticLabyrinth.TaskName)
-            pass
+        self.__destroyBall()
+        self.__removeButtonObserver()
         pass
+
+    def __destroyBall(self):
+        ball = self.Ball
+        self.Ball = None
+        if ball is not None:
+            ball.onDestroy()
+
+    def __removeButtonObserver(self):
+        observer = self.ButtonHandler
+        self.ButtonHandler = None
+        if observer is not None:
+            Notification.removeObserver(observer)
+
+    def _onFinalize(self):
+        super(MagneticLabyrinth, self)._onFinalize()
+
+        TaskManager.cancelTaskChain(MagneticLabyrinth.TaskName, exist=False)
+        self.__removeButtonObserver()
+        self.Field = None
+        self.__destroyBall()
+        self.MovieFall = None
+        self.buttonsMap = {}
 
     def _skipEnigma(self):
         self.autowin()
         pass
 
     def _playEnigma(self):
+        self.__removeButtonObserver()
         self.ButtonHandler = Notification.addObserver(Notificator.onButtonClick, self.on_button_cb)
         self.restore()
         pass

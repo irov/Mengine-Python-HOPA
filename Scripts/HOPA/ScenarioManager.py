@@ -39,7 +39,26 @@ class ScenarioManager(Manager):
 
     @staticmethod
     def _onFinalize():
+        runScenarios = ScenarioManager.s_runScenarios
+        ScenarioManager.s_runScenarios = {}
+
+        for scenarioChapter in runScenarios.itervalues():
+            if scenarioChapter.isInitialized() is True:
+                scenarioChapter.onFinalize()
+
+        ScenarioManager.Scenario_Init = []
+        ScenarioManager.Scenario_Enter = []
         pass
+
+    @staticmethod
+    def __finalizeRunScenario(scenarioID):
+        scenarioChapter = ScenarioManager.s_runScenarios.pop(scenarioID, None)
+
+        if scenarioChapter is None:
+            return
+
+        if scenarioChapter.isInitialized() is True:
+            scenarioChapter.onFinalize()
 
     @staticmethod
     def __onScenarioInit(Scenario_Id):
@@ -260,6 +279,8 @@ class ScenarioManager(Manager):
 
     @staticmethod
     def addRunScenario(scenarioID, scenarioChapter):
+        ScenarioManager.__finalizeRunScenario(scenarioID)
+
         ScenarioManager.s_runScenarios[scenarioID] = scenarioChapter
         pass
 
@@ -290,12 +311,19 @@ class ScenarioManager(Manager):
 
         scenarioRunner = ScenarioManager.s_runScenarios.pop(scenarioID)
         scenarioRunner.stop()
+
+        if scenarioRunner.isInitialized() is True:
+            scenarioRunner.onFinalize()
         pass
 
     @staticmethod
     def skipScenario(scenarioID):
         from HOPA.ChapterManager import ChapterManager
         scenarioChapter = ChapterManager.getCurrentChapter()
+
+        if scenarioChapter is None:
+            Trace.log("Manager", 0, "ScenarioManager.skipScenario no current chapter for scenario %s" % (scenarioID))
+            return
 
         scenarioChapter.skipScenario(scenarioID)
         pass

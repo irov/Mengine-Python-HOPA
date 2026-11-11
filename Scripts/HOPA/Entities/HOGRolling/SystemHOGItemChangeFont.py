@@ -38,6 +38,7 @@ class SystemHOGItemChangeFont(System):
             return False
             pass
 
+        self.__removeHOGObservers()
         self.EnigmaName = EnigmaName
         self.ItemEnablingObserver = Notification.addObserver(Notificator.onItemChangeEnable, self.__onItemChangeEnable)
         self.onHOGInventoryAppendItem = Notification.addObserver(Notificator.onHOGInventoryAppendItem, self.__onHOGInventoryAppendItem)
@@ -109,8 +110,7 @@ class SystemHOGItemChangeFont(System):
             pass
 
         self.HOG = None
-        Notification.removeObserver(self.ItemEnablingObserver)
-        Notification.removeObserver(self.onHOGInventoryAppendItem)
+        self.__removeHOGObservers()
         return False
         pass
 
@@ -122,7 +122,19 @@ class SystemHOGItemChangeFont(System):
         return False
         pass
 
+    def __removeHOGObservers(self):
+        Notification.removeObserver(self.ItemEnablingObserver)
+        Notification.removeObserver(self.onHOGInventoryAppendItem)
+        self.ItemEnablingObserver = None
+        self.onHOGInventoryAppendItem = None
+
+    def _onFinalize(self):
+        super(SystemHOGItemChangeFont, self)._onFinalize()
+
+        self.__removeHOGObservers()
+
     def _onStop(self):
+        self.__removeHOGObservers()
         Notification.removeObserver(self.onEnigmaPlayObserver)
         Notification.removeObserver(self.onEnigmaCompleteObserver)
         Notification.removeObserver(self.onEnigmaStopObserver)

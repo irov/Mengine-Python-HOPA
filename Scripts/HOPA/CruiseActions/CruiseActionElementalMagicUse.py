@@ -1,7 +1,6 @@
 from HOPA.CruiseAction import CruiseAction
 from Foundation.Task.MixinObject import MixinObject
 from HOPA.ElementalMagicManager import ElementalMagicManager
-from Foundation.TaskManager import TaskManager
 
 
 class CruiseActionElementalMagicUse(CruiseAction, MixinObject):
@@ -19,22 +18,18 @@ class CruiseActionElementalMagicUse(CruiseAction, MixinObject):
             return True
         return False
 
-    def _onAction(self):
-        self.showCruise()
+    def _onAction(self, source):
+        self.showCruise(source)
 
-    def showCruise(self):
+    def showCruise(self, source):
         Pos1, Pos2 = self.getMultiTargetPosition()
 
-        if TaskManager.existTaskChain("CruiseActionElementalMagicUse"):
-            TaskManager.cancelTaskChain("CruiseActionElementalMagicUse")
+        source.addTask("AliasCruiseControlAction", Position=Pos1, Object=self.Ring.getRootNode())
 
-        with TaskManager.createTaskChain(Name="CruiseActionElementalMagicUse") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=Pos1, Object=self.Ring.getRootNode())
+        if Pos2 is not None:
+            source.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
 
-            if Pos2 is not None:
-                tc.addTask("AliasCruiseControlAction", Position=Pos2, Object=self.Object)
-
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getMultiTargetPosition(self):
         Node = self.Ring.getRootNode()
@@ -53,7 +48,3 @@ class CruiseActionElementalMagicUse(CruiseAction, MixinObject):
             Pos2 = HotSpot.getWorldPolygonCenter()
 
         return Pos1, Pos2
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionElementalMagicUse"):
-            TaskManager.cancelTaskChain("CruiseActionElementalMagicUse")

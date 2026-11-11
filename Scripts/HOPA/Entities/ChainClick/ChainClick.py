@@ -10,10 +10,19 @@ class ChainClick(Enigma):
         self.chainsToWin = []
         self.elements = {}
         self.currentChain = None
+        self._completed_elements = []
         pass
 
+    def _onFinalize(self):
+        super(ChainClick, self)._onFinalize()
+
+        self.finalize()
+        for element in self._completed_elements:
+            element.finalize()
+        self._completed_elements = []
+
     def finalize(self):
-        for elementId, element in self.elements.items():
+        for element in self.elements.values():
             element.finalize()
             pass
 
@@ -102,6 +111,7 @@ class ChainClick(Enigma):
 
         for elementId in chain.elements:
             element = self.elements[elementId]
+            self._completed_elements.append(element)
             element.complete()
             del self.elements[elementId]
             pass
@@ -110,6 +120,12 @@ class ChainClick(Enigma):
         pass
 
     def _onActivate(self):
+        if self.elements:
+            return
+        for element in self._completed_elements:
+            element.finalize()
+        self._completed_elements = []
+
         GameData = ChainClickManager.getGame(self.EnigmaName)
         for elementId, elementData in GameData.elements.items():
             itemObject = self.object.getObject(elementData["ObjectName"])

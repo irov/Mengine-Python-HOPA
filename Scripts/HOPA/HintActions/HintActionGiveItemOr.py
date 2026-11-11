@@ -30,7 +30,7 @@ class HintActionGiveItemOr(MixinObject, HintActionMultiTarget):
         return False
         pass
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         # print "HintActionGiveItemOr _onAction", self.InventoryItem
         # with TaskManager.createTaskChain(Name = "HintActionUseInventoryItem_Scrolling") as tc:
         #     PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
@@ -65,4 +65,4 @@ class HintActionGiveItemOr(MixinObject, HintActionMultiTarget):
                 PositionTo2 = HotSpot.getWorldPolygonCenter()
                 pass
             pass
-        self.showHint(PositionTo1, PositionTo2)
+        self.showHint(source, PositionTo1, PositionTo2)

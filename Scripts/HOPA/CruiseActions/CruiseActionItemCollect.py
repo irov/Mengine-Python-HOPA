@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Notificator import Notificator
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 
 from HOPA.CruiseAction import CruiseAction
 from HOPA.System.SystemItemCollect import SystemItemCollect
@@ -28,21 +27,16 @@ class CruiseActionItemCollect(MixinObject, CruiseAction):
 
         return True
 
-    def _onAction(self):
+    def _onAction(self, source):
         for itemName in self.ItemList:
             if not SystemItemCollect.hasFoundItem(itemName):
                 # check for first item that not been placed yet
 
                 IC_Param = SystemItemCollect.getItemCollect(itemName)
 
-                with TaskManager.createTaskChain(Name="CruiseActionItemCollect") as tc:
-                    tc.addTask("AliasCruiseControlAction",
+                source.addTask("AliasCruiseControlAction",
                                Position=IC_Param.Item.calcWorldHintPoint(), Object=IC_Param.Item)
-                    tc.addTask("AliasCruiseControlAction", Position=IC_Param.ItemPosition, Object=IC_Param.Silhouette)
-                    tc.addNotify(Notificator.onCruiseActionEnd, self)
+                source.addTask("AliasCruiseControlAction", Position=IC_Param.ItemPosition, Object=IC_Param.Silhouette)
+                source.addNotify(Notificator.onCruiseActionEnd, self)
 
                 return
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionItemCollect") is True:
-            TaskManager.cancelTaskChain("CruiseActionItemCollect")

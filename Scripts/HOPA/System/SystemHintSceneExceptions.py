@@ -47,6 +47,9 @@ class SystemHintSceneExceptions(System):
                 NotifiesSize = len(notifies)
                 currentScenarioChapter = ChapterManager.getCurrentChapter()
 
+                if currentScenarioChapter is None:
+                    return True
+
                 completeParagraphs = 0
                 for ParagraphID in notifies:
                     completeParagraph = currentScenarioChapter.isParagraphComplete(ParagraphID)

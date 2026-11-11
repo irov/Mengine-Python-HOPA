@@ -32,17 +32,30 @@ class RotateAndReflectElement(Enigma):
 
     def _stopEnigma(self):
         super(RotateAndReflectElement, self)._stopEnigma()
-        Notification.removeObserver(self.SocketObserver)
-        Notification.removeObserver(self.ButtonObserver)
+        self.__removeObservers()
+        pass
+
+    def __removeObservers(self):
+        socket_observer = self.SocketObserver
+        button_observer = self.ButtonObserver
         self.SocketObserver = None
         self.ButtonObserver = None
-        pass
+        if socket_observer is not None:
+            Notification.removeObserver(socket_observer)
+        if button_observer is not None:
+            Notification.removeObserver(button_observer)
+
+    def _onFinalize(self):
+        super(RotateAndReflectElement, self)._onFinalize()
+
+        self.__removeObservers()
 
     def _restoreEnigma(self):
         self._playEnigma()
         pass
 
     def _playEnigma(self):
+        self.__removeObservers()
         self.SocketObserver = Notification.addObserver(Notificator.onSocketClick, self.__onSocketClick)
         self.ButtonObserver = Notification.addObserver(Notificator.onButtonClick, self.__onButtonClick)
         pass
@@ -238,6 +251,8 @@ class RotateAndReflectElement(Enigma):
 
     def _onDeactivate(self):
         super(RotateAndReflectElement, self)._onDeactivate()
+
+        self.__removeObservers()
         if TaskManager.existTaskChain("Swap") is True:
             TaskManager.cancelTaskChain("Swap")
             pass

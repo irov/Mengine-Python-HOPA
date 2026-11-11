@@ -1,11 +1,10 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.SceneManager import SceneManager
-from Foundation.Task.Task import Task
-from Foundation.TaskManager import TaskManager
+from Foundation.Task.TaskScopeChain import TaskScopeChain
 
 
-class TaskEffectFittingInventoryGetInventoryItem(Task):
+class TaskEffectFittingInventoryGetInventoryItem(TaskScopeChain):
     def _onParams(self, params):
         super(TaskEffectFittingInventoryGetInventoryItem, self)._onParams(params)
         self.FittingInventory = params.get("FittingInventory")
@@ -14,7 +13,7 @@ class TaskEffectFittingInventoryGetInventoryItem(Task):
         self.SlotID = params.get("SlotID", None)
         pass
 
-    def _onRun(self):
+    def _onScopeRun(self, source):
         inventoryItemEntity = self.inventoryItem.getEntity()
         inventoryItemSprite = inventoryItemEntity.getSprite()
         inventoryItemImageResource = inventoryItemSprite.getResourceImage()
@@ -43,26 +42,28 @@ class TaskEffectFittingInventoryGetInventoryItem(Task):
         self.NodeCopyInventoryItem.setOrigin(centerInventoryItemSprite)
         self.NodeCopyInventoryItem.enable()
 
-        with TaskManager.createTaskChain(Cb=self._onEffectInventoryAddItemComplete) as tc:
-            TimeEffectFittingInventoryAlphaInventoryItem = DefaultManager.getDefaultFloat("TimeEffectFittingInventoryAlphaInventoryItem", 2.0)
-            TimeEffectFittingInventoryAlphaInventoryItem *= 1000  # speed fix
-            tc.addTask("TaskNodeAlphaTo", Node=self.NodeCopyInventoryItem,
-                       Time=TimeEffectFittingInventoryAlphaInventoryItem, To=1.0)
+        TimeEffectFittingInventoryAlphaInventoryItem = DefaultManager.getDefaultFloat("TimeEffectFittingInventoryAlphaInventoryItem", 2.0)
+        TimeEffectFittingInventoryAlphaInventoryItem *= 1000  # speed fix
+        source.addTask("TaskNodeAlphaTo", Node=self.NodeCopyInventoryItem,
+                   Time=TimeEffectFittingInventoryAlphaInventoryItem, To=1.0)
 
-            SpeedEffectFittingInventoryGetItem = DefaultManager.getDefaultFloat("SpeedEffectFittingInventoryGetItem", 2000.0)
-            SpeedEffectFittingInventoryGetItem *= 0.001  # speed fix
-            tc.addTask("TaskNodeBezier2To", Node=self.NodeCopyInventoryItem, Point1=P1, To=P2,
-                       Speed=SpeedEffectFittingInventoryGetItem)
-            pass
-
-        return False
+        SpeedEffectFittingInventoryGetItem = DefaultManager.getDefaultFloat("SpeedEffectFittingInventoryGetItem", 2000.0)
+        SpeedEffectFittingInventoryGetItem *= 0.001  # speed fix
+        source.addTask("TaskNodeBezier2To", Node=self.NodeCopyInventoryItem, Point1=P1, To=P2,
+                   Speed=SpeedEffectFittingInventoryGetItem)
         pass
 
-    def _onEffectInventoryAddItemComplete(self, isSkip):
+    def _onScopeComplete(self, isSkip):
         self.NodeCopyInventoryItem.disable()
         Mengine.destroyNode(self.NodeCopyInventoryItem)
         self.NodeCopyInventoryItem = None
-        self.complete()
         pass
+
+    def _onFinally(self):
+        super(TaskEffectFittingInventoryGetInventoryItem, self)._onFinally()
+
+        if self.NodeCopyInventoryItem is not None:
+            Mengine.destroyNode(self.NodeCopyInventoryItem)
+            self.NodeCopyInventoryItem = None
 
     pass

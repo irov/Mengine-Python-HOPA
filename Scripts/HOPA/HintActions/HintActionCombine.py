@@ -26,7 +26,7 @@ class HintActionCombine(HintActionMultiTarget):
         return True
         pass
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         InventoryItemEntity = self.AttachInventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
 
@@ -62,7 +62,7 @@ class HintActionCombine(HintActionMultiTarget):
             Sprite = Button_InvLeftEntity.getSprite()
             PositionTo2 = Sprite.getWorldImageCenter()
             pass
-        self.showHint(PositionTo1, PositionTo2)
+        self.showHint(source, PositionTo1, PositionTo2)
 
     #     with TaskManager.createTaskChain(Name = "HintActionCombinePlay") as tc:
     #         PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")

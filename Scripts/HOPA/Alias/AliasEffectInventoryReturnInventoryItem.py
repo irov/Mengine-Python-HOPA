@@ -1,9 +1,9 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
-from Foundation.Task.TaskAlias import TaskAlias
+from Foundation.Task.TaskAliasFinally import TaskAliasFinally
 
 
-class AliasEffectInventoryReturnInventoryItem(TaskAlias):
+class AliasEffectInventoryReturnInventoryItem(TaskAliasFinally):
     def _onParams(self, params):
         super(AliasEffectInventoryReturnInventoryItem, self)._onParams(params)
         self.Inventory = params.get("Inventory")
@@ -19,7 +19,7 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
         super(AliasEffectInventoryReturnInventoryItem, self)._onInitialize()
         pass
 
-    def scope_Generate(self, source):
+    def _onGenerate(self, source, finurce):
         CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")
         InventoryItems = self.Inventory.getParam("InventoryItems")
 
@@ -80,6 +80,8 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
 
         if InventoryItemEntity.effect is not None:
             effect = InventoryItemEntity.effect
+            # this alias destroys the effect below, drop the entity reference to it
+            InventoryItemEntity.effect = None
         else:
             effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
@@ -106,16 +108,12 @@ class AliasEffectInventoryReturnInventoryItem(TaskAlias):
         source.addTask("TaskNodeEnable", Node=InventoryItemEntityNode, Value=False)
         source.addTask("TaskNodeRemoveFromParent", Node=InventoryItemEntityNode)
 
-        with source.addFork() as source_fork:
-            if effect is not None:
-                source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
-                source_fork.addTask("TaskObjectDestroy", Object=effect)
-                effect = None
-            source_fork.addTask("TaskNodeDestroy", Node=node)
+        finurce.addTask("TaskNodeRemoveFromParent", Node=InventoryItemEntityNode)
 
+        if effect is not None:
+            finurce.addTask("TaskMovie2Interrupt", Movie2=effect)
+            finurce.addTask("TaskObjectDestroy", Object=effect)
             pass
 
-    def _onGenerate(self, source):
-        source.addScope(self.scope_Generate)
-
-        return False
+        finurce.addTask("TaskNodeDestroy", Node=node)
+        finurce.addTask("TaskNodeDestroy", Node=node2)

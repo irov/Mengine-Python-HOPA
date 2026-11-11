@@ -61,6 +61,7 @@ class SystemCruiseControl(System):
         self.currentAction = None
         self.isTurnOn = False
         self.guardBlockInputCount = 0
+        self._scene_enter_observer = None
         self.debug_cruise_give = _DEVELOPMENT is True and "cruise" in Mengine.getOptionValues("debug")
 
     def _onRun(self):
@@ -80,6 +81,20 @@ class SystemCruiseControl(System):
         self.__addDevToDebug()
 
         return True
+
+    def _onStop(self):
+        super(SystemCruiseControl, self)._onStop()
+
+        self.isTurnOn = False
+        self.__removeSceneEnterObserver()
+        self.__stopCruiseControl()
+
+    def _onFinalize(self):
+        super(SystemCruiseControl, self)._onFinalize()
+
+        self.isTurnOn = False
+        self.__removeSceneEnterObserver()
+        self.__stopCruiseControl()
 
     def __ButtonPressedObserver(self, key, _x, _y, isDown, _isRepeating):
         if SceneManager.isCurrentGameScene() is False:
@@ -111,6 +126,7 @@ class SystemCruiseControl(System):
             return
 
         self.isTurnOn = False
+        self.__removeSceneEnterObserver()
         self.__stopCruiseControl()
         self._debugCruisetLog("Cruise Deactivated. Press {!r} to Activate.".format(CruiseControlActivateKeyName))
 
@@ -127,14 +143,18 @@ class SystemCruiseControl(System):
                                                              SelectYesChoice=bShouldPressYes)
 
             if cruise.onCheck():  # If Popup Window Is Active
+                # current action: ended by currentCruiseEnd (here or on cruise stop)
+                self.currentAction = cruise
 
                 with TaskManager.createTaskChain(Name='CruiseControl') as tc:
                     tc.addListener(Notificator.onCruiseActionEnd)
+                    tc.addFunction(self.currentCruiseEnd)
                     tc.addFunction(self.__restartCruiseControl_Delayed)
 
                 cruise.onAction()
 
             else:
+                CruiseControlManager.finalizeCruiseAction(cruise)
                 self.__restartCruiseControl_Delayed()
 
         return False
@@ -146,14 +166,21 @@ class SystemCruiseControl(System):
         if self.isTurnOn:
             self.__stopCruiseControl()
 
-            def _onSceneEnterRestartCruise(_sceneName):
-                self.__restartCruiseControl_Delayed()
-
-                return True
-
-            Notification.addObserver(Notificator.onSceneEnter, _onSceneEnterRestartCruise)
+            self.__removeSceneEnterObserver()
+            self._scene_enter_observer = Notification.addObserver(Notificator.onSceneEnter,
+                                                                   self.__onSceneEnterRestartCruise)
 
         return False
+
+    def __onSceneEnterRestartCruise(self, _sceneName):
+        self.__removeSceneEnterObserver()
+        self.__restartCruiseControl_Delayed()
+        return True
+
+    def __removeSceneEnterObserver(self):
+        observer = self._scene_enter_observer
+        self._scene_enter_observer = None
+        Notification.removeObserver(observer)
 
     def __TransitionBeginObserver(self, *args):
         if self.isTurnOn:
@@ -197,6 +224,13 @@ class SystemCruiseControl(System):
 
         if TaskManager.existTaskChain("SystemCruiseControlDelayedRestart"):
             TaskManager.cancelTaskChain("SystemCruiseControlDelayedRestart")
+
+        # Cancelling the delayed restart may register CruiseControl through its normal skip path.
+        if TaskManager.existTaskChain("CruiseControl"):
+            TaskManager.cancelTaskChain("CruiseControl")
+
+        # Skipping the switch task during the cancel may have started a new action.
+        self.currentCruiseEnd()
 
     def __startCruiseControl(self):
         MAKE_CRUISE_LOG()
@@ -291,15 +325,20 @@ class SystemCruiseControl(System):
                 return
 
             else:
+                cruiseAction = self.currentAction
+                self.currentAction = None
+                CruiseControlManager.finalizeCruiseAction(cruiseAction)
                 cb(isSkip, 0)
 
         else:
             cb(isSkip, 0)
 
     def currentCruiseEnd(self):
-        if self.currentAction is not None:
-            self.currentAction.onEnd()
-            self.currentAction = None
+        current_action = self.currentAction
+        self.currentAction = None
+        if current_action is not None:
+            current_action.onEnd()
+            CruiseControlManager.finalizeCruiseAction(current_action)
 
     def __getCruiseAction(self):
         CruiseAction = CruiseControlManager.findGlobalCruise()
@@ -342,11 +381,13 @@ class SystemCruiseControl(System):
             if CruiseAction is not None:
                 self._debugCruisetLog("[4] CurrentSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(
                     CruiseAction.__class__.__name__, CruiseAction.Quest))
+                CruiseControlManager.finalizeCruiseAction(CruiseAction)
                 return self.createZoomLeaveCruiseAction(zoomGroupName)
 
             CruiseSceneName, CruiseAction = self.getAroundSceneCruiseAction(currentSceneName, True)
 
             if CruiseAction is not None:
+                CruiseControlManager.finalizeCruiseAction(CruiseAction)
                 TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, CruiseSceneName)
 
                 if TransitionObject is not None and TransitionObject.getGroupName() == zoomGroupName:
@@ -389,6 +430,7 @@ class SystemCruiseControl(System):
 
             CruiseSceneName, CruiseActionAroundScene = self.getAroundSceneCruiseAction(currentSceneName, True)
             if CruiseActionAroundScene is not None:
+                CruiseControlManager.finalizeCruiseAction(CruiseActionAroundScene)
                 TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, CruiseSceneName)
 
                 if TransitionObject is not None:
@@ -446,10 +488,12 @@ class SystemCruiseControl(System):
                                                   GroupName=currentActiveItemCollectName[0], ItemList=itemCollect[0],
                                                   Object=itemCollect[1])
 
-            return CruiseControlManager.createCruiseAction('CruiseActionItemCollect', Quest,
-                                                           SceneName=currentActiveItemCollectName[0],
-                                                           GroupName=currentActiveItemCollectName[0],
-                                                           ItemList=itemCollect[0], Object=itemCollect[1])
+            cruiseAction = CruiseControlManager.createCruiseAction('CruiseActionItemCollect', Quest,
+                                                                   SceneName=currentActiveItemCollectName[0],
+                                                                   GroupName=currentActiveItemCollectName[0],
+                                                                   ItemList=itemCollect[0], Object=itemCollect[1])
+
+            return cruiseAction
 
         else:  # has closed ItemCollect create open ItemCollect
             itemCollects = SystemManager.getSystem("SystemItemCollect").getItemList()
@@ -464,8 +508,10 @@ class SystemCruiseControl(System):
                 Quest = QuestManager.createLocalQuest("ItemCollectOpen", SceneName=sceneName, GroupName=sceneName,
                                                       Object=socket)
 
-                return CruiseControlManager.createCruiseAction('CruiseActionClick', Quest, SceneName=sceneName,
-                                                               GroupName=sceneName, Object=socket)
+                cruiseAction = CruiseControlManager.createCruiseAction('CruiseActionClick', Quest, SceneName=sceneName,
+                                                                       GroupName=sceneName, Object=socket)
+
+                return cruiseAction
 
     def getSpellUseCruiseAction(self, sceneName):
         if SystemManager.hasSystem("SystemSpells") is False:
@@ -579,6 +625,8 @@ class SystemCruiseControl(System):
                         if TransitionObject is not None:
                             return sceneName, cruiseAction
 
+                    CruiseControlManager.finalizeCruiseAction(cruiseAction)
+
             zooms = SceneManager.getSceneZooms(sceneName)
             if zooms is None:
                 continue
@@ -588,6 +636,7 @@ class SystemCruiseControl(System):
                 if cruiseAction is None:
                     continue
 
+                CruiseControlManager.finalizeCruiseAction(cruiseAction)
                 cruiseAction = self.createZoomEnterCruiseAction(sceneName, zoomGroupName, True)
                 if cruiseAction is not None:
                     return sceneName, cruiseAction
@@ -649,6 +698,7 @@ class SystemCruiseControl(System):
         cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionZoom", Quest, **Params)
         if cruiseAction.onCheck() is False:
             QuestManager.cancelQuest(Quest)
+            CruiseControlManager.finalizeCruiseAction(cruiseAction)
             return
 
         if QuestManager.hasLocalQuest(sceneName, zoomGroupName, "EnterZoom") is False:
@@ -662,6 +712,8 @@ class SystemCruiseControl(System):
 
         if check is False:
             return cruiseAction
+
+        CruiseControlManager.finalizeCruiseAction(cruiseAction)
 
         hasZoomActiveQuest = QuestManager.hasAroundSceneQuest(sceneName, zoomGroupName)
         if hasZoomActiveQuest is True:
@@ -684,6 +736,19 @@ class SystemCruiseControl(System):
     # -------- DEV TO DEBUG --------------------------------------------------------------------------------------------
 
     def __addDevToDebug(self):
+        def __onDevToDebugChange(state):
+            if SystemManager.hasSystem("SystemCruiseControl") is False:
+                return
+
+            system = SystemManager.getSystem("SystemCruiseControl")
+            if system.isRun() is False:
+                return
+
+            if state is True:
+                system.turnOn()
+            else:
+                system.turnOff()
+
         if Mengine.isAvailablePlugin("DevToDebug") is False:
             return
 
@@ -692,16 +757,9 @@ class SystemCruiseControl(System):
         if tab.findWidget("cruise_control") is not None:
             return
 
-        def _cb(state):
-            if state is True:
-                self.turnOn()
-            else:
-                self.turnOff()
-
         w_checkbox = Mengine.createDevToDebugWidgetCheckbox("cruise_control")
         w_checkbox.setTitle("Toggle Cruise Control")
         w_checkbox.setValue(self.isTurnOn)
-        w_checkbox.setChangeEvent(_cb)
+        w_checkbox.setChangeEvent(__onDevToDebugChange)
 
         tab.addWidget(w_checkbox)
-        

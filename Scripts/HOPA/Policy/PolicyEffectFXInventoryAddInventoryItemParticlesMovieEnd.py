@@ -17,8 +17,6 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
             return
             pass
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
 
@@ -79,6 +77,8 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
         time = length / SpeedEffectInventoryAddInventoryItem
         # time *= 1000  # speed fix
 
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
+
         if effect is not None:
             effectEntity = effect.getEntity()
 
@@ -109,6 +109,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
 
             source.addTask("TaskMovie2Stop", Movie2=effect)
             source.addTask("TaskNodeRemoveFromParent", Node=effectEntity)
+            source.addTask("TaskObjectDestroy", Object=effect)
             pass
 
         source.addTask("TaskNodeRemoveFromParent", Node=pure)
@@ -143,7 +144,7 @@ class PolicyEffectFXInventoryAddInventoryItemParticlesMovieEnd(TaskAlias):
             pass
 
         scope.addTask("TaskMovie2Play", Movie2=tempMovie, Wait=True)
-        scope.addScope(self.__onPlayMovieEnd, slot, slot.item, tempMovie, textField)
+        scope.addFunction(self.__onPlayMovieEnd, slot, slot.item, tempMovie, textField)
 
         pass
 

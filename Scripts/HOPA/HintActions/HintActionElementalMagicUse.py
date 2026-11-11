@@ -20,9 +20,9 @@ class HintActionElementalMagicUse(MixinObject, HintActionMultiTarget):
             return True
         return False
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         PositionTo1, PositionTo2 = self.getMultiHintPosition()
-        self.showHint(PositionTo1, PositionTo2)
+        self.showHint(source, PositionTo1, PositionTo2)
 
     def getMultiHintPosition(self):
         node = self.Ring.getRootNode()

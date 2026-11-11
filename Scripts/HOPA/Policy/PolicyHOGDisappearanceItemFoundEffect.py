@@ -95,5 +95,7 @@ class PolicyHOGDisappearanceItemFoundEffect(TaskAlias):
                 source_fork.addTask("TaskObjectDestroy", Object=checkMarkEffect)
                 pass
 
+            source_fork.addTask("TaskNodeDestroy", Node=pure)
             source_fork.addTask("TaskNodeDestroy", Node=node)
+            source_fork.addTask("TaskNodeDestroy", Node=node1)
             pass

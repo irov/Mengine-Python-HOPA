@@ -132,6 +132,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             parallel_2.addFunction(self.removeMouseProvider)
 
     def createMouseProvider(self):
+        self.removeMouseProvider()
         self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
     def __onMousePositionChange(self, touchID, position):
@@ -144,6 +145,8 @@ class RotateRingsAndSetInRightOrder(Enigma):
                 RotateCircle.addScope(self.updateCirclePos, position.x, position.y)
 
     def removeMouseProvider(self):
+        if self.MousePositionProviderID is None:
+            return
         Mengine.removeMousePositionProvider(self.MousePositionProviderID)
         self.MousePositionProviderID = None
 
@@ -238,6 +241,11 @@ class RotateRingsAndSetInRightOrder(Enigma):
         source.addFunction(self._cleanUp)
 
     def _cleanUp(self):
+        # the provider is removed only after mouse up, which a cancelled chain never reaches
+        self.removeMouseProvider()
+        self.activeRing = None
+        self.Y = None
+
         if self.tc is not None:
             self.tc.cancel()
         self.tc = None

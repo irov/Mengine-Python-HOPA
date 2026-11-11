@@ -142,6 +142,11 @@ class SystemParallaxEffect(System):
 
         self.__setupParallax(scene_name)
 
+        # a second onSceneInit without onSceneLeave: one provider already updates all animators
+        if self.MousePositionProviderID is not None:
+            Mengine.removeMousePositionProvider(self.MousePositionProviderID)
+            self.MousePositionProviderID = None
+
         self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 
         return False

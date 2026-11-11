@@ -1,15 +1,13 @@
-from Foundation.TaskManager import TaskManager
-from HOPA.Enigma import Enigma
+from HOPA.ScopeEnigma import ScopeEnigma
 from HOPA.ChipGravitySliderManager import ChipGravitySliderManager
 
-class ChipGravitySlider(Enigma):
+class ChipGravitySlider(ScopeEnigma):
     def _onActivate(self):
         super(ChipGravitySlider, self)._onActivate()
         pass
 
     def __init__(self):
         super(ChipGravitySlider, self).__init__()
-        self.tc = None
         self.param = None
         self.Movie_Slots_Grid = None
         self.Movie_Slots_Start = None
@@ -26,22 +24,21 @@ class ChipGravitySlider(Enigma):
         self.speed = 600.0
         pass
 
-    def _playEnigma(self):
+    def _onScopePlay(self, source):
         self._load_param()
         self._setup()
 
         click_holder = Holder()
-        self.tc = TaskManager.createTaskChain(Repeat=True)
-        with self.tc as tc:
-            for Button, source_1 in tc.addRaceTaskList(self.Arrows):
-                source_1.addTask("TaskMovie2ButtonClick", Movie2Button=Button)
-                source_1.addFunction(click_holder.set, Button)
-            with tc.addParallelTask(2) as (Tc_Sound_1, Tc_Game):
-                Tc_Sound_1.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipGravitySlider_ButtonClick')
-                Tc_Game.addScope(self._scopeMove_Blocks, click_holder)
-            for k, source1 in tc.addParallelTaskList(range(self.ChipNumber)):
-                source1.addScope(self._scopeMove_Chips, k)
-            tc.addFunction(self._IsGameEnd)
+
+        for Button, source_1 in source.addRaceTaskList(self.Arrows):
+            source_1.addTask("TaskMovie2ButtonClick", Movie2Button=Button)
+            source_1.addFunction(click_holder.set, Button)
+        with source.addParallelTask(2) as (Tc_Sound_1, Tc_Game):
+            Tc_Sound_1.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipGravitySlider_ButtonClick')
+            Tc_Game.addScope(self._scopeMove_Blocks, click_holder)
+        for k, source1 in source.addParallelTaskList(range(self.ChipNumber)):
+            source1.addScope(self._scopeMove_Chips, k)
+        source.addFunction(self._IsGameEnd)
 
     def _load_param(self):
         self.param = ChipGravitySliderManager.getParam(self.EnigmaName)
@@ -310,8 +307,7 @@ class ChipGravitySlider(Enigma):
         self._playEnigma()
 
     def _Clean_Full(self):
-        if self.tc is not None:
-            self.tc.cancel()
+        self._cancelScope()
 
         for elem in self.Blocks:
             for movie in elem:
@@ -325,7 +321,6 @@ class ChipGravitySlider(Enigma):
             node.removeFromParent()
             movie.setEnable(False)
 
-        self.tc = None
         self.param = None
         self.Movie_Slots_Grid = None
         self.Movie_Slots_Start = None

@@ -6,20 +6,32 @@ class SystemManaFind(System):
     def __init__(self):
         super(SystemManaFind, self).__init__()
         self.onManaFindObserver = None
+        self.findChainNames = []
         pass
 
     def _onRun(self):
         self.onManaFindObserver = Notification.addObserver(Notificator.onManaSearchBegin, self.__onManaSearchBegin)
-        pass
+        return True
 
     def _onStop(self):
         Notification.removeObserver(self.onManaFindObserver)
+        self.onManaFindObserver = None
+
+        for chain_name in self.findChainNames:
+            TaskManager.cancelTaskChain(chain_name, exist=False)
+        self.findChainNames = []
         pass
 
     def __onManaSearchBegin(self, movie, value):
-        if TaskManager.existTaskChain("FindMana_" + movie.getName()) is True:
-            TaskManager.cancelTaskChain("FindMana_" + movie.getName())
+        movie_name = movie.getName()
+        tc_name = "FindMana_" + movie_name
+
+        if TaskManager.existTaskChain(tc_name) is True:
+            TaskManager.cancelTaskChain(tc_name)
             pass
+
+        if tc_name not in self.findChainNames:
+            self.findChainNames.append(tc_name)
 
         movieEntity = movie.getEntity()
         movedNode = movieEntity.getMovieSlot("slot")
@@ -38,7 +50,7 @@ class SystemManaFind(System):
         time = 2.0
         time *= 1000  # speed fix
 
-        with TaskManager.createTaskChain(Name="FindMana_" + movie.getName()) as tc:
+        with TaskManager.createTaskChain(Name=tc_name) as tc:
             with tc.addRepeatTask() as (tc_do, tc_until):
                 tc_do.addTask("TaskMovieStop", Movie=movie)
                 tc_do.addTask("TaskMovieLastFrame", Movie=movie, Value=False)

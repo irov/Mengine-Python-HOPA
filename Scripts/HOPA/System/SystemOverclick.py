@@ -21,6 +21,10 @@ class SystemOverclick(System):
         time = Mengine.getTime()
         self.timeClick.append(time)
 
+        # __checkOverclick looks only at the last clicks
+        if len(self.timeClick) > 6:
+            self.timeClick = self.timeClick[-6:]
+
         group_name = "Overclick"
         socket_block = "Socket_Block"
         movie_name = DefaultManager.getDefault("OverclickMovie", "Movie_Hypnotoad")
@@ -85,6 +89,7 @@ class SystemOverclick(System):
         pass
 
     def _onStop(self):
+        self.timeClick = []
         pass
 
     pass

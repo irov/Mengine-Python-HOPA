@@ -59,6 +59,14 @@ class PolicyHOGFindItemFly(TaskAlias):
             pure.setOrigin(pureCenter)
             pass
 
+        def __guardPure(value):
+            # pure is created before the click: destroy it on complete and on cancel
+            if value is True:
+                return
+
+            Mengine.destroyNode(pure)
+            pass
+
         length = Mengine.length_bezier2(P0, P1, P2)
 
         HOGItemHideEffectSpeed = DefaultManager.getDefaultFloat("HOGItemHideEffectSpeed", 1000)
@@ -74,26 +82,26 @@ class PolicyHOGFindItemFly(TaskAlias):
         Quest = QuestManager.createLocalQuest("HOGPickItem", SceneName=SceneName, GroupName=GroupName,
                                               HogGroupName=self.GroupName, ItemName=self.ItemName, HogItem=hogItem)
 
-        with QuestManager.runQuest(source, Quest) as tc_quest:
-            tc_quest.addTask("TaskItemClick", ItemName=self.ItemName)
+        with source.addGuardTask(True, __guardPure) as guard_source:
+            with QuestManager.runQuest(guard_source, Quest) as tc_quest:
+                tc_quest.addTask("TaskItemClick", ItemName=self.ItemName)
+                pass
+
+            guard_source.addFunction(__onClickItem)
+
+            guard_source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
+            guard_source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
+            guard_source.addTask("TaskItemPick", ItemName=self.ItemName)
+
+            guard_source.addTask("TaskNodeScaleTo", Node=pure, To=(IncreaseSize, IncreaseSize, 1.0), Time=HOGItemIncreaseTime)
+
+            with guard_source.addParallelTask(2) as (tcp0, tcp1):
+                tcp0.addTask("TaskNodeBezier2To", Node=pure, Point1=P1, To=P2, Speed=HOGItemHideEffectSpeed)
+
+                tcp1.addTask("TaskNodeScaleTo", Node=pure, To=(DecreaseSize, DecreaseSize, 1.0), Time=time)
+                pass
             pass
 
-        source.addFunction(__onClickItem)
-
-        source.addTask("TaskHOGFoundItem", HOG=self.HOG, HOGItemName=self.HOGItemName)
-        source.addNotify(Notificator.onHOGFoundItem, self.HOGItemName)
-        source.addTask("TaskItemPick", ItemName=self.ItemName)
-
-        source.addTask("TaskNodeScaleTo", Node=pure, To=(IncreaseSize, IncreaseSize, 1.0), Time=HOGItemIncreaseTime)
-
-        with source.addParallelTask(2) as (tcp0, tcp1):
-            tcp0.addTask("TaskNodeBezier2To", Node=pure, Point1=P1, To=P2, Speed=HOGItemHideEffectSpeed)
-
-            tcp1.addTask("TaskNodeScaleTo", Node=pure, To=(DecreaseSize, DecreaseSize, 1.0), Time=time)
-            pass
-
-        source.addTask("TaskNodeRemoveFromParent", Node=pure)
-        source.addTask("TaskNodeDestroy", Node=pure)
         source.addTask("TaskHOGInventoryFoundItem", HOGInventory=HOGInventory, HOGItemName=self.HOGItemName)
         source.addTask("TaskHOGInventoryCrossOut", HOGItemName=self.HOGItemName, Immediately=False)
         pass

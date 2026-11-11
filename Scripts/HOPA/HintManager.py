@@ -203,6 +203,16 @@ class HintManager(Manager):
         return hintAction
 
     @staticmethod
+    def finalizeHintAction(hintAction):
+        if hintAction is None:
+            return
+
+        if hintAction.isInitialized() is False:
+            return
+
+        hintAction.onFinalize()
+
+    @staticmethod
     def __findHint(questCache, Hint, checkActive=True):
         currentSceneName = SceneManager.getCurrentSceneName()
         hintActions = []
@@ -257,18 +267,23 @@ class HintManager(Manager):
                 if currentSceneName == questSceneName:
                     hintActionType = hintAction.getType()
                     if hintActionType == "HintActionDummy":
+                        HintManager.finalizeHintAction(hintAction)
                         continue
 
             if hintAction.onCheck() is False:
+                HintManager.finalizeHintAction(hintAction)
                 continue
 
             if quest.questType == "Enigma" and questSceneName == currentSceneName:
+                HintManager.finalizeHintAction(hintAction)
                 continue
 
             # if item collect is open, localQuestCache will have one quest for item collect
             # also there are other quests, but we prioritize this one among others
             # if item collect is open, we need only hint for item collect quests
             if hintAction.getType() == 'HintActionItemCollect':
+                for otherHintAction in hintActions:
+                    HintManager.finalizeHintAction(otherHintAction)
                 return hintAction
 
             hintActions.append(hintAction)
@@ -283,6 +298,9 @@ class HintManager(Manager):
         if countActions != 0:
             index = Mengine.range_rand(0, countActions)
             hintAction = hintActions[index]
+            for otherHintAction in hintActions:
+                if otherHintAction is not hintAction:
+                    HintManager.finalizeHintAction(otherHintAction)
             return hintAction
 
     @staticmethod

@@ -148,7 +148,7 @@ class SwapGame(Enigma):
             pass
 
         for object in self.generatedObjects:
-            object.removeFromParent()
+            object.onDestroy()  # generated in _PreInit, removeFromParent alone orphans it
             pass
         self.Positions_Now_Id = []
 

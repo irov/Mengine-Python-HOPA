@@ -1,6 +1,5 @@
 from Foundation.Notificator import Notificator
 from Foundation.Task.MixinObjectTemplate import MixinTransition
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -13,18 +12,10 @@ class CruiseActionTransition(MixinTransition, CruiseAction):
     def _getCruiseObject(self):
         return self.Transition
 
-    def _onAction(self):
+    def _onAction(self, source):
         self.move_delay = CruiseControlManager.getCruiseMoveDelay('CruiseActionTransition')
 
-        if TaskManager.existTaskChain("CruiseActionTransition") is True:
-            TaskManager.cancelTaskChain("CruiseActionTransition")
-
-        with TaskManager.createTaskChain(Name="CruiseActionTransition") as tc:
-            tc.addDelay(self.move_delay)
-            tc.addTask("AliasCruiseControlAction",
+        source.addDelay(self.move_delay)
+        source.addTask("AliasCruiseControlAction",
                        Position=self.Transition.calcWorldHintPoint(), Object=self._getCruiseObject())
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionTransition") is True:
-            TaskManager.cancelTaskChain("CruiseActionTransition")
+        source.addNotify(Notificator.onCruiseActionEnd, self)

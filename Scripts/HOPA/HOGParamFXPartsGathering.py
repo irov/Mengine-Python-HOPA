@@ -8,6 +8,12 @@ class HOGParamFXPartsGathering(object):
     s_items = {}
     s_inventories = {}
 
+    @staticmethod
+    def finalize():
+        HOGParamFXPartsGathering.s_groups = {}
+        HOGParamFXPartsGathering.s_items = {}
+        HOGParamFXPartsGathering.s_inventories = {}
+
     class HOGItem(object):
         def __init__(self, itemName, objectName, group):
             self.name = itemName

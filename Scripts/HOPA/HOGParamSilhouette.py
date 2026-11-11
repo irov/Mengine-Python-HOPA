@@ -10,6 +10,12 @@ class HOGParamSilhouette(object):
     s_inventories = {}
     s_inventorySlots = {}
 
+    @staticmethod
+    def finalize():
+        HOGParamSilhouette.s_items = {}
+        HOGParamSilhouette.s_inventories = {}
+        HOGParamSilhouette.s_inventorySlots = {}
+
     class HOGItem(object):
         def __init__(self, itemName, objectName, storeGroupName, storeObjectName):
             self.itemName = itemName

@@ -1,5 +1,4 @@
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
 
@@ -43,7 +42,7 @@ class CruiseActionPull(CruiseAction, MixinObject):
     def _onCheck(self):
         return True
 
-    def _onAction(self):
+    def _onAction(self, source):
         Node = Mengine.getArrowNode()
         PositionA = self._getCruisePosition(self.Object)
         PositionB = (
@@ -51,29 +50,21 @@ class CruiseActionPull(CruiseAction, MixinObject):
             PositionA[1] + CruiseActionPull.s_directions[self.Direction][1]
         )
 
-        if TaskManager.existTaskChain("CruiseActionPull") is True:
-            TaskManager.cancelTaskChain("CruiseActionPull")
-            pass
-
         speed = 750
 
-        with TaskManager.createTaskChain(Name="CruiseActionPull") as tc:
-            tc.addTask("TaskNodeMoveTo", Node=Node, To=PositionA, Speed=speed)
-            tc.addTask("TaskCursorSetPosition", Position=PositionA)
-            tc.addTask("TaskCursorClickEmulate", Position=PositionA, Value=True)
-            tc.addTask("TaskNodeMoveTo", Node=Node, To=PositionB, Speed=speed)
-            tc.addTask("TaskCursorSetPosition", Position=PositionB)
-            tc.addTask("TaskCursorClickEmulate", Position=PositionB, Value=False)
+        source.addTask("TaskNodeMoveTo", Node=Node, To=PositionA, Speed=speed)
+        source.addTask("TaskCursorSetPosition", Position=PositionA)
+        source.addTask("TaskCursorClickEmulate", Position=PositionA, Value=True)
+        source.addTask("TaskNodeMoveTo", Node=Node, To=PositionB, Speed=speed)
+        source.addTask("TaskCursorSetPosition", Position=PositionB)
+        source.addTask("TaskCursorClickEmulate", Position=PositionB, Value=False)
 
-            # tc.addListener(Notificator.onMousePullComplete)
-            tc.addListener(Notificator.onQuestEnd, Filter=self.check)
-            tc.addDelay(0.5 * 1000)  # speed fix
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        # source.addListener(Notificator.onMousePullComplete)
+        source.addListener(Notificator.onQuestEnd, Filter=self.check)
+        source.addDelay(0.5 * 1000)  # speed fix
+        source.addNotify(Notificator.onCruiseActionEnd, self)
 
     def check(self, quest):
         if quest is not self.Quest:
             return False
         return True
-
-    def _onEnd(self):
-        super(CruiseActionPull, self)._onEnd()

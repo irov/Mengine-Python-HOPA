@@ -9,6 +9,12 @@ class HOGParamRolling(object):
     s_inventories = {}
     s_inventorySlots = {}
 
+    @staticmethod
+    def finalize():
+        HOGParamRolling.s_items = {}
+        HOGParamRolling.s_inventories = {}
+        HOGParamRolling.s_inventorySlots = {}
+
     class HOGItem(object):
         def __init__(self, itemName, objectName, textID, difficulty, score, slot, slot_bind):
             self.itemName = itemName

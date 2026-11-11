@@ -8,6 +8,7 @@ class SystemBoneBoard(System):
         super(SystemBoneBoard, self).__init__()
 
         self.scenes = {}
+        self.boneDemonObject = None
         self.HelperState = None
         self.BoneActivities = None
         self.ButtonAvailable = None
@@ -59,7 +60,6 @@ class SystemBoneBoard(System):
     def _onStop(self):
         self.boneDemonObject.removeAllData()
         self.boneDemonObject = None
-        self.boneInstance = None
         self.scenes = {}
         pass
 
@@ -72,9 +72,9 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        self.boneInstance = self.boneDemonObject.getEntity()
+        boneInstance = self.boneDemonObject.getEntity()
 
-        if self.boneInstance is None:
+        if boneInstance is None:
             return False
             pass
 
@@ -82,7 +82,7 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        self.boneInstance.onCasualShowHelp()
+        boneInstance.onCasualShowHelp()
 
         return False
         pass
@@ -94,8 +94,8 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        if self.boneInstance is None:
+        boneInstance = self.boneDemonObject.getEntity()
+        if boneInstance is None:
             return False
             pass
         #
@@ -103,7 +103,7 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        self.boneInstance.onCasualHideHelp()
+        boneInstance.onCasualHideHelp()
         return False
         pass
 
@@ -111,11 +111,11 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        if self.boneInstance.isActivate() is False:
+        boneInstance = self.boneDemonObject.getEntity()
+        if boneInstance.isActivate() is False:
             return False
             pass
-        self.boneInstance.on_show_bones(*args)
+        boneInstance.on_show_bones(*args)
         return False
         pass
 
@@ -123,11 +123,11 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        if self.boneInstance.isActivate() is False:
+        boneInstance = self.boneDemonObject.getEntity()
+        if boneInstance.isActivate() is False:
             return False
             pass
-        self.boneInstance.on_socket_click(*args)
+        boneInstance.on_socket_click(*args)
         return False
         pass
 
@@ -136,14 +136,14 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        self.boneInstance = self.boneDemonObject.getEntity()
+        boneInstance = self.boneDemonObject.getEntity()
 
-        if self.boneInstance.isActivate() is False:
+        if boneInstance.isActivate() is False:
             return False
             pass
 
         if relatedItem.startswith("done"):
-            self.boneInstance.onCasualHideHelp()
+            boneInstance.onCasualHideHelp()
             if relatedItem[5:] not in self.scenes.keys():
                 return False
                 pass
@@ -151,7 +151,7 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        self.boneInstance.on_bone_come(invItem, relatedItem)
+        boneInstance.on_bone_come(invItem, relatedItem)
 
         return False
         pass
@@ -160,11 +160,11 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        if self.boneInstance.isActivate() is False:
+        boneInstance = self.boneDemonObject.getEntity()
+        if boneInstance.isActivate() is False:
             return False
             pass
-        self.boneInstance.on_item_click(*args)
+        boneInstance.on_item_click(*args)
         return False
         pass
 
@@ -172,21 +172,21 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        if self.boneInstance.isActivate() is False:
+        boneInstance = self.boneDemonObject.getEntity()
+        if boneInstance.isActivate() is False:
             return False
             pass
 
         if itemName.startswith("done"):
-            self.boneInstance.onCasualHideHelp()
+            boneInstance.onCasualHideHelp()
             del self.scenes[itemName[5:]]
             pass
         else:
             self.scenes[itemName] = groupName
-            self.boneInstance.onCasualShowHelp()
+            boneInstance.onCasualShowHelp()
             pass
 
-        self.boneInstance.on_bone_usage(itemName, groupName)
+        boneInstance.on_bone_usage(itemName, groupName)
         return False
         pass
 
@@ -194,8 +194,8 @@ class SystemBoneBoard(System):
         if self.boneDemonObject.isActive() is False:
             return False
             pass
-        self.boneInstance = self.boneDemonObject.getEntity()
-        self.boneInstance.onItemEntered(itemObject)
+        boneInstance = self.boneDemonObject.getEntity()
+        boneInstance.onItemEntered(itemObject)
         return False
         pass
 

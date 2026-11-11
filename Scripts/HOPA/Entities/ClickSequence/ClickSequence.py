@@ -42,6 +42,12 @@ class ClickSequence(Enigma):
         self.__Finita()
         pass
 
+    def _onFinalize(self):
+        super(ClickSequence, self)._onFinalize()
+
+        self.__Finita()
+        pass
+
     def _Pre_Init(self):
         self.Game = ClickSequenceManager.getGame(self.EnigmaName)
         self.Click_Seq_Len = len(self.Game.Sequences)

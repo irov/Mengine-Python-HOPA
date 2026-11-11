@@ -1,4 +1,3 @@
-from Foundation.TaskManager import TaskManager
 from HOPA.Entities.InventoryFX.ActionDefault import ActionDefault
 
 
@@ -8,6 +7,5 @@ class ActionHintUse(ActionDefault):
         return True
         pass
 
-    def _onRun(self):
-        with TaskManager.createTaskChain(Cb=self.endItem) as tc:
-            tc.addNotify(Notificator.onItemEffectEnd, self.ItemName)
+    def _onRun(self, source):
+        source.addNotify(Notificator.onItemEffectEnd, self.ItemName)

@@ -1,4 +1,3 @@
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ZoomManager import ZoomManager
@@ -24,13 +23,10 @@ class CruiseActionZoomOut(CruiseAction):
 
         return Position
 
-    def onAction(self):
+    def _onAction(self, source):
         click_delay = CruiseControlManager.getCruiseClickDelay('CruiseActionZoomOut')
         PositionTo = self._getCruisePosition()
-        if TaskManager.existTaskChain("CruiseActionZoomOut") is True:
-            TaskManager.cancelTaskChain("CruiseActionZoomOut")
 
-        with TaskManager.createTaskChain(Name="CruiseActionZoomOut") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self._getCruiseObject())
-            tc.addDelay(click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self._getCruiseObject())
+        source.addDelay(click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

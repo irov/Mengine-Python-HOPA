@@ -81,12 +81,15 @@ class SystemCollectibles(System):
 
     def _onParams(self, _params):
         self.tc = None
-        self.keyHandlerId = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.keyHandlerId = None
+        self.search_observers = []
 
     def __checkCE(self):
         return isCollectorEdition()
 
     def _onRun(self):
+        self.keyHandlerId = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+
         if self.__checkCE() is False:
             self.disableCollectibles()
             return True
@@ -176,11 +179,26 @@ class SystemCollectibles(System):
 
         SystemCollectibles.s_search_mode = True
 
-        # restart search mode if we do scene restart
-        self.addObserver(Notificator.onSceneRestartBegin, self.__cbSceneRestartBegin, scene_name, scene_before_collectibles_scene)
+        # observers of the previous search (the restart one stays registered until a scene restart)
+        self.__removeSearchObservers()
 
-        self.addObserver(Notificator.onSceneDeactivate, self.__cbCollectibleTransitionEnd, scene_name)
-        self.addObserver(Notificator.onSceneInit, self.__cbCollectibleTransition, transition_back_to_scene_name, transition_back_to_text_id, scene_before_collectibles_scene)
+        # restart search mode if we do scene restart
+        observer = self.addObserver(Notificator.onSceneRestartBegin, self.__cbSceneRestartBegin, scene_name, scene_before_collectibles_scene)
+        self.search_observers.append(observer)
+
+        observer = self.addObserver(Notificator.onSceneDeactivate, self.__cbCollectibleTransitionEnd, scene_name)
+        self.search_observers.append(observer)
+        observer = self.addObserver(Notificator.onSceneInit, self.__cbCollectibleTransition, transition_back_to_scene_name, transition_back_to_text_id, scene_before_collectibles_scene)
+        self.search_observers.append(observer)
+
+    def __removeSearchObservers(self):
+        for observer in self.search_observers:
+            if observer is None:
+                continue
+
+            self.removeObserver(observer)
+
+        self.search_observers = []
 
     def __cbSceneRestartBegin(self, scene_name, scene_before_collectibles_scene):
         if SystemCollectibles.s_search_mode is False:
@@ -191,7 +209,8 @@ class SystemCollectibles(System):
             TransitionManager.changeScene(COLLECTIBLES_SCENE_NAME)
             return True
 
-        self.addObserver(Notificator.onSceneDeactivate, _cb)
+        observer = self.addObserver(Notificator.onSceneDeactivate, _cb)
+        self.search_observers.append(observer)
         return True
 
     @staticmethod
@@ -296,8 +315,10 @@ class SystemCollectibles(System):
             tc = TaskManager.createTaskChain()
             quest = QuestManager.createLocalQuest(QUEST_TYPE, SceneName=scene_name, GroupName=group_name,
                                                   Object=collectible_movie)
-            HintManager.createHintAction(HINT_ACTION_TYPE, quest, SceneName=scene_name, GroupName=group_name,
-                                         Object=collectible_movie)
+            hintAction = HintManager.createHintAction(HINT_ACTION_TYPE, quest, SceneName=scene_name, GroupName=group_name,
+                                                      Object=collectible_movie)
+            # nothing keeps the action, so it is finalized right away
+            HintManager.finalizeHintAction(hintAction)
 
             with tc as tc:
                 with QuestManager.runQuest(tc, quest) as tc_quest:
@@ -500,6 +521,11 @@ class SystemCollectibles(System):
             SystemCollectibles.completeAllCollectibles()
 
     def __cbTransitionEnd(self, _scene_from, scene_to, _zoom_group_name):
+        # the click chain belongs to the scene we came from
+        if self.tc is not None:
+            self.tc.cancel()
+        self.tc = None
+
         collectibles = SystemCollectibles.s_collectibles_by_scenes.get(scene_to)
         if collectibles is None:
             return False
@@ -508,10 +534,6 @@ class SystemCollectibles(System):
 
         if collectible_group is None:
             return False
-
-        if self.tc is not None:
-            self.tc.cancel()
-        self.tc = None
 
         self.__runTaskChain(collectibles, scene_to)
         return False
@@ -713,4 +735,15 @@ class SystemCollectibles(System):
 
     def _onStop(self):
         super(SystemCollectibles, self)._onStop()
-        Mengine.removeGlobalHandler(self.keyHandlerId)
+
+        if self.tc is not None:
+            self.tc.cancel()
+        self.tc = None
+
+        # System.stop already removed every observer
+        self.search_observers = []
+
+        key_handler_id = self.keyHandlerId
+        self.keyHandlerId = None
+        if key_handler_id is not None:
+            Mengine.removeGlobalHandler(key_handler_id)

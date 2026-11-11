@@ -9,6 +9,8 @@ class MacroHOGFittingUseItemSocket(MacroCommand):
         self.EnigmaName = values[0]
         self.SocketName = values[1]
         self.ItemUseName = values[2]
+
+        self.ScopeQuest = None
         pass
 
     def _onInitialize(self):
@@ -36,8 +38,16 @@ class MacroHOGFittingUseItemSocket(MacroCommand):
             # Inventory = DemonManager.getDemon("HOGInventoryFitting")
             Socket = GroupManager.getObject(self.GroupName, self.SocketName)
 
+            # the scope runs on every pass (repeat scenarios), keep only the quest of the current pass
+            if self.ScopeQuest is not None and self.ScopeQuest in self.ScenarioQuests:
+                self.ScenarioQuests.remove(self.ScopeQuest)
+                pass
+            self.ScopeQuest = None
+
             Quest = self.addQuest(scope, "UseHOGFittingItem", SceneName=self.SceneName, Inventory=Inventory,
                                   GroupName=self.GroupName, InventoryItem=ItemUseObject, Object=Socket)
+            self.ScopeQuest = Quest.quest
+
             with Quest as tc_quest:
                 tc_quest.addTask("TaskHOGFittingItemUseSocket", SocketName=self.SocketName, ItemUseObject=ItemUseObject)
                 pass

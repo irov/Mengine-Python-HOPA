@@ -34,8 +34,10 @@ class Symbol(object):
         source.addPlay(self.movie_select, Wait=False, Loop=True)
 
     def disableIdlePlayTC(self):
-        if self.__tc_idle_play is not None:
-            self.__tc_idle_play.cancel()
+        chain = self.__tc_idle_play
+        self.__tc_idle_play = None
+        if chain is not None:
+            chain.cancel()
 
     def cleanUp(self):
         self.disableIdlePlayTC()
@@ -118,15 +120,20 @@ class FindSymbolsSetsMatchingCenter(Enigma):
         self.symbol_sets_sorted.sort(key=lambda obj_: obj_.order)
 
     def cleanUp(self):
-        if self.tc_main is not None:
-            self.tc_main.cancel()
+        chain = self.tc_main
         self.tc_main = None
+        if chain is not None:
+            chain.cancel()
 
         for symbol in self.symbols:
             symbol.cleanUp()
         self.symbols = []
 
         self.symbol_sets_sorted = []
+
+        SymbolSet.MOVIE2_WIN = None
+        SymbolSet.MOVIE2_SET_COMPLETE = None
+        SymbolSet.MOVIE2_SET_FAIL = None
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def runTaskChains(self):
@@ -185,6 +192,11 @@ class FindSymbolsSetsMatchingCenter(Enigma):
 
     def _onDeactivate(self):
         super(FindSymbolsSetsMatchingCenter, self)._onDeactivate()
+        self.cleanUp()
+
+    def _onFinalize(self):
+        super(FindSymbolsSetsMatchingCenter, self)._onFinalize()
+
         self.cleanUp()
 
     # -------------- Enigma control ------------------------------------------------------------------------------------

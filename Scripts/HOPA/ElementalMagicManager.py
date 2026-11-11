@@ -269,7 +269,11 @@ class ElementalMagicManager(Manager):
 
     @classmethod
     def _onFinalize(cls):
-        pass
+        ElementalMagicManager.resetCache()
+        ElementalMagicManager.s_demon_name = None
+        ElementalMagicManager.s_config = None
+        ElementalMagicManager.s_magic = {}
+        ElementalMagicManager.s_elements = {}
 
     @staticmethod
     def resetCache():

@@ -97,6 +97,19 @@ class Enigma(BaseEntity):
             self.object.setPause(True)
             self.pauseEnigma()
 
+    def _onFinalize(self):
+        super(Enigma, self)._onFinalize()
+
+        task_chain = self.tc_EnigmaSkip
+        self.tc_EnigmaSkip = None
+        if task_chain is not None:
+            task_chain.cancel()
+
+        Notification.removeObserver(self.onEnigmaSkipObserver)
+        Notification.removeObserver(self.onEnigmaResetObserver)
+        self.onEnigmaSkipObserver = None
+        self.onEnigmaResetObserver = None
+
     def enigmaComplete(self):
         if self.tc_EnigmaSkip is not None:
             self.tc_EnigmaSkip.cancel()

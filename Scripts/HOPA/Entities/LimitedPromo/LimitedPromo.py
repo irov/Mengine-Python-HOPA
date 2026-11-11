@@ -55,6 +55,9 @@ class LimitedPromo(BaseEntity):
             self.tc.cancel()
             self.tc = None
 
+        # the chronometer calls this entity every frame; refresh() starts it again on activation
+        self.removeTimer()
+
         for icon in self.icons.values():
             icon.removeFromParent()
             icon.onDestroy()

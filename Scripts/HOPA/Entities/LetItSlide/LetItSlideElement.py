@@ -107,7 +107,15 @@ class LetItSlideElement(object):
         pass
 
     def onDeactivate(self):
-        pass
+        socket = self.movieSocket
+        if socket is None:
+            return
+
+        socket.enableGlobalMouseEvent(False)
+        socket.setEventListener(onHandleMouseButtonEvent=None,
+                                onGlobalHandleMouseMove=None,
+                                onGlobalHandleMouseButtonEvent=None)
+        self.mousePos = None
 
     def _onMouseButtonEvent(self, context, event):
         if event.button != 0:
@@ -173,7 +181,7 @@ class LetItSlideElement(object):
         pass
 
     def Destroy(self):
-        self.movieSocket.enableGlobalMouseEvent(False)
+        self.onDeactivate()
 
         self.id = None
         self.movieObject = None

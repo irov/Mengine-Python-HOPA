@@ -50,9 +50,9 @@ class HintActionUseHOGFittingItem(MixinObject, HintActionMultiTarget):
 
         return PositionTo1, PositionTo2
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         hint_points = self.getHintDoublePosition(hint)
-        self.showHint(*hint_points)
+        self.showHint(source, *hint_points)
 
     def getHintLayer(self):
         scene = SceneManager.getCurrentScene()

@@ -70,10 +70,12 @@ class GateHandler(Initializer):
         self.runTaskChain()
 
     def _onFinalize(self):
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
 
+        self._owner = None
         for movies in self.Movies.values():
             for movie in movies.values():
                 movie.onDestroy()

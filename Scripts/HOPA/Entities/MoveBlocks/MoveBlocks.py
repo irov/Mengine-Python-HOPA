@@ -20,9 +20,19 @@ class MoveBlocks(Enigma):
 
     def _stopEnigma(self):
         super(MoveBlocks, self)._stopEnigma()
-        Notification.removeObserver(self.ButtonObserver)
-        self.ButtonObserver = None
+        self.__removeButtonObserver()
         pass
+
+    def __removeButtonObserver(self):
+        observer = self.ButtonObserver
+        self.ButtonObserver = None
+        if observer is not None:
+            Notification.removeObserver(observer)
+
+    def _onFinalize(self):
+        super(MoveBlocks, self)._onFinalize()
+
+        self.__removeButtonObserver()
 
     def _resetEnigma(self):
         for movie in self.slots.values():
@@ -39,6 +49,7 @@ class MoveBlocks(Enigma):
         pass
 
     def _playEnigma(self):
+        self.__removeButtonObserver()
         self.ButtonObserver = Notification.addObserver(Notificator.onButtonClick, self.__onButtonClick)
         pass
 
@@ -213,6 +224,8 @@ class MoveBlocks(Enigma):
 
     def _onDeactivate(self):
         super(MoveBlocks, self)._onDeactivate()
+
+        self.__removeButtonObserver()
         for movie in self.slots.values():
             entity = movie.getEntity()
             entity.removeFromParent()

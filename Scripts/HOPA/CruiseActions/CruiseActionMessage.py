@@ -1,7 +1,6 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
@@ -21,23 +20,15 @@ class CruiseActionMessage(CruiseAction, MixinObject):
     def _onCheck(self):
         return GroupManager.getObject("Message", self.Movie2ButtonName).isActive()
 
-    def _onAction(self):
+    def _onAction(self, source):
         obj = GroupManager.getObject("Message", self.Movie2ButtonName)
         pos = obj.getCurrentMovieSocketCenter()
 
-        if TaskManager.existTaskChain("CruiseActionGetItem") is True:
-            TaskManager.cancelTaskChain("CruiseActionGetItem")
+        source.addDelay(self.click_delay)
 
-        with TaskManager.createTaskChain(Name="CruiseActionGetItem") as tc:
-            tc.addDelay(self.click_delay)
+        if pos is not None:
+            source.addTask("AliasCruiseControlAction", Position=pos, Object=obj)
 
-            if pos is not None:
-                tc.addTask("AliasCruiseControlAction", Position=pos, Object=obj)
+        source.addDelay(self.move_delay)
 
-            tc.addDelay(self.move_delay)
-
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionGetItem") is True:
-            TaskManager.cancelTaskChain("CruiseActionGetItem")
+        source.addNotify(Notificator.onCruiseActionEnd, self)

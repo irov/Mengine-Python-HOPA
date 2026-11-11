@@ -8,6 +8,20 @@ class ObjectSpecialPromotion(DemonObject):
 
     show_queue = []
 
+    def __clearWaitMoment(self):
+        self.show_queue[:] = []
+        TaskManager.cancelTaskChain("SpecialPromotionWaitMoment", exist=False)
+
+    def _onFinalize(self):
+        super(ObjectSpecialPromotion, self)._onFinalize()
+
+        self.__clearWaitMoment()
+
+    def _onDestroy(self):
+        super(ObjectSpecialPromotion, self)._onDestroy()
+
+        self.__clearWaitMoment()
+
     def _addToShowQueue(self, special_prod_id):
         if special_prod_id in self.show_queue:
             return

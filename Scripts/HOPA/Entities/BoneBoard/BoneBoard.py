@@ -43,6 +43,7 @@ class BoneBoard(BaseEntity):
         pass
 
     def _onDeactivate(self):
+        self.cancelOverView()
         self.hideBoard()
         self._storing_save()
         self.orderBoneItems = []
@@ -411,6 +412,22 @@ class BoneBoard(BaseEntity):
                 pass
             pass
         return False
+        pass
+
+    def cancelOverView(self):
+        # the chain waits for onItemMouseLeave through this entity
+        TaskName = "BoneBoard_OverView"
+        if TaskManager.existTaskChain(TaskName) is True:
+            TaskManager.cancelTaskChain(TaskName)
+
+            boneItemInst = self.item_map.get(self.current_view)
+            if boneItemInst is not None:
+                movie = boneItemInst.getOver()
+                movie.setEnable(False)
+                pass
+            pass
+
+        self.current_view = None
         pass
 
     def onLeaved(self, itemObject):

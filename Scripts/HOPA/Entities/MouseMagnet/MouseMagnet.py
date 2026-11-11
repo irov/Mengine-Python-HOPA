@@ -220,6 +220,19 @@ class MouseMagnet(Enigma):
         self.Bounding_Box = []
         self.Movies = []
 
+        node_mouse = self.Node_Mouse
+        node_1 = self.Node1
+        node_2 = self.Node2
+
+        if node_mouse is not None:
+            Mengine.destroyNode(node_mouse)
+
+        if node_1 is not None:
+            Mengine.destroyNode(node_1)
+
+        if node_2 is not None:
+            Mengine.destroyNode(node_2)
+
         self.Node_Mouse = None
         self.Node1 = None
         self.Node2 = None

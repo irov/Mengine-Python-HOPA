@@ -106,7 +106,12 @@ class ChipDragDropOnRightPlace(Enigma):
             source.addTask("TaskNodeBezier2To", Node=self.node, Point1=point1, To=placeTo, Time=moveChipToTime)
 
         def returnToParent(self):
+            if self.movie.isActive() is False or self._movie_parent is None:
+                # the movie entity is already released (scene teardown)
+                return
+
             movie_node = self.movie.getEntityNode()
+
             if movie_node.getParent() != self._movie_parent:
                 self._movie_parent.addChild(movie_node)
 
@@ -135,6 +140,24 @@ class ChipDragDropOnRightPlace(Enigma):
     def _onDeactivate(self):
         super(ChipDragDropOnRightPlace, self)._onDeactivate()
 
+    def _onFinalize(self):
+        super(ChipDragDropOnRightPlace, self)._onFinalize()
+
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
+
+        # Not _cleanUp: it persists Enable=False on the chip movies, which would hide them on the next visit.
+        for chip in self.chips.itervalues():
+            chip.returnToParent()
+
+        self.chips = {}
+        self.placedChips = {}
+        self.selectedChip = None
+        self.param = None
+        self.BG = None
+
     def _onPreparationDeactivate(self):
         super(ChipDragDropOnRightPlace, self)._onPreparationDeactivate()
         self._cleanUp()
@@ -159,6 +182,9 @@ class ChipDragDropOnRightPlace(Enigma):
 
         source.addScope(self.complete, True)
 
+    # ==================================================================================================================
+
+    # -------------- Enigma control ------------------------------------------------------------------------------------
     # ==================================================================================================================
 
     def _loadParam(self):
@@ -323,9 +349,10 @@ class ChipDragDropOnRightPlace(Enigma):
             source.addFunction(self.enigmaComplete)
 
     def _cleanUp(self):
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
 
         self.param = None
 

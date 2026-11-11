@@ -14,6 +14,10 @@ class ItemCollectManager(Manager):
             self.AllowedItems = AllowedItems
 
     @staticmethod
+    def _onFinalize():
+        ItemCollectManager.s_items_collect = {}
+
+    @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
         for record in records:

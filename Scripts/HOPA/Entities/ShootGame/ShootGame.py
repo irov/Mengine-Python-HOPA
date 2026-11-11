@@ -33,6 +33,15 @@ class ShootGame(Enigma):
         self.CurentPlayMovie = None
         pass
 
+    def _stopEnigma(self):
+        self.__Finita()
+
+    def _onFinalize(self):
+        super(ShootGame, self)._onFinalize()
+
+        self.__Finita()
+        self.ReInitParamentrs()
+
     def _skipEnigma(self):
         self.__Finita()
         self.enigmaComplete()
@@ -150,8 +159,9 @@ class ShootGame(Enigma):
         pass
 
     def _EndAliase(self):
-        self.setEventListener(onGlobalHandleMouseButtonEventEnd=None)
-        self.enableGlobalMouseEvent(False)
+        if self.node is not None:
+            self.setEventListener(onGlobalHandleMouseButtonEventEnd=None)
+            self.enableGlobalMouseEvent(False)
         for alName in self.AliasNames:
             self.__canTT(alName)
             pass
@@ -227,6 +237,7 @@ class ShootGame(Enigma):
         pass
 
     def __Finita(self):
+        self._EndAliase()
         self.__canTT("ShootGame Start")
         pass
 

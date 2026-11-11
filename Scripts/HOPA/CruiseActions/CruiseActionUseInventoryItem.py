@@ -2,7 +2,6 @@ from Foundation.DemonManager import DemonManager
 from Foundation.Notificator import Notificator
 from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.Semaphore import Semaphore
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -20,23 +19,16 @@ class CruiseActionUseInventoryItem(MixinObject, CruiseAction):
             return self.InventoryItem.checkCount()
         return False
 
-    def _onAction(self):
-        if TaskManager.existTaskChain("CruiseActionUseInventoryItem_Scrolling") is True:
-            TaskManager.cancelTaskChain("CruiseActionUseInventoryItem_Scrolling")
+    def _onAction(self, source):
+        with source.addRepeatTask() as (tc_repeat, tc_until):
+            with tc_repeat.addSwitchTask(2, self.__isDoneScroll) as (tc_scroll, tc_done):
+                tc_scroll.addScope(self.__scopeScrollInventory)
 
-        if TaskManager.existTaskChain("CruiseActionUseInventoryItem_Cruise") is True:
-            TaskManager.cancelTaskChain("CruiseActionUseInventoryItem_Cruise")
+                tc_done.addSemaphore(self.sem_done_scroll, From=False, To=True)
 
-        with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Scrolling") as tc:
-            with tc.addRepeatTask() as (tc_repeat, tc_until):
-                with tc_repeat.addSwitchTask(2, self.__isDoneScroll) as (tc_scroll, tc_done):
-                    tc_scroll.addScope(self.__scopeScrollInventory)
+            tc_until.addSemaphore(self.sem_done_scroll, From=True)
 
-                    tc_done.addSemaphore(self.sem_done_scroll, From=False, To=True)
-
-                tc_until.addSemaphore(self.sem_done_scroll, From=True)
-
-            tc.addFunction(self.showCruise)
+        source.addScope(self.showCruise)
 
     def __isDoneScroll(self, isSkip, cb):
         SlotCount = self.Inventory.getParam("SlotCount")
@@ -104,14 +96,13 @@ class CruiseActionUseInventoryItem(MixinObject, CruiseAction):
 
         return PositionTo1, PositionTo2
 
-    def showCruise(self):
+    def showCruise(self, source):
         PositionTo1, PositionTo2 = self.getMultiTargetPosition()
 
-        with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Cruise") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
 
-            if PositionTo2 is not None:
-                tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
+        if PositionTo2 is not None:
+            source.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
 
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

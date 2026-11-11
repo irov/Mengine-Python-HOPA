@@ -33,6 +33,12 @@ class MacroUseItemTip(MacroCommand):
         pass
 
     def _onGenerate(self, source):
+        def __removeTipGuard(value, TipName):
+            if value is True:
+                return
+
+            Notification.notify(Notificator.onTipRemoveWithoutParagraphs, TipName)
+
         FinderType, Object = self.findObject(self.SocketName)
 
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
@@ -46,15 +52,17 @@ class MacroUseItemTip(MacroCommand):
 
         with Quest as tc_quest:
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, Object, self.TipName)
+
+            # the guard removes the tip on every exit, also when the scenario chain is cancelled
+            tc_guard = tc_quest.makeGuardSource(True, __removeTipGuard, self.TipName)
             if ObjectType == "ObjectSocket":
-                tc_quest.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
+                tc_guard.addTask("TaskSocketPlaceInventoryItem", SocketName=ObjectName, InventoryItem=InventoryItem,
                                  ItemName=self.ItemName, Taken=False, Pick=False)
                 pass
             elif ObjectType == "ObjectItem":
-                tc_quest.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem,
+                tc_guard.addTask("TaskItemPlaceInventoryItem", ItemName=ObjectName, InventoryItem=InventoryItem,
                                  Taken=False, Pick=False)
                 pass
-            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)
             pass
 
         source.addListener(Notificator.onInventoryUpdateItem)

@@ -154,6 +154,9 @@ class Notebook(BaseEntity):
 
     def __setupMovie(self, movie, noteId):
         textID = NotebookManager.getNote(noteId)
+        if movie in self.garbage:
+            old_text = self.garbage.pop(movie)
+            Mengine.destroyNode(old_text)
         movie.setEnable(True)
         noteMovieEn = movie.getEntity()
         movieSlot = noteMovieEn.getMovieSlot("text")
@@ -173,8 +176,8 @@ class Notebook(BaseEntity):
 
     def disableMovie(self, movie):
         if movie in self.garbage:
-            text = self.garbage[movie]
-            text.removeFromParent()
+            text = self.garbage.pop(movie)
+            Mengine.destroyNode(text)
         movie.setEnable(False)
         pass
 
@@ -243,7 +246,7 @@ class Notebook(BaseEntity):
 
     def destroyTextes(self):
         for text in self.garbage.itervalues():
-            text.removeFromParent()
+            Mengine.destroyNode(text)
             pass
         self.garbage.clear()
         pass
@@ -261,6 +264,12 @@ class Notebook(BaseEntity):
         if TaskManager.existTaskChain("NotebookPagesRight"):
             TaskManager.cancelTaskChain("NotebookPagesRight")
             pass
+
+        # _onPreparationDeactivate is not an entity hook, release page here
+        self.destroyTextes()
+        for socket in self.socket.keys():
+            socket.removeEventListener()
+        self.socket = {}
         pass
 
     pass

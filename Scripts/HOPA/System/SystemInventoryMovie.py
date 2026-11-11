@@ -37,7 +37,7 @@ class SystemInventoryMovie(System):
         self.addObserver(Notificator.onItemClickToInventory, self._onItemClickToInventory)
         self.addObserver(Notificator.onInventoryActivate, self._onInventoryActivate)
         self.addObserver(Notificator.onInventoryDeactivate, self._onInventoryDeactivate)
-        pass
+        return True
 
     def _onInventoryDeactivate(self, inventory):
         self._cleanAll()

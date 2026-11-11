@@ -7,6 +7,8 @@ class SystemCollectedAmulet(System):
     def _onRun(self):
         self.addObserver(Notificator.onCollectedAmuletAdd, self.__onCollectedAmuletAdd)
 
+        return True
+
     def __onCollectedAmuletAdd(self):
         Amulet = DemonManager.getDemon("CollectedAmulet")
         oldValue = Amulet.getCurrentCount()

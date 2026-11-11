@@ -271,17 +271,24 @@ class StonePyramids(Enigma):
         attach_movie.setInteractive(True)
 
     def cleanUp(self):
-        if self.tc_main is not None:
-            self.tc_main.cancel()
-            self.tc_main = None
+        chain = self.tc_main
+        self.tc_main = None
+        if chain is not None:
+            chain.cancel()
 
-        if self.tc_pick_pyramid is not None:
-            self.tc_pick_pyramid.cancel()
-            self.tc_pick_pyramid = None
+        pick_chain = self.tc_pick_pyramid
+        self.tc_pick_pyramid = None
+        if pick_chain is not None:
+            pick_chain.cancel()
 
-        if self.object.parent.hasObject(self.params.mobile_positions_movie_name) is True:
-            attach_movie = self.object.parent.getObject(self.params.mobile_positions_movie_name)
-            attach_movie.setEnable(False)
+        params = self.params
+        if params is not None:
+            movie_name = params.mobile_positions_movie_name
+            if movie_name is not None:
+                parent = self.object.parent
+                if parent.hasObject(movie_name) is True:
+                    attach_movie = parent.getObject(movie_name)
+                    attach_movie.setEnable(False)
 
         for stone in self.stones.values():
             stone.cleanUp()
@@ -290,6 +297,9 @@ class StonePyramids(Enigma):
         for pyramid in self.pyramids.values():
             pyramid.cleanUp()
         self.pyramids = {}
+
+        Pyramid.STONES_PLATE_MOVIE = None
+
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def setPyramidHolder(self, pyramids_list_by_dist_holder, pyramid_holder):
@@ -497,6 +507,11 @@ class StonePyramids(Enigma):
 
     def _onDeactivate(self):
         super(StonePyramids, self)._onDeactivate()
+        self.cleanUp()
+
+    def _onFinalize(self):
+        super(StonePyramids, self)._onFinalize()
+
         self.cleanUp()
 
     # -------------- Enigma control ------------------------------------------------------------------------------------

@@ -30,22 +30,26 @@ class AliasMousePull(MixinObject, TaskAlias):
 
         source.addTask("TaskInteractive", Object=self.Object, Value=True)
 
-        with source.addRepeatTask() as (tc_do, tc_until):
-            if self.Object.getType() == "ObjectSocket":
-                tc_do.addTask("TaskSocketClick", Socket=self.Object, AutoEnable=False)
-            elif self.Object.getType() == "ObjectItem":
-                tc_do.addTask("TaskItemClick", Item=self.Object, AutoEnable=False)
+        def __guardPullArrow(value, direction, obj):
+            if value is True:
+                return
+            Notification.notify(Notificator.onPullArrowDetach, direction, obj)
 
-            with tc_do.addRaceTask(2) as (tc_bad_pull, tc_pull):
-                tc_bad_pull.addListener(Notificator.onMousePull, Filter=self.acceptBadPull)  # on over clicking
+        with source.addGuardTask(True, __guardPullArrow, self.Direction, self.Object) as guard_source:
+            with guard_source.addRepeatTask() as (tc_do, tc_until):
+                if self.Object.getType() == "ObjectSocket":
+                    tc_do.addTask("TaskSocketClick", Socket=self.Object, AutoEnable=False)
+                elif self.Object.getType() == "ObjectItem":
+                    tc_do.addTask("TaskItemClick", Item=self.Object, AutoEnable=False)
 
-                tc_pull.addTask("TaskMousePull", Direction=self.Direction, Distance=self.MinDistance)
-                tc_pull.addNotify(Notificator.onPullWrong, MovieObject, MovieWrongObject)  # wrong pull
+                with tc_do.addRaceTask(2) as (tc_bad_pull, tc_pull):
+                    tc_bad_pull.addListener(Notificator.onMousePull, Filter=self.acceptBadPull)  # on over clicking
 
-            tc_until.addListener(Notificator.onMousePull, Filter=self.acceptNicePull)
-            tc_until.addTask("TaskInteractive", Object=self.Object, Value=False)
+                    tc_pull.addTask("TaskMousePull", Direction=self.Direction, Distance=self.MinDistance)
+                    tc_pull.addNotify(Notificator.onPullWrong, MovieObject, MovieWrongObject)  # wrong pull
 
-        source.addNotify(Notificator.onPullArrowDetach, self.Direction, self.Object)  # remove away arrow
+                tc_until.addListener(Notificator.onMousePull, Filter=self.acceptNicePull)
+                tc_until.addTask("TaskInteractive", Object=self.Object, Value=False)
 
         source.addEnable(MovieObject)
         source.addDisable(MovieWrongObject)

@@ -86,6 +86,12 @@ class Twist(object):
         self.enabler()
         return self.Movies[state:]
 
+    def destroy(self):
+        self.Depends.clear()
+        self.Movies = []
+        self.Movies_Revert = []
+        self.IndicatorMovie = None
+
     def setDepends(self, TwistObj, rollTimes):
         if self is TwistObj:  # no depends
             return False

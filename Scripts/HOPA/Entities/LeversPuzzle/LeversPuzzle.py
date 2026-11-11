@@ -310,6 +310,12 @@ class LeversPuzzle(Enigma):
 
         self.chips_over = []
 
+    def _onDeactivate(self):
+        super(LeversPuzzle, self)._onDeactivate()
+
+        # _onPreparation builds the levers/chips again and _restoreEnigma restarts the chain
+        self._clean_resources()
+
     def _onFinalize(self):
         super(LeversPuzzle, self)._onFinalize()
 

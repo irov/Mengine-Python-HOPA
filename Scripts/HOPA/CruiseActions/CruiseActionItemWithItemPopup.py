@@ -1,6 +1,5 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.MixinObjectTemplate import MixinItem
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.ItemManager import ItemManager
 
@@ -53,7 +52,7 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
         return Position
         pass
 
-    def _onAction(self):
+    def _onAction(self, source):
         if self.hintObject is not None:
             print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), self.hintObject.getName(),
             self.hintObject.getGroupName() or " [not cruise!! object]")
@@ -65,10 +64,6 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
         PositionToItem = self._getCruisePositionToItem(self.hintObject)
         PositionToButton = self._getCruisePositionToButton()
 
-        if TaskManager.existTaskChain("CruiseActionDefault") is True:
-            TaskManager.cancelTaskChain("CruiseActionDefault")
-            pass
-
         def _filter(item_name):
             InventoryItem = ItemManager.getItemObject(item_name)
 
@@ -76,15 +71,13 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
                 return True
             return False
 
-        with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionToItem, Object=self.hintObject)
+        source.addTask("AliasCruiseControlAction", Position=PositionToItem, Object=self.hintObject)
 
-            tc.addListener(Notificator.onItemPopUpOpen, Filter=_filter)
-            tc.addTask("AliasCruiseControlAction", Position=PositionToButton)
-            tc.addListener(Notificator.onItemPopUpClose, Filter=_filter)
+        source.addListener(Notificator.onItemPopUpOpen, Filter=_filter)
+        source.addTask("AliasCruiseControlAction", Position=PositionToButton)
+        source.addListener(Notificator.onItemPopUpClose, Filter=_filter)
 
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-            pass
+        source.addNotify(Notificator.onCruiseActionEnd, self)
         pass
 
     pass

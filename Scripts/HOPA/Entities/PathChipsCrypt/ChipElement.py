@@ -36,7 +36,14 @@ class ChipElement(Initializer):
 
     def _onFinalize(self):
         super(ChipElement, self)._onFinalize()
+
+        moving = self.moving
+        self.moving = None
+        if moving is not None:
+            moving.detach(self)
+
         self.objectEntity.removeFromParent()
+        self.view = None
         pass
 
     def setBlock(self, value):

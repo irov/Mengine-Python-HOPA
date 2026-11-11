@@ -31,8 +31,8 @@ class CruiseActionBoneUse(CruiseActionDefault):
         return True
         pass
 
-    def _onAction(self, Cruise):
-        super(CruiseActionBoneUse, self)._onAction(Cruise)
+    def onAction(self):
+        super(CruiseActionBoneUse, self).onAction()
         BoneBoardObject = DemonManager.getDemon("BoneBoard")
         BoneBoardEntity = BoneBoardObject.getEntity()
         BoneBoardEntity.showBoard()

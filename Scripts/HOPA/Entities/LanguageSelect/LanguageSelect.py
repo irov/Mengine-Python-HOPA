@@ -27,19 +27,35 @@ class LanguageSelect(BaseEntity):
         self.tc_ok = None
         self.tc_cancel = None
         self.tc_change_lang = None
+        self.tc_click_out = None
         self.tcs_buttons = []
 
     def _onPreparation(self):
+        locale = Mengine.getLocale()
+        current_language = LanguageSelectManager.getLanguageForLocale(locale)
+
         slot_index = LanguageSelectParam.slot_index_begin
-        # Fixed two-column layout with room for six rows in the existing window.
-        row_step = 65.0
-        button_scale = 0.8
-
+        params = []
         for param in LanguageSelectManager.getParams():
-            movie_slot_holder, button_prototype, alias, alias_over, text, text_over, lang = param.get()
-
-            if not Mengine.hasLocale(lang):  # exclude language that currently not in project
+            language = param.lang
+            if Mengine.hasLocale(language) is False:
                 continue
+            params.append(param)
+
+        column_count = 2
+        if len(params) > 12:
+            column_count = 3
+
+        row_count = (len(params) + column_count - 1) // column_count
+        row_step = 65.0
+        if row_count > 6:
+            row_step = row_step * 5.0 / (row_count - 1)
+        button_scale = 0.8
+        if column_count == 3:
+            button_scale = 0.68
+
+        for param in params:
+            movie_slot_holder, button_prototype, alias, alias_over, text, text_over, lang = param.get()
 
             slot_name = LanguageSelectParam.getSlotFormat(slot_index)
 
@@ -48,20 +64,42 @@ class LanguageSelect(BaseEntity):
             button = self.object.tryGenerateObjectUnique(button_prototype + slot_name, button_prototype, Enable=True)
 
             index = slot_index - LanguageSelectParam.slot_index_begin
-            column_slot_name = LanguageSelectParam.getSlotFormat(LanguageSelectParam.slot_index_begin + index % 2)
+            column_index = index % column_count
+            column_slot_index = 0
+            if column_count == 2:
+                column_slot_index = column_index
+            column_slot_name = LanguageSelectParam.getSlotFormat(LanguageSelectParam.slot_index_begin + column_slot_index)
             slot_in_slots_movie = parent_movie.getMovieSlot(column_slot_name)
             if slot_in_slots_movie is None:
                 Trace.log("Entity", 0, "[LanguageSelect] movie: %s not found slot: %s for lang: %s" % (parent_movie.name, column_slot_name, lang))
+                if button is not None:
+                    button.onDestroy()
                 continue
 
             node = button.getEntityNode()
             slot_in_slots_movie.addChild(node)
             position = node.getLocalPosition()
-            node.setLocalPosition((position[0], position[1] + (index // 2) * row_step, position[2]))
+            node.setLocalPosition((position[0], position[1] + (index // column_count) * row_step, position[2]))
+            if column_count == 3:
+                right_slot_name = LanguageSelectParam.getSlotFormat(LanguageSelectParam.slot_index_begin + 1)
+                right_slot = parent_movie.getMovieSlot(right_slot_name)
+                if right_slot is None:
+                    Trace.log("Entity", 0, "[LanguageSelect] movie: %s not found slot: %s for lang: %s" % (parent_movie.name, right_slot_name, lang))
+                    button.onDestroy()
+                    continue
+
+                left_position = slot_in_slots_movie.getWorldPosition()
+                right_position = right_slot.getWorldPosition()
+                world_position = node.getWorldPosition()
+                column_offset = column_index * 2.0 / 3.0 - 1.0 / 6.0
+                node.setWorldPosition((
+                    world_position[0] + (right_position[0] - left_position[0]) * column_offset,
+                    world_position[1] + (right_position[1] - left_position[1]) * column_offset,
+                    world_position[2] + (right_position[2] - left_position[2]) * column_offset))
             scale = node.getLocalScale()
             node.setLocalScale((scale[0] * button_scale, scale[1] * button_scale, scale[2]))
 
-            if Mengine.getLocale() == lang:
+            if current_language == lang:
                 button.setBlock(True)  # highlight current language
 
             for movie in button.eachMovies():  # setup texts
@@ -108,7 +146,13 @@ class LanguageSelect(BaseEntity):
         SceneManager.reloadCurrentScene(__cbOnSceneRestart, cb_removed=__cbOnSceneRestartChangeLocale)
 
     def __handleLanguageChange(self, lang):
-        if lang is None or str(Mengine.getLocale()) == lang:
+        if lang is None:
+            return
+
+        locale = Mengine.getLocale()
+        current_language = LanguageSelectManager.getLanguageForLocale(locale)
+        language = LanguageSelectManager.getLanguageForLocale(lang)
+        if current_language == language:
             return
 
         with TaskManager.createTaskChain() as tc:
@@ -239,6 +283,7 @@ class LanguageSelect(BaseEntity):
 
         for button in self.buttons.values():
             button.onDestroy()
+        self.buttons = {}
 
     ''' Scene FX '''
 

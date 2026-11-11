@@ -5,9 +5,13 @@ class ConnectorsConnection(object):
         self.stateObject = stateObject
         self.stateObject.setCurrentState("onUp")
         self.active = False
+        self.onSocketClickObserver = None
+        self.onSocketMouseEnterObserver = None
+        self.onSocketMouseLeaveObserver = None
         pass
 
     def initialize(self, callback):
+        self.finalize()
         self.socketObject.setInteractive(True)
         self.onSocketClickObserver = Notification.addObserver(Notificator.onSocketClick, self._onSocketClick, self.socketObject, callback)
         self.onSocketMouseEnterObserver = Notification.addObserver(Notificator.onSocketMouseEnter, self._onSocketMouseEnter, self.socketObject)
@@ -18,6 +22,9 @@ class ConnectorsConnection(object):
         Notification.removeObserver(self.onSocketClickObserver)
         Notification.removeObserver(self.onSocketMouseEnterObserver)
         Notification.removeObserver(self.onSocketMouseLeaveObserver)
+        self.onSocketClickObserver = None
+        self.onSocketMouseEnterObserver = None
+        self.onSocketMouseLeaveObserver = None
         pass
 
     def addElement(self, element):

@@ -68,5 +68,5 @@ class NotebookDescription(BaseEntity):
     def _onDeactivate(self):
         if self.Text is not None:
             self.Text.removeFromParent()
-            # Mengine.destroyNode(self.Text)
+            Mengine.destroyNode(self.Text)
             self.Text = None

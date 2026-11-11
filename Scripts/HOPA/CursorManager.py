@@ -75,7 +75,12 @@ class CursorManager(Manager):
             if cursor.leaveFilterObserver is not None:
                 Notification.removeObserver(cursor.leaveFilterObserver)
 
-        CursorManager.cursors = {}
+        CursorManager.s_cursors = {}
+        CursorManager.s_cursorObjects = {}
+        CursorManager.s_cursorObjectsPaks = {}
+        CursorManager.s_cursorObjectsShow = {}
+        CursorManager.s_cursorObjectsShowPaks = {}
+        CursorManager.s_systemAttach = []
         pass
 
     @staticmethod
@@ -744,7 +749,8 @@ class CursorManager(Manager):
 
     @staticmethod
     def macroAttached(attach):
-        CursorManager.s_macroAttached.append(attach)
+        if attach not in CursorManager.s_macroAttached:
+            CursorManager.s_macroAttached.append(attach)
 
     @staticmethod
     def __getMacroAttached():
@@ -763,7 +769,7 @@ class CursorManager(Manager):
     def __removeAttachItems(item_name):
         arrow_attached_movie = CursorManager.__getMacroAttached()
         for indx, movie in enumerate(arrow_attached_movie):
-            if movie.getName() is item_name:
+            if movie.getName() == item_name:
                 del CursorManager.s_macroAttached[indx]
                 return False
 

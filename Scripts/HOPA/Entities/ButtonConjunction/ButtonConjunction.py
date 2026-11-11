@@ -12,12 +12,35 @@ class ButtonConjunction(Enigma):
         self.restToClick = []
         self.make_reset = False
         self.current_view = None
+        self.SocketHandler = None
+        self.SocketEnterHandler = None
         pass
 
     def _stopEnigma(self):
         Notification.removeObserver(self.SocketHandler)
         Notification.removeObserver(self.SocketEnterHandler)
+        self.SocketHandler = None
+        self.SocketEnterHandler = None
+        self.cancelOverView()
+        self.__hideOverView()
         pass
+
+    def __hideOverView(self):
+        # the hover chain disables the over movie only on mouse leave, which never comes after a stop
+        button = self.socketToButton.get(self.current_view)
+        self.current_view = None
+
+        if button is not None:
+            button.getMovieOver().setEnable(False)
+
+    def _onFinalize(self):
+        super(ButtonConjunction, self)._onFinalize()
+
+        self._stopEnigma()
+        self.socketToButton = {}
+        self.orderedToClick = []
+        self.restToClick = []
+        self.current_view = None
 
     def _skipEnigma(self):
         self._complete(True)

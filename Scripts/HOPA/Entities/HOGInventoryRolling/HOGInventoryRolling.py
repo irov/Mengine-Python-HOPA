@@ -15,6 +15,7 @@ class HOGInventorySlot(object):
         self.found = False
         self.movie = None
         self.hogItemName = []
+        self.textLine = None  # cross-out line, created by TaskHOGRollingInventoryCrossOut
 
     def appendHOGItemName(self, name):
         self.hogItemName.append(name)
@@ -25,7 +26,17 @@ class HOGInventorySlot(object):
     def getHOGItemNames(self):
         return self.hogItemName
 
+    def __destroyTextLine(self):
+        # the line is a child of the movie text field, and destroying the movie only detaches it
+        textLine = self.textLine
+        self.textLine = None
+
+        if textLine is not None:
+            Mengine.destroyNode(textLine)
+
     def setMovie(self, movie):
+        self.__destroyTextLine()
+
         if self.movie is not None:
             self.movie.onDestroy()
 
@@ -62,6 +73,8 @@ class HOGInventorySlot(object):
         return self.count
 
     def release(self):
+        self.__destroyTextLine()
+
         if self.movie is not None:
             self.movie.onDestroy()
             self.movie = None

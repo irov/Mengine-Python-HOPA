@@ -24,6 +24,7 @@ class SystemZoom(System):
 
         self.front_hotspot = None
         self.back_hotspot = None
+        self.hotspots_created = False  # True when front/back hotspots are our own HotSpotPolygon nodes
         self.object = None
         self.zoomPoint = None
 
@@ -616,10 +617,20 @@ class SystemZoom(System):
         # remove old zoom frame (bug: https://wonderland-games.atlassian.net/browse/HO2-180)
         if self.front_hotspot is not None:
             self.front_hotspot.removeFromParent()
+            if self.hotspots_created is True:
+                self.front_hotspot.setEventListener(onHandleMouseButtonEvent=None)
+                Mengine.destroyNode(self.front_hotspot)
+            self.front_hotspot = None
         if self.back_hotspot is not None:
             self.back_hotspot.removeFromParent()
+            if self.hotspots_created is True:
+                self.back_hotspot.setEventListener(onHandleMouseButtonEvent=None)
+                Mengine.destroyNode(self.back_hotspot)
+            self.back_hotspot = None
+        self.hotspots_created = False
 
         if self.FrameGroupName is None or ZoomAutoHotspot is True:
+            self.hotspots_created = True
             self.front_hotspot = Mengine.createNode("HotSpotPolygon")
             front_hotspot_polygon = Utils.createPolygonScene(zoomMainLayer, 0, 0)
             self.front_hotspot.setPolygon(front_hotspot_polygon)
@@ -912,13 +923,12 @@ class SystemZoom(System):
 
         self.SceneName = None
 
-        ZoomAutoHotspot = DefaultManager.getDefaultBool("ZoomAutoHotspot", False)
-
+        # destroy only our own nodes: FrameGroupName may have changed since the zoom opened
         if self.front_hotspot is not None:
             self.front_hotspot.removeFromParent()
             self.front_hotspot.setEventListener(onHandleMouseButtonEvent=None)
 
-            if self.FrameGroupName is None or ZoomAutoHotspot is True:
+            if self.hotspots_created is True:
                 Mengine.destroyNode(self.front_hotspot)
                 self.front_hotspot = None
                 pass
@@ -928,7 +938,7 @@ class SystemZoom(System):
             self.back_hotspot.removeFromParent()
             self.back_hotspot.setEventListener(onHandleMouseButtonEvent=None)
 
-            if self.FrameGroupName is None or ZoomAutoHotspot is True:
+            if self.hotspots_created is True:
                 Mengine.destroyNode(self.back_hotspot)
                 self.back_hotspot = None
                 pass
@@ -936,6 +946,7 @@ class SystemZoom(System):
 
         self.front_hotspot = None
         self.back_hotspot = None
+        self.hotspots_created = False
         self.FrameGroupName = None
         self.object = None
 

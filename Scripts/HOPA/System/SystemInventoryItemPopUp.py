@@ -8,8 +8,8 @@ class SystemInventoryItemPopUp(System):
         super(SystemInventoryItemPopUp, self).__init__()
         pass
 
-    def _onParams(self):
-        super(SystemInventoryItemPopUp, self).__init__()
+    def _onParams(self, params):
+        super(SystemInventoryItemPopUp, self)._onParams(params)
 
         self.Inventory = params.get("Inventory")
 
@@ -23,7 +23,7 @@ class SystemInventoryItemPopUp(System):
 
     def _onRun(self):
         self.addObserver(self.MouseEnterID, self._onMouseEnterID)
-        pass
+        return True
 
     def _onStop(self):
         pass

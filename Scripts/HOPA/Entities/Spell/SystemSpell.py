@@ -90,7 +90,13 @@ class SystemSpell(System):
         return True
         pass
 
+    def _onFinalize(self):
+        super(SystemSpell, self)._onFinalize()
+
+        SystemSpell.s_currentSpell = None
+
     def _onStop(self):
+        SystemSpell.s_currentSpell = None
         Notification.removeObserver(self.onSpellPreparedObserver)
         Notification.removeObserver(self.onSpellReadyObserver)
         Notification.removeObserver(self.onSpellBeginUseObserver)

@@ -1,7 +1,6 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.MixinObjectTemplate import MixinTransition
-from Foundation.TaskManager import TaskManager
 from HOPA.EnigmaManager import EnigmaManager
 from HOPA.HintActions.HintActionDefault import HintActionDefault
 
@@ -45,7 +44,7 @@ class HintActionTransitionBack(MixinTransition, HintActionDefault):
     def Check_Action(self, source):
         if self.Movie2_HintTarget is None or self.Movie2_HintWay is None:
             source.addDelay(self.timer)
-            source.addFunction(self.destroy_all_movies)
+            source.addFunction(self.destroy_movies_by_name)
             source.addFunction(self.Setup)
 
     def scopeAction(self, tc):
@@ -80,45 +79,10 @@ class HintActionTransitionBack(MixinTransition, HintActionDefault):
             tc_target_Alpha.addTask("TaskNodeAlphaTo", Node=effect_Node, From=0.0, To=1.0, Time=self.timer * 2)
             tc_target.addTask("TaskMovie2Play", Movie2=self.effect, Wait=True, Loop=True, AutoEnable=True)
 
-    def _onAction(self, hint):
-        if TaskManager.existTaskChain("HintAction_onEnd") is True:
-            TaskManager.cancelTaskChain("HintAction_onEnd")
+    def _onEndEffect(self, source):
+        tc_guard = source.makeGuardSource(True, self._cleanFullGuard)
+        with tc_guard.addParallelTask(2) as (tc_way, tc_target):
+            tc_way.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintWay, To=0.0, Time=self.timer)
+            tc_target.addTask("AliasObjectAlphaTo", Object=self.effect, To=0.0, Time=self.timer)
 
-        if TaskManager.existTaskChain("HintActionDefault") is True:
-            TaskManager.cancelTaskChain("HintActionDefault")
-
-        with TaskManager.createTaskChain(Name="HintActionDefault", Cb=self._onEnd) as tc:
-            tc.addFunction(self.Setup)
-            tc.addScope(self.Check_Action)
-            tc.addScope(self.scopeAction)
-
-    def destroy_all_movies(self):
-        self.Movie2_HintTarget = self.destroy_movie("Movie2_HintTarget")
-        self.Movie2_HintWay = self.destroy_movie("Movie2_HintWay")
-
-    def Clean_Full(self):
-        if TaskManager.existTaskChain("HintActionDefault") is True:
-            TaskManager.cancelTaskChain("HintActionDefault")
-
-        self.destroy_all_movies()
-
-        self.Working = False
-
-    def _onEnd(self, someargs=None):
-        if self.Working:
-            return
-
-        else:
-            self.Working = True
-
-        if TaskManager.existTaskChain("HintAction_onEnd") is True:
-            TaskManager.cancelTaskChain("HintAction_onEnd")
-
-        if self.Movie2_HintWay is not None:
-            with TaskManager.createTaskChain(Name="HintAction_onEnd") as tc:
-                with tc.addParallelTask(2) as (tc_way, tc_target):
-                    tc_way.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintWay, To=0.0, Time=self.timer)
-                    tc_target.addTask("AliasObjectAlphaTo", Object=self.effect, To=0.0, Time=self.timer)
-
-                tc.addFunction(self.Clean_Full)
-                tc.addFunction(self.setEnd)
+        source.addFunction(self.setEnd)

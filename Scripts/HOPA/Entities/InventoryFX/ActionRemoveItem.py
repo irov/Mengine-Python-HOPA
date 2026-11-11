@@ -9,5 +9,5 @@ class ActionRemoveItem(ActionDefaultRemove):
     def _onSkip(self):
         pass
 
-    def _onRun(self):
+    def _onRun(self, source):
         pass

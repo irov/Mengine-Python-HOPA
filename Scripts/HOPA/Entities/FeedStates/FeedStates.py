@@ -28,6 +28,14 @@ class FeedStates(Enigma):
         StatesControl.play_object = None
         pass
 
+    def _onFinalize(self):
+        super(FeedStates, self)._onFinalize()
+
+        # the chain filters and completes through this entity
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
+        StatesControl.play_object = None
+        pass
+
     def _playEnigma(self):
         gameObjects = self.object.getObjects()
 

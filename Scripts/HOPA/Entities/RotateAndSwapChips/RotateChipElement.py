@@ -15,6 +15,7 @@ class RotateChipElement(object):
         self.needSlot = needSlot
         self.needAngle = needAngle
         self.angleInDegree = 0.0
+        self.hotSpot = None
 
         self.states.setCurrentState("Default")
         # self.rotationNode =  Mengine.createNode("Interender")
@@ -44,6 +45,7 @@ class RotateChipElement(object):
         pass
 
     def initHotSpot(self, callback):
+        self.__destroyHotSpot()
         self.hotSpot = Mengine.createNode("HotSpotPolygon")
         polygon = []
         polygon.append((0.0, 0.0))
@@ -61,13 +63,22 @@ class RotateChipElement(object):
         self.initHotSpot(callback)
         pass
 
-    def finalize(self):
+    def __destroyHotSpot(self):
+        if self.hotSpot is None:
+            return
         self.hotSpot.removeFromParent()
         Mengine.destroyNode(self.hotSpot)
         self.hotSpot = None
 
-        self.rotationNode.removeFromParent()
-        self.entity.removeFromParent()
+    def finalize(self):
+        # hotSpot exists only after initialize (_playEnigma/_restoreEnigma)
+        self.__destroyHotSpot()
+
+        if self.rotationNode is not None:
+            self.rotationNode.removeFromParent()
+            self.entity.removeFromParent()
+            Mengine.destroyNode(self.rotationNode)
+            self.rotationNode = None
         pass
 
     def attachTo(self, node):

@@ -3,7 +3,7 @@ from HOPA.HintAction import HintAction
 
 
 class HintActionDummy(MixinGroup, HintAction):
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         self.setEnd()
         pass
 

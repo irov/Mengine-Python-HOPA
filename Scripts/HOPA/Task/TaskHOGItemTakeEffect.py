@@ -18,6 +18,15 @@ class TaskHOGItemTakeEffect(MixinItem, TaskAlias):
         pass
 
     def _onGenerate(self, source):
+        def __destroyNodesGuard(value, *nodes):
+            if value is True:
+                return
+
+            for node in nodes:
+                Mengine.destroyNode(node)
+                pass
+            pass
+
         ImageEntity = self.Item.getEntity()
         #        Camera = Mengine.getRenderCamera2D()
 
@@ -61,17 +70,14 @@ class TaskHOGItemTakeEffect(MixinItem, TaskAlias):
         timeAphaTo2 = 0.4
         timeAphaTo2 *= 1000  # speed fix
 
-        source.addDisable(self.Item)
-        source.addTask("TaskNodeScaleTo", Node=pure, To=(1.1, 1.1, 1.0), Time=timeScaleTo)
-        source.addTask("TaskNodeAlphaTo", Node=pure_white, To=0.3, Time=timeAphaTo1)
-        source.addTask("TaskNodeScaleTo", Node=pure, To=(1.0, 1.0, 1.0), Time=timeScaleTo)
-        source.addTask("TaskNodeAlphaTo", Node=pure, To=(0.0), Time=timeAphaTo2)
+        # The guard releases both nodes when the effect ends.
+        source_guard = source.makeGuardSource(True, __destroyNodesGuard, pure_white, pure)
 
-        source.addTask("TaskNodeRemoveFromParent", Node=pure_white)
-        source.addTask("TaskNodeDestroy", Node=pure_white)
-
-        source.addTask("TaskNodeRemoveFromParent", Node=pure)
-        source.addTask("TaskNodeDestroy", Node=pure)
+        source_guard.addDisable(self.Item)
+        source_guard.addTask("TaskNodeScaleTo", Node=pure, To=(1.1, 1.1, 1.0), Time=timeScaleTo)
+        source_guard.addTask("TaskNodeAlphaTo", Node=pure_white, To=0.3, Time=timeAphaTo1)
+        source_guard.addTask("TaskNodeScaleTo", Node=pure, To=(1.0, 1.0, 1.0), Time=timeScaleTo)
+        source_guard.addTask("TaskNodeAlphaTo", Node=pure, To=(0.0), Time=timeAphaTo2)
         pass
 
     pass

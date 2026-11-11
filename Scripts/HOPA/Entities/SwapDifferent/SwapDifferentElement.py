@@ -13,6 +13,7 @@ class SwapDifferentElement(object):
         self.updateSize()
         self.block = False
         self.movingChain = []
+        self.hotSpot = None
         pass
 
     def addToMovingChain(self, point):
@@ -76,12 +77,23 @@ class SwapDifferentElement(object):
         pass
 
     def finalize(self):
+        name = self.states.getName()
+        taskName = "%s_MOVING" % (name)
+        TaskManager.cancelTaskChain(taskName, exist=False)
+
+        self.__destroyHotSpot()
+        pass
+
+    def __destroyHotSpot(self):
+        # hotSpot exists only after initialize (_playEnigma/_restoreEnigma)
+        if self.hotSpot is None:
+            return
         self.hotSpot.removeFromParent()
         Mengine.destroyNode(self.hotSpot)
         self.hotSpot = None
-        pass
 
     def initHotSpot(self, callback):
+        self.__destroyHotSpot()
         self.hotSpot = Mengine.createNode("HotSpotPolygon")
         polygon = []
         polygon.append((0.0, 0.0))

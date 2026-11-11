@@ -36,8 +36,6 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
             msg = msg.format(self.InventoryItem.name)
             self.log(msg)
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
         slot = InventoryEntity.findSlot(self.InventoryItem)
 
@@ -46,6 +44,8 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
             msg = msg.format(self.Inventory.name, self.InventoryItem.name)
             self.log(msg)
             return False
+
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         point = slot.getPoint()
 
@@ -119,4 +119,8 @@ class TaskEffectInventoryAddInventoryItemFromPoint(TaskAlias):
                 source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
                 source_fork.addTask("TaskObjectDestroy", Object=effect)
                 source_fork.addTask("TaskNodeDestroy", Node=node)
+        else:
+            source.addTask("TaskNodeDestroy", Node=node)
+
+        source.addTask("TaskNodeDestroy", Node=node2)
         return False

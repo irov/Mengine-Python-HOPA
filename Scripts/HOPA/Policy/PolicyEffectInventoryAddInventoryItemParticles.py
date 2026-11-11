@@ -17,8 +17,6 @@ class PolicyEffectInventoryAddInventoryItemParticles(TaskAlias):
             return
             pass
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
 
@@ -61,6 +59,8 @@ class PolicyEffectInventoryAddInventoryItemParticles(TaskAlias):
         SpeedEffectInventoryAddInventoryItem *= 0.001  # speed fix
         time = length / SpeedEffectInventoryAddInventoryItem
         # time *= 1000 # speed fix
+
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         if effect is not None:
             effectEntityNode = effect.getEntityNode()

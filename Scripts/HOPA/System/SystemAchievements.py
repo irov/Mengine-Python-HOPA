@@ -165,6 +165,12 @@ class SystemAchievements(System):
         #    not exist"],"details":{"path":["tabs","Achievements","widgets"],"index":"0"}}} [code 400] [id 15729]
         pass  # self.__remDevToDebug()
 
+    def _onStop(self):
+        # _checkStat_* closures hold bound check methods of self: cycle self -> __dict__ -> closure -> self
+        for stat_name in SystemAchievements.s_stats_list:
+            method_name = "_checkStat_{}".format(stat_name)
+            self.__dict__.pop(method_name, None)
+
     def _setObservers(self):
         self.addObserver(Notificator.onAchievementUnlocked, self._cbAchievementUnlocked)
         self.addObserver(Notificator.onAchievementExternalUnlocked, self._cbAchievementExternalUnlocked)

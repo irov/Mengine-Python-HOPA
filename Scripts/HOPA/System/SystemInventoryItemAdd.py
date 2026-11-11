@@ -19,7 +19,7 @@ class SystemInventoryItemAdd(System):
 
     def _onRun(self):
         self.addObserver(Notificator.onInventorySlotSetItem, self._onInventorySlotSetItem)
-        pass
+        return True
 
     def _onStop(self):
         self._cleanSlots()

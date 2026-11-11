@@ -29,10 +29,17 @@ class TaskDelayPointer(MixinTime, Task):
         if self.id != id:
             return
 
+        self.id = 0
         self.complete()
         pass
 
-    def _onSkip(self):
+    def _onFinally(self):
+        super(TaskDelayPointer, self)._onFinally()
+
+        # The schedule must not outlive the task.
+        if self.id == 0:
+            return
+
         remove_id = self.id
         self.id = 0
 

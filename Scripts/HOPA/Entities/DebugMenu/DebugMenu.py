@@ -36,6 +36,15 @@ class DebugMenu(BaseEntity):
         self.Page = 0
         self.PreviosButtonSetup = self.setupSceneButtons
 
+    def _onFinalize(self):
+        super(DebugMenu, self)._onFinalize()
+
+        Notification.removeObserver(self.ButtonObserver)
+        self.ButtonObserver = None
+        self.destroyButtons()
+        self.PreviosButtonSetup = None
+        self.Inventory = None
+
     def _onPreparation(self):
         super(DebugMenu, self)._onPreparation()
         self.Inventory = DemonManager.getDemon("Inventory")
@@ -388,7 +397,7 @@ class DebugMenu(BaseEntity):
             node = self.generatedNodes[button]
             del self.generatedNodes[button]
             if node is not None:
-                node.removeFromParent()
+                Mengine.destroyNode(node)
 
             self.addItem(itemName)
             return False
@@ -435,4 +444,5 @@ class DebugMenu(BaseEntity):
     def _onDeactivate(self):
         super(DebugMenu, self)._onDeactivate()
         Notification.removeObserver(self.ButtonObserver)
+        self.ButtonObserver = None
         self.destroyButtons()

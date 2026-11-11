@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.MixinObjectTemplate import MixinItem
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ItemManager import ItemManager
@@ -30,7 +29,7 @@ class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
 
         return True
 
-    def _onAction(self, cruise):
+    def _onAction(self, source):
         Inventory = DemonManager.getDemon("FittingInventory")
 
         CurrentSlotIndex = Inventory.getParam("CurrentSlotIndex")
@@ -39,34 +38,24 @@ class CruiseActionItemUseFittingInventoryItem(MixinItem, CruiseAction):
         InventoryItemIndex = Inventory.getInventoryItemIndex(self.InventoryItem)
         NewSlotIndex = int(InventoryItemIndex / SlotCount) * SlotCount
 
-        Point = cruise.getPoint()
-
-        with TaskManager.createTaskChain() as tc:
-            if CurrentSlotIndex != NewSlotIndex:
-                with GuardBlockInput(tc) as guard_tc:
-                    guard_tc.addTask("TaskInventorySlotsHideInventoryItem", Inventory=Inventory)
-                    guard_tc.addTask("TaskInventoryCurrentSlotIndex", Inventory=Inventory, Value=NewSlotIndex)
-                    pass
+        if CurrentSlotIndex != NewSlotIndex:
+            with GuardBlockInput(source) as guard_tc:
+                guard_tc.addTask("TaskInventorySlotsHideInventoryItem", Inventory=Inventory)
+                guard_tc.addTask("TaskInventoryCurrentSlotIndex", Inventory=Inventory, Value=NewSlotIndex)
                 pass
 
-            InventoryItem = ItemManager.findItemInventoryItem(self.InventoryItem)
-            InventoryItemEntity = InventoryItem.getEntity()
-            Sprite = InventoryItemEntity.getSprite()
-            P2 = Sprite.getWorldImageCenter()
-            ItemEntity = self.Item.getEntity()
-            Sprite = ItemEntity.getSprite()
-            NP2 = Sprite.getWorldImageCenter()
+        InventoryItem = ItemManager.findItemInventoryItem(self.InventoryItem)
+        InventoryItemEntity = InventoryItem.getEntity()
+        Sprite = InventoryItemEntity.getSprite()
+        P2 = Sprite.getWorldImageCenter()
+        ItemEntity = self.Item.getEntity()
+        Sprite = ItemEntity.getSprite()
+        NP2 = Sprite.getWorldImageCenter()
 
-            tc.addTask("AliasCruiseControlAction", Position=Point)
-            tc.addTask("AliasCruiseControlAction", Position=P2, Object=InventoryItem)
-            tc.addTask("AliasCruiseControlAction", Position=NP2, Object=self.Item)
+        source.addTask("AliasCruiseControlAction", Position=P2, Object=InventoryItem)
+        source.addTask("AliasCruiseControlAction", Position=NP2, Object=self.Item)
 
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-            pass
-        pass
-
-    def _onEnd(self):
-        super(CruiseActionItemUseFittingInventoryItem, self)._onEnd()
+        source.addNotify(Notificator.onCruiseActionEnd, self)
         pass
 
     pass

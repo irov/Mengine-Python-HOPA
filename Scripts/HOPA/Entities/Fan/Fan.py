@@ -181,11 +181,22 @@ class Fan(Enigma):
 
             tc.addNotify(Notificator.onFanComplete, self.object)
 
+
+
     def _stopEnigma(self):
         self.object.setInteractive(False)
         if TaskManager.existTaskChain("FanFindItem_%s" % (self.object.name)) is True:
             TaskManager.cancelTaskChain("FanFindItem_%s" % (self.object.name))
             pass
+        pass
+
+    def _onFinalize(self):
+        super(Fan, self)._onFinalize()
+
+        # the chain Cb is bound to this entity
+        object_name = self.object.getName()
+        tc_name = "FanFindItem_%s" % object_name
+        TaskManager.cancelTaskChain(tc_name, exist=False)
         pass
 
     def _AttendMovieSlots(self, MovieName):

@@ -5,6 +5,7 @@ from HOPA.EnigmaManager import EnigmaManager
 class SystemExtrasEnigma(System):
     def __init__(self):
         super(SystemExtrasEnigma, self).__init__()
+        self._playTaskChains = []
         self.onExtraEnigmaPlayObserver = None
         pass
 
@@ -14,6 +15,10 @@ class SystemExtrasEnigma(System):
         pass
 
     def _onStop(self):
+        chains = self._playTaskChains
+        self._playTaskChains = []
+        for chain in chains:
+            chain.cancel()
         Notification.removeObserver(self.onExtraEnigmaPlayObserver)
         self.onExtraEnigmaPlayObserver = None
         pass
@@ -21,7 +26,12 @@ class SystemExtrasEnigma(System):
     def _playExtraEnigma(self, enigmaName, sceneName):
         enigma = EnigmaManager.getEnigmaObject(enigmaName)
         enigmaType = enigma.getType()
-        with TaskManager.createTaskChain() as tc:
+        # finished chains are finalized, keep only the ones still running
+        self._playTaskChains = [tc for tc in self._playTaskChains if tc.isInitialized() is True]
+
+        chain = TaskManager.createTaskChain()
+        self._playTaskChains.append(chain)
+        with chain as tc:
             tc.addTask("AliasTransition", SceneName=sceneName)
             with tc.addRaceTask(2) as (tc1, tc2):
                 tc1.addTask("AliasEnigmaPlay", EnigmaName=enigmaName)

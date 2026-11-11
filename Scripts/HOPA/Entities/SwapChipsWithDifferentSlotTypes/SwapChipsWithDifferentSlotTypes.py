@@ -129,9 +129,36 @@ class Slot(object):
         self.chip.attachToMovieSlot(self.slot)
 
     def destroy(self):
-        self.enableSocketEvents(False)  # cancel task chains
+        tc_generate_event_click = self.__tc_generate_event_click
+        tc_generate_event_enter = self.__tc_generate_event_enter
+        self.__tc_generate_event_click = None
+        self.__tc_generate_event_enter = None
 
-        self.saved_slots_chip[self.id] = self.chip.id if self.chip is not None else None  # save mg
+        if tc_generate_event_click is not None:
+            tc_generate_event_click.cancel()
+
+        if tc_generate_event_enter is not None:
+            tc_generate_event_enter.cancel()
+
+        if Slot.LAST_SLOT_ENTER is self:
+            Slot.LAST_SLOT_ENTER = None
+
+        saved_slots_chip = self.saved_slots_chip
+        if saved_slots_chip is None:
+            return
+
+        chip = self.chip
+        saved_slots_chip[self.id] = chip.id if chip is not None else None  # save mg
+        self.chip = None
+        if chip is not None:
+            if chip.slot is self:
+                chip.slot = None
+
+        self.saved_slots_chip = None
+        self.socket = None
+        self.slot = None
+        self.supported_chip_types = None
+        self.end_chip_ids = None
 
 
 class Chip(object):
@@ -207,12 +234,25 @@ class Chip(object):
                     self.__tc_alpha_to.run()
 
     def destroy(self):
-        if self.__tc_alpha_to is not None:
-            self.__tc_alpha_to.cancel()
+        alpha_chain = self.__tc_alpha_to
+        self.__tc_alpha_to = None
+        if alpha_chain is not None:
+            alpha_chain.cancel()
+
+        slot = self.slot
+        self.slot = None
+        if slot is not None:
+            if slot.chip is self:
+                slot.chip = None
+
+        if self.node is None:
+            return
 
         self.detachFromParent()
 
-        for movie in self.movies.itervalues():
+        movies = self.movies
+        self.movies = {}
+        for movie in movies.itervalues():
             movie.getEntityNode().removeFromParent()
             movie.onFinalize()
             movie.onDestroy()
@@ -341,6 +381,9 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
         self.allowed_slots_id = {}
         self.litted_chips_temp = []
         self.slots_to_lit = {}
+        self.slot_holder_1 = None
+        self.slot_holder_2 = None
+        self.movie_slots = None
 
     #
     #
@@ -804,6 +847,12 @@ class SwapChipsWithDifferentSlotTypes(Enigma):
     def _onDeactivate(self):
         super(SwapChipsWithDifferentSlotTypes, self)._onDeactivate()
         self.cleanUp()
+
+    def _onFinalize(self):
+        super(SwapChipsWithDifferentSlotTypes, self)._onFinalize()
+
+        self.cleanUp()
+        self.param = None
 
     # -------------- Enigma  -------------------------------------------------------------------------------------------
     def _playEnigma(self):  # on first run

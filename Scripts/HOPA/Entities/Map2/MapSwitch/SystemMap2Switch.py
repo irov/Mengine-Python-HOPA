@@ -12,7 +12,7 @@ class SystemMap2Switch(System):
         super(SystemMap2Switch, self)._onParams(params)
 
     def _onRun(self):
-        pass
+        return True
 
     def _onStop(self):
         pass

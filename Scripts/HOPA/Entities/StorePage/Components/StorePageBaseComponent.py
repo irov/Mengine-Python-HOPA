@@ -33,15 +33,19 @@ class StorePageBaseComponent(object):
         pass
 
     def cleanUp(self):
+        if self.page is None:
+            return
+
         for observer in self._observers:
             Notification.removeObserver(observer)
-        self._observers = None
+        self._observers = []
 
         for tc in self._tcs:
             tc.cancel()
-        self._tcs = None
+        self._tcs = []
 
         self._cleanUp()
+
         self.page = None
         self.object = None
 

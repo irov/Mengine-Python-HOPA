@@ -7,15 +7,9 @@ class TaskTipItemFinish(MixinGroup, Task):
 
     def _onRun(self):
         Demon_TipItem = self.Group.getObject("Demon_TipItem")
-        Demon_TipEntity = self.Demon_TipItem.getEntity()
+        Demon_TipEntity = Demon_TipItem.getEntity()
         Demon_TipEntity.tipHide()
 
-        self.addObserverFilter(Notificator.onTipItemFinish, self._onTipHideComplete, Demon_TipItem)
-
-        return False
-        pass
-
-    def _onTipHideComplete(self, tip):
         return True
         pass
 

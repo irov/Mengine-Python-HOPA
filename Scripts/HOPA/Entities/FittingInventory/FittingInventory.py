@@ -53,6 +53,7 @@ class InventorySlot(object):
         itemEntity.removeFromParent()
 
         self.item = None
+        Mengine.destroyNode(self.nodeBack)
         self.nodeBack = None
         pass
 
@@ -94,6 +95,10 @@ class InventorySlot(object):
         spriteBack = FittingInventory.getObject("Sprite_Fitting")
         spriteName = FittingInventory.getName()
         spriteResource = spriteBack.getParam("SpriteResourceName")
+
+        if self.nodeBack is not None:
+            Mengine.destroyNode(self.nodeBack)
+            pass
 
         self.nodeBack = Mengine.createSprite(spriteName, spriteResource)
 
@@ -151,7 +156,8 @@ class InventorySlot(object):
             pass
 
         if self.point is not None:
-            #            Mengine.destroyNode(self.point)
+            # created by createSlot; a child item entity is only detached
+            Mengine.destroyNode(self.point)
             self.point = None
             pass
         pass

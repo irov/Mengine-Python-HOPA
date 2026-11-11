@@ -1,4 +1,5 @@
 from Foundation.Initializer import Initializer
+from Foundation.Task.TaskGenerator import TaskSource
 from Foundation.TaskManager import TaskManager
 from HOPA.ItemManager import ItemManager
 
@@ -10,7 +11,31 @@ class ActionDefault(Initializer):
         self.EndItem = False
         self.ItemName = None
         self.CurrentSlotIndex = None
+        self._item_chain = None
+        self._action_chain = None
+        self._end_chain = None
         pass
+
+    def _onFinalize(self):
+        super(ActionDefault, self)._onFinalize()
+
+        chain = self._end_chain
+        self._end_chain = None
+        if chain is not None:
+            chain.cancel()
+
+        chain = self._action_chain
+        self._action_chain = None
+        if chain is not None:
+            chain.cancel()
+
+        chain = self._item_chain
+        self._item_chain = None
+        if chain is not None:
+            chain.cancel()
+
+        self.Inventory = None
+        self.InventoryItem = None
 
     def onValues(self, *args):
         self.Inventory = args[1]
@@ -55,11 +80,25 @@ class ActionDefault(Initializer):
             self.CurrentSlotIndex = self.Inventory.getCurrentSlotIndex()
             pass
 
-        self._onRun()
+        self._runItemScope()
         pass
 
-    def _onRun(self):
+    def _runItemScope(self):
+        tasks = []
+        source = TaskSource(tasks)
+        self._onRun(source)
+        if len(tasks) == 0:
+            return
+
+        self._item_chain = TaskManager.createTaskChain(Source=tasks, Cb=self.__onItemComplete)
+        self._item_chain.run()
+
+    def _onRun(self, source):
         pass
+
+    def __onItemComplete(self, isSkip):
+        self._item_chain = None
+        self.endItem(isSkip)
 
     def endItem(self, isSkip):
         self.EndItem = True
@@ -75,7 +114,8 @@ class ActionDefault(Initializer):
             return True
             pass
 
-        with TaskManager.createTaskChain() as tc:
+        self._end_chain = TaskManager.createTaskChain(Cb=self.__onEndComplete)
+        with self._end_chain as tc:
             if self.EndItem is False:
                 tc.addListener(Notificator.onItemEffectEnd, Filter=__thisItem)
                 pass
@@ -84,27 +124,31 @@ class ActionDefault(Initializer):
 
         pass
 
+    def __onEndComplete(self, isSkip):
+        self._end_chain = None
+
     def onSkip(self):
-        # self._onSkip()
-        #
-        # if TaskManager.existTaskChain("InvFXActionDefault"):
-        #     TaskManager.cancelTaskChain("InvFXActionDefault")
-        #     pass
         pass
 
     def _onSkip(self):
         pass
 
     def onAction(self):
-        self._onAction()
+        self._action_chain = TaskManager.createTaskChain(Group=self.Inventory, Cb=self.__onActionComplete)
+        with self._action_chain as source:
+            self._onAction(source)
         pass
 
-    def _onAction(self):
-        with TaskManager.createTaskChain(Name="InvFXActionDefault", Group=self.Inventory, Cb=self.checkEndItem) as tc:
-            tc.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=self.InventoryItem,
+    def _onAction(self, source):
+        source.addTask("AliasInventorySlotsMoveAddItem", Inventory=self.Inventory, InventoryItem=self.InventoryItem,
                        CurrentSlotIndex=self.CurrentSlotIndex)
-            pass
-        pass
+
+    def __onActionComplete(self, isSkip):
+        self._action_chain = None
+        if self.isInitialized() is False:
+            return
+
+        self.checkEndItem(isSkip)
 
     def onEnd(self):
         self._onEnd()

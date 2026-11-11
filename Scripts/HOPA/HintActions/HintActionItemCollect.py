@@ -10,6 +10,27 @@ from Notification import Notification
 
 class HintActionItemCollect(MixinObject, HintActionMultiTarget):
 
+    def __init__(self):
+        super(HintActionItemCollect, self).__init__()
+        self.NotificatorEnd = None
+
+    def __removeEndObserver(self):
+        if self.NotificatorEnd is None:
+            return
+
+        Notification.removeObserver(self.NotificatorEnd)
+        self.NotificatorEnd = None
+
+    def _onEnd(self, someargs=None):
+        # Detach before the base can notify that the hint has ended.
+        self.__removeEndObserver()
+        super(HintActionItemCollect, self)._onEnd(someargs)
+
+    def _onFinalize(self):
+        super(HintActionItemCollect, self)._onFinalize()
+
+        self.__removeEndObserver()
+
     def _onParams(self, params):
         super(HintActionItemCollect, self)._onParams(params)
         self.ItemList = params.get('ItemList')
@@ -30,9 +51,10 @@ class HintActionItemCollect(MixinObject, HintActionMultiTarget):
 
         return True
 
-    def _onAction(self, _hint):
+    def _onAction(self, source, _hint):
+        self.__removeEndObserver()
         self.NotificatorEnd = Notification.addObserver(Notificator.onHintActionItemCollectEnd, self.__onHintActionItemCollectEnd)
-        self.getHintItem()
+        self.getHintItem(source)
 
     def _getHintObject(self):
         return self.Object
@@ -42,12 +64,12 @@ class HintActionItemCollect(MixinObject, HintActionMultiTarget):
 
         return False
 
-    def getHintItem(self):
+    def getHintItem(self, source):
         for itemName in self.ItemList:
             if SystemItemCollect.hasFoundItem(itemName):
                 continue
 
             ItemCollect = SystemItemCollect.getItemCollect(itemName)
 
-            self.showHint(ItemCollect.Item.calcWorldHintPoint(), ItemCollect.ItemPosition)
+            self.showHint(source, ItemCollect.Item.calcWorldHintPoint(), ItemCollect.ItemPosition)
             break

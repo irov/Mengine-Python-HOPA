@@ -1,6 +1,5 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.Task.MixinGroup import MixinGroup
-from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
 
@@ -26,7 +25,7 @@ class HintActionDefault(MixinGroup, HintAction):
     def Check_Action(self, source):
         if self.Movie2_HintTarget is None or self.Movie2_HintWay is None:
             source.addDelay(self.timer)
-            source.addFunction(self.destroy_all_movies)
+            source.addFunction(self.destroy_movies_by_name)
             source.addFunction(self.Setup)
 
     def scopeAction(self, tc):
@@ -56,17 +55,10 @@ class HintActionDefault(MixinGroup, HintAction):
         tc.addTask("AliasObjectBezier2To", Object=self.Movie2_HintWay, Point1=P1, To=P2, Speed=speed)
         tc.addScope(_scopeTargetPlay)
 
-    def _onAction(self, hint):
-        if TaskManager.existTaskChain("HintAction_onEnd") is True:
-            TaskManager.cancelTaskChain("HintAction_onEnd")
-
-        if TaskManager.existTaskChain("HintActionDefault") is True:
-            TaskManager.cancelTaskChain("HintActionDefault")
-
-        with TaskManager.createTaskChain(Name="HintActionDefault", Cb=self._onEnd) as tc:
-            tc.addFunction(self.Setup)
-            tc.addScope(self.Check_Action)
-            tc.addScope(self.scopeAction)
+    def _onAction(self, source, hint):
+        source.addFunction(self.Setup)
+        source.addScope(self.Check_Action)
+        source.addScope(self.scopeAction)
 
     def _getHintObject(self):
         return
@@ -74,32 +66,58 @@ class HintActionDefault(MixinGroup, HintAction):
     def _getHintPosition(self, Object):
         return 0, 0
 
-    def destroy_all_movies(self):
+    def destroy_movies_by_name(self):
+        # Recovery when another hint still holds the names: frees them for Setup.
         self.Movie2_HintTarget = self.destroy_movie("Movie2_HintTarget")
         self.Movie2_HintWay = self.destroy_movie("Movie2_HintWay")
 
-    def Clean_Full(self):
-        if TaskManager.existTaskChain("HintActionDefault") is True:
-            TaskManager.cancelTaskChain("HintActionDefault")
-            pass
+    def destroy_all_movies(self):
+        self.Movie2_HintTarget = self.destroy_own_movie("Movie2_HintTarget", self.Movie2_HintTarget)
+        self.Movie2_HintWay = self.destroy_own_movie("Movie2_HintWay", self.Movie2_HintWay)
 
+    def Clean_Full(self):
+        self._clearTaskChain()
         self.destroy_all_movies()
 
         self.Working = False
 
+    def _cleanFullGuard(self, value):
+        if value is True:
+            return
+
+        self.Clean_Full()
+
+    def _onFinalize(self):
+        super(HintActionDefault, self)._onFinalize()
+
+        self.Clean_Full()
+
+    def _onActionComplete(self, isSkip):
+        super(HintActionDefault, self)._onActionComplete(isSkip)
+
+        self._onEnd(isSkip)
+
     def _onEnd(self, someargs=None):
         if self.Working:
             return
-        else:
-            self.Working = True
-        if TaskManager.existTaskChain("HintAction_onEnd") is True:
-            TaskManager.cancelTaskChain("HintAction_onEnd")
 
-        if self.Movie2_HintWay is not None:
-            with TaskManager.createTaskChain(Name="HintAction_onEnd") as tc:
-                with tc.addParallelTask(2) as (tc_way, tc_target):
-                    tc_way.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintWay, To=0.0, Time=self.timer)
-                    tc_target.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintTarget, To=0.0, Time=self.timer)
-                    pass
-                tc.addFunction(self.Clean_Full)
-                tc.addFunction(self.setEnd)
+        self.Working = True
+        self.cancelEndEffect()
+
+        if self.Movie2_HintWay is None:
+            self.Clean_Full()
+
+            if self.isEnd() is False:
+                self.setEnd()
+            return
+
+        self._runEndEffect()
+
+    def _onEndEffect(self, source):
+        # The guard releases the effects when the fade chain ends.
+        tc_guard = source.makeGuardSource(True, self._cleanFullGuard)
+        with tc_guard.addParallelTask(2) as (tc_way, tc_target):
+            tc_way.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintWay, To=0.0, Time=self.timer)
+            tc_target.addTask("AliasObjectAlphaTo", Object=self.Movie2_HintTarget, To=0.0, Time=self.timer)
+            pass
+        source.addFunction(self.setEnd)

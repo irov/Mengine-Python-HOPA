@@ -37,10 +37,14 @@ class Chip(object):
             self.chip_glow = None
 
     def cleanUp(self):
-        self.current_place.setOwner(None)
-        self.setCurrentPlace(None)
+        if self.current_place is not None:
+            if self.current_place.chip_owner is self:
+                self.current_place.setOwner(None)
+            self.current_place = None
         self.disableChipGlow()
-        self.movie_chip.onDestroy()
+        if self.movie_chip is not None:
+            self.movie_chip.onDestroy()
+            self.movie_chip = None
 
 
 class Place(object):
@@ -75,7 +79,10 @@ class Place(object):
         source.addTask('TaskMovie2SocketClick', Movie2=self.movie_place, SocketName='socket')
 
     def cleanUp(self):
-        self.movie_place.onDestroy()
+        self.chip_owner = None
+        if self.movie_place is not None:
+            self.movie_place.onDestroy()
+            self.movie_place = None
 
 
 class Counter(object):
@@ -91,7 +98,10 @@ class Counter(object):
         Mengine.setTextAliasArguments('', self.text_alias, value)
 
     def cleanUp(self):
+        if self.movie is None:
+            return
         self.movie.onDestroy()
+        self.movie = None
         Mengine.setTextAliasArguments('', self.text_alias, '')
 
 
@@ -134,6 +144,15 @@ class TurnBasedStrategyGo(Enigma):
 
     def _onDeactivate(self):
         super(TurnBasedStrategyGo, self)._onDeactivate()
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(TurnBasedStrategyGo, self)._onFinalize()
+
+        self.__cleanUp()
+
+    def _stopEnigma(self):
+        self.__cleanUp()
 
     def __loadParam(self):
         self.params = TurnBasedStrategyGoManager.getParams(self.EnigmaName)
@@ -607,15 +626,29 @@ class TurnBasedStrategyGo(Enigma):
             self.tc.cancel()
             self.tc = None
 
-        for obj in self.places.values() + self.enemy_chips.values() + self.player_chips.values() + [self.enemy_counter,
-            self.player_counter]:
-            if obj is None:
-                continue
-            obj.cleanUp()
+        for chip in self.enemy_chips.values() + self.player_chips.values():
+            chip.cleanUp()
+        for place in self.places.itervalues():
+            place.cleanUp()
+        enemy_counter = self.enemy_counter
+        player_counter = self.player_counter
+
+        if enemy_counter is not None:
+            enemy_counter.cleanUp()
+
+        if player_counter is not None:
+            player_counter.cleanUp()
 
         self.places = {}
+        self.places_neighbours = {}
         self.enemy_chips = {}
         self.player_chips = {}
+        self.selected_chip = None
+        self.first_line_places = []
+        self.second_line_places = []
+        self.enemy_counter = None
+        self.player_counter = None
+        self.movie_content = None
         self.steps = 0
 
     def _playEnigma(self):

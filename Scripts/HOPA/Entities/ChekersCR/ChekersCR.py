@@ -23,6 +23,12 @@ class ChekersCR(Enigma):
         self.ReInitParamentrs()
         pass
 
+    def _onFinalize(self):
+        super(ChekersCR, self)._onFinalize()
+
+        self.__Finita()
+        self.ReInitParamentrs()
+
     def ReInitParamentrs(self):
         self.Field_Len_X = 7
         self.Field_Len_Y = 7

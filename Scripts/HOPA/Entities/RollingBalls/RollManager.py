@@ -7,6 +7,11 @@ class RollManager:
     rolls = []
 
     @staticmethod
+    def clear():
+        RollManager.segments = []
+        RollManager.rolls = []
+
+    @staticmethod
     def createSegment(elements):
         segment = Segment(elements)
         RollManager.segments.append(segment)

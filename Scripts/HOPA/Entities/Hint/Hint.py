@@ -26,6 +26,8 @@ class Hint(BaseEntity):
         super(Hint, self).__init__()
 
         self.currentHint = None
+        self.previousHint = None  # ended hint, finalized when the next hint starts
+        self.hintShowChainName = None
         self.blockHint = False  # enables onDialogOpen and onDialogClose observers
 
         # observers
@@ -126,15 +128,56 @@ class Hint(BaseEntity):
             self.onDialogCloseObserver = Notification.addObserver(Notificator.onDialogHide, self._onDialogClose)
 
     def _onDeactivate(self):
-        if SystemManager.hasSystem("SystemHint") is False:
-            return
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(Hint, self)._onFinalize()
+
+        self.__cleanUp()
+
+    def __cleanUp(self):
+        if self.onSceneInitObserver is not None:
+            Notification.removeObserver(self.onSceneInitObserver)
+            self.onSceneInitObserver = None
+
+        if self.onQuestEndObserver is not None:
+            Notification.removeObserver(self.onQuestEndObserver)
+            self.onQuestEndObserver = None
+
+        if self.onCurrentHintEndObserver is not None:
+            Notification.removeObserver(self.onCurrentHintEndObserver)
+            self.onCurrentHintEndObserver = None
+
+        if self.onItemPlusLeaveObserver is not None:
+            Notification.removeObserver(self.onItemPlusLeaveObserver)
+            self.onItemPlusLeaveObserver = None
+
+        if self.onItemPickedObserver is not None:
+            Notification.removeObserver(self.onItemPickedObserver)
+            self.onItemPickedObserver = None
+
+        if self.onTipActivateWithoutParagraphsObserver is not None:
+            Notification.removeObserver(self.onTipActivateWithoutParagraphsObserver)
+            self.onTipActivateWithoutParagraphsObserver = None
+
+        if self.onClickItemCollectHintSocketObserver is not None:
+            Notification.removeObserver(self.onClickItemCollectHintSocketObserver)
+            self.onClickItemCollectHintSocketObserver = None
+
+        if self.onDialogOpenObserver is not None:
+            Notification.removeObserver(self.onDialogOpenObserver)
+            self.onDialogOpenObserver = None
+
+        if self.onDialogCloseObserver is not None:
+            Notification.removeObserver(self.onDialogCloseObserver)
+            self.onDialogCloseObserver = None
 
         self.currentHintEnd()
 
-        if TaskManager.existTaskChain("HintReadyEffect"):
+        if TaskManager.existTaskChain("HintReadyEffect") is True:
             TaskManager.cancelTaskChain("HintReadyEffect")
 
-        if TaskManager.existTaskChain("HintReloadEnter"):
+        if TaskManager.existTaskChain("HintReloadEnter") is True:
             TaskManager.cancelTaskChain("HintReloadEnter")
 
         if TaskManager.existTaskChain("HintReady") is True:
@@ -146,18 +189,7 @@ class Hint(BaseEntity):
         if TaskManager.existTaskChain("HintReloadStarted") is True:
             TaskManager.cancelTaskChain("HintReloadStarted")
 
-        Notification.removeObserver(self.onSceneInitObserver)
-        Notification.removeObserver(self.onQuestEndObserver)
-        Notification.removeObserver(self.onCurrentHintEndObserver)
-        # Notification.removeObserver(self.onInventorySlotsShiftObserver)
-        Notification.removeObserver(self.onItemPlusLeaveObserver)
-        Notification.removeObserver(self.onItemPickedObserver)
-        Notification.removeObserver(self.onTipActivateWithoutParagraphsObserver)
-
-        DialogBlockHint = DefaultManager.getDefaultBool("DialogBlockHint", True)
-        if DialogBlockHint is True:
-            Notification.removeObserver(self.onDialogOpenObserver)
-            Notification.removeObserver(self.onDialogCloseObserver)
+        self.__finalizePreviousHint()
 
     # ---- TaskChains --------------------------------------------------------------------------------------------------
 
@@ -317,21 +349,41 @@ class Hint(BaseEntity):
         return False
 
     def currentHintEnd_Scene(self, isSkip=None, next_Arg=None):
-        if TaskManager.existTaskChain("HintAction_onEnd") is True:
-            TaskManager.cancelTaskChain("HintAction_onEnd")
+        if self.previousHint is not None:
+            self.previousHint.cancelEndEffect()
+
+        if self.currentHint is not None:
+            self.currentHint.cancelEndEffect()
+
         self.currentHintEnd()
         return False
 
     def currentHintEnd(self, isSkip=None, next_Arg=None):
-        # if TaskManager.existTaskChain("HintAction_onEnd") is True:
-        #     TaskManager.cancelTaskChain("HintAction_onEnd")
-        if self.currentHint is not None:
-            self.currentHint.onEnd()
-            self.currentHint = None
+        self.__cancelHintShow()
+
+        currentHint = self.currentHint
+        self.currentHint = None
+        if currentHint is not None:
+            currentHint.onEnd()
+
+            # keep the ended hint (its end effect may still play) until the next hint starts
+            self.__finalizePreviousHint()
+            self.previousHint = currentHint
 
         if TaskManager.existTaskChain("HintPlay"):
             TaskManager.cancelTaskChain("HintPlay")
         return False
+
+    def __finalizePreviousHint(self):
+        previousHint = self.previousHint
+        self.previousHint = None
+        HintManager.finalizeHintAction(previousHint)
+
+    def __cancelHintShow(self):
+        tc_name = self.hintShowChainName
+        self.hintShowChainName = None
+        if tc_name is not None:
+            TaskManager.cancelTaskChain(tc_name, exist=False)
 
     # ---- Hint logic --------------------------------------------------------------------------------------------------
 
@@ -347,14 +399,11 @@ class Hint(BaseEntity):
             if newHint.getQuest() is self.currentHint.getQuest() and self.currentHint.isEnd() is False:
                 self._debugHintLog("_hintPlay [cur={}] <0> newHint.quest = curHint.quest ({}), curHint isEnd=False".format(
                     self.currentHint.__class__.__name__, newHint.getQuest()))
+                HintManager.finalizeHintAction(newHint)
                 cb(isSkip, 0)
                 return
 
-            self.currentHint.onEnd()
-
-            self.currentHint = None
-            if TaskManager.existTaskChain("HintPlay"):
-                TaskManager.cancelTaskChain("HintPlay")
+            self.currentHintEnd()
 
         currentSceneName = SceneManager.getCurrentSceneName()
 
@@ -368,6 +417,7 @@ class Hint(BaseEntity):
             if hasException is True:
                 self._debugHintLog("_hintPlay [cur={}] <0> hasActiveException showMind ({}, {})".format(
                     self.currentHint, newHint.getQuest(), currentSceneName, GroupName))
+                HintManager.finalizeHintAction(newHint)
                 cb(isSkip, 0)
                 SystemHintSceneExceptions.showMind(currentSceneName, GroupName)
                 return
@@ -435,6 +485,7 @@ class Hint(BaseEntity):
                 HintAction = self.getSceneHintAction(currentSceneName, groupName)
 
                 if HintAction is not None:
+                    HintManager.finalizeHintAction(HintAction)
                     HintAction = self.createZoomLeaveHintAction(currentSceneName, zoomGroupName)
                     self._debugHintLog("[3] AroundSceneCheck {}, created ZoomLeaveHintAction: {} {}".format(
                         currentSceneName, HintAction.__class__.__name__, HintAction.Quest))
@@ -445,6 +496,7 @@ class Hint(BaseEntity):
                 HintSceneName, HintAction = self.getAroundSceneHintAction(currentSceneName, True)
 
                 if HintAction is not None:
+                    HintManager.finalizeHintAction(HintAction)
                     TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, HintSceneName)
                     if TransitionObject is not None:
                         if TransitionObject.getGroupName() == zoomGroupName:
@@ -484,6 +536,7 @@ class Hint(BaseEntity):
             if SceneManager.hasSpecialScene(currentSceneName) is True:
                 HintAction = self.getSpecialSceneHintAction(currentSceneName, True)
                 if HintAction is not None:
+                    HintManager.finalizeHintAction(HintAction)
                     HintAction = self.createSpecialSceneEnterHintAction(currentSceneName)
                     if HintAction is not None:
                         self._debugHintLog("[8] createSpecialSceneEnterHintAction {} {}".format(
@@ -499,6 +552,7 @@ class Hint(BaseEntity):
                     HintSceneName, HintActionAroundScene))
 
                 if HintActionAroundScene is not None:
+                    HintManager.finalizeHintAction(HintActionAroundScene)
                     TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, HintSceneName)
 
                     if TransitionObject is not None:
@@ -623,6 +677,7 @@ class Hint(BaseEntity):
             if hintAction is not None:
                 if checkActive is True:
                     return hintAction
+                HintManager.finalizeHintAction(hintAction)
 
         zooms = SceneManager.getSceneZooms(sceneName)
         if zooms is None:
@@ -633,6 +688,7 @@ class Hint(BaseEntity):
             if hintAction is None:
                 continue
 
+            HintManager.finalizeHintAction(hintAction)
             hintAction = self.createZoomEnterHintAction(sceneName, zoomGroupName, True)
             if hintAction is not None:
                 return hintAction
@@ -664,6 +720,7 @@ class Hint(BaseEntity):
         HintAction = HintManager.createHintAction("HintActionMagicVisionUse", Quest)
         if HintAction._onCheck() is False:
             QuestManager.cancelQuest(Quest)
+            HintManager.finalizeHintAction(HintAction)
             return None
 
         return HintAction
@@ -756,6 +813,7 @@ class Hint(BaseEntity):
                         TransitionObject = TransitionManager.findTransitionObjectToScene(fromSceneName, sceneName)
                         if TransitionObject is not None:
                             return sceneName, hintAction
+                    HintManager.finalizeHintAction(hintAction)
 
             zooms = SceneManager.getSceneZooms(sceneName)
             if zooms is None:
@@ -766,6 +824,7 @@ class Hint(BaseEntity):
                 if hintAction is None:
                     continue
 
+                HintManager.finalizeHintAction(hintAction)
                 hintAction = self.createZoomEnterHintAction(sceneName, zoomGroupName, True)
                 if hintAction is not None:
                     return sceneName, hintAction
@@ -775,18 +834,24 @@ class Hint(BaseEntity):
                 if HintAction is None:
                     return None, None
 
+                HintManager.finalizeHintAction(HintAction)
                 HintAction = self.createSpecialSceneEnterHintAction(sceneName)
-                if hintAction is not None:
+                if HintAction is not None:
                     return sceneName, HintAction
         return None, None
 
     def hintShow(self, HintAction):
+        self.__cancelHintShow()
+
         if self.waitHintUIAction is True and self.inHintPlay is True:
             tc_name = "HintShow_" + str(Mengine.getTimeMs())
+            self.hintShowChainName = tc_name
             with TaskManager.createTaskChain(Name=tc_name) as tc:
                 tc.addListener(Notificator.onHintUIActionEnd)
+                tc.addFunction(self.__finalizePreviousHint)
                 tc.addFunction(HintAction.onAction, self)
         else:
+            self.__finalizePreviousHint()
             HintAction.onAction(self)
 
     def createZoomEnterHintAction(self, sceneName, zoomGroupName, check=True):
@@ -807,6 +872,7 @@ class Hint(BaseEntity):
         if hintAction.onCheck() is False:
             QuestManager.cancelQuest(Quest)
             self._debugHintLog("    createZoomEnterHintAction !!! {} onCheck false - cancel quest".format(hintAction.__class__.__name__))
+            HintManager.finalizeHintAction(hintAction)
             return None
 
         if QuestManager.hasLocalQuest(sceneName, zoomGroupName, "EnterZoom") is False:
@@ -825,9 +891,11 @@ class Hint(BaseEntity):
         hasZoomActiveQuest = QuestManager.hasAroundSceneQuest(sceneName, zoomGroupName)
         if hasZoomActiveQuest is False:
             self._debugHintLog("    createZoomEnterHintAction !!! {} hasZoomActiveQuest false".format(hintAction.__class__.__name__))
+            HintManager.finalizeHintAction(hintAction)
             return None
 
         groupName = zoomGroupName
+        HintManager.finalizeHintAction(hintAction)
         hintAction = self.getSceneHintAction(sceneName, groupName, False)
         if hintAction is None:
             self._debugHintLog("    createZoomEnterHintAction !!! hintAction is None")
@@ -880,9 +948,12 @@ class Hint(BaseEntity):
             if HintAction.onCheck():
                 return HintAction
 
+            HintManager.finalizeHintAction(HintAction)
+
         HintAction = HintManager.createHintAction("HintActionTransition", Quest, **Params)
 
         if HintAction.onCheck():
             return HintAction
 
+        HintManager.finalizeHintAction(HintAction)
         return None

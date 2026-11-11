@@ -22,13 +22,23 @@ class SwapDifferent(Enigma):
         pass
 
     def finalize(self):
+        # cancelling the moving chains runs their callback through the skip path:
+        # with no moves pending, after() neither places the elements nor checks completion
+        self.countElementsOnMove = -1
+
         for elementId, element in self.elements.items():
             element.finalize()
             pass
 
         self.onFocusObserver = None
         self.elements = {}
+        self.currentElement = None
         pass
+
+    def _onFinalize(self):
+        super(SwapDifferent, self)._onFinalize()
+
+        self.finalize()
 
     def _autoWin(self):
         self.enigmaComplete()

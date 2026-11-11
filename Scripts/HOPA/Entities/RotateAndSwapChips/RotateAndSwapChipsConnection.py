@@ -8,6 +8,12 @@ class RotateAndSwapChipsConnection(object):
         self.slots = {}
         pass
 
+    def finalize(self):
+        movie_name = self.movieObject.getName()
+        task_name = "%s_PLAY" % movie_name
+        TaskManager.cancelTaskChain(task_name, exist=False)
+        pass
+
     def setSlotIdentity(self, slotId, slotName):
         self.slots[slotId] = slotName
         pass

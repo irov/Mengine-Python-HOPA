@@ -365,6 +365,9 @@ class ChipMoveCount(Enigma):
             self.tc.cancel()
         for movie in self.player_movie_pack:
             movie.onDestroy()
+        for node in self.Node_Player:
+            if node is not None:
+                Mengine.destroyNode(node)
         self.param = None
         self.tc = None
         self.SlotNumbers = []

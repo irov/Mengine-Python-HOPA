@@ -25,6 +25,13 @@ class ColumnChain(Enigma):
             pass
         pass
 
+    def _onFinalize(self):
+        super(ColumnChain, self)._onFinalize()
+
+        self._stopEnigma()
+        self.columnBySocket = {}
+        self.GameData = None
+
     def _playEnigma(self):
         self.GameData = ColumnChainManager.getColumnChain(self.EnigmaName)
         dataPack = self.GameData.getColumnBySocket()

@@ -45,6 +45,17 @@ class BallStack(object):
 
     @staticmethod
     def reset():
+        if BallStack.state_obj is None:
+            return
+
         MovieEn = BallStack.state_obj.getEntity()
         MovieEn.setTiming(1)
         pass
+
+    @staticmethod
+    def finalize():
+        BallStack.state_obj = None
+        BallStack.states = None
+        BallStack.current_state = None
+        BallStack.final_state = None
+        BallStack.step = None

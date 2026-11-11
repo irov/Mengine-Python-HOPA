@@ -257,6 +257,15 @@ class SpecialPromotion(BaseEntity):
             Trace.log("Entity", 0, "SpecialPromotion: wrong tag '{}'".format(tag))
             return False
 
+        # window chain could be cancelled before scopeClose released previous content
+        if "rewards" in self.content:
+            rewards = self.content.pop("rewards")
+            rewards.cleanUp()
+
+        if "purchase" in self.content:
+            purchase = self.content.pop("purchase")
+            purchase.cleanUp()
+
         self.current_tag = tag
         self._last_tag = tag
 

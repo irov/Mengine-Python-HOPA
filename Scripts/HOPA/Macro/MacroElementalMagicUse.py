@@ -39,12 +39,20 @@ class MacroElementalMagicUse(MacroCommand):
             source.addNotify(Notificator.onElementalMagicReady)
 
     def _onGenerate(self, source):
+        def __removeTipGuard(value, TipName):
+            if value is True:
+                return
+
+            Notification.notify(Notificator.onTipRemoveWithoutParagraphs, TipName)
+
         Quest = self.addQuest(source, QUEST_USE_MAGIC_NAME, SceneName=self.SceneName, GroupName=self.GroupName,
                               Object=self.SocketObject, MagicId=self.MagicId, Element=self.Element)
 
         with Quest as tc_quest:
             tc_quest.addScope(self._tryNotifyReady)
             tc_quest.addNotify(Notificator.onTipActivateWithoutParagraphs, self.SocketObject, self.TipName)
-            tc_quest.addTask("TaskSocketUseElementalMagic", Object=self.SocketObject, SocketName=self.SocketName,
+
+            # the guard removes the tip on every exit, also when the scenario chain is cancelled
+            tc_guard = tc_quest.makeGuardSource(True, __removeTipGuard, self.TipName)
+            tc_guard.addTask("TaskSocketUseElementalMagic", Object=self.SocketObject, SocketName=self.SocketName,
                              Element=self.Element, MagicId=self.MagicId)
-            tc_quest.addNotify(Notificator.onTipRemoveWithoutParagraphs, self.TipName)

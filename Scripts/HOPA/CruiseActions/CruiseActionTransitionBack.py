@@ -1,6 +1,5 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Task.MixinObjectTemplate import MixinTransition
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseActions.CruiseActionDefault import CruiseActionDefault
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -20,7 +19,7 @@ class CruiseActionTransitionBack(MixinTransition, CruiseActionDefault):
         Position = HotSpot.getWorldPolygonCenter()
         return Position
 
-    def _onAction(self):
+    def _onAction(self, source):
         if GroupManager.hasObject("TransitionBack", "Point_Effect") is False:
             Trace.log("Manager", 0, "CruiseActionTransitionBack._onAction: "
                                     "group TransitionBack not found Point_Effect please add to psd")
@@ -28,9 +27,6 @@ class CruiseActionTransitionBack(MixinTransition, CruiseActionDefault):
         Point_Effect = GroupManager.getObject("TransitionBack", "Point_Effect")
         Position = Point_Effect.getPosition()
 
-        if TaskManager.existTaskChain("CruiseActionTransitionBack") is True:
-            TaskManager.cancelTaskChain("CruiseActionTransitionBack")
-        with TaskManager.createTaskChain(Name="CruiseActionTransitionBack") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=Position, Object=Point_Effect)
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addTask("AliasCruiseControlAction", Position=Position, Object=Point_Effect)
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

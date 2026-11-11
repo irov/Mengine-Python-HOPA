@@ -19,11 +19,22 @@ class ShootingRange(Enigma):
         self.hits = 0
         self.hit_for_win = 3
         self.Gun = None
+        self.HedShots = None
+        self.socketTarget = None
+        self.marker = {}
 
         pass
 
+    def _onFinalize(self):
+        super(ShootingRange, self)._onFinalize()
+
+        self._stopEnigma()
+
     def _stopEnigma(self):
-        Notification.removeObserver(self.HedShots)
+        if self.HedShots is not None:
+            Notification.removeObserver(self.HedShots)
+            self.HedShots = None
+
         if TaskManager.existTaskChain(self.EnigmaName):
             TaskManager.cancelTaskChain(self.EnigmaName)
             pass
@@ -122,6 +133,9 @@ class ShootingRange(Enigma):
             pass
         BallStack.reset()
         ChasingSystem.stop_chase()
+        BallStack.finalize()
+        self.socketTarget = None
+        self.marker = {}
         pass
 
     pass

@@ -65,8 +65,7 @@ class Sparks(BaseEntity):
         if Mengine.getCurrentAccountSettingBool("DifficultyCustomSparklesOnActiveAreas") is False:
             return
 
-        if self.currentAction is not None:
-            self.currentAction.onEnd()
+        self._Sparks_End()
 
         if SparksManager.hasSparksAction("SparksActionHint") is False:
             return
@@ -98,6 +97,7 @@ class Sparks(BaseEntity):
                     return
 
         hintActionObj = hintAction.getHintObject()
+        HintManager.finalizeHintAction(hintAction)
         if hintActionObj is None:
             return
 
@@ -108,7 +108,9 @@ class Sparks(BaseEntity):
         self.currentAction = SparksAction
 
     def _Sparks_End(self, *_):
-        if self.currentAction is not None:
-            self.currentAction.onEnd()
-            self.currentAction = None
+        currentAction = self.currentAction
+        self.currentAction = None
+        if currentAction is not None:
+            currentAction.onEnd()
+            SparksManager.finalizeSparksAction(currentAction)
         return False

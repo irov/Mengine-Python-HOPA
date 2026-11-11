@@ -21,7 +21,7 @@ class SystemEsc(System):
 
     def _onRun(self):
         self.addObserver(Notificator.onKeyEvent, self.__onKeyEvent)
-        pass
+        return True
 
     def _onStop(self):
         return False

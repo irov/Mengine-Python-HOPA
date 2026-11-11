@@ -143,11 +143,31 @@ class Navigation(object):
             tc.addScope(self.__scopeSendEventSwitchFocus)
 
     def disableTC(self):
-        self.tc_leave_scene.cancel()
-        self.tc_receive_events_feedback.cancel()
-        self.tc_send_event_prev_page.cancel()
-        self.tc_send_event_next_page.cancel()
-        self.tc_send_event_switch_focus.cancel()
+        tc_leave_scene = self.tc_leave_scene
+        tc_receive_events_feedback = self.tc_receive_events_feedback
+        tc_send_event_prev_page = self.tc_send_event_prev_page
+        tc_send_event_next_page = self.tc_send_event_next_page
+        tc_send_event_switch_focus = self.tc_send_event_switch_focus
+        self.tc_leave_scene = None
+        self.tc_receive_events_feedback = None
+        self.tc_send_event_prev_page = None
+        self.tc_send_event_next_page = None
+        self.tc_send_event_switch_focus = None
+
+        if tc_leave_scene is not None:
+            tc_leave_scene.cancel()
+
+        if tc_receive_events_feedback is not None:
+            tc_receive_events_feedback.cancel()
+
+        if tc_send_event_prev_page is not None:
+            tc_send_event_prev_page.cancel()
+
+        if tc_send_event_next_page is not None:
+            tc_send_event_next_page.cancel()
+
+        if tc_send_event_switch_focus is not None:
+            tc_send_event_switch_focus.cancel()
 
 
 class ChapterPagePicture(object):
@@ -282,6 +302,7 @@ class ChapterPage(object):
                 slot_name = PAGE_PROTOTYPE_MOVIE_PIC_SLOT_PREFIX + str(list_index)
                 Trace.msg_err('[ERROR_{}]: NOT FOUND MOVIE SLOT {} in {} TO ATTACH MOVIE PIC {}'.format(
                     ChapterPage.ERROR_COUNT, slot_name, self.movie.getName(), proto_name_unique))
+                movie_pic.onDestroy()
                 continue
 
             slot.addChild(movie_pic.getEntityNode())
@@ -346,8 +367,10 @@ class ChapterPage(object):
         return True
 
     def disableTC(self):
-        if self.__tc_pics_zoom is not None:
-            self.__tc_pics_zoom.cancel()
+        chain = self.__tc_pics_zoom
+        self.__tc_pics_zoom = None
+        if chain is not None:
+            chain.cancel()
 
         self.__removePics()
         self.__removePageMovie()
@@ -470,10 +493,26 @@ class Chapter(object):
             tc.addScope(self.__scopeSwitchFocus)
 
     def disableTC(self):
-        self.tc_send_event_switch_focus.cancel()
-        self.tc_receive_event_prev_page.cancel()
-        self.tc_receive_event_next_page.cancel()
-        self.tc_receive_event_switch_focus.cancel()
+        tc_send_event_switch_focus = self.tc_send_event_switch_focus
+        tc_receive_event_prev_page = self.tc_receive_event_prev_page
+        tc_receive_event_next_page = self.tc_receive_event_next_page
+        tc_receive_event_switch_focus = self.tc_receive_event_switch_focus
+        self.tc_send_event_switch_focus = None
+        self.tc_receive_event_prev_page = None
+        self.tc_receive_event_next_page = None
+        self.tc_receive_event_switch_focus = None
+
+        if tc_send_event_switch_focus is not None:
+            tc_send_event_switch_focus.cancel()
+
+        if tc_receive_event_prev_page is not None:
+            tc_receive_event_prev_page.cancel()
+
+        if tc_receive_event_next_page is not None:
+            tc_receive_event_next_page.cancel()
+
+        if tc_receive_event_switch_focus is not None:
+            tc_receive_event_switch_focus.cancel()
 
 
 class MenuPage(object):
@@ -572,9 +611,21 @@ class Menu(object):
             tc.addScope(self.__scopeSwitchFocus)
 
     def disableTC(self):
-        self.tc_receive_event_prev_page.cancel()
-        self.tc_receive_event_next_page.cancel()
-        self.tc_receive_event_switch_focus.cancel()
+        tc_receive_event_prev_page = self.tc_receive_event_prev_page
+        tc_receive_event_next_page = self.tc_receive_event_next_page
+        tc_receive_event_switch_focus = self.tc_receive_event_switch_focus
+        self.tc_receive_event_prev_page = None
+        self.tc_receive_event_next_page = None
+        self.tc_receive_event_switch_focus = None
+
+        if tc_receive_event_prev_page is not None:
+            tc_receive_event_prev_page.cancel()
+
+        if tc_receive_event_next_page is not None:
+            tc_receive_event_next_page.cancel()
+
+        if tc_receive_event_switch_focus is not None:
+            tc_receive_event_switch_focus.cancel()
 
 
 class Guide(BaseEntity):
@@ -657,9 +708,27 @@ class Guide(BaseEntity):
                               chapter_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_id,
                               chapter_page_obj_index=0 if self.navigation.chapter_obj is None else self.navigation.chapter_obj.chapter_page_in_focus_index)
 
-        self.navigation.disableTC()
+        self.__cleanUp()
 
-        self.menu.disableTC()
+    def _onFinalize(self):
+        super(Guide, self)._onFinalize()
+
+        self.__cleanUp()
+        self.navigation = None
+        self.menu = None
+        self.menu_pages = []
+        self.chapters = []
+        self.chapter_pages = []
+        ChapterPage.ENTITY_OBJECT = None
+
+    def __cleanUp(self):
+        navigation = self.navigation
+        if navigation is not None:
+            navigation.disableTC()
+
+        menu = self.menu
+        if menu is not None:
+            menu.disableTC()
 
         for chapter in self.chapters:
             chapter.disableTC()

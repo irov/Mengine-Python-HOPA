@@ -25,6 +25,7 @@ class SpinCircles(Enigma):
         self.isHold = True
 
         self.SocketEnter = None
+        self.ButtonHold = None
         pass
 
     def _stopEnigma(self):
@@ -32,13 +33,8 @@ class SpinCircles(Enigma):
         # self.saveTwists()
 
         self.removeViewNotify()
-        if self.isHold is True:
-            Notification.removeObserver(self.ButtonHold)
-            pass
-
-        if TaskManager.existTaskChain(self.EnigmaName):
-            TaskManager.cancelTaskChain(self.EnigmaName)
-            pass
+        self.__removeHoldObserver()
+        self.__cancelInputChain()
 
         return False
         pass
@@ -80,20 +76,43 @@ class SpinCircles(Enigma):
             pass
         pass
 
-    def _onDeactivate(self):
-        super(SpinCircles, self)._onDeactivate()
-        self.blockSockets(False)
+    def __removeHoldObserver(self):
+        observer = self.ButtonHold
+        self.ButtonHold = None
+        Notification.removeObserver(observer)
+
+    def __cancelInputChain(self):
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
+
+    def __clearTwists(self):
+        self.__cancelInputChain()
+        self.removeViewNotify()
+        self.__removeHoldObserver()
+        twists = self.TwistCollection
         self.TwistCollection = {}
+        for twist in twists.itervalues():
+            twist.destroy()
+        self.socket_views = {}
+        self.current_view = None
         self.PlayedSocket = None
         self.MovieWin = None
         self.hold = False
         self.isHold = True
-        self.SocketEnter = None
 
+    def _onDeactivate(self):
+        super(SpinCircles, self)._onDeactivate()
+        self.blockSockets(False)
+        self.__clearTwists()
         pass
+
+    def _onFinalize(self):
+        super(SpinCircles, self)._onFinalize()
+
+        self.__clearTwists()
 
     def _playEnigma(self):
         super(SpinCircles, self)._playEnigma()
+        self.__cancelInputChain()
         self.__DataPreparation()
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object, Cb=self.__complete) as tc_m:
             with tc_m.addRepeatTask() as (tc_do, tc_until):
@@ -256,6 +275,7 @@ class SpinCircles(Enigma):
         over_movies = [self.object.getObject(movie_name) for movie_name in overs]
         socket_objects = [self.object.getObject(socket_name) for socket_name in rotate_socket]
         [movie.setEnable(False) for movie in over_movies]
+        self.removeViewNotify()
         self.socket_views = dict(zip(socket_objects, over_movies))
         self.SocketEnter = Notification.addObserver(Notificator.onSocketMouseEnter, self.onSocketEntered)
         pass
@@ -291,10 +311,9 @@ class SpinCircles(Enigma):
         pass
 
     def removeViewNotify(self):
-        if self.SocketEnter is not None:
-            Notification.removeObserver(self.SocketEnter)
-            pass
-        pass
+        observer = self.SocketEnter
+        self.SocketEnter = None
+        Notification.removeObserver(observer)
 
     def RestoreTwist(self):
         for twist in self.TwistCollection.values():

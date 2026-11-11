@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
 
@@ -26,17 +25,17 @@ class HintActionUsePet(MixinObject, HintAction):
         return True
         pass
 
-    def _onAction(self, hint):
+    def _onActionStart(self, hint):
+        self._runScrolling(hint)
+
+    def _onScroll(self, source):
         # print "HintActionDefault._onAction:type = %s, "%(self.getType()), self.InventoryItem.getName()
 
-        with TaskManager.createTaskChain(Name="HintActionUsePet_Scrolling") as tc:
-            PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling", "PolicyInventoryScrollingDefault")
-            tc.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
-            tc.addFunction(self.showHint)
-            pass
+        PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling", "PolicyInventoryScrollingDefault")
+        source.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
         pass
 
-    def showHint(self):
+    def _onAction(self, source, hint):
         # print "showHint"
         InventoryItemEntity = self.InventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
@@ -55,73 +54,72 @@ class HintActionUsePet(MixinObject, HintAction):
                 pass
             pass
         else:
-            return False
+            return
         pass
 
-        with TaskManager.createTaskChain(Name="HintActionUsePet_Hint") as tc:
+        PolicyHintWay = PolicyManager.getPolicy("HintWay")
+        source.addTask(PolicyHintWay, Position=PositionTo1)
+        PolicyHintWayInterrupt = PolicyManager.getPolicy("HintWayInterrupt")
+        source.addCallback(self.appendInterruptCb, PolicyHintWayInterrupt)
+
+        with source.addParallelTask(2) as (tc_target, tc_way):
+            PolicyHintInventoryTargetInterrupt = PolicyManager.getPolicy("HintInventoryTargetInterrupt")
+            tc_target.addCallback(self.appendInterruptCb, PolicyHintInventoryTargetInterrupt)
+
+            PolicyHintInventoryTarget = PolicyManager.getPolicy("HintInventoryTarget")
+            tc_target.addTask(PolicyHintInventoryTarget, Position=PositionTo1)
+            tc_target.addTask(PolicyHintInventoryTargetInterrupt)
+            tc_target.addCallback(self.removeInterruptCb, PolicyHintInventoryTargetInterrupt)
+
+            PolicyHintInventoryTargetLoop = PolicyManager.getPolicy("HintInventoryTargetLoop")
+            tc_target.addTask(PolicyHintInventoryTargetLoop, Position=PositionTo1)
+
+            PolicyHintInventoryTargetLoopInterrupt = PolicyManager.getPolicy("HintInventoryTargetLoopInterrupt")
+            tc_target.addCallback(self.appendInterruptCb, PolicyHintInventoryTargetLoopInterrupt)
+
+            tc_way.addTask(PolicyHintWayInterrupt)
+            tc_way.addCallback(self.removeInterruptCb, PolicyHintWayInterrupt)
+
             PolicyHintWay = PolicyManager.getPolicy("HintWay")
-            tc.addTask(PolicyHintWay, Position=PositionTo1)
-            PolicyHintWayInterrupt = PolicyManager.getPolicy("HintWayInterrupt")
-            tc.addCallback(self.appendInterruptCb, PolicyHintWayInterrupt)
+            tc_way.addTask(PolicyHintWay, Point=PositionTo1, Position=PositionTo2)
+            tc_way.addCallback(self.appendInterruptCb, PolicyHintWayInterrupt)
+            with tc_way.addParallelTask(2) as (tc_way2, tc_target2):
+                tc_way2.addTask(PolicyHintWayInterrupt)
+                tc_way2.addCallback(self.removeInterruptCb, PolicyHintWayInterrupt)
 
-            with tc.addParallelTask(2) as (tc_target, tc_way):
-                PolicyHintInventoryTargetInterrupt = PolicyManager.getPolicy("HintInventoryTargetInterrupt")
-                tc_target.addCallback(self.appendInterruptCb, PolicyHintInventoryTargetInterrupt)
+                PolicyHintTargetInterrupt = PolicyManager.getPolicy("HintTargetInterrupt")
+                tc_target2.addCallback(self.appendInterruptCb, PolicyHintTargetInterrupt)
 
-                PolicyHintInventoryTarget = PolicyManager.getPolicy("HintInventoryTarget")
-                tc_target.addTask(PolicyHintInventoryTarget, Position=PositionTo1)
-                tc_target.addTask(PolicyHintInventoryTargetInterrupt)
-                tc_target.addCallback(self.removeInterruptCb, PolicyHintInventoryTargetInterrupt)
+                PolicyHintTarget = PolicyManager.getPolicy("HintTarget")
+                tc_target2.addTask(PolicyHintTarget, Position=PositionTo2)
 
-                PolicyHintInventoryTargetLoop = PolicyManager.getPolicy("HintInventoryTargetLoop")
-                tc_target.addTask(PolicyHintInventoryTargetLoop, Position=PositionTo1)
+                tc_target2.addTask(PolicyHintTargetInterrupt)
+                tc_target2.addCallback(self.removeInterruptCb, PolicyHintTargetInterrupt)
 
-                PolicyHintInventoryTargetLoopInterrupt = PolicyManager.getPolicy("HintInventoryTargetLoopInterrupt")
-                tc_target.addCallback(self.appendInterruptCb, PolicyHintInventoryTargetLoopInterrupt)
+                PolicyHintTargetLoop = PolicyManager.getPolicy("HintTargetLoop")
+                tc_target2.addTask(PolicyHintTargetLoop, Position=PositionTo2)
 
-                tc_way.addTask(PolicyHintWayInterrupt)
-                tc_way.addCallback(self.removeInterruptCb, PolicyHintWayInterrupt)
-
-                PolicyHintWay = PolicyManager.getPolicy("HintWay")
-                tc_way.addTask(PolicyHintWay, Point=PositionTo1, Position=PositionTo2)
-                tc_way.addCallback(self.appendInterruptCb, PolicyHintWayInterrupt)
-                with tc_way.addParallelTask(2) as (tc_way2, tc_target2):
-                    tc_way2.addTask(PolicyHintWayInterrupt)
-                    tc_way2.addCallback(self.removeInterruptCb, PolicyHintWayInterrupt)
-
-                    PolicyHintTargetInterrupt = PolicyManager.getPolicy("HintTargetInterrupt")
-                    tc_target2.addCallback(self.appendInterruptCb, PolicyHintTargetInterrupt)
-
-                    PolicyHintTarget = PolicyManager.getPolicy("HintTarget")
-                    tc_target2.addTask(PolicyHintTarget, Position=PositionTo2)
-
-                    tc_target2.addTask(PolicyHintTargetInterrupt)
-                    tc_target2.addCallback(self.removeInterruptCb, PolicyHintTargetInterrupt)
-
-                    PolicyHintTargetLoop = PolicyManager.getPolicy("HintTargetLoop")
-                    tc_target2.addTask(PolicyHintTargetLoop, Position=PositionTo2)
-
-                    PolicyHintTargetLoopInterrupt = PolicyManager.getPolicy("HintTargetLoopInterrupt")
-                    tc_target2.addCallback(self.appendInterruptCb, PolicyHintTargetLoopInterrupt)
-                    pass
+                PolicyHintTargetLoopInterrupt = PolicyManager.getPolicy("HintTargetLoopInterrupt")
+                tc_target2.addCallback(self.appendInterruptCb, PolicyHintTargetLoopInterrupt)
                 pass
-            tc.addFunction(self.setEnd)
             pass
+        source.addFunction(self.setEnd)
         pass
 
     def _onEnd(self):
-        if TaskManager.existTaskChain("HintActionUsePet_Scrolling") is True:
-            TaskManager.cancelTaskChain("HintActionUsePet_Scrolling")
-            pass
-
-        if TaskManager.existTaskChain("HintActionUsePet_Hint") is True:
-            TaskManager.cancelTaskChain("HintActionUsePet_Hint")
-            pass
+        super(HintActionUsePet, self)._onEnd()
 
         if len(self.listInterrupt) == 0:
             return
 
-        with TaskManager.createTaskChain(Cb=self.listInterruptClean) as tc:
-            with tc.addParallelTask(len(self.listInterrupt)) as tc_chains:
-                for tc_chain, policyName in zip(tc_chains, self.listInterrupt):
-                    tc_chain.addTask(policyName)
+        self._runEndEffect()
+
+    def _onEndEffect(self, source):
+        with source.addParallelTask(len(self.listInterrupt)) as tc_chains:
+            for tc_chain, policyName in zip(tc_chains, self.listInterrupt):
+                tc_chain.addTask(policyName)
+
+    def _onEndEffectComplete(self, isSkip):
+        super(HintActionUsePet, self)._onEndEffectComplete(isSkip)
+
+        self.listInterruptClean(isSkip)

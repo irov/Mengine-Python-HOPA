@@ -7,16 +7,21 @@ class HogPenalty(BaseEntity):
     def __init__(self):
         super(HogPenalty, self).__init__()
         self.ClickObserver = None
+        self.MouseMove = None
+        self.tc_penalty = None
         self.clicks = 0
         self.penalty = 10
         self.LegitTime = None
         self.timming = []
         self.MovieEntity = None
+        self.penaltyActive = False
+        self.penaltySocketBlock = None
 
         pass
 
     def _onActivate(self):
         super(HogPenalty, self)._onActivate()
+        self.__cleanUp()
         self.UpdateDiffcultyParams()
         self.prepareMovie()
         self.ClickObserver = Notification.addObserver(Notificator.onMouseButtonEvent, self.__clickWatcher)
@@ -25,9 +30,28 @@ class HogPenalty(BaseEntity):
 
     def _onDeactivate(self):
         super(HogPenalty, self)._onDeactivate()
-        Notification.removeObserver(self.ClickObserver)
-        if self.MovieEntity:
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(HogPenalty, self)._onFinalize()
+
+        self.__cleanUp()
+
+    def __cleanUp(self):
+        if self.ClickObserver is not None:
+            Notification.removeObserver(self.ClickObserver)
+            self.ClickObserver = None
+
+        if self.MouseMove is not None:
+            Notification.removeObserver(self.MouseMove)
+            self.MouseMove = None
+
+        self.__cancelPenalty()
+
+        if self.MovieEntity is not None:
             self.MovieEntity.removeFromParent()
+            self.MovieEntity = None
+        self.timming = []
 
     def prepareMovie(self):
         Movie = self.object.getObject("Movie_Penalty")
@@ -37,7 +61,8 @@ class HogPenalty(BaseEntity):
         if event.isDown is True:
             return False
 
-        self.MouseMove = Notification.addObserver(Notificator.onMouseMove, self.updatePosition)
+        if self.MouseMove is None:
+            self.MouseMove = Notification.addObserver(Notificator.onMouseMove, self.updatePosition)
 
         clicks = len(self.timming)
         if clicks < 10:
@@ -50,6 +75,8 @@ class HogPenalty(BaseEntity):
         pastTime = self.timming[-10]
 
         if presentTime - pastTime <= self.LegitTime:
+            self.__cancelPenalty()
+
             if self.object.hasObject("Socket_Block"):
                 SocketBlock = self.object.getObject("Socket_Block")
                 SocketBlock.setInteractive(True)
@@ -74,14 +101,19 @@ class HogPenalty(BaseEntity):
             MovieEn.setOrigin(origin)
             Movie.setPosition(arrowPosition)
 
-            with TaskManager.createTaskChain() as tc:
+            # the arrow and the block are restored by __restorePenalty, also when the chain is cancelled
+            self.penaltyActive = True
+            self.penaltySocketBlock = SocketBlock
+
+            chain = TaskManager.createTaskChain()
+            self.tc_penalty = chain
+            with chain as tc:
                 tc.addEnable(Movie)
                 tc.addTask("TaskMoviePlay", Movie=Movie)
-                tc.addFunction(arrow_node.enable)
-                tc.addDisable(Movie)
-                tc.addFunction(self.unblock, SocketBlock)
+                tc.addFunction(self.__onPenaltyEnd)
             #            Movie.setPlay(True)
             Notification.removeObserver(self.MouseMove)
+            self.MouseMove = None
 
             pass
         time = Mengine.getTime()
@@ -98,7 +130,38 @@ class HogPenalty(BaseEntity):
         return False
         pass
 
+    def __onPenaltyEnd(self):
+        self.tc_penalty = None
+        self.__restorePenalty()
+
+    def __cancelPenalty(self):
+        chain = self.tc_penalty
+        self.tc_penalty = None
+        if chain is not None:
+            chain.cancel()
+
+        self.__restorePenalty()
+
+    def __restorePenalty(self):
+        if self.penaltyActive is False:
+            return
+
+        self.penaltyActive = False
+
+        SocketBlock = self.penaltySocketBlock
+        self.penaltySocketBlock = None
+
+        arrow_node = Mengine.getArrowNode()
+        arrow_node.enable()
+
+        if self.object is not None and self.object.hasObject("Movie_Penalty") is True:
+            Movie = self.object.getObject("Movie_Penalty")
+            Movie.setEnable(False)
+
+        self.unblock(SocketBlock)
+
     def unblock(self, Socket):
+        self.tc_penalty = None
         if Socket:
             Socket.setBlock(False)
             Socket.setInteractive(False)

@@ -55,6 +55,9 @@ class HOGFXPartsGathering(Enigma):
 
     def _AllWork(self):
         for item in self.items:
+            # reset runs this again: a second chain with the same name could never be cancelled
+            TaskManager.cancelTaskChain("HOGFindItem%s" % item.name, exist=False)
+
             with TaskManager.createTaskChain(Name="HOGFindItem%s" % item.name, Group=self.ItemsGroup) as tc:
                 if item.name not in self.HOGInventory.getFoundItems():
                     tc.addTask("AliasHOGFXPartsGatheringFindItem", HOG=self.object,

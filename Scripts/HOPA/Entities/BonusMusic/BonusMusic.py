@@ -15,6 +15,12 @@ class BonusMusic(BaseEntity):
         self.music_plates = {}
         self.bg = None
         self.current_plate = None
+        self.scrollbar_volume = None
+        self.scrollbar_volume_observer = None
+        self.scene_effect_open_popup_save_music = None
+        self.scene_effect_close_popup_save_music = None
+        self.tc_play_music = None
+        self.tc_save_music = None
 
         self.b_is_music_button_active = False
 
@@ -198,7 +204,9 @@ class BonusMusic(BaseEntity):
         def _clickUp(perc):
             Mengine.changeCurrentAccountSetting("MusicVolume", unicode(perc))
 
-        self.scrollbar_volume.onScroll.addObserver(_clickUp)
+        if self.scrollbar_volume_observer is not None:
+            self.scrollbar_volume.onScroll.removeObserver(self.scrollbar_volume_observer)
+        self.scrollbar_volume_observer = self.scrollbar_volume.onScroll.addObserver(_clickUp)
 
     def __cleanUp(self):
         if self.tc_play_music:
@@ -209,5 +217,12 @@ class BonusMusic(BaseEntity):
             self.tc_save_music.cancel()
         self.tc_save_music = None
 
+        if self.scrollbar_volume_observer is not None:
+            if self.scrollbar_volume is not None:
+                self.scrollbar_volume.onScroll.removeObserver(self.scrollbar_volume_observer)
+            self.scrollbar_volume_observer = None
+
         for plate in self.music_plates.values():
             plate.cleanUp()
+        self.music_plates = {}
+        self.current_plate = None

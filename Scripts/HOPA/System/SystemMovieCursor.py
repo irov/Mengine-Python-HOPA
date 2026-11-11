@@ -4,11 +4,10 @@ from HOPA.ArrowBlackListManager import ArrowBlackListManager
 from HOPA.CursorManager import CursorManager
 
 class SystemMovieCursor(System):
-    custom_arrows = {}
-
     def __init__(self):
         super(SystemMovieCursor, self).__init__()
         self._update_enable_observer = None
+        self.custom_arrows = {}
 
     def _onInitialize(self):
         movie_types = ["ObjectMovie2", "ObjectMovie"]
@@ -19,10 +18,17 @@ class SystemMovieCursor(System):
             socket_name = params.getSocketName()
             if socket_name is None:
                 continue
-            SystemMovieCursor.custom_arrows[obj] = params
+            self.custom_arrows[obj] = params
 
     def _onFinalize(self):
+        super(SystemMovieCursor, self)._onFinalize()
+
         self._removeUpdateEnableObserver()
+        self.custom_arrows = {}
+
+    def _onStop(self):
+        super(SystemMovieCursor, self)._onStop()
+        self._update_enable_observer = None
 
     def _removeUpdateEnableObserver(self):
         if self._update_enable_observer is not None:
@@ -30,7 +36,7 @@ class SystemMovieCursor(System):
             self._update_enable_observer = None
 
     def _onRun(self):
-        for obj, params in SystemMovieCursor.custom_arrows.items():
+        for obj, params in self.custom_arrows.items():
             self.addEvent(obj.onMovieSocketEnterEvent, self._onMovieEnter, params)
             self.addEvent(obj.onMovieSocketLeaveEvent, self._onMovieLeave, params)
         return True
@@ -50,6 +56,8 @@ class SystemMovieCursor(System):
 
         CursorManager.s_onObject = obj
 
+        # a previous enter may have had no paired leave (scene or zoom change)
+        self._removeUpdateEnableObserver()
         self._update_enable_observer = self.addEvent(obj.onMovieUpdateEnable, self._onMovieEnable, obj, params)
 
         return False

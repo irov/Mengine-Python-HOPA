@@ -39,6 +39,11 @@ class SpellRune(object):
     def getRuneType(self):
         return self.rune_type
 
+    def cleanUp(self):
+        self.movies = {}
+        self.SPELLS_UI_OBJECT = None
+        self.sys_spells_ui_rune = None
+
 
 class SpellButton(object):
     SPELLS_UI_SLOTS_MOVIE = None
@@ -227,8 +232,25 @@ class SpellButton(object):
         source.addNotify(Notificator.onSpellUISpellButtonClick, self.spell_type, self.cur_state)
 
     def cleanUp(self):
-        for obj_movie in self.movies.values():
-            self.SPELLS_UI_OBJECT.getEntityNode().addChild(obj_movie.getEntityNode())
+        movies = self.movies
+        self.movies = {}
+        obj = self.SPELLS_UI_OBJECT
+        # on deactivation the objects may already be inactive: getEntityNode() would return None
+        if obj is not None and obj.isActive() is True:
+            node = obj.getEntityNode()
+            for obj_movie in movies.values():
+                if obj_movie.isActive() is False:
+                    continue
+                movie_node = obj_movie.getEntityNode()
+                node.addChild(movie_node)
+
+        for rune in self.spell_runes.values():
+            rune.cleanUp()
+
+        self.spell_runes = {}
+        self.cur_movie = None
+        self.sys_spells_ui_component = None
+        self.SPELLS_UI_OBJECT = None
 
 
 class SpellsUI(BaseEntity):
@@ -256,14 +278,18 @@ class SpellsUI(BaseEntity):
                 race.addScope(spell_button.scopeClickCurMovieSocket)
 
     def __cleanUp(self):
-        if self.__tc is not None:
-            self.__tc.cancel()
-            self.__tc = None
+        chain = self.__tc
+        self.__tc = None
+        if chain is not None:
+            chain.cancel()
 
-        for spell_button in self.spell_buttons.values():
+        spell_buttons = self.spell_buttons
+        self.spell_buttons = {}
+        for spell_button in spell_buttons.values():
             spell_button.cleanUp()
 
-        self.spell_buttons = {}
+        SpellButton.SPELLS_UI_OBJECT = None
+        SpellButton.SPELLS_UI_SLOTS_MOVIE = None
 
     def _onPreparation(self):
         super(SpellsUI, self)._onPreparation()
@@ -284,6 +310,17 @@ class SpellsUI(BaseEntity):
         super(SpellsUI, self)._onActivate()
         self.__runTaskChain()
 
+    def _onDeactivate(self):
+        super(SpellsUI, self)._onDeactivate()
+
+        # _onPreparationDeactivate is not an entity hook: _onPreparation and _onActivate rebuild the buttons and the chain
+        self.__cleanUp()
+
     def _onPreparationDeactivate(self):
         super(SpellsUI, self)._onPreparationDeactivate()
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(SpellsUI, self)._onFinalize()
+
         self.__cleanUp()

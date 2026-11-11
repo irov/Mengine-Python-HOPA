@@ -19,6 +19,12 @@ class NewspaperManager(Manager):
             self.repeat = repeat
 
     @staticmethod
+    def _onFinalize():
+        NewspaperManager.s_newspapers = {}
+        NewspaperManager.s_newspaperIds = {}
+        NewspaperManager.s_newspapersOpens = []
+
+    @staticmethod
     def loadParams(module, param):
         records = DatabaseManager.getDatabaseRecords(module, param)
 

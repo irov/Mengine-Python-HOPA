@@ -22,7 +22,7 @@ class SystemObjectiveShow(System):
             pass
 
             pass
-        pass
+        return True
 
     def _onStop(self):
         if TaskManager.existTaskChain("ButtonObjectiveClick"):

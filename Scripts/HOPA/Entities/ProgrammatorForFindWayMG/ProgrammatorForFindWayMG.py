@@ -123,6 +123,11 @@ class ProgrammatorForFindWayMG(Enigma):
         super(ProgrammatorForFindWayMG, self)._onDeactivate()
         self._cleanUp()
 
+    def _onFinalize(self):
+        super(ProgrammatorForFindWayMG, self)._onFinalize()
+
+        self._cleanUp()
+
     # ==================================================================================================================
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
@@ -153,9 +158,8 @@ class ProgrammatorForFindWayMG(Enigma):
         self.chipOnArrow = None
 
         if self.IsSkip is True:
-            with TaskManager.createTaskChain() as skip_tc:
-                skip_tc.addBlock()
-                return
+            # nothing to reset while skipping (was a never-ending addBlock chain)
+            return
         if TaskManager.existTaskChain('Skip'):
             TaskManager.cancelTaskChain('Skip')
 
@@ -486,15 +490,22 @@ class ProgrammatorForFindWayMG(Enigma):
     # ==================================================================================================================
 
     def _cleanUp(self):
-        if self.tc is not None:
-            self.tc.cancel()
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
         self.tc = None
         self.param = None
 
         for chip in self.chips.values():
             chip.node.removeFromParent()
             chip.movie.setEnable(False)
+            chip.place = None
         self.chips = {}
+        for place in self.places.values():
+            place.chip = None
+        self.places = {}
+        self.cells = {}
         if self.PlayMovie != None:
             self.PlayMovie.getEntityNode().removeFromParent()
             self.PlayMovie = None

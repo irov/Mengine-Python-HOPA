@@ -27,8 +27,8 @@ class HintActionBoneUse(HintActionDefault):
         return Position
         pass
 
-    def _onAction(self, hint):
-        super(HintActionBoneUse, self)._onAction(hint)
+    def onAction(self, hint):
+        super(HintActionBoneUse, self).onAction(hint)
         BoneBoardObject = DemonManager.getDemon("BoneBoard")
         BoneBoardEntity = BoneBoardObject.getEntity()
         BoneBoardEntity.showBoard()

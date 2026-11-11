@@ -25,7 +25,7 @@ class SystemMana(System):
         self.onInventoryUpObserver = Notification.addObserver(Notificator.onInventoryUp, self.__onInventoryUp)
         self.onManaIncreaseObserver = Notification.addObserver(Notificator.onManaIncrease, self.__onManaIncrease)
         self.onManaDeacreaseObserver = Notification.addObserver(Notificator.onManaDecrease, self.__onManaDecrease)
-        pass
+        return True
 
     def _onStop(self):
         Notification.removeObserver(self.onManaHideObserver)

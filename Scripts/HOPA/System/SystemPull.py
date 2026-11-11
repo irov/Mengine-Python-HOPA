@@ -16,10 +16,17 @@ class SystemPull(System):
         self.addObserver(Notificator.onPullWrong, self.__onPullWrong)
         self.addObserver(Notificator.onSocketMouseEnter, self.__onSocketMouseEnter)
         self.addObserver(Notificator.onSocketMouseLeave, self.__onSocketMouseLeave)
-        pass
+        self.addObserver(Notificator.onSessionRemoveComplete, self.__onSessionRemoveComplete)
+        return True
 
     def _onStop(self):
+        self.watched_sockets = {}
         pass
+
+    def __onSessionRemoveComplete(self):
+        # pull aliases of the removed session are cancelled without onPullArrowDetach
+        self.watched_sockets = {}
+        return False
 
     def __onPullArrowAttach(self, direction, transform, socket):
         self.watched_sockets[socket] = direction
@@ -27,7 +34,7 @@ class SystemPull(System):
         pass
 
     def __onPullArrowDetach(self, direction, socket):
-        del self.watched_sockets[socket]
+        self.watched_sockets.pop(socket, None)
         return False
         pass
 

@@ -23,6 +23,7 @@ class CirclePairElements(Enigma):
         self.delayForShowing = None
         self.cancelTiming = None
         self.Save = []
+        self.tc_turn = None
         pass
 
     def _onActivate(self):
@@ -58,11 +59,22 @@ class CirclePairElements(Enigma):
         pass
 
     def clearance(self):
+        if self.tc_turn is not None:
+            self.tc_turn.cancel()
+            self.tc_turn = None
+            pass
+
+        for symbol in self.symbolBySocket.values():
+            if symbol.isInitialized() is True:
+                symbol.onFinalize()
+                pass
+            pass
+
         for object in self.garbageList:
             if object is None:
                 continue
                 pass
-            object.removeFromParent()
+            object.onDestroy()
             pass
 
         self.symbolBySocket = {}
@@ -270,7 +282,8 @@ class CirclePairElements(Enigma):
             return
             pass
 
-        with TaskManager.createTaskChain() as tc:
+        self.tc_turn = TaskManager.createTaskChain()
+        with self.tc_turn as tc:
             with GuardBlockInput(tc) as guard_tc:
                 guard_tc.addDelay(self.delayForShowing)
                 with guard_tc.addParallelTask(2) as (tc_1, tc_2):

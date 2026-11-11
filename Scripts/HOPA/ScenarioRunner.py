@@ -20,6 +20,7 @@ class ScenarioRunner(Initializer):
         self.Scenario = Scenario
 
         self.macroCommands = {}
+        self.generatedCommands = []
 
         self.Name = Name
 
@@ -38,6 +39,13 @@ class ScenarioRunner(Initializer):
         super(ScenarioRunner, self)._onFinalize()
 
         self.stop()
+
+        commands = self.generatedCommands
+        self.generatedCommands = []
+
+        for command in commands:
+            if command.isInitialized() is True:
+                command.onFinalize()
 
         self.tcs = []
 
@@ -106,6 +114,9 @@ class ScenarioRunner(Initializer):
 
         return True
         pass
+
+    def addGeneratedCommand(self, Command):
+        self.generatedCommands.append(Command)
 
     def createMacroCommand(self, Command):
         CommandType = Command.getCommandType()

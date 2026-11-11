@@ -1,6 +1,5 @@
 from Foundation.SystemManager import SystemManager
 from Foundation.Task.MixinGroup import MixinGroup
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.EnigmaManager import EnigmaManager
@@ -31,24 +30,14 @@ class CruiseActionEnigma(MixinGroup, CruiseAction):
 
         return True
 
-    def _onAction(self):
-        if TaskManager.existTaskChain("CruiseActionDefault") is True:
-            TaskManager.cancelTaskChain("CruiseActionDefault")
-
-        with TaskManager.createTaskChain(Name="CruiseActionDefault") as tc:
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onEnigmaSkip)
-            tc.addDelay(self.move_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+    def _onAction(self, source):
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onEnigmaSkip)
+        source.addDelay(self.move_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)
 
     def getHint_Position(self):
         SystemHint = SystemManager.getSystem("SystemHint")
         Hint = SystemHint.getHintObject()
         P0 = Hint.getPoint()
         return P0
-
-    def _onEnd(self):
-        super(CruiseActionEnigma, self)._onEnd()
-
-        if TaskManager.existTaskChain("CruiseActionDefault") is True:
-            TaskManager.cancelTaskChain("CruiseActionDefault")

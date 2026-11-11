@@ -15,7 +15,8 @@ class TaskMousePull(MixinObserver, Task):
         self.BlockDistance = 30
 
         self.baseDirection = map(self.rotateVector, TaskMousePull.s_angle)
-        self.base = dict(zip(TaskMousePull.s_directions, self.baseDirection))
+        base_direction_pairs = zip(TaskMousePull.s_directions, self.baseDirection)
+        self.baseDirections = dict(base_direction_pairs)
         self.sigma = 20 * 3.14 / 180
         pass
 
@@ -50,7 +51,7 @@ class TaskMousePull(MixinObserver, Task):
             Notification.notify(Notificator.onMousePull, self.Direction, False)  # min dist not accept
             return True
 
-        base = self.base[self.Direction]
+        base = self.baseDirections[self.Direction]
         self.validateDirection(base, pullVector)
         return True
 

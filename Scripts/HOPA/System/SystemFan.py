@@ -20,7 +20,7 @@ class SystemFan(System):
         self.addObserver(Notificator.onFanOpen, self.__openFan)
         self.addObserver(Notificator.onFanClose, self.__closeFan)
         self.addObserver(Notificator.onFanCloseDone, self._removeCurrentFan)
-        pass
+        return True
 
     def _onStop(self):
         pass

@@ -41,6 +41,20 @@ class BackgroundTimer(object):
         self.tc_alpha_to = None
         self.onInGameMenuShow = Notification.addObserver(Notificator.onInGameMenuShow, self.togglePauseTimerOnInGameMenu)
 
+    def finalize(self):
+        if self.onInGameMenuShow is not None:
+            Notification.removeObserver(self.onInGameMenuShow)
+            self.onInGameMenuShow = None
+
+        if self.tc_alpha_to is not None:
+            self.tc_alpha_to.cancel()
+            self.tc_alpha_to = None
+
+        self.cur_movie = None
+        self.movie_timer = None
+        self.movie_win = None
+        self.movie_fail = None
+
     def togglePauseTimerOnInGameMenu(self, state):
         if state is not None:
             self.movie_timer.setParam("Pause", state)
@@ -329,6 +343,8 @@ class DrawMagicSymbols(Enigma):
 
         ''' create background timer '''
         if self.params.use_background_timer_game_rule:
+            if self.background_timer is not None:
+                self.background_timer.finalize()
             self.background_timer = BackgroundTimer(self_object_get_object(self.params.background_timer_movie_name),
                                                     self_object_get_object(self.params.background_win_movie_name),
                                                     self_object_get_object(self.params.background_fail_movie_name),
@@ -808,6 +824,14 @@ class DrawMagicSymbols(Enigma):
 
         super(DrawMagicSymbols, self)._onDeactivate()
         self.__cleanUp()
+
+    def _onFinalize(self):
+        super(DrawMagicSymbols, self)._onFinalize()
+
+        self.__cleanUp()
+        if self.background_timer is not None:
+            self.background_timer.finalize()
+            self.background_timer = None
 
     # -------------- Enigma control ------------------------------------------------------------------------------------
     def _playEnigma(self):

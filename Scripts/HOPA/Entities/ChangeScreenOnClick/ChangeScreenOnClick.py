@@ -56,6 +56,21 @@ class ChangeScreenOnClick(Enigma):
     def _onDeactivate(self):
         self._cleanFull()
 
+    def _onFinalize(self):
+        super(ChangeScreenOnClick, self)._onFinalize()
+
+        tc = self.tc
+        tc_2 = self.tc_2
+        self.tc = None
+        self.tc_2 = None
+
+        if tc is not None:
+            tc.cancel()
+
+        if tc_2 is not None:
+            tc_2.cancel()
+        self._cleanFull()
+
     # entity setup
 
     def _prepare(self):
@@ -413,12 +428,16 @@ class ChangeScreenOnClick(Enigma):
     # ---- Cleaning ----------------------------------------------------------------------------------------------------
 
     def _cleanFull(self):
-        if self.tc is not None:
-            self.tc.cancel()
-            self.tc = None
-        if self.tc_2 is not None:
-            self.tc_2.cancel()
-            self.tc_2 = None
+        tc = self.tc
+        tc_2 = self.tc_2
+        self.tc = None
+        self.tc_2 = None
+
+        if tc is not None:
+            tc.cancel()
+
+        if tc_2 is not None:
+            tc_2.cancel()
 
         self.param = None
 

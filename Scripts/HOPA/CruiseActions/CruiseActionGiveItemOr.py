@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.PolicyManager import PolicyManager
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.ItemManager import ItemManager
 
@@ -25,23 +24,13 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
 
         return False
 
-    def _onAction(self):
-        if TaskManager.existTaskChain("CruiseActionUseInventoryItem_Scrolling") is True:
-            TaskManager.cancelTaskChain("CruiseActionUseInventoryItem_Scrolling")
-            pass
-
-        if TaskManager.existTaskChain("CruiseActionUseInventoryItem_Cruise") is True:
-            TaskManager.cancelTaskChain("CruiseActionUseInventoryItem_Cruise")
-            pass
-
-        with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Scrolling") as tc:
-            PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
-            tc.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
-            tc.addFunction(self.showCruise)
-            pass
+    def _onAction(self, source):
+        PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
+        source.addTask(PolicyInventoryScrolling, InventoryItem=self.InventoryItem)
+        source.addScope(self.showCruise)
         pass
 
-    def showCruise(self):
+    def showCruise(self, source):
         InventoryItemEntity = self.InventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
 
@@ -67,12 +56,7 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
 
                 PositionTo2 = HotSpot.getWorldPolygonCenter()
                 pass
-            pass
 
-        with TaskManager.createTaskChain(Name="CruiseActionUseInventoryItem_Cruise") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        super(CruiseActionGiveItemOr, self)._onEnd()
+        source.addTask("AliasCruiseControlAction", Position=PositionTo1, Object=self.InventoryItem)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo2, Object=self.Object)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

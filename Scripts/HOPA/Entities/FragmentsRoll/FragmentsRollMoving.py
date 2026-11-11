@@ -19,6 +19,14 @@ class FragmentsRollMoving(object):
         pass
 
     def finalize(self):
+        if self.movieObject is not None:
+            name = self.movieObject.getName()
+            forward_task_name = "%s_PLAY_FORWARD" % (name)
+            TaskManager.cancelTaskChain(forward_task_name, exist=False)
+
+            backward_task_name = "%s_PLAY_BACKWARD" % (name)
+            TaskManager.cancelTaskChain(backward_task_name, exist=False)
+
         if self.attachNode is not None:
             Mengine.destroyNode(self.attachNode)
             self.attachNode = None

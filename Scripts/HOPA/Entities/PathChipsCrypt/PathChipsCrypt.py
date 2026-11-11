@@ -20,9 +20,15 @@ class PathChipsCrypt(Enigma):
         self.observerBeginMovingChip = None
         self.completeEffects = {}
         self.chipCounter = 0
+        self.GameData = None
         self.generatedObjects = []
         self.movieSoundMoveChipName = "Movie2_Sound_MoveChip"
         pass
+
+    def _onFinalize(self):
+        super(PathChipsCrypt, self)._onFinalize()
+
+        self.finalize()
 
     def finalize(self):
         for chipElement in self.chipElements:
@@ -56,6 +62,9 @@ class PathChipsCrypt(Enigma):
         self.generatedObjects = []
         self.transporters = []
         self.chipElements = []
+        self.completeEffects = {}
+        self.GameData = None
+        Path.finalize()
         pass
 
     def _autoWin(self):

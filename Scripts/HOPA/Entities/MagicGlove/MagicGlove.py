@@ -34,6 +34,7 @@ class MagicGlove(BaseEntity):
 
     def __init__(self):
         super(MagicGlove, self).__init__()
+        self.tc = None
         self.movie_buttons = {}
         self.current_state_button = None
         self.callbacks = {
@@ -47,6 +48,13 @@ class MagicGlove(BaseEntity):
             "wrongRune": "ID_MIND_GloveWrongSpell",
             "chargedRune": "ID_MIND_MagicGlove_IsReady"
         }
+
+    def _onFinalize(self):
+        super(MagicGlove, self)._onFinalize()
+        self._cleanUp()
+        self.callbacks = {}
+        self.movie_buttons = {}
+        self.current_state_button = None
 
     def __cb_scope_idle(self, source):
         # source.addPrint('__cb_scope_idle')

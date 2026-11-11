@@ -9,15 +9,15 @@ from MagicVisionManager import MagicVisionManager
 class SystemMagicVision(System):
     def __init__(self):
         super(SystemMagicVision, self).__init__()
-        pass
+        self.MagicVision = None
 
     def _onRun(self):
-        self.onMagicVisionDoneObserver = Notification.addObserver(Notificator.onMagicVisionDone, self.__onMagicVisionDone)
-        self.onMagicVisionStartObserver = Notification.addObserver(Notificator.onMagicVisionStart, self.__onMagicVisionStart)
-        self.onMagicVisionBlockObserver = Notification.addObserver(Notificator.onMagicVisionBlockScene, self.__onBlockScene)
-        self.onMagicVisionUnblockObserver = Notification.addObserver(Notificator.onMagicVisionUnblockScene, self.__onUnblockScene)
+        self.addObserver(Notificator.onMagicVisionDone, self.__onMagicVisionDone)
+        self.addObserver(Notificator.onMagicVisionStart, self.__onMagicVisionStart)
+        self.addObserver(Notificator.onMagicVisionBlockScene, self.__onBlockScene)
+        self.addObserver(Notificator.onMagicVisionUnblockScene, self.__onUnblockScene)
         self.MagicVision = DemonManager.getDemon("MagicVision")
-        pass
+        return True
 
     def __onBlockScene(self, sceneName):
         self.MagicVision.appendParam("BlockedScenes", sceneName)
@@ -61,8 +61,6 @@ class SystemMagicVision(System):
         pass
 
     def _onStop(self):
-        Notification.removeObserver(self.onMagicVisionDoneObserver)
-        Notification.removeObserver(self.onMagicVisionStartObserver)
-        pass
+        self.MagicVision = None
 
     pass

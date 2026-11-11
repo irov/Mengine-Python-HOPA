@@ -1,6 +1,5 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.Task.MixinObjectTemplate import MixinSocket
-from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
 
@@ -29,67 +28,64 @@ class HintActionSocketUseFittingInventoryItem(HintAction, MixinSocket):
         return True
         pass
 
-    def _onAction(self, hint, cb):
+    def _onAction(self, source, hint):
         Point = hint.getPoint()
 
-        with TaskManager.createTaskChain(Name="HintActionSocketUseFittingInventoryItem", Cb=cb) as tc:
-            tc.addTask("TaskSceneLayerGroupEnable", LayerName="HintEffect", Value=True)
+        source.addTask("TaskSceneLayerGroupEnable", LayerName="HintEffect", Value=True)
 
-            tc.addTask("TaskSoundEffect", SoundName="SparklesCircle", Wait=False)
+        source.addTask("TaskSoundEffect", SoundName="SparklesCircle", Wait=False)
 
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintWay", Value=Point)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintWay", Loop=True, Wait=False)
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintWay", Value=Point)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintWay", Loop=True, Wait=False)
 
-            P0 = Point
+        P0 = Point
 
-            InventoryItemEntity = self.InventoryItem.getEntity()
-            Sprite = InventoryItemEntity.getSprite()
+        InventoryItemEntity = self.InventoryItem.getEntity()
+        Sprite = InventoryItemEntity.getSprite()
 
-            P2 = Sprite.getWorldImageCenter()
+        P2 = Sprite.getWorldImageCenter()
 
-            p1x = P0[0] if P0[1] > P2[1] else P2[0]
-            p1y = P2[1] if P0[1] > P2[1] else P0[1]
+        p1x = P0[0] if P0[1] > P2[1] else P2[0]
+        p1y = P2[1] if P0[1] > P2[1] else P0[1]
 
-            P1 = (p1x, p1y)
+        P1 = (p1x, p1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
+        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
                        Speed=600 * 0.001)  # speed fix
 
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
 
-            NP0 = P2
+        NP0 = P2
 
-            SocketEntity = self.Socket.getEntity()
-            HotSpot = SocketEntity.getHotSpot()
+        SocketEntity = self.Socket.getEntity()
+        HotSpot = SocketEntity.getHotSpot()
 
-            NP2 = HotSpot.getWorldPolygonCenter()
+        NP2 = HotSpot.getWorldPolygonCenter()
 
-            np1x = NP0[0] if NP0[1] > NP2[1] else NP2[0]
-            np1y = NP2[1] if NP0[1] > NP2[1] else NP0[1]
+        np1x = NP0[0] if NP0[1] > NP2[1] else NP2[0]
+        np1y = NP2[1] if NP0[1] > NP2[1] else NP0[1]
 
-            NP1 = (np1x, np1y)
+        NP1 = (np1x, np1y)
 
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
+        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
                        Speed=600 * 0.001)  # speed fix
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
 
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintTarget", Loop=True, Wait=False)
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintTarget", Loop=True, Wait=False)
 
-            tc.addTask("TaskSoundEffect", SoundName="Sparklesdisappear", Wait=False, Important=False)
-            tc.addTask("TaskFunction", Fn=self.setEnd)
-            pass
+        source.addTask("TaskSoundEffect", SoundName="Sparklesdisappear", Wait=False, Important=False)
+        source.addTask("TaskFunction", Fn=self.setEnd)
         pass
 
     def _onEnd(self):
-        with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintInventory")
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintTarget")
-            pass
-        if TaskManager.existTaskChain("HintActionSocketUseFittingInventoryItem") is True:
-            TaskManager.cancelTaskChain("HintActionSocketUseFittingInventoryItem")
-            pass
-        pass
+        self._runEndEffect()
+
+        super(HintActionSocketUseFittingInventoryItem, self)._onEnd()
+
+    def _onEndEffect(self, source):
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintInventory")
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintTarget")
 
     pass

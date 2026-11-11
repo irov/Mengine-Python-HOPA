@@ -97,6 +97,21 @@ class ChipsInNet(Enigma):
         super(ChipsInNet, self)._onDeactivate()
         self._cleanUp()
 
+    def _onFinalize(self):
+        super(ChipsInNet, self)._onFinalize()
+
+        tc = self.tc
+        tc_Rrestore = self.tc_Rrestore
+        self.tc = None
+        self.tc_Rrestore = None
+
+        if tc is not None:
+            tc.cancel()
+
+        if tc_Rrestore is not None:
+            tc_Rrestore.cancel()
+        self._cleanUp()
+
     # ==================================================================================================================
 
     @staticmethod
@@ -493,14 +508,20 @@ class ChipsInNet(Enigma):
         source.addFunction(self.enigmaComplete)
 
     def _cleanUp(self):
-        if self.tc is not None:
-            self.tc.cancel()
-        if self.tc_Rrestore is not None:
-            self.tc_Rrestore.cancel()
+        tc = self.tc
+        tc_Rrestore = self.tc_Rrestore
         self.tc = None
         self.tc_Rrestore = None
+
+        if tc is not None:
+            tc.cancel()
+
+        if tc_Rrestore is not None:
+            tc_Rrestore.cancel()
+        self.removeAffector()
         self.param = None
         for chip in self.chips.values():
+            chip.attachedChips = []
             chip.movie.returnToParent()  # chip.node.removeFromParent()
         self.chips = {}
 

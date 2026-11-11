@@ -20,12 +20,28 @@ class ZenElements(Enigma):
         self.DragSystemInstance = None
         self.RotateSystemInstance = None
         self.InteractionBlock = False
+        self.gen_sockets = {}
+        self.action_socket = None
         pass
 
     def _onDeactivate(self):
         super(ZenElements, self)._onDeactivate()
+        # instances stay alive: the game chain still uses them after a zoom reopen (same entity),
+        # they are released in _onFinalize
+        pass
+
+    def _onFinalize(self):
+        super(ZenElements, self)._onFinalize()
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
+        TaskManager.cancelTaskChain(RotateMiniSystem.TaskName, exist=False)
+
+        if self.DragSystemInstance is not None and self.RotateSystemInstance is not None:
+            self.DragSystemInstance.unbound_slots()
+            pass
+        self.clearance()
         self.DragSystemInstance = None
         self.RotateSystemInstance = None
+        self.InteractionBlock = False
         pass
 
     def _stopEnigma(self):

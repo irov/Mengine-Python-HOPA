@@ -1,4 +1,3 @@
-from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 
 
@@ -11,10 +10,7 @@ class HintActionFindHiddenItem(HintAction):  # , MixinObject):
         return True
         pass
 
-    def _onAction(self, hint):
-        with TaskManager.createTaskChain() as tc:
-            tc.addTask("AliasMindPlay", MindID="ID_MIND_FIND_HIDDEN_ITEM")
-            pass
-        pass
+    def _onAction(self, source, hint):
+        source.addTask("AliasMindPlay", MindID="ID_MIND_FIND_HIDDEN_ITEM")
 
     pass

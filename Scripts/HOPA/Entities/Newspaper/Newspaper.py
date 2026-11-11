@@ -205,20 +205,25 @@ class Newspaper(BaseEntity):
             pass
         pass
 
-    def _onDeactivate(self):
-        if TaskManager.existTaskChain("NewspaperShow_%s" % (self.NewspaperID)):
-            TaskManager.cancelTaskChain("NewspaperShow_%s" % (self.NewspaperID))
-            pass
+    def __cleanUp(self):
+        show_task_name = "NewspaperShow_%s" % (self.NewspaperID)
+        TaskManager.cancelTaskChain(show_task_name, exist=False)
 
-        if TaskManager.existTaskChain("NewspaperOpen%s" % (self.NewspaperID)):
-            TaskManager.cancelTaskChain("NewspaperOpen%s" % (self.NewspaperID))
-            pass
+        open_task_name = "NewspaperOpen_%s" % (self.NewspaperID)
+        TaskManager.cancelTaskChain(open_task_name, exist=False)
 
-        if TaskManager.existTaskChain("NewspaperClose%s" % (self.NewspaperID)):
-            TaskManager.cancelTaskChain("NewspaperClose%s" % (self.NewspaperID))
-            pass
-
+        close_task_name = "NewspaperClose_%s" % (self.NewspaperID)
+        TaskManager.cancelTaskChain(close_task_name, exist=False)
         self._cleanData()
-        pass
+
+    def _onDeactivate(self):
+        super(Newspaper, self)._onDeactivate()
+
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(Newspaper, self)._onFinalize()
+
+        self.__cleanUp()
 
     pass

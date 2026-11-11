@@ -468,7 +468,16 @@ class AmuletPowerButton(object):
 
         self.rune_submovies = {}
 
-        for obj_movie in self.movies.values():
+        movies = self.movies
+        self.movies = {}
+        self.movies_states_buttons = {}
+        self.movies_info = {}
+        self.movies_use = {}
+        self.cur_button_movie = None
+        self.current_movie_info = None
+        self.sys_spell_amulet_stone = None
+
+        for obj_movie in movies.values():
             obj_movie.onDestroy()
 
     def getLocked(self):
@@ -696,9 +705,11 @@ class Amulet(object):
             tc.addFunction(self.showInfo_OnHintButton)  #
 
     def disableTCs(self):
-        for tc in self.__tcs:
-            tc.cancel()
+        chains = self.__tcs
         self.__tcs = []
+
+        for chain in chains:
+            chain.cancel()
 
     # //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -707,6 +718,10 @@ class Amulet(object):
 
     def cleanUp(self):
         self.disableTCs()
+        self.power_buttons = {}
+        self.movies_amulet_states = {}
+        self.cur_amulet_movie = None
+        self.button_hint = None
 
 
 class SpellAmulet(BaseEntity):
@@ -756,8 +771,7 @@ class SpellAmulet(BaseEntity):
                         wait_unlock.addListener(Notificator.onSpellAmuletAddPower, Filter=power_button_obj.unlockFilter)
                         change.addScope(power_button_obj.scopeChangeCursorMode)
 
-        tc_close = TaskManager.createTaskChain(Name="SpellAmuletClose", Repeat=True)
-        with tc_close as tc:
+        with TaskManager.createTaskChain(Name="SpellAmuletClose", Repeat=True) as tc:
             with tc.addRaceTask(2) as (idle, interrupt):
                 with idle.addIfTask(self.amulet.isOpen, True) as (true, false):
                     true.addDummy()
@@ -770,19 +784,25 @@ class SpellAmulet(BaseEntity):
                 interrupt.addListener(self.amulet.NOTIFICATOR_AmuletStateChange, Filter=lambda state: state != self.amulet.HIDE)
 
     def __cleanUp(self):
-        if self.__tc is not None:
-            self.__tc.cancel()
-            self.__tc = None
+        chain = self.__tc
+        self.__tc = None
+        if chain is not None:
+            chain.cancel()
 
-        if TaskManager.existTaskChain("SpellAmuletClose") is True:
-            TaskManager.cancelTaskChain("SpellAmuletClose")
+        TaskManager.cancelTaskChain("SpellAmuletClose", exist=False)
 
-        self.amulet.cleanUp()
+        amulet = self.amulet
+        self.amulet = None
+        if amulet is not None:
+            amulet.cleanUp()
 
-        for power_button in self.amulet_power_buttons.values():
+        power_buttons = self.amulet_power_buttons
+        self.amulet_power_buttons = {}
+        for power_button in power_buttons.values():
             power_button.cleanUp()
 
-        self.amulet_power_buttons = {}
+        AmuletPowerButton.AMULET = None
+        AmuletPowerButton.SPELL_AMULET_OBJECT = None
 
     def _onPreparation(self):
         amulet_param = SpellsManager.getSpellAmuletParam()
@@ -812,4 +832,9 @@ class SpellAmulet(BaseEntity):
         self.__runTaskChain()
 
     def _onDeactivate(self):
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(SpellAmulet, self)._onFinalize()
+
         self.__cleanUp()

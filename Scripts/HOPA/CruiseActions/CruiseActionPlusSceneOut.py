@@ -1,5 +1,4 @@
 from Foundation.GroupManager import GroupManager
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -20,12 +19,9 @@ class CruiseActionPlusSceneOut(CruiseAction):
     def onCheck(self):
         return True
 
-    def onAction(self):
+    def _onAction(self, source):
         click_delay = CruiseControlManager.getCruiseClickDelay('CruiseActionPlusSceneOut')
-        if TaskManager.existTaskChain("CruiseActionPlusSceneOut") is True:
-            TaskManager.cancelTaskChain("CruiseActionPlusSceneOut")
 
-        with TaskManager.createTaskChain(Name="CruiseActionPlusSceneOut") as tc:
-            tc.addNotify(Notificator.onItemZoomLeaveOpenZoom)
-            tc.addDelay(click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addNotify(Notificator.onItemZoomLeaveOpenZoom)
+        source.addDelay(click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

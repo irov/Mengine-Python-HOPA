@@ -1,5 +1,4 @@
 from Foundation.Task.MixinObject import MixinObject
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
@@ -31,14 +30,11 @@ class CruiseActionNewspaper(CruiseAction, MixinObject):
     def _onCheck(self):
         return True
 
-    def _onAction(self):
+    def _onAction(self, source):
         PositionTo = self._getCruisePosition(self.Object)
-        if TaskManager.existTaskChain("CruiseActionNewspaper") is True:
-            TaskManager.cancelTaskChain("CruiseActionNewspaper")
 
-        with TaskManager.createTaskChain(Name="CruiseActionNewspaper") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
-            tc.addDelay(self.click_delay)
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
-            tc.addDelay(self.move_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
+        source.addDelay(self.click_delay)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Object)
+        source.addDelay(self.move_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

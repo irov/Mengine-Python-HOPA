@@ -19,6 +19,10 @@ class RotateAndSwapChips(Enigma):
         pass
 
     def finalize(self):
+        for connectionId, connection in self.connections.items():
+            connection.finalize()
+            pass
+
         for chipElementId, chipElement in self.chipElements.items():
             chipElement.finalize()
             pass

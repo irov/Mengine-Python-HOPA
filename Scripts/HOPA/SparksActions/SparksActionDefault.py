@@ -82,16 +82,17 @@ class SparksActionDefault(MixinGroup, SparksAction):
     def _onEnd(self):
         effectObject = self.getEffectObject()
 
-        if effectObject is None:
-            return
-
-        if effectObject.isActive() is False:
+        if effectObject is None or effectObject.isActive() is False:
+            self.__destroySecondaryEffect()
             return
 
         effectEntity = effectObject.getEntity()
         effectEntity.removeFromParent()
         effectObject.setEnable(False)
 
+        self.__destroySecondaryEffect()
+
+    def __destroySecondaryEffect(self):
         if self.secondaryEffectObject is not None:
             self.secondaryEffectObject.removeFromParent()
             self.secondaryEffectObject.onFinalize()

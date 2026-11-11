@@ -1,5 +1,4 @@
 from Foundation.Task.MixinObjectTemplate import MixinZoom
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 from HOPA.ZoomManager import ZoomManager
@@ -41,12 +40,9 @@ class CruiseActionZoom(MixinZoom, CruiseAction):
 
         return Position
 
-    def onAction(self):
+    def _onAction(self, source):
         PositionTo = self._getCruisePosition(self.Zoom)
-        if TaskManager.existTaskChain("CruiseActionZoom") is True:
-            TaskManager.cancelTaskChain("CruiseActionZoom")
 
-        with TaskManager.createTaskChain(Name="CruiseActionZoom") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Zoom)
-            tc.addDelay(self.click_delay)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo, Object=self.Zoom)
+        source.addDelay(self.click_delay)
+        source.addNotify(Notificator.onCruiseActionEnd, self)

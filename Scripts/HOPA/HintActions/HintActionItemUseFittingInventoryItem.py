@@ -1,7 +1,6 @@
 from Foundation.DemonManager import DemonManager
 from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Task.MixinObjectTemplate import MixinItem
-from Foundation.TaskManager import TaskManager
 from HOPA.HintAction import HintAction
 from HOPA.ItemManager import ItemManager
 
@@ -34,7 +33,7 @@ class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
         return True
         pass
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         Inventory = DemonManager.getDemon("FittingInventory")
 
         CurrentSlotIndex = Inventory.getParam("CurrentSlotIndex")
@@ -45,69 +44,69 @@ class HintActionItemUseFittingInventoryItem(MixinItem, HintAction):
 
         Point = hint.getPoint()
 
-        with TaskManager.createTaskChain() as tc:
-            if CurrentSlotIndex != NewSlotIndex:
-                with GuardBlockInput(tc) as guard_tc:
-                    guard_tc.addTask("TaskInventorySlotsHideInventoryItem", Inventory=Inventory)
-                    guard_tc.addTask("TaskInventoryCurrentSlotIndex", Inventory=Inventory, Value=NewSlotIndex)
-                    pass
+        if CurrentSlotIndex != NewSlotIndex:
+            with GuardBlockInput(source) as guard_tc:
+                guard_tc.addTask("TaskInventorySlotsHideInventoryItem", Inventory=Inventory)
+                guard_tc.addTask("TaskInventoryCurrentSlotIndex", Inventory=Inventory, Value=NewSlotIndex)
                 pass
-
-            tc.addTask("TaskSceneLayerGroupEnable", LayerName="HintEffect", Value=True)
-
-            tc.addTask("TaskSoundEffect", SoundName="SparklesCircle", Wait=False)
-
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintWay", Value=Point)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintWay", Loop=True, Wait=False)
-
-            P0 = Point
-
-            InventoryItem = ItemManager.findItemInventoryItem(self.InventoryItem)
-            InventoryItemEntity = InventoryItem.getEntity()
-            Sprite = InventoryItemEntity.getSprite()
-
-            P2 = Sprite.getWorldImageCenter()
-
-            p1x = P0[0] if P0[1] > P2[1] else P2[0]
-            p1y = P2[1] if P0[1] > P2[1] else P0[1]
-
-            P1 = (p1x, p1y)
-
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
-                       Speed=600 * 0.001)  # speed fix
-
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
-
-            NP0 = P2
-
-            ItemEntity = self.Item.getEntity()
-            Sprite = ItemEntity.getSprite()
-
-            NP2 = Sprite.getWorldImageCenter()
-
-            np1x = NP0[0] if NP0[1] > NP2[1] else NP2[0]
-            np1y = NP2[1] if NP0[1] > NP2[1] else NP0[1]
-
-            NP1 = (np1x, np1y)
-
-            tc.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
-                       Speed=600 * 0.001)  # speed fix
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
-
-            tc.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
-            tc.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintTarget", Loop=True, Wait=False)
-
-            tc.addTask("TaskSoundEffect", SoundName="Sparklesdisappear", Wait=False, Important=False)
-
             pass
+
+        source.addTask("TaskSceneLayerGroupEnable", LayerName="HintEffect", Value=True)
+
+        source.addTask("TaskSoundEffect", SoundName="SparklesCircle", Wait=False)
+
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintWay", Value=Point)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintWay", Loop=True, Wait=False)
+
+        P0 = Point
+
+        InventoryItem = ItemManager.findItemInventoryItem(self.InventoryItem)
+        InventoryItemEntity = InventoryItem.getEntity()
+        Sprite = InventoryItemEntity.getSprite()
+
+        P2 = Sprite.getWorldImageCenter()
+
+        p1x = P0[0] if P0[1] > P2[1] else P2[0]
+        p1y = P2[1] if P0[1] > P2[1] else P0[1]
+
+        P1 = (p1x, p1y)
+
+        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=P1, To=P2,
+                       Speed=600 * 0.001)  # speed fix
+
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintInventory", Value=P2)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintInventory", Loop=True, Wait=False)
+
+        NP0 = P2
+
+        ItemEntity = self.Item.getEntity()
+        Sprite = ItemEntity.getSprite()
+
+        NP2 = Sprite.getWorldImageCenter()
+
+        np1x = NP0[0] if NP0[1] > NP2[1] else NP2[0]
+        np1y = NP2[1] if NP0[1] > NP2[1] else NP0[1]
+
+        NP1 = (np1x, np1y)
+
+        source.addTask("AliasObjectBezier2To", GroupName="HintEffect", ObjectName="Movie_HintWay", Point1=NP1, To=NP2,
+                       Speed=600 * 0.001)  # speed fix
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintWay")
+
+        source.addTask("TaskObjectSetPosition", GroupName="HintEffect", ObjectName="Movie_HintTarget", Value=NP2)
+        source.addTask("TaskMoviePlay", GroupName="HintEffect", MovieName="Movie_HintTarget", Loop=True, Wait=False)
+
+        source.addTask("TaskSoundEffect", SoundName="Sparklesdisappear", Wait=False, Important=False)
+
         pass
 
     def _onEnd(self):
-        with TaskManager.createTaskChain() as tc:
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintInventory")
-            tc.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintTarget")
-            pass
-        pass
+        super(HintActionItemUseFittingInventoryItem, self)._onEnd()
+
+        self._runEndEffect()
+
+    def _onEndEffect(self, source):
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintInventory")
+        source.addTask("TaskMovieInterrupt", GroupName="HintEffect", MovieName="Movie_HintTarget")
 
     pass

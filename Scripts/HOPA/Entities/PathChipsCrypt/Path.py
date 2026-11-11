@@ -26,6 +26,13 @@ class Path(object):
     slots = {}
 
     @staticmethod
+    def finalize():
+        for slot in Path.slots.itervalues():
+            slot.value = None
+            slot.connect = {}
+        Path.slots = {}
+
+    @staticmethod
     def addSlot(name, value):
         Path.slots[name] = PathPoint(name, value)
         pass

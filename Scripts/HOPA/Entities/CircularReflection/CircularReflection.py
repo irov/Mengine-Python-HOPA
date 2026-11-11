@@ -9,6 +9,7 @@ class CircularReflection(Enigma):
     def __init__(self):
         super(CircularReflection, self).__init__()
         self.RotorHandler = None
+        self.MouseMoveHandler = None
         self.SocketEnter = None
         self.SocketLeave = None
         self.socketToCircle = {}
@@ -23,27 +24,43 @@ class CircularReflection(Enigma):
         pass
 
     def _stopEnigma(self):
-        #         self.clearence()    #!!!!!!!!!!!!!!!!
+        self._cleanUp()
+        pass
+
+    def _onFinalize(self):
+        super(CircularReflection, self)._onFinalize()
+
+        self._cleanUp()
+
+    def _cleanUp(self):
         self.current_socket = None
         self.suppressInteraction(False)
-        Mengine.removeMouseMoveHandler(self._onMouseMove)
+        if self.MouseMoveHandler is not None:
+            Mengine.removeGlobalHandler(self.MouseMoveHandler)
+            self.MouseMoveHandler = None
         Notification.removeObserver(self.SocketEnter)
         Notification.removeObserver(self.SocketLeave)
         Notification.removeObserver(self.RotorHandler)
         self.RotorHandler = None
         self.SocketEnter = None
         self.SocketLeave = None
-        self.socketToCircle = {}
+        for connectable in self.AtomicConnectables:
+            connectable.finalize()
         self.AtomicConnectables = []
+        self.receivers = []
         self.socketToCircle = {}
         self.slotToSubMovie = {}
+        self.current_rotatable = None
+        self.rotatableAngle = {}
+        self.mouseTouchVec = None
+        self.allow_rotate = False
         pass
 
     def _playEnigma(self):
         self.RotorHandler = Notification.addObserver(Notificator.onMouseButtonEvent, self.rotate)
         self.SocketEnter = Notification.addObserver(Notificator.onSocketMouseEnter, self.onSocketEntered)
         self.SocketLeave = Notification.addObserver(Notificator.onSocketMouseLeave, self.onSocketLeaved)
-        Mengine.addMouseMoveHandler(self._onMouseMove)
+        self.MouseMoveHandler = Mengine.addMouseMoveHandler(self._onMouseMove)
         self.preparate()
         pass
 

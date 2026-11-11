@@ -28,17 +28,22 @@ class ObjectGiftExchange(DemonObject):
                 tc_fade.addTask("AliasFadeIn", FadeGroupName=fade_group, To=fade_value, Time=fade_time)
                 tc_layer.addTask("TaskSceneLayerGroupEnable", LayerName="GiftExchange", Value=True)
 
+            # the entity is resolved on each run: the global chain must not keep an old entity alive
             with tc.addRepeatTask() as (repeat, until):
-                repeat.addScope(self.entity.scopeOpenPlate)
-                repeat.addScope(self.entity.scopeRun)
+                repeat.addScope(self._scopeEntity, "scopeOpenPlate")
+                repeat.addScope(self._scopeEntity, "scopeRun")
 
-                until.addScope(self.entity.scopeClickQuit)
-                until.addScope(self.entity.scopeClosePlate)
+                until.addScope(self._scopeEntity, "scopeClickQuit")
+                until.addScope(self._scopeEntity, "scopeClosePlate")
 
             tc.addSemaphore(self._semaphore_is_open, To=False)
             with tc.addParallelTask(2) as (tc_fade, tc_layer):
                 tc_fade.addTask("AliasFadeOut", FadeGroupName=fade_group, From=fade_value, Time=fade_time)
                 tc_layer.addTask("TaskSceneLayerGroupEnable", LayerName="GiftExchange", Value=False)
+
+    def _scopeEntity(self, source, scope_name):
+        scope = getattr(self.entity, scope_name)
+        source.addScope(scope)
 
     def forceOpenGiftExchange(self):
         """ requires an active task chain (call `runTaskChain` first) """
@@ -55,6 +60,10 @@ class ObjectGiftExchange(DemonObject):
             self._reset_begin_observer = None
 
     def __sceneResetHandler(self):
+        if self._reset_begin_observer is not None:
+            Notification.removeObserver(self._reset_begin_observer)
+            self._reset_begin_observer = None
+
         def _onSceneRestartBegin():
             if self._semaphore_is_open.getValue() is False:
                 return False

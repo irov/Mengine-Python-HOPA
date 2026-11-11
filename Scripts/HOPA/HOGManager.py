@@ -21,6 +21,11 @@ class HOGManager(Manager):
 
     @staticmethod
     def _onFinalize():
+        for param_type in HOGManager.s_hogTypes.itervalues():
+            finalize = getattr(param_type, "finalize", None)
+            if finalize is not None:
+                finalize()
+
         HOGManager.s_hogs = {}
         HOGManager.s_hogTypes = {}
         pass

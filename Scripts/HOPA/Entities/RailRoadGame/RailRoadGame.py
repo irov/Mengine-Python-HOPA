@@ -19,6 +19,13 @@ class RailRoadGame(Enigma):
             self.Init()
             pass
 
+        def finalize(self):
+            self.Game = None
+            self.ManagerData = None
+            self.MovieIdle = None
+            self.MovieRotate = None
+            self.MovieUnderMouse = None
+
         def Init(self):
             MovieIdleName = self.ManagerData.MovieIdle
             if (MovieIdleName is None):
@@ -62,6 +69,14 @@ class RailRoadGame(Enigma):
             self.ManagerDatas = []
             self.Value = 0
             pass
+
+        def finalize(self):
+            if self.ManagerDatas:
+                self.EndAliase()
+            for side in self.ManagerDatas:
+                side.finalize()
+            self.ManagerDatas = []
+            self.Game = None
 
         def addData(self, ManagerData):
             dat = RailRoadGame.InterDataSide(self.Game, ManagerData)
@@ -209,6 +224,14 @@ class RailRoadGame(Enigma):
         self.Movie_B_Off = None
         self.PlayMovie = False
         pass
+
+    def _onFinalize(self):
+        super(RailRoadGame, self)._onFinalize()
+
+        self.__Finita()
+
+    def _stopEnigma(self):
+        self.__Finita()
 
     def _skipEnigma(self):
         self.__Finita()
@@ -408,9 +431,8 @@ class RailRoadGame(Enigma):
             TaskManager.cancelTaskChain(name)
             pass
 
-        for key, val in self.InterDataSs.iteritems():
-            val.EndAliase()
-            pass
+        for val in self.InterDataSs.itervalues():
+            val.finalize()
 
         self.ReInitParamentrs()
         pass

@@ -12,6 +12,13 @@ class Connectable:
         self.type = None
         pass
 
+    def finalize(self):
+        self.input = None
+        self.outputs = []
+        self.connected_from = None
+        self.flow = None
+        self.emitting = False
+
     def markAsSource(self):
         self.emitting = True
         #        input_posa = self.input.getWorldPosition()

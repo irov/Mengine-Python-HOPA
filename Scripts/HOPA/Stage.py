@@ -88,6 +88,8 @@ class Stage(Params, Initializer):
             self.ScenarioChapter.onFinalize()
             self.ScenarioChapter = None
 
+            ChapterManager.setCurrentChapter(None)
+
             ChapterManager.setCurrentChapterName(None)
             pass
         pass

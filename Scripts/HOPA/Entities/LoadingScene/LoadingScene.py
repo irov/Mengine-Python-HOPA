@@ -7,6 +7,11 @@ from PlayFabFramework.Managers.GameManager import GameManager
 class LoadingScene(BaseEntity):
     def __init__(self):
         super(LoadingScene, self).__init__()
+        self.tc = None
+        self.content = None
+        self.reload_button = None
+        self.progressbar = None
+        self.progress_bar_follower = None
 
     def _onPreparation(self):
         self.__setupArt()
@@ -24,6 +29,8 @@ class LoadingScene(BaseEntity):
         slot_progressbar.addChild(self.progressbar.getEntityNode())
 
     def __setupValueFollower(self):
+        self.__cleanValueFollower()
+
         def __update(value, progress_bar):
             progress_bar.setValue(value)
             if value == 100.0:
@@ -46,6 +53,7 @@ class LoadingScene(BaseEntity):
         self.__runTaskChain()
 
     def __runTaskChain(self):
+        self.__cleanUp()
         self.tc = TaskManager.createTaskChain()
         with self.tc as tc:
             tc.addScope(self.__scopeLoadFromServer)
@@ -136,5 +144,23 @@ class LoadingScene(BaseEntity):
     def __scopeCheckSuccessLoading(self, source):
         source.addNotify(Notificator.onLoadingFinishedSuccess)
 
+    def __cleanUp(self):
+        chain = self.tc
+        self.tc = None
+        if chain is not None:
+            chain.cancel()
+
+        self.__cleanValueFollower()
+
     def _onDeactivate(self):
-        pass
+        super(LoadingScene, self)._onDeactivate()
+
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(LoadingScene, self)._onFinalize()
+
+        self.__cleanUp()
+        self.content = None
+        self.reload_button = None
+        self.progressbar = None

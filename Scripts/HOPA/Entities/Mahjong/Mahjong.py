@@ -27,6 +27,7 @@ class Mahjong(Enigma):
 
         self.Inventory = None
         self.quest_pairs = []
+        self.flicker_effects = []
 
         self.isHOG = True
 
@@ -99,6 +100,7 @@ class Mahjong(Enigma):
     def _Quest_Generator(self, source):
         SceneName = EnigmaManager.getEnigmaSceneName(self.EnigmaName)
         GroupName = EnigmaManager.getEnigmaGroupName(self.EnigmaName)
+        self.quest_pairs = []
         for data_pair in self.data_pairs:
             button1_name, button2_name = data_pair.getButton1Name(), data_pair.getButton2Name()
             self.quest_pairs.append((button1_name, button2_name))
@@ -194,6 +196,9 @@ class Mahjong(Enigma):
         sprite.setOrigin(spriteCenter)
         node.addChild(sprite)
 
+        effect = (node, sprite)
+        self.flicker_effects.append(effect)
+
         source.addDisable(button)
 
         FullFlashingTime = DefaultManager.getDefaultFloat('Mahjong_FlickerEffect_FullFlashingTime', 1000)
@@ -205,6 +210,16 @@ class Mahjong(Enigma):
             sourceFor.addTask('TaskNodeScaleTo', Node=sprite, To=ScaleTo, Time=time)
             sourceFor.addTask('TaskNodeScaleTo', Node=sprite, To=(1.0, 1.0, 1.0), Time=time)
         source.addFunction(sprite.disable)
+        source.addFunction(self._destroyFlickerEffect, effect)
+
+    def _destroyFlickerEffect(self, effect):
+        if effect not in self.flicker_effects:
+            return
+        self.flicker_effects.remove(effect)
+
+        node, sprite = effect
+        Mengine.destroyNode(sprite)
+        Mengine.destroyNode(node)
 
     def _play_hide_effect(self, source, button1, button2):
         MahjongHidePairsTime = DefaultManager.getDefault("MahjongHidePairsTime", 500.0)
@@ -386,3 +401,11 @@ class Mahjong(Enigma):
         if self.Inventory is not None:
             self.Inventory.setEnable(False)
         self.Inventory = None
+
+    def _onFinalize(self):
+        super(Mahjong, self)._onFinalize()
+
+        # The base closes the enigma skip chain before its effects are released.
+        for effect in self.flicker_effects[:]:
+            self._destroyFlickerEffect(effect)
+        self.flicker_effects = []

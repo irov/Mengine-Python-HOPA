@@ -14,6 +14,13 @@ class PetnaGame(Enigma):
         self.ReInitParamentrs()
         pass
 
+    def _onFinalize(self):
+        super(PetnaGame, self)._onFinalize()
+
+        if self.Game is not None:
+            self.__Finita()
+        self.ReInitParamentrs()
+
     def ReInitParamentrs(self):
         self.Game = None
         self.FieldWidth = None

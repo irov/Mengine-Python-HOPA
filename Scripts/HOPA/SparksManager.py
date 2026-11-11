@@ -87,6 +87,16 @@ class SparksManager(Manager):
         return sparksAction
 
     @staticmethod
+    def finalizeSparksAction(sparksAction):
+        if sparksAction is None:
+            return
+
+        if sparksAction.isInitialized() is False:
+            return
+
+        sparksAction.onFinalize()
+
+    @staticmethod
     def findSceneSparksAction(sceneName, groupName):
         listTypes = []
         questSceneCache = QuestManager.getSceneQuests(sceneName, groupName)
@@ -100,6 +110,7 @@ class SparksManager(Manager):
 
                     sparksAction = SparksManager.createSparksAction(quest.questType, **quest.params)
                     if sparksAction.onCheck() is False:
+                        SparksManager.finalizeSparksAction(sparksAction)
                         continue
 
                     questActions.append(sparksAction)
@@ -131,11 +142,19 @@ class SparksManager(Manager):
 
         currentSparksType = listTypes[indexType]
 
+        if currentSparksType is not questActions:
+            for questSparksAction in questActions:
+                SparksManager.finalizeSparksAction(questSparksAction)
+
         if currentSparksType == questActions:
             countActiveQuests = len(questActions)
             index = Mengine.range_rand(0, countActiveQuests)
 
             sparksAction = questActions[index]
+
+            for otherSparksAction in questActions:
+                if otherSparksAction is not sparksAction:
+                    SparksManager.finalizeSparksAction(otherSparksAction)
 
             return sparksAction
 
@@ -147,6 +166,7 @@ class SparksManager(Manager):
 
             sparksAction = SparksManager.createSparksAction("Transition", **params)
             if sparksAction.onCheck() is False:
+                SparksManager.finalizeSparksAction(sparksAction)
                 return None
 
             return sparksAction
@@ -160,6 +180,7 @@ class SparksManager(Manager):
             params = dict(Zoom=Object)
             sparksAction = SparksManager.createSparksAction("Zoom", **params)
             if sparksAction.onCheck() is False:
+                SparksManager.finalizeSparksAction(sparksAction)
                 return None
 
             return sparksAction

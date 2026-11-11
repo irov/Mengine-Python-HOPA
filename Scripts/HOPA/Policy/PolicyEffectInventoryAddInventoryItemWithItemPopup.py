@@ -128,9 +128,34 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
                 source_fork.addTask("TaskObjectDestroy", Object=self.effect)
                 pass
 
+            source_fork.addTask("TaskNodeDestroy", Node=self.sprite)
             source_fork.addTask("TaskNodeDestroy", Node=self.node)
             pass
+
+        # the fork owns them now, _clean_guard must not destroy them again
+        self.effect = None
+        self.sprite = None
+        self.node = None
         pass
+
+    def _clean_guard(self, value):
+        if value is True:
+            return
+
+        effect = self.effect
+        sprite = self.sprite
+        node = self.node
+        self.effect = None
+        self.sprite = None
+        self.node = None
+
+        if effect is not None:
+            effect.onDestroy()
+        if sprite is not None:
+            Mengine.destroyNode(sprite)
+
+        if node is not None:
+            Mengine.destroyNode(node)
 
     def _move_to_center_scope(self, source):
         # def vars
@@ -185,15 +210,18 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopup(TaskAlias):
     def _onGenerate(self, source):
         self._setup()
 
-        source.addScope(self._scale_scope)
+        # _get_item_scope ends with a Skiped=False listener, so on cancel _clean_scope is never reached
+        with source.addGuardTask(True, self._clean_guard) as guard_source:
+            guard_source.addScope(self._scale_scope)
 
-        source.addScope(self._start_effect_scope)
+            guard_source.addScope(self._start_effect_scope)
 
-        source.addScope(self._move_to_center_scope)
+            guard_source.addScope(self._move_to_center_scope)
 
-        source.addScope(self._get_item_scope)
+            guard_source.addScope(self._get_item_scope)
 
-        source.addScope(self._clean_scope)
+            guard_source.addScope(self._clean_scope)
+            pass
         pass
 
     pass

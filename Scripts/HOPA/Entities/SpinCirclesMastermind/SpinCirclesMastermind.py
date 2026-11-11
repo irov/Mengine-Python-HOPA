@@ -18,6 +18,7 @@ class SpinCirclesMastermind(Enigma):
         self.upNumCollection = {}
         self.downNumCollection = {}
         self.MovieTrigger = None
+        self.TriggerSocket = None
         self.WinParam = 0
         pass
 
@@ -153,7 +154,12 @@ class SpinCirclesMastermind(Enigma):
 
     def _onDeactivate(self):
         super(SpinCirclesMastermind, self)._onDeactivate()
+        pass
 
+    def _onFinalize(self):
+        super(SpinCirclesMastermind, self)._onFinalize()
+
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
         pass
 
     def _stopEnigma(self):

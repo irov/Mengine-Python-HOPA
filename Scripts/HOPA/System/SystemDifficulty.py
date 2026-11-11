@@ -55,6 +55,8 @@ class SystemDifficulty(System):
             TaskManager.cancelTaskChain("Difficulty_TutorialCasual")
 
         self.ScenariosDifficulty = None
+        self.scenarios = {}
+        self.runners = []
 
     def _onSave(self):
         # BAD PRACTICE!!! Do not use list or tuple for save!!
@@ -87,6 +89,10 @@ class SystemDifficulty(System):
 
         if ChapterDifficulty is None:
             return False
+
+        # rebuild for the chapter being set: runners and scenarios of the previous chapter are dead
+        self.scenarios = {}
+        self.runners = []
 
         self._loadChapterDifficultyParam(ChapterModule, ChapterDifficulty)
 
@@ -158,6 +164,10 @@ class SystemDifficulty(System):
 
         currentScenarioChapter = ChapterManager.getCurrentChapter()
 
+        if currentScenarioChapter is None:
+            Trace.log("System", 0, "SystemDifficulty._onTutorialSkip no current chapter")
+            return False
+
         for scenarioID in scenarios:
             currentScenarioChapter.skipInjection(scenarioID)
 
@@ -193,6 +203,12 @@ class SystemDifficulty(System):
 
         currentScenarioChapter = ChapterManager.getCurrentChapter()
 
+        if currentScenarioChapter is None:
+            Trace.log("System", 0, "SystemDifficulty._runScenarios no current chapter for difficulty '%s'" % (Difficulty))
+            return
+
         for scenarioID in scenarios:
             runner = ChapterManager.chapterAddRunInjection(currentScenarioChapter, scenarioID)
+            if runner is None:
+                continue
             self.runners.append(runner)

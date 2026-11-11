@@ -27,6 +27,7 @@ class SystemTip(System):
         self.addObserver(Notificator.onParagraphComplete, self.__onParagraphComplete)
         self.addObserver(Notificator.onTipActivateWithoutParagraphs, self.__onActivateTipWithoutParagraphs)
         self.addObserver(Notificator.onTipRemoveWithoutParagraphs, self.__onTipRemoveWithoutParagraph)
+        self.addObserver(Notificator.onSessionRemoveComplete, self.__onSessionRemoveComplete)
 
         for tip in self.activeTips:
             self.__startTip(tip)
@@ -41,6 +42,8 @@ class SystemTip(System):
         return saveData
 
     def _onLoad(self, data_save):
+        self.__cleanTips()
+
         for tempTip in data_save:
             object, notifies, tipID = tempTip
             tip = TipManager.createTip(object, notifies, tipID)
@@ -52,6 +55,21 @@ class SystemTip(System):
         return False
 
     def _onStop(self):
+        self.__cleanTips()
+
+    def __onSessionRemoveComplete(self):
+        self.__cleanTips()
+
+        return False
+
+    def __cleanTips(self):
+        for tip in self.activeTips:
+            if tip is None:
+                continue
+
+            if QuestManager.hasActiveTipObject(tip.object) is True:
+                QuestManager.removeActiveTipObjects(tip.object)
+
         self.activeTips = []
         self.objects = []
 
@@ -94,6 +112,9 @@ class SystemTip(System):
 
     def __testParagraph(self, paragraphs):
         currentScenarioChapter = ChapterManager.getCurrentChapter()
+
+        if currentScenarioChapter is None:
+            return False
 
         for paragraph in paragraphs:
             if currentScenarioChapter.isParagraphComplete(paragraph) is False:

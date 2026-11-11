@@ -44,6 +44,8 @@ class Connectors(Enigma):
         pass
 
     def _onActivate(self):
+        if self.connections:
+            return
         GameData = ConnectorsManager.getGame(self.EnigmaName)
         for elementId, elementData in GameData.elements.items():
             stateObjectName = elementData["ObjectName"]
@@ -68,6 +70,11 @@ class Connectors(Enigma):
             self.connections[connectionId] = connection
             pass
         pass
+
+    def _onFinalize(self):
+        super(Connectors, self)._onFinalize()
+
+        self.finalize()
 
     def _playEnigma(self):
         for connectionId, connection in self.connections.items():

@@ -1,10 +1,9 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.SceneManager import SceneManager
-from Foundation.Task.Task import Task
-from Foundation.TaskManager import TaskManager
+from Foundation.Task.TaskScopeChain import TaskScopeChain
 
 
-class TaskEffectFittingInventoryReturnInventoryItem(Task):
+class TaskEffectFittingInventoryReturnInventoryItem(TaskScopeChain):
     Skiped = True
 
     def _onParams(self, params):
@@ -14,7 +13,7 @@ class TaskEffectFittingInventoryReturnInventoryItem(Task):
         self.SlotID = params.get("SlotID", None)
         pass
 
-    def _onRun(self):
+    def _onScopeRun(self, source):
         FittingInventoryEntity = self.FittingInventory.getEntity()
         slots = FittingInventoryEntity.getSlots()
 
@@ -46,19 +45,11 @@ class TaskEffectFittingInventoryReturnInventoryItem(Task):
         time = length / SpeedEffectFittingInventoryReturnInventoryItem
         # time *= 1000  # speed fix
 
-        with TaskManager.createTaskChain(Cb=self._onReturnInventoryItemEffectComplete) as tc:
-            with tc.addParallelTask(2) as (tc0, tc1):
-                tc0.addTask("TaskNodeBezier2To", Node=InventoryItemEntity, Point1=P1, To=P2,
-                            Speed=SpeedEffectFittingInventoryReturnInventoryItem)
-                tc1.addTask("TaskNodeScaleTo", Node=InventoryItemEntity, To=(scaleTo, scaleTo, 1.0), Time=time)
-                pass
+        with source.addParallelTask(2) as (tc0, tc1):
+            tc0.addTask("TaskNodeBezier2To", Node=InventoryItemEntity, Point1=P1, To=P2,
+                        Speed=SpeedEffectFittingInventoryReturnInventoryItem)
+            tc1.addTask("TaskNodeScaleTo", Node=InventoryItemEntity, To=(scaleTo, scaleTo, 1.0), Time=time)
             pass
-
-        return False
-        pass
-
-    def _onReturnInventoryItemEffectComplete(self, isSkip):
-        self.complete()
         pass
 
     pass

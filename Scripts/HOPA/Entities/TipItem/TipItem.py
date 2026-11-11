@@ -1,4 +1,5 @@
-﻿from Foundation.BaseEntity import BaseEntity
+﻿from Event import Event
+from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
 from Functor import Functor
 from HOPA.TipManager import TipManager
@@ -31,6 +32,7 @@ class TipItem(BaseEntity):
         self.text = None
         self.TipHeight = 50
         self.arrowSprite = None
+        self.__eventHide = Event("TipItemHide")
         pass
 
     def _onRestore(self):
@@ -140,7 +142,7 @@ class TipItem(BaseEntity):
 
         with TaskManager.createTaskChain(Name="TipItemPlay", Group=self.object,
                                          Cb=Functor(self._onTipEndComplete, cb)) as tc:
-            with tc.addRaceTask(2) as (tc_show, tc_skip):
+            with tc.addRaceTask(3) as (tc_show, tc_skip, tc_hide):
                 tc_show.addDelay(delayTime)
 
                 with tc_show.addParallelTask(2) as (tc_show_0, tc_show_1):
@@ -155,8 +157,15 @@ class TipItem(BaseEntity):
                 tc_skip.addListener(Notificator.onInventorySlotItemLeave)
                 tc_skip.addDisable(self.text)
                 tc_skip.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
+
+                tc_hide.addEvent(self.__eventHide)
+                tc_hide.addDisable(self.text)
+                tc_hide.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
             pass
         pass
+
+    def tipHide(self):
+        self.__eventHide()
 
     def _onTipEndComplete(self, isSkip, cb):
         self.status = TipItem.TIP_HIDE

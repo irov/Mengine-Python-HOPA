@@ -7,8 +7,18 @@ class ChessPuzzleMovieGrid(object):
         self.movie = movieObj.getEntity()
         self.slots = {}
         self.grid = grid
+        self.taskNames = set()
         self.collectSlots(description)
         pass
+
+    def finalize(self):
+        names = self.taskNames
+        self.taskNames = set()
+        for name in names:
+            TaskManager.cancelTaskChain(name, exist=False)
+        self.grid = None
+        self.slots = {}
+        self.movie = None
 
     def getIndex(self, x, y):
         index = y * self.grid.width + x
@@ -33,6 +43,7 @@ class ChessPuzzleMovieGrid(object):
             pass
 
         def after():
+            self.taskNames.discard(taskName)
             node.removeFromParent()
             movieEntity.removeFromParent()
             self.setNode(x, y, node)
@@ -46,6 +57,7 @@ class ChessPuzzleMovieGrid(object):
         slideSlot.addChild(node)
         slot.addChild(movieEntity)
 
+        self.taskNames.add(taskName)
         with TaskManager.createTaskChain(Name=taskName, Group=None) as tc:
             tc.addTask("TaskMoviePlay", Movie=movie)
             tc.addFunction(after)

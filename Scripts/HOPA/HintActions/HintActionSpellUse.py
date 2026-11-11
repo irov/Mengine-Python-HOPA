@@ -33,7 +33,7 @@ class HintActionSpellUse(HintAction):
 
         return True
 
-    def _onAction(self, hint):
+    def _onAction(self, source, hint):
         PositionTo1 = self._getHintPosition(self.Spell)
 
         PlaceObjectType = self.Object.getType()

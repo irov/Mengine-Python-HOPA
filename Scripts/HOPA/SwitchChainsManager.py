@@ -17,7 +17,7 @@ class SwitchChainsManager(Manager):
 
     @staticmethod
     def _onFinalize():
-        SwitchChainsManager.s_objects = {}
+        SwitchChainsManager.s_switchChains = {}
         pass
 
     @staticmethod

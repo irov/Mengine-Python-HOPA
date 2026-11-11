@@ -432,6 +432,8 @@ class SwapChipsSwitchEnableAndDisable(Enigma):
         for chip in self.slots:
             chip.node.removeFromParent()
             chip.movie.getEntityNode().removeFromParent()
+            Mengine.destroyNode(chip.node)  # Interender created by Slot
+            chip.node = None
         self.slots = []
 
         self.visibleChips = []

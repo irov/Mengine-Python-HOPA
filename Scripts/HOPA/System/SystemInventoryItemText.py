@@ -24,10 +24,15 @@ class SystemInventoryItemText(System):
         pass
 
     def _cleanSlots(self):
-        for itemKey, movieTuple in self.slots.items():
-            TaskManager.cancelTaskChain("InventoryItemTip%s" % slot.slotId)
+        for itemKey in self.slots.keys():
+            if TaskManager.existTaskChain("InventoryItemTip%s" % itemKey) is True:
+                TaskManager.cancelTaskChain("InventoryItemTip%s" % itemKey)
 
-            InventoryItem = self.Inventory.getInventoryItem(ItemKey)
+            # cancel may run the chain's tail (_onSlotMouseLeave), which already cleans the slot
+            if itemKey not in self.slots:
+                continue
+
+            InventoryItem = self.Inventory.getInventoryItem(itemKey)
             self.__cleanSlot(itemKey, InventoryItem)
             pass
 

@@ -1,5 +1,4 @@
 from Foundation.PolicyManager import PolicyManager
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
 
@@ -28,7 +27,7 @@ class CruiseActionCombine(CruiseAction):
         return True
         pass
 
-    def _onAction(self, cruise):
+    def _onAction(self, source):
         InventoryItemEntity = self.AttachInventoryItem.getEntity()
         Sprite = InventoryItemEntity.getSprite()
 
@@ -65,17 +64,10 @@ class CruiseActionCombine(CruiseAction):
             PositionTo2 = Sprite.getWorldImageCenter()
             pass
 
-        with TaskManager.createTaskChain(Name="CruiseActionCombinePlay") as tc:
-            PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
-            tc.addTask(PolicyInventoryScrolling, InventoryItem=self.AttachInventoryItem)
+        PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
+        source.addTask(PolicyInventoryScrolling, InventoryItem=self.AttachInventoryItem)
 
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo1)
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo2)
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-            pass
-
+        source.addTask("AliasCruiseControlAction", Position=PositionTo1)
+        source.addTask("AliasCruiseControlAction", Position=PositionTo2)
+        source.addNotify(Notificator.onCruiseActionEnd, self)
         pass
-
-    def _onEnd(self):
-        if TaskManager.existTaskChain("CruiseActionCombinePlay") is True:
-            TaskManager.cancelTaskChain("CruiseActionCombinePlay")

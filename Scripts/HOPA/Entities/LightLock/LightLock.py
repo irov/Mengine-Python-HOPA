@@ -20,6 +20,8 @@ class LightLock(Enigma):
 
     def _stopEnigma(self):
         super(LightLock, self)._stopEnigma()
+
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
         pass
 
     def _resetEnigma(self):
@@ -86,18 +88,27 @@ class LightLock(Enigma):
         fieldMovie.setEnable(True)
         pass
 
-    def _onDeactivate(self):
-        super(LightLock, self)._onDeactivate()
+    def __cleanUp(self):
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
         for element in self.sockets.values():
             element.onDestroy()
-            pass
-        pass
+        self.sockets = {}
+        self.LastSocket = None
+        self.checkSocket = None
+        self.winCheckList = []
+
+    def _onDeactivate(self):
+        super(LightLock, self)._onDeactivate()
+
+        self.__cleanUp()
+
+    def _onFinalize(self):
+        super(LightLock, self)._onFinalize()
+
+        self.__cleanUp()
 
     def __playTasks(self):
-        if TaskManager.existTaskChain(self.EnigmaName) is True:
-            TaskManager.cancelTaskChain(self.EnigmaName)
-            pass
-
+        TaskManager.cancelTaskChain(self.EnigmaName, exist=False)
         with TaskManager.createTaskChain(Name=self.EnigmaName) as tc:
             tc.addListener(Notificator.onSocketClick, Filter=self.__gameSocket)
             tc.addFunction(self.isWinPosition)
@@ -204,6 +215,12 @@ class LightLock(Enigma):
         pass
 
     def _playEnigma(self):
+        self.isWinPosition()
+        self.__playTasks()
+        pass
+
+    def _restoreEnigma(self):
+        # _onDeactivate cancels the click chain, so a reopened zoom has to start it again
         self.isWinPosition()
         self.__playTasks()
         pass

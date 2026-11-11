@@ -9,7 +9,7 @@ class SystemCollectedMapIndicator(System):
 
     def _onRun(self):
         self.onCollectedMapAddObserver = Notification.addObserver(Notificator.onCollectedMapAddPart, self.__onCollectedMapAdd)
-        pass
+        return True
 
     def _onStop(self):
         Notification.removeObserver(self.onCollectedMapAddObserver)

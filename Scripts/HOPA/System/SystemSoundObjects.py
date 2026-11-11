@@ -16,7 +16,7 @@ class SystemSoundObjects(System):
         for notify, soundObjects in self.events.items():
             self.addObserver(notify, soundObjects)
             pass
-        pass
+        return True
 
     def addObserver(self, notify, soundObjects):
         def _onSound(curObject):

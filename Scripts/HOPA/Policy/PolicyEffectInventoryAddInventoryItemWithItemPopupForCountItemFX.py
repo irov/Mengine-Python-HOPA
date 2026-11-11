@@ -130,9 +130,34 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
                 source_fork.addTask("TaskObjectDestroy", Object=self.effect)
                 pass
 
+            source_fork.addTask("TaskNodeDestroy", Node=self.sprite)
             source_fork.addTask("TaskNodeDestroy", Node=self.node)
             pass
+
+        # the fork owns them now, _clean_guard must not destroy them again
+        self.effect = None
+        self.sprite = None
+        self.node = None
         pass
+
+    def _clean_guard(self, value):
+        if value is True:
+            return
+
+        effect = self.effect
+        sprite = self.sprite
+        node = self.node
+        self.effect = None
+        self.sprite = None
+        self.node = None
+
+        if effect is not None:
+            effect.onDestroy()
+        if sprite is not None:
+            Mengine.destroyNode(sprite)
+
+        if node is not None:
+            Mengine.destroyNode(node)
 
     def _move_to_center_scope(self, source):
         # def vars
@@ -214,8 +239,6 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
             return
             pass
 
-        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
-
         InventoryEntity = self.Inventory.getEntity()
 
         InventoryItem = ItemManager.getItemInventoryItem(self.ItemName)
@@ -225,6 +248,8 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         if slot is None:
             return False
             pass
+
+        effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
 
         point = slot.getPoint()
 
@@ -290,13 +315,13 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         source.addTask("TaskNodeAlphaTo", Node=self.sprite, From=1.0, To=0.0, Time=250.0)
         source.addTask("TaskNodeEnable", Node=self.sprite, Value=False)
 
-        if effect is not None:
-            with source.addFork() as source_fork:
+        with source.addFork() as source_fork:
+            if effect is not None:
                 source_fork.addTask("TaskMovie2Interrupt", Movie2=effect)
                 source_fork.addTask("TaskObjectDestroy", Object=effect)
                 pass
 
-                source_fork.addTask("TaskNodeDestroy", Node=node)
+            source_fork.addTask("TaskNodeDestroy", Node=node)
             pass
         pass
 
@@ -318,19 +343,22 @@ class PolicyEffectInventoryAddInventoryItemWithItemPopupForCountItemFX(TaskAlias
         if len(FoundItems) > 1:
             source.addEnable(InventoryItem)
 
-        source.addScope(self._scale_scope)
+        # the item popup has Skiped=False tasks, so on cancel _clean_scope may be never reached
+        with source.addGuardTask(True, self._clean_guard) as guard_source:
+            guard_source.addScope(self._scale_scope)
 
-        source.addScope(self._start_effect_scope)
+            guard_source.addScope(self._start_effect_scope)
 
-        source.addScope(self._move_to_center_scope)
+            guard_source.addScope(self._move_to_center_scope)
 
-        source.addScope(self._get_item_scope)
+            guard_source.addScope(self._get_item_scope)
 
-        source.addScope(self._add_inventory_item, self.ItemName)
+            guard_source.addScope(self._add_inventory_item, self.ItemName)
 
-        source.addScope(self._inv_item_submovie)
+            guard_source.addScope(self._inv_item_submovie)
 
-        source.addScope(self._clean_scope)
+            guard_source.addScope(self._clean_scope)
+            pass
         pass
 
     pass

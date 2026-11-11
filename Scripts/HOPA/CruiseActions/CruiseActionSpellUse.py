@@ -1,4 +1,3 @@
-from Foundation.TaskManager import TaskManager
 from HOPA.CruiseAction import CruiseAction
 
 
@@ -28,10 +27,10 @@ class CruiseActionSpellUse(CruiseAction):
             return False
         return True
 
-    def _onAction(self):
-        self.showCruise()
+    def _onAction(self, source):
+        self.showCruise(source)
 
-    def showCruise(self):
+    def showCruise(self, source):
         hObject = self._getCruiseObject()
         PositionTo1 = self._getCruisePosition(hObject)
 
@@ -53,15 +52,8 @@ class CruiseActionSpellUse(CruiseAction):
 
                 PositionTo2 = HotSpot.getWorldPolygonCenter()
 
-        if TaskManager.existTaskChain("CruiseActionSpellUse") is True:
-            TaskManager.cancelTaskChain("CruiseActionSpellUse")
-
-        with TaskManager.createTaskChain(Name="CruiseActionSpellUse") as tc:
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo1)
-            tc.addDelay(0.5 * 1000)  # speed fix
-            tc.addTask("AliasCruiseControlAction", Position=PositionTo2)
-            tc.addDelay(0.5 * 1000)  # speed fix
-            tc.addNotify(Notificator.onCruiseActionEnd, self)
-
-    def _onEnd(self):
-        super(CruiseActionSpellUse, self)._onEnd()
+        source.addTask("AliasCruiseControlAction", Position=PositionTo1)
+        source.addDelay(0.5 * 1000)  # speed fix
+        source.addTask("AliasCruiseControlAction", Position=PositionTo2)
+        source.addDelay(0.5 * 1000)  # speed fix
+        source.addNotify(Notificator.onCruiseActionEnd, self)

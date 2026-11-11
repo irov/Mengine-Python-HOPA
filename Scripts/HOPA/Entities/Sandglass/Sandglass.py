@@ -10,6 +10,7 @@ class Sandglass(Enigma):
 
     def __init__(self):
         super(Sandglass, self).__init__()
+        self.__generatedMovies = []
         self.ReInitParamentrs()
         pass
 
@@ -33,6 +34,15 @@ class Sandglass(Enigma):
         self.Click = -1
         self.AliasNames = []
         pass
+
+    def _stopEnigma(self):
+        self.__EndGame()
+
+    def _onFinalize(self):
+        super(Sandglass, self)._onFinalize()
+
+        self.__EndGame()
+        self.ReInitParamentrs()
 
     def _skipEnigma(self):
         self.__Finita()
@@ -75,7 +85,9 @@ class Sandglass(Enigma):
         Movie0Idle_P = self.object.getObject(point.Movie_Idle_Passive)
         Movie0Idle_S = self.object.getObject(point.Movie_Select)
         Movie0Idle_U = self.object.getObject(point.Movie_Use)
-        Movie_None = self.object.generateObject("Movie_None_Point_Id", "Movie_None")
+        Movie_None = self.object.generateObject("Movie_None_Point_Id_%s" % (Id), "Movie_None")
+        if Movie_None is not None:
+            self.__generatedMovies.append(Movie_None)
 
         Movie0Idle_A.setEnable(False)
         Movie0Idle_P.setEnable(False)
@@ -247,7 +259,9 @@ class Sandglass(Enigma):
         Movie_Idle = self.object.getObject(con.Movie_Idle)
         Movie_Select = self.object.getObject(con.Movie_Select)
         Movie_Use = self.object.getObject(con.Movie_Use)
-        Movie_None = self.object.generateObject("Movie_None_Con_Id", "Movie_None")
+        Movie_None = self.object.generateObject("Movie_None_Con_Id_%s" % (Id), "Movie_None")
+        if Movie_None is not None:
+            self.__generatedMovies.append(Movie_None)
 
         Movie_Idle.setEnable(False)
         Movie_Select.setEnable(False)
@@ -401,8 +415,13 @@ class Sandglass(Enigma):
     def __EndGame(self):
         for name_A in self.AliasNames:
             self.__canTT(name_A)
-            pass
-        pass
+        self.AliasNames = []
+        self.Play_Movies_Points = {}
+        self.Play_Movies_Connects = {}
+
+        for movie in self.__generatedMovies:
+            movie.onDestroy()
+        self.__generatedMovies = []
 
     def __Finita(self):
         self.__EndGame()

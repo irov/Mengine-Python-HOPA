@@ -195,9 +195,6 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
         # task chain execution source definition:
         # -----------------------------------------------------------
 
-        source.addNotify(Notificator.onInventoryRise)
-        source.addFunction(self.slot.setBlock, True)
-
         effect = self.Inventory.tryGenerateObjectUnique("Effect", "Movie2_ItemTips")
         if effect is not None:
             effectEntityNode = effect.entity.node
@@ -210,25 +207,34 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
             effectEntityNode.setLocalPosition(effect_position)
 
-            source.addEnable(effect)
-            source.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
+        # The guard releases the resources until the fork takes over their cleanup.
+        source_guard = source.makeGuardSource(True, self.__destroyEffectGuard, effect, PickEffectMovie)
 
-        with source.addParallelTask(2) as (parallel_0, parallel_1):
+        source_guard.addNotify(Notificator.onInventoryRise)
+        source_guard.addFunction(self.slot.setBlock, True)
+
+        if effect is not None:
+            source_guard.addEnable(effect)
+            source_guard.addTask("TaskMovie2Play", Movie2=effect, Wait=False)
+
+        with source_guard.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addTask("TaskNodeBezier2WorldFollow", Follow=self.nodeFollow, Node=self.nodeMove, Time=Time,
                                Easing=self.easing)
             parallel_1.addTask("TaskNodeScaleTo", Node=nodeScale, To=(scaleTo, scaleTo, 1.0), Time=Time,
                                Easing=self.easing)
 
-        source.addFunction(self.slot.setBlock, False)
+        source_guard.addFunction(self.slot.setBlock, False)
 
         if PickEffectMovie is not None:
-            source.addFunction(PickEffectMovie.onDestroy)
+            source_guard.addFunction(PickEffectMovie.onDestroy)
 
         if InventoryItemEntityNode is not None:
             slot = self.Inventory.entity.findSlot(self.InventoryItem)
 
-            source.addTask("TaskNodeRemoveFromParent", Node=InventoryItemEntityNode)
-            source.addFunction(slot.setItem, self.InventoryItem)
+            source_guard.addTask("TaskNodeRemoveFromParent", Node=InventoryItemEntityNode)
+            source_guard.addFunction(slot.setItem, self.InventoryItem)
+
+        source_guard.addFunction(self.__handOverNodes)
 
         with source.addFork() as source_fork:
             if effect is not None:
@@ -240,6 +246,12 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
             source_fork.addTask("TaskNodeDestroy", Node=self.nodeMove)
 
     def __ObjectItemEffect(self, source):
+        def __destroyNodeGuard(value, node):
+            if value is True:
+                return
+
+            Mengine.destroyNode(node)
+
         """ Main Task Action method for Object Type: Item
         effect of Bezier_move Item to inventory """
 
@@ -260,13 +272,55 @@ class TaskEffectInventoryAddInventoryItem(TaskAlias):
 
         # print "!!! P0={} P1={} P2={} ||| time={} speed={}".format(P0, Point1, P2, Time, Speed)
 
-        with source.addParallelTask(2) as (parallel_0, parallel_1):
+        # The guard releases the sprite when the effect ends.
+        source_guard = source.makeGuardSource(True, __destroyNodeGuard, sprite)
+
+        with source_guard.addParallelTask(2) as (parallel_0, parallel_1):
             parallel_0.addNotify(Notificator.onSoundEffectOnObject, Item, "MoveItemToInventory")
             parallel_0.addTask("TaskNodeBezier2To", Node=sprite, Point1=Point1, To=P2, Speed=Speed)
             parallel_1.addTask("TaskNodeScaleTo", Node=sprite, To=(scaleTo, scaleTo, 1.0), Time=Time)
 
-        source.addTask("TaskNodeRemoveFromParent", Node=sprite)
-        source.addTask("TaskNodeDestroy", Node=sprite)
+    def __handOverNodes(self):
+        # from here on the fork destroys the effect and the nodes
+        self.PickEffectNode = None
+        self.nodeFollow = None
+        self.nodeMove = None
+
+    def __destroyEffectGuard(self, value, effect, PickEffectMovie):
+        if value is True:
+            return
+
+        if self.nodeMove is None:
+            return
+
+        slot = self.slot
+        slot.setBlock(False)
+
+        # The item is borrowed before the guard takes the slot lock; the parent identifies our node.
+        item = self.InventoryItem
+        if item is not None:
+            if item.isActive() is True:
+                item_node = item.getEntityNode()
+                if item_node.getParent() is self.PickEffectNode:
+                    item_node.removeFromParent()
+                    if slot.getItem() is item:
+                        slot.setItem(item)
+
+        if effect is not None and effect.isDestroy() is False:
+            effect.onDestroy()
+
+        if PickEffectMovie is not None and PickEffectMovie.isDestroy() is False:
+            PickEffectMovie.onDestroy()
+
+        pick_effect_node = self.PickEffectNode
+        node_follow = self.nodeFollow
+        node_move = self.nodeMove
+
+        Mengine.destroyNode(pick_effect_node)
+        Mengine.destroyNode(node_follow)
+        Mengine.destroyNode(node_move)
+
+        self.__handOverNodes()
 
     @staticmethod
     def calcSpeedAndTimeForItemScale(pos_0, pos_1, pos_2):

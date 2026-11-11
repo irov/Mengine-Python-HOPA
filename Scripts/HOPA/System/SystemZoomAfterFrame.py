@@ -18,6 +18,8 @@ class SystemZoomAfterFrame(System):
         pass
 
     def _onStop(self):
+        self.Ent = None
+        self.Prev_Parent = None
         pass
 
     def _ZoomAttachToFrame(self, Ent):
@@ -54,6 +56,9 @@ class SystemZoomAfterFrame(System):
 
         frameZoomBorder = self.__getFrameBorder(Group, GroupBorder)
         self.Prev_Parent.addChild(frameZoomBorder)
+
+        self.Ent = None
+        self.Prev_Parent = None
         return False
         pass
 

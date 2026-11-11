@@ -217,6 +217,8 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
 
         if self.moving is not None:
             self.moving.detach(self)
+            # the old moving owns an Interender node, release it with the moving
+            self.moving.finalize()
             pass
 
         self.setPosition((-self.size.x / 2, -self.size.y / 2))

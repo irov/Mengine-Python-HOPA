@@ -34,8 +34,20 @@ class SystemInventoryPanel(System):
         self.addObserver(Notificator.onInventoryChage, self.InventorySwap)
         self.addObserver(Notificator.onSceneInit, self.InventoryChange)
         self.addObserver(Notificator.onSceneLeave, self.__cbOnSceneLeave)
+        self.addObserver(Notificator.onSessionRemoveComplete, self.__cbOnSessionRemoveComplete)
 
         return True
+
+    def __cbOnSessionRemoveComplete(self):
+        self.__cleanSessionData()
+
+        return False
+
+    def __cleanSessionData(self):
+        self.Clean_Full()
+
+        self.zoom_repeat_cached_inv_data = {}
+        self.scene_cached_inv_data = {}
 
     def __cbOnSceneLeave(self, _scene_name, *_):
         if self.tc_Inventory is not None:
@@ -315,6 +327,8 @@ class SystemInventoryPanel(System):
         self.Clean_Full()
 
     def _onLoad(self, data_save):
+        self.__cleanSessionData()
+
         self.scene_cached_inv_data = data_save[0]
 
         for (zoom_group_name, inventory_name) in data_save[1].items():

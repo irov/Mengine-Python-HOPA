@@ -175,6 +175,8 @@ class Profile(BaseEntity):
 
         currentSlotID = self.object.getSlotID(self.Current)
         self._disableButtonDeleteProfile(currentSlotID)
+        if currentSlotID is not None:
+            self._disableButtonEditProfile(currentSlotID)
 
         ActiveSlotIDs = (slotID for slotID in range(self.MaxCount) if slotID in AccountIDs)
 

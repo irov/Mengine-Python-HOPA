@@ -121,6 +121,11 @@ class CombatSpell(Enigma):
         self.Movie_AnimationsAiMove = []
         pass
 
+    def _onFinalize(self):
+        super(CombatSpell, self)._onFinalize()
+
+        self._stopEnigma()
+
     def _playEnigma(self):
         CombatSpell.Sprite_Ai = self.object.getObject("Item_ChessAi")
         CombatSpell.Sprite_Player = self.object.getObject("Item_ChessPlayer")
@@ -148,14 +153,18 @@ class CombatSpell(Enigma):
             TaskManager.cancelTaskChain("CombatSpellMain")
             pass
 
-        for x in range(self.FieldWidth):
-            for y in range(self.FieldHeight):
-                slot = self.slots[x][y]
+        for column in self.slots:
+            for slot in column:
                 slot.Clear()
-                pass
+                slot.SocketHotSpot = None
+                slot.MovieSlot = None
+                slot.Group = None
+                slot.PlayMovie = None
 
-        self.__DestroyMovie(self.Movie_PlayerEat)
-        self.__DestroyMovie(self.Movie_PlayerMove)
+        if self.Movie_PlayerEat is not None:
+            self.__DestroyMovie(self.Movie_PlayerEat)
+        if self.Movie_PlayerMove is not None:
+            self.__DestroyMovie(self.Movie_PlayerMove)
 
         self.slots = []
         self.AiSlots = []
@@ -174,6 +183,8 @@ class CombatSpell(Enigma):
 
         self.Movie_AnimationsAiEat = []
         self.Movie_AnimationsAiMove = []
+        CombatSpell.Sprite_Ai = None
+        CombatSpell.Sprite_Player = None
         pass
 
     def __MakeMovies(self):
