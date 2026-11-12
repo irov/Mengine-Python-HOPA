@@ -77,8 +77,14 @@ class Sparks(BaseEntity):
         if sceneName is None:
             return
 
+        if SystemManager.hasSystem("SystemHint") is False:
+            return
+
         SystemHint = SystemManager.getSystem("SystemHint")
         DemonHint = SystemHint.getHintObject()
+        if DemonHint is None:
+            return
+
         Entity = DemonHint.getEntity()
 
         if groupName is None:
@@ -89,9 +95,6 @@ class Sparks(BaseEntity):
             hintAction = HintManager.findGlobalHint(DemonHint)
 
             if hintAction is None:
-                if SystemManager.hasSystem("SystemHint") is False:
-                    return
-
                 hintAction = Entity.hintGive()
                 if hintAction is None:
                     return

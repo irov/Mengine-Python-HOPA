@@ -47,7 +47,6 @@ class Hint(BaseEntity):
         self.inHintPlay = False
 
         # policies
-        self.PolicyHintClick = None
         self.PolicyHintReady = None
         self.PolicyHintReload = None
         self.PolicyHintActivate = None
@@ -93,11 +92,9 @@ class Hint(BaseEntity):
             Movie_Reload.setEnable(False)
 
     def _onActivate(self):
-        Notification.notify(Notificator.onHintActivate, self.object)
         if SystemManager.hasSystem("SystemHint") is False:
             return
 
-        self.PolicyHintClick = PolicyManager.getPolicy("HintClick", "PolicyHintClickSocket")
         self.PolicyHintReady = PolicyManager.getPolicy("HintReady")
         self.PolicyHintReload = PolicyManager.getPolicy("HintReload")
         self.PolicyHintActivate = PolicyManager.getPolicy("HintActivate")
@@ -105,6 +102,8 @@ class Hint(BaseEntity):
         self.PolicyHintReadyInterrupt = PolicyManager.getPolicy("HintReadyInterrupt")
         self.PolicyHintNotFound = PolicyManager.getPolicy("HintNotFound", "PolicyHintNotFoundMind")
         self.PolicyHintPlay = PolicyManager.getPolicy("HintPlay", "PolicyHintPlayDefault")
+
+        Notification.notify(Notificator.onHintActivate, self.object)
 
         # run task chains:
         self.__tcHintReload()
@@ -309,12 +308,13 @@ class Hint(BaseEntity):
     def scopeClickHint(self, source):
         """ description: https://wonderland-games.atlassian.net/browse/HO2-661 """
         click_event = Event("HintRightClick")
+        policyHintClick = PolicyManager.getPolicy("HintClick", "PolicyHintClickSocket")
         with source.addRepeatTask() as (repeat, until):
             with repeat.addRaceTask(2) as (click, reset):
                 reset.addListener(Notificator.onStateChange, Filter=lambda id, state: id == "StateHintReady" and state is False)
 
                 click.addTask("TaskStateMutex", ID="StateHintReady", From=True)
-                click.addTask(self.PolicyHintClick)
+                click.addTask(policyHintClick)
                 click.addFunction(click_event)
 
             until.addEvent(click_event)
@@ -904,6 +904,7 @@ class Hint(BaseEntity):
         return hintAction
 
     def createZoomLeaveHintAction(self, currentSceneName, zoomGroupName):
+        policyHintClick = PolicyManager.getPolicy("HintClick", "PolicyHintClickSocket")
         Quest = QuestManager.createLocalQuest("CloseZoom", GroupName=zoomGroupName, SceneName=currentSceneName)
 
         with TaskManager.createTaskChain() as tc:
@@ -911,7 +912,7 @@ class Hint(BaseEntity):
                 with tc_quest.addRaceTask(3) as (tc_zoom, tc_scene, tc_hint):
                     tc_zoom.addTask("TaskZoomLeave", ZoomName=zoomGroupName, SceneName=currentSceneName)
                     tc_scene.addTask("TaskSceneLeave", SceneName=currentSceneName)
-                    tc_hint.addTask(self.PolicyHintClick)
+                    tc_hint.addTask(policyHintClick)
 
         HintAction = HintManager.createHintAction("HintActionZoomOut", Quest)
         return HintAction

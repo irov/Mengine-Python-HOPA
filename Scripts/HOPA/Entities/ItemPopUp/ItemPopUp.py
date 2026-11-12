@@ -13,16 +13,18 @@ class ItemPopUp(BaseEntity):
         Type.addAction("ItemName")
         Type.addAction("Open", Update=ItemPopUp._updateOpen)
 
+    def __init__(self):
+        super(ItemPopUp, self).__init__()
+
+        self.InventoryItem = None
+        self.itemPopUpChain = None
+
     def _updateOpen(self, value):
         if value is not True:
             return
 
         # Shared popup layers can remain active while the game scene restarts.
         if TaskManager.existTaskChain("ItemPopUp") is True:
-            return
-
-        self.InventoryItem = PopUpItemManager.getItemInventoryItem(self.ItemName)
-        if self.InventoryItem is not None and self.InventoryItem.isActive() is False:
             return
 
         self._openItemPopUp()
@@ -40,17 +42,17 @@ class ItemPopUp(BaseEntity):
     def _openItemPopUp(self):
         Point_Item = self.getSubEntity("Point_Item")
 
-        self.InventoryItem = PopUpItemManager.getItemInventoryItem(self.ItemName)
+        inventoryItem = PopUpItemManager.getItemInventoryItem(self.ItemName)
 
-        if self.InventoryItem is None:
+        if inventoryItem is None:
             Trace.log("Entity", 0, "ItemPopUp._openItemPopUp: not found item %s" % (self.ItemName))
             return
 
-        if not self.InventoryItem.isActive():
-            Trace.log("Entity", 0, "ItemPopUp._openItemPopUp: not active item %s" % (self.ItemName))
+        if inventoryItem.isActive() is False:
             return
 
-        InventoryItemNode = self.InventoryItem.getEntityNode()
+        self.InventoryItem = inventoryItem
+        InventoryItemNode = inventoryItem.getEntityNode()
         InventoryItemNode.enable()
         Point_Item.attach(InventoryItemNode)
 
@@ -69,7 +71,8 @@ class ItemPopUp(BaseEntity):
         PopUpItemEscClose = DefaultManager.getDefaultBool("PopUpItemEscClose", False)
         PopUpItemBackClose = DefaultManager.getDefaultBool("PopUpItemBackClose", False)
 
-        with TaskManager.createTaskChain(Name="ItemPopUp", Group=self.object, Cb=self.__notifyEnd) as tc:
+        self.itemPopUpChain = TaskManager.createTaskChain(Name="ItemPopUp", Group=self.object, Cb=self.__notifyEnd)
+        with self.itemPopUpChain as tc:
             tc.addScope(self.scopeOpen, "ItemPopUp")
             tc.addEnable(self.Socket_Back)
             tc.addTask("TaskInteractive", Object=self.Socket_Back, Value=True)
@@ -93,7 +96,7 @@ class ItemPopUp(BaseEntity):
 
             tc.addParam(self.object, "Open", False)
             tc.addDisable(self.InventoryItem)
-            tc.addTask("TaskObjectReturn", Object=self.InventoryItem)
+            tc.addFunction(self.__returnInventoryItem)
             tc.addDisable(self.Socket_Back)
             tc.addTask("TaskInteractive", Object=self.Socket_Back, Value=False)
             tc.addNotify(Notificator.onItemPopUpEnd, self.ItemName)
@@ -132,12 +135,24 @@ class ItemPopUp(BaseEntity):
                 guard_source_movie.addTask("TaskMovie2Play", Movie2=Movie, Wait=True)
                 guard_source_movie.addDisable(Movie)
 
+    def __returnInventoryItem(self):
+        inventoryItem = self.InventoryItem
+        self.InventoryItem = None
+
+        if inventoryItem is None:
+            return
+
+        inventoryItem.returnToParent()
+
     def __notifyEnd(self, isSkip):
+        self.itemPopUpChain = None
         Notification.notify(Notificator.onItemPopUpClose, self.ItemName)
 
     def _onDeactivate(self):
-        if TaskManager.existTaskChain("ItemPopUp") is True:
-            TaskManager.cancelTaskChain("ItemPopUp")
+        tc = self.itemPopUpChain
+        self.itemPopUpChain = None
 
-        if self.Open is True:
-            self.InventoryItem.returnToParent()
+        if tc is not None:
+            tc.cancel()
+
+        self.__returnInventoryItem()

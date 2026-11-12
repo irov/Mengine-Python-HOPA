@@ -19,7 +19,7 @@ class ScenarioManager(Manager):
     onScenarioInit = None
     onScenarioEnter = None
     onScenarioLeave = None
-    onSceneRemoved = None
+    onSceneDeactivate = None
 
     class ScenarioDesc(object):
         def __init__(self, SceneName, ZoomName, Module, ScenarioName, PlusName):
@@ -34,7 +34,7 @@ class ScenarioManager(Manager):
         ScenarioManager.addObserver(Notificator.onScenarioInit, ScenarioManager.__onScenarioInit)
         ScenarioManager.addObserver(Notificator.onScenarioEnter, ScenarioManager.__onScenarioEnter)
         ScenarioManager.addObserver(Notificator.onScenarioLeave, ScenarioManager.__onScenarioLeave)
-        ScenarioManager.addObserver(Notificator.onSceneRemoved, ScenarioManager.__onSceneRemoved)
+        ScenarioManager.addObserver(Notificator.onSceneDeactivate, ScenarioManager.__onSceneDeactivate)
         pass
 
     @staticmethod
@@ -89,7 +89,7 @@ class ScenarioManager(Manager):
         return False
 
     @staticmethod
-    def __onSceneRemoved(SceneName):
+    def __onSceneDeactivate(SceneName):
         GroupName = SceneManager.getSceneMainGroupName(SceneName)
         Scenarios = ScenarioManager.getSceneRunScenarios(SceneName, GroupName)
 
