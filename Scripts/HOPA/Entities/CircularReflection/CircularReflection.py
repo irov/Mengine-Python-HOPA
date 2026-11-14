@@ -115,7 +115,7 @@ class CircularReflection(Enigma):
             slotToMovieMap = subMap[movieName]
             movie = self.object.getObject(movieName)
             movieEn = movie.getEntity()
-            for slotName, subMovieName in slotToMovieMap.items():
+            for slotName, subMovieName in slotToMovieMap.iteritems():
                 slotNode = movieEn.getMovieSlot(slotName)
                 movieNode = movieEn.getSubMovie(subMovieName)
                 movieNode.disable()
@@ -178,7 +178,7 @@ class CircularReflection(Enigma):
     def suppressInteraction(self, boolVal):
         defaultInteractive = int(not boolVal)
 
-        for socket in self.socketToCircle.keys():
+        for socket in self.socketToCircle.iterkeys():
             if socket.getInteractive() == defaultInteractive:
                 socket.setInteractive(boolVal)
 
@@ -220,12 +220,12 @@ class CircularReflection(Enigma):
         """
         Check if exist slot in movies
         """
-        for movieName, nestedSlotDict in collections.items():
+        for movieName, nestedSlotDict in collections.iteritems():
             slotNames = []
             movieObject = self.object.getObject(movieName)
             movieEntity = movieObject.getEntity()
             slotNames.extend(nestedSlotDict.values()[0])
-            slotNames.extend(nestedSlotDict.keys())
+            slotNames.extend(nestedSlotDict.iterkeys())
             for slotName in slotNames:
                 if movieEntity.hasMovieSlot(slotName) is False:
                     Trace.log("Entity", 0, "Slot %s doesnt exist in %s" % (slotName, movieName))

@@ -47,7 +47,7 @@ class Journal2(BaseEntity):
 
     def disableAllPages(self):
         allPages = Journal2Manager.getAllPages()
-        for movie in allPages.values():
+        for movie in allPages.itervalues():
             movie.setEnable(False)
             pass
         pass

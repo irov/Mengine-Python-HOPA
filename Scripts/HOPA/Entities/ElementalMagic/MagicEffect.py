@@ -108,7 +108,7 @@ class MagicEffect(Initializer):
         }
         group = GroupManager.getGroup(self.params.group_name)
 
-        for state, (prototype_name, play, loop) in states.items():
+        for state, (prototype_name, play, loop) in states.iteritems():
             movie_name = "Movie2_Element_%s" % state
 
             movie = group.generateObjectUnique(movie_name, prototype_name,

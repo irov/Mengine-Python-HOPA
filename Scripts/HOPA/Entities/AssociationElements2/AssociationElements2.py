@@ -60,7 +60,7 @@ class AssociationElements2(ScopeEnigma):
         # self.onMovieSocketClickObserver = Notification.addObserver(Notificator.onMovieSocketClick, self.__onMovieSocketClick)
         self.onWinObserver = Notification.addObserver(Notificator.onAssociationElementActive, self.__isComplete)
 
-        with source.addRaceTaskList(self.sockets.keys()) as race_tcs:
+        with source.addRaceTaskList(self.sockets.iterkeys()) as race_tcs:
             for socketName, tc_race in race_tcs:
                 tc_race.addTask("TaskMovieSocketClick", SocketName=socketName, Movie=self.MovieSlot)
                 tc_race.addFunction(self.onMovieSocketClick, socketName, self.MovieSlot)
@@ -132,7 +132,7 @@ class AssociationElements2(ScopeEnigma):
         pass
 
     def __isComplete(self):
-        for element in self.sockets.values():
+        for element in self.sockets.itervalues():
             if element.getActive() is False:
                 return False
                 pass

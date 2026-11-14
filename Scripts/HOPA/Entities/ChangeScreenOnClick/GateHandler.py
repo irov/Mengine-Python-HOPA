@@ -87,7 +87,7 @@ class GateHandler(Initializer):
     def runTaskChain(self):
         self.tc = TaskManager.createTaskChain(Name="ChangeScreenOnClickGateHandler")
         with self.tc as tc:
-            for id_, parallel in tc.addParallelTaskList(self.Movies.keys()):
+            for id_, parallel in tc.addParallelTaskList(self.Movies.iterkeys()):
                 parallel.addScope(self._scopeLever, id_)
 
     def _scopeLever(self, source, id_):

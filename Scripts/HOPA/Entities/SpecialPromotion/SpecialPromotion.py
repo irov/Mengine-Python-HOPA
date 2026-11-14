@@ -35,7 +35,7 @@ class SpecialPromotion(BaseEntity):
 
     def __loadParams(self):
         params = MonetizationManager.getSpecialPromotionParams()
-        tagged = {param.tag: param for param in params.values()}
+        tagged = {param.tag: param for param in params.itervalues()}
         return tagged
 
     def _onPreparation(self):
@@ -87,7 +87,7 @@ class SpecialPromotion(BaseEntity):
     # /////////////
 
     def _getMovies(self, dict_in, dict_out, optional=False):
-        for key, movie_name in dict_in.items():
+        for key, movie_name in dict_in.iteritems():
             if self.object.hasObject(movie_name):
                 movie = self.object.getObject(movie_name)
                 movie.setInteractive(True)
@@ -119,7 +119,7 @@ class SpecialPromotion(BaseEntity):
         self._getMovies(optional_content, self.content, optional=True)
 
         backgrounds = {
-            tag: param.background_movie_name for tag, param in self.params.items()
+            tag: param.background_movie_name for tag, param in self.params.iteritems()
             if param.background_movie_name is not None
         }
         self._getMovies(backgrounds, self.backgrounds)
@@ -137,8 +137,8 @@ class SpecialPromotion(BaseEntity):
         else:
             icon_slot = self.content["window"].getMovieSlot("icon")
 
-        icons = {tag: "Movie2_Icon_" + tag for tag in self.params.keys()}
-        for tag, proto in icons.items():
+        icons = {tag: "Movie2_Icon_" + tag for tag in self.params.iterkeys()}
+        for tag, proto in icons.iteritems():
             if self.object.hasPrototype(proto):
                 movie = self.object.generateObjectUnique(proto, proto, Enable=False)
                 self.icons[tag] = movie
@@ -153,7 +153,7 @@ class SpecialPromotion(BaseEntity):
         self._attachContent("window", "close", "close")
         if "restore" in self.content:
             self._attachContent("window", "purchase", "restore")
-        for background_movie in self.backgrounds.values():
+        for background_movie in self.backgrounds.itervalues():
             background_movie.setEnable(False)
             self._attachMovie("window", "bg", background_movie)
 
@@ -307,7 +307,7 @@ class SpecialPromotion(BaseEntity):
     def _setTexts(self, texts_dict):
         """ :param texts_dict: { alias_id: [text_id, *args] }
                 dict where key is alias and value is a list where first val is text_id and other is args """
-        for alias, args in texts_dict.items():
+        for alias, args in texts_dict.iteritems():
             self._setText("", alias, *args)
 
     @staticmethod

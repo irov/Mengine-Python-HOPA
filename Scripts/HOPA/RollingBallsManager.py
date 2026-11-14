@@ -77,7 +77,7 @@ class RollingBallsManager(Manager):
             BallId = record.get("BallType")
             SlotId = record.get("Slot")
 
-            if SegmentId not in segments.keys():
+            if SegmentId not in segments.iterkeys():
                 segment = RollingBallsManager.RollingBallsSegment()
                 segments[SegmentId] = segment
             else:
@@ -97,7 +97,7 @@ class RollingBallsManager(Manager):
             RollId = record.get("Roll")
 
             SegmentId = record.get("Segment")
-            if RollId not in rolls.keys():
+            if RollId not in rolls.iterkeys():
                 roll = RollingBallsManager.RollingBallsRoll()
                 rolls[RollId] = roll
             else:

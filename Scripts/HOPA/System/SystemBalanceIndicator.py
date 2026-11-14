@@ -63,7 +63,7 @@ class SystemBalanceIndicator(System):
 
         BalanceIndicator = DemonManager.getDemon("BalanceIndicator")
 
-        for indicator_type, group_list in self.__whitelist.items():
+        for indicator_type, group_list in self.__whitelist.iteritems():
             if len(group_list) == 0:
                 continue
             BalanceIndicator.setParam("Show" + indicator_type, False)
@@ -72,7 +72,7 @@ class SystemBalanceIndicator(System):
             self.addObserver(Notificator.onLayerGroupDisable, self._cbWhiteBlackListLayerGroupDisable,
                              group_list, indicator_type, "whitelist")
 
-        for indicator_type, group_list in self.__blacklist.items():
+        for indicator_type, group_list in self.__blacklist.iteritems():
             if len(group_list) == 0:
                 continue
             self.addObserver(Notificator.onLayerGroupEnable, self._cbWhiteBlackListLayerGroupEnable,

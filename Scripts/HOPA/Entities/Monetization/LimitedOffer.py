@@ -15,7 +15,7 @@ class LimitedOffer(BaseComponent):
 
     def _createParams(self):
         special_promotions = MonetizationManager.getSpecialPromotionParams()
-        self.limited_promos = [promo for promo in special_promotions.values() if promo.limit_delay is not None]
+        self.limited_promos = [promo for promo in special_promotions.itervalues() if promo.limit_delay is not None]
         self.enable = len(self.limited_promos) != 0
         self.demon_name = "LimitedPromo"
         self.demon = DemonManager.getDemon(self.demon_name) if DemonManager.hasDemon(self.demon_name) else None

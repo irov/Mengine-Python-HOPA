@@ -64,7 +64,7 @@ class TabSection(object):
         slot_position = slot.getLocalPosition()
         self._va_total_height += slot_position.y
 
-        tabs_params = sorted(self.params.values(), key=lambda tab: tab.index)
+        tabs_params = sorted(self.params.itervalues(), key=lambda tab: tab.index)
         for params in tabs_params:
             if params.page_id in ignored_pages:
                 continue
@@ -105,7 +105,7 @@ class TabSection(object):
         if len(self.tabs) > 0:
             self.tc_tabs_handler = TaskManager.createTaskChain(Name="TabSectionsHandler", Repeat=True)
             with self.tc_tabs_handler as tc:
-                for button, source_race in tc.addRaceTaskList(self.tabs.values()):
+                for button, source_race in tc.addRaceTaskList(self.tabs.itervalues()):
                     source_race.addScope(button.scopeInteract)
 
     def _cbTabClicked(self, tab):

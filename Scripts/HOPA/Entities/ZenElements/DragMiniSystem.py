@@ -88,7 +88,7 @@ class DragMiniSystem(object):
         pass
 
     def bound_slots(self):
-        for circle_list in self.circles.values():
+        for circle_list in self.circles.itervalues():
             for circle in circle_list:
                 slots = circle.getCountSlots()
                 if not circle.isSituated():
@@ -154,7 +154,7 @@ class DragMiniSystem(object):
         self.sockets = {}
         self.slots = {}
         self.item_map = {}
-        for behaviour_list in self.circles.values():
+        for behaviour_list in self.circles.itervalues():
             behaviour_list[:] = []
             pass
         pass
@@ -234,7 +234,7 @@ class DragMiniSystem(object):
 
     def save_progres(self):
         save_dict = {}  # "socket name:item name"
-        for socket_object, slotInstance in self.sockets.items():
+        for socket_object, slotInstance in self.sockets.iteritems():
             socketName = socket_object.getName()
             itemEn = slotInstance.getItem()
             if itemEn is None:
@@ -247,7 +247,7 @@ class DragMiniSystem(object):
         pass
 
     def restore_progress(self, save_dict):
-        for socket_object, slotInstance in self.sockets.items():
+        for socket_object, slotInstance in self.sockets.iteritems():
             socketName = socket_object.getName()
             itemName = save_dict.get(socketName)
             if itemName is None:
@@ -261,7 +261,7 @@ class DragMiniSystem(object):
         pass
 
     def findNodeByItem(self, itemEntity):
-        for slotInstance in self.sockets.values():
+        for slotInstance in self.sockets.itervalues():
             holdingItem = slotInstance.hasItem(itemEntity)
             if holdingItem is True:
                 return slotInstance

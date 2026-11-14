@@ -35,7 +35,7 @@ class SurveyPhotoGallery(BaseEntity):
         self.btn_close_photo.setEnable(False)
 
         ''' Disable Zoomed In Photos on Start '''
-        for photo in SurveyPhotoGalleryManager.s_photos.values():
+        for photo in SurveyPhotoGalleryManager.s_photos.itervalues():
             photo.setEnable(False)
 
     def _onActivate(self):

@@ -109,7 +109,7 @@ class RollingBalls(ScopeEnigma):
             pass
 
         currentBalls = {}
-        for ballType, nodeList in self.balls.items():
+        for ballType, nodeList in self.balls.iteritems():
             currentBalls[ballType] = [node for node in nodeList]
             pass
 
@@ -123,7 +123,7 @@ class RollingBalls(ScopeEnigma):
         pass
 
     def loadBalls(self, GameData):
-        for ballType, ballData in GameData.balls.items():
+        for ballType, ballData in GameData.balls.iteritems():
             self.balls[ballType] = []
             pass
 

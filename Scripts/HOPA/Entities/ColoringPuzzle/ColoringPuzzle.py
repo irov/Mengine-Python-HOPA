@@ -43,11 +43,11 @@ class ColoringPuzzle(Enigma):
         self.arrow_radius_saved = None
 
     def finalize(self):
-        for paletteId, palette in self.palette.items():
+        for paletteId, palette in self.palette.iteritems():
             palette.finalize()
             pass
 
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.finalize()
             pass
 
@@ -101,19 +101,19 @@ class ColoringPuzzle(Enigma):
     def _preparation(self):
         self.GameData = ColoringPuzzleManager.getGame(self.EnigmaName)
 
-        for colorId, colorData in self.GameData.colors.items():
+        for colorId, colorData in self.GameData.colors.iteritems():
             color = ColoringPuzzleColor(colorId, colorData["ColorName"])
             self.colors[colorId] = color
             pass
 
-        for paletteId, paletteData in self.GameData.palette.items():
+        for paletteId, paletteData in self.GameData.palette.iteritems():
             socketObject = self.object.getObject(paletteData["SocketObjectName"])
 
             palette = ColoringPuzzlePalette(paletteData["ColorId"], socketObject)
             self.palette[paletteId] = palette
             pass
 
-        for fragmentId, fragmentData in self.GameData.fragments.items():
+        for fragmentId, fragmentData in self.GameData.fragments.iteritems():
             socketName = fragmentData["SocketObjectName"]
             socketObject = self.object.getObject(socketName)
 
@@ -124,7 +124,7 @@ class ColoringPuzzle(Enigma):
             self.fragments[fragmentId] = fragment
             pass
 
-        for brushId, brushData in self.GameData.brushes.items():
+        for brushId, brushData in self.GameData.brushes.iteritems():
             movieGroup = GroupManager.getGroup(brushData["GroupName"])
             movieObject = movieGroup.getObject(brushData["ObjectName"])
             movieObject.setEnable(False)
@@ -196,7 +196,7 @@ class ColoringPuzzle(Enigma):
         pass
 
     def _checkComplete(self):
-        for fragmentId, colorId in self.GameData.coloringRules.items():
+        for fragmentId, colorId in self.GameData.coloringRules.iteritems():
             fragment = self.fragments[fragmentId]
             checkColor = fragment.getColor()
 
@@ -212,11 +212,11 @@ class ColoringPuzzle(Enigma):
 
     def _restoreEnigma(self):
         self._preparation()
-        for paletteId, palette in self.palette.items():
+        for paletteId, palette in self.palette.iteritems():
             palette.initialize(self._onChangeColor)
             pass
 
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.initialize(self._onClickFragment)
             pass
 
@@ -231,11 +231,11 @@ class ColoringPuzzle(Enigma):
 
     def _playEnigma(self):
         self._preparation()
-        for paletteId, palette in self.palette.items():
+        for paletteId, palette in self.palette.iteritems():
             palette.initialize(self._onChangeColor)
             pass
 
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.initialize(self._onClickFragment)
             pass
 

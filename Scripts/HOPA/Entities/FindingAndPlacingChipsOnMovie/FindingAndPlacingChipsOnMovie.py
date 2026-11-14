@@ -49,7 +49,7 @@ class FindingAndPlacingChipsOnMovie(Enigma):
             return
         self.content = self.object.getObject('Movie2_MGContent')
 
-        for chip_param in self.params.values():
+        for chip_param in self.params.itervalues():
             if chip_param.chip_id not in self.RemainingChips:
                 continue
             chip_movie = self.object.getObject(chip_param.chip_movie_name)
@@ -89,7 +89,7 @@ class FindingAndPlacingChipsOnMovie(Enigma):
         if self.current_chip is not None:
             skip_source.addDisable(self.current_chip.chip_movie)
 
-        for (chip, parallel) in skip_source.addParallelTaskList(self.chips.values()):
+        for (chip, parallel) in skip_source.addParallelTaskList(self.chips.itervalues()):
             if chip.movie_place.getEnable() is False:
                 parallel.addDummy()
             else:

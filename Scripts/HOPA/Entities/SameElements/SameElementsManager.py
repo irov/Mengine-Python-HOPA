@@ -78,7 +78,7 @@ class SameElementsManager(Manager):
             MovieName = record.get("MovieName")
             SlotID = record.get("SlotID")
             StartElement = record.get("StartElement")
-            if CollectionID not in SameElementsManager.s_collections[enigmaName].keys():
+            if CollectionID not in SameElementsManager.s_collections[enigmaName].iterkeys():
                 Collection = SameElementsManager.Collection(MovieName)
                 SameElementsManager.s_collections[enigmaName][CollectionID] = Collection
                 pass

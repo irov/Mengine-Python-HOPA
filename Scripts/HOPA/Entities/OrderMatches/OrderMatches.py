@@ -237,14 +237,14 @@ class OrderMatches(Enigma):
         self.order = sorted(GameData.order, key=lambda x: x["Order"])
 
         if GameData.elementsSource is not None:
-            for elementId, elementData in GameData.elementsSource.items():
+            for elementId, elementData in GameData.elementsSource.iteritems():
                 stateObject = self.object.getObject(elementData["ObjectName"])
                 element = OrderMatchesElementSource(stateObject)
                 self.elementsSource[elementId] = element
                 pass
             pass
 
-        for elementId, elementData in GameData.elementsDestination.items():
+        for elementId, elementData in GameData.elementsDestination.iteritems():
             stateObject = self.object.getObject(elementData["ObjectName"])
             socketObject = self.object.getObject(elementData["SocketObjectName"])
             MovieButtonName = elementData["MovieButton"]
@@ -262,7 +262,7 @@ class OrderMatches(Enigma):
         pass
 
     def _playEnigma(self):
-        for elementId, element in self.elementsDestination.items():
+        for elementId, element in self.elementsDestination.iteritems():
             element.initialize(self._checkComplete)
             pass
 

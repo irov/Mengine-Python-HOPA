@@ -10,7 +10,7 @@ class Graph(object):
         self.complete = False
 
     def __setComplete(self):
-        for node in self.nodes.values():
+        for node in self.nodes.itervalues():
             if not node.win_chip_placed:
                 return
         self.complete = True
@@ -23,7 +23,7 @@ class Graph(object):
                 return node
 
     def getNodeWithChipByID(self, chip_id):
-        for node in self.nodes.values():
+        for node in self.nodes.itervalues():
             if node.chip is None:
                 continue
             if node.chip.id is chip_id:
@@ -141,7 +141,7 @@ class Chip(object):
 
         self.node = Mengine.createNode('Interender')
 
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             if movie is None:
                 continue
 
@@ -215,7 +215,7 @@ class MoveChipsOnGraphNodes(Enigma):
 
         movies_slots = self.object.getObject('Movie2_Slots')
         nodes_params = self.param.nodes
-        for node_name, node_params in nodes_params.items():
+        for node_name, node_params in nodes_params.iteritems():
             chip_name = node_params[0] if restore is False else self.savedSlotChips[node_name]
             win_chip_name = node_params[1]
             edges_to_name_list = node_params[2]
@@ -246,7 +246,7 @@ class MoveChipsOnGraphNodes(Enigma):
 
     # -------------- Run Task Chain ------------------------------------------------------------------------------------
     def scopeMove(self, source):
-        for node, race_source in source.addRaceTaskList(self.graph.nodes.values()):
+        for node, race_source in source.addRaceTaskList(self.graph.nodes.itervalues()):
             race_source.addScope(node.scopeMouseEnter)
             race_source.addFunction(node.changeChipState, 'selected')
 
@@ -308,7 +308,7 @@ class MoveChipsOnGraphNodes(Enigma):
     def _skipEnigmaScope(self, source):  # when skip button activated
         self.tc.cancel()
 
-        for node_to, parallel in source.addParallelTaskList(self.graph.nodes.values()):
+        for node_to, parallel in source.addParallelTaskList(self.graph.nodes.itervalues()):
             if node_to.win_chip_id is None or node_to.winChipIsPlaced():
                 continue
             node_from = self.graph.getNodeWithChipByID(node_to.win_chip_id)

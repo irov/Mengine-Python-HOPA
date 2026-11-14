@@ -43,22 +43,22 @@ class ThimbleGame(Enigma):
     def _playEnigma(self):
         self.ThimbleGame = ThimbleGameManager.getGame(self.EnigmaName)
 
-        for id, socketName in self.ThimbleGame.sockets.items():
+        for id, socketName in self.ThimbleGame.sockets.iteritems():
             socketObject = self.object.getObject(socketName)
             socketObject.setInteractive(True)
             self.socket[socketObject] = id
             pass
 
-        for thimble, value in self.ThimbleGame.thimbles.items():
+        for thimble, value in self.ThimbleGame.thimbles.iteritems():
             self.Data.append(value)
             pass
 
-        for id, shows in self.ThimbleGame.shows.items():
+        for id, shows in self.ThimbleGame.shows.iteritems():
             showObject = self.object.getObject(shows)
             self.shows[id] = showObject
             pass
 
-        for key, value in self.ThimbleGame.moves.items():
+        for key, value in self.ThimbleGame.moves.iteritems():
             movie = self.object.getObject(value)
             movie.setEnable(False)
             self.moves[key] = movie
@@ -200,13 +200,13 @@ class ThimbleGame(Enigma):
         pass
 
     def enableShow(self, value):
-        for show in self.shows.values():
+        for show in self.shows.itervalues():
             show.setEnable(value)
             pass
         pass
 
     def clickOnThimble(self, curSocket):
-        if curSocket not in self.socket.keys():
+        if curSocket not in self.socket.iterkeys():
             return False
             pass
         check = self.socket[curSocket]

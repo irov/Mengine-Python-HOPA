@@ -170,14 +170,14 @@ class CollectedAmulet(BaseEntity):
 
     def __disableStatesMovies(self, Data):
         states = Data.getStates()
-        for movie in states.values():
+        for movie in states.itervalues():
             movie.setEnable(False)
             pass
         pass
 
     def __disableValuesMovies(self, Data):
         values = Data.getValues()
-        for movie in values.values():
+        for movie in values.itervalues():
             movie.setEnable(False)
             pass
         pass

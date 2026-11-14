@@ -29,7 +29,7 @@ class NotebookInventoryList(BaseEntity):
 
     def __disableAll(self):
         allEntries = NotebookInventoryListManager.getAllShowEntry()
-        for entry in allEntries.values():
+        for entry in allEntries.itervalues():
             show = entry.getShowMovie()
             show.setEnable(False)
 

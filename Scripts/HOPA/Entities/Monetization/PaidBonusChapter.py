@@ -57,7 +57,7 @@ class PaidBonusChapter(BaseComponent):
         params = {"": self.text_id, "extra": self.extra_text_id}
         is_delayed = SystemMonetization.isPurchaseDelayed(self.product.id)
 
-        for env, text_id in params.items():
+        for env, text_id in params.iteritems():
             if text_id is None:
                 continue
 
@@ -129,7 +129,7 @@ class PaidBonusChapter(BaseComponent):
             return False
 
         params = {"": self.text_id, "extra": self.extra_text_id}
-        for env, text_id in params.items():
+        for env, text_id in params.iteritems():
             if text_id is None:
                 continue
             self._setDelayedText(env, text_id)

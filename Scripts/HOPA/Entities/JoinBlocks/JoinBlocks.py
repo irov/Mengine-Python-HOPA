@@ -173,7 +173,7 @@ class JoinBlocks(Enigma):
         pass
 
     def __blockSocket(self, curSocket):
-        if curSocket not in self.blocks.keys():
+        if curSocket not in self.blocks.iterkeys():
             return False
             pass
         self.socket = curSocket
@@ -185,7 +185,7 @@ class JoinBlocks(Enigma):
         self.BeginBlock = block
         self.currentSlotMovie = block.getSlot()
         self.previousSlot = None
-        for socket in self.blocks.keys():
+        for socket in self.blocks.iterkeys():
             if socket is curSocket:
                 self.startSocket = curSocket
                 continue
@@ -197,9 +197,9 @@ class JoinBlocks(Enigma):
     pass
 
     def __blockEndSocket(self, curSocket):
-        if curSocket in self.currentBuildPath.keys():
+        if curSocket in self.currentBuildPath.iterkeys():
             check = curSocket.getName()
-            for socket in self.blocks.keys():
+            for socket in self.blocks.iterkeys():
                 block = self.blocks[socket]
                 blockName = block.getSlotName()
                 if str(check) == str(blockName):
@@ -229,7 +229,7 @@ class JoinBlocks(Enigma):
                         self.CheckRoads.append(checkRoad)
 
                         self.startSocket.setInteractive(False)
-                        for socket in self.blocks.keys():
+                        for socket in self.blocks.iterkeys():
                             socket.setInteractive(True)
                             pass
                         self.socket = None
@@ -272,11 +272,11 @@ class JoinBlocks(Enigma):
                 return True
                 pass
             pass
-        if curSocket not in self.currentBuildPath.keys():
+        if curSocket not in self.currentBuildPath.iterkeys():
             return False
             pass
-        if curSocket in self.currentBuildPath.keys():
-            for socket in self.blocks.keys():
+        if curSocket in self.currentBuildPath.iterkeys():
+            for socket in self.blocks.iterkeys():
                 block = self.blocks[socket]
                 blockName = block.getSlotName()
                 if str(check) == str(blockName):
@@ -301,7 +301,7 @@ class JoinBlocks(Enigma):
             TaskManager.cancelTaskChain(self.EnigmaName)
             pass
         startSocket.setInteractive(False)
-        for socket in self.blocks.keys():
+        for socket in self.blocks.iterkeys():
             socket.setInteractive(True)
             pass
         if self.previousSlot is not None:

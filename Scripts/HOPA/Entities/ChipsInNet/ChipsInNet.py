@@ -200,13 +200,13 @@ class ChipsInNet(Enigma):
             slot.addChild(chip.node)
             self.chips[ChipID] = chip
 
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             attachedChips = []
             for attachedChipID in self.param.Graph[chip.id]:
                 attachedChips.append(self.chips[attachedChipID])
             chip.attachedChips = attachedChips
 
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             listAttachedChips = chip.attachedChips
             for attachedChip in listAttachedChips:
                 flag = True
@@ -226,7 +226,7 @@ class ChipsInNet(Enigma):
             self.changeMeshgetPosition(rope)
 
     def _runTaskChain(self):
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             chip.node.removeFromParent()
             self.object.getEntityNode().addChild(chip.node)
             chip.node.setWorldPosition(chip.startSlot.getWorldPosition())
@@ -240,7 +240,7 @@ class ChipsInNet(Enigma):
     def _clickOnChip(self, source):
         ClickHolder = Holder()
 
-        for chip, race in source.addRaceTaskList(self.chips.values()):
+        for chip, race in source.addRaceTaskList(self.chips.itervalues()):
             race.addScope(chip.scopeClickDown)
             race.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipsInNet_ClickDown')
 
@@ -500,7 +500,7 @@ class ChipsInNet(Enigma):
 
     def Scope_complete(self, source):
         source.addFunction(self.createAffector)
-        for chip, parallel in source.addParallelTaskList(self.chips.values()):
+        for chip, parallel in source.addParallelTaskList(self.chips.itervalues()):
             parallel.addScope(chip.move, self.BG.getMovieSlot('finishChip_{}'.format(chip.id)).getWorldPosition())
         source.addFunction(self.removeAffector)
         source.addScope(self.checkLineIntersection)
@@ -520,7 +520,7 @@ class ChipsInNet(Enigma):
             tc_Rrestore.cancel()
         self.removeAffector()
         self.param = None
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             chip.attachedChips = []
             chip.movie.returnToParent()  # chip.node.removeFromParent()
         self.chips = {}

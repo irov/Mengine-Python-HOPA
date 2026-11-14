@@ -88,7 +88,7 @@ class DragTheChainToTheRightPlace(Enigma):
             chip.slot.chip = chip
             chip.node.setWorldPosition(startSlot.slot.getWorldPosition())
 
-        for chain in self.Chains.values():
+        for chain in self.Chains.itervalues():
             for rope in chain.meshgets:
                 self.changeMeshgetPosition(rope)
         if self.tc is not None:
@@ -180,7 +180,7 @@ class DragTheChainToTheRightPlace(Enigma):
             elif chip.chainID in self.Chains:
                 self.Chains[chip.chainID].chipList[chip.id] = chip
 
-        for chain in self.Chains.values():
+        for chain in self.Chains.itervalues():
             meshgets = []
             for i, chip in chain.chipList.iteritems():
                 if i >= len(chain.chipList):
@@ -284,7 +284,7 @@ class DragTheChainToTheRightPlace(Enigma):
     def moveChain(self, nextSlot, chipSelect, chainID):
         chain = self.Chains[chainID]
         if chipSelect.nextChip is None and chipSelect.previousChip is not None:
-            for chip in chain.chipList.values():
+            for chip in chain.chipList.itervalues():
                 if chip.previousChip is None:
                     chip.slot.chip = None
                     self.sortChipsChain(True, chip, nextSlot)
@@ -295,7 +295,7 @@ class DragTheChainToTheRightPlace(Enigma):
                     else:
                         chip.slot.chip = chipSelect
         elif chipSelect.nextChip is not None and chipSelect.previousChip is None:
-            for chip in chain.chipList.values():
+            for chip in chain.chipList.itervalues():
                 if chip.nextChip is None:
                     chip.slot.chip = None
                     self.sortChipsChain(False, chip, nextSlot)
@@ -372,7 +372,7 @@ class DragTheChainToTheRightPlace(Enigma):
     def checkWin(self):
         chain = self.Chains[self.param.winComb[0]]
         winSlots = self.param.winComb[1]
-        for chip in chain.chipList.values():
+        for chip in chain.chipList.itervalues():
             if chip.slot.slotID not in winSlots:
                 break
         else:
@@ -404,7 +404,7 @@ class DragTheChainToTheRightPlace(Enigma):
             chip.node = None
         self.Chips = []
 
-        for chain in self.Chains.values():
+        for chain in self.Chains.itervalues():
             for rope in chain.meshgets:
                 if rope.meshget is not None:
                     Mengine.destroyNode(rope.meshget)
@@ -414,7 +414,7 @@ class DragTheChainToTheRightPlace(Enigma):
             chain.meshgets = []
         self.Chains = {}
 
-        for slot in self.slots.values():
+        for slot in self.slots.itervalues():
             slot.chip = None
             slot.slot = None
             slot.socket = None

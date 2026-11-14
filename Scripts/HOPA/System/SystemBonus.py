@@ -42,12 +42,12 @@ class SystemBonus(System):
 
         with self.createTaskChain(Name="BonusScene", GroupName="Bonus", Global=True, Repeat=True) as tc:
             with tc.addRaceTask(2) as (source_switch_state, source_transition):
-                for state, source_state_click in source_switch_state.addRaceTaskList(BonusManager.getStates().values()):
+                for state, source_state_click in source_switch_state.addRaceTaskList(BonusManager.getStates().itervalues()):
                     source_state_click.addTask("TaskMovie2ButtonClick", Movie2ButtonName=state.button_name)
 
                     source_state_click.addNotify(Notificator.onBonusSceneChangeState, state.state_id)
 
-                for transition, source_transition_click in source_transition.addRaceTaskList(BonusManager.getTransitions().values()):
+                for transition, source_transition_click in source_transition.addRaceTaskList(BonusManager.getTransitions().itervalues()):
                     source_transition_click.addTask("TaskMovie2ButtonClick", Movie2ButtonName=transition.transition_button)
                     source_transition_click.addScope(self._scopeTransition, transition.scene_to)
 
@@ -89,7 +89,7 @@ class SystemBonus(System):
 
     def _toggleDemonStates(self):
         states = BonusManager.getStates()
-        for state in states.values():
+        for state in states.itervalues():
             if state.status is True:
                 self.current_state = state.state_id
             demon = DemonManager.getDemon(state.demon_name)
@@ -182,14 +182,14 @@ class SystemBonus(System):
         # BonusVideoManager
         bonus_video_params = BonusVideoManager.getVideos()
         bonus_video_recieved_counter = BonusVideoManager.getCounterReceivedVideos()
-        for param in bonus_video_params.values():
+        for param in bonus_video_params.itervalues():
             param.isReceived = False
         bonus_video_recieved_counter = 0
 
         # BonusManager
         bonus_params = BonusManager.getStates()
         bonus_default_status = BonusManager.getStatesDefaultStatus()
-        for state_id, state_param in bonus_params.items():
+        for state_id, state_param in bonus_params.iteritems():
             state_param.status = bonus_default_status[state_id]
 
     @staticmethod
@@ -212,7 +212,7 @@ class SystemBonus(System):
         # bonus_video_data
         videos_received_statuses = dict()
         videos = BonusVideoManager.getVideos()
-        for video_id, video in videos.items():
+        for video_id, video in videos.iteritems():
             videos_received_statuses[video_id] = video.isReceived
 
         bonus_video_data['VideoReceivedStatuses'] = videos_received_statuses
@@ -220,7 +220,7 @@ class SystemBonus(System):
 
         # bonus_manager_data
         states = BonusManager.getStates()
-        for state_id, state in states.items():
+        for state_id, state in states.iteritems():
             bonus_manager_data[state_id] = state.status
 
         return save_data
@@ -232,19 +232,19 @@ class SystemBonus(System):
         bonus_manager_data = save_data.get('BonusManagerData', {})
 
         # wallpaper_manager_data:
-        for wp_id, status in wallpaper_manager_data.items():
+        for wp_id, status in wallpaper_manager_data.iteritems():
             wallpaper = WallPaperManager.getWallpaperById(wp_id)
             wallpaper.status = status
 
         # bonus_video_data
         videos_received_statuses = bonus_video_data.get('VideoReceivedStatuses', {})
-        for video_id, video_received_status in videos_received_statuses.items():
+        for video_id, video_received_status in videos_received_statuses.iteritems():
             video = BonusVideoManager.getVideo(video_id)
             video.isReceived = video_received_status
 
         BonusVideoManager.s_counter_received_videos = bonus_video_data.get('CounterReceivedStates', 0)
 
         # bonus_manager_data
-        for state_id, state_status in bonus_manager_data.items():
+        for state_id, state_status in bonus_manager_data.iteritems():
             state = BonusManager.getState(state_id)
             state.status = state_status

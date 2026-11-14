@@ -21,7 +21,7 @@ class BonusPapers(BaseEntity):
 
     def _onPreparation(self):
         switch_buttons = BonusManager.getStates()
-        for button in switch_buttons.values():
+        for button in switch_buttons.itervalues():
             GroupManager.getObject('Bonus', button.button_name).setBlock(False)
 
         button_papers = GroupManager.getObject('Bonus', 'Movie2Button_BonusPapers')

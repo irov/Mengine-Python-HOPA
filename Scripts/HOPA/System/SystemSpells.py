@@ -511,7 +511,7 @@ class SystemSpells(System):
         rune_submovies = spell_amulet_button.getSubmovies()
         found_runes = SystemSpells.s_spell_ui_runes_settings.getFoundRunes()
 
-        for submovie_name, submovie in rune_submovies.items():
+        for submovie_name, submovie in rune_submovies.iteritems():
             if submovie_name in found_runes:
                 spell_amulet_button.changeSubmovieState(True, submovie_name)
             else:
@@ -783,7 +783,7 @@ class SystemSpells(System):
         amulet_powers_by_type = dict()
 
         params = SpellsManager.getSpellAmuletPowersParams()
-        for power_name, param in params.items():
+        for power_name, param in params.iteritems():
             spell_amulet_power = SpellAmuletPower(param)
 
             amulet_powers[power_name] = spell_amulet_power
@@ -807,7 +807,7 @@ class SystemSpells(System):
     def __createSpellAmuletStones():
         amulet_stones = dict()
         params = SpellsManager.getSpellAmuletStonesParams()
-        for power_type, param in params.items():
+        for power_type, param in params.iteritems():
             amulet_stones[power_type] = SpellAmuletStone(param)
         return amulet_stones
 
@@ -817,7 +817,7 @@ class SystemSpells(System):
 
         params_ui_buttons = SpellsManager.getSpellsUIButtonsParams()
 
-        for spell_type, param_ui_button in params_ui_buttons.items():
+        for spell_type, param_ui_button in params_ui_buttons.iteritems():
             params_demon = SpellsManager.getSpellsDemonParam(spell_type)
 
             if params_demon is None:
@@ -834,7 +834,7 @@ class SystemSpells(System):
 
         params_ui_runes = SpellsManager.getSpellsUIRunesParams()
 
-        for rune_type, params_ui_rune in params_ui_runes.items():
+        for rune_type, params_ui_rune in params_ui_runes.iteritems():
             ui_runes[rune_type] = SpellUIRune(SystemSpells.s_spell_amulet_stones[rune_type].locked, params_ui_rune)
 
         return ui_runes
@@ -905,7 +905,7 @@ class SystemSpells(System):
             group_filter = SceneManager.getSceneMainGroupName(scene_filter)
 
         powers_with_quest = []
-        for spell_amulet_power in spell_amulet_powers.values():
+        for spell_amulet_power in spell_amulet_powers.itervalues():
             quest = spell_amulet_power.getQuest()
 
             if quest is None:
@@ -1001,7 +1001,7 @@ class SystemSpells(System):
         SystemSpells.s_dev_to_debug = True
 
         stones = SystemSpells.getSpellAmuletStones()
-        has_locked_stone = True in [stone.getLocked() is True for stone in stones.values() if stone is not None]
+        has_locked_stone = True in [stone.getLocked() is True for stone in stones.itervalues() if stone is not None]
         if has_locked_stone is False:
             return
 
@@ -1072,7 +1072,7 @@ class SystemSpells(System):
 
         amulet_powers_used_save = spells_data['spell_amulet']['amulet_powers_used_save']
         amulet_powers_blocked_save = spells_data['spell_amulet']['amulet_powers_blocked_save']
-        for power_name, spell_amulet_power in SystemSpells.s_spell_amulet_powers.items():
+        for power_name, spell_amulet_power in SystemSpells.s_spell_amulet_powers.iteritems():
             if spell_amulet_power.used:
                 amulet_powers_used_save.append(power_name)
 
@@ -1080,12 +1080,12 @@ class SystemSpells(System):
                 amulet_powers_blocked_save.append(power_name)
 
         amulet_stones_save = spells_data['spell_amulet']['amulet_stones_save']
-        for power_type, spell_amulet_stone in SystemSpells.s_spell_amulet_stones.items():
+        for power_type, spell_amulet_stone in SystemSpells.s_spell_amulet_stones.iteritems():
             if not spell_amulet_stone.locked:
                 amulet_stones_save.append(power_type)
 
         spell_ui_button_save = spells_data['spell_ui_component']['spell_ui_button_save']
-        for spell_type, spell_ui_component in SystemSpells.s_spell_ui_components.items():
+        for spell_type, spell_ui_component in SystemSpells.s_spell_ui_components.iteritems():
             if not spell_ui_component.locked:
                 spell_ui_button_save.append(spell_type)
 
@@ -1154,7 +1154,7 @@ class SystemSpells(System):
 
         stones = SystemSpells.getSpellAmuletStones()
 
-        for stone in stones.values():
+        for stone in stones.itervalues():
             if stone is None or stone.getLocked() is False:
                 continue
 
@@ -1163,7 +1163,7 @@ class SystemSpells(System):
             Notification.notify(NOTIFICATOR_onSpellUISpellUpdate, SPELL_AMULET_TYPE)
             Trace.msg("<SystemSpells> unlocked stone {!r}".format(power_type))
 
-            has_locked_stone = True in [stone.getLocked() is True for stone in stones.values() if stone is not None]
+            has_locked_stone = True in [stone.getLocked() is True for stone in stones.itervalues() if stone is not None]
             if has_locked_stone is False:
                 _hideDTD()
             return

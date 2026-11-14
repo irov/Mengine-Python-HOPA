@@ -111,7 +111,7 @@ class SystemCollectibles(System):
 
     def disableCollectibles(self):
         collectibles_params = CollectiblesManager.getCollectibleParams()
-        for param in collectibles_params.values():
+        for param in collectibles_params.itervalues():
             group = GroupManager.getGroup(param.group_name)
             if isinstance(group, GroupManager.EmptyGroup) is True:
                 continue
@@ -377,7 +377,7 @@ class SystemCollectibles(System):
             """
             revert block gui buttons
             """
-            for (group_name_, button_block_param) in button_block_params.items():
+            for (group_name_, button_block_param) in button_block_params.iteritems():
                 tc.addFunction(button_block_param.revertButtonBlock)
 
             """
@@ -397,7 +397,7 @@ class SystemCollectibles(System):
 
     @staticmethod
     def __createCollectible(collectibles_params):
-        for params in collectibles_params.values():
+        for params in collectibles_params.itervalues():
             collectible = Collectible(params)
             SystemCollectibles.s_collectibles[params.item_id] = collectible
             SystemCollectibles.__addCollectiblesByScene(collectible, collectible.params.scene)
@@ -414,7 +414,7 @@ class SystemCollectibles(System):
 
     @staticmethod
     def __createCollectibleGroups(collectible_groups_params):
-        for param in collectible_groups_params.values():
+        for param in collectible_groups_params.itervalues():
             collectibles_group = CollectibleGroup(param)
             SystemCollectibles.s_collectibles_groups[param.scene_name] = collectibles_group
 
@@ -619,7 +619,7 @@ class SystemCollectibles(System):
         """
 
         collectibles_scene_params = SystemCollectibles.getCollectibleGroups()
-        for collectible_scene_param in collectibles_scene_params.values():
+        for collectible_scene_param in collectibles_scene_params.itervalues():
             if not collectible_scene_param.isComplete():
                 return False
 
@@ -669,7 +669,7 @@ class SystemCollectibles(System):
         }
 
         collectibles_data = save_collectibles['Collectibles']
-        for collectible in cls.getCollectibles().values():
+        for collectible in cls.getCollectibles().itervalues():
             if collectible.isComplete():
                 collectibles_data.append(collectible.collectible_id)
 

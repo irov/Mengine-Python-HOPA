@@ -331,7 +331,7 @@ class SystemInventoryPanel(System):
 
         self.scene_cached_inv_data = data_save[0]
 
-        for (zoom_group_name, inventory_name) in data_save[1].items():
+        for (zoom_group_name, inventory_name) in data_save[1].iteritems():
             self.InventorySwap(inventory_name, True, zoom_group_name, True)
 
     def _onSave(self):

@@ -37,7 +37,7 @@ class SystemMorphs(System):
         return True
 
     def _onStop(self):
-        for morph in self.morphs.values():
+        for morph in self.morphs.itervalues():
             morph.cleanUp()
         self.morphs = {}
 
@@ -67,7 +67,7 @@ class SystemMorphs(System):
         for params in MorphManager.getAllMorphs():
             group = GroupManager.getGroup(params.group_name)
 
-            for state, movie_name in params.state_movies.items():
+            for state, movie_name in params.state_movies.iteritems():
                 movie = group.getObject(movie_name)
                 movie.setEnable(False)
 
@@ -76,7 +76,7 @@ class SystemMorphs(System):
             morph = Morph(params)
 
             group = GroupManager.getGroup(params.group_name)
-            for state, movie_name in params.state_movies.items():
+            for state, movie_name in params.state_movies.iteritems():
                 movie = group.getObject(movie_name)
                 morph.addState(state, movie)
 
@@ -402,7 +402,7 @@ class Morph(object):
             Trace.log("Entity", 0, "Morph {!r} has already slot".format(self.id))
             return
 
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             node = movie.getEntityNode()
             slot.addChild(node)
         self.slot = slot
@@ -458,7 +458,7 @@ class Morph(object):
         self.state = None
 
     def removeSlot(self):
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             movie.returnToParent()
         self.slot = None
 
@@ -468,7 +468,7 @@ class Morph(object):
         self.params = None
 
     def disableMovies(self):
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             movie.setPlay(False)
             movie.setLastFrame(False)
             movie.setEnable(False)

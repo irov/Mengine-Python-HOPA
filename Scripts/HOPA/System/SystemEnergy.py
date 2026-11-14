@@ -569,7 +569,7 @@ class SystemEnergy(System):
             "cooldown_timestamp": ["EnergyCooldown", None, float]
         }
 
-        for atr, (save_key, default_value, cast) in params.items():
+        for atr, (save_key, default_value, cast) in params.iteritems():
             save = Mengine.getCurrentAccountSetting(save_key)
             if save == "":
                 self.__dict__[atr] = default_value
@@ -755,7 +755,7 @@ class SystemEnergy(System):
 
         def _settingsText():
             title = "**Settings**"
-            title += "".join(["\n* {}: `{}`".format(action, state) for action, state in self.s_settings.items()])
+            title += "".join(["\n* {}: `{}`".format(action, state) for action, state in self.s_settings.iteritems()])
             return title
 
         w_settings_descr = Mengine.createDevToDebugWidgetText("settings_descr")
@@ -784,7 +784,7 @@ class SystemEnergy(System):
 
         def _actionsText():
             title = "**Actions**"
-            title += "".join(["\n* {}: `{}`".format(action, state) for action, state in self.s_actions.items()])
+            title += "".join(["\n* {}: `{}`".format(action, state) for action, state in self.s_actions.iteritems()])
             return title
 
         w_action_descr = Mengine.createDevToDebugWidgetText("action_descr")

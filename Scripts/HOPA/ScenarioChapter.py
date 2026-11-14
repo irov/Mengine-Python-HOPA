@@ -182,7 +182,7 @@ class ScenarioChapter(Initializer):
 
         for load_data in load_scenarios:
             name, load_macro = load_data
-            if name not in self.scenarios.keys():
+            if name not in self.scenarios.iterkeys():
                 from HOPA.ChapterManager import ChapterManager
                 if name in self.skipedInjections:
                     continue

@@ -29,7 +29,7 @@ class Map(BaseEntity):
         pass
 
     def __changePage(self, num):
-        for key, value in self.OpenPages.items():
+        for key, value in self.OpenPages.iteritems():
             if value == self.CurrentID:
                 indexCurrentPage = key
                 pass
@@ -46,7 +46,7 @@ class Map(BaseEntity):
             return False
             pass
 
-        for key, value in self.OpenPages.items():
+        for key, value in self.OpenPages.iteritems():
             if value == self.CurrentID:
                 indexCurrentPage = key
                 pass

@@ -109,7 +109,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
         self.params = None
 
     def checkComplete(self):
-        for tile in self.tiles.values():
+        for tile in self.tiles.itervalues():
             if not tile.is_end_rotation:
                 break
 
@@ -179,7 +179,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
 
         self.__tc_reset = TaskManager.createTaskChain()
         with self.__tc_reset as tc:
-            for tile, parallel in tc.addParallelTaskList(self.tiles.values()):
+            for tile, parallel in tc.addParallelTaskList(self.tiles.itervalues()):
                 rot_value = tile.params.start_rot % 360.0 - round(Mengine.rad2deg(tile.node.getAngle())) % 360.0
 
                 parallel.addScope(tile.scopeRotate, rot_value)
@@ -210,7 +210,7 @@ class RotateTilesWhichRotateEachOther(Enigma):
             self.__tc_main.cancel()
             self.__tc_main = None
 
-        for tile in self.tiles.values():
+        for tile in self.tiles.itervalues():
             rot_value = tile.params.finish_rot % 360.0 - round(Mengine.rad2deg(tile.node.getAngle())) % 360.0
 
             skip_source.addScope(tile.scopeRotate, rot_value)

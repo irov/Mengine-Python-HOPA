@@ -139,7 +139,7 @@ class AttachOverViewManager(Manager):
     @staticmethod
     def getAllViews():
         views = []
-        views.extend(AttachOverViewManager.bound_attached_dict.values())
-        views.extend(AttachOverViewManager.attached_dict.values())
+        views.extend(AttachOverViewManager.bound_attached_dict.itervalues())
+        views.extend(AttachOverViewManager.attached_dict.itervalues())
         ObjectNameList = AttachOverViewManager.ObjectNameList.keys()
         return ObjectNameList

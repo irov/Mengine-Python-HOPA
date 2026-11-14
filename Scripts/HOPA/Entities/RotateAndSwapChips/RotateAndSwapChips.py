@@ -97,7 +97,7 @@ class RotateAndSwapChips(Enigma):
         #            return
         #            pass
 
-        for chipId, checkData in self.GameData.rules.items():
+        for chipId, checkData in self.GameData.rules.iteritems():
             chip = self.chipElements[chipId]
             if chip.isComplete() is False:
                 return
@@ -130,21 +130,21 @@ class RotateAndSwapChips(Enigma):
         grid_movie_object.setEnable(True)
         self.gridMovie = grid_movie_object.getEntity()
 
-        for slotId, slotData in self.GameData.slots.items():
+        for slotId, slotData in self.GameData.slots.iteritems():
             MovieSlotName = slotData["MovieSlotName"]
             slotNode = self.gridMovie.getMovieSlot(MovieSlotName)
             slot = RotateAndSwapChipsSlot(slotId, slotNode)
             self.slots[slotId] = slot
             pass
 
-        for controllerId, controllerData in self.GameData.slotsControllers.items():
+        for controllerId, controllerData in self.GameData.slotsControllers.iteritems():
             buttonObject = self.object.getObject(controllerData['ButtonName'])
             slot = self.slots[controllerData["SlotId"]]
             controller = RotateAndSwapChipsSlotController(slot, controllerData["DeltaAngle"], buttonObject)
             self.slotsControllers[controllerId] = controller
             pass
 
-        for chipId, chipData in self.GameData.chips.items():
+        for chipId, chipData in self.GameData.chips.iteritems():
             statesObject = self.object.getObject(chipData["StatesObjectName"])
             rules = self.GameData.rules[chipId]
 
@@ -155,7 +155,7 @@ class RotateAndSwapChips(Enigma):
             self.chipElements[chipId] = chip
             pass
 
-        for connectionId, connectionData in self.GameData.connections.items():
+        for connectionId, connectionData in self.GameData.connections.iteritems():
             movie = self.object.getObject(connectionData['MovieObjectName'])
             connection = RotateAndSwapChipsConnection(movie)
             connectionSlots = self.GameData.connectionsSlots[connectionId]
@@ -175,7 +175,7 @@ class RotateAndSwapChips(Enigma):
         pass
 
     def findConnection(self, slot1Id, slot2Id):
-        for connectionId, connection in self.connections.items():
+        for connectionId, connection in self.connections.iteritems():
             if connection.hasSlot(slot1Id) and connection.hasSlot(slot2Id):
                 return connection
                 pass
@@ -184,13 +184,13 @@ class RotateAndSwapChips(Enigma):
         pass
 
     def blockChips(self):
-        for chipId, chip in self.chipElements.items():
+        for chipId, chip in self.chipElements.iteritems():
             chip.setBlock(True)
             pass
         pass
 
     def unblockChips(self):
-        for chipId, chip in self.chipElements.items():
+        for chipId, chip in self.chipElements.iteritems():
             chip.setBlock(False)
             pass
         pass
@@ -240,11 +240,11 @@ class RotateAndSwapChips(Enigma):
         pass
 
     def _restoreEnigma(self):
-        for chipId, chip in self.chipElements.items():
+        for chipId, chip in self.chipElements.iteritems():
             chip.initialize(self.onClickChip)
             pass
 
-        for controllerId, controller in self.slotsControllers.items():
+        for controllerId, controller in self.slotsControllers.iteritems():
             controller.initialize()
             pass
 
@@ -252,11 +252,11 @@ class RotateAndSwapChips(Enigma):
         pass
 
     def _playEnigma(self):
-        for chipId, chip in self.chipElements.items():
+        for chipId, chip in self.chipElements.iteritems():
             chip.initialize(self.onClickChip)
             pass
 
-        for controllerId, controller in self.slotsControllers.items():
+        for controllerId, controller in self.slotsControllers.iteritems():
             controller.initialize()
             pass
 

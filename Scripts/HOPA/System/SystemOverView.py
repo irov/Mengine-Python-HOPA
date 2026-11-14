@@ -36,7 +36,7 @@ class SystemOverView(System):
 
         self.applyImmediatelyView()
 
-        for pair in SystemOverView.noficators.values():
+        for pair in SystemOverView.noficators.itervalues():
             myNotify, myNotifyLeave = pair
             self.addObserver(myNotify, self.__ObjectFilter)
             self.addObserver(myNotifyLeave, self.__LeaveFilter)

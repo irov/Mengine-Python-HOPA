@@ -48,7 +48,7 @@ class About(BaseEntity):
             "social_tiktok": About.BUTTON_SOCIAL_TIKTOK_NAME,
             "social_weibo": About.BUTTON_SOCIAL_WEIBO_NAME,
         }
-        for key, name in url_buttons.items():
+        for key, name in url_buttons.iteritems():
             if self.object.hasObject(name) is False:
                 continue
             url = self._getURLByName(key)
@@ -70,7 +70,7 @@ class About(BaseEntity):
 
         with TaskManager.createTaskChain(Name="About_URLs", Repeat=True) as tc:
             with tc.addRaceTask(2) as (tc_urls, tc_close):
-                for (name, button), race in tc_urls.addRaceTaskList(self.url_buttons.items()):
+                for (name, button), race in tc_urls.addRaceTaskList(self.url_buttons.iteritems()):
                     url = self._getURLByName(name)
                     if url is not None:
                         race.addTask("TaskMovie2ButtonClick", Movie2Button=button)

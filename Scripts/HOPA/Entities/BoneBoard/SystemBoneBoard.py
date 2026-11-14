@@ -78,7 +78,7 @@ class SystemBoneBoard(System):
             return False
             pass
 
-        if sceneName not in self.scenes.values():
+        if sceneName not in self.scenes.itervalues():
             return False
             pass
 
@@ -99,7 +99,7 @@ class SystemBoneBoard(System):
             return False
             pass
         #
-        if sceneName not in self.scenes.values():
+        if sceneName not in self.scenes.itervalues():
             return False
             pass
 
@@ -144,7 +144,7 @@ class SystemBoneBoard(System):
 
         if relatedItem.startswith("done"):
             boneInstance.onCasualHideHelp()
-            if relatedItem[5:] not in self.scenes.keys():
+            if relatedItem[5:] not in self.scenes.iterkeys():
                 return False
                 pass
             del self.scenes[relatedItem[5:]]

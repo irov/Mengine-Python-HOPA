@@ -282,7 +282,7 @@ class Collectibles(BaseEntity):
         system_collectibles = SystemManager.getSystem("SystemCollectibles")
         collectibles_groups = system_collectibles.getCollectibleGroups()
 
-        for collectibles_group in collectibles_groups.values():
+        for collectibles_group in collectibles_groups.itervalues():
             plate = self.__createPlate(collectibles_group, arrow_node, scene_icon_block_prototype_name, text_block_prototype_name)
 
             if self.CompleteScene is False:
@@ -397,7 +397,7 @@ class Collectibles(BaseEntity):
 
         self.tc_transition_on_scenes = TaskManager.createTaskChain()
         with self.tc_transition_on_scenes as tc_transition_on_scenes:  # transition on scene for complete collectibles
-            for (plate, tc_plate) in tc_transition_on_scenes.addRaceTaskList(self.collectible_movie_buttons.values()):
+            for (plate, tc_plate) in tc_transition_on_scenes.addRaceTaskList(self.collectible_movie_buttons.itervalues()):
                 with tc_plate.addIfTask(plate.collectibleTransitionIsOpen) as (true, false):
                     true.addTask('TaskMovie2SocketClick', Movie2=plate.states.get('Idle'), SocketName='socket')
                     true.addFunction(self.__setSpecialCollectibleTransition, plate.collectibles_group.params.scene_name)

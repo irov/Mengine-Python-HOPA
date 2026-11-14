@@ -38,7 +38,7 @@ class SystemStore(System):
         """ initial page for Store (reset page"""
         Store = DemonManager.getDemon("Store")
 
-        tabs = StoreManager.getTabsSettings().values()
+        tabs = StoreManager.getTabsSettings().itervalues()
         selected_tabs = filter(lambda tab: tab.selected is True, tabs)
         if len(selected_tabs) == 0:
             return False
@@ -54,7 +54,7 @@ class SystemStore(System):
         """Synchronize purchase-controlled tabs with the account's current entitlements."""
 
         tab_params = StoreManager.getTabsSettings()
-        for page_id, params in tab_params.items():
+        for page_id, params in tab_params.iteritems():
             if params.trigger_hide_products_id is None:
                 continue
 
@@ -86,7 +86,7 @@ class SystemStore(System):
 
         Store.setParam("HiddenPagesID", [])
 
-        tabs = StoreManager.getTabsSettings().values()
+        tabs = StoreManager.getTabsSettings().itervalues()
         hidden_tabs = filter(lambda tab: tab.hidden is True, tabs)
 
         for tab in hidden_tabs:
@@ -102,7 +102,7 @@ class SystemStore(System):
 
         Store.setParam("UnvisitedPagesID", [])
 
-        tabs = StoreManager.getTabsSettings().values()
+        tabs = StoreManager.getTabsSettings().itervalues()
         unvisited_tabs = filter(lambda tab: tab.first_visited is False, tabs)
 
         for tab in unvisited_tabs:
@@ -180,7 +180,7 @@ class SystemStore(System):
 
     def _setupObservers(self):
         tab_params = StoreManager.getTabsSettings()
-        for page_id, params in tab_params.items():
+        for page_id, params in tab_params.iteritems():
             self.__createTabObserver(params)
 
         self.addObserver(Notificator.onStoreTabSectionClickedTab, self._onTabClicked)
@@ -306,7 +306,7 @@ class SystemStore(System):
         return False
 
     def __prefetchPages(self):
-        for tab in StoreManager.getTabsSettings().values():
+        for tab in StoreManager.getTabsSettings().itervalues():
             self.__prefetchPage(tab.page_id)
 
     def __prefetchPage(self, page_id):

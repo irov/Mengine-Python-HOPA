@@ -195,7 +195,7 @@ class SystemDifficulty(System):
     def _runScenarios(self, Difficulty):
         self.ScenariosDifficulty = Difficulty
 
-        if self.ScenariosDifficulty not in self.scenarios.keys():
+        if self.ScenariosDifficulty not in self.scenarios.iterkeys():
             # print "WARNING!!!! SystemDifficulty not have scenarios for difficulty '%s', need add xls!"%(self.ScenariosDifficulty)
             return
 

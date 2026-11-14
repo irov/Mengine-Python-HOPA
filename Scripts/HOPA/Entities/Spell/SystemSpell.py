@@ -79,7 +79,7 @@ class SystemSpell(System):
         self.onSpellUseMacroBeginObserver = Notification.addObserver(Notificator.onSpellUseMacroBegin, self.__onSpellMacroBegin)
         self.onSpellUseMacroEndObserver = Notification.addObserver(Notificator.onSpellUseMacroEnd, self.__onSpellMacroEnd)
 
-        for pair in SystemSpell.noficators.values():
+        for pair in SystemSpell.noficators.itervalues():
             NotifyEnter, NotifyLeave = pair
             Enter = Notification.addObserver(NotifyEnter, self.__ObjectEnterFilter)
             Leave = Notification.addObserver(NotifyLeave, self.__ObjectLeaveFilter)

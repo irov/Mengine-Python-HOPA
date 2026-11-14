@@ -57,7 +57,7 @@ class Lever(Initializer):
             self.tc.cancel()
             self.tc = None
 
-        for movie in self.Movies.values():
+        for movie in self.Movies.itervalues():
             movie.setEnable(False)
 
     def runTaskChain(self):
@@ -153,7 +153,7 @@ class Lever(Initializer):
             "Done": [self._params.prototype_name + "_Done", True, True],
         }
 
-        for state, (prototype_name, play, loop) in states.items():
+        for state, (prototype_name, play, loop) in states.iteritems():
             movie_name = "Lever_%s" % state
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)

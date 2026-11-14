@@ -26,7 +26,7 @@ class BonusMusic(BaseEntity):
 
     def _onPreparation(self):
         switch_buttons = BonusManager.getStates()
-        for button in switch_buttons.values():
+        for button in switch_buttons.itervalues():
             GroupManager.getObject('Bonus', button.button_name).setBlock(False)
 
         button_music = GroupManager.getObject('Bonus', 'Movie2Button_BonusMusic')
@@ -44,7 +44,7 @@ class BonusMusic(BaseEntity):
             music_volume = Mengine.getCurrentAccountSettingFloat("MusicVolume")
             self.scrollbar_volume.setValue(music_volume)
 
-        for music_param in BonusMusicManager.getBonusMusic().values():
+        for music_param in BonusMusicManager.getBonusMusic().itervalues():
             plate = self.__createPlate(music_param)
             self.music_plates[music_param.music_id] = plate
 
@@ -115,7 +115,7 @@ class BonusMusic(BaseEntity):
         self.tc_save_music = TaskManager.createTaskChain(Repeat=True)
 
         with self.tc_play_music as tc_play_music:
-            for plate, race_click in tc_play_music.addRaceTaskList(self.music_plates.values()):
+            for plate, race_click in tc_play_music.addRaceTaskList(self.music_plates.itervalues()):
                 with race_click.addRaceTask(2) as (race_click_play_on, race_click_play_off):
                     race_click_play_on.addScope(plate.scopeButtonOnClick)
                     race_click_play_on.addScope(self.__scopeClickPlayOnMusic, plate)
@@ -132,7 +132,7 @@ class BonusMusic(BaseEntity):
 
         source.addFunction(self.save_music.setBlock, False)
 
-        for plate in self.music_plates.values():
+        for plate in self.music_plates.itervalues():
             source.addFunction(plate.setPlay, False)
 
         source.addNotify(Notificator.onBonusMusicPlaylistPlay, new_plate.music_param.playlist_id)

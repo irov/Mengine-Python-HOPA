@@ -61,7 +61,7 @@ class SwapAndRotateSegments(Enigma):
             self.tc.cancel()
         self.tc = None
 
-        for chip in self.Chips.values():
+        for chip in self.Chips.itervalues():
             chip.node.removeFromParent()
 
     def load_param(self):
@@ -88,7 +88,7 @@ class SwapAndRotateSegments(Enigma):
 
     def set_chips_on_start_position(self):
         with TaskManager.createTaskChain() as tc:
-            for chip, parallel in tc.addParallelTaskList(self.Chips.values()):
+            for chip, parallel in tc.addParallelTaskList(self.Chips.itervalues()):
                 parallel.addScope(chip.rotate_to, chip.startPosition)
 
     # -------------- Main ----------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ class SwapAndRotateSegments(Enigma):
 
     def click_on_segment(self, source):
         holder_click = Holder()
-        for chip, race in source.addRaceTaskList(self.Chips.values()):
+        for chip, race in source.addRaceTaskList(self.Chips.itervalues()):
             chip.movie.setEnable(True)
             race.addTask('TaskMovie2SocketClick', SocketName='socket', Movie2=chip.movie)
             race.addFunction(holder_click.set, chip)
@@ -137,7 +137,7 @@ class SwapAndRotateSegments(Enigma):
         self.enigmaComplete()
 
     def check_win_combination(self):
-        for chip in self.Chips.values():
+        for chip in self.Chips.itervalues():
             if chip.currentPosition != chip.finishPosition:
                 return
         self.complete()
@@ -176,7 +176,7 @@ class SwapAndRotateSegments(Enigma):
         self.run_task_chain()
 
     def _skipEnigmaScope(self, source):
-        for chip, parallel in source.addParallelTaskList(self.Chips.values()):
+        for chip, parallel in source.addParallelTaskList(self.Chips.itervalues()):
             parallel.addNotify(Notificator.onSoundEffectOnObject, self.object, 'SwapAndRotateSegments_Move')
             parallel.addScope(chip.rotate_to, chip.finishPosition)
         source.addFunction(self.check_win_combination)

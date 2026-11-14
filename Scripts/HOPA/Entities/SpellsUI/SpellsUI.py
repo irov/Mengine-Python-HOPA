@@ -32,7 +32,7 @@ class SpellRune(object):
             SpellRune.APPEAR: self.SPELLS_UI_OBJECT.getObject(spell_ui_rune_param.movie2_rune_appear)
         }
 
-        for obj_movie in self.movies.values():
+        for obj_movie in self.movies.itervalues():
             obj_movie.setEnable(False)
             obj_movie.setPlay(False)
 
@@ -87,12 +87,12 @@ class SpellButton(object):
 
         sys_spells_ui_runes = SystemSpells.getSpellUIRunes()
 
-        for rune_type, sys_spells_ui_rune in sys_spells_ui_runes.items():
+        for rune_type, sys_spells_ui_rune in sys_spells_ui_runes.iteritems():
             rune = SpellRune(sys_spells_ui_rune, self.SPELLS_UI_OBJECT)
             self.spell_runes[rune_type] = rune
 
         slot_name = spell_ui_button_param.slot_name
-        for obj_movie in self.movies.values():
+        for obj_movie in self.movies.itervalues():
             SpellButton.addButtonToSlot(slot_name, obj_movie)
             obj_movie.setEnable(False)
             obj_movie.setPlay(False)
@@ -238,7 +238,7 @@ class SpellButton(object):
         # on deactivation the objects may already be inactive: getEntityNode() would return None
         if obj is not None and obj.isActive() is True:
             node = obj.getEntityNode()
-            for obj_movie in movies.values():
+            for obj_movie in movies.itervalues():
                 if obj_movie.isActive() is False:
                     continue
                 movie_node = obj_movie.getEntityNode()
@@ -302,7 +302,7 @@ class SpellsUI(BaseEntity):
 
         sys_spells_ui_components = SystemSpells.getSpellUIComponents()
 
-        for spell_type, sys_spells_ui_component in sys_spells_ui_components.items():
+        for spell_type, sys_spells_ui_component in sys_spells_ui_components.iteritems():
             spell_button = SpellButton(sys_spells_ui_component)
             self.spell_buttons[spell_type] = spell_button
 

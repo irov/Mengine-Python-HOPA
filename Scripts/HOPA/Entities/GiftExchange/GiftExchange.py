@@ -384,9 +384,9 @@ class Plate(object):
             Trace.log("Entity", 0, "Plate.__initMovies: movie 'GiftExchangePlate' should has slot 'content'")
 
         self.attachToEffect("appear")  # default effect
-        for movie in self.content.values():
+        for movie in self.content.itervalues():
             movie.setEnable(True)
-        for movie in self.effects.values():
+        for movie in self.effects.itervalues():
             movie.setEnable(False)
 
     def attachToEffect(self, effect):
@@ -409,14 +409,14 @@ class Plate(object):
         self.current_effect = effect
 
     def disableAllMovies(self):
-        for movie in self.content.values():
+        for movie in self.content.itervalues():
             movie.setEnable(False)
         self.state = None
 
     def setInput(self):
         self.reset()
 
-        for movie in self.content.values():
+        for movie in self.content.itervalues():
             movie.setEnable(True)
 
         Mengine.setTextAlias(GiftExchange.ALIAS_ENV, GiftExchange.ALIAS_TITLE, GiftExchange.ID_TEXT_EMPTY)

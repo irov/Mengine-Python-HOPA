@@ -67,7 +67,7 @@ class Options(BaseEntity):
             "Mute": Mengine.getCurrentAccountSettingBool('Mute'),
         }
 
-        self.firstCheckChange = {key: True for key in Options.s_start_check_box_values.keys()}
+        self.firstCheckChange = {key: True for key in Options.s_start_check_box_values.iterkeys()}
 
         # Check sound volume buttons:
         self.soundCheckController = CheckSoundController(self.object)
@@ -225,7 +225,7 @@ class Options(BaseEntity):
             slider.setParam('Value', perc)
 
         # ...and for Movie2CheckBox
-        for tag, value in Options.s_start_check_box_values.items():
+        for tag, value in Options.s_start_check_box_values.iteritems():
             if GroupManager.hasObject("Options", "Movie2CheckBox_{}".format(tag)) is False:
                 continue
             checkbox = GroupManager.getObject("Options", "Movie2CheckBox_{}".format(tag))

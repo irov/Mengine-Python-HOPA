@@ -35,7 +35,7 @@ class Tab(BaseEntity):
             tab.setEnable(False)
             pass
 
-        for buttonName in self.Tabs.keys():
+        for buttonName in self.Tabs.iterkeys():
             button = self.object.getObject(buttonName)
             self.buttons.append(button)
             button.setInteractive(True)

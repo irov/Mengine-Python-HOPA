@@ -211,7 +211,7 @@ class AchievementsInGameMenu(BaseEntity):
 
         number_of_achievements = len(achievements)
         counter = 0
-        for value in achievements.values():
+        for value in achievements.itervalues():
             if value.complete is True:
                 counter += 1
 

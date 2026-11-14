@@ -183,13 +183,13 @@ class FindSimilarChipsForActivate(Enigma):
         self.selected_place = flag
 
     def __disableSelectedLayer(self):
-        for chip_list in self.chips.values():
+        for chip_list in self.chips.itervalues():
             for chip in chip_list:
                 chip.movie.appendParam('DisableLayers', 'Selected')
                 chip.selected = False
 
     def __scopeDisableChips(self, source):
-        for chip_list, parallel_chip_list in source.addParallelTaskList(self.chips.values()):
+        for chip_list, parallel_chip_list in source.addParallelTaskList(self.chips.itervalues()):
             for chip, parallel_chip in parallel_chip_list.addParallelTaskList(chip_list):
                 parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=0.0, From=1.0,
                                       Time=self.param.chips_prototypes_alpha)
@@ -294,7 +294,7 @@ class FindSimilarChipsForActivate(Enigma):
     def __scopeClickOnChip(self, source):
         chip_holder = Holder()
         with source.addRaceTask(2) as (race_1, race_2):
-            for chip_list, race in race_1.addRaceTaskList(self.chips.values()):
+            for chip_list, race in race_1.addRaceTaskList(self.chips.itervalues()):
                 for chip, race_chip in race.addRaceTaskList(chip_list):
                     race_chip.addScope(chip.scopeClickDown)
                     race_chip.addFunction(chip_holder.set, chip)
@@ -309,7 +309,7 @@ class FindSimilarChipsForActivate(Enigma):
         for i in range(1, self.chips_num + 1):
             temp_list.append(i)
 
-        for chip_list in self.chips.values():
+        for chip_list in self.chips.itervalues():
             for chip in chip_list:
                 el = Utils.rand_element(temp_list)
                 slot = self.slots_movie.getMovieSlot('slot_{}'.format(el))
@@ -317,7 +317,7 @@ class FindSimilarChipsForActivate(Enigma):
                 slot.addChild(chip.node)
                 temp_list.remove(el)
 
-        for chip_list, parallel in source.addParallelTaskList(self.chips.values()):
+        for chip_list, parallel in source.addParallelTaskList(self.chips.itervalues()):
             for chip, parallel_chip in parallel.addParallelTaskList(chip_list):
                 parallel_chip.addEnable(chip.movie)
                 parallel_chip.addTask('TaskNodeAlphaTo', Node=chip.node, To=1.0, From=0.0,
@@ -361,7 +361,7 @@ class FindSimilarChipsForActivate(Enigma):
         place_holder = Holder()
         temp_list_with_places = []
 
-        temp_list_with_places_indexes = self.object.getParam('availablePlaces').keys()
+        temp_list_with_places_indexes = self.object.getParam('availablePlaces').iterkeys()
         for i in temp_list_with_places_indexes:
             temp_list_with_places.append(self.places[i])
 
@@ -396,7 +396,7 @@ class FindSimilarChipsForActivate(Enigma):
     # -------------- Enigma control ------------------------------------------------------------------------------------
     def _playEnigma(self):
         available_places_id = self.object.getParam('availablePlaces').keys()
-        for place in self.places.values():
+        for place in self.places.itervalues():
             place.movie_idle.setEnable(False)
             place.movie_death.setEnable(False)
             place.movie_use.setEnable(False)
@@ -429,7 +429,7 @@ class FindSimilarChipsForActivate(Enigma):
         source.addTask("TaskNodeAlphaTo", Node=self.hand_charged_movie.getEntityNode(), From=0.0, To=1.0,
                        Time=self.param.hand_charged_alpha_enable)
 
-        for place in set(self.places.values()):
+        for place in set(self.places.itervalues()):
             for _ in range(place.num_of_uses):
                 source.addNotify(Notificator.onSoundEffectOnObject, self.object, 'FindSimilarChipsForActivate_ChipLoss')
 

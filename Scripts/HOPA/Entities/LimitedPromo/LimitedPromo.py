@@ -36,7 +36,7 @@ class LimitedPromo(BaseEntity):
 
     def __loadParams(self):
         params = MonetizationManager.getSpecialPromotionParams()
-        tagged = {param.tag: param for param in params.values() if param.limit_delay is not None}
+        tagged = {param.tag: param for param in params.itervalues() if param.limit_delay is not None}
         return tagged
 
     def _onPreparation(self):
@@ -72,7 +72,7 @@ class LimitedPromo(BaseEntity):
 
     def __loadMovies(self):
         def _getMovies(dict_in, dict_out):
-            for key, movie_name in dict_in.items():
+            for key, movie_name in dict_in.iteritems():
                 if self.object.hasObject(movie_name):
                     movie = self.object.getObject(movie_name)
                     movie.setInteractive(True)
@@ -95,10 +95,10 @@ class LimitedPromo(BaseEntity):
         else:
             icon_slot = self.content.getMovieSlot("icon")
 
-        icons = {tag: "Movie2_Icon_" + tag for tag in self.params.keys()}
+        icons = {tag: "Movie2_Icon_" + tag for tag in self.params.iterkeys()}
         icons["Default"] = "Movie2_Icon_Default"
 
-        for tag, proto in icons.items():
+        for tag, proto in icons.iteritems():
             if self.object.hasPrototype(proto) is False:
                 _Log("{}:{} not created ({} hasn't this prototype)".format(tag, proto, self.object.getName()), err=True)
                 continue

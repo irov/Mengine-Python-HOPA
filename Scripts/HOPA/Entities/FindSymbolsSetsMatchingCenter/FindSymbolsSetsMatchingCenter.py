@@ -100,7 +100,7 @@ class FindSymbolsSetsMatchingCenter(Enigma):
         SymbolSet.MOVIE2_SET_FAIL = self.object.getObject(self.params.movie_set_fail)
         SymbolSet.MOVIE2_SET_FAIL.setEnable(False)
 
-        for movie_center, (set_order_index, symbol_param_list) in self.params.symbols.items():
+        for movie_center, (set_order_index, symbol_param_list) in self.params.symbols.iteritems():
             movie_center = self.object.getObject(movie_center)
 
             symbols = []

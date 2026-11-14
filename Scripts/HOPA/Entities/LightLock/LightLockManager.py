@@ -75,7 +75,7 @@ class LightLockManager(Manager):
             value = values.get("Value")
             movieName = values.get("MovieName")
 
-            if socketName not in waitData.keys():
+            if socketName not in waitData.iterkeys():
                 dict = {}
                 dict[value] = movieName
                 waitData[socketName] = dict
@@ -100,7 +100,7 @@ class LightLockManager(Manager):
             value = values.get("Value")
             movieName = values.get("MovieName")
 
-            if socketName not in socketData.keys():
+            if socketName not in socketData.iterkeys():
                 dict = {}
                 dict[value] = movieName
                 socketData[socketName] = dict

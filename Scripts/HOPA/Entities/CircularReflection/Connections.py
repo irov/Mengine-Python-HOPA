@@ -110,7 +110,7 @@ class Connections(object):
         self.topLevelConnections = topConnectionsInstance
 
     def _onInitialize(self):
-        for input, outputs in self.connections.items():
+        for input, outputs in self.connections.iteritems():
             connectable = Connectable(input, outputs)
             self.connectables.append(connectable)
             pass

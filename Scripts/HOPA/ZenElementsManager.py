@@ -80,7 +80,7 @@ class ZenElementsManager(Manager):
 
     @staticmethod
     def getZen(name):
-        if name not in ZenElementsManager.s_objects.keys():
+        if name not in ZenElementsManager.s_objects.iterkeys():
             return None
             pass
 
@@ -89,7 +89,7 @@ class ZenElementsManager(Manager):
 
     @staticmethod
     def hasZen(name):
-        if name not in ZenElementsManager.s_objects.keys():
+        if name not in ZenElementsManager.s_objects.iterkeys():
             return False
             pass
         return True

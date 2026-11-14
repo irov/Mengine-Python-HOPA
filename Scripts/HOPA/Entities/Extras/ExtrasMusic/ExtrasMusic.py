@@ -28,15 +28,15 @@ class ExtrasMusic(BaseEntity):
         self.pauseButtons = Data.getPauseButtons()
         self.saveButtons = Data.getSaveButtons()
         self.resource = Data.getResource()
-        for button in self.saveButtons.keys():
+        for button in self.saveButtons.iterkeys():
             button.setInteractive(True)
             pass
 
-        for button in self.playButtons.keys():
+        for button in self.playButtons.iterkeys():
             button.setInteractive(True)
             pass
 
-        for button in self.pauseButtons.keys():
+        for button in self.pauseButtons.iterkeys():
             button.setInteractive(True)
             button.setEnable(False)
             pass
@@ -50,17 +50,17 @@ class ExtrasMusic(BaseEntity):
         pass
 
     def __onButtonClick(self, button):
-        if button in self.saveButtons.keys():
+        if button in self.saveButtons.iterkeys():
             trackResource = self.saveButtons[button]
             self.saveTrack(trackResource)
             return False
             pass
-        if button in self.playButtons.keys():
+        if button in self.playButtons.iterkeys():
             trackResource = self.playButtons[button]
             self.playTrack(trackResource, button)
             return False
             pass
-        if button in self.pauseButtons.keys():
+        if button in self.pauseButtons.iterkeys():
             trackResource = self.pauseButtons[button]
             self.stopTrack(trackResource, button)
             return False
@@ -174,15 +174,15 @@ class ExtrasMusic(BaseEntity):
             pass
         self.currentTrack = None
 
-        for button in self.saveButtons.keys():
+        for button in self.saveButtons.iterkeys():
             button.setInteractive(False)
             pass
 
-        for button in self.playButtons.keys():
+        for button in self.playButtons.iterkeys():
             button.setInteractive(False)
             pass
 
-        for button in self.pauseButtons.keys():
+        for button in self.pauseButtons.iterkeys():
             button.setInteractive(False)
             pass
 

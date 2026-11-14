@@ -49,7 +49,7 @@ class CirclePairElements(Enigma):
         pass
 
     def makeSave(self):
-        for values in self.symbolBySocket.values():
+        for values in self.symbolBySocket.itervalues():
             if values.blocked is False:
                 continue
                 pass
@@ -243,7 +243,7 @@ class CirclePairElements(Enigma):
         pass
 
     def __isComplete(self):
-        for value in self.symbolBySocket.values():
+        for value in self.symbolBySocket.itervalues():
             if value.isOpen is True:
                 continue
             return False

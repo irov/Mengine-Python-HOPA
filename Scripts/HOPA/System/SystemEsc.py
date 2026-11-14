@@ -37,7 +37,7 @@ class SystemEsc(System):
             pass
 
         CurrentSceneName = SceneManager.getCurrentSceneName()
-        for id, layerName in self.layerFilter.items():
+        for id, layerName in self.layerFilter.iteritems():
             if layerName == "Zoom":
                 active = not ZoomManager.isZoomEmpty()
                 pass

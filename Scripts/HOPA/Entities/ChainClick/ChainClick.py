@@ -127,7 +127,7 @@ class ChainClick(Enigma):
         self._completed_elements = []
 
         GameData = ChainClickManager.getGame(self.EnigmaName)
-        for elementId, elementData in GameData.elements.items():
+        for elementId, elementData in GameData.elements.iteritems():
             itemObject = self.object.getObject(elementData["ObjectName"])
             itemClickedObject = self.object.getObject(elementData["ClickedObjectName"])
 
@@ -138,7 +138,7 @@ class ChainClick(Enigma):
             self.elements[elementId] = element
             pass
 
-        for chainId, chain in GameData.chains.items():
+        for chainId, chain in GameData.chains.iteritems():
             self.chains[chainId] = chain
             if chain.needToWin == 1:
                 self.chainsToWin.append(chainId)
@@ -148,5 +148,5 @@ class ChainClick(Enigma):
                 element.setChain(chainId)
 
     def _playEnigma(self):
-        for elementId, element in self.elements.items():
+        for elementId, element in self.elements.iteritems():
             element.initialize(self._onClickElement)

@@ -52,14 +52,14 @@ class MenuHelpManager(Manager):
 
     @staticmethod
     def getPage(id):
-        if id not in MenuHelpManager.s_pages.keys():
+        if id not in MenuHelpManager.s_pages.iterkeys():
             return None
 
         return MenuHelpManager.s_pages[id]
 
     @staticmethod
     def getNextPage(id):
-        if id not in MenuHelpManager.s_sequencePagesID.values():
+        if id not in MenuHelpManager.s_sequencePagesID.itervalues():
             return None
 
         return MenuHelpManager.s_sequencePagesID[id]

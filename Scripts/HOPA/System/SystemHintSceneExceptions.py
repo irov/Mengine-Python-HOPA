@@ -38,7 +38,7 @@ class SystemHintSceneExceptions(System):
         pass
 
     def hasActiveException(self, curSceneName, curGroupName):
-        for sceneName, value in self.activeExceptions.items():
+        for sceneName, value in self.activeExceptions.iteritems():
             if curSceneName == sceneName:
                 exceptionId, notifies, groupName = value
                 if groupName != curGroupName:
@@ -76,7 +76,7 @@ class SystemHintSceneExceptions(System):
             TaskManager.cancelTaskChain("HintSceneExceptions")
             pass
 
-        for sceneName, value in self.activeExceptions.items():
+        for sceneName, value in self.activeExceptions.iteritems():
             exceptionId, notifies, groupName = value
             if curSceneName == sceneName:
                 if groupName != curGroupName:

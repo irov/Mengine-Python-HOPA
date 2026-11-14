@@ -112,7 +112,7 @@ class FragmentsRoll(Enigma):
         pass
 
     def _checkComplete(self):
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragmentData = self.GameData.rules[fragmentId]
             if fragment.getX() != fragmentData["X"] or fragment.getY() != fragmentData["Y"]:
                 return
@@ -306,7 +306,7 @@ class FragmentsRoll(Enigma):
         pass
 
     def blockFragments(self, value):
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.setBlock(value)
             pass
         pass
@@ -353,7 +353,7 @@ class FragmentsRoll(Enigma):
         self.grid = FragmentsRollGrid()
         self.gridView = FragmentsRollMovieGrid(self.grid, gridMovieObject, self.GameData.cells)
 
-        for fragmentId, fragmentData in self.GameData.fragments.items():
+        for fragmentId, fragmentData in self.GameData.fragments.iteritems():
             fragment = self.generateFragment(fragmentId)
 
             self.grid.setElement(fragmentData["X"], fragmentData["Y"], fragment)
@@ -363,7 +363,7 @@ class FragmentsRoll(Enigma):
         self.refresh()
         self.onFocusObserver = Notification.addObserver(Notificator.onFocus, self._onFocus)
 
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.initialize(self)
             pass
         pass
@@ -376,7 +376,7 @@ class FragmentsRoll(Enigma):
         self.grid = FragmentsRollGrid()
         self.gridView = FragmentsRollMovieGrid(self.grid, gridMovieObject, self.GameData.cells)
 
-        for fragmentId, fragmentData in self.GameData.fragments.items():
+        for fragmentId, fragmentData in self.GameData.fragments.iteritems():
             fragment = self.generateFragment(fragmentId)
 
             self.grid.setElement(fragmentData["X"], fragmentData["Y"], fragment)
@@ -386,7 +386,7 @@ class FragmentsRoll(Enigma):
         self.refresh()
         self.onFocusObserver = Notification.addObserver(Notificator.onFocus, self._onFocus)
 
-        for fragmentId, fragment in self.fragments.items():
+        for fragmentId, fragment in self.fragments.iteritems():
             fragment.initialize(self)
             pass
         pass

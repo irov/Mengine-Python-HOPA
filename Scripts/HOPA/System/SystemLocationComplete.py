@@ -45,10 +45,10 @@ class SystemLocationComplete(System):
         self.locations_data = dict()
 
         map_objects = Map2Manager.getAllMapData()
-        for map_object in map_objects.values():
+        for map_object in map_objects.itervalues():
             map_object_collection = map_object.getCollection()
 
-            for scene_name, map_point in map_object_collection.items():
+            for scene_name, map_point in map_object_collection.iteritems():
                 self.locations_data[scene_name] = map_point.getMinigames()
 
     def _onRun(self):

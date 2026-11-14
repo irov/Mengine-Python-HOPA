@@ -48,7 +48,7 @@ class AssemblyDesigner(Enigma):
             self.assembly = {}
             self.__finish_items = types
             self.disableSet()
-            for type_ in types.keys():
+            for type_ in types.iterkeys():
                 self.assembly[type_] = None
 
             self.updateText()
@@ -504,7 +504,7 @@ class AssemblyDesigner(Enigma):
 
         def __create_items():
             items_params = self.params.items
-            for item_param in items_params.values():
+            for item_param in items_params.itervalues():
                 if not self.object.hasPrototype(item_param.movie_name_on_set):
                     _log("movie {} doesnt exist".format(item_param.movie_name_on_set))
                     continue
@@ -632,7 +632,7 @@ class AssemblyDesigner(Enigma):
     def __scopeItemClick(self, source):
         semaphore = Semaphore(False, "isAddingToCarcass")
 
-        for item, tc_race in source.addRaceTaskList(self.items.values()):
+        for item, tc_race in source.addRaceTaskList(self.items.itervalues()):
             tc_race.addScope(item.scopeClick)
             tc_race.addFunction(item.attachToCursor)
             tc_race.addTask("TaskMouseButtonClick", isDown=False)
@@ -658,7 +658,7 @@ class AssemblyDesigner(Enigma):
             shelf = self.current_shelf
             place = shelf.getFreePlace()
             if place is None:
-                for shelf in self.shelves.values():
+                for shelf in self.shelves.itervalues():
                     place = shelf.getFreePlace()
                     if place is None:
                         continue
@@ -701,7 +701,7 @@ class AssemblyDesigner(Enigma):
         source.addDummy()
 
     def __checkComplete(self):
-        for set_ in self.sets.values():
+        for set_ in self.sets.itervalues():
             if set_.checkCompleted() is False:
                 return False
 

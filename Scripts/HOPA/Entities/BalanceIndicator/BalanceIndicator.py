@@ -53,14 +53,14 @@ class BalanceIndicator(BaseEntity):
 
         icon_provider_object = self.__getIconProvider()
 
-        for indicator in self.indicators.values():
+        for indicator in self.indicators.itervalues():
             indicator.prepare(self.object, icon_provider_object)
             indicator.setShow(self.object.getParam("Show" + indicator.type.title()))
 
     def _onActivate(self):
         self.tc = TaskManager.createTaskChain(Name="BalanceIndicatorHandler", Repeat=True)
         with self.tc as tc:
-            for indicator, source_race in tc.addRaceTaskList(self.indicators.values()):
+            for indicator, source_race in tc.addRaceTaskList(self.indicators.itervalues()):
                 source_race.addScope(indicator.scopeClick)
                 source_race.addScope(indicator.scopeClicked)
 

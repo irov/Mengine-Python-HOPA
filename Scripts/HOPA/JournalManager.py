@@ -115,7 +115,7 @@ class JournalManager(Manager):
         Journal = DemonManager.getDemon("Journal")
         PageID = Journal.getParam("PageID")
 
-        for id in JournalManager.s_sequencePagesID.keys():
+        for id in JournalManager.s_sequencePagesID.iterkeys():
             if JournalManager.s_sequencePagesID[id] == JournalID:
                 if id not in PageID:
                     return None

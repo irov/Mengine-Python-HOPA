@@ -103,7 +103,7 @@ class CruiseControlManager(Manager):
 
     @staticmethod
     def getCruiseActionPolicy(cruiseActionName):
-        if cruiseActionName not in CruiseControlManager.s_policy.keys():
+        if cruiseActionName not in CruiseControlManager.s_policy.iterkeys():
             Trace.log("Manager", 0, "CruiseControlManager getCruiseActionPolicy: %s not in list" % (cruiseActionName))
             return None
 

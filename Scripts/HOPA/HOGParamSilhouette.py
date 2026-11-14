@@ -156,7 +156,7 @@ class HOGParamSilhouette(object):
 
     @staticmethod
     def getInventory(name):
-        if name not in HOGParamSilhouette.s_inventories.keys():
+        if name not in HOGParamSilhouette.s_inventories.iterkeys():
             inventory = DemonManager.getDemon("HOGInventory")
             return inventory
             pass

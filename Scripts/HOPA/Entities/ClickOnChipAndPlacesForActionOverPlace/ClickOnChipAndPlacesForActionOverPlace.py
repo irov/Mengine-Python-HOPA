@@ -194,14 +194,14 @@ class ClickOnChipAndPlacesForActionOverPlace(Enigma):
                 source.addScope(self.resolveClickOnPlace, ClickObject)
 
         with source.addRaceTask(2) as (clickOnPlace, clickOnChip):
-            for place, race in clickOnPlace.addRaceTaskList(self.places.values()):
+            for place, race in clickOnPlace.addRaceTaskList(self.places.itervalues()):
                 if "Movie2" in self.BG.getName():
                     race.addTask('TaskMovie2SocketClick', SocketName=place.socketName, Movie2=self.BG)
                 else:
                     race.addTask('TaskMovieSocketClick', SocketName=place.socketName, Movie=self.BG)
                 race.addFunction(ClickObject.set, place)
 
-            for chip, race in clickOnChip.addRaceTaskList(self.chips.values()):
+            for chip, race in clickOnChip.addRaceTaskList(self.chips.itervalues()):
                 race.addScope(chip.scopeClickDown)
                 race.addNotify(Notificator.onSoundEffectOnObject, self.object,
                                'ClickOnChipAndPlacesForActionOverPlace_ClickOnChipDown')

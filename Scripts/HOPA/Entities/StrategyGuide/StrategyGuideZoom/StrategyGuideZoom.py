@@ -31,7 +31,7 @@ class StrategyGuideZoom(BaseEntity):
         pass
 
     def __onOpenGuideZoom(self, socket):
-        if socket in self.zooms.keys():
+        if socket in self.zooms.iterkeys():
             self.currenZoom = self.zooms[socket]
             self.currenZoom.setEnable(True)
             self.socketClose.setEnable(True)

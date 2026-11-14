@@ -198,6 +198,6 @@ class PrefetchScope(Initializer):
         pass
 
     def getGroupsList(self):
-        groupsList = [group for name, group in self.__groups.items()]
+        groupsList = [group for name, group in self.__groups.iteritems()]
         return groupsList
         pass

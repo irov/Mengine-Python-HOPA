@@ -241,7 +241,7 @@ class SystemDebugMenu(System):
 
         items_plus = []
         items_in_group = {}
-        for item_params in items.values():
+        for item_params in items.itervalues():
             if item_params.PlusScene is not None:
                 # items with scene plus
                 items_plus.append(item_params)
@@ -269,7 +269,7 @@ class SystemDebugMenu(System):
             tab.addWidget(w_title)
 
         # default items
-        for group_name, group_items in sorted(items_in_group.items()):
+        for group_name, group_items in sorted(items_in_group.iteritems()):
             _createTitleWidget(group_name)
             _createItemWidgets(group_items)
 
@@ -303,7 +303,7 @@ class SystemDebugMenu(System):
             scene_type = _get_scene_category(scene_name)
             categorized_scenes[scene_type].append(scene_name)
 
-        for scene_type, scenes in categorized_scenes.items():
+        for scene_type, scenes in categorized_scenes.iteritems():
             categorized_scenes[scene_type] = sorted(scenes)
 
         # button cb function
@@ -349,7 +349,7 @@ class SystemDebugMenu(System):
 
         descr_texts = [
             "---",
-            "Total number of scenes: **{}**".format(sum([len(x) for x in categorized_scenes.values()])),
+            "Total number of scenes: **{}**".format(sum([len(x) for x in categorized_scenes.itervalues()])),
             "All scene types: _{}_".format(", ".join(SCENE_TYPES))
         ]
         w_descr = Mengine.createDevToDebugWidgetText("description")
@@ -406,7 +406,7 @@ class SystemDebugMenu(System):
         def _runPh(paragraph_id):
             Notification.notify(Notificator.onParagraphRun, paragraph_id)  # start paragraph
 
-        for scenario_runner in scenario_chapter.scenarios.values():
+        for scenario_runner in scenario_chapter.scenarios.itervalues():
             scenario = scenario_runner.Scenario
             scenario_id = scenario.ScenarioID
 
@@ -433,7 +433,7 @@ class SystemDebugMenu(System):
 
         # add widgets to tab
 
-        for scenario_id, items in sorted(macro_widgets.items()):
+        for scenario_id, items in sorted(macro_widgets.iteritems()):
             widgets = items["buttons"]
             if len(widgets) == 0:
                 continue

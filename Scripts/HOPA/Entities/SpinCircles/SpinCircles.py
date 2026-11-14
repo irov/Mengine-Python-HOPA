@@ -282,7 +282,7 @@ class SpinCircles(Enigma):
 
     def onSocketEntered(self, socket_instance):
         TaskName = "SpinEnigmaView"
-        if socket_instance in self.socket_views.keys():
+        if socket_instance in self.socket_views.iterkeys():
             movie = self.socket_views.get(socket_instance)
             self.current_view = socket_instance
             if TaskManager.existTaskChain(TaskName):
@@ -316,7 +316,7 @@ class SpinCircles(Enigma):
         Notification.removeObserver(observer)
 
     def RestoreTwist(self):
-        for twist in self.TwistCollection.values():
+        for twist in self.TwistCollection.itervalues():
             if twist.inFinalState():
                 IndicatorMovie = twist.getIndicator()
                 if IndicatorMovie is not None:
@@ -349,7 +349,7 @@ class SpinCircles(Enigma):
         # for key, twist in self.TwistCollection.iteritems():
         #    print "K", key, "T", twist
         #    pass
-        FinalStates = [twist.inFinalState() for twist in self.TwistCollection.values()]
+        FinalStates = [twist.inFinalState() for twist in self.TwistCollection.itervalues()]
         FinalSetStates = set(FinalStates)
         if False in FinalSetStates:
             return False
@@ -367,7 +367,7 @@ class SpinCircles(Enigma):
 
     def _resetEnigma(self):
         movies = []
-        for twist in self.TwistCollection.values():
+        for twist in self.TwistCollection.itervalues():
             movies.append(twist.resetMovies())
             pass
 
@@ -389,7 +389,7 @@ class SpinCircles(Enigma):
             return False
         movies = []
         self.blockSockets(True)
-        for twist in self.TwistCollection.values():
+        for twist in self.TwistCollection.itervalues():
             movies.append(twist.skipMovies())
             pass
         tasks = len(movies)
@@ -427,7 +427,7 @@ class SpinCircles(Enigma):
 
     def updateIndicator(self):
         Movies = []
-        for twist in self.TwistCollection.values():
+        for twist in self.TwistCollection.itervalues():
             Movie = twist.getIndicator()
             if not Movie:
                 continue

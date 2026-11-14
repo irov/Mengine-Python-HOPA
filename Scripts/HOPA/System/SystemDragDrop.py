@@ -50,7 +50,7 @@ class DragDropMG(object):
         self.manual_complete_item_count = 0
 
     def getSerialized(self):
-        items_serialized = [item.getSerialized() for item in self.drag_drop_items.values()]
+        items_serialized = [item.getSerialized() for item in self.drag_drop_items.itervalues()]
         return [self.is_zoom, self.text_id, self.is_manual, self.manual_item_count,
                 self.manual_complete_item_count, items_serialized]
 
@@ -83,12 +83,12 @@ class DragDropMG(object):
     def getDragDropItemNames(self, found_only=False):
         if found_only:
             founded_item_names = list()
-            for drag_drop_item in self.drag_drop_items.values():
+            for drag_drop_item in self.drag_drop_items.itervalues():
                 if drag_drop_item.isFound():
                     founded_item_names.append(drag_drop_item.name)
             return founded_item_names
         else:
-            return [drag_drop_item.name for drag_drop_item in self.drag_drop_items.values()]
+            return [drag_drop_item.name for drag_drop_item in self.drag_drop_items.itervalues()]
 
 
 class SystemDragDrop(System):
@@ -118,7 +118,7 @@ class SystemDragDrop(System):
 
     @staticmethod
     def _onLoad(save_data):
-        for group_name, drag_drop_mg_serialized in save_data.items():
+        for group_name, drag_drop_mg_serialized in save_data.iteritems():
             drag_drop_mg = DragDropMG(group_name)
             drag_drop_mg.restore(drag_drop_mg_serialized)
             SystemDragDrop.s_group_drag_drop_mgs[group_name] = drag_drop_mg

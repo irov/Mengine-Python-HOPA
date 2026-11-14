@@ -99,7 +99,7 @@ class StrategyGuideController(BaseEntity):
             self.ButtonLeft.setEnable(True)
             pass
 
-        if self.CurrentPage == max(self.pages.keys()):
+        if self.CurrentPage == max(self.pages.iterkeys()):
             self.ButtonRight.setEnable(False)
             pass
         else:

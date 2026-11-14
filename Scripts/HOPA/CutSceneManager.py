@@ -162,7 +162,7 @@ class CutSceneManager(Manager):
 
     @staticmethod
     def disableAll():
-        for cutData in CutSceneManager.manager_dict.values():
+        for cutData in CutSceneManager.manager_dict.itervalues():
             movie = cutData.getMovie()
             movie.setEnable(False)
 

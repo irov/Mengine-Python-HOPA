@@ -36,7 +36,7 @@ class HintActionSpellAmuletUsePower(HintActionDefault):
         if stone_button_socket is None:
             movies_states_buttons = stone_button.getMoviesStatesButtons()
 
-            for movie in movies_states_buttons.values():
+            for movie in movies_states_buttons.itervalues():
                 movie_socket = movie.getSocket("socket")
                 if movie_socket is not None:
                     return movie_socket

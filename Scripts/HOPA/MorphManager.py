@@ -37,7 +37,7 @@ class MorphManager(Manager):
             def trace(msg):
                 Trace.log("Manager", 0, msg)
 
-            for key, val in self.__dict__.items():
+            for key, val in self.__dict__.iteritems():
                 if val is None:
                     trace(error_msg + "{} not configured".format(key))
                     return False
@@ -55,7 +55,7 @@ class MorphManager(Manager):
 
             error_msg += "[{}] not found ".format(self.group_name)
 
-            for state, movie_name in self.state_movies.items():
+            for state, movie_name in self.state_movies.iteritems():
                 if group.hasObject(movie_name) is False:
                     trace(error_msg + "morph movie {!r} (for state {})".format(movie_name, state))
                     return False

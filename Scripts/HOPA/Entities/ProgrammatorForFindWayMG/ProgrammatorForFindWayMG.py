@@ -146,7 +146,7 @@ class ProgrammatorForFindWayMG(Enigma):
         source.addScope(self.Enigma_Skiperrian)
 
     def Enigma_Skiperrian(self, source):
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             chip.place = self.places[self.param.skipPosition[chip.id]]
             chip.place.chip = chip
             chip.setParent()
@@ -223,7 +223,7 @@ class ProgrammatorForFindWayMG(Enigma):
         ClickHolder = Holder()
 
         with source.addRaceTask(2) as (race_1, race_2):
-            for chip, race in race_1.addRaceTaskList(self.chips.values()):
+            for chip, race in race_1.addRaceTaskList(self.chips.itervalues()):
                 race.addScope(chip.scopeClickDown)
                 race.addFunction(ClickHolder.set, chip)
 
@@ -289,7 +289,7 @@ class ProgrammatorForFindWayMG(Enigma):
 
     def scopePanelPlace(self, source):
         with source.addRaceTask(2) as (valid, invalid):
-            for (place, source_place) in valid.addRaceTaskList(self.places.values()):
+            for (place, source_place) in valid.addRaceTaskList(self.places.itervalues()):
                 source_place.addTask("TaskMovie2SocketClick", SocketName="panelPlace_%s" % place.id, Movie2=self.BG)
                 source_place.addFunction(self.checkPanelPlace, place)
             invalid.addTask("TaskMouseButtonClick")
@@ -366,7 +366,7 @@ class ProgrammatorForFindWayMG(Enigma):
 
     def checkPlayPossibility(self):
         flag = True
-        for place in self.places.values():
+        for place in self.places.itervalues():
             if place.chip is None:
                 flag = False
                 break
@@ -385,7 +385,7 @@ class ProgrammatorForFindWayMG(Enigma):
 
         tempCell = self.chipMan.place.id
         routList = []
-        for place in self.places.values():
+        for place in self.places.itervalues():
             power = place.chip.power
             routList.append(self.getRouteList(tempCell, tempCell + power))
             tempCell = Mengine.fabsf(tempCell + power)
@@ -470,14 +470,14 @@ class ProgrammatorForFindWayMG(Enigma):
         source.addScope(self.moveChipMan, self.getRouteList(self.chipMan.place.id, 0), None)
 
     def returnChipsToStartPositions(self):
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             if chip.place is not None:
                 chip.place.chip = None
                 chip.place = None
             chip.detach()
 
     def disableChipsSelect(self):
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             chip.movie.appendParam('DisableLayers', 'Glow')
 
     def checkWin(self):
@@ -497,12 +497,12 @@ class ProgrammatorForFindWayMG(Enigma):
         self.tc = None
         self.param = None
 
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             chip.node.removeFromParent()
             chip.movie.setEnable(False)
             chip.place = None
         self.chips = {}
-        for place in self.places.values():
+        for place in self.places.itervalues():
             place.chip = None
         self.places = {}
         self.cells = {}

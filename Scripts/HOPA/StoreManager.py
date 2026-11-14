@@ -255,7 +255,7 @@ class StoreManager(Manager):
     @staticmethod
     def loadRedirector(records):
         TYPES_BLACKLIST = ["redirect"]
-        HUMAN_TABLE_NAMES = {value: key for key, value in StoreManager.__PARAMS_TABLE_NAMES.items() if key not in TYPES_BLACKLIST}
+        HUMAN_TABLE_NAMES = {value: key for key, value in StoreManager.__PARAMS_TABLE_NAMES.iteritems() if key not in TYPES_BLACKLIST}
 
         current_publisher = getCurrentPublisher()
         if current_publisher is None:
@@ -275,7 +275,7 @@ class StoreManager(Manager):
 
             platforms = getCurrentPlatformParams()
 
-            for platform, b_active in platforms.items():
+            for platform, b_active in platforms.iteritems():
                 if b_active is False:
                     continue
 
@@ -298,7 +298,7 @@ class StoreManager(Manager):
         Trace.msg("STORE PARAMS".center(SIZE, " "))
         Trace.msg("-" * SIZE)
 
-        for key, table_name in StoreManager.__PARAMS_TABLE_NAMES.items():
+        for key, table_name in StoreManager.__PARAMS_TABLE_NAMES.iteritems():
             Trace.msg("{}:  ".format(key).rjust(HALF_SIZE) + table_name.ljust(HALF_SIZE))
 
         Trace.msg("-" * SIZE)
@@ -348,8 +348,8 @@ class StoreManager(Manager):
     @staticmethod
     def findPageIdByProductId(product_id):
         """ returns page id if input product inside this page """
-        for page_id, page_buttons in StoreManager.getButtonsSettings().items():
-            for button in page_buttons.values():
+        for page_id, page_buttons in StoreManager.getButtonsSettings().iteritems():
+            for button in page_buttons.itervalues():
                 if button.product_id == product_id:
                     return page_id
         return None

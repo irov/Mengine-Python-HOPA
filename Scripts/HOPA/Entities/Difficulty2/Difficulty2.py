@@ -186,7 +186,7 @@ class Difficulty2(BaseEntity):
         if newDifficultyCheckbox is None:
             return
 
-        for difficultyCheckbox in self.difficulties.values():
+        for difficultyCheckbox in self.difficulties.itervalues():
             difficultyCheckbox.setValue(False)
             difficultyCheckbox.setBlockState(False)
 
@@ -354,7 +354,7 @@ class Difficulty2(BaseEntity):
 
             #
 
-            for CheckBox in self.difficulties.values():
+            for CheckBox in self.difficulties.itervalues():
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=CheckBox, Value=True)
 
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)

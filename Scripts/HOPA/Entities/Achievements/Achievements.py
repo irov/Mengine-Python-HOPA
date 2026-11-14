@@ -30,7 +30,7 @@ class Achievements(BaseEntity):
         if self.object.hasObject('Movie2Button_Back'):
             self.back_button = self.object.getObject('Movie2Button_Back')
 
-        for achievement in achievements.values():
+        for achievement in achievements.itervalues():
             param = achievement.params
             button_unlocked = self.object.getObject(param.movie_unlocked)
             button_locked = self.object.getObject(param.movie_locked)

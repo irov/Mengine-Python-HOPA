@@ -35,7 +35,7 @@ class SystemProductGroups(System):
         def reset(self):
             self.in_progress = False
             self.timestamp_start_progress = None
-            for subgroup in self.subgroups.values():
+            for subgroup in self.subgroups.itervalues():
                 subgroup.reset()
             Notification.notify(Notificator.onProductGroupReset, self.id)
 
@@ -104,7 +104,7 @@ class SystemProductGroups(System):
     def _createData(self):
         groups = {}
 
-        for product_info in MonetizationManager.getProductsInfo().values():
+        for product_info in MonetizationManager.getProductsInfo().itervalues():
             group_id = product_info.group_id
             subgroup_id = product_info.subgroup_id
 
@@ -173,7 +173,7 @@ class SystemProductGroups(System):
 
     @staticmethod
     def getActiveGroups():
-        data = SystemProductGroups.data.values()
+        data = SystemProductGroups.data.itervalues()
         active_groups = filter(lambda g: g.in_progress is True, data)
         return active_groups
 
@@ -181,7 +181,7 @@ class SystemProductGroups(System):
     def getActiveSubgroup(group_id):
         group = SystemProductGroups.getGroup(group_id)
 
-        active_subgroups = filter(lambda sg: sg.in_progress is True, group.subgroups.values())
+        active_subgroups = filter(lambda sg: sg.in_progress is True, group.subgroups.itervalues())
         if len(active_subgroups) == 0:
             return
 
@@ -215,7 +215,7 @@ class SystemProductGroups(System):
 
             return res
 
-        update_groups = filter(_filterCheckDate, cls.data.values())
+        update_groups = filter(_filterCheckDate, cls.data.itervalues())
         for group in update_groups:
             group.reset()
             cls._resetGroupSaveOnAccount(group.id)
@@ -232,7 +232,7 @@ class SystemProductGroups(System):
         if isGlobal is True:
             return
 
-        for group_id in SystemProductGroups.data.keys():
+        for group_id in SystemProductGroups.data.iterkeys():
             Mengine.addCurrentAccountSetting(SystemProductGroups.__SETTINGS_TIMESTAMP_TEMPLATE.format(group_id), u'', None)
             Mengine.addCurrentAccountSetting(SystemProductGroups.__SETTINGS_PURCHASED_TEMPLATE.format(group_id), u'', None)
 
@@ -298,7 +298,7 @@ class SystemProductGroups(System):
         return {}
 
     def _onLoad(self, save_dict):
-        for group_id, group in SystemProductGroups.data.items():
+        for group_id, group in SystemProductGroups.data.iteritems():
             group.timestamp_start_progress = self._loadStartTimestampFromAccount(group_id)
             group.in_progress = group.timestamp_start_progress is not None
 

@@ -67,7 +67,7 @@ class Reagents(BaseEntity):
 
     def disableAllMovies(self):
         addMovies = ReagentsManager.getAddMovies()
-        for list in addMovies.values():
+        for list in addMovies.itervalues():
             for movie in list:
                 movie.setEnable(False)
                 movie.setPlay(False)

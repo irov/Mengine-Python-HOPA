@@ -147,7 +147,7 @@ class HOGParamDragDrop(object):
 
     @staticmethod
     def getInventory(name):
-        if name not in HOGParamDragDrop.s_inventories.keys():
+        if name not in HOGParamDragDrop.s_inventories.iterkeys():
             inventory = DemonManager.getDemon("HOGInventory")
             return inventory
             pass

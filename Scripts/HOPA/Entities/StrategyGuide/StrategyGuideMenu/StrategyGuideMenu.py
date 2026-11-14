@@ -27,7 +27,7 @@ class StrategyGuideMenu(BaseEntity):
 
         self.buttons = StrategyGuideMenuManager.getButtons()
 
-        for button in self.buttons.keys():
+        for button in self.buttons.iterkeys():
             button.setInteractive(True)
             pass
         pass
@@ -42,7 +42,7 @@ class StrategyGuideMenu(BaseEntity):
             TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName="StrategyGuideMenu", Value=False)
             return False
             pass
-        if button in self.buttons.keys():
+        if button in self.buttons.iterkeys():
             pageId = self.buttons[button]
             self.openPage(pageId)
             return False
@@ -68,7 +68,7 @@ class StrategyGuideMenu(BaseEntity):
         self.ButtonMenu.setInteractive(False)
         self.ButtonMenu = None
 
-        for button in self.buttons.keys():
+        for button in self.buttons.iterkeys():
             button.setInteractive(False)
             pass
 

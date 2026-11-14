@@ -115,7 +115,7 @@ class Path(object):
         # print slotNameFrom
         # print slot.connect
         # print slotNameFrom
-        for slotNameTo, connection in slot.connect.items():
+        for slotNameTo, connection in slot.connect.iteritems():
             if Path.canMove(slotNameFrom, slotNameTo) is True:
                 activeConnects.append((slotNameTo, connection))
                 pass
@@ -128,7 +128,7 @@ class Path(object):
     def getConnects(slotNameFrom):
         slot = Path.getSlot(slotNameFrom)
         Connects = []
-        for slotNameTo, connection in slot.connect.items():
+        for slotNameTo, connection in slot.connect.iteritems():
             Connects.append((slotNameTo, connection))
             pass
         return Connects

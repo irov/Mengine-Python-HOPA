@@ -73,7 +73,7 @@ class ForestMaze(Enigma):
 
     def __runChipsParamsUnittests(self):
         def __run_tests():
-            for chip in self.chips.values():
+            for chip in self.chips.itervalues():
                 chip.runChipParamsUnittests()
 
         if _DEVELOPMENT is True:
@@ -113,7 +113,7 @@ class ForestMaze(Enigma):
     def __setupArt(self):
         self.content = self.object.getObject('Movie2_Content')
 
-        for place in self.params.places.values():
+        for place in self.params.places.itervalues():
             chip_id = '{}_{}'.format(place.chip_type, place.place_id)
 
             movie_chip = self.object.tryGenerateObjectUnique(chip_id, place.movie_prototype_name, Enable=True, Interactive=True)
@@ -177,7 +177,7 @@ class ForestMaze(Enigma):
         holder_click = Holder()
 
         with self.tc as tc:
-            for chip, race_source in tc.addRaceTaskList(self.chips.values()):
+            for chip, race_source in tc.addRaceTaskList(self.chips.itervalues()):
                 race_source.addScope(chip.scopeClick)
                 race_source.addFunction(holder_click.set, chip)
 
@@ -212,7 +212,7 @@ class ForestMaze(Enigma):
 
         nearby_socket = self.empty_chip.movie_chip.getSocket("nearby")
         nearby_chips = []
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             if not isinstance(chip, _AVAILABLE_FOR_MOVE):
                 continue
 

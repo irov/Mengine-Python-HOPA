@@ -67,7 +67,7 @@ class StorePageGroupComponent(StorePageBaseComponent):
         def _checkSubMovie(movie):
             return movie.entity.hasSubMovie(bonus_tag_name)
 
-        for button in self.prod_buttons.values():
+        for button in self.prod_buttons.itervalues():
             for movie in button.movie.eachMovies():
                 if _checkSubMovie(movie) is False:
                     # state has no such submovie
@@ -111,12 +111,12 @@ class StorePageGroupComponent(StorePageBaseComponent):
         other_subgroups = self.group_params.subgroups.copy()
         other_subgroups.pop(self.current_subgroup.id)
 
-        for subgroup in other_subgroups.values():
+        for subgroup in other_subgroups.itervalues():
             for product_id in subgroup.product_ids:
                 self._setProgress(product_id)
 
     def _unblockAllButtons(self):
-        for button in self.prod_buttons.values():
+        for button in self.prod_buttons.itervalues():
             button.setBlock(False)
 
     def _getProductButton(self, product_id):

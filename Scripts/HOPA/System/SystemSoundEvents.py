@@ -13,7 +13,7 @@ class SystemSoundEvents(System):
     def _onRun(self):
         self.events = SoundEffectManager.getEventSounds()
 
-        for notify, soundName in self.events.items():
+        for notify, soundName in self.events.iteritems():
             self.addObserver(notify, soundName)
             pass
 

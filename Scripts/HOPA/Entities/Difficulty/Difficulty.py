@@ -23,7 +23,7 @@ class Difficulty(BaseEntity):
 
         with TaskManager.createTaskChain(Name="Menu_Difficulty", GroupName="Difficulty") as tc:
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=True)
-            for checkBox in self.difficulties.values():
+            for checkBox in self.difficulties.itervalues():
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=checkBox, Value=False)
                 tc.addParam(checkBox, "State", False)
 
@@ -32,10 +32,10 @@ class Difficulty(BaseEntity):
 
             with tc.addRepeatTask() as (tc_diff, tc_ok):
                 with tc_diff.addRaceTask(diffCount) as tc_diff:
-                    for checkBox, tc_id in zip(self.difficulties.values(), tc_diff):
+                    for checkBox, tc_id in zip(self.difficulties.itervalues(), tc_diff):
                         tc_id.addTask("TaskCheckBox", CheckBox=checkBox, Value=True)
                         tc_id.addTask("TaskCheckBoxBlockState", CheckBox=checkBox, Value=True)
-                        for tempCheckBox in self.difficulties.values():
+                        for tempCheckBox in self.difficulties.itervalues():
                             if tempCheckBox is checkBox:
                                 continue
 
@@ -45,7 +45,7 @@ class Difficulty(BaseEntity):
                 tc_ok.addTask("TaskButtonClick", ButtonName="Button_OK")
                 tc_ok.addFunction(self.__onChangeDifficulty)
 
-            for CheckBox in self.difficulties.values():
+            for CheckBox in self.difficulties.itervalues():
                 tc.addTask("TaskCheckBoxBlockState", CheckBox=CheckBox, Value=True)
 
             tc.addTask("TaskInteractive", ObjectName="Socket_Block", Value=False)
@@ -54,7 +54,7 @@ class Difficulty(BaseEntity):
     def __onChangeDifficulty(self):
         value = ""
 
-        for id, checkBox in self.difficulties.items():
+        for id, checkBox in self.difficulties.iteritems():
             if checkBox.getBlockState() is True:
                 value = id
 

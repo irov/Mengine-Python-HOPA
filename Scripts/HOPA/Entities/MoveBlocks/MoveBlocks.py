@@ -35,7 +35,7 @@ class MoveBlocks(Enigma):
         self.__removeButtonObserver()
 
     def _resetEnigma(self):
-        for movie in self.slots.values():
+        for movie in self.slots.itervalues():
             movie.setEnable(False)
             entity = movie.getEntity()
             entity.removeFromParent()
@@ -110,7 +110,7 @@ class MoveBlocks(Enigma):
 
     def printField(self):
         print("------------------")
-        for value in self.Field.values():
+        for value in self.Field.itervalues():
             print(value)
             pass
         print("------------------")
@@ -167,7 +167,7 @@ class MoveBlocks(Enigma):
             pass
         elif mode == "column":
             tmp = []
-            for i, arr in enumerate(self.Field.values()):
+            for i, arr in enumerate(self.Field.itervalues()):
                 tmp.append(arr[int(value)])
                 if arr[int(value)] != 0:
                     slotId = str(i) + "_" + str(value)
@@ -204,7 +204,7 @@ class MoveBlocks(Enigma):
                     pass
                 pass
         if mode == "column":
-            for i, arr in enumerate(self.Field.values()):
+            for i, arr in enumerate(self.Field.itervalues()):
                 arr[int(value)] = tmp[i]
                 if arr[int(value)] != 0:
                     slotId = str(i) + "_" + str(value)
@@ -226,7 +226,7 @@ class MoveBlocks(Enigma):
         super(MoveBlocks, self)._onDeactivate()
 
         self.__removeButtonObserver()
-        for movie in self.slots.values():
+        for movie in self.slots.itervalues():
             entity = movie.getEntity()
             entity.removeFromParent()
             pass

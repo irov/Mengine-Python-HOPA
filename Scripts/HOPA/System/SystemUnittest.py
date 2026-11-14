@@ -347,7 +347,7 @@ class SystemUnittest(System):
     def __loadUnittests():
         params = UnittestManager.getParams()
 
-        for test_unit, test_action_param_list in params.items():
+        for test_unit, test_action_param_list in params.iteritems():
             # print 'DBG test_unit', test_unit
 
             test_actions = []

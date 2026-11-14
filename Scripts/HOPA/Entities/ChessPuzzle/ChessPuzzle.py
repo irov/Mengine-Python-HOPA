@@ -211,7 +211,7 @@ class ChessPuzzle(Enigma):
         pass
 
     def createShifts(self):
-        for shiftId, shiftData in self.GameData.shifts.items():
+        for shiftId, shiftData in self.GameData.shifts.iteritems():
             item = self.createObjectFromPrototype(shiftData['prototype'])
             shift = ChessPuzzleShift(shiftData['dX'], shiftData['dY'])
             shift.initialize(self.chessBoard, item)
@@ -222,7 +222,7 @@ class ChessPuzzle(Enigma):
         pass
 
     def createFigures(self):
-        for figureId, figureData in self.GameData.figures.items():
+        for figureId, figureData in self.GameData.figures.iteritems():
             states = self.createObjectFromPrototype(figureData['prototype'])
             figure = ChessPuzzleFigure(figureData['figureType'])
             self.initElement(figure)
@@ -233,7 +233,7 @@ class ChessPuzzle(Enigma):
         pass
 
     def createTargets(self):
-        for targetID, targetData in self.GameData.targets.items():
+        for targetID, targetData in self.GameData.targets.iteritems():
             obj = self.createObjectFromPrototype(targetData['prototype'])
             entity = obj.getEntity()
             self.addChild(entity)

@@ -238,7 +238,7 @@ class SystemMonetization(SystemMonetizationBase):
 
     def _trySendPromoItem(self, item_promo_id):
         items = ItemManager.getAllItems()
-        for item_id, item in items.items():
+        for item_id, item in items.iteritems():
             if item.promoID is None:
                 continue
             if item.promoID == item_promo_id:

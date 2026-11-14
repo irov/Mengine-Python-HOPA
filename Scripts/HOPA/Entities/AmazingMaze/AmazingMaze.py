@@ -191,7 +191,7 @@ class HeroAnimHandler(object):
     def playFinishAnim(self, source):
         self._b_finish_state_played = True
 
-        for movie in self.stateMovies.values():
+        for movie in self.stateMovies.itervalues():
             movie.setEnable(False)
 
         self.curStateMovie = self.getStateMovie("finish")
@@ -223,7 +223,7 @@ class CursorMoviesHandler(object):
             self.POINTER_REACHED: movie_pointer_reached
         }
 
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             movie.setEnable(False)
             movie.setPlay(False)
             movie.setLoop(False)
@@ -233,7 +233,7 @@ class CursorMoviesHandler(object):
         self.current_pointer_movie = movie_pointer_placed
 
     def __setDefaultMovieStates(self):
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             movie.setEnable(False)
             movie.setPlay(False)
             movie.setLoop(False)
@@ -276,7 +276,7 @@ class CursorMoviesHandler(object):
             tc.addDisable(self.current_pointer_movie)
 
     def cleanUp(self):
-        for movie in self.movies.values():
+        for movie in self.movies.itervalues():
             movie.returnToParent()
 
         self.pointer_node.removeFromParent()

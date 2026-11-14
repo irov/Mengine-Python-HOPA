@@ -53,7 +53,7 @@ class SwapDifferent(Enigma):
         pass
 
     def _checkComplete(self):
-        for elementId, element in self.elements.items():
+        for elementId, element in self.elements.iteritems():
             order = element.getOrder()
             check = self.GameData.rules[elementId]
             if order != check:
@@ -73,7 +73,7 @@ class SwapDifferent(Enigma):
         pass
 
     def blockElements(self, value):
-        for elementId, element in self.elements.items():
+        for elementId, element in self.elements.iteritems():
             element.setBlock(value)
             pass
         pass
@@ -172,7 +172,7 @@ class SwapDifferent(Enigma):
         pass
 
     def getSortedElements(self):
-        sortedByOrder = sorted(self.elements.values(), key=lambda el: el.getOrder())
+        sortedByOrder = sorted(self.elements.itervalues(), key=lambda el: el.getOrder())
         return sortedByOrder
         pass
 
@@ -191,7 +191,7 @@ class SwapDifferent(Enigma):
 
         self.initLeftCorner()
 
-        for elementId, elementData in self.GameData.elements.items():
+        for elementId, elementData in self.GameData.elements.iteritems():
             statesObject = self.object.getObject(elementData["ObjectName"])
             element = SwapDifferentElement(statesObject)
             element.setOrder(elementData["StartOrder"])
@@ -202,7 +202,7 @@ class SwapDifferent(Enigma):
         pass
 
     def _playEnigma(self):
-        for elementId, element in self.elements.items():
+        for elementId, element in self.elements.iteritems():
             element.initialize(self.onClickElement)
             pass
         pass

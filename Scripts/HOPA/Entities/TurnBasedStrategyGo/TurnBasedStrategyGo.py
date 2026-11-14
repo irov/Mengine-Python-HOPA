@@ -276,7 +276,7 @@ class TurnBasedStrategyGo(Enigma):
 
     def __scopeSelectOrMove(self, source, click_holder):
         with source.addRaceTask(2) as (select, move):
-            for chip, race_click in select.addRaceTaskList(self.player_chips.values()):
+            for chip, race_click in select.addRaceTaskList(self.player_chips.itervalues()):
                 race_click.addScope(chip.scopeChipClick)
                 race_click.addFunction(self.__disableSelectedChipGlow)
                 race_click.addFunction(click_holder.set, chip)
@@ -303,13 +303,13 @@ class TurnBasedStrategyGo(Enigma):
             source.addFunction(self.__smartStep)
             source.addScope(self.__scopeEnemyRelativelySmartStep)
 
-        for chip in self.enemy_chips.values():
+        for chip in self.enemy_chips.itervalues():
             chip.disableChipGlow()
         self.enemy_counter.updateValue(len(self.enemy_chips))
         self.steps += 1
 
     def __smartStep(self):
-        for chip in self.enemy_chips.values():
+        for chip in self.enemy_chips.itervalues():
             fl, sl = self.__getFirstAndSecondLinePlaces(chip.current_place)
 
             places = fl + sl
@@ -320,7 +320,7 @@ class TurnBasedStrategyGo(Enigma):
                 fl_players_places, sl_players_places = self.__getFirstAndSecondLinePlaces(place)
                 counter = 0
                 captured = 0
-                for player_chip in self.player_chips.values():
+                for player_chip in self.player_chips.itervalues():
                     if player_chip.current_place in fl_players_places:
                         counter += 1
                         captured += 1
@@ -465,7 +465,7 @@ class TurnBasedStrategyGo(Enigma):
 
     def __scopeDisableAllGlows(self, source):
         self.__disableSelectedChipGlow()
-        places_values = self.places.values()
+        places_values = self.places.itervalues()
         for place, parallel_source in source.addParallelTaskList(places_values):
             parallel_source.addFunction(self.__disableIfGlowing, place)
 
@@ -561,7 +561,7 @@ class TurnBasedStrategyGo(Enigma):
         second_line_socket = self.movie_content.getSocket('second_line_{}'.format(current_place.place_id))
         first_line_places = []
         second_line_places = []
-        for place in self.places.values():
+        for place in self.places.itervalues():
             movie_place_node = place.movie_place.getEntityNode()
 
             screen_position = Mengine.getNodeScreenAdaptPosition(movie_place_node)
@@ -583,7 +583,7 @@ class TurnBasedStrategyGo(Enigma):
 
     def __checkLevelComplete(self, source):
         if len(self.enemy_chips) != 0 and len(self.player_chips) != 0:
-            for place in self.places.values():
+            for place in self.places.itervalues():
                 if place.chip_owner is None:
                     source.addDummy()
                     return

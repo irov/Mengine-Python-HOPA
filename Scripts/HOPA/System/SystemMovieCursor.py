@@ -12,7 +12,7 @@ class SystemMovieCursor(System):
     def _onInitialize(self):
         movie_types = ["ObjectMovie2", "ObjectMovie"]
 
-        for obj, params in ArrowBlackListManager.s_ignores.items():
+        for obj, params in ArrowBlackListManager.s_ignores.iteritems():
             if obj.getType() not in movie_types:
                 continue
             socket_name = params.getSocketName()
@@ -36,7 +36,7 @@ class SystemMovieCursor(System):
             self._update_enable_observer = None
 
     def _onRun(self):
-        for obj, params in self.custom_arrows.items():
+        for obj, params in self.custom_arrows.iteritems():
             self.addEvent(obj.onMovieSocketEnterEvent, self._onMovieEnter, params)
             self.addEvent(obj.onMovieSocketLeaveEvent, self._onMovieLeave, params)
         return True

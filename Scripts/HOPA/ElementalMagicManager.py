@@ -199,7 +199,7 @@ class ElementalMagicManager(Manager):
 
     @staticmethod
     def getMagicsByElement(element):
-        magics = [magic for magic in ElementalMagicManager.getMagicsParams().values()
+        magics = [magic for magic in ElementalMagicManager.getMagicsParams().itervalues()
                   if magic.element == element]
         return magics
 

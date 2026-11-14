@@ -85,7 +85,7 @@ class PathChipsCrypt(Enigma):
         pass
 
     def setCompleteEffects(self):
-        for slotId, chip in self.GameData.rules.items():
+        for slotId, chip in self.GameData.rules.iteritems():
             if slotId not in self.completeEffects:
                 continue
                 pass
@@ -131,7 +131,7 @@ class PathChipsCrypt(Enigma):
     def _checkComplete(self):
         self.setCompleteEffects()
 
-        for slotId, chips in self.GameData.rules.items():
+        for slotId, chips in self.GameData.rules.iteritems():
             value = Path.getSlotValue(slotId)
             if value not in chips:
                 return
@@ -184,7 +184,7 @@ class PathChipsCrypt(Enigma):
 
     def _restoreEnigma(self):
         self.GameData = PathChipsCryptManager.getGame(self.EnigmaName)
-        for slotId, chipId in self.GameData.slots.items():
+        for slotId, chipId in self.GameData.slots.iteritems():
             if chipId == -1:
                 Path.addSlot(slotId, None)
                 continue
@@ -219,7 +219,7 @@ class PathChipsCrypt(Enigma):
             self.transporters.append(transporter)
             pass
 
-        for slotId, movieData in self.GameData.completeEffects.items():
+        for slotId, movieData in self.GameData.completeEffects.iteritems():
             group = GroupManager.getGroup(movieData["GroupName"])
             completeMovie = group.getObject(movieData["ObjectName"])
             completeMovie.setParam("Enable", False)
@@ -242,7 +242,7 @@ class PathChipsCrypt(Enigma):
 
     def _playEnigma(self):
         self.GameData = PathChipsCryptManager.getGame(self.EnigmaName)
-        for slotId, chipId in self.GameData.slots.items():
+        for slotId, chipId in self.GameData.slots.iteritems():
             if chipId == -1:
                 Path.addSlot(slotId, None)
                 continue
@@ -277,7 +277,7 @@ class PathChipsCrypt(Enigma):
             self.transporters.append(transporter)
             pass
 
-        for slotId, movieData in self.GameData.completeEffects.items():
+        for slotId, movieData in self.GameData.completeEffects.iteritems():
             group = GroupManager.getGroup(movieData["GroupName"])
             completeMovie = group.getObject(movieData["ObjectName"])
             completeMovie.setParam("Enable", False)

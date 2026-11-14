@@ -230,7 +230,7 @@ class MazeScreensManager(Manager):
 
         # contents
 
-        for content_id, content_name in settings.contents.items():
+        for content_id, content_name in settings.contents.iteritems():
             if demon.hasPrototype(content_name) is False:
                 Trace.log("Manager", 0, "MazeScreensManager [err] content [{}] prototype {!r} not found"
                           .format(content_id, content_name))
@@ -239,7 +239,7 @@ class MazeScreensManager(Manager):
         # rooms
 
         start_rooms_count = 0
-        for room in settings.rooms.values():
+        for room in settings.rooms.itervalues():
             if room.content_id not in settings.contents:
                 Trace.log("Manager", 0, "MazeScreensManager [err] room [{}] content id {!r} not found"
                           .format(room.id, room.content_id))
@@ -255,7 +255,7 @@ class MazeScreensManager(Manager):
 
         # slots
 
-        for content_id, slots in settings.slots.items():
+        for content_id, slots in settings.slots.iteritems():
             if content_id not in settings.contents:
                 Trace.log("Manager", 0, "MazeScreensManager [err] some slots (x{}) attached to unknown content id {!r}"
                           .format(len(slots), content_id))

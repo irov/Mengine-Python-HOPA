@@ -242,7 +242,7 @@ class MoveChipsToKeyPoints(Enigma):
             chip.node.removeFromParent()
             chip.slot = None
 
-        for slot in self.slots.values():
+        for slot in self.slots.itervalues():
             slot.chip = None
 
         self.tc = None

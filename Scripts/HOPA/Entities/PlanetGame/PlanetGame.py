@@ -71,7 +71,7 @@ class PlanetGame(Enigma):
             winTiming = planet.getWinTiming()
             accuracy = planet.getAccuracy()
             planets = self.object.getPlanets()
-            if name not in planets.keys():
+            if name not in planets.iterkeys():
                 return False
                 pass
             checkTiming = planets[name]

@@ -306,7 +306,7 @@ class SystemAchievements(System):
 
     @staticmethod
     def __createAchievements(achievements_params, _type, _dict):
-        for params in achievements_params.values():
+        for params in achievements_params.itervalues():
             achievement = _type(params)
             _dict[params.name] = achievement
 
@@ -320,7 +320,7 @@ class SystemAchievements(System):
 
     @staticmethod
     def hasExternalAchievement(achieve_id=None, achieve_name=None):
-        for achievement in SystemAchievements.s_external_achievements.values():
+        for achievement in SystemAchievements.s_external_achievements.itervalues():
             if achieve_id is not None and achieve_id == achievement.id:
                 return True
             elif achieve_name is not None and achieve_name == achievement.name:
@@ -349,7 +349,7 @@ class SystemAchievements(System):
 
     @staticmethod
     def getExternalAchievement(achieve_id=None, achieve_name=None):
-        for achievement in SystemAchievements.s_external_achievements.values():
+        for achievement in SystemAchievements.s_external_achievements.itervalues():
             if achieve_id is not None and achieve_id == achievement.id:
                 return achievement
             elif achieve_name is not None and achieve_name == achievement.name:
@@ -364,8 +364,8 @@ class SystemAchievements(System):
                 return False
             return True
 
-        external_achieves = filter(_filter, SystemAchievements.s_external_achievements.values())
-        internal_achieves = filter(_filter, SystemAchievements.s_achievements.values())
+        external_achieves = filter(_filter, SystemAchievements.s_external_achievements.itervalues())
+        internal_achieves = filter(_filter, SystemAchievements.s_achievements.itervalues())
         achievements = external_achieves + internal_achieves
 
         return achievements
@@ -470,7 +470,7 @@ class SystemAchievements(System):
                 save_data['achievements_params'].append(achievement.name)
                 self.__sendAchievementToSteam(achievement)
 
-        for achievement in SystemAchievements.getExternalAchievements().values():
+        for achievement in SystemAchievements.getExternalAchievements().itervalues():
             if achievement.isComplete():
                 save_data['external_achievements_params'].append(achievement.id)
 
@@ -488,7 +488,7 @@ class SystemAchievements(System):
             "Artisan": "reduction_rune_use",
             "Freeze master": "ice_rune_use"
         }
-        for achieve_name, value in trash.items():
+        for achieve_name, value in trash.iteritems():
             stat = rune_use_achieves[achieve_name]
             self.__dict__[stat] = value
 
@@ -506,7 +506,7 @@ class SystemAchievements(System):
             self.scene_complete_no_hint_count = save_data['system_params']
 
         new_params = save_data.get("new_params", {})
-        for stat, value in new_params.items():
+        for stat, value in new_params.iteritems():
             if stat == "use_something":
                 self.__loadDeprecatedUseSomething(value)
                 continue
@@ -531,7 +531,7 @@ class SystemAchievements(System):
     @staticmethod
     def __cheatCompleteRandomAchievement():
         not_completed = []
-        for achievement in SystemAchievements.s_achievements.values():
+        for achievement in SystemAchievements.s_achievements.itervalues():
             if not achievement.complete:
                 not_completed.append(achievement)
 
@@ -616,7 +616,7 @@ class SystemAchievements(System):
             if achievement.isComplete():
                 widget.setHide(True)
 
-        for key, achievements in details.items():
+        for key, achievements in details.iteritems():
             if len(achievements) == 0:
                 continue
 

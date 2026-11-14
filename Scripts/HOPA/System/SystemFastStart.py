@@ -160,7 +160,7 @@ class SystemFastStart(System):
             Trace.msg_err("SystemFastStart can't setup difficulty - no account selected.")
             return
 
-        DIFFICULTY_PARAMS = {ID: params for ID, params in Difficulty2Manager.s_difficultiesSettings.items()}
+        DIFFICULTY_PARAMS = {ID: params for ID, params in Difficulty2Manager.s_difficultiesSettings.iteritems()}
 
         if not DIFFICULTY_PARAMS and DifficultyManager.s_difficulties:
             requested = Mengine.getOptionValue("fastdif").title() or "Casual"
@@ -199,7 +199,7 @@ class SystemFastStart(System):
             "Difficulty": "ID"
         }
 
-        for account_param_name, dif_param_name in SETTINGS.items():
+        for account_param_name, dif_param_name in SETTINGS.iteritems():
             option = cur_difficulty.get(dif_param_name)
             if option is None:
                 continue

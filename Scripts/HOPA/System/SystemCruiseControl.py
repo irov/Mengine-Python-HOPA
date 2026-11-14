@@ -520,7 +520,7 @@ class SystemCruiseControl(System):
         SystemSpells = SystemManager.getSystem("SystemSpells")
         SpellUIComponents = SystemSpells.getSpellUIComponents()
 
-        for UIComponent in SpellUIComponents.values():
+        for UIComponent in SpellUIComponents.itervalues():
             if UIComponent.hasSceneActiveQuest() is True:
                 Quests = UIComponent.getSceneActiveQuests()
                 power_name = Quests[0].params['PowerName']

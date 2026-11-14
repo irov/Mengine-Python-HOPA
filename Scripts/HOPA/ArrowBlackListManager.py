@@ -48,7 +48,7 @@ class ArrowBlackListManager(Manager):
 
     @staticmethod
     def isIgnore(object):
-        return object in ArrowBlackListManager.s_ignores.keys()
+        return object in ArrowBlackListManager.s_ignores.iterkeys()
 
     @staticmethod
     def getChangeType(object):

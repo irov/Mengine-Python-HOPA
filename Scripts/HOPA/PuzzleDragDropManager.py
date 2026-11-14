@@ -73,6 +73,6 @@ class PuzzleDragDropManager(Manager):
 
     @staticmethod
     def hasPuzzleDragDrop(name):
-        if name not in PuzzleDragDropManager.s_objects.keys():
+        if name not in PuzzleDragDropManager.s_objects.iterkeys():
             return False
         return True

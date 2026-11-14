@@ -30,7 +30,7 @@ class RotateMiniSystem(object):
 
     def save_progress(self):
         save_data = {}
-        for behavior, listOfCircles in self.circles.items():
+        for behavior, listOfCircles in self.circles.iteritems():
             saved_frames_states = []
             for CircleIns in listOfCircles:
                 frame_state = CircleIns.getCurrentFrame()

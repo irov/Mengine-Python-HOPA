@@ -168,7 +168,7 @@ class SystemMap2(System):
     @staticmethod
     def getAllMapsOpenScenes():
         open_scenes = []
-        for map_object in Map2Manager.s_map_objects.values():
+        for map_object in Map2Manager.s_map_objects.itervalues():
             open_scenes += map_object.getOpenScenes()
         return open_scenes
 
@@ -197,7 +197,7 @@ class SystemMap2(System):
             hog_collection = map_data.getHogCollection()
             open_scenes = current_map_object.getOpenScenes()
 
-            for scene_name in locations.keys():
+            for scene_name in locations.iterkeys():
                 if isinstance(scene_name, (list, tuple)):
                     scene_name = scene_name[1]
 
@@ -206,7 +206,7 @@ class SystemMap2(System):
                         Map2Manager.s_open_scenes.append(scene_name)
                         current_map_object.appendParam("OpenScenes", scene_name)
 
-            for hog_id in hog_collection.keys():
+            for hog_id in hog_collection.iterkeys():
                 current_map_object.appendParam("OpenHog", hog_id)
                 current_map_object.appendParam("PlayedOpenHog", hog_id)
 

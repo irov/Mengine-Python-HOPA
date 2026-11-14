@@ -149,7 +149,7 @@ class GroupPrefetch(Initializer):
     def __repr__(self):
         str = "GroupPrefetch: %s count %i %s \n" % (self.name, self.count, hex(id(self)))
         str += "Resources : \n"
-        for resName, reference in self.resourceReferences.items():
+        for resName, reference in self.resourceReferences.iteritems():
             count = reference.getCountReference()
             str += ("%s count %i \n" % (resName, count))
         return str

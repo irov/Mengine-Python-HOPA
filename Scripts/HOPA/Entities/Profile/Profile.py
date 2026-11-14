@@ -101,7 +101,7 @@ class Profile(BaseEntity):
         NewSlotIDs = [slotID for slotID in range(self.MaxCount) if slotID not in AccountIDs]
 
         if len(NewSlotIDs) > 0:
-            for values in self.profiles.values():
+            for values in self.profiles.itervalues():
                 bCreate = values.getCreateButton()
                 if bCreate is not None:
                     self._clickButtonCreate(bCreate)
@@ -519,7 +519,7 @@ class Profile(BaseEntity):
         self._enableButtonNewProfile(slotID)
 
         if TaskManager.existTaskChain("ProfileButtonCreate") is False:
-            for values in self.profiles.values():
+            for values in self.profiles.itervalues():
                 bCreate = values.getCreateButton()
 
                 if bCreate is not None:

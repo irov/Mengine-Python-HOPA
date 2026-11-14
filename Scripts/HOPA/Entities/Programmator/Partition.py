@@ -55,7 +55,7 @@ class Partition(object):
         pass
 
     def onDeactivate(self):
-        for child in self.nodeToChild.values():
+        for child in self.nodeToChild.itervalues():
             child.removeFromParent()
             pass
 

@@ -317,7 +317,7 @@ class CursorMaskFindInvisibleChip(Enigma):
         symbols = list()
         symbol_hints = list()
 
-        for index, symbols_param_list in self.params.symbols.items():
+        for index, symbols_param_list in self.params.symbols.iteritems():
             for (movie2_hint_idle_name, movie2_hint_select_name, movie2_hint_fail_name, movie2_symbol_idle_name,
                  movie2_symbol_select_name, movie2_symbol_fail_name) in symbols_param_list:
                 movie2_symbol_idle = get_movie(movie2_symbol_idle_name)

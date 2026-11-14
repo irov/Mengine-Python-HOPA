@@ -140,7 +140,7 @@ class EnigmaManager(Manager):
         groupName = object.getGroupName()
         objectName = object.getName()
 
-        for name, enigma in EnigmaManager.s_enigmas.items():
+        for name, enigma in EnigmaManager.s_enigmas.iteritems():
             enigmaGroupName = enigma.getGroupName()
             enigmaObjectName = enigma.getObjectName()
             if groupName == enigmaGroupName and objectName == enigmaObjectName:
@@ -164,7 +164,7 @@ class EnigmaManager(Manager):
             Trace.log("Manager", 0, "EnigmaManager.getEnigmaById id is None")
             return None
 
-        for enigma in EnigmaManager.s_enigmas.values():
+        for enigma in EnigmaManager.s_enigmas.itervalues():
             if enigma.id == enigma_id:
                 return enigma
 
@@ -205,7 +205,7 @@ class EnigmaManager(Manager):
     @staticmethod
     def getSceneEnigmas(sceneName):
         tempList = []
-        for name, enigma in EnigmaManager.s_enigmas.items():
+        for name, enigma in EnigmaManager.s_enigmas.iteritems():
             if sceneName != enigma.sceneName:
                 continue
 

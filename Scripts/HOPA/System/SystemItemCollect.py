@@ -139,7 +139,7 @@ class SystemItemCollect(System):
             source.addTask('TaskSceneLayerGroupEnable', LayerName='ItemCollect', Value=flag)
             source.addFunction(self.setCurrentOpenItemCollect, None)
 
-        if (SceneName, SocketName) in SystemItemCollect.s_item_lists.keys():
+        if (SceneName, SocketName) in SystemItemCollect.s_item_lists.iterkeys():
             with TaskManager.createTaskChain() as source:
                 with source.addIfTask(SystemItemCollect.hasOpenItemCollect) as (tc_true, tc_false):
                     tc_true.addScope(changeItemCollectState, False)

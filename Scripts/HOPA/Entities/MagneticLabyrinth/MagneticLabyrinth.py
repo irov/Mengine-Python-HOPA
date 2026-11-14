@@ -71,7 +71,7 @@ class MagneticLabyrinth(Enigma):
         Button_Left = self.object.getObject("Button_Left")
         Button_Right = self.object.getObject("Button_Right")
         self.buttonsMap = {Button_Right: 1, Button_Down: 2, Button_Left: 3, Button_Up: 4}
-        [button.setInteractive(True) for button in self.buttonsMap.keys()]
+        [button.setInteractive(True) for button in self.buttonsMap.iterkeys()]
         BoundaryPolygon = SocketBoundary.getParam("Polygon")
         self.Field = Field(BoundaryPolygon, data)
         self.Field.setEscaping()

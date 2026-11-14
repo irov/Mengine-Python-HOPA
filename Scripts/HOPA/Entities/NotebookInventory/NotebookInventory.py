@@ -28,7 +28,7 @@ class NotebookInventory(BaseEntity):
     def __disableAll(self):
         all_entries = NotebookInventoryManager.getAllActivateEntries()
 
-        for entry in all_entries.values():
+        for entry in all_entries.itervalues():
             open_ = entry.getOpenMovie()
             open_.setEnable(False)
 

@@ -113,7 +113,7 @@ class SpinCirclesDependsPlugin(BaseEntity):
         pass
 
     def __updateMovies(self):
-        for depend in self.dependsCollection.values():
+        for depend in self.dependsCollection.itervalues():
             checkKey = depend.getDependKey()
             checkDepend = self.dependsCollection[checkKey]
             depend.Check(checkDepend)

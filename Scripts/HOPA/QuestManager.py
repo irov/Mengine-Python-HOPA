@@ -22,7 +22,7 @@ class QuestManager(Manager):
                     except AttributeError:
                         return str(arg)
 
-                msg = ", ".join("{}: {}".format(key, _mapper(val)) for key, val in params.items())
+                msg = ", ".join("{}: {}".format(key, _mapper(val)) for key, val in params.iteritems())
                 return msg
 
             def __repr__(self):

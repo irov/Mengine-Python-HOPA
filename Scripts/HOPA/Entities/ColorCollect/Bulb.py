@@ -103,7 +103,7 @@ class Bulb(object):
         pass
 
     def finalize(self):
-        for item in self.itemsBySlots.values():
+        for item in self.itemsBySlots.itervalues():
             itemEntity = item.getEntity()
             itemEntity.removeFromParent()
             pass

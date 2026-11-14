@@ -136,7 +136,7 @@ class BoneBoard(BaseEntity):
 
         UseAvailableDict = self.object.getParam("UseAvailable")
         if UseAvailableDict != {}:
-            for strItem, group in UseAvailableDict.items():
+            for strItem, group in UseAvailableDict.iteritems():
                 #                groupObject = GroupManager.getGroup(group)
                 self.on_bone_usage(strItem, group)
             pass
@@ -160,7 +160,7 @@ class BoneBoard(BaseEntity):
             pass
 
         UseAvailableDict = {}
-        for keyItemInst in self.bone_usage.keys():
+        for keyItemInst in self.bone_usage.iterkeys():
             itemStingKey = self.bone_usage.get(keyItemInst)
             groupName = self.item_group.get(keyItemInst)
             UseAvailableDict[itemStingKey] = groupName

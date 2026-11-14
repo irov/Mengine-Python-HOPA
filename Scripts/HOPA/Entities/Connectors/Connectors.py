@@ -12,7 +12,7 @@ class Connectors(Enigma):
         pass
 
     def finalize(self):
-        for connectionId, connection in self.connections.items():
+        for connectionId, connection in self.connections.iteritems():
             connection.finalize()
             pass
 
@@ -34,7 +34,7 @@ class Connectors(Enigma):
         pass
 
     def _checkComplete(self):
-        for elementId, element in self.elements.items():
+        for elementId, element in self.elements.iteritems():
             if element.isHappy() is False:
                 return
                 pass
@@ -47,14 +47,14 @@ class Connectors(Enigma):
         if self.connections:
             return
         GameData = ConnectorsManager.getGame(self.EnigmaName)
-        for elementId, elementData in GameData.elements.items():
+        for elementId, elementData in GameData.elements.iteritems():
             stateObjectName = elementData["ObjectName"]
             needCount = elementData["NeedCount"]
             stateObject = self.object.getObject(stateObjectName)
             self.elements[elementId] = ConnectorsElement(needCount, stateObject)
             pass
 
-        for connectionId, connectionData in GameData.connections.items():
+        for connectionId, connectionData in GameData.connections.iteritems():
             socketObjectName = connectionData.socketObjectName
             statesObjectName = connectionData.statesObjectName
             statesObject = self.object.getObject(statesObjectName)
@@ -77,7 +77,7 @@ class Connectors(Enigma):
         self.finalize()
 
     def _playEnigma(self):
-        for connectionId, connection in self.connections.items():
+        for connectionId, connection in self.connections.iteritems():
             connection.initialize(self._checkComplete)
             pass
         pass

@@ -59,7 +59,7 @@ class Gate(Initializer):
             self.tc.cancel()
             self.tc = None
 
-        for movie in self.Movies.values():
+        for movie in self.Movies.itervalues():
             movie.setEnable(False)
 
     def runTaskChain(self):
@@ -128,7 +128,7 @@ class Gate(Initializer):
             "Open": [self._params.prototype_name + "_Open", True, True],
         }
 
-        for state, (prototype_name, play, loop) in states.items():
+        for state, (prototype_name, play, loop) in states.iteritems():
             movie_name = "Gate_%s" % state
 
             movie_params = dict(Interactive=True, Enable=False, Play=play, Loop=loop)

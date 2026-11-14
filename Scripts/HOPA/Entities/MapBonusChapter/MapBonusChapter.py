@@ -183,7 +183,7 @@ class MapBonusChapter(BaseEntity):
                 if special_prototype_name is not None:
                     self.generateMovie(special_prototype_name, slot_id, slot)
 
-        for block_id in self.hog_collection.keys():
+        for block_id in self.hog_collection.iterkeys():
             hog_movie, open_hog_movie = self.hog_collection[block_id]
             open_hog_movie.setEnable(False)
             if block_id in self.OpenHog:

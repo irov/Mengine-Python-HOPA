@@ -125,7 +125,7 @@ class HOGInventory(InventoryBase):
     def getSlotByName(self, name):
         textID = HOGManager.getHOGItemTextID(self.HOGName, name)
 
-        if textID not in self.slots.keys():
+        if textID not in self.slots.iterkeys():
             return None
 
         return self.slots[textID]
@@ -211,7 +211,7 @@ class HOGInventory(InventoryBase):
 
         self._calculateDimentions(count)
 
-        for index, value in enumerate(self.slots.items()):
+        for index, value in enumerate(self.slots.iteritems()):
             column, row = self._getColumnRowFromIndex(index)
             textID, slot = value
 

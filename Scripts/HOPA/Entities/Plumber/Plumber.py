@@ -147,7 +147,7 @@ class Plumber(Enigma):
         pass
 
     def _disableCellItemSockets(self, scope, currentCellItem):
-        for cellItem in self.cellItems.values():
+        for cellItem in self.cellItems.itervalues():
             if cellItem != currentCellItem:
                 movie = cellItem.getMovie()
                 scope.addTask("TaskMovieSocketEnable", SocketName="socket", Movie=movie, Value=False)
@@ -384,7 +384,7 @@ class Plumber(Enigma):
 
     def setCellItemsToStart(self):
         self._setupCellItems()
-        for cellItem in self.cellItems.values():
+        for cellItem in self.cellItems.itervalues():
             parentCell = cellItem.getParentCell()
             parentCell.setData(0)
 
@@ -395,7 +395,7 @@ class Plumber(Enigma):
 
     def setupSafeCells(self):
         self.safeCells.append(0)
-        for key in self.cellItems.keys():
+        for key in self.cellItems.iterkeys():
             self.safeCells.append(key)
             pass
 
@@ -466,7 +466,7 @@ class Plumber(Enigma):
         prevDirectionMovieName = prevDirectionMovie.getName()
         movie = None
 
-        if curCellData in self.cellItems.keys():
+        if curCellData in self.cellItems.iterkeys():
             movie = self.changeDirection(curCell, prevDirectionMovie, curCellData)
             movement = self.getMovement(movie)
             pass

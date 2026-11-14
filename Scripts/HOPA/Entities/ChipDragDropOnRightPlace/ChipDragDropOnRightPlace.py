@@ -173,7 +173,7 @@ class ChipDragDropOnRightPlace(Enigma):
         self._playEnigma()
 
     def _skipEnigmaScope(self, source):
-        for chip, parallel in source.addParallelTaskList(self.chips.values()):
+        for chip, parallel in source.addParallelTaskList(self.chips.itervalues()):
             parallel.addScope(chip.scaleChip, True)
             parallel.addScope(chip.setAlphaChip, False)
             parallel.addFunction(self.BG.getMovieSlot(self.param.Combs[chip.id][1]).addChild, chip.node)
@@ -221,7 +221,7 @@ class ChipDragDropOnRightPlace(Enigma):
 
     def _resolveClick(self, source):
         ringHolder = Holder()
-        for chip, race in source.addRaceTaskList(self.chips.values()):
+        for chip, race in source.addRaceTaskList(self.chips.itervalues()):
             race.addScope(chip.scopeClickDown)
             race.addNotify(Notificator.onSoundEffectOnObject, self.object, 'ChipDragDropOnRightPlace_ClickOnChip')
             race.addFunction(ringHolder.set, chip)
@@ -321,7 +321,7 @@ class ChipDragDropOnRightPlace(Enigma):
 
             chipPos = chip.node.getLocalPosition()
             if (chipPos[0] > minX) and (chipPos[0] < maxX) and (chipPos[1] > minY) and (chipPos[1] < maxY):
-                for placeChip in self.placedChips.values():
+                for placeChip in self.placedChips.itervalues():
                     if placeChip.currentPlace == i:
                         break
                 else:
@@ -336,7 +336,7 @@ class ChipDragDropOnRightPlace(Enigma):
             chip.node.setLocalPosition((0, 0))
 
     def checkWin(self, source):
-        for chip in self.chips.values():
+        for chip in self.chips.itervalues():
             if 'Place_{}'.format(chip.currentPlace) != self.param.Combs[chip.id][1]:
                 break
         else:

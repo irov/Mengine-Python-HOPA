@@ -94,11 +94,11 @@ class AmuletPowerButton(object):
             third_submovie_name.split('_', 1)[1].lower(): third_submovie
         }
 
-        for value in self.rune_submovies.values():
+        for value in self.rune_submovies.itervalues():
             value.setEnable(False)
 
         spell_amulet_entity_node = AmuletPowerButton.SPELL_AMULET_OBJECT.getEntityNode()
-        for movie in self.movies_use.values():
+        for movie in self.movies_use.itervalues():
             node = movie.getEntityNode()
             spell_amulet_entity_node.addChild(node)
 
@@ -107,7 +107,7 @@ class AmuletPowerButton(object):
         self.movies.update(self.movies_use)
 
         ''' Setup default movie states '''
-        for obj_movie in self.movies.values():
+        for obj_movie in self.movies.itervalues():
             obj_movie.setEnable(False)
             obj_movie.setPlay(False)
 
@@ -398,7 +398,7 @@ class AmuletPowerButton(object):
             self.__tc_show_info_alpha_out = None
 
     def __restoreInfoMovies(self):
-        for movie in self.movies_info.values():
+        for movie in self.movies_info.itervalues():
             movie.setAlpha(0.0)
             movie.setEnable(False)
 
@@ -507,7 +507,7 @@ class Amulet(object):
 
         self.power_buttons = dict()
 
-        for obj_movie in self.movies_amulet_states.values():
+        for obj_movie in self.movies_amulet_states.itervalues():
             obj_movie.setEnable(False)
 
         movie_hide.setEnable(True)
@@ -568,7 +568,7 @@ class Amulet(object):
         self.cur_amulet_movie = new_cur_movie
         self.cur_amulet_state = state
 
-        for power_button in self.power_buttons.values():
+        for power_button in self.power_buttons.itervalues():
             power_button.attachMoviesToAmuletObjCurStateMovie()
 
         Notification.notify(Amulet.NOTIFICATOR_AmuletStateChange, state)
@@ -825,7 +825,7 @@ class SpellAmulet(BaseEntity):
         AmuletPowerButton.AMULET_USE_ALPHA_TIME = amulet_param.amulet_use_alpha_time
 
         sys_spell_amulet_stones = SystemSpells.getSpellAmuletStones()
-        for power_type, sys_spell_amulet_stone in sys_spell_amulet_stones.items():
+        for power_type, sys_spell_amulet_stone in sys_spell_amulet_stones.iteritems():
             self.amulet_power_buttons[power_type] = AmuletPowerButton(sys_spell_amulet_stone)
 
     def _onActivate(self):

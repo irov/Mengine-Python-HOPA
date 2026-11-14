@@ -112,7 +112,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
 
     def _resolveClick(self, source):
         ringHolder = Holder()
-        for ring, race in source.addRaceTaskList(self.rings.values()):
+        for ring, race in source.addRaceTaskList(self.rings.itervalues()):
             race.addScope(ring.scopeClickDown)
             race.addFunction(ringHolder.set, ring)
 
@@ -197,7 +197,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
 
     def checkWin(self, source):
         ringTemp = None
-        for ring in self.rings.values():
+        for ring in self.rings.itervalues():
             if ringTemp is None:
                 ringTemp = ring
                 continue
@@ -230,7 +230,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
             alphaTo = ring.calculateAngle(ringPos, slotPos)
             return alphaTo
 
-        for ring, parallel in source.addParallelTaskList(self.rings.values()):
+        for ring, parallel in source.addParallelTaskList(self.rings.itervalues()):
             with parallel.addIfTask(lambda: getRingPos(ring)[0] < ring.movie.getEntityNode().getWorldPosition()[0]) as (true, false):
                 true.addScope(ring.rotateTo, getAlphaTo(ring), 1000)
                 false.addScope(ring.rotateTo, -getAlphaTo(ring), 1000)
@@ -251,7 +251,7 @@ class RotateRingsAndSetInRightOrder(Enigma):
         self.tc = None
         self.param = None
 
-        for ring in self.rings.values():
+        for ring in self.rings.itervalues():
             # if ring.movie.getEnable() is False:
             #     ring.movie.setEnable(True)
             ring.movie.returnToParent()

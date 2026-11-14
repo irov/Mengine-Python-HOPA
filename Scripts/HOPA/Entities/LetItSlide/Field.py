@@ -90,7 +90,7 @@ class Field(object):
         pass
 
     def getCellByPosition(self, position):
-        for cell in self.cells.values():
+        for cell in self.cells.itervalues():
             if position == cell.getPosition():
                 return cell
                 pass

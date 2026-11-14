@@ -191,7 +191,7 @@ class StatesControl:
     @staticmethod
     def skipStates():
         with TaskManager.createTaskChain(Cb=StatesControl.skip) as tc:
-            for feeder in StatesControl.foods.values():
+            for feeder in StatesControl.foods.itervalues():
                 movie = feeder.correct_behavior
                 tc.addFunction(feeder.correct_subject.hideStates)
                 tc.addEnable(movie)
@@ -203,7 +203,7 @@ class StatesControl:
         for predator in StatesControl.predators:
             predator.reset()
 
-        for food in StatesControl.foods.values():
+        for food in StatesControl.foods.itervalues():
             food.reset_limit()
 
     @staticmethod

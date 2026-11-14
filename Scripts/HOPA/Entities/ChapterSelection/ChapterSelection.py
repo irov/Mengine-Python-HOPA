@@ -85,7 +85,7 @@ class ChapterSelection(BaseEntity):
         system_chapter_selection = SystemManager.getSystem('SystemChapterSelection')
 
         self.chapter_selection_params = system_chapter_selection.getChapterSelections()
-        for chapter in self.chapter_selection_params.values():
+        for chapter in self.chapter_selection_params.itervalues():
             button_plate = self.object.getObject(chapter.param.chapter_plate_name)
 
             button_plate_block = None

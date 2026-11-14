@@ -102,7 +102,7 @@ class GameStore(BaseEntity):
 
     def __loadMovies(self):
         def _getMovies(dict_in, dict_out):
-            for key, movie_name in dict_in.items():
+            for key, movie_name in dict_in.iteritems():
                 if self.object.hasObject(movie_name):
                     movie = self.object.getObject(movie_name)
                     movie.setInteractive(True)
@@ -222,7 +222,7 @@ class GameStore(BaseEntity):
         return True
 
     def refreshCardsTexts(self):
-        for card in self.cards.values():
+        for card in self.cards.itervalues():
             card.setTexts()
 
     # --- Store Interaction --------------------------------------------------------------------------------------------
@@ -242,7 +242,7 @@ class GameStore(BaseEntity):
                 tc_close.addScope(self.scopeCloseStore)
 
         with tc_purchase as tc:
-            for card, tc_purchase in tc.addRaceTaskList(self.cards.values()):
+            for card, tc_purchase in tc.addRaceTaskList(self.cards.itervalues()):
                 tc_purchase.addTask("TaskMovie2ButtonClick", Movie2Button=card.movie_card)
                 tc_purchase.addScope(card.scopeInteract)
 
@@ -267,7 +267,7 @@ class GameStore(BaseEntity):
         return False
 
     def getAdCard(self):
-        for card in self.cards.values():
+        for card in self.cards.itervalues():
             if isinstance(card, StoreCardAdvert):
                 return card
 
@@ -301,7 +301,7 @@ class GameStore(BaseEntity):
     def setEnableStore(self, state):
         self.content["window"].setEnable(state)
         self.content["close"].setEnable(state)
-        for card in self.cards.values():
+        for card in self.cards.itervalues():
             card.setEnable(state)
 
     def attachToEffect(self, effect):

@@ -13,7 +13,7 @@ class SystemSoundObjects(System):
     def _onRun(self):
         self.events = SoundObjectsManager.getSoundObjects()
 
-        for notify, soundObjects in self.events.items():
+        for notify, soundObjects in self.events.iteritems():
             self.addObserver(notify, soundObjects)
             pass
         return True

@@ -133,7 +133,7 @@ class DialogWindow(BaseEntity):
         if movie_urls is None or len(self.urls) == 0:
             source.addBlock()
 
-        for (socket_name, url), race_click in source.addRaceTaskList(self.urls.items()):
+        for (socket_name, url), race_click in source.addRaceTaskList(self.urls.iteritems()):
             race_click.addTask("TaskMovie2SocketClick", Movie2=movie_urls, SocketName=socket_name, AutoEnable=True)
             race_click.addFunction(Mengine.openUrlInDefaultBrowser, url)
 
@@ -174,9 +174,9 @@ class DialogWindow(BaseEntity):
             Trace.log("Entity", 0, "DialogWindow.__initMovies: movie 'Dialog_Plate' should has slot 'buttons'")
 
         self.__attachWindowToEffect("appear")  # default effect
-        for movie in self.content.values():
+        for movie in self.content.itervalues():
             movie.setEnable(True)
-        for movie in self.effects.values():
+        for movie in self.effects.itervalues():
             movie.setEnable(False)
 
     def __attachContentMovie(self, movie_type):
@@ -207,7 +207,7 @@ class DialogWindow(BaseEntity):
         self.current_content_movie.setEnable(False)
 
     def __initTexts(self):
-        for alias in DialogWindow.ALIAS_TO_TEXT.values():
+        for alias in DialogWindow.ALIAS_TO_TEXT.itervalues():
             Mengine.setTextAlias(DialogWindow.ID_ALIAS_ENV, alias, DialogWindow.ID_TEXT_EMPTY)
 
     def __changeTexts(self, text_ids=None, text_args=None):
@@ -221,7 +221,7 @@ class DialogWindow(BaseEntity):
         elif isinstance(text_args, dict) is False:
             raise TypeError("text_args must be dict, usable keys is: {}".format(DialogWindow.ALIAS_TO_TEXT.keys()))
 
-        for key, alias in DialogWindow.ALIAS_TO_TEXT.items():
+        for key, alias in DialogWindow.ALIAS_TO_TEXT.iteritems():
             text_id = text_ids.get(key, DialogWindow.ID_TEXT_EMPTY)
             Mengine.removeTextAliasArguments(DialogWindow.ID_ALIAS_ENV, alias)
             Mengine.setTextAlias(DialogWindow.ID_ALIAS_ENV, alias, text_id)
@@ -269,11 +269,11 @@ class DialogWindow(BaseEntity):
         Log("plate attached to '{}' effect".format(effect))
 
     def _setEnableWindow(self, state):
-        for movie in self.content.values():
+        for movie in self.content.itervalues():
             movie.setEnable(state)
 
     def __restoreEffects(self, *args, **kwargs):
-        for movie in self.effects.values():
+        for movie in self.effects.itervalues():
             movie.setEnable(False)
         return True
 

@@ -140,7 +140,7 @@ class MoveCursorToRightPlaces(Enigma):
             self.tc.cancel()
             self.tc = None
 
-        for place in self.places.values():
+        for place in self.places.itervalues():
             place.movie_chip.setLastFrame(True)
         self.places = {}
 

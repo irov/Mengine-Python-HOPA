@@ -449,7 +449,7 @@ class TransitionManager(Manager):
     @staticmethod
     def getOpenZoomName(sceneNameFrom, sceneNameTo):
         key = (sceneNameFrom, sceneNameTo)
-        if key not in TransitionManager.s_openZooms.keys():
+        if key not in TransitionManager.s_openZooms.iterkeys():
             return None
             pass
 

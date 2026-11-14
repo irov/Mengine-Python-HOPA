@@ -23,7 +23,7 @@ class SystemAwardsBonusItems(System):
             self.items = AwardsManager.getBonusItems()
             pass
 
-        for awardID, items in self.items.items():
+        for awardID, items in self.items.iteritems():
             for item in items:
                 if item in self.openAwards:
                     continue
@@ -52,7 +52,7 @@ class SystemAwardsBonusItems(System):
         pass
 
     def __onBonusItemFound(self, awardID, item):
-        if awardID not in self.items.keys():
+        if awardID not in self.items.iterkeys():
             return False
             pass
 

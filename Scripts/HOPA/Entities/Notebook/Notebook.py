@@ -143,7 +143,7 @@ class Notebook(BaseEntity):
         pass
 
     def _onMouseButtonEvent(self, context, event, hs):
-        if hs not in self.socket.keys():
+        if hs not in self.socket.iterkeys():
             return True
         if event.button != 0:
             return True
@@ -267,7 +267,7 @@ class Notebook(BaseEntity):
 
         # _onPreparationDeactivate is not an entity hook, release page here
         self.destroyTextes()
-        for socket in self.socket.keys():
+        for socket in self.socket.iterkeys():
             socket.removeEventListener()
         self.socket = {}
         pass

@@ -120,7 +120,7 @@ class SystemAnalytics(SystemAnalyticsBase):
         if SceneManager.hasScene("Store"):
             default_analytics["open_store"] = [Notificator.onSceneEnter, lambda name: name == "Store", False]
 
-        for event_key, (identity, check_method, params_method) in default_analytics.items():
+        for event_key, (identity, check_method, params_method) in default_analytics.iteritems():
             self.addAnalytic(event_key, identity, check_method=check_method, params_method=params_method)
 
         self._addScreenViewZoom()

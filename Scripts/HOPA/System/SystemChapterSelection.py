@@ -54,7 +54,7 @@ class SystemChapterSelection(System):
 
     def _onRun(self):
         chapter_selection_params = ChapterSelectionManager.getChapterSelectionParams()
-        for chapter_selection_param in chapter_selection_params.values():
+        for chapter_selection_param in chapter_selection_params.itervalues():
             chapter_selection = Chapter(chapter_selection_param)
             SystemChapterSelection.s_chapter_selections[chapter_selection_param.chapter_name] = chapter_selection
 
@@ -167,7 +167,7 @@ class SystemChapterSelection(System):
         Mengine.changeCurrentAccountSetting("SlotID", unicode(slot_id))
         Mengine.changeCurrentAccountSetting("SessionSave", unicode(False))
         Mengine.changeCurrentAccountSettingBool("Default", False)
-        for key, value in old_params.items():
+        for key, value in old_params.iteritems():
             Mengine.changeCurrentAccountSetting(key, unicode(value))
 
         group_new_profile = GroupManager.getGroup("Profile_New")
@@ -180,7 +180,7 @@ class SystemChapterSelection(System):
         object_profile.setCurrent(account_id)
 
         # set previous difficulty settings
-        for param, value in difficulty.items():
+        for param, value in difficulty.iteritems():
             Mengine.changeCurrentAccountSetting(param, value)
 
         for method in SystemChapterSelection.staticmethod_onCreateNewAccount:
@@ -288,7 +288,7 @@ class SystemChapterSelection(System):
     def _onSave():
         data_chapter_status = {}
 
-        for param in SystemChapterSelection.getChapterSelections().values():
+        for param in SystemChapterSelection.getChapterSelections().itervalues():
             data_chapter_status[param.chapter_name] = param.is_open, param.is_play_open_animation, param.is_played
 
         data_save = {

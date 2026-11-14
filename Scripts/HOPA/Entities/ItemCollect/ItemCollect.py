@@ -114,7 +114,7 @@ class ItemCollect(BaseEntity):
 
             self.itemSlots[ItemName] = itemPlace
 
-        for itemName, itemSlot in self.itemSlots.items():
+        for itemName, itemSlot in self.itemSlots.iteritems():
             for AllowedItemName in itemSlot.Icon.AllowedItems:
                 itemSlot_ = self.itemSlots.get(AllowedItemName)
                 if itemSlot_ is not None:
@@ -130,7 +130,7 @@ class ItemCollect(BaseEntity):
         if len(ItemsList) % 2 != 0:
             evenFlag = False
         angle = 0
-        for i, slot in enumerate(self.itemSlots.values()):
+        for i, slot in enumerate(self.itemSlots.itervalues()):
             if i == 0:
                 if evenFlag is True:
                     angle = disp / 2
@@ -407,7 +407,7 @@ class ItemCollect(BaseEntity):
 
     def checkComplete(self):
         flag = True
-        for slot in self.itemSlots.values():
+        for slot in self.itemSlots.itervalues():
             if slot.state is False:
                 flag = False
         return flag

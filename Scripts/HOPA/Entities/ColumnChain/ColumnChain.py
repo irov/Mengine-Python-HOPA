@@ -49,7 +49,7 @@ class ColumnChain(Enigma):
         pass
 
     def _onColumnSocketClick(self, curSocket):
-        if curSocket not in self.columnBySocket.keys():
+        if curSocket not in self.columnBySocket.iterkeys():
             return False
             pass
         curColumn = self.columnBySocket[curSocket]
@@ -58,7 +58,7 @@ class ColumnChain(Enigma):
         pass
 
     def _onColumnPlaced(self):
-        for column in self.columnBySocket.values():
+        for column in self.columnBySocket.itervalues():
             if column.isWinState():
                 continue
                 pass

@@ -36,7 +36,7 @@ class ButtonFactory(object):
         buttons = []
 
         button_params = StoreManager.getButtonsParamsById(page_id)
-        for param in button_params.values():
+        for param in button_params.itervalues():
             if param.action == "purchase" and SystemMonetization.isProductAvailable(param.product_id) is False:
                 continue
             group_name = param.prototype_group

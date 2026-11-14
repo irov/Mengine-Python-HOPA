@@ -334,7 +334,7 @@ class DebugMenu(BaseEntity):
             self.stageButtons[button] = stage
 
     def destroyButtons(self):
-        for node in self.generatedNodes.values():
+        for node in self.generatedNodes.itervalues():
             if node is None:
                 continue
             Mengine.destroyNode(node)

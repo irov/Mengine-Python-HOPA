@@ -119,7 +119,7 @@ class SwitchChains(Enigma):
 
     def _resetEnigma(self):
         startOn = SwitchChainsManager.getStartOn(self.EnigmaName)
-        for element in self.elements.values():
+        for element in self.elements.itervalues():
             if element.switchName in startOn:
                 element.setStateOff()
                 element.movieOffAttachSocket()
@@ -131,13 +131,13 @@ class SwitchChains(Enigma):
         pass
 
     def _blockSockets(self):
-        for element in self.elements.values():
+        for element in self.elements.itervalues():
             element.socket.setEnable(False)
             pass
         pass
 
     def _unBlockSockets(self):
-        for element in self.elements.values():
+        for element in self.elements.itervalues():
             element.socket.setEnable(True)
             pass
         pass
@@ -207,7 +207,7 @@ class SwitchChains(Enigma):
         pass
 
     def _checkWin(self):
-        for element in self.elements.values():
+        for element in self.elements.itervalues():
             if element.state != element.movieOff.name:
                 return
                 pass
@@ -217,7 +217,7 @@ class SwitchChains(Enigma):
         pass
 
     def _autoWin(self):
-        for element in self.elements.values():
+        for element in self.elements.itervalues():
             element.setStateOff()
             element.socket.setEnable(False)
             pass

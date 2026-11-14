@@ -137,7 +137,7 @@ class SystemRateUs(System):
             "cancel": "ID_TEXT_RATE_US_LATER",
         }
 
-        for text_id in texts.values():
+        for text_id in texts.itervalues():
             if Mengine.existText(text_id) is True:
                 continue
 

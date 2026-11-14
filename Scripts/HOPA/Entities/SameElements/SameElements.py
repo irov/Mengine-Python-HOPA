@@ -28,7 +28,7 @@ class SameElements(Enigma):
         collections = SameElementsManager.getCollections(self.EnigmaName)
         if len(self.Collections) == 0:
             tempDict = {}
-            for collectionID, collection in collections.items():
+            for collectionID, collection in collections.iteritems():
                 tempDict[collectionID] = []
 
                 slots = collection.getSlots()
@@ -37,7 +37,7 @@ class SameElements(Enigma):
                 movie.setPlay(True)
                 movie.setLoop(True)
 
-                for slotID, elName in slots.items():
+                for slotID, elName in slots.iteritems():
                     ellFullName = self.__generateStartElement(movie, slotID, elName)
                     tempDict[collectionID].append([movieName, slotID, ellFullName, elName])
                     pass
@@ -45,7 +45,7 @@ class SameElements(Enigma):
             self.object.setCollections(tempDict)
             pass
         else:
-            for collectionID, slots in self.Collections.items():
+            for collectionID, slots in self.Collections.iteritems():
                 newCollection = []
                 for slotData in slots:
                     movieName, slotID, ellFullName, elName = slotData
@@ -86,7 +86,7 @@ class SameElements(Enigma):
         pass
 
     def __checkWin(self):
-        for slots in self.Collections.values():
+        for slots in self.Collections.itervalues():
             for slotData in slots:
                 movieName1, slotID1, ellFullName1, elName1 = slotData
                 curIndex = slots.index(slotData)
@@ -190,7 +190,7 @@ class SameElements(Enigma):
         buttonsCount = len(buttons)
         with TaskManager.createTaskChain(Name="SameElementsChangeButtons", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(buttonsCount) as tcc:
-                for tc_b, buttonName in zip(tcc, buttons.keys()):
+                for tc_b, buttonName in zip(tcc, buttons.iterkeys()):
                     collectionID = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
                     tc_b.addFunction(self.__changeElements, collectionID)
@@ -215,7 +215,7 @@ class SameElements(Enigma):
         buttonsCount = len(buttons)
         with TaskManager.createTaskChain(Name="SameElementsCollectionButtons", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(buttonsCount) as tcc:
-                for tc_b, buttonName in zip(tcc, buttons.keys()):
+                for tc_b, buttonName in zip(tcc, buttons.iterkeys()):
                     buttonData = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
                     tc_b.addFunction(self.__changeCollection, buttonData)

@@ -88,7 +88,7 @@ class MazeScreens(Enigma):
         self._setupBoard()
 
     def _setupRooms(self):
-        for room_params in self.params.rooms.values():
+        for room_params in self.params.rooms.itervalues():
             room = Room()
             room.onInitialize(self, room_params)
             room.onPreparation()

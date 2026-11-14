@@ -48,7 +48,7 @@ class ButtonMixin(object):
         self.movie.setTextAliasEnvironment(self.env)
 
         alias_and_text_ids = self._getAliasAndTextID()
-        for alias, text_id in alias_and_text_ids.items():
+        for alias, text_id in alias_and_text_ids.iteritems():
             Mengine.setTextAlias(self.env, alias, text_id)
 
         self.setText()

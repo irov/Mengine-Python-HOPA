@@ -26,7 +26,7 @@ class SystemStrategyGuideZoomsDisable(System):
     def _disableZooms(self):
         zooms = StrategyGuideZoomManager.getZooms()
 
-        for zooms in zooms.values():
+        for zooms in zooms.itervalues():
             zooms.setEnable(False)
             pass
         pass

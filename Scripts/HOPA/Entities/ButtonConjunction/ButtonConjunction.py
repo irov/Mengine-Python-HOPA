@@ -103,8 +103,8 @@ class ButtonConjunction(Enigma):
 
     def resetAll(self):
         # worth it
-        [socket.setInteractive(True) for socket in self.socketToButton.keys() if socket.getInteractive() == 0]
-        for button in self.socketToButton.values():
+        [socket.setInteractive(True) for socket in self.socketToButton.iterkeys() if socket.getInteractive() == 0]
+        for button in self.socketToButton.itervalues():
             button.reset()
             pass
         pass

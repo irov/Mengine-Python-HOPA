@@ -196,7 +196,7 @@ class HOGManager(Manager):
             tempDict.setdefault(itemTextID, []).append(name)
             pass
 
-        for listItems in tempDict.values():
+        for listItems in tempDict.itervalues():
             newList.append(listItems)
             pass
 

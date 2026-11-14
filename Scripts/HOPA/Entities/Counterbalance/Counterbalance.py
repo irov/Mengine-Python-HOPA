@@ -106,7 +106,7 @@ class Rope(object):
 
     @staticmethod
     def __getRelativeWheelPos(from_wheel, to_wheel):
-        for direction, wheel in to_wheel.getNeighbors().items():
+        for direction, wheel in to_wheel.getNeighbors().iteritems():
             if wheel == from_wheel:
                 return direction
 
@@ -212,7 +212,7 @@ class RopeManager(Manager):
         '''
         setup team rope prototypes names, disable team sprites for rope hand
         '''
-        for team_name, team_param in teams_params.items():
+        for team_name, team_param in teams_params.iteritems():
             sprite_name = team_param['RopeHandSprite']
             # self.__hand_movie.appendParam("DisableLayers", sprite_name)
             EDIT_DISABLE_LAYERS(sprite_name, False, self.__hand_movie)
@@ -481,7 +481,7 @@ class WheelManager(Manager):
         setting up siblings, teams, movie_effect for royal wheels,
         setting up team parameters mappings for manager
         '''
-        for team_name, team_param in teams_params.items():
+        for team_name, team_param in teams_params.iteritems():
             movie_effect = team_param['TeamEffectPrototype']
             wheel_king = self.__wheels_by_name[team_param['KingPrototype']]
             wheel_queen = self.__wheels_by_name[team_param['QueenPrototype']]
@@ -504,13 +504,13 @@ class WheelManager(Manager):
         '''
         disable team sprites for common wheels
         '''
-        for wheel in self.__wheels_by_name.values():
+        for wheel in self.__wheels_by_name.itervalues():
             if wheel.isRoyal():
                 continue
 
             movie = wheel.getMovie()
 
-            for team_sprite_name in self.__wheels_team_sprites.values():
+            for team_sprite_name in self.__wheels_team_sprites.itervalues():
                 # movie.appendParam("DisableLayers", team_sprite_name)
                 EDIT_DISABLE_LAYERS(team_sprite_name, False, movie)
 
@@ -521,7 +521,7 @@ class WheelManager(Manager):
         matrix_high = matrix_size[1]
         matrix_weight = matrix_high * matrix_length
 
-        for wheel_index, wheel in self.__wheels_by_index.items():
+        for wheel_index, wheel in self.__wheels_by_index.iteritems():
             neighbors = dict()
 
             left_index = wheel_index - 1 if wheel_index % matrix_length != 0 else None
@@ -578,7 +578,7 @@ class WheelManager(Manager):
         wheel = self.__current_wheel
         neighbors = []
 
-        for neighbor in wheel.getNeighbors().values():
+        for neighbor in wheel.getNeighbors().itervalues():
             if neighbor is None:
                 continue
             if neighbor.getTeam() is None:
@@ -654,7 +654,7 @@ class WheelManager(Manager):
         return False
 
     def isAllChainsComplete(self):
-        return all(self.__team_complete_status.values())
+        return all(self.__team_complete_status.itervalues())
 
     def cleanUp(self):
         for wheel in self.__wheels_by_index.values():
@@ -849,7 +849,7 @@ class Counterbalance(Enigma):
         skip_wheels_name = self.params.skip_ways
         skip_wheels = dict()
 
-        for team, names in skip_wheels_name.items():
+        for team, names in skip_wheels_name.iteritems():
             for name in names:
                 team_wheels = skip_wheels.get(team)
                 if team_wheels is None:
@@ -859,7 +859,7 @@ class Counterbalance(Enigma):
                     team_wheels.append(self.wheel_manager.getWheelByName(name))
                     skip_wheels[team] = team_wheels
 
-        for wheel_list in skip_wheels.values():
+        for wheel_list in skip_wheels.itervalues():
             for index, wheel in enumerate(wheel_list):
                 def getWheel():
                     return wheel_list[index]

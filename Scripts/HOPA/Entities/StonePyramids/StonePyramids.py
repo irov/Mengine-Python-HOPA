@@ -209,7 +209,7 @@ class StonePyramids(Enigma):
         self.params = StonePyramidsManager.getParam(self.EnigmaName)
 
     def setup(self):
-        for slot_to_name, stone_param in self.params.stones.items():
+        for slot_to_name, stone_param in self.params.stones.iteritems():
             movie_start = self.object.getObject(stone_param['Start'])
             movie_select = self.object.getObject(stone_param['Select'])
             movie_finish = self.object.getObject(stone_param['Finish'])
@@ -258,7 +258,7 @@ class StonePyramids(Enigma):
             attach_movie.setEnable(False)
             return
 
-        for stone in self.stones.values():
+        for stone in self.stones.itervalues():
             slot = attach_movie.getMovieSlot(stone.slot_to_name)
 
             affected_movies = [stone.movie_start, stone.movie_select]
@@ -402,7 +402,7 @@ class StonePyramids(Enigma):
         cursor_pos = Mengine.getCursorPosition()
         pyramid_slot_dists = list()
 
-        for pyramid_base_slot_name, pyramid in self.pyramids.items():
+        for pyramid_base_slot_name, pyramid in self.pyramids.iteritems():
             slot = pyramid.getLastSlot()
 
             if slot is None:  # mean final stone is placed, measure distance from prev slot in stack
@@ -494,7 +494,7 @@ class StonePyramids(Enigma):
             tc.addScope(self.scopePlaceStone, stone_holder, pyramid_holder)  # play stone finish_movie or fall_movie
 
             tc.addFunction(lambda: self.enigmaComplete() if all(
-                [pyramid.complete for pyramid in self.pyramids.values()]) else None)
+                [pyramid.complete for pyramid in self.pyramids.itervalues()]) else None)
 
     # -------------- Entity --------------------------------------------------------------------------------------------
     def _onPreparation(self):

@@ -27,7 +27,7 @@ class SystemStrategyGuidePagesDisable(System):
     def _disableContent(self):
         pages = StrategyGuideControllerManager.getPages()
 
-        for page in pages.values():
+        for page in pages.itervalues():
             page.setEnable(False)
             pass
         pass

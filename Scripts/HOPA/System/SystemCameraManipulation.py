@@ -22,7 +22,7 @@ class DebugHUD(object):
         self.observers.append(Notification.addObserver(Notificator.onSceneInit, self.onSceneInit))
 
     def onStop(self):
-        for dev_hud_node in self.dev_hud.values():
+        for dev_hud_node in self.dev_hud.itervalues():
             dev_hud_node.removeFromParent()
             Mengine.destroyNode(dev_hud_node)
         self.dev_hud = {}
@@ -82,7 +82,7 @@ class DebugHUD(object):
         if len(self.dev_hud) == 0:
             self.__createDevHUD()
 
-        for i, (key, dev_hud_node) in enumerate(self.dev_hud.items()):
+        for i, (key, dev_hud_node) in enumerate(self.dev_hud.iteritems()):
             dev_hud_node.removeFromParent()
             layer.addChild(dev_hud_node)
 

@@ -63,7 +63,7 @@ class SecretManagement(object):
         return
 
     def isComplete(self):
-        state = [assoc.isComplete() for assoc in self.associations.values()]
+        state = [assoc.isComplete() for assoc in self.associations.itervalues()]
         completeState = set(state)
         if False in completeState:
             return False

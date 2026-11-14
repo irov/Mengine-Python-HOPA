@@ -50,7 +50,7 @@ class InGameMenu(BaseEntity):
             return False
 
         buttons_names = {"login": "Movie2_Google", "logout": "Movie2_Logout"}
-        for id_, movie_name in buttons_names.items():
+        for id_, movie_name in buttons_names.iteritems():
             if GroupManager.hasObject("InGameMenu", movie_name) is False:
                 continue
             movie = GroupManager.getObject("InGameMenu", movie_name)
@@ -61,7 +61,7 @@ class InGameMenu(BaseEntity):
             if _DEVELOPMENT is True:
                 Trace.log("Entity", 0, "InGameMenu fail to setup Auth buttons: {} != {}".format(self.auth_buttons, buttons_names))
 
-            for movie in self.auth_buttons.values():
+            for movie in self.auth_buttons.itervalues():
                 movie.setEnable(False)
 
             return False

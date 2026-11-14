@@ -41,7 +41,7 @@ class Ring(Initializer):
         slot.addChild(root)
         self._root = root
 
-        for state, (movie_name, play, loop) in ElementalMagicManager.getRingMovieParams().items():
+        for state, (movie_name, play, loop) in ElementalMagicManager.getRingMovieParams().iteritems():
             if movie_name is None:
                 continue
 
@@ -82,7 +82,7 @@ class Ring(Initializer):
         self.magic.onFinalize()
         self.magic = None
 
-        for movie in self.Movies.values():
+        for movie in self.Movies.itervalues():
             movie.returnToParent()
         self.Movies = {}
 

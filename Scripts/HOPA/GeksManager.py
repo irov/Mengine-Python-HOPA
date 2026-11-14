@@ -68,7 +68,7 @@ class GeksManager(Manager):
 
     @staticmethod
     def getGeks(name):
-        if name not in GeksManager.s_objects.keys():
+        if name not in GeksManager.s_objects.iterkeys():
             return None
             pass
 
@@ -77,7 +77,7 @@ class GeksManager(Manager):
 
     @staticmethod
     def getEnigmaObject(name):
-        if name not in GeksManager.s_objects.keys():
+        if name not in GeksManager.s_objects.iterkeys():
             return None
             pass
 
@@ -86,7 +86,7 @@ class GeksManager(Manager):
 
     @staticmethod
     def hasGeks(name):
-        if name not in GeksManager.s_objects.keys():
+        if name not in GeksManager.s_objects.iterkeys():
             return False
             pass
 

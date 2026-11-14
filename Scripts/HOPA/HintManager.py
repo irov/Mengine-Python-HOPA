@@ -86,7 +86,7 @@ class HintManager(Manager):
 
     @staticmethod
     def getHintActionPolicy(hintActionName):
-        if hintActionName not in HintManager.s_policy.keys():
+        if hintActionName not in HintManager.s_policy.iterkeys():
             Trace.log("Manager", 0, "HintManager getHintActionPolicy: %s not in list" % hintActionName)
             return None
         return HintManager.s_policy[hintActionName]
