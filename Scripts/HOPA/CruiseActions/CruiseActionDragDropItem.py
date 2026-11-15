@@ -3,11 +3,18 @@ from Foundation.Task.MixinObject import MixinObject
 from Foundation.Task.MixinObjectTemplate import MixinItem
 
 from HOPA.CruiseAction import CruiseAction
+from HOPA.CruiseControlManager import CruiseControlManager
 
 
 class CruiseActionDragDropItem(MixinItem, MixinObject, CruiseAction):
 
+    def _getCruiseObject(self):
+        return self.Object
+
     def _onCheck(self):
+        if CruiseControlManager.inBlackList(self.Item) is True:
+            return False
+
         BlockInteractive = self.Item.getParam("BlockInteractive")
         if BlockInteractive is True:
             return False

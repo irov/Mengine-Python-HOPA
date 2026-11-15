@@ -38,46 +38,31 @@ class CruiseActionItemWithItemPopup(CruiseActionDefault, MixinItem):
         return Position
         pass
 
-    def _getCruisePositionToButton(self):
+    def __scopeClickOk(self, source):
         Demon = GroupManager.getObject("ItemPopUp", "Demon_ItemPopUp")
-        Object = Demon.getObject("Button_Ok")
-        ObjectEntity = Object.getEntity()
+        if Demon.hasObject("Movie2Button_Ok") is True:
+            button = Demon.getObject("Movie2Button_Ok")
+        else:
+            button = Demon.getObject("Button_Ok")
 
-        CruisePoint = Object.calcWorldHintPoint()
-        if CruisePoint is not None:
-            return CruisePoint
-        hotspot = ObjectEntity.getHotSpot()
-        Position = hotspot.getWorldPolygonCenter()
-
-        return Position
-        pass
+        source.addTask("AliasCruiseControlAction", Object=button)
 
     def _onAction(self, source):
-        if self.hintObject is not None:
-            print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), self.hintObject.getName(),
-            self.hintObject.getGroupName() or " [not cruise!! object]")
-            pass
-        else:
-            print("CruiseActionItemWithItemPopup._onAction:type = %s, " % (self.getType()), " [not cruise!!!! object]")
-            pass
-
         PositionToItem = self._getCruisePositionToItem(self.hintObject)
-        PositionToButton = self._getCruisePositionToButton()
 
         def _filter(item_name):
             InventoryItem = ItemManager.getItemObject(item_name)
+            if InventoryItem is not self.hintObject:
+                return False
 
-            if InventoryItem is self.hintObject:
-                return True
-            return False
+            return True
 
-        source.addTask("AliasCruiseControlAction", Position=PositionToItem, Object=self.hintObject)
+        with source.addParallelTask(2) as (tc_open, tc_click):
+            tc_open.addListener(Notificator.onItemPopUpOpen, Filter=_filter)
+            tc_click.addTask("AliasCruiseControlAction", Position=PositionToItem, Object=self.hintObject)
 
-        source.addListener(Notificator.onItemPopUpOpen, Filter=_filter)
-        source.addTask("AliasCruiseControlAction", Position=PositionToButton)
-        source.addListener(Notificator.onItemPopUpClose, Filter=_filter)
+        with source.addParallelTask(2) as (tc_close, tc_click):
+            tc_close.addListener(Notificator.onItemPopUpClose, Filter=_filter)
+            tc_click.addScope(self.__scopeClickOk)
 
         source.addNotify(Notificator.onCruiseActionEnd, self)
-        pass
-
-    pass

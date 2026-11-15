@@ -29,15 +29,7 @@ class CruiseActionZoom(MixinZoom, CruiseAction):
         return True
 
     def _getCruisePosition(self, Object):
-        cruisePoint = Object.getHintPoint()
-        if cruisePoint is not None:
-            return cruisePoint
-
-        ObjectEntity = Object.getEntity()
-
-        HotSpot = ObjectEntity.getHotSpot()
-        Position = HotSpot.getWorldPolygonCenter()
-
+        Position = Object.calcWorldHintPoint()
         return Position
 
     def _onAction(self, source):

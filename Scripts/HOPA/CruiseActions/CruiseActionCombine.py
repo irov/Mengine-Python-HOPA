@@ -28,46 +28,9 @@ class CruiseActionCombine(CruiseAction):
         pass
 
     def _onAction(self, source):
-        InventoryItemEntity = self.AttachInventoryItem.getEntity()
-        Sprite = InventoryItemEntity.getSprite()
-
-        PositionTo1 = Sprite.getWorldImageCenter()
-
-        SlotCount = self.Inventory.getParam("SlotCount")
-
-        AttachInventoryItemIndex = self.Inventory.indexInventoryItem(self.AttachInventoryItem)
-        AttachSlotIndex = int(AttachInventoryItemIndex / SlotCount) * SlotCount
-
-        SlotInventoryItemIndex = self.Inventory.indexInventoryItem(self.SlotInventoryItem)
-        NewSlotIndex = int(SlotInventoryItemIndex / SlotCount) * SlotCount
-
-        if AttachSlotIndex == NewSlotIndex:
-            InventoryItemEntity = self.SlotInventoryItem.getEntity()
-            Sprite = InventoryItemEntity.getSprite()
-
-            PositionTo2 = Sprite.getWorldImageCenter()
-            pass
-
-        elif AttachSlotIndex < NewSlotIndex:
-            Button_InvRight = self.Inventory.getObject("Button_InvRight")
-            Button_InvRightEntity = Button_InvRight.getEntity()
-
-            Sprite = Button_InvRightEntity.getSprite()
-            PositionTo2 = Sprite.getWorldImageCenter()
-            pass
-
-        elif AttachSlotIndex > NewSlotIndex:
-            Button_InvLeft = self.Inventory.getObject("Button_InvLeft")
-            Button_InvLeftEntity = Button_InvLeft.getEntity()
-
-            Sprite = Button_InvLeftEntity.getSprite()
-            PositionTo2 = Sprite.getWorldImageCenter()
-            pass
-
         PolicyInventoryScrolling = PolicyManager.getPolicy("InventoryScrolling")
         source.addTask(PolicyInventoryScrolling, InventoryItem=self.AttachInventoryItem)
-
-        source.addTask("AliasCruiseControlAction", Position=PositionTo1)
-        source.addTask("AliasCruiseControlAction", Position=PositionTo2)
+        source.addTask("AliasCruiseControlAction", Object=self.AttachInventoryItem)
+        source.addTask(PolicyInventoryScrolling, InventoryItem=self.SlotInventoryItem)
+        source.addTask("AliasCruiseControlAction", Object=self.SlotInventoryItem)
         source.addNotify(Notificator.onCruiseActionEnd, self)
-        pass

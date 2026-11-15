@@ -10,6 +10,9 @@ class CruiseActionUseHOGFittingItem(MixinObject, CruiseAction):
         self.Inventory = params["Inventory"]
         self.click_delay = CruiseControlManager.getCruiseClickDelay('CruiseActionUseHOGFittingItem')
 
+    def _getCruiseObject(self):
+        return self.Object
+
     def _onCheck(self):
         if self.Inventory is None:
             return False

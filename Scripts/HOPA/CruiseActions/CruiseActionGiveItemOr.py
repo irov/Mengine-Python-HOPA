@@ -13,6 +13,9 @@ class CruiseActionGiveItemOr(MixinObject, CruiseAction):
         self.InventoryItem = None
         pass
 
+    def _getCruiseObject(self):
+        return self.Object
+
     def _onCheck(self):
         self.Inventory = DemonManager.getDemon("Inventory")
 

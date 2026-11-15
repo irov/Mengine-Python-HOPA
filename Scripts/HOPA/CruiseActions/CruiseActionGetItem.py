@@ -1,12 +1,11 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
-from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
 
-class CruiseActionGetItem(CruiseAction, MixinObject):
+class CruiseActionGetItem(CruiseAction):
 
     def _onCheck(self):
         Demon = GroupManager.getObject("ItemPopUp", "Demon_ItemPopUp")

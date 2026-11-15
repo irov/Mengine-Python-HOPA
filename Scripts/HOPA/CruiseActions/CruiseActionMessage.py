@@ -1,12 +1,11 @@
 from Foundation.GroupManager import GroupManager
 from Foundation.Notificator import Notificator
-from Foundation.Task.MixinObject import MixinObject
 
 from HOPA.CruiseAction import CruiseAction
 from HOPA.CruiseControlManager import CruiseControlManager
 
 
-class CruiseActionMessage(CruiseAction, MixinObject):
+class CruiseActionMessage(CruiseAction):
 
     def _onParams(self, params):
         super(CruiseActionMessage, self)._onParams(params)

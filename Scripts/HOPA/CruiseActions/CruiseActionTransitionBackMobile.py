@@ -14,9 +14,17 @@ class CruiseActionTransitionBackMobile(MixinTransition, CruiseActionDefault):
     def _getCruiseObject(self):
         return self.Transition
 
+    def _onCheck(self):
+        if self.Transition is None:
+            return False
+
+        if self.Transition.isActive() is False:
+            return False
+
+        return True
+
     def _getCruisePosition(self, object):
-        entity = object.getEntity()
-        position = entity.getCurrentMovieSocketCenter()
+        position = SystemNavigation.getNavGoBackHintPoint()
         return position
 
     def _onAction(self, source):

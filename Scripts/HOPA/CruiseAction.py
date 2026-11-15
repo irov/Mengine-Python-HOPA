@@ -39,6 +39,7 @@ class CruiseAction(MixinScene, Params, Initializer):
         return self.actionType
 
     def _onInitializeFailed(self, ex):
+        self._clearTaskChain()
         Trace.log_exception("CruiseAction", 0, "CruiseAction %s:%s initialize failed: %s" % (self.actionType, self.Quest, ex))
         pass
 

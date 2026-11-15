@@ -148,6 +148,11 @@ class SystemCruiseControl(System):
             cruise = CruiseControlManager.createCruiseAction("CruiseActionMessage", quest,
                                                              SelectYesChoice=bShouldPressYes)
 
+            if cruise is None:
+                QuestManager.cancelQuest(quest)
+                self.__restartCruiseControl_Delayed()
+                return False
+
             if cruise.onCheck():  # If Popup Window Is Active
                 # current action: ended by currentCruiseEnd (here or on cruise stop)
                 self.currentAction = cruise
@@ -404,8 +409,9 @@ class SystemCruiseControl(System):
                         return CruiseAction
 
             CruiseAction = self.createZoomLeaveCruiseAction(zoomGroupName)
-            self._debugCruisetLog("[6] AroundSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(
-                CruiseAction.__class__.__name__, CruiseAction.Quest))
+            if CruiseAction is not None:
+                self._debugCruisetLog("[6] AroundSceneCheck ZoomLeave, created ZoomLeaveCruiseAction: {} {}".format(
+                    CruiseAction.__class__.__name__, CruiseAction.Quest))
             return CruiseAction
 
         else:
@@ -440,24 +446,26 @@ class SystemCruiseControl(System):
                 TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, CruiseSceneName)
 
                 if TransitionObject is not None:
-                    if TransitionObject.active is False:
-                        TransitionGroupName = TransitionObject.getGroupName()
+                    if TransitionObject.getName() != "Transition_Back":
+                        if TransitionObject.isActive() is False:
+                            TransitionGroupName = TransitionObject.getGroupName()
+                            if ZoomManager.hasZoom(TransitionGroupName) is False:
+                                return
 
-                        cruiseAction = self.createZoomEnterCruiseAction(currentSceneName, TransitionGroupName, False)
-                        if cruiseAction is not None:
-                            self._debugCruisetLog("[10] CreateZoomEnterCruiseAction: {} {}".format(
-                                cruiseAction.__class__.__name__, cruiseAction.Quest))
+                            cruiseAction = self.createZoomEnterCruiseAction(currentSceneName, TransitionGroupName, False)
+                            if cruiseAction is not None:
+                                self._debugCruisetLog("[10] CreateZoomEnterCruiseAction: {} {}".format(
+                                    cruiseAction.__class__.__name__, cruiseAction.Quest))
                             return cruiseAction
 
-                    else:
-                        CruiseAction = self.createSceneEnterCruiseAction(TransitionObject)
-                        if CruiseAction is not None:
-                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {}".format(
-                                CruiseAction.__class__.__name__, CruiseAction.Quest))
-                            return CruiseAction
-                        else:
-                            self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {} FAILED".format(
-                                currentSceneName, TransitionObject))
+                    CruiseAction = self.createSceneEnterCruiseAction(TransitionObject)
+                    if CruiseAction is not None:
+                        self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {}".format(
+                            CruiseAction.__class__.__name__, CruiseAction.Quest))
+                        return CruiseAction
+
+                    self._debugCruisetLog("[11] CreateSceneEnterCruiseAction: {} {} FAILED".format(
+                        currentSceneName, TransitionObject))
 
                 elif TransitionManager.hasTransitionBack(currentSceneName) is True:
                     TransitionBackObject = TransitionManager.getTransitionBackObject()
@@ -654,82 +662,92 @@ class SystemCruiseControl(System):
         if TransitionObject is None:
             return
 
-        Params = dict(Transition=TransitionObject)
-
         SceneNameTo = TransitionManager.getTransitionSceneTo(TransitionObject)
         if SceneNameTo is None:
             return
 
         GroupNameTo = SceneManager.getSceneMainGroupName(SceneNameTo)
-
-        # create quest
-        if QuestManager.hasLocalQuest(SceneNameTo, GroupNameTo, "EnterScene") is True:
+        hasLocalQuest = QuestManager.hasLocalQuest(SceneNameTo, GroupNameTo, "EnterScene")
+        if hasLocalQuest is True:
             Quest = QuestManager.getSceneQuest(SceneNameTo, GroupNameTo, "EnterScene")
-
         else:
             Quest = QuestManager.createLocalQuest("EnterScene", SceneName=SceneNameTo, GroupName=GroupNameTo,
                                                   Transition=TransitionObject)
+
+        cruiseActionType = CruiseControlManager.getTransitionCruiseActionType(TransitionObject)
+        cruiseAction = CruiseControlManager.createCruiseAction(cruiseActionType, Quest, Transition=TransitionObject)
+        if cruiseAction is None:
+            if hasLocalQuest is False:
+                QuestManager.cancelQuest(Quest)
+            return
+
+        if hasLocalQuest is False:
             with TaskManager.createTaskChain() as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     tc_quest.addTask("TaskSceneEnter", SceneName=SceneNameTo)
 
-        # create cruise action
-        if TransitionObject.getName() == "Transition_Back":
-            if Mengine.hasTouchpad():
-                return CruiseControlManager.createCruiseAction("CruiseActionTransitionBackMobile", Quest, **Params)
-            return CruiseControlManager.createCruiseAction("CruiseActionTransitionBack", Quest, **Params)
-        else:
-            return CruiseControlManager.createCruiseAction("CruiseActionTransition", Quest, **Params)
+        return cruiseAction
 
     def createZoomEnterCruiseAction(self, sceneName, zoomGroupName, check=True):
         if SystemManager.hasSystem("SystemItemPlusScene"):
             if SystemManager.getSystem("SystemItemPlusScene").Open_Zoom is not None:
-                # print "CANT OPEN ZOOM IF ITEM PLUS SCENE"
                 return
+
+        if ZoomManager.hasZoom(zoomGroupName) is False:
+            return
 
         zoom = ZoomManager.getZoom(zoomGroupName)
         if zoom.hasObject() is False:
             return
 
-        ZoomObject = ZoomManager.getZoomObject(zoomGroupName)
+        if check is True:
+            if QuestManager.hasAroundSceneQuest(sceneName, zoomGroupName) is False:
+                return
 
-        if QuestManager.hasLocalQuest(sceneName, zoomGroupName, "EnterZoom") is True:
+            sceneCruiseAction = self.getSceneCruiseAction(sceneName, zoomGroupName, False)
+            if sceneCruiseAction is None:
+                return
+
+            CruiseControlManager.finalizeCruiseAction(sceneCruiseAction)
+
+        ZoomObject = ZoomManager.getZoomObject(zoomGroupName)
+        hasLocalQuest = QuestManager.hasLocalQuest(sceneName, zoomGroupName, "EnterZoom")
+        if hasLocalQuest is True:
             Quest = QuestManager.getSceneQuest(sceneName, zoomGroupName, "EnterZoom")
         else:
             Quest = QuestManager.createLocalQuest("EnterZoom", Zoom=ZoomObject,
                                                   GroupName=zoomGroupName, SceneName=sceneName)
 
-        Params = dict(Zoom=ZoomObject)
-
-        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionZoom", Quest, **Params)
-        if cruiseAction.onCheck() is False:
-            QuestManager.cancelQuest(Quest)
-            CruiseControlManager.finalizeCruiseAction(cruiseAction)
+        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionZoom", Quest, Zoom=ZoomObject)
+        if cruiseAction is None:
+            if hasLocalQuest is False:
+                QuestManager.cancelQuest(Quest)
             return
 
-        if QuestManager.hasLocalQuest(sceneName, zoomGroupName, "EnterZoom") is False:
-            currentSceneName = SceneManager.getCurrentSceneName()
+        if cruiseAction.onCheck() is False:
+            CruiseControlManager.finalizeCruiseAction(cruiseAction)
+            if hasLocalQuest is False:
+                QuestManager.cancelQuest(Quest)
+            return
 
+        if hasLocalQuest is False:
+            currentSceneName = SceneManager.getCurrentSceneName()
             with TaskManager.createTaskChain() as tc:
                 with QuestManager.runQuest(tc, Quest) as tc_quest:
                     with tc_quest.addRaceTask(2) as (tc_zoom, tc_scene):
                         tc_zoom.addTask("TaskZoomEnter", ZoomName=zoomGroupName, SceneName=sceneName)
                         tc_scene.addTask("TaskSceneLeave", SceneName=currentSceneName)
 
-        if check is False:
-            return cruiseAction
-
-        CruiseControlManager.finalizeCruiseAction(cruiseAction)
-
-        hasZoomActiveQuest = QuestManager.hasAroundSceneQuest(sceneName, zoomGroupName)
-        if hasZoomActiveQuest is True:
-            groupName = zoomGroupName
-            return self.getSceneCruiseAction(sceneName, groupName, False)
+        return cruiseAction
 
     @staticmethod
     def createZoomLeaveCruiseAction(zoomGroupName):
         currentSceneName = SceneManager.getCurrentSceneName()
         Quest = QuestManager.createLocalQuest("CloseZoom", GroupName=zoomGroupName, SceneName=currentSceneName)
+        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionZoomOut", Quest)
+        if cruiseAction is None:
+            QuestManager.cancelQuest(Quest)
+            return
 
         with TaskManager.createTaskChain() as tc:
             with QuestManager.runQuest(tc, Quest) as tc_quest:
@@ -737,7 +755,7 @@ class SystemCruiseControl(System):
                     tc_zoom.addTask("TaskZoomLeave", ZoomName=zoomGroupName, SceneName=currentSceneName)
                     tc_scene.addTask("TaskSceneLeave", SceneName=currentSceneName)
 
-        return CruiseControlManager.createCruiseAction("CruiseActionZoomOut", Quest)
+        return cruiseAction
 
     # -------- OPBUTTON -----------------------------------------------------------------------------------------------
 

@@ -14,6 +14,9 @@ class CruiseActionUseInventoryItem(MixinObject, CruiseAction):
         self.sem_done_scroll = Semaphore(False, "done_scroll")
         self.click_delay = CruiseControlManager.getCruiseClickDelay('CruiseActionUseInventoryItem')
 
+    def _getCruiseObject(self):
+        return self.Object
+
     def _onCheck(self):
         if self.Inventory.hasInventoryItem(self.InventoryItem) is True:
             return self.InventoryItem.checkCount()

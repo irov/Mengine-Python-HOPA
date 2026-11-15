@@ -128,25 +128,34 @@ class AliasCruiseControlAction(TaskAlias):
         return self.Object.getCurrentMovieSocketCenter()
 
     @staticmethod
-    def getPosMovieObj(self):
-        if self.Object.isActive():
-            socket = None
+    def getMovieSocket(self):
+        if self.Object.isActive() is False:
+            return None
 
-            socket_name = self.ObjectParams[0] if len(self.ObjectParams) > 0 else None
-            if socket_name is not None and socket_name != -1:
+        socket_name = self.ObjectParams[0] if len(self.ObjectParams) > 0 else None
+        if socket_name is not None:
+            if socket_name != -1:
                 socket = self.Object.getSocket(socket_name)
+                if socket is not None:
+                    return socket
 
-            if socket is None:
-                sockets = self.Object.entity.movie.getSockets()
-                if len(sockets) > 0:
-                    socket = sockets[0][2]  # if socket wasn't specified, get first
+        entity = self.Object.getEntity()
+        movie = entity.movie
+        sockets = movie.getSockets()
+        if len(sockets) == 0:
+            return None
 
-            if socket is None:  # if no sockets in movie, then return zero pos
-                pos = self.pos_zero
-            else:
-                pos = socket.getWorldPolygonCenter()
+        socket = sockets[0][2]
+        return socket
 
-            return pos
+    @staticmethod
+    def getPosMovieObj(self):
+        socket = AliasCruiseControlAction.getMovieSocket(self)
+        if socket is None:
+            return self.pos_zero
+
+        pos = socket.getWorldPolygonCenter()
+        return pos
 
     @staticmethod
     def getPosInteractionObj(self):
@@ -258,12 +267,13 @@ class AliasCruiseControlAction(TaskAlias):
 
     @staticmethod
     def handleClickFakeMovie2Obj(source, self):
-        if self.Object.isActive():
-            movieEntity = self.Object.getEntity()
-            socket = movieEntity.getSocket("socket")
-            eventation = socket.getEventation()
+        socket = AliasCruiseControlAction.getMovieSocket(self)
+        if socket is None:
+            source.addDelay(0.0)
+            return
 
-            source.addFunction(eventation.callEvent, "onHandleMouseButtonEvent", self.fakeHotSpotClickEventParams)
+        eventation = socket.getEventation()
+        source.addFunction(eventation.callEvent, "onHandleMouseButtonEvent", self.fakeHotSpotClickEventParams)
 
     @staticmethod
     def handleClickFakeZoomObj(source, self):

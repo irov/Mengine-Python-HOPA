@@ -241,12 +241,25 @@ class CruiseControlManager(Manager):
 
         cruiseAction = cruiseAction()
         cruiseAction.setType(cruiseActionType)
-        cruiseAction.onParams(params)
+        if cruiseAction.onParams(params) is False:
+            return None
+
         cruiseAction.setQuest(quest)
-        cruiseAction.onInitialize()
+        if cruiseAction.onInitialize() is False:
+            return None
 
         return cruiseAction
         pass
+
+    @staticmethod
+    def getTransitionCruiseActionType(transition):
+        if transition.getName() != "Transition_Back":
+            return "CruiseActionTransition"
+
+        if Mengine.hasTouchpad() is False:
+            return "CruiseActionTransitionBack"
+
+        return "CruiseActionTransitionBackMobile"
 
     @staticmethod
     def finalizeCruiseAction(cruiseAction):
@@ -342,17 +355,14 @@ class CruiseControlManager(Manager):
                 currentSceneName = SceneManager.getCurrentSceneName()
                 TransitionObject = TransitionManager.findTransitionObjectToScene(currentSceneName, CruiseSceneName)
 
-                if TransitionObject is not None:
-                    Params = dict(Transition=TransitionObject)
-                    cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionTransition", quest, **Params)
-                else:
-                    TransitionBack = TransitionManager.findTransitionBackToScene(currentSceneName, CruiseSceneName)
-                    if TransitionBack is not None:
-                        Params = dict(Transition=TransitionBack)
-                        cruiseAction = CruiseControlManager.createCruiseAction("CruiseActionTransitionBack", quest,
-                                                                               **Params)
-                    else:
+                if TransitionObject is None:
+                    TransitionObject = TransitionManager.findTransitionBackToScene(currentSceneName, CruiseSceneName)
+                    if TransitionObject is None:
                         continue
+
+                Params = dict(Transition=TransitionObject)
+                cruiseActionType = CruiseControlManager.getTransitionCruiseActionType(TransitionObject)
+                cruiseAction = CruiseControlManager.createCruiseAction(cruiseActionType, quest, **Params)
 
             else:
                 cruiseActionType = CruiseControlManager.getCruiseActionType(quest.questType)
