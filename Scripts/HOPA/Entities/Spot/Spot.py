@@ -185,7 +185,7 @@ class Spot(BaseEntity):
         with TaskManager.createTaskChain(Name="SpotHideDelay") as tc:
             with tc.addParallelTask(2) as (tc_1, tc_2):
                 with tc_1.addParallelTask(len(self.sprites)) as tc_hides:
-                    for tc_hide, sprite in zip(tc_hides, self.sprites):
+                    for tc_hide, sprite in xzip(tc_hides, self.sprites):
                         tc_hide.addTask("TaskNodeAlphaTo", Node=sprite, To=0.0, Time=fadeTime)
                         pass
 
@@ -207,7 +207,7 @@ class Spot(BaseEntity):
         with TaskManager.createTaskChain(Name="SpotHideShow") as tc:
             with tc.addParallelTask(2) as (tc_1, tc_2):
                 with tc_1.addParallelTask(len(self.sprites)) as tc_hides:
-                    for tc_hide, sprite in zip(tc_hides, self.sprites):
+                    for tc_hide, sprite in xzip(tc_hides, self.sprites):
                         tc_hide.addTask("TaskNodeAlphaTo", Node=sprite, To=self.FadeColor[3], Time=fadeTime)
                         pass
 

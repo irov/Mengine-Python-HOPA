@@ -47,7 +47,7 @@ class GateHandler(Initializer):
         GateOpenNames = self._owner.param.GateOpenNames
         LeverNames = self._owner.param.LeverNames
 
-        for i, (open_name, close_name, lever_name) in enumerate(zip(GateOpenNames, GateCloseNames, LeverNames), 1):
+        for i, (open_name, close_name, lever_name) in enumerate(xzip(GateOpenNames, GateCloseNames, LeverNames), 1):
             gate_open_movie = self._generate(open_name)
             gate_close_movie = self._generate(close_name)
             lever_movie = Lever()

@@ -32,7 +32,7 @@ class MacroUseItemOrFX(MacroCommand):
         ItemsCount = len(self.ItemsName)
 
         with source.addRaceTask(ItemsCount) as tc_races:
-            for tc_race, ItemName in zip(tc_races, self.ItemsName):
+            for tc_race, ItemName in xzip(tc_races, self.ItemsName):
                 InventoryItem = ItemManager.getItemInventoryItem(ItemName)
                 tc_race.addTask("TaskSocketPlaceInventoryItem", SocketName=self.SocketName, InventoryItem=InventoryItem,
                                 ItemName=ItemName, Taken=False, Pick=False)

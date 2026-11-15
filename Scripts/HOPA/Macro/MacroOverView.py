@@ -6,7 +6,7 @@ class MacroOverView(MacroCommand):
     def _onValues(self, values):
         self.ViewID = values[0]
         #        self.ObjectName = values[0]
-        self.FinalParagraphIDs = [value for value in values[1:] if value is not None]
+        self.FinalParagraphIDs = [value for value in xslice(values, 1, None) if value is not None]
         self.MouseEnter = None
         self.myObject = None
         self.HasID = True

@@ -181,11 +181,7 @@ class SystemProductGroups(System):
     def getActiveSubgroup(group_id):
         group = SystemProductGroups.getGroup(group_id)
 
-        active_subgroups = filter(lambda sg: sg.in_progress is True, group.subgroups.itervalues())
-        if len(active_subgroups) == 0:
-            return
-
-        return active_subgroups[0]
+        return next(xfilter(lambda sg: sg.in_progress is True, group.subgroups.itervalues()), None)
 
     # Groups limit handlers
 

@@ -226,7 +226,7 @@ class HOGInventory(InventoryBase):
         with TaskManager.createTaskChain(Name="HOGInventory", Group=self.object) as tc:
             itemCount = len(self.FoundItems)
             with tc.addParallelTask(itemCount) as tcho:
-                for tchog, foundItemName in zip(tcho, self.FoundItems):
+                for tchog, foundItemName in xzip(tcho, self.FoundItems):
                     tchog.addTask("TaskHOGInventoryCrossOut", HOGItemName=foundItemName, Immediately=True)
 
     def _onDeactivate(self):

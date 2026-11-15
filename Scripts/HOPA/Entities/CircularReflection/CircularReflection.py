@@ -71,7 +71,7 @@ class CircularReflection(Enigma):
         collections = CircularReflectionManager.collections
         self.validateManagement(collections)
         self.subMovieMapping()
-        for movie_name, socket_name in map(None, CircularReflection.Movies, CircularReflection.Sockets):
+        for movie_name, socket_name in xmap(None, CircularReflection.Movies, CircularReflection.Sockets):
             movie_object = self.object.getObject(movie_name)
             socket_object = self.object.getObject(socket_name)
             entityMovie = movie_object.getEntity()

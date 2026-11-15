@@ -16,7 +16,7 @@ class GameField(object):
         with TaskManager.createTaskChain(Name="CircleRotate", Cb=self.noRotate) as tc:
             tc.addTask("TaskMoviePlay", Movie=self.sound, Wait=False, Loop=False)
             with tc.addParallelTask(len(self.movieList)) as tcs:
-                for tci, Movie in zip(tcs, self.movieList):
+                for tci, Movie in xzip(tcs, self.movieList):
                     tci.addScope(self._scopeRotateMovie, Movie)
 
     def _scopeRotateMovie(self, source, Movie):

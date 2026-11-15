@@ -12,7 +12,7 @@ class MacroObjective(MacroCommand):
             pass
 
         self.ObjectiveID = values[0]
-        self.Notifies = [value for value in values[1:] if value is not None]
+        self.Notifies = [value for value in xslice(values, 1, None) if value is not None]
 
     def _onInitialize(self):
         if ObjectiveManager.hasObjective(self.ObjectiveID) is False:

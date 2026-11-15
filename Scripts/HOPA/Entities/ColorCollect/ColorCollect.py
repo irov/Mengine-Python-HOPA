@@ -150,14 +150,14 @@ class ColorCollect(Enigma):
         with scope.addRaceTask(3) as (tc_end, tc_begin, tc_wrong):
 
             with tc_end.addRaceTask(len(self.endBySocket.keys())) as tcs:
-                for tci, socket, bulb in zip(tcs, self.endBySocket.iterkeys(), self.endBySocket.itervalues()):
+                for tci, socket, bulb in xzip(tcs, self.endBySocket.iterkeys(), self.endBySocket.itervalues()):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)
                     tci.addFunction(returnToBulb, socket)
 
             with tc_begin.addRaceTask(len(self.beginBySocket.keys())) as tcs:
-                for tci, socket, bulb in zip(tcs, self.beginBySocket.iterkeys(), self.beginBySocket.itervalues()):
+                for tci, socket, bulb in xzip(tcs, self.beginBySocket.iterkeys(), self.beginBySocket.itervalues()):
                     tci.addTask("TaskSocketUseItem", Socket=socket, AutoEnable=False, Item=self.arrowAttachItem)
                     tci.addTask("TaskRemoveArrowAttach")
                     tci.addTask("TaskFanItemInNone", FanItem=self.arrowAttachItem)

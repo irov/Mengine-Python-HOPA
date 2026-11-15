@@ -116,7 +116,7 @@ class HintActionUsePet(MixinObject, HintAction):
 
     def _onEndEffect(self, source):
         with source.addParallelTask(len(self.listInterrupt)) as tc_chains:
-            for tc_chain, policyName in zip(tc_chains, self.listInterrupt):
+            for tc_chain, policyName in xzip(tc_chains, self.listInterrupt):
                 tc_chain.addTask(policyName)
 
     def _onEndEffectComplete(self, isSkip):

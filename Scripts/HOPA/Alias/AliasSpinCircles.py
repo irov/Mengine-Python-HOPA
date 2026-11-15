@@ -10,6 +10,6 @@ class AliasSpinCircles(MixinObject, TaskAlias):
     def _onGenerate(self, source):
         countSockets = len(self.Sockets)
         with source.addRaceTask(countSockets) as tcs:
-            for tci, socket in zip(tcs, self.Sockets):
+            for tci, socket in xzip(tcs, self.Sockets):
                 tci.addTask("TaskSocketClick", SocketName=socket, AutoEnable=True)
                 tci.addNotify(Notificator.onSpin, socket)

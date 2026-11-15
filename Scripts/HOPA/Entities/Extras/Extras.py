@@ -44,7 +44,7 @@ class Extras(BaseEntity):
 
         with TaskManager.createTaskChain(Name="Extras", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(extrasCount) as (tc_buttons):
-                for tc_button, name, extra in zip(tc_buttons, extrasKeys, extras):
+                for tc_button, name, extra in xzip(tc_buttons, extrasKeys, extras):
                     buttonName = extra.getButtonName()
                     layerName = extra.getGroupName()
                     objectName = extra.getObjectName()

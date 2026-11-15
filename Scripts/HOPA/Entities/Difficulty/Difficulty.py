@@ -32,7 +32,7 @@ class Difficulty(BaseEntity):
 
             with tc.addRepeatTask() as (tc_diff, tc_ok):
                 with tc_diff.addRaceTask(diffCount) as tc_diff:
-                    for checkBox, tc_id in zip(self.difficulties.itervalues(), tc_diff):
+                    for checkBox, tc_id in xzip(self.difficulties.itervalues(), tc_diff):
                         tc_id.addTask("TaskCheckBox", CheckBox=checkBox, Value=True)
                         tc_id.addTask("TaskCheckBoxBlockState", CheckBox=checkBox, Value=True)
                         for tempCheckBox in self.difficulties.itervalues():

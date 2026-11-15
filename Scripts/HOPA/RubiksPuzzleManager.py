@@ -93,7 +93,7 @@ class RubiksPuzzleManager(Manager):
             AdjacentVertices = record.get("AdjacentVertices")
 
             VertexWithMask = VertexSlotMask + str(Vertex)
-            AdjacentVerticesWithMask = list(map(lambda VertexIndex: VertexSlotMask + str(VertexIndex), AdjacentVertices))
+            AdjacentVerticesWithMask = map(lambda VertexIndex: VertexSlotMask + str(VertexIndex), AdjacentVertices)
 
             vertices_dict[VertexWithMask] = AdjacentVerticesWithMask
 

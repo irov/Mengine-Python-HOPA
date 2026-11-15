@@ -160,8 +160,8 @@ class SystemNavigation(System):
             if SystemManager.hasSystem("SystemTransitionHighlight"):
                 sysTransHighlight = SystemManager.getSystem("SystemTransitionHighlight")
 
-                toHighlightScenes = [scene for scene in toHighlightScenes if not sysTransHighlight.IsObjectHighlightedNow(scene)]
-                toHighlightZooms = [zoom for zoom in toHighlightZooms if not sysTransHighlight.IsObjectHighlightedNow(zoom)]
+                toHighlightScenes.remove_if(sysTransHighlight.IsObjectHighlightedNow)
+                toHighlightZooms.remove_if(sysTransHighlight.IsObjectHighlightedNow)
 
         return toHighlightScenes, toHighlightZooms
 

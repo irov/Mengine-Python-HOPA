@@ -190,7 +190,7 @@ class SameElements(Enigma):
         buttonsCount = len(buttons)
         with TaskManager.createTaskChain(Name="SameElementsChangeButtons", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(buttonsCount) as tcc:
-                for tc_b, buttonName in zip(tcc, buttons.iterkeys()):
+                for tc_b, buttonName in xzip(tcc, buttons.iterkeys()):
                     collectionID = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
                     tc_b.addFunction(self.__changeElements, collectionID)
@@ -215,7 +215,7 @@ class SameElements(Enigma):
         buttonsCount = len(buttons)
         with TaskManager.createTaskChain(Name="SameElementsCollectionButtons", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(buttonsCount) as tcc:
-                for tc_b, buttonName in zip(tcc, buttons.iterkeys()):
+                for tc_b, buttonName in xzip(tcc, buttons.iterkeys()):
                     buttonData = buttons[buttonName]
                     tc_b.addTask("TaskButtonClick", ButtonName=buttonName)
                     tc_b.addFunction(self.__changeCollection, buttonData)

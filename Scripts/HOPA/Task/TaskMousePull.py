@@ -15,7 +15,7 @@ class TaskMousePull(MixinObserver, Task):
         self.BlockDistance = 30
 
         self.baseDirection = map(self.rotateVector, TaskMousePull.s_angle)
-        base_direction_pairs = zip(TaskMousePull.s_directions, self.baseDirection)
+        base_direction_pairs = xzip(TaskMousePull.s_directions, self.baseDirection)
         self.baseDirections = dict(base_direction_pairs)
         self.sigma = 20 * 3.14 / 180
         pass

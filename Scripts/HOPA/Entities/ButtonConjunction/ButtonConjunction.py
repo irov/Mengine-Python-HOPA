@@ -63,7 +63,7 @@ class ButtonConjunction(Enigma):
         moviesOverObjects = [self.object.getObject(name) for name in moviesOver]
         socketObjects = [self.object.getObject(name) for name in sockets]
         self.orderedToClick = socketObjects
-        movie_stack = zip(moviesActivateObjects, moviesDownObjects, moviesOverObjects)
+        movie_stack = xzip(moviesActivateObjects, moviesDownObjects, moviesOverObjects)
         for i, movies_tuple in enumerate(movie_stack):
             _socket = socketObjects[i]
             buttonInstance = MoviesButton(*movies_tuple)

@@ -47,7 +47,7 @@ class TaskInventorySlotsHideInventoryItem(TaskAlias):
         slots = InventoryEntity.getSlots()
 
         with source.addParallelTask(ActiveSlotCount) as tcp:
-            for tci, index in zip(tcp, range(FromIndex, ToIndex)):
+            for tci, index in xzip(tcp, xrange(FromIndex, ToIndex)):
                 InventoryItem = InventoryItems[index]
 
                 if self.Except is not None and InventoryItem in self.Except:

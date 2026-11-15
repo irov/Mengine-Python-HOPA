@@ -176,7 +176,7 @@ class Fan(Enigma):
             with tc.addParallelTask(itemCount) as tcho:
                 Group = self.object.getGroup()
 
-                for tchog, ItemName in zip(tcho, self.toFindItems):
+                for tchog, ItemName in xzip(tcho, self.toFindItems):
                     tchog.addTask("AliasFanFindItem", Fan=self.object, SceneName=SceneName, Group=Group, ItemName=ItemName)
 
             tc.addNotify(Notificator.onFanComplete, self.object)

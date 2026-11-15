@@ -11,9 +11,9 @@ class MacroZoomUpdatePolygon(MacroCommand):
 
         if values[1].startswith("("):
             self.Points = []
-            points = values[1:]
+            points = xslice(values, 1, None)
             for point in points:
-                pair = tuple(map(lambda x: float(x), point[1:-1].split(", ")))
+                pair = tuple(xmap(float, point[1:-1].split(", ")))
                 self.Points.append(pair)
             self.ReferObjectName = None
         else:

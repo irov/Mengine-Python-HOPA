@@ -249,7 +249,7 @@ class ChainClickMovie(Enigma):
 
     def __checkChain(self, chain):
         param_chain = self.param.getChain()
-        for click_id, valid_id in zip(chain, param_chain):
+        for click_id, valid_id in xzip(chain, param_chain):
             if isinstance(valid_id, list) and click_id in valid_id:
                 continue
             if click_id != valid_id:
@@ -261,7 +261,7 @@ class ChainClickMovie(Enigma):
 
         if len(param_chain) != len(chain):
             return
-        for cur_id, valid_id in zip(chain, param_chain):
+        for cur_id, valid_id in xzip(chain, param_chain):
             if isinstance(valid_id, list) and cur_id in valid_id:
                 continue
             if cur_id != valid_id:

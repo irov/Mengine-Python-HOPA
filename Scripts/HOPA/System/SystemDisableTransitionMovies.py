@@ -12,7 +12,7 @@ class SystemDisableTransitionMovies(System):
     def _onRun(self):
         moviesIn = TransitionManager.getInMovies()
         moviesOut = TransitionManager.getOutMovies()
-        for movie in moviesIn + moviesOut:
+        for movie in xchain(moviesIn, moviesOut):
             movie.setEnable(False)
             pass
 

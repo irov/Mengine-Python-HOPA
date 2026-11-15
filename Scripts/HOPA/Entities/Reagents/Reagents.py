@@ -134,7 +134,7 @@ class Reagents(BaseEntity):
         socket = self.object.getObject("Socket_Mix")
         with TaskManager.createTaskChain(Name="Mix", Group=self.object, Repeat=True) as tc:
             with tc.addRaceTask(count) as tc_items:
-                for tc_item, openReagentName in zip(tc_items, self.OpenReagents):
+                for tc_item, openReagentName in xzip(tc_items, self.OpenReagents):
                     item = self.reagents[openReagentName]
                     with tc_item.addRepeatTask() as (tc_do, tc_until):
                         tc_do.addTask("AliasItemAttach", Item=item, MovieAttach=False, Origin=False)

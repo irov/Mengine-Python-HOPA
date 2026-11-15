@@ -196,7 +196,7 @@ class QuestManager(Manager):
         key = (sceneName, groupName)
         quests = QuestManager.s_questLocalCache[key]
 
-        for quest in quests + QuestManager.s_questGlobalCache:
+        for quest in xchain(quests, QuestManager.s_questGlobalCache):
             if quest.questType == type and quest.isComplete() is False and quest.active is True:
                 return quest
 

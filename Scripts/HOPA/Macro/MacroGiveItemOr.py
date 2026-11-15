@@ -39,7 +39,7 @@ class MacroGiveItemOr(MacroCommand):
 
         with Quest as tc_quest:
             with tc_quest.addRaceTask(ItemsCount) as tc_races:
-                for tc_race, ItemName in zip(tc_races, self.ItemsName):
+                for tc_race, ItemName in xzip(tc_races, self.ItemsName):
                     tc_race.addTask("AliasGiveItem", Object=Object, SocketName=self.SocketName, ItemName=ItemName,
                                     SceneName=self.SceneName, Group_Name=self.GroupName)
 

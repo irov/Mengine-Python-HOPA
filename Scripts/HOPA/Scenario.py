@@ -212,7 +212,7 @@ class ScenarioShiftCollect(ScenarioElement):
 
 def generateParagraph(Index, Paragraphs, source, ScenarioRunner, ScenarioChapter):
     with source.addParallelTask(len(Paragraphs)) as tcp_paragraphs:
-        for tci, paragraphID in zip(tcp_paragraphs, Paragraphs):
+        for tci, paragraphID in xzip(tcp_paragraphs, Paragraphs):
             if paragraphID == "BEGIN":
                 pass
             elif paragraphID == "StageFX1":

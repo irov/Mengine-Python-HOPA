@@ -59,7 +59,7 @@ class PuzzleDragDrop(Enigma):
 
         with TaskManager.createTaskChain(Name=self.EnigmaName, Group=self.object, Cb=self._complete) as tc:
             with tc.addParallelTask(len(self.PuzzleDragDrop.elements)) as tcs:
-                for tci, element in zip(tcs, self.PuzzleDragDrop.elements):
+                for tci, element in xzip(tcs, self.PuzzleDragDrop.elements):
                     pickItem = self.object.getObject(element[0])
                     pickItemEntity = pickItem.getEntity()
                     placeItem = self.object.getObject(element[1])

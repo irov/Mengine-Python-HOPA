@@ -61,7 +61,7 @@ class MacroCombine(MacroCommand):
 
         with Quest as tc_quest:
             with tc_quest.addRaceTask(CombineItemNamesCount) as tcs:
-                for tci, CombineNames in zip(tcs, self.CombineItemNames):
+                for tci, CombineNames in xzip(tcs, self.CombineItemNames):
                     AttachInventoryItem = ItemManager.getItemInventoryItem(CombineNames[0])
                     SlotInventoryItem = ItemManager.getItemInventoryItem(CombineNames[1])
 

@@ -364,9 +364,9 @@ class SystemAchievements(System):
                 return False
             return True
 
-        external_achieves = filter(_filter, SystemAchievements.s_external_achievements.itervalues())
-        internal_achieves = filter(_filter, SystemAchievements.s_achievements.itervalues())
-        achievements = external_achieves + internal_achieves
+        external_achieves = xfilter(_filter, SystemAchievements.s_external_achievements.itervalues())
+        internal_achieves = xfilter(_filter, SystemAchievements.s_achievements.itervalues())
+        achievements = list(xchain(external_achieves, internal_achieves))
 
         return achievements
 

@@ -6,7 +6,7 @@ class MacroListener(MacroCommand):
 
     def _onValues(self, values):
         self.notifyID = Notificator.getIdentity(values[0])
-        self.user_args = [val for val in values[1:]]  # values with '#' ignores by xlsxExporter
+        self.user_args = list(xslice(values, 1, None))  # values with '#' ignores by xlsxExporter
 
     def __filter(self, *args):
         for user_arg, input_arg in zip(self.user_args, args):

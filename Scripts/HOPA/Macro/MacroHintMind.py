@@ -12,7 +12,7 @@ class MacroHintMind(MacroCommand):
 
         self.ExceptionId = values[0]
 
-        self.Notifies = [value for value in values[1:] if value is not None]
+        self.Notifies = [value for value in xslice(values, 1, None) if value is not None]
         pass
 
     def _onInitialize(self):

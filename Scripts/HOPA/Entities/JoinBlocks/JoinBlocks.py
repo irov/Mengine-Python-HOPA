@@ -424,7 +424,7 @@ class JoinBlocks(Enigma):
         pass
 
     def _createSlots(self, BlockList, BlockStateList, BlockPositionList):
-        for movieName, blockName, blockPosition in zip(BlockStateList, BlockList, BlockPositionList):
+        for movieName, blockName, blockPosition in xzip(BlockStateList, BlockList, BlockPositionList):
             movieObject = self.object.getObject(movieName[0])
             movie_activeObject = self.object.getObject(movieName[1])
 

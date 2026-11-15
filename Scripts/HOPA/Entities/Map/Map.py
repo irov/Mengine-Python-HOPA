@@ -215,7 +215,7 @@ class Map(BaseEntity):
 
         with TaskManager.createTaskChain(Name="PlayMap", Group=self.object) as tc:
             with tc.addRaceTask(lenActiveTeleports) as tcs:
-                for tci, clickObject in zip(tcs, self.activeTeleports):
+                for tci, clickObject in xzip(tcs, self.activeTeleports):
                     sceneName = tepeportsScenes[clickObject]
 
                     tci.addTask("TaskButtonClick", Button=clickObject)

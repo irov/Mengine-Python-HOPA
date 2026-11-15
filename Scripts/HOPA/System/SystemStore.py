@@ -39,16 +39,17 @@ class SystemStore(System):
         Store = DemonManager.getDemon("Store")
 
         tabs = StoreManager.getTabsSettings().itervalues()
-        selected_tabs = filter(lambda tab: tab.selected is True, tabs)
-        if len(selected_tabs) == 0:
+        selected_tab = next(xfilter(lambda tab: tab.selected is True, tabs), None)
+        if selected_tab is None:
             return False
-        page_id = selected_tabs[0].page_id  # StoreManager guarantees that at least one page is selected
+        page_id = selected_tab.page_id  # StoreManager guarantees that at least one page is selected
 
         current_page_id = Store.getParam("CurrentPageID")
         if current_page_id == page_id or current_page_id is not None:
             return
 
         self.setCurrentPageID(page_id)
+        pass
 
     def _setupAlreadyBoughtPagesID(self):
         """Synchronize purchase-controlled tabs with the account's current entitlements."""

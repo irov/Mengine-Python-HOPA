@@ -111,7 +111,7 @@ class Plumber(Enigma):
         with TaskManager.createTaskChain(Name="Play", Repeat=True) as tc:
             with tc.addRepeatTask() as (tc_setItems, tc_until):
                 with tc_setItems.addRaceTask(itemsCount) as tc_items:
-                    for tc_item, item in zip(tc_items, items):
+                    for tc_item, item in xzip(tc_items, items):
                         itemMovie = item.getMovie()
                         itemSelectedMovie = item.getSelectedMovie()
 
@@ -125,7 +125,7 @@ class Plumber(Enigma):
                         tc_item.addEnable(itemSelectedMovie)
 
                         with tc_item.addRaceTask(cellsCount) as tc_cells:
-                            for tc_cell, cell in zip(tc_cells, cells):
+                            for tc_cell, cell in xzip(tc_cells, cells):
                                 cellMovie = cell.getMovie()
                                 tc_cell.addTask("TaskMovieSocketClick", SocketName="socket", Movie=cellMovie)
                                 tc_cell.addScope(self.setItemToCell, cell, item)

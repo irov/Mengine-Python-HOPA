@@ -74,11 +74,11 @@ class BoneBoard(BaseEntity):
         self.items = [self.BoneGroup.getObject(it) for it in items]
         mask_prev = BoneBoardManager.getPrev()
         inv_item = BoneBoardManager.getInvItem()
-        self.exel_str_item = dict(zip(inv_item, self.items))  # invitem -> bone item
+        self.exel_str_item = dict(xzip(inv_item, self.items))  # invitem -> bone item
 
         self.init_helper()
         self.mask_prev = map(masking, mask_prev)
-        self.prev_item_pair = dict(zip(self.mask_prev, self.items))
+        self.prev_item_pair = dict(xzip(self.mask_prev, self.items))
         movie_add_name = BoneBoardManager.getMovieAdd()
         movie_use_name = BoneBoardManager.getMovieUse()
         movie_wrong_name = BoneBoardManager.getMovieWrong()

@@ -76,7 +76,7 @@ class FeedStates(Enigma):
         ref = FeedStatesManager.getRef(self.EnigmaName)
         self.sockets = FeedStatesManager.getSockets(self.EnigmaName)
         sprites = FeedStatesManager.getSprites(self.EnigmaName)
-        self.sprites_map = dict(zip(self.sockets, sprites))
+        self.sprites_map = dict(xzip(self.sockets, sprites))
         limit = FeedStatesManager.getLimits(self.EnigmaName)
         StatesControl.loadControl(movie_states, ref, self.sockets, limit)
         StatesControl.play_object = self

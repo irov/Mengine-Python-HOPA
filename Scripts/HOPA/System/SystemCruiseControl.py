@@ -611,7 +611,7 @@ class SystemCruiseControl(System):
     def getAroundSceneCruiseAction(self, fromSceneName, checkActive=False):
         aroundScenes = TransitionManager.findSpiralScenes(fromSceneName)
 
-        for sceneName in aroundScenes[1:]:
+        for sceneName in xslice(aroundScenes, 1, None):
             groupName = SceneManager.getSceneMainGroupName(sceneName)
 
             hasSceneActiveQuest = QuestManager.hasAroundSceneQuest(sceneName, groupName)

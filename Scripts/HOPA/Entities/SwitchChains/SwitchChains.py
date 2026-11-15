@@ -185,7 +185,7 @@ class SwitchChains(Enigma):
                         pass
 
                     with tc_2.addParallelTask(len(element.chainList)) as tc_chains:
-                        for tc_chain, chainName in zip(tc_chains, element.chainList):
+                        for tc_chain, chainName in xzip(tc_chains, element.chainList):
                             chainElement = self.elements[chainName]
 
                             with tc_chain.addSwitchTask(2, Functor(_checkReverse, chainElement)) as (tc_norm, tc_rev):

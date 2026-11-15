@@ -51,7 +51,7 @@ class Symbol(Initializer):
 
     def activateSymbol(self):
         # finished chains are finalized, keep only the ones still running
-        self.tcs = [tc for tc in self.tcs if tc.isInitialized() is True]
+        self.tcs.remove_if(lambda tc: tc.isInitialized() is not True)
 
         chain = TaskManager.createTaskChain()
         self.tcs.append(chain)
@@ -74,6 +74,7 @@ class Symbol(Initializer):
                 tc.addDisable(self.movie_activate)
                 tc.addEnable(self.movie_open)
                 tc.addEnable(self.movie_mouseover)
+        pass
 
     def mouseOn(self):
         self.movie_mouseover.setEnable(True)

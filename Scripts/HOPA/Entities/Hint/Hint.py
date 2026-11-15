@@ -802,7 +802,7 @@ class Hint(BaseEntity):
         aroundScenes = TransitionManager.findSpiralScenes(fromSceneName)
         self._debugHintLog("* getAroundSceneHintAction from={} around={}".format(fromSceneName, aroundScenes))
 
-        for sceneName in aroundScenes[1:]:
+        for sceneName in xslice(aroundScenes, 1, None):
             groupName = SceneManager.getSceneMainGroupName(sceneName)
             hasSceneActiveQuest = QuestManager.hasAroundSceneQuest(sceneName, groupName)
 

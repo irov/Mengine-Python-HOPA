@@ -160,7 +160,7 @@ class SpinCircles(Enigma):
         tasks = len(movies)
         with TaskManager.createTaskChain(Name=SpinCircles.MainTask, Cb=self.isContinue) as tp:
             with tp.addParallelTask(tasks) as tci:
-                for tc_p, movieList in zip(tci, movies):
+                for tc_p, movieList in xzip(tci, movies):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
@@ -276,7 +276,7 @@ class SpinCircles(Enigma):
         socket_objects = [self.object.getObject(socket_name) for socket_name in rotate_socket]
         [movie.setEnable(False) for movie in over_movies]
         self.removeViewNotify()
-        self.socket_views = dict(zip(socket_objects, over_movies))
+        self.socket_views = dict(xzip(socket_objects, over_movies))
         self.SocketEnter = Notification.addObserver(Notificator.onSocketMouseEnter, self.onSocketEntered)
         pass
 
@@ -374,7 +374,7 @@ class SpinCircles(Enigma):
         tasks = len(movies)
         with TaskManager.createTaskChain() as tc_res:
             with tc_res.addParallelTask(tasks) as tci:
-                for tc_p, movieList in zip(tci, movies):
+                for tc_p, movieList in xzip(tci, movies):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
@@ -395,7 +395,7 @@ class SpinCircles(Enigma):
         tasks = len(movies)
         with TaskManager.createTaskChain() as tc_res:
             with tc_res.addParallelTask(tasks) as tci:
-                for tc_p, movieList in zip(tci, movies):
+                for tc_p, movieList in xzip(tci, movies):
                     Previous = None
                     for eachMovie in movieList:
                         if Previous is not None:
@@ -452,7 +452,7 @@ class SpinCircles(Enigma):
         if Movies:
             with TaskManager.createTaskChain() as tc:
                 with tc.addParallelTask(len(Movies)) as tci:
-                    for tc_p, movie in zip(tci, Movies):
+                    for tc_p, movie in xzip(tci, Movies):
                         tc_p.addTask("TaskMoviePlay", Movie=movie)
 
     def _restoreEnigma(self):

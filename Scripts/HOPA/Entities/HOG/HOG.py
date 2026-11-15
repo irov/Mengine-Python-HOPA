@@ -90,7 +90,7 @@ class HOG(Enigma):
         with TaskManager.createTaskChain(Name="HOGFindItem", Group=self.ItemsGroup, Cb=self.checkComplete) as tc:
             itemCount = len(FindItems)
             with tc.addParallelTask(itemCount) as tcho:
-                for tc_hog, name in zip(tcho, FindItems):
+                for tc_hog, name in xzip(tcho, FindItems):
                     hogItem = HOGManager.getHOGItem(self.EnigmaName, name)
                     if hogItem.objectName is None:
                         continue

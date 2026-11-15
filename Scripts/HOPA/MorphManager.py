@@ -96,10 +96,7 @@ class MorphManager(Manager):
     @staticmethod
     def getMorphById(morph_id):
         """ return None or MorphManager.Morph (morph params) """
-        found_morphs = filter(lambda morph: morph.id == morph_id, MorphManager.s_morphs)
-        if len(found_morphs) == 0:
-            return None
-        return found_morphs[0]
+        return next(xfilter(lambda morph: morph.id == morph_id, MorphManager.s_morphs), None)
 
     @staticmethod
     def getMorphByGroup(group_name):

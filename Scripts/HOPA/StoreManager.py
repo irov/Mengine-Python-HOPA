@@ -118,7 +118,7 @@ class StoreManager(Manager):
             return prototypes
 
         def getTextIds(self):
-            text_ids_keys = filter(lambda x: x.endswith("_text_id"), self.__dict__)
+            text_ids_keys = xfilter(lambda x: x.endswith("_text_id"), self.__dict__)
             text_ids = [self.__dict__[key] for key in text_ids_keys]
             return text_ids
 

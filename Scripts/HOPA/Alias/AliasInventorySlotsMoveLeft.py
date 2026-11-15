@@ -180,7 +180,7 @@ class AliasInventorySlotsMoveLeft(TaskAlias):
 
         moviesCount = len(tempMovies)
         with source.addParallelTask(moviesCount) as tc_movies:
-            for tc_movie, movie in zip(tc_movies, tempMovies):
+            for tc_movie, movie in xzip(tc_movies, tempMovies):
                 if movie is None:
                     continue
                     pass
@@ -209,7 +209,7 @@ class AliasInventorySlotsMoveLeft(TaskAlias):
             pass
 
         if activeSlots >= 1:
-            for invItem, tempMovie in zip(idleInvItems, idleInvMovies):
+            for invItem, tempMovie in xzip(idleInvItems, idleInvMovies):
                 if invItem is None or tempMovie is None:
                     continue
                     pass

@@ -27,7 +27,7 @@ class SystemExtrasEnigma(System):
         enigma = EnigmaManager.getEnigmaObject(enigmaName)
         enigmaType = enigma.getType()
         # finished chains are finalized, keep only the ones still running
-        self._playTaskChains = [tc for tc in self._playTaskChains if tc.isInitialized() is True]
+        self._playTaskChains.remove_if(lambda tc: tc.isInitialized() is not True)
 
         chain = TaskManager.createTaskChain()
         self._playTaskChains.append(chain)

@@ -26,7 +26,7 @@ class MacroWaitParagraph(MacroCommand):
 
         with Quest as tc_quest:
             with tc_quest.addParallelTask(len(self.Paragraphs)) as tcp_paragraphs:
-                for tci, paragraphID in zip(tcp_paragraphs, self.Paragraphs):
+                for tci, paragraphID in xzip(tcp_paragraphs, self.Paragraphs):
                     tci.addScope(self._scopeGenerate, paragraphID)
 
     def _scopeGenerate(self, source, paragraphID):

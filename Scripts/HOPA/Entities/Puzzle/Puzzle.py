@@ -77,7 +77,7 @@ class Puzzle(Enigma):
 
         with TaskManager.createTaskChain(Name="PuzzleGame") as tc_game:
             with tc_game.addParallelTask(len(self.data)) as tci:
-                for tcs, element in zip(tci, self.data):
+                for tcs, element in xzip(tci, self.data):
                     placeName = element.getPlaceName()
                     itemName = element.getItemName()
                     if itemName in self.PlacedItems:

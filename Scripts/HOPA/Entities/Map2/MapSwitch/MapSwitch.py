@@ -19,7 +19,7 @@ class MapSwitch(BaseEntity):
         Data = MapSwitchManager.getData(self.object)
         with TaskManager.createTaskChain(Name="Chain_" + self.object.getName(), Repeat=True) as tc:
             with tc.addRaceTask(len(Data.keys())) as tci:
-                for tcs, button in zip(tci, Data.iterkeys()):
+                for tcs, button in xzip(tci, Data.iterkeys()):
                     sceneName = Data[button]
                     tcs.addTask("TaskButtonClick", Button=button)
                     tcs.addFunction(TransitionManager.changeScene, sceneName, None, False)

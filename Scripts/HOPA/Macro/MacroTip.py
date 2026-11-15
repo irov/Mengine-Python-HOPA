@@ -13,7 +13,7 @@ class MacroTip(MacroCommand):
         self.ObjectName = values[0]
         self.TipName = values[1]
 
-        self.Notifies = [value for value in values[2:] if value is not None]
+        self.Notifies = [value for value in xslice(values, 2, None) if value is not None]
         pass
 
     def _onInitialize(self):

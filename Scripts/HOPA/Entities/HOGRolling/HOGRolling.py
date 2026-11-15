@@ -118,7 +118,7 @@ class HOGRolling(Enigma):
                                          Cb=self.__changeSlotItem, CbArgs=(listNames, id)) as tc:
             itemCount = len(listNames)
             with tc.addParallelTask(itemCount) as tcho:
-                for tc_hog, name in zip(tcho, listNames):
+                for tc_hog, name in xzip(tcho, listNames):
                     if name not in self.FoundItems:
                         tc_hog.addTask("AliasHOGRollingFindItem", HOG=self.object, HOGItemName=name,
                                        EnigmaName=self.EnigmaName)

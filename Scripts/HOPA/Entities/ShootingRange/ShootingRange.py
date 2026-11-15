@@ -92,7 +92,7 @@ class ShootingRange(Enigma):
 
         target_movie_names = ShootingRangeManager.getTargetMovie(self.EnigmaName)
         target_movies = [self.object.getObject(movie_name) for movie_name in target_movie_names]
-        self.marker = dict(zip(target_movies, marker_obj))
+        self.marker = dict(xzip(target_movies, marker_obj))
         CarrierName = ShootingRangeManager.getCarriers(self.EnigmaName)
         #        movieCarrier = self.object.getObject("Movie_Carrier")
         movieCarrier = self.object.getObject(CarrierName)
