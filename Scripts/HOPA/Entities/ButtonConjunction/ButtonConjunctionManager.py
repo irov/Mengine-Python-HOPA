@@ -62,7 +62,7 @@ class ButtonConjunctionManager(Manager):
 
     @staticmethod
     def getCollection(name):
-        if name not in ButtonConjunctionManager.s_objects.iterkeys():
+        if name not in ButtonConjunctionManager.s_objects:
             Trace.log(ButtonConjunctionManager.TraceName, 0,
                       "%s.getCollection: cant find %s" % (ButtonConjunctionManager.TraceName, name))
             return None
@@ -73,7 +73,7 @@ class ButtonConjunctionManager(Manager):
 
     @staticmethod
     def hasCollection(name):
-        if name not in ButtonConjunctionManager.s_objects.iterkeys():
+        if name not in ButtonConjunctionManager.s_objects:
             return False
             pass
         return True

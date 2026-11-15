@@ -35,13 +35,13 @@ class PuzzleRulesManager(Manager):
 
     @staticmethod
     def getPuzzleRules(name):
-        if name not in PuzzleRulesManager.s_objects.iterkeys():
+        if name not in PuzzleRulesManager.s_objects:
             return None
 
         return PuzzleRulesManager.s_objects[name]
 
     @staticmethod
     def hasPuzzleRules(name):
-        if name not in PuzzleRulesManager.s_objects.iterkeys():
+        if name not in PuzzleRulesManager.s_objects:
             return False
         return True

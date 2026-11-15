@@ -50,17 +50,17 @@ class ExtrasMusic(BaseEntity):
         pass
 
     def __onButtonClick(self, button):
-        if button in self.saveButtons.iterkeys():
+        if button in self.saveButtons:
             trackResource = self.saveButtons[button]
             self.saveTrack(trackResource)
             return False
             pass
-        if button in self.playButtons.iterkeys():
+        if button in self.playButtons:
             trackResource = self.playButtons[button]
             self.playTrack(trackResource, button)
             return False
             pass
-        if button in self.pauseButtons.iterkeys():
+        if button in self.pauseButtons:
             trackResource = self.pauseButtons[button]
             self.stopTrack(trackResource, button)
             return False

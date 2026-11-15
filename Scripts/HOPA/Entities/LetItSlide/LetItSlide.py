@@ -52,7 +52,7 @@ class LetItSlide(Enigma):
         pass
 
     def __onCheckWin(self, itemID, position):
-        if itemID in self.winCombination.iterkeys():
+        if itemID in self.winCombination:
             if self.winCombination[itemID] == position:
                 self.enigmaComplete()
                 # self.Destroy()

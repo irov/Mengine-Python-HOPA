@@ -100,7 +100,7 @@ class SystemMusic(System):
                 pass
             pass
         if self.playMusic is False:
-            if currentPlayList in self.playLists.iterkeys():
+            if currentPlayList in self.playLists:
                 pos, index = self.playLists[currentPlayList]
                 Mengine.musicFadeOut(currentPlayList, pos, True, 250.0, self.easing, None)
                 # Mengine.musicPlayTrack(currentPlayList, index, pos, True)
@@ -133,7 +133,7 @@ class SystemMusic(System):
             Mengine.musicFadeIn(250.0, self.easing, None)
             pass
 
-        if currentPlayList in self.playLists.iterkeys():
+        if currentPlayList in self.playLists:
             pos, index = self.playLists[currentPlayList]
 
             Mengine.musicFadeOut(currentPlayList, pos, True, 250.0, self.easing, None)

@@ -53,6 +53,6 @@ class ExtrasEnigmaManager(Manager):
 
     @staticmethod
     def hasData(name):
-        if name in ExtrasEnigmaManager.s_data.iterkeys():
+        if name in ExtrasEnigmaManager.s_data:
             return True
         return False

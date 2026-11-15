@@ -41,7 +41,7 @@ class ChapterManager(Manager):
 
     @staticmethod
     def getChapterDifficultyParam(chapterName):
-        if chapterName not in ChapterManager.s_chapterDifficulty.iterkeys():
+        if chapterName not in ChapterManager.s_chapterDifficulty:
             return None
         return ChapterManager.s_chapterDifficulty[chapterName]
 

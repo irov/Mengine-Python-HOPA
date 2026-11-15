@@ -21,7 +21,7 @@ class SystemExtras(System):
 
     def _playExtraEnigma(self, enigmaName, scenarioID):
         sceneName = EnigmaManager.getEnigmaSceneName(enigmaName)
-        if scenarioID in ScenarioManager.s_scenarios.iterkeys():
+        if scenarioID in ScenarioManager.s_scenarios:
             # finished chains are finalized, keep only the ones still running
             self._playTaskChains = [tc for tc in self._playTaskChains if tc.isInitialized() is True]
 

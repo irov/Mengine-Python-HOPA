@@ -173,7 +173,7 @@ class JoinBlocks(Enigma):
         pass
 
     def __blockSocket(self, curSocket):
-        if curSocket not in self.blocks.iterkeys():
+        if curSocket not in self.blocks:
             return False
             pass
         self.socket = curSocket
@@ -197,7 +197,7 @@ class JoinBlocks(Enigma):
     pass
 
     def __blockEndSocket(self, curSocket):
-        if curSocket in self.currentBuildPath.iterkeys():
+        if curSocket in self.currentBuildPath:
             check = curSocket.getName()
             for socket in self.blocks.iterkeys():
                 block = self.blocks[socket]
@@ -272,10 +272,10 @@ class JoinBlocks(Enigma):
                 return True
                 pass
             pass
-        if curSocket not in self.currentBuildPath.iterkeys():
+        if curSocket not in self.currentBuildPath:
             return False
             pass
-        if curSocket in self.currentBuildPath.iterkeys():
+        if curSocket in self.currentBuildPath:
             for socket in self.blocks.iterkeys():
                 block = self.blocks[socket]
                 blockName = block.getSlotName()

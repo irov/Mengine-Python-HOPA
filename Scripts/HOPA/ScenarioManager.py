@@ -305,7 +305,7 @@ class ScenarioManager(Manager):
 
     @staticmethod
     def cancelScenario(scenarioID):
-        if scenarioID not in ScenarioManager.s_runScenarios.iterkeys():
+        if scenarioID not in ScenarioManager.s_runScenarios:
             Trace.log("Manager", 0, "ScenarioManager runScenario error, %s not run" % (scenarioID))
             return
 

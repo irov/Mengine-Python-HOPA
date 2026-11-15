@@ -137,7 +137,7 @@ class HOGParamFXPartsGathering(object):
 
     @staticmethod
     def getInventory(name):
-        if name not in HOGParamFXPartsGathering.s_inventories.iterkeys():
+        if name not in HOGParamFXPartsGathering.s_inventories:
             inventory = DemonManager.getDemon("HOGInventoryFXPartsGathering")
             return inventory
 

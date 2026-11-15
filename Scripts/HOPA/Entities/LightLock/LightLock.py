@@ -117,7 +117,7 @@ class LightLock(Enigma):
         pass
 
     def __gameSocket(self, curSocket):
-        if curSocket not in self.sockets.iterkeys():
+        if curSocket not in self.sockets:
             return False
             pass
         if self.LastSocket is None:

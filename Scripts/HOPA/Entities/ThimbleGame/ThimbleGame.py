@@ -206,7 +206,7 @@ class ThimbleGame(Enigma):
         pass
 
     def clickOnThimble(self, curSocket):
-        if curSocket not in self.socket.iterkeys():
+        if curSocket not in self.socket:
             return False
             pass
         check = self.socket[curSocket]

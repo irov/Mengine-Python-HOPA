@@ -100,7 +100,7 @@ class SystemTransitionHighlight(System):
             return False
 
         if value is True:
-            if transition_object not in self.effects.iterkeys():
+            if transition_object not in self.effects:
                 return False
 
             transition_name = transition_object.getName()
@@ -131,7 +131,7 @@ class SystemTransitionHighlight(System):
         if TransitionHighlightManager.hasTransitionHighlight(transition_object.name) is False:
             return
 
-        if transition_object in self.effects.iterkeys():
+        if transition_object in self.effects:
             return
 
         name = transition_object.getName()

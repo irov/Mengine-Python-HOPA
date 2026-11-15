@@ -143,7 +143,7 @@ class Notebook(BaseEntity):
         pass
 
     def _onMouseButtonEvent(self, context, event, hs):
-        if hs not in self.socket.iterkeys():
+        if hs not in self.socket:
             return True
         if event.button != 0:
             return True

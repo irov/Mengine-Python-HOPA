@@ -41,7 +41,7 @@ class Planet(Initializer):
         self.centreVec = (worldPos.x + anchorPos.x, worldPos.y + anchorPos.y)
 
         planetSave = self.enigmaObject.getPlanets()
-        if self.movieName in planetSave.iterkeys():
+        if self.movieName in planetSave:
             startTiming = planetSave[self.movieName]
             MovieEntity.setTiming(startTiming)
             self.currentTiming = startTiming

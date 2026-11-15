@@ -466,7 +466,7 @@ class Plumber(Enigma):
         prevDirectionMovieName = prevDirectionMovie.getName()
         movie = None
 
-        if curCellData in self.cellItems.iterkeys():
+        if curCellData in self.cellItems:
             movie = self.changeDirection(curCell, prevDirectionMovie, curCellData)
             movement = self.getMovement(movie)
             pass

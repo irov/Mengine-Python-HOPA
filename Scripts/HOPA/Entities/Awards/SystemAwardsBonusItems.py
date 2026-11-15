@@ -52,7 +52,7 @@ class SystemAwardsBonusItems(System):
         pass
 
     def __onBonusItemFound(self, awardID, item):
-        if awardID not in self.items.iterkeys():
+        if awardID not in self.items:
             return False
             pass
 

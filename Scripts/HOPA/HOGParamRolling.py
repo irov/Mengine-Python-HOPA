@@ -167,7 +167,7 @@ class HOGParamRolling(object):
 
     @staticmethod
     def getInventory(name):
-        if name not in HOGParamRolling.s_inventories.iterkeys():
+        if name not in HOGParamRolling.s_inventories:
             inventory = DemonManager.getDemon("HOGInventory")
             return inventory
             pass

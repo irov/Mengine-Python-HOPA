@@ -52,7 +52,7 @@ class MenuHelpManager(Manager):
 
     @staticmethod
     def getPage(id):
-        if id not in MenuHelpManager.s_pages.iterkeys():
+        if id not in MenuHelpManager.s_pages:
             return None
 
         return MenuHelpManager.s_pages[id]

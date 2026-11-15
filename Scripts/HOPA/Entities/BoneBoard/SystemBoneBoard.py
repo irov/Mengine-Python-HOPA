@@ -144,7 +144,7 @@ class SystemBoneBoard(System):
 
         if relatedItem.startswith("done"):
             boneInstance.onCasualHideHelp()
-            if relatedItem[5:] not in self.scenes.iterkeys():
+            if relatedItem[5:] not in self.scenes:
                 return False
                 pass
             del self.scenes[relatedItem[5:]]

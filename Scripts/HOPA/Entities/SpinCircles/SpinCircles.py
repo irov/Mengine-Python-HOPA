@@ -282,7 +282,7 @@ class SpinCircles(Enigma):
 
     def onSocketEntered(self, socket_instance):
         TaskName = "SpinEnigmaView"
-        if socket_instance in self.socket_views.iterkeys():
+        if socket_instance in self.socket_views:
             movie = self.socket_views.get(socket_instance)
             self.current_view = socket_instance
             if TaskManager.existTaskChain(TaskName):

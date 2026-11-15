@@ -47,7 +47,7 @@ class SystemHOGItemChangeFont(System):
         pass
 
     def __onHOGInventoryAppendItem(self, hogItemName):
-        if self.EnigmaName in self.items.iterkeys():
+        if self.EnigmaName in self.items:
             enigmaItems = self.items[self.EnigmaName]
             if hogItemName in enigmaItems:
                 self.__changeFont(hogItemName)
@@ -116,7 +116,7 @@ class SystemHOGItemChangeFont(System):
 
     def __onEnigmaComplete(self, enigmaObject):
         EnigmaName = EnigmaManager.getEnigmaName(enigmaObject)
-        if EnigmaName in self.items.iterkeys():
+        if EnigmaName in self.items:
             del self.items[EnigmaName]
             pass
         return False

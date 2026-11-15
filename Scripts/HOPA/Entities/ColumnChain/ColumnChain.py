@@ -49,7 +49,7 @@ class ColumnChain(Enigma):
         pass
 
     def _onColumnSocketClick(self, curSocket):
-        if curSocket not in self.columnBySocket.iterkeys():
+        if curSocket not in self.columnBySocket:
             return False
             pass
         curColumn = self.columnBySocket[curSocket]

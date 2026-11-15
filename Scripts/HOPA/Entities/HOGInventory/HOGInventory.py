@@ -125,7 +125,7 @@ class HOGInventory(InventoryBase):
     def getSlotByName(self, name):
         textID = HOGManager.getHOGItemTextID(self.HOGName, name)
 
-        if textID not in self.slots.iterkeys():
+        if textID not in self.slots:
             return None
 
         return self.slots[textID]

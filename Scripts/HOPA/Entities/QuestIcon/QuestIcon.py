@@ -217,7 +217,7 @@ class QuestIcon(BaseEntity):
 
         for quest in activeQuestsCache:
             questType = quest.questType
-            if questType not in self.questFilter.iterkeys():
+            if questType not in self.questFilter:
                 continue
                 pass
             questIconActionName, spriteIconName, useQuestObject, startEnable = self.questFilter[questType]
@@ -247,7 +247,7 @@ class QuestIcon(BaseEntity):
             return
 
         questType = quest.questType
-        if questType not in self.questFilter.iterkeys():
+        if questType not in self.questFilter:
             return
             pass
 
@@ -289,7 +289,7 @@ class QuestIcon(BaseEntity):
 
     def _onQuestRun(self, quest):
         questType = quest.questType
-        if questType not in self.questFilter.iterkeys():
+        if questType not in self.questFilter:
             return False
             pass
 
@@ -318,7 +318,7 @@ class QuestIcon(BaseEntity):
         return False
 
     def _onQuestEnd(self, quest):
-        if quest not in self.questIconActions.iterkeys():
+        if quest not in self.questIconActions:
             return False
 
         QuestIconAction = self.questIconActions[quest]
@@ -329,11 +329,11 @@ class QuestIcon(BaseEntity):
             self.activeQuests.remove(obj)
             pass
 
-        if quest in self.sceneZoomQuests.iterkeys():
+        if quest in self.sceneZoomQuests:
             del self.sceneZoomQuests[quest]
             pass
 
-        if quest in self.sceneTransitionQuests.iterkeys():
+        if quest in self.sceneTransitionQuests:
             del self.sceneTransitionQuests[quest]
             pass
 

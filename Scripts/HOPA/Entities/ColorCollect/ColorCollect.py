@@ -88,7 +88,7 @@ class ColorCollect(Enigma):
             bulbName = bulb.getName()
             items = bulb.getItems()
             for item in items:
-                if item in self.rules.iterkeys():
+                if item in self.rules:
                     check = self.rules[item]
                     if check != bulbName:
                         return False
@@ -120,7 +120,7 @@ class ColorCollect(Enigma):
         pass
 
     def endSocketClick(self, curSocket):
-        if curSocket not in self.endBySocket.iterkeys():
+        if curSocket not in self.endBySocket:
             return False
             pass
         curBulb = self.endBySocket[curSocket]

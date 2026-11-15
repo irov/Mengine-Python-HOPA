@@ -383,7 +383,7 @@ class ZoomManager(Manager):
 
     @staticmethod
     def _zoomLeave(zoomGroupName):
-        if zoomGroupName not in ZoomManager.s_activeZooms.iterkeys():
+        if zoomGroupName not in ZoomManager.s_activeZooms:
             return False
 
         ZoomManager.s_activeZooms.pop(zoomGroupName)

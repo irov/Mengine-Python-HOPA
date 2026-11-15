@@ -44,7 +44,7 @@ class SystemPull(System):
         pass
 
     def __onSocketMouseEnter(self, socket):
-        if socket not in self.watched_sockets.iterkeys():
+        if socket not in self.watched_sockets:
             return False
             pass
 
@@ -60,7 +60,7 @@ class SystemPull(System):
         pass
 
     def __onSocketMouseLeave(self, socket):
-        if socket not in self.watched_sockets.iterkeys():
+        if socket not in self.watched_sockets:
             return False
             pass
 

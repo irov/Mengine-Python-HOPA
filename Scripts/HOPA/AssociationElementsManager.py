@@ -53,7 +53,7 @@ class AssociationElementsManager(Manager):
 
     @staticmethod
     def getCollection(name):
-        if name not in AssociationElementsManager.s_objects.iterkeys():
+        if name not in AssociationElementsManager.s_objects:
             Trace.log(AssociationElementsManager.TraceName, 0,
                       "%s.getCollection: cant find %s" % (AssociationElementsManager.TraceName, name))
             return None
@@ -64,7 +64,7 @@ class AssociationElementsManager(Manager):
 
     @staticmethod
     def hasCollection(name):
-        if name not in AssociationElementsManager.s_objects.iterkeys():
+        if name not in AssociationElementsManager.s_objects:
             return False
             pass
         return True

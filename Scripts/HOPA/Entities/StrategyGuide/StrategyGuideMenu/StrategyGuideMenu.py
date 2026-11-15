@@ -42,7 +42,7 @@ class StrategyGuideMenu(BaseEntity):
             TaskManager.runAlias("TaskSceneLayerGroupEnable", None, LayerName="StrategyGuideMenu", Value=False)
             return False
             pass
-        if button in self.buttons.iterkeys():
+        if button in self.buttons:
             pageId = self.buttons[button]
             self.openPage(pageId)
             return False
