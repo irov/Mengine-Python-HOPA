@@ -181,8 +181,10 @@ class LanguageSelect(BaseEntity):
         self.object.setParam("bPrevLangSetted", False)
         self.object.setParam("PrevLanguage", None)
 
-        if SystemManager.hasSystem("SystemOptions"):
-            SystemManager.getSystem("SystemOptions").language = Mengine.getLocale()
+        if SystemManager.hasSystem("SystemOptions") is True:
+            options = SystemManager.getSystem("SystemOptions")
+            locale = Mengine.getLocale()
+            options.setLanguage(locale)
 
         if SystemManager.hasSystem("SystemAutoLanguage"):
             SystemManager.getSystem("SystemAutoLanguage").disable()

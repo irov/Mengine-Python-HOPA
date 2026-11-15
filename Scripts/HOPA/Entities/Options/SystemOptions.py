@@ -12,6 +12,10 @@ class SystemOptions(System):
         self.Demon_Options = None
         self.language = None
 
+    def setLanguage(self, language):
+        self.language = language
+        pass
+
     def _onInitialize(self):
         Options = GroupManager.getGroup(self.OPTIONS_GROUP)
         if _DEVELOPMENT is True and Options is None:
