@@ -17,7 +17,7 @@ class ObjectCollectedAmulet(DemonObject):
             return None
             pass
 
-        groupScene = self.getGroup()
+        groupScene = self.getRootGroup()
 
         slot = groupScene.getScene()
 

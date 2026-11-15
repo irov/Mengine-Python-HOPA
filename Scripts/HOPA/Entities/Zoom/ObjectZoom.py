@@ -46,7 +46,7 @@ class ObjectZoom(Object):
         hintPoint = self.getHintPoint()
 
         if hintPoint is not None:
-            groupScene = self.getGroup()
+            groupScene = self.getRootGroup()
             slot = groupScene.getScene()
             posScene = slot.getLocalPosition()
 
