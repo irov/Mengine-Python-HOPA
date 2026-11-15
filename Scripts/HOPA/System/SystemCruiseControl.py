@@ -1,6 +1,7 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
 from Foundation.Notificator import Notificator
+from Foundation.Providers.AdminPanelProvider import AdminPanelProvider
 from Foundation.SceneManager import SceneManager
 from Foundation.System import System
 from Foundation.SystemManager import SystemManager
@@ -58,11 +59,14 @@ def CRUISE_LOG(msg):
 class SystemCruiseControl(System):
     def __init__(self):
         super(SystemCruiseControl, self).__init__()
+
         self.currentAction = None
         self.isTurnOn = False
         self.guardBlockInputCount = 0
         self._scene_enter_observer = None
+        self.__opButtonConnected = False
         self.debug_cruise_give = _DEVELOPMENT is True and "cruise" in Mengine.getOptionValues("debug")
+        pass
 
     def _onRun(self):
         # todo: on popup restart fix cruise blocker (probably block input counter)
@@ -78,23 +82,25 @@ class SystemCruiseControl(System):
         self.addObserver(Notificator.onTransitionBegin, self.__TransitionBeginObserver)
         # self.addObserver(Notificator.onTaskGuardUpdate, self.__TaskGuardUpdateObserver)
 
-        self.__addDevToDebug()
-
         return True
 
     def _onStop(self):
         super(SystemCruiseControl, self)._onStop()
+        self.onOpButtonStop()
 
         self.isTurnOn = False
         self.__removeSceneEnterObserver()
         self.__stopCruiseControl()
+        pass
 
     def _onFinalize(self):
         super(SystemCruiseControl, self)._onFinalize()
+        self.onOpButtonStop()
 
         self.isTurnOn = False
         self.__removeSceneEnterObserver()
         self.__stopCruiseControl()
+        pass
 
     def __ButtonPressedObserver(self, key, _x, _y, isDown, _isRepeating):
         if SceneManager.isCurrentGameScene() is False:
@@ -733,33 +739,42 @@ class SystemCruiseControl(System):
 
         return CruiseControlManager.createCruiseAction("CruiseActionZoomOut", Quest)
 
-    # -------- DEV TO DEBUG --------------------------------------------------------------------------------------------
+    # -------- OPBUTTON -----------------------------------------------------------------------------------------------
 
-    def __addDevToDebug(self):
-        def __onDevToDebugChange(state):
-            if SystemManager.hasSystem("SystemCruiseControl") is False:
-                return
-
-            system = SystemManager.getSystem("SystemCruiseControl")
-            if system.isRun() is False:
-                return
-
-            if state is True:
-                system.turnOn()
-            else:
-                system.turnOff()
-
-        if Mengine.isAvailablePlugin("DevToDebug") is False:
+    def onOpButtonReady(self):
+        if Autoplay is False:
             return
 
-        tab = Mengine.getDevToDebugTab("Cheats") or Mengine.addDevToDebugTab("Cheats")
-
-        if tab.findWidget("cruise_control") is not None:
+        if self.__opButtonConnected is True:
             return
 
-        w_checkbox = Mengine.createDevToDebugWidgetCheckbox("cruise_control")
-        w_checkbox.setTitle("Toggle Cruise Control")
-        w_checkbox.setValue(self.isTurnOn)
-        w_checkbox.setChangeEvent(__onDevToDebugChange)
+        AdminPanelProvider.addButton("CruiseControl", "cruise_start", "CruiseControl: Start / resume", self.__onOpCruiseControlStart)
+        AdminPanelProvider.addButton("CruiseControl", "cruise_pause", "CruiseControl: Pause", self.__onOpCruiseControlPause)
+        self.__opButtonConnected = True
+        pass
 
-        tab.addWidget(w_checkbox)
+    def onOpButtonStop(self):
+        if self.__opButtonConnected is False:
+            return
+
+        self.__opButtonConnected = False
+        AdminPanelProvider.removeTab("CruiseControl")
+        pass
+
+    def __onOpCruiseControlStart(self):
+        if self.isRun() is False:
+            return
+
+        if SceneManager.isCurrentGameScene() is False:
+            Trace.log("OpButton", 1, "Open a game scene before starting CruiseControl")
+            return
+
+        self.turnOn()
+        pass
+
+    def __onOpCruiseControlPause(self):
+        if self.isRun() is False:
+            return
+
+        self.turnOff()
+        pass
