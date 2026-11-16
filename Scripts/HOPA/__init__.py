@@ -1109,6 +1109,7 @@ def onInitialize():
         , "CruiseActionItemUseFittingInventoryItem"
         , "CruiseActionUseHOGFittingItem"
         , "CruiseActionClick"
+        , "CruiseActionEnter"
         , "CruiseActionHOG"
         , "CruiseActionFan"
         , "CruiseActionTransition"

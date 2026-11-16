@@ -195,12 +195,20 @@ class CruiseControlManager(Manager):
     @staticmethod
     def getCruiseClickDelay(cruiseType, default=0):
         cruise_delays = CruiseControlManager.s_cruiseDelays.get(cruiseType, {})
-        return cruise_delays.get("ClickDelay", default)
+        delay = cruise_delays.get("ClickDelay")
+        if delay is None:
+            return default
+
+        return delay
 
     @staticmethod
     def getCruiseMoveDelay(cruiseType, default=0):
         cruise_delays = CruiseControlManager.s_cruiseDelays.get(cruiseType, {})
-        return cruise_delays.get("MoveDelay", default)
+        delay = cruise_delays.get("MoveDelay")
+        if delay is None:
+            return default
+
+        return delay
 
     @staticmethod
     def getCruisePriority(cruiseType):

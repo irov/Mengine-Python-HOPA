@@ -1,3 +1,4 @@
+from Foundation.DefaultManager import DefaultManager
 from Foundation.Initializer import Initializer
 from Foundation.Params import Params
 from Foundation.Task.MixinScene import MixinScene
@@ -37,6 +38,13 @@ class CruiseAction(MixinScene, Params, Initializer):
 
     def getType(self):
         return self.actionType
+
+    def getTimeout(self):
+        blocked_time = DefaultManager.getDefaultFloat("CruiseControlActionConsideredBlockedTimeMs", 3000.0)
+        click_delay = CruiseControlManager.getCruiseClickDelay(self.actionType)
+        move_delay = CruiseControlManager.getCruiseMoveDelay(self.actionType)
+
+        return blocked_time + click_delay + move_delay
 
     def _onInitializeFailed(self, ex):
         self._clearTaskChain()

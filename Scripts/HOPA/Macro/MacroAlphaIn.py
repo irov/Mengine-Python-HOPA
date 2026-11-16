@@ -1,4 +1,5 @@
 from HOPA.Macro.MacroCommand import MacroCommand
+from HOPA.QuestManager import QuestManager
 
 from Foundation.Entities.Movie2.ObjectMovie2 import ObjectMovie2
 
@@ -18,11 +19,20 @@ class MacroAlphaIn(MacroCommand):
             self.composition_list = list([str(i) for i in values[4].split(", ")])
 
     def _onGenerate(self, source):
+        if QuestManager.hasQuestType("Delay") is False:
+            self.__generateAlpha(source)
+            return
+
+        quest = self.addQuest(source, "Delay", SceneName=self.SceneName, GroupName=self.GroupName, Duration=self.Time)
+        with quest as tc_quest:
+            self.__generateAlpha(tc_quest)
+        pass
+
+    def __generateAlpha(self, source):
         finderType, Object_ = self.findObject(self.ObjectName)
 
         if isinstance(Object_, ObjectMovie2):
-            source.addTask("AliasMovie2AlphaTo", Movie2=Object_, To=self.To, From=self.From, Time=self.Time,
-                           LayersAlphaToList=self.composition_list)
-
+            source.addTask("AliasMovie2AlphaTo", Movie2=Object_, To=self.To, From=self.From, Time=self.Time, LayersAlphaToList=self.composition_list)
         else:
             source.addTask("AliasObjectAlphaTo", ObjectName=self.ObjectName, To=self.To, From=self.From, Time=self.Time)
+        pass

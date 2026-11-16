@@ -158,6 +158,10 @@ class QuestManager(Manager):
         return True
 
     @staticmethod
+    def hasQuestType(questType):
+        return questType in QuestManager.s_questsTypes
+
+    @staticmethod
     def isGlobalQuest(questType):
         if questType not in QuestManager.s_questsTypes:
             Trace.log("Manager", 0, "QuestManager isGlobalQuest: questType [%s] not add in Quests.xls" % (questType))

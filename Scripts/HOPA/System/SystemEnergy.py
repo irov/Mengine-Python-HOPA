@@ -209,11 +209,13 @@ class SystemEnergy(System):
             if self.existTaskChain("SystemEnergyHandleEnterHOG"):
                 self.removeTaskChain("SystemEnergyHandleEnterHOG")
             with self.createTaskChain(Name="SystemEnergyHandleEnterHOG") as tc:
+                tc.addNextFrame()  # finish scene activation before returning to the previous scene
                 tc.addFunction(TransitionManager.changeScene, prev_game_scene_name)
                 tc.addListener(Notificator.onSceneInit, Filter=lambda scene_name: scene_name == prev_game_scene_name)
                 tc.addNotify(Notificator.onEnergyNotEnough, action_name, action_value)
 
             _Log("Not enough energy to play this game - transit to prev scene :(")
+        pass
 
     # utils
 

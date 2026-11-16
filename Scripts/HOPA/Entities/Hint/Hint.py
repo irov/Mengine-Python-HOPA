@@ -651,8 +651,8 @@ class Hint(BaseEntity):
 
             Params = dict(InventoryItem=ItemClick, Object=ItemClick)
 
-            if QuestManager.hasLocalQuest(currentSceneName, groupName, "Click") is True:
-                Quest = QuestManager.getSceneQuest(currentSceneName, groupName, "Click")
+            if QuestManager.hasLocalQuest(ScenePlus, groupName, "Click") is True:
+                Quest = QuestManager.getSceneQuest(ScenePlus, groupName, "Click")
             else:
                 Quest = QuestManager.createLocalQuest("Click", SceneName=ScenePlus, GroupName=groupName, Object=ItemClick)
                 with TaskManager.createTaskChain() as tc:
@@ -666,6 +666,7 @@ class Hint(BaseEntity):
 
             HintAction = HintManager.createHintAction("HintActionUseInventoryItem", Quest, **Params)
             return HintAction
+        pass
 
     def getSpecialSceneHintAction(self, mainSceneName, checkActive=True):
         sceneName = SceneManager.getSpecialSceneName(mainSceneName)

@@ -1,5 +1,6 @@
 from Foundation.DefaultManager import DefaultManager
 from Foundation.DemonManager import DemonManager
+from Foundation.GuardBlockInput import GuardBlockInput
 from Foundation.Notificator import Notificator
 from Foundation.Providers.AdminPanelProvider import AdminPanelProvider
 from Foundation.SceneManager import SceneManager
@@ -52,8 +53,11 @@ def __LOG_TIMESTAMP_MSG(msg):
 
 
 def CRUISE_LOG(msg):
+    Trace.msg(msg)
+
     if CRUISE_LOGGER:
-        CRUISE_LOGGER(msg)
+        CRUISE_LOGGER(__LOG_TIMESTAMP_MSG(msg))
+    pass
 
 
 class SystemCruiseControl(System):
@@ -63,6 +67,8 @@ class SystemCruiseControl(System):
         self.currentAction = None
         self.isTurnOn = False
         self.guardBlockInputCount = 0
+        self.__no_action_since = None
+        self.__no_action_summary = None
         self._scene_enter_observer = None
         self.__opButtonConnected = False
         self.debug_cruise_give = _DEVELOPMENT is True and "cruise" in Mengine.getOptionValues("debug")
@@ -80,6 +86,8 @@ class SystemCruiseControl(System):
         self.addObserver(Notificator.onPopupMessageShow, self.__PopupMessageShowObserver)
         self.addObserver(Notificator.onSceneChange, self.__SceneChangeObserver)
         self.addObserver(Notificator.onTransitionBegin, self.__TransitionBeginObserver)
+        self.addObserver(Notificator.onEnergyNotEnough, self.__EnergyNotEnoughObserver)
+        self.addObserver(Notificator.onGameComplete, self.__GameCompleteObserver)
         # self.addObserver(Notificator.onTaskGuardUpdate, self.__TaskGuardUpdateObserver)
 
         return True
@@ -199,6 +207,22 @@ class SystemCruiseControl(System):
 
         return False
 
+    def __GameCompleteObserver(self):
+        if self.isTurnOn is False:
+            return False
+
+        self.turnOff()
+        CRUISE_LOG("[SystemCruiseControl] COMPLETE: game completed")
+        return False
+
+    def __EnergyNotEnoughObserver(self, action_name, amount):
+        if self.isTurnOn is False:
+            return False
+
+        self.turnOff()
+        CRUISE_LOG("[SystemCruiseControl] RESOURCE_BLOCKED: not enough energy for {}, required {}".format(action_name, amount))
+        return False
+
     def __TaskGuardUpdateObserver(self, bGuard):
         if bGuard:
             self.guardBlockInputCount += 1
@@ -228,6 +252,8 @@ class SystemCruiseControl(System):
             tc.addFunction(self.__startCruiseControl)
 
     def __stopCruiseControl(self):
+        self.__no_action_since = None
+        self.__no_action_summary = None
         self.currentCruiseEnd()
 
         if TaskManager.existTaskChain("CruiseControl"):
@@ -242,6 +268,7 @@ class SystemCruiseControl(System):
 
         # Skipping the switch task during the cancel may have started a new action.
         self.currentCruiseEnd()
+        pass
 
     def __startCruiseControl(self):
         MAKE_CRUISE_LOG()
@@ -252,10 +279,12 @@ class SystemCruiseControl(System):
             TaskManager.cancelTaskChain("CruiseControl")
 
         with TaskManager.createTaskChain(Name="CruiseControl", Repeat=True, NoCheckAntiStackCycle=True) as tc:
-            tc.addDelay(0.0)  # delay one frame
+            tc.addNextFrame()
 
             with tc.addSwitchTask(2, self.__cruiseActionCheck) as (tc_wait, tc_ok):
-                tc_wait.addDelay(0.0)  # delay one frame
+                tc_wait.addNextFrame()
+                if _DEVELOPMENT is True:
+                    tc_wait.addFunction(self.__logNoCruiseAction)
 
                 with tc_ok.addRaceTask(3) as (race_0, race_1, race_2):
                     # race_0.addListener(Notificator.onQuestEnd, Filter=self.__onQuestEndFilter)
@@ -265,9 +294,10 @@ class SystemCruiseControl(System):
                     race_2.addScope(self.__checkCruiseBlocker)
 
                 tc_ok.addFunction(self.currentCruiseEnd)
-                tc_ok.addDelay(0.0)  # delay one frame
+                tc_ok.addNextFrame()
 
-            tc.addDelay(FindNewCruiseDelay)  # temp delay for testing
+            tc.addDelay(FindNewCruiseDelay)
+        pass
 
     def __onCruiseEndFilter(self, cruise_action):
         # print "\t [SystemCruiseControl] cruise filter"
@@ -287,7 +317,23 @@ class SystemCruiseControl(System):
         return False
 
     def __checkCruiseBlocker(self, source):
-        source.addDelay(ActionConsideredBlockedTime)
+        if source.isSkiped() is True:
+            return
+
+        if self.currentAction is None:
+            return
+
+        timeout = self.currentAction.getTimeout()
+        source.addDelay(timeout)
+        source.addScope(self.__logCruiseBlocker, timeout)
+        pass
+
+    def __logCruiseBlocker(self, source, timeout):
+        if source.isSkiped() is True:
+            return
+
+        if self.currentAction is None:
+            return
 
         # print blocker:
         quest_type = None
@@ -317,16 +363,25 @@ class SystemCruiseControl(System):
                         if group_name:
                             quest_param_name = group_name
 
-        msg = "[SystemCruiseControl] BLOCKER: skip action %s, quest: %s, param: %s, doesn't finished after %d seconds elapsed" % (
-            self.currentAction.__class__.__name__, quest_type, quest_param_name, int(ActionConsideredBlockedTime / 1000.0))
+        msg = "[SystemCruiseControl] BLOCKER: skip action %s, quest: %s, param: %s, didn't finish after %.1f seconds elapsed" % (self.currentAction.__class__.__name__, quest_type, quest_param_name, timeout / 1000.0)
 
         source.addFunction(CRUISE_LOG, msg)
+        pass
 
     def __cruiseActionCheck(self, isSkip, cb):
+        if GuardBlockInput.isBlocked() is True:
+            cb(isSkip, 0)
+            return
+
         self.currentAction = self.__getCruiseAction()
 
         if self.currentAction is not None:
             if self.currentAction.onCheck():
+                self.__no_action_since = None
+                self.__no_action_summary = None
+                if _DEVELOPMENT is True:
+                    if self.debug_cruise_give is True:
+                        self._debugCruisetLog("Action {}, quest {}".format(self.currentAction.getType(), self.__describeCruiseQuest(self.currentAction.getQuest())))
                 cb(isSkip, 1)
 
                 if CruiseControlTestHint:
@@ -343,6 +398,69 @@ class SystemCruiseControl(System):
 
         else:
             cb(isSkip, 0)
+        pass
+
+    @staticmethod
+    def __describeCruiseQuest(quest):
+        if quest is None:
+            return None
+
+        target = quest.params.get("Object")
+        if target is None:
+            target_name = quest.params.get("ItemName", quest.params.get("GroupName"))
+            target_state = ""
+        else:
+            target_name = target.getName()
+            target_state = ", enabled={}, active={}".format(target.getEnable(), target.isActive())
+
+        supported = quest.questType in CruiseControlManager.s_cruiseTypes
+        return "{}:{} (supported={}{})".format(quest.questType, target_name, supported, target_state)
+
+    def __logNoCruiseAction(self):
+        if self.isTurnOn is False:
+            return
+
+        if GuardBlockInput.isBlocked() is True:
+            summary = "scene={}, input is blocked".format(SceneManager.getCurrentSceneName())
+            if summary != self.__no_action_summary:
+                self.__no_action_summary = summary
+                CRUISE_LOG("[SystemCruiseControl] WAIT_INPUT: {}".format(summary))
+
+            self.__no_action_since = None
+            return
+
+        now = Mengine.getTimeMs()
+        if self.__no_action_since is None:
+            self.__no_action_since = now
+            return
+
+        if now - self.__no_action_since < ActionConsideredBlockedTime:
+            return
+
+        scene_name = SceneManager.getCurrentSceneName()
+        group_name = SceneManager.getSceneMainGroupName(scene_name)
+        zoom_name = ZoomManager.getZoomOpenGroupName()
+        quests = []
+        global_quests = QuestManager.getGlobalQuests()
+        if global_quests is not None:
+            quests.extend(global_quests)
+
+        groups = [group_name]
+        if zoom_name is not None:
+            groups.append(zoom_name)
+
+        for group in groups:
+            quests.extend(QuestManager.getLocalQuests(scene_name, group))
+            quests.extend(QuestManager.getSceneQuests(scene_name, group))
+
+        descriptions = sorted(set(self.__describeCruiseQuest(quest) for quest in quests if quest.active and quest.complete is False))
+        summary = "scene={}, zoom={}, active quests={}".format(scene_name, zoom_name, descriptions)
+        if summary == self.__no_action_summary:
+            return
+
+        self.__no_action_summary = summary
+        CRUISE_LOG("[SystemCruiseControl] NO_ACTION: {}".format(summary))
+        pass
 
     def currentCruiseEnd(self):
         current_action = self.currentAction
@@ -603,9 +721,8 @@ class SystemCruiseControl(System):
                 continue
 
             Params = dict(InventoryItem=ItemClick)
-
-            if QuestManager.hasLocalQuest(currentSceneName, groupName, "Click") is True:
-                Quest = QuestManager.getSceneQuest(currentSceneName, groupName, "Click")
+            if QuestManager.hasLocalQuest(ScenePlus, groupName, "Click") is True:
+                Quest = QuestManager.getSceneQuest(ScenePlus, groupName, "Click")
 
             else:
                 Quest = QuestManager.createLocalQuest("Click", SceneName=ScenePlus, GroupName=groupName)
@@ -621,6 +738,7 @@ class SystemCruiseControl(System):
                         tc_quest.addListener(Notificator.onSceneEnter, Filter=_filter)
 
             return CruiseControlManager.createCruiseAction("CruiseActionPlusScene", Quest, **Params)
+        pass
 
     def getAroundSceneCruiseAction(self, fromSceneName, checkActive=False):
         aroundScenes = TransitionManager.findSpiralScenes(fromSceneName)

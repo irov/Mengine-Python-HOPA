@@ -49,7 +49,43 @@ class CruiseActionHint(CruiseAction):
         if self.Point is None:
             return False
 
+        self.Point = self.__getItemClickPoint(hintActionObj, self.Point)
         return True
+
+    @staticmethod
+    def __getItemClickPoint(object_, point):
+        object_type = object_.getType()
+        if object_type not in ("ObjectMovieItem", "ObjectMovie2Item"):
+            return point
+
+        entity = object_.getEntity()
+        if object_type == "ObjectMovie2Item":
+            movie = entity.getCurrentEnabledMovie()
+        else:
+            movie = entity.getCurrentMovie()
+
+        if movie is None:
+            return point
+
+        if movie.hasSocket("socket") is False:
+            return point
+
+        socket = movie.getSocket("socket")
+        candidates = [point]
+        for vertex in socket.getWorldPolygon().getPoints():
+            candidate = Mengine.vec2f(point[0] + (vertex[0] - point[0]) * 0.75, point[1] + (vertex[1] - point[1]) * 0.75)
+            candidates.append(candidate)
+
+        for candidate in candidates:
+            screen = Mengine.fromWorldToScreenPosition((candidate[0], candidate[1], 0.0))
+            pickers = Mengine.pickAllHotspot(screen)
+            if len(pickers) == 0:
+                continue
+
+            if pickers[-1] == socket:
+                return candidate
+
+        return point
 
     def _onAction(self, source):
         Obj = self.Quest.params.get("Object", None) if self.Quest else None

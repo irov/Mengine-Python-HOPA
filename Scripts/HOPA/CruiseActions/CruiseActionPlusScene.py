@@ -16,36 +16,43 @@ class CruiseActionPlusScene(CruiseAction):
         return True
 
     def _onAction(self, source):
-        SlotCount = self.Inventory.getParam("SlotCount")
-        InventoryItemIndex = self.Inventory.indexInventoryItem(self.InventoryItem)
-        NeedSlotIndex = int(InventoryItemIndex / SlotCount) * SlotCount
-
-        InventoryButtonPosition = self.getInvButtonPosition()
-
         def __isDoneScroll(isSkip, cb):
+            SlotCount = self.Inventory.getParam("SlotCount")
+            InventoryItemIndex = self.Inventory.indexInventoryItem(self.InventoryItem)
+            NeedSlotIndex = int(InventoryItemIndex / SlotCount) * SlotCount
             CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")
             if NeedSlotIndex != CurrentSlotIndex:
                 cb(isSkip, 0)
-            else:
-                cb(isSkip, 1)
+                return
+
+            cb(isSkip, 1)
+            pass
 
         with source.addRepeatTask() as (tc_repeat, tc_until):
             with tc_repeat.addSwitchTask(2, __isDoneScroll) as (tc_scroll, tc_done):
-                tc_scroll.addTask("AliasCruiseControlAction",
-                                  Position=InventoryButtonPosition, Object=self.getInvButton())
-                tc_scroll.addListener(Notificator.onInventorySlotsShiftEnd)
-
+                tc_scroll.addScope(self.__scrollInventory)
                 tc_done.addSemaphore(self.sem_done_scroll, From=0, To=1)
 
             tc_until.addSemaphore(self.sem_done_scroll, From=1)
 
         source.addScope(self.showCruise)
+        pass
+
+    def getTimeout(self):
+        return super(CruiseActionPlusScene, self).getTimeout() + 1500.0
+
+    def __scrollInventory(self, source):
+        button = self.getInvButton()
+        position = self.getInvButtonPosition()
+
+        with source.addParallelTask(2) as (tc_wait, tc_click):
+            tc_wait.addListener(Notificator.onInventorySlotsShiftEnd)
+            tc_click.addTask("AliasCruiseControlAction", Position=position, Object=button)
+        pass
 
     def showCruise(self, source):
-        InventoryItemEntity = self.InventoryItem.getEntity()
-        Sprite = InventoryItemEntity.getSprite()
-
-        PositionTo = Sprite.getWorldImageCenter()
+        slot = self.Inventory.getEntity().findSlot(self.InventoryItem)
+        PositionTo = slot.getHotSpot().getWorldPolygonCenter()
 
         with source.addParallelTask(2) as (check, run):
             check.addListener(Notificator.onQuestEnd, Filter=lambda quest: quest == self.Quest)
@@ -53,6 +60,7 @@ class CruiseActionPlusScene(CruiseAction):
 
         source.addDelay(1500.0)
         source.addNotify(Notificator.onCruiseActionEnd, self)
+        pass
 
     def getInvButton(self):
         CurrentSlotIndex = self.Inventory.getParam("CurrentSlotIndex")
