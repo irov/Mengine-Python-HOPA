@@ -28,14 +28,16 @@ class SystemOpButtonLanguage(System):
         if self.__ready is True:
             return
 
-        self.__ready = True
-
-        AdminPanelProvider.addButton("Localization", "auto", "Automatic", self.__changeLocale, self.__defaultLocale, True)
+        tab = AdminPanelProvider.addTab("Localization")
+        layout = tab.horizontal().wrap(True)
+        layout.addButton("Automatic").setId("auto").onClick(self.__changeLocale, self.__defaultLocale, True)
 
         for locale in Mengine.getLocales():
             title = str(locale)
-            AdminPanelProvider.addButton("Localization", title, title, self.__changeLocale, locale)
+            layout.addButton(title).setId(title).onClick(self.__changeLocale, locale)
             pass
+
+        self.__ready = tab.build() is True
         pass
 
     def onOpButtonStop(self):

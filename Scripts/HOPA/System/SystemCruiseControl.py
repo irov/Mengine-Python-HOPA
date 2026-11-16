@@ -766,9 +766,11 @@ class SystemCruiseControl(System):
         if self.__opButtonConnected is True:
             return
 
-        AdminPanelProvider.addButton("CruiseControl", "cruise_start", "CruiseControl: Start / resume", self.__onOpCruiseControlStart)
-        AdminPanelProvider.addButton("CruiseControl", "cruise_pause", "CruiseControl: Pause", self.__onOpCruiseControlPause)
-        self.__opButtonConnected = True
+        tab = AdminPanelProvider.addTab("CruiseControl")
+        layout = tab.horizontal().wrap(True)
+        layout.addButton("CruiseControl: Start / resume").setId("cruise_start").onClick(self.__onOpCruiseControlStart)
+        layout.addButton("CruiseControl: Pause").setId("cruise_pause").onClick(self.__onOpCruiseControlPause)
+        self.__opButtonConnected = tab.build() is True
         pass
 
     def onOpButtonStop(self):
@@ -780,6 +782,9 @@ class SystemCruiseControl(System):
         pass
 
     def __onOpCruiseControlStart(self):
+        if self.__opButtonConnected is False:
+            return
+
         if self.isRun() is False:
             return
 
@@ -791,6 +796,9 @@ class SystemCruiseControl(System):
         pass
 
     def __onOpCruiseControlPause(self):
+        if self.__opButtonConnected is False:
+            return
+
         if self.isRun() is False:
             return
 
