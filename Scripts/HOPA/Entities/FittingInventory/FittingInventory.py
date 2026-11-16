@@ -193,6 +193,7 @@ class FittingInventory(BaseEntity):
         super(FittingInventory, self).__init__()
 
         self.slots = []
+        self.MouseButtonHandlerID = 0
         pass
 
     def getSlots(self):
@@ -249,7 +250,8 @@ class FittingInventory(BaseEntity):
     def _onActivate(self):
         super(FittingInventory, self)._onActivate()
 
-        self.setEventListener(onGlobalHandleMouseButtonEventEnd=self.__onGlobalHandleMouseButtonEventEnd)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self.__onGlobalHandleMouseButtonEventEnd)
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
 
         self.updateSlots()
 
@@ -266,7 +268,9 @@ class FittingInventory(BaseEntity):
     def _onDeactivate(self):
         super(FittingInventory, self)._onDeactivate()
 
-        self.inventoryGlobalMouseEvent(False)
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
 
         for slot in self.slots:
             slot.release()
@@ -316,14 +320,14 @@ class FittingInventory(BaseEntity):
         return False
         pass
 
-    def __onGlobalHandleMouseButtonEventEnd(self, touchId, x, y, button, pressure, isDown, isPressed):
-        if button != 0 or isDown is False:
-            return True
+    def __onGlobalHandleMouseButtonEventEnd(self, event):
+        if event.button != 0 or event.isDown is False:
+            return
             pass
 
         if ArrowManager.emptyArrowAttach() is True:
             self.inventoryGlobalMouseEvent(False)
-            return True
+            return
 
         InventoryItem = ArrowManager.getArrowAttach()
         InventoryItemEntity = InventoryItem.getEntity()
@@ -357,7 +361,7 @@ class FittingInventory(BaseEntity):
             self.__updateInventoryItem(False)
             pass
 
-        return True
+        return
         pass
 
     def __updateInventoryItem(self, isSkip):
@@ -365,7 +369,10 @@ class FittingInventory(BaseEntity):
         pass
 
     def inventoryGlobalMouseEvent(self, value):
-        self.enableGlobalMouseEvent(value)
+        if self.MouseButtonHandlerID == 0:
+            return
+
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, value)
         pass
 
     def pickInventoryItem(self, slotId):

@@ -42,6 +42,8 @@ class NFS(Enigma):
         self.CoachSpeedDownInterpolatorId = None
         self.CoachSpeedUpInterpolatorId = None
 
+        self.MouseButtonHandlerID = 0
+        self.MouseMoveHandlerID = 0
         self.CameraState = None
 
         self.pitstops = []
@@ -204,6 +206,8 @@ class NFS(Enigma):
         pass
 
     def _stopEnigma(self):
+        self.__removeMouseHandlers()
+
         if self.onAffectorTimingId is not None:
             Mengine.timingRemove(self.onAffectorTimingId)
             self.onAffectorTimingId = None
@@ -235,13 +239,22 @@ class NFS(Enigma):
         return collide
         pass
 
+    def __removeMouseHandlers(self):
+        if self.MouseMoveHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = 0
+
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
+
     def moveState(self):
         self.onAffectorTimingId = Mengine.timing(0.0, self.__onAffector)
         self.onCollisionTimingId = Mengine.timing(0.5, self.__onCollision)
 
-        self.setEventListener(onGlobalHandleMouseMove=self._onGlobalHandleMouseMove,
-                              onGlobalHandleMouseButtonEvent=self._onGlobalHandleMouseButtonEvent)
-        self.enableGlobalMouseEvent(True)
+        self.__removeMouseHandlers()
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalHandleMouseButtonEvent)
 
         if Mengine.isMouseButtonDown(0) is True:
             self.speedUp(True)
@@ -252,8 +265,7 @@ class NFS(Enigma):
         Mengine.removeTiming(self.onCollisionTimingId)
         self.onCollisionTimingId = None
 
-        self.setEventListener(onGlobalHandleMouseMove=None, onGlobalHandleMouseButtonEvent=None)
-        self.enableGlobalMouseEvent(False)
+        self.__removeMouseHandlers()
 
         #        Mengine.addInterpolatorLinearFloat(1.0, self.speed_slow, 0.0, __onSpeedZero)
 
@@ -297,7 +309,7 @@ class NFS(Enigma):
         Mengine.removeTiming(self.onCollisionTimingId)
         self.onCollisionTimingId = None
 
-        self.enableGlobalMouseEvent(False)
+        self.__removeMouseHandlers()
 
         self._onWin()
 
@@ -443,7 +455,7 @@ class NFS(Enigma):
             pass
         pass
 
-    def _onGlobalHandleMouseMove(self, en, touchId, x, y, dx, dy):
+    def _onGlobalHandleMouseMove(self, event):
         pos = Mengine.getCursorPosition()
 
         coach_pos = self.Coach.getCameraPosition(self.CameraFollow)
@@ -506,17 +518,17 @@ class NFS(Enigma):
                 pass
             pass
 
-        return True
+        return
         pass
 
-    def _onGlobalHandleMouseButtonEvent(self, en, touchId, button, isDown):
-        if button != 0:
-            return True
+    def _onGlobalHandleMouseButtonEvent(self, event):
+        if event.button != 0:
+            return
             pass
 
-        self.speedUp(isDown)
+        self.speedUp(event.isDown)
 
-        return True
+        return
         pass
 
     def setSpeed(self, value):

@@ -28,14 +28,11 @@ class ChipElementDragDrop(ChipElement):
 
     def _onFinalize(self):
         super(ChipElementDragDrop, self)._onFinalize()
-        if self.hotspot is not None:
-            self.hotspot.removeEventListener()
-            self.hotspot = None
-            pass
-
         self.refresh()
         Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
         Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+        self.MouseButtonHandlerID = None
+        self.MouseMoveHandlerID = None
         # self.objectEntity.removeEventListener()
         self.objectEntity = None
         pass

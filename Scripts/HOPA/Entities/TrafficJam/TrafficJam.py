@@ -19,6 +19,8 @@ class TrafficJamElement(object):
         self.y_clip_bottom = None
 
         self.offset = None
+        self.MouseButtonHandlerID = 0
+        self.MouseMoveHandlerID = 0
         pass
 
     def clearPole(self, value):
@@ -71,8 +73,10 @@ class TrafficJamElement(object):
 
     def onActivate(self):
         self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
-        self.hotspot.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove,
-                                      onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
+        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
 
         self.hotspot.enable()
 
@@ -82,6 +86,14 @@ class TrafficJamElement(object):
         pass
 
     def onDeactivate(self):
+        if self.MouseMoveHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = 0
+
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
+
         if self.hotspot is not None:
             Mengine.destroyNode(self.hotspot)
             self.hotspot = None
@@ -98,7 +110,8 @@ class TrafficJamElement(object):
 
         if event.isDown is True:
             Notification.notify(Notificator.onTrafficJamClick, self.trafficjam)
-            self.hotspot.enableGlobalMouseEvent(True)
+            Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, True)
 
             sliderPos = self.sprite.getLocalPosition()
 
@@ -155,7 +168,7 @@ class TrafficJamElement(object):
 
         return True
 
-    def _onGlobalMouseMove(self, context, event):
+    def _onGlobalMouseMove(self, event):
         newPos = (event.position.world.x - self.offset[0], event.position.world.y - self.offset[1])
 
         x = self.x
@@ -201,13 +214,14 @@ class TrafficJamElement(object):
 
         return
 
-    def _onGlobalMouseButtonEvent(self, context, event):
+    def _onGlobalMouseButtonEvent(self, event):
         if event.button != 0:
-            return False
+            return
 
         if event.isDown is False:
             self.clearPole(1)
-            self.hotspot.enableGlobalMouseEvent(False)
+            Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
             pass
 
         if self.element.main == 1:

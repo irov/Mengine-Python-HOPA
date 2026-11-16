@@ -1,5 +1,6 @@
 from Foundation.BaseEntity import BaseEntity
 from Foundation.TaskManager import TaskManager
+from Functor import Functor
 
 from NotebookManager import NotebookManager
 
@@ -168,7 +169,7 @@ class Notebook(BaseEntity):
         sc = "socket"
         if noteMovieEn.hasSocket(sc) is True:
             socket = noteMovieEn.getSocket(sc)
-            socket.setEventListener(onHandleMouseButtonEvent=Function(self._onMouseButtonEvent, socket))
+            socket.setEventListener(onHandleMouseButtonEvent=Functor(self._onMouseButtonEvent, socket))
             self.socket[socket] = noteId
             pass
         self.garbage[movie] = Text

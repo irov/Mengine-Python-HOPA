@@ -170,7 +170,7 @@ class DebugCameraGizmo(object):
     def onMouseWheel(self, event):
         if self.enable is False:
             Trace.msg_err("{} not enable".format(self.__class__.__name__))
-            return False
+            return
 
         self.move_and_scale(event)  # self.test_rotate(event)
 

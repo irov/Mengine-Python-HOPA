@@ -12,6 +12,8 @@ class LetItSlideElement(object):
         self.cells = []
         self.position = None
         self.mousePos = None
+        self.MouseButtonHandlerID = 0
+        self.MouseMoveHandlerID = 0
         pass
 
     def getPosition(self):
@@ -102,19 +104,26 @@ class LetItSlideElement(object):
 
     def onActivate(self):
         self.movieSocket.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
-        self.movieSocket.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove,
-                                          onGlobalHandleMouseButtonEvent=self._onGlobalMouseButtonEvent)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
+        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
         pass
 
     def onDeactivate(self):
+        if self.MouseMoveHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = 0
+
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
+
         socket = self.movieSocket
         if socket is None:
             return
 
-        socket.enableGlobalMouseEvent(False)
-        socket.setEventListener(onHandleMouseButtonEvent=None,
-                                onGlobalHandleMouseMove=None,
-                                onGlobalHandleMouseButtonEvent=None)
+        socket.setEventListener(onHandleMouseButtonEvent=None)
         self.mousePos = None
 
     def _onMouseButtonEvent(self, context, event):
@@ -122,7 +131,8 @@ class LetItSlideElement(object):
             return False
 
         if event.isDown is True:
-            self.movieSocket.enableGlobalMouseEvent(True)
+            Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, True)
             pass
 
         return True
@@ -172,10 +182,11 @@ class LetItSlideElement(object):
 
     def _onGlobalMouseButtonEvent(self, event):
         if event.button != 0:
-            return False
+            return
 
         if event.isDown is False:
-            self.movieSocket.enableGlobalMouseEvent(False)
+            Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
             self.mousePos = None
             pass
         pass

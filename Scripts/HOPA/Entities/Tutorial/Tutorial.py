@@ -67,7 +67,7 @@ class Tutorial(BaseEntity):
         self.hotspot.setPolygon(self.Polygon)
         self.hotspot.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
         SlotInstance.addChild(self.hotspot)
-        self.hotspot.enableGlobalMouseEvent(True)
+        self.hotspot.enable()
         self.garbage.append(self.hotspot)
         # ------> text
         TextEn = self.Text.getEntity()
@@ -80,7 +80,6 @@ class Tutorial(BaseEntity):
     def movieUnbound(self):
         self.cleanGarbage()
         if self.hotspot is not None:
-            self.hotspot.enableGlobalMouseEvent(False)
             self.hotspot.setEventListener(onHandleMouseButtonEvent=None)
             Mengine.destroyNode(self.hotspot)
             self.hotspot = None

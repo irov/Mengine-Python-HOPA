@@ -8,21 +8,8 @@ class ChipElementAuto(ChipElement):
         self.offset = (0, 0)
         pass
 
-    def _onFinalize(self):
-        super(ChipElementAuto, self)._onFinalize()
-        if self.hotspot is None:
-            return
-            pass
-        self.hotspot.removeEventListener()
-        self.objectEntity.removeEventListener()
-        pass
-
-    def _onMouseButtonEvent(self, touchId, x, y, button, isDown):
-        if hs != self.hotspot:
-            return False
-            pass
-
-        if button != 0:
+    def _onMouseButtonEvent(self, context, event):
+        if event.button != 0:
             return False
             pass
 
@@ -30,7 +17,7 @@ class ChipElementAuto(ChipElement):
             return False
             pass
 
-        if isDown is False:
+        if event.isDown is False:
             return False
             pass
 

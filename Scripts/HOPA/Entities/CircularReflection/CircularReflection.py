@@ -150,13 +150,13 @@ class CircularReflection(Enigma):
 
     def _onMouseMove(self, event):
         if self.allow_rotate is False:
-            return False
+            return
 
         if self.current_rotatable is None:
-            return False
+            return
 
         if self.mouseTouchVec is None:
-            return False
+            return
 
         node = Mengine.getArrowNode()
         arrowPosition = node.getLocalPosition()
@@ -170,10 +170,10 @@ class CircularReflection(Enigma):
         sq_length = (ddx ** 2 + ddy ** 2)
         if sq_length == 0:
             # zero assertion
-            return False
+            return
         Angle = Mengine.signed_angle(dr)
         self.current_rotatable.setRotate(-Angle)
-        return False
+        return
 
     def suppressInteraction(self, boolVal):
         defaultInteractive = int(not boolVal)

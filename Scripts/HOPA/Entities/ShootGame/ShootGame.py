@@ -11,6 +11,7 @@ class ShootGame(Enigma):
     def __init__(self):
         super(ShootGame, self).__init__()
         self.ReInitParamentrs()
+        self.MouseButtonHandlerID = 0
         pass
 
     def ReInitParamentrs(self):
@@ -114,8 +115,8 @@ class ShootGame(Enigma):
         pass
 
     def _DoAliase(self):
-        self.setEventListener(onGlobalHandleMouseButtonEventEnd=self._onGlobalHandleMouseButtonEventEnd)
-        self.enableGlobalMouseEvent(True)
+        if self.MouseButtonHandlerID == 0:
+            self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
 
         for id in range(len(self.MoviesDug)):
             self._DoAliase_In(id)
@@ -159,17 +160,17 @@ class ShootGame(Enigma):
         pass
 
     def _EndAliase(self):
-        if self.node is not None:
-            self.setEventListener(onGlobalHandleMouseButtonEventEnd=None)
-            self.enableGlobalMouseEvent(False)
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
         for alName in self.AliasNames:
             self.__canTT(alName)
             pass
         self.AliasNames = []
         pass
 
-    def _onGlobalHandleMouseButtonEventEnd(self, touchId, button, isDown):
-        if button != 0 or isDown is False:
+    def _onGlobalHandleMouseButtonEventEnd(self, event):
+        if event.button != 0 or event.isDown is False:
             return
             pass
 

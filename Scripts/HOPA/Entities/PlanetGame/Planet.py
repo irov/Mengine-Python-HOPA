@@ -10,6 +10,7 @@ class Planet(Initializer):
         self.enigmaObject = enigmaObject
         self.socket = None
         self.socketEntity = None
+        self.MouseMoveHandlerID = 0
         self.movieName = None
         self.movie = None
         self.duration = 0
@@ -27,8 +28,8 @@ class Planet(Initializer):
 
         self.socket = self.enigmaObject.generateObject("Internal_Socket_%s" % (self.movieName), Planet.SOCKET_NAME)
         self.socketEntity = self.socket.getEntity()
-        self.socketEntity.setEventListener(onGlobalHandleMouseMove=self._onGlobalMouseMove)
-        self.socketEntity.enableGlobalMouseEvent(False)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
+        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
 
         MovieEntity = self.movie.getEntity()
         MovieSlot = MovieEntity.getMovieSlot("planet")
@@ -61,11 +62,10 @@ class Planet(Initializer):
         # release this helper's task chain and generated socket
         TaskManager.cancelTaskChain(self.movieName, exist=False)
 
-        socket_entity = self.socketEntity
         self.socketEntity = None
-        if socket_entity is not None:
-            socket_entity.enableGlobalMouseEvent(False)
-            socket_entity.setEventListener(onGlobalHandleMouseMove=None)
+        if self.MouseMoveHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = 0
 
         if self.socket is not None:
             self.socket.onDestroy()
@@ -85,7 +85,7 @@ class Planet(Initializer):
         self.initialData = None
         pass
 
-    def _onGlobalMouseMove(self, touchId, x, y, dx, dy):
+    def _onGlobalMouseMove(self, event):
         self.arrowPos = Mengine.getCursorPosition()
         pass
 
@@ -119,7 +119,7 @@ class Planet(Initializer):
             self.startPos = Mengine.getCursorPosition()
             self.arrowPos = Mengine.getCursorPosition()
             pass
-        self.socketEntity.enableGlobalMouseEvent(value)
+        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, value)
         return True
         pass
 

@@ -11,6 +11,7 @@ class StaticPopUp(BaseEntity):
         self.FramesNode = None
         self.textEn = None
         self.TextMessageCS = "TextMessage"
+        self.MouseMoveHandlerID = 0
         pass
 
     def _onInitialize(self, obj):
@@ -57,8 +58,8 @@ class StaticPopUp(BaseEntity):
         self.FramesNode = MovieFrameEntity.getMovieSlot(self.TextMessageCS)
         self.FramesNode.addChild(self.textEn)
         MovieFrameEntity.setWorldPosition(currentTextPosition)
-        self.setEventListener(onGlobalHandleMouseMove=self._onGlobalHandleMouseMove)
-        self.enableGlobalMouseEvent(True)
+        if self.MouseMoveHandlerID == 0:
+            self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove)
         pass
 
     def _getTextPosition(self):  # need refactoring
@@ -96,7 +97,7 @@ class StaticPopUp(BaseEntity):
 
         return currentPosition
 
-    def _onGlobalHandleMouseMove(self, en, touchId, x, y, dx, dy):
+    def _onGlobalHandleMouseMove(self, event):
         if self.textID is None:
             return
             pass
@@ -114,11 +115,14 @@ class StaticPopUp(BaseEntity):
         pass
 
     def clean_up(self):
+        if self.MouseMoveHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseMoveHandlerID)
+            self.MouseMoveHandlerID = 0
+
         if self.FramesNode is None:
             return
             pass
         self.text.setEnable(False)
         self.FramesNode.removeChild(self.textEn)
         self.FramesNode = None
-        self.enableGlobalMouseEvent(False)
         pass

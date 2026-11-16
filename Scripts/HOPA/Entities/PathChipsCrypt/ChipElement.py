@@ -37,6 +37,10 @@ class ChipElement(Initializer):
     def _onFinalize(self):
         super(ChipElement, self)._onFinalize()
 
+        if self.hotspot is not None:
+            self.hotspot.setEventListener(onHandleMouseButtonEvent=None)
+            self.hotspot = None
+
         moving = self.moving
         self.moving = None
         if moving is not None:

@@ -10,8 +10,6 @@ class AliasCruiseControlAction(TaskAlias):
     __clickEmulatedEvent = Event("AliasCruiseControlClickEmulated")  # this is will trigger checkClickSuccess logic
     __semaphoreClickSuccess = Semaphore(False, "AliasCruiseControlClickSuccess")
 
-    fakeHotSpotClickEventParams = (0, -1, -1, 0, 1, 1, 1)  # touchId, x, y, button, pressure, isDown, isPressed
-
     def __init__(self):
         super(AliasCruiseControlAction, self).__init__()
 
@@ -272,8 +270,12 @@ class AliasCruiseControlAction(TaskAlias):
             source.addDelay(0.0)
             return
 
-        eventation = socket.getEventation()
-        source.addFunction(eventation.callEvent, "onHandleMouseButtonEvent", self.fakeHotSpotClickEventParams)
+        name = socket.getName()
+        position = socket.getWorldPolygonCenter()
+        onSocketButtonEvent = self.Object.onMovieSocketButtonEvent
+
+        source.addFunction(onSocketButtonEvent, self.Object, name, socket, 0, position.x, position.y, 0, True, True)
+        source.addFunction(onSocketButtonEvent, self.Object, name, socket, 0, position.x, position.y, 0, False, True)
 
     @staticmethod
     def handleClickFakeZoomObj(source, self):

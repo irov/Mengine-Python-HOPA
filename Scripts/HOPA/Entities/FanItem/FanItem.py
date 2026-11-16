@@ -9,49 +9,55 @@ class FanItem(BaseEntity):
     def __init__(self):
         super(FanItem, self).__init__()
         self.state = FanItem.ITEM_NONE
+        self.MouseButtonHandlerID = 0
         pass
 
     def _onActivate(self):
         Sprite_Item = self.object.getObject("Sprite_Item")
         Sprite_Item.setPosition((0, 0))
 
-        self.setEventListener(onGlobalHandleMouseButtonEventEnd=self._onGlobalHandleMouseButtonEventEnd)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, self.state == FanItem.ITEM_HAND)
         pass
 
     def _onDeactivate(self):
-        self.setEventListener(onGlobalHandleMouseButtonEventEnd=None)
+        if self.MouseButtonHandlerID != 0:
+            Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
+            self.MouseButtonHandlerID = 0
         pass
 
     def inNone(self):
         self.state = FanItem.ITEM_NONE
 
-        self.enableGlobalMouseEvent(False)
+        if self.MouseButtonHandlerID != 0:
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
         pass
 
     def inHand(self):
         self.state = FanItem.ITEM_HAND
 
-        self.enableGlobalMouseEvent(True)
+        if self.MouseButtonHandlerID != 0:
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, True)
         pass
 
     def inFan(self):
         self.state = FanItem.ITEM_FAN
         pass
 
-    def _onGlobalHandleMouseButtonEventEnd(self, touchId, button, isDown):
-        if button != 0 or isDown is False:
-            return True
+    def _onGlobalHandleMouseButtonEventEnd(self, event):
+        if event.button != 0 or event.isDown is False:
+            return
             pass
 
         if ArrowManager.emptyArrowAttach() is True:
-            return True
+            return
             pass
 
         if self.state is not FanItem.ITEM_HAND:
-            return True
+            return
             pass
 
         Notification.notify(Notificator.onFanItemInvalidUse, self.object)
 
-        return True
+        return
         pass
