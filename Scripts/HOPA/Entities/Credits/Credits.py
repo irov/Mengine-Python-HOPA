@@ -36,6 +36,14 @@ class Credits(BaseEntity):
         if self.movie.getResourceMovie().hasCompositionLayer("Credits", CE_LABEL_LAYER):
             setEnableLayer(isCollectorEdition(), CE_LABEL_LAYER, self.movie)
 
+        links_enabled = Mengine.getGameParamBool("CreditsLinksEnabled", True)
+        for button_name in ("Movie2Button_ButtonLink1", "Movie2Button_ButtonLink2"):
+            if self.object.Group.hasObject(button_name):
+                self.object.Group.getObject(button_name).setEnable(links_enabled)
+
+        if links_enabled is False:
+            return
+
         if self.object.Group.hasObject('Movie2Button_ButtonLink1'):
             self.button_link_1 = self.object.Group.getObject("Movie2Button_ButtonLink1")
             self.url_link_1 = Mengine.getGameParamUnicode("CreditsLink1")
@@ -119,3 +127,8 @@ class Credits(BaseEntity):
         if self.tc_button_link_2 is not None:
             self.tc_button_link_2.cancel()
             self.tc_button_link_2 = None
+
+        self.button_link_1 = None
+        self.button_link_2 = None
+        self.url_link_1 = None
+        self.url_link_2 = None
