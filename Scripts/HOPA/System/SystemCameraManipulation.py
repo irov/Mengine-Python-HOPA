@@ -168,6 +168,9 @@ class DebugCameraGizmo(object):
         self.enable = False
 
     def onMouseWheel(self, event):
+        if event.scroll.steps == 0:
+            return
+
         if self.enable is False:
             Trace.msg_err("{} not enable".format(self.__class__.__name__))
             return
@@ -176,7 +179,7 @@ class DebugCameraGizmo(object):
 
     def test_rotate(self, event):
         step = 0.5
-        step_vec = Mengine.vec3f(0, event.scroll * step, 1)
+        step_vec = Mengine.vec3f(0, event.scroll.steps * step, 1)
 
         direction = self.camera_dir + step_vec
         print(direction)
@@ -186,7 +189,7 @@ class DebugCameraGizmo(object):
 
     def move_and_scale(self, event):
         # scale params
-        scale = event.scroll * self.SCALE_FACTOR
+        scale = event.scroll.steps * self.SCALE_FACTOR
         cur_scale = self.camera.getScale()
         next_scale = cur_scale.x + scale if (cur_scale.x + scale) > 1 else 1
 
@@ -684,8 +687,12 @@ class SystemCameraManipulation(System):
     # input handlers:
 
     def _onMouseWheel(self, event):
+        steps = event.scroll.steps
+        if steps == 0:
+            return
+
         scale_factor = self.virtual_area.getVirtualAreaScaleFactor() if self.virtual_area else None
-        self.dev_hud.onMouseWheel(event.position.world.x, event.position.world.y, event.scroll, scale_factor)
+        self.dev_hud.onMouseWheel(event.position.world.x, event.position.world.y, steps, scale_factor)
 
         # print "WHEEL --- [{}] ({}, {}) ".format(direction, rel_x, rel_y)
 
