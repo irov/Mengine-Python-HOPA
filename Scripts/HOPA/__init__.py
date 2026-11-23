@@ -1509,16 +1509,16 @@ def onInitialize():
         Mengine.addCurrentAccountSetting("Difficulty", u"Casual", __changeDifficulty)
         Mengine.addCurrentAccountSetting("DifficultyCustomHintTime", u'1.0', None)
         Mengine.addCurrentAccountSetting("DifficultyCustomSkipTime", u'1.0', None)
-        Mengine.addCurrentAccountSetting("DifficultyCustomTutorial", u'True', None)
-        Mengine.addCurrentAccountSetting('DifficultyCustomSparklesOnActiveAreas', u'True', None)
-        Mengine.addCurrentAccountSetting('DifficultyCustomSparklesOnHOPuzzles', u'True', None)
-        Mengine.addCurrentAccountSetting('DifficultyCustomPlusItemIndicated', u'True', None)
-        Mengine.addCurrentAccountSetting('DifficultyCustomIndicatorsOnMap', u'True', None)
-        Mengine.addCurrentAccountSetting('DifficultyCustomChangeIconOnActiveAreas', u'True', __changeDifficulty_Cursore)
+        Mengine.addCurrentAccountSettingBool("DifficultyCustomTutorial", True, None)
+        Mengine.addCurrentAccountSettingBool('DifficultyCustomSparklesOnActiveAreas', True, None)
+        Mengine.addCurrentAccountSettingBool('DifficultyCustomSparklesOnHOPuzzles', True, None)
+        Mengine.addCurrentAccountSettingBool('DifficultyCustomPlusItemIndicated', True, None)
+        Mengine.addCurrentAccountSettingBool('DifficultyCustomIndicatorsOnMap', True, None)
+        Mengine.addCurrentAccountSettingBool('DifficultyCustomChangeIconOnActiveAreas', True, __changeDifficulty_Cursore)
 
-        Mengine.addCurrentAccountSetting("SurveyComplete", u"False", None)
-        Mengine.addCurrentAccountSetting("GameComplete", u"False", None)
-        Mengine.addCurrentAccountSetting("IsBonusChapter", u"0", None)
+        Mengine.addCurrentAccountSettingBool("SurveyComplete", False, None)
+        Mengine.addCurrentAccountSettingBool("GameComplete", False, None)
+        Mengine.addCurrentAccountSettingUInt("IsBonusChapter", 0, None)
 
         # -----------------------------------------------------------------
 
@@ -1527,7 +1527,7 @@ def onInitialize():
             Notification.notify(Notificator.onChapters, Chapters)
 
         Chapters = 0
-        Mengine.addCurrentAccountSetting("Chapters", unicode(Chapters), __changeChapters)
+        Mengine.addCurrentAccountSettingInt("Chapters", Chapters, __changeChapters)
 
     AccountManager.addCreateAccountExtra(accountSetuper)
 
