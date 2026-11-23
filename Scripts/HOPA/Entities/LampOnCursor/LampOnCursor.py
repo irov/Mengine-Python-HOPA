@@ -33,8 +33,7 @@ class LampOnCursor(BaseEntity):
         cursorPosition = Mengine.getCursorPosition()
         self.updateShadowPosition(cursorPosition.x, cursorPosition.y)
 
-        # self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self.__onMouseMove)
-        # Mengine.enableGlobalHandler(self.MouseMoveHandlerID, True)
+        # self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self.__onMouseMove, True)
 
         self.MousePositionProviderID = Mengine.addMousePositionProvider(None, None, None, self.__onMousePositionChange)
 

@@ -60,7 +60,7 @@ class CircularReflection(Enigma):
         self.RotorHandler = Notification.addObserver(Notificator.onMouseButtonEvent, self.rotate)
         self.SocketEnter = Notification.addObserver(Notificator.onSocketMouseEnter, self.onSocketEntered)
         self.SocketLeave = Notification.addObserver(Notificator.onSocketMouseLeave, self.onSocketLeaved)
-        self.MouseMoveHandler = Mengine.addMouseMoveHandler(self._onMouseMove)
+        self.MouseMoveHandler = Mengine.addMouseMoveHandler(self._onMouseMove, True)
         self.preparate()
         pass
 

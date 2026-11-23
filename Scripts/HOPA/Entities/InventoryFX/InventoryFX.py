@@ -494,8 +494,7 @@ class InventoryFX(BaseEntity):
         super(InventoryFX, self)._onActivate()
 
         # self.setEventListener(onGlobalHandleMouseButtonEventEnd = self._onGlobalHandleMouseButtonEventEnd)
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd, False)
 
         self.updateSlots()
 

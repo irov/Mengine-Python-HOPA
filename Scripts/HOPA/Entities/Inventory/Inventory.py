@@ -221,6 +221,9 @@ class Inventory(InventoryBase):
 
         self.__detachItemTCs = {}
 
+        self.PickClickHandlerID = None
+        self.__pendingPickClick = None
+
     def getSlots(self):
         return self.slots
 
@@ -395,12 +398,45 @@ class Inventory(InventoryBase):
     def inventoryGlobalMouseEvent(self, value):
         # fix for item drop
         if ArrowManager.emptyArrowAttach() is True and value is True:
-            Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
+            Mengine.enableGlobalHandler(self.MouseButtonHandlerEndID, False)
             return
 
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, value)
+        Mengine.enableGlobalHandler(self.MouseButtonHandlerEndID, value)
+
+    def __onPickMouseButtonEvent(self, event):
+        pending_pick = self.__pendingPickClick
+        if pending_pick is None:
+            return
+
+        inventory_item, handler_id, is_down = pending_pick
+        if event.button != 0 or event.isDown is not is_down:
+            return
+
+        self.__pendingPickClick = None
+        if self.MouseButtonHandlerEndID != handler_id:
+            return
+
+        attached_item = ArrowManager.getArrowAttach()
+        if attached_item is not None and attached_item is not inventory_item:
+            return
+
+        self.inventoryGlobalMouseEvent(True)
+
+    def __waitPickClick(self, inventory_item, is_down, pick_click_handler_id):
+        if pick_click_handler_id is None or self.PickClickHandlerID != pick_click_handler_id:
+            return
+
+        if self.__pendingPickClick is not None:
+            return
+
+        self.__pendingPickClick = (inventory_item, self.MouseButtonHandlerEndID, is_down)
+        if is_down is True:
+            Notification.notify(Notificator.onInventorySlotItemEnter, self.object, inventory_item)
 
     def pickInventoryItem(self, slotId):
+        self.__pendingPickClick = None
+        pick_click_handler_id = self.PickClickHandlerID
+
         def _DefaultImplementation():
             self.ButtonBlock()
             slot = self.slots[slotId]
@@ -419,9 +455,7 @@ class Inventory(InventoryBase):
             PickInventoryItem = PolicyManager.getPolicy("PickInventoryItem", "TaskEffectInventoryPickInventoryItem")
             TaskManager.runAlias(PickInventoryItem, None, InventoryItem=InventoryItem)
 
-            with TaskManager.createTaskChain() as tc:
-                tc.addTask("TaskMouseButtonClick")
-                tc.addFunction(self.inventoryGlobalMouseEvent, True)
+            self.__waitPickClick(InventoryItem, False, pick_click_handler_id)
 
         def _TouchpadImplementation():
             self.ButtonBlock()
@@ -435,10 +469,7 @@ class Inventory(InventoryBase):
 
             Notification.notify(Notificator.onInventoryItemPick, InventoryItem, InventoryItemEntity.getState())
 
-            with TaskManager.createTaskChain() as tc:
-                tc.addNotify(Notificator.onInventorySlotItemEnter, self.object, InventoryItem)
-                tc.addTask("TaskMouseButtonClick", isDown=True)
-                tc.addFunction(self.inventoryGlobalMouseEvent, True)
+            self.__waitPickClick(InventoryItem, True, pick_click_handler_id)
 
         if Mengine.hasTouchpad() is True:
             _TouchpadImplementation()
@@ -497,8 +528,8 @@ class Inventory(InventoryBase):
     def _onActivate(self):
         super(Inventory, self)._onActivate()
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self.__onGlobalHandleMouseButtonEventEnd)
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
+        self.MouseButtonHandlerEndID = Mengine.addMouseButtonHandlerEnd(self.__onGlobalHandleMouseButtonEventEnd, False)
+        self.PickClickHandlerID = Mengine.addMouseButtonHandler(self.__onPickMouseButtonEvent, True)
 
         self.Socket_Inventory = self.object.getObject("Socket_Inventory")
         self.Socket_Inventory.setBlock(True)
@@ -579,6 +610,10 @@ class Inventory(InventoryBase):
         self.slots = []
 
     def _onDeactivate(self):
+        self.__pendingPickClick = None
+        Mengine.removeGlobalHandler(self.PickClickHandlerID)
+        self.PickClickHandlerID = None
+
         super(Inventory, self)._onDeactivate()
 
         def __returnInvItemForce(_InventoryItem):
@@ -601,8 +636,8 @@ class Inventory(InventoryBase):
 
         self.removeSlots()
 
-        Mengine.removeGlobalHandler(self.MouseButtonHandlerID)
-        self.MouseButtonHandlerID = None
+        Mengine.removeGlobalHandler(self.MouseButtonHandlerEndID)
+        self.MouseButtonHandlerEndID = None
 
         self.Socket_Inventory.setBlock(False)
         self.Socket_Inventory.setInteractive(False)

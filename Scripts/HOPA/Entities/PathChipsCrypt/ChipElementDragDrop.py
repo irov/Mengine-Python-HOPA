@@ -14,11 +14,8 @@ class ChipElementDragDrop(ChipElement):
     def _onInitialize(self, view):
         super(ChipElementDragDrop, self)._onInitialize(view)
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
-        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
-
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
-        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent, False)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove, False)
 
         # self.objectEntity.setEventListener(onGlobalHandleMouseMove = self._onGlobalMouseMove, onGlobalHandleMouseButtonEvent = self._onGlobalMouseButtonEvent)
         # self.objectEntity.enableGlobalMouseEvent(False)

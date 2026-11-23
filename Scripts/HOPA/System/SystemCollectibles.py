@@ -88,7 +88,7 @@ class SystemCollectibles(System):
         return isCollectorEdition()
 
     def _onRun(self):
-        self.keyHandlerId = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.keyHandlerId = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
 
         if self.__checkCE() is False:
             self.disableCollectibles()

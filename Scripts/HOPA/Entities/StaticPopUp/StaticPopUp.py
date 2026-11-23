@@ -59,7 +59,7 @@ class StaticPopUp(BaseEntity):
         self.FramesNode.addChild(self.textEn)
         MovieFrameEntity.setWorldPosition(currentTextPosition)
         if self.MouseMoveHandlerID == 0:
-            self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove)
+            self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove, True)
         pass
 
     def _getTextPosition(self):  # need refactoring

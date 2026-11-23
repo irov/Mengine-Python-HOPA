@@ -19,7 +19,7 @@ class SystemDebugPlayMovie(System):
 
     def _onRun(self):
         super(SystemDebugPlayMovie, self)._onRun()
-        self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
 
         return True
         pass

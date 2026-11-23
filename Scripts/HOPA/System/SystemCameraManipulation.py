@@ -140,7 +140,7 @@ class DebugCameraGizmo(object):
     def onRun(self):
         self.camera_pos = Mengine.vec2f(0, 0)
         self.camera_dir = Mengine.vec3f(0, 0, 1)
-        self.mouse_wheel_id = Mengine.addMouseWheelHandler(self.onMouseWheel)
+        self.mouse_wheel_id = Mengine.addMouseWheelHandler(self.onMouseWheel, True)
 
         self.observers.append(Notification.addObserver(Notificator.onSceneInit, self._onSceneInit))
         self.observers.append(Notification.addObserver(Notificator.onSceneDeactivate, self._onSceneDeactivate))
@@ -339,9 +339,9 @@ class SystemCameraManipulation(System):
             return True
 
         if _DEVELOPMENT and DefaultManager.getDefaultBool("DebugTouchpadVirtualAreaHUD", False):
-            self.move_handler_id = Mengine.addMouseMoveHandler(self._onMouseMove)
-            self.button_handler_id = Mengine.addMouseButtonHandler(self._onMouseButton)
-            self.wheel_handler_id = Mengine.addMouseWheelHandler(self._onMouseWheel)
+            self.move_handler_id = Mengine.addMouseMoveHandler(self._onMouseMove, True)
+            self.button_handler_id = Mengine.addMouseButtonHandler(self._onMouseButton, True)
+            self.wheel_handler_id = Mengine.addMouseWheelHandler(self._onMouseWheel, True)
 
             self.dev_hud.onRun()
         # self.debug_camera_gizmo.onRun()

@@ -116,7 +116,7 @@ class ShootGame(Enigma):
 
     def _DoAliase(self):
         if self.MouseButtonHandlerID == 0:
-            self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
+            self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd, True)
 
         for id in range(len(self.MoviesDug)):
             self._DoAliase_In(id)

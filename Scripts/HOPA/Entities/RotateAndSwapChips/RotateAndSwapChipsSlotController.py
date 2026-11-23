@@ -19,7 +19,7 @@ class RotateAndSwapChipsSlotController(object):
 
     def initialize(self):
         self.finalize()
-        self.globalHandleMouseButtonEvent = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
+        self.globalHandleMouseButtonEvent = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent, True)
 
         self.observerClick = Notification.addObserver(Notificator.onButtonClick, self._onButtonClick)
         self.observerClickEnd = Notification.addObserver(Notificator.onButtonClickEndUp, self._onButtonClickEndUp)

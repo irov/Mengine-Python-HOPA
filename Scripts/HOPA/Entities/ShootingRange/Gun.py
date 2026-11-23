@@ -46,7 +46,7 @@ class Gun(object):
         #        self.trowStack(init_gun)
         self.TargetEnter = Notification.addObserver(Notificator.onSocketMouseEnter, self.onMouseEnter)
         # self.TargetMove = Notification.addObserver(Notificator.onMouseMove, self.onMouseMove)
-        self.TargetMove = Mengine.addMouseMoveHandler(self.onMouseMove)
+        self.TargetMove = Mengine.addMouseMoveHandler(self.onMouseMove, True)
 
         # self.TargetMove2 = Notification.addObserver(Notificator.onMouseButtonEvent, self.onMouseMove)
 

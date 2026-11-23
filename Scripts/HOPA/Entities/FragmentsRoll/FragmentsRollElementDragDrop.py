@@ -51,11 +51,8 @@ class FragmentsRollElementDragDrop(FragmentsRollElement):
         self.hotspot.setEventListener(onHandleMouseButtonEvent=self.__onMouseButtonEvent)
         self.hotspot.enable()
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self.__onGlobalMouseButtonEvent)
-        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self.__onGlobalMouseMove)
-
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
-        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self.__onGlobalMouseButtonEvent, False)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self.__onGlobalMouseMove, False)
 
         # self.entity.setEventListener(onGlobalHandleMouseMove = self._onGlobalMouseMove, onGlobalHandleMouseButtonEvent = self._onGlobalMouseButtonEvent)
         # self.entity.enableGlobalMouseEvent(False)

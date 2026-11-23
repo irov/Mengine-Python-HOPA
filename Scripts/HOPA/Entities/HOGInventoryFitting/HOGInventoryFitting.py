@@ -239,7 +239,7 @@ class HOGInventoryFitting(InventoryBase):
             self.__InitSlotAlias(i)
             pass
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd, True)
         self.__InitReturnAlias()
         pass
 

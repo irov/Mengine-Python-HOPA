@@ -16,7 +16,7 @@ class SystemDebugNoGameArea(System):
 
     def _onRun(self):
         super(SystemDebugNoGameArea, self)._onRun()
-        self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
 
         self.addObserver(Notificator.onSceneInit, self.__onSceneInit)
 

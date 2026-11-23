@@ -253,8 +253,8 @@ class NFS(Enigma):
         self.onCollisionTimingId = Mengine.timing(0.5, self.__onCollision)
 
         self.__removeMouseHandlers()
-        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove)
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalHandleMouseButtonEvent)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalHandleMouseMove, True)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalHandleMouseButtonEvent, True)
 
         if Mengine.isMouseButtonDown(0) is True:
             self.speedUp(True)

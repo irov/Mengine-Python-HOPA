@@ -35,7 +35,7 @@ class SystemDebugShowUsageItem(System):
         if Mengine.hasTouchpad() is True:
             self._addMobileHandler()
         else:
-            self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+            self.Handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
 
         return True
 

@@ -29,7 +29,7 @@ class SystemDebugHideInterface(System):
     def _onRun(self):
         super(SystemDebugHideInterface, self)._onRun()
         self._load_groups()
-        self.handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.handler = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
         self.addObserver(Notificator.onSceneInit, self.__onSceneInit)
         return True
 

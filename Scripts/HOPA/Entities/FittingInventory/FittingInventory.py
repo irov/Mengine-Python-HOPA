@@ -250,8 +250,7 @@ class FittingInventory(BaseEntity):
     def _onActivate(self):
         super(FittingInventory, self)._onActivate()
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self.__onGlobalHandleMouseButtonEventEnd)
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self.__onGlobalHandleMouseButtonEventEnd, False)
 
         self.updateSlots()
 

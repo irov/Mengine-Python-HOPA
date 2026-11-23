@@ -28,8 +28,7 @@ class Planet(Initializer):
 
         self.socket = self.enigmaObject.generateObject("Internal_Socket_%s" % (self.movieName), Planet.SOCKET_NAME)
         self.socketEntity = self.socket.getEntity()
-        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
-        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove, False)
 
         MovieEntity = self.movie.getEntity()
         MovieSlot = MovieEntity.getMovieSlot("planet")

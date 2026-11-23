@@ -131,7 +131,7 @@ class Item(Interaction):
     def _onActivate(self):
         super(Item, self)._onActivate()
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self.__onGlobalHandleMouseButtonEventEnd)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self.__onGlobalHandleMouseButtonEventEnd, True)
         self.itemGlobalMouseEvent(False)
 
         if self.state == self.ITEM_HAND:

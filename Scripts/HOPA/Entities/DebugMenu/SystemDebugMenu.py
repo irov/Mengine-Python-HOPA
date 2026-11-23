@@ -650,7 +650,7 @@ class SystemDebugMenu(System):
 
     def _onRun(self):
         super(SystemDebugMenu, self)._onRun()
-        self.__key_handler_id = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent)
+        self.__key_handler_id = Mengine.addKeyHandler(self.__onGlobalHandleKeyEvent, True)
 
         Mengine.setTextAlias(ALIAS_ENV, ALIAS_TEXT_NAME, "ID_LineSpeed")
         Mengine.setTextAliasArguments(ALIAS_ENV, ALIAS_TEXT_NAME, " ")

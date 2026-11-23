@@ -104,10 +104,8 @@ class LetItSlideElement(object):
 
     def onActivate(self):
         self.movieSocket.setEventListener(onHandleMouseButtonEvent=self._onMouseButtonEvent)
-        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove)
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent)
-        Mengine.enableGlobalHandler(self.MouseMoveHandlerID, False)
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, False)
+        self.MouseMoveHandlerID = Mengine.addMouseMoveHandler(self._onGlobalMouseMove, False)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandler(self._onGlobalMouseButtonEvent, False)
         pass
 
     def onDeactivate(self):

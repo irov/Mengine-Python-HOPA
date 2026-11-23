@@ -16,8 +16,7 @@ class FanItem(BaseEntity):
         Sprite_Item = self.object.getObject("Sprite_Item")
         Sprite_Item.setPosition((0, 0))
 
-        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd)
-        Mengine.enableGlobalHandler(self.MouseButtonHandlerID, self.state == FanItem.ITEM_HAND)
+        self.MouseButtonHandlerID = Mengine.addMouseButtonHandlerEnd(self._onGlobalHandleMouseButtonEventEnd, self.state == FanItem.ITEM_HAND)
         pass
 
     def _onDeactivate(self):
