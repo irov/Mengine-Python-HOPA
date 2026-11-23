@@ -11,7 +11,6 @@ from Notification import Notification
 
 _Log = SimpleLogger("SystemEnergy", option="energy")
 
-EVENT_CHANGED_BALANCE = Event("onEnergyBalanceChanged")
 EVENT_UPDATE_TIMER = Event("onEnergyTimerUpdate")
 ACTION_NAMES = [
     "PickItem"
@@ -23,6 +22,8 @@ ACTION_NAMES = [
     , "DragDropItem"
 ]
 ENERGY_INFINITY_CODE = "inf"
+ENERGY_RECHARGE_VERSION = "1"
+RECHARGE_TIMING_KEYS = ("max_energy", "refill_time", "refill_per_time")
 
 
 class SystemEnergy(System):
@@ -39,11 +40,8 @@ class SystemEnergy(System):
     def __init__(self):
         super(SystemEnergy, self).__init__()
         self.current_energy = None
-        self.end_refill_timestamp = None  # timestamp when energy will be fully restored
-        self.cooldown_timestamp = None  # timestamp when one unit of energy will be restored
-        self.__cooldown_left_seconds = None  # for DevToDebug view
+        self.cooldown_timestamp = None  # time of the next refill
         self.timer = None
-        self._balance_change_observer = None
 
     @staticmethod
     def isEnable():
@@ -62,6 +60,11 @@ class SystemEnergy(System):
             "refill_per_time": Mengine.getConfigInt("Energy", "RefillEnergyPerTime", 1),
             "refill_time": Mengine.getConfigFloat("Energy", "RefillTime", 240.0),
         }
+
+        for key, default in (("max_energy", 300), ("refill_per_time", 1), ("refill_time", 240.0)):
+            value = settings[key]
+            if value <= 0 or value - value != 0:
+                settings[key] = default
 
         actions = {
             action: Mengine.getConfigBool("Energy", action, False) for action in ACTION_NAMES
@@ -109,34 +112,42 @@ class SystemEnergy(System):
         self.addObserver(Notificator.onEnergyDecrease, self.withdrawEnergy)
         self.addObserver(Notificator.onEnergySet, self.setEnergy)
         self.addObserver(Notificator.onLayerGroupEnable, self._cbLayerGroupEnable)
-        self._balance_change_observer = EVENT_CHANGED_BALANCE.addObserver(self._cbBalanceChange)
         if self.s_actions["EnterHOG"] is True:
             self.addObserver(Notificator.onSceneActivate, self._cbSceneActivate)
             self.addObserver(Notificator.onSceneDeactivate, self._cbSceneDeactivate)
 
     def _cbGetRemoteConfig(self, key, value):
-        """ Observer that patch energy config - key should have 'energy_' prefix.
-            You can't patch values from `ignore_list`.
-            All values come as string, but will be cast to same type as old value.
-        """
         if key.startswith("energy_") is False:
             return False
-        _key = key[len("energy_"):]
-
-        ignore_list = ["enable"]
-        if _key in ignore_list:
+        setting = key[len("energy_"):]
+        if setting == "enable":
             return False
 
-        def _tryPatch(patch_dict, patch_key, val):
-            cast = type(patch_dict[patch_key])
-            try:
-                patch_dict[patch_key] = cast(val)
-            except ValueError:
-                Trace.msg_err("SystemEnergy can't patch {!r}: wrong type, must be {}".format(patch_key, cast))
+        values = self.s_settings if setting in self.s_settings else self.s_actions_price
+        if setting not in values:
+            return False
 
-        for possible_dict in [SystemEnergy.s_settings, SystemEnergy.s_actions_price]:
-            if _key in possible_dict:
-                _tryPatch(possible_dict, _key, value)
+        previous = values[setting]
+        try:
+            updated = type(previous)(value)
+        except (TypeError, ValueError, OverflowError):
+            Trace.msg_err("SystemEnergy cannot apply {!r}: invalid value {!r}".format(key, value))
+            return False
+
+        if setting not in RECHARGE_TIMING_KEYS:
+            values[setting] = updated
+            return False
+
+        if updated <= 0 or updated - updated != 0:
+            Trace.msg_err("SystemEnergy cannot apply {!r}: expected positive finite value".format(key))
+            return False
+        if updated == previous:
+            return False
+
+        if self.current_energy is None or Mengine.hasCurrentAccount() is False:
+            values[setting] = updated
+        else:
+            self.__updateRecharge(self._getTimestamp(), setting, updated)
 
         return False
 
@@ -164,8 +175,6 @@ class SystemEnergy(System):
                                     lambda action, value: {"action": action, "price": value})
 
     def _onStop(self):
-        if self._balance_change_observer is not None:
-            EVENT_CHANGED_BALANCE.removeObserver(self._balance_change_observer)
         self.removeTimer()
 
     # === Enigma handling ==============================================================================================
@@ -263,10 +272,13 @@ class SystemEnergy(System):
 
     def setInfinityMode(self, state):
         SystemEnergy.in_infinity_mode = state
-        self.notifyUpdateBalance()
+        if self.isAccountEnergyInfinity() is not state:
+            SystemEnergy.setAccountEnergyInfinity(state)
+
         if state is True:
-            self.onCharged()
-        SystemEnergy.setAccountEnergyInfinity(state)
+            self.__applyProgress(self.current_energy, None, self._getTimestamp(), save=False)
+        else:
+            self.notifyUpdateBalance()
 
     @staticmethod
     def isInfinityMode():
@@ -320,68 +332,63 @@ class SystemEnergy(System):
             return False
         return True
 
-    def balanceChanger(action):  # noqa
-        def decorate(bound_method):
-            def wrap(self, energy):
-                last_energy = self.current_energy
-                bound_method(self, energy)
-                _Log("{} {}: {}".format(action, energy, self.current_energy))
-                EVENT_CHANGED_BALANCE(last_energy, self.current_energy)
-                return False
-            return wrap
-        return decorate
-
-    @balanceChanger("withdraw")  # noqa
     def withdrawEnergy(self, energy):
-        if SystemEnergy.isInfinityMode() is True:       # user bought infinity energy
+        if self.isInfinityMode() is True:
             return False
 
-        if self.current_energy - energy < 0:
-            self.current_energy = 0
-        else:
-            self.current_energy -= energy
+        self.__changeEnergy(max(0, self.current_energy - energy))
         return False
 
-    @balanceChanger("add")  # noqa
     def addEnergy(self, energy):
-        if SystemEnergy.isInfinityMode() is True:  # user bought infinity energy
+        if self.isInfinityMode() is True:
             return False
 
-        self.current_energy += energy
+        self.__changeEnergy(self.current_energy + energy)
         return False
 
     def preparePurchaseEnergy(self, transaction, amount, infinity=False):
         if self.isInfinityMode() is True and self.isAccountEnergyInfinity() is True:
             return True
 
-        energy = int(transaction.getSetting("Energy", self.current_energy)) + amount
+        energy = int(transaction.getSetting("Energy", self.current_energy))
+        cooldown = self.__parseCooldown(transaction.getSetting("EnergyCooldown", self.cooldown_timestamp))
+        timestamp = self._getTimestamp()
+        gained, cooldown = self.__getRechargeTicks(energy, cooldown, timestamp)
+        energy += gained + amount
         if infinity is True:
             transaction.setSetting("EnergyInfinity", "true")
             energy = max(energy, self.getMaxEnergy())
-        transaction.setSetting("Energy", energy)
-        transaction.setSetting("EnergyLastSave", self._getTimestamp())
-        transaction.setSetting("EnergyRefill", None if energy >= self.getMaxEnergy() else self.end_refill_timestamp)
-        transaction.setSetting("EnergyCooldown", None if energy >= self.getMaxEnergy() else self.cooldown_timestamp)
+
+        cooldown = self.__getRechargeCooldown(energy, cooldown, timestamp)
+        settings = self.__makeProgressSettings(energy, cooldown, timestamp)
+        for key, value in settings.iteritems():
+            transaction.setSetting(key, value)
+
         transaction.afterCommit(self._applyPurchaseEnergy, transaction.settings)
         return True
 
     def _applyPurchaseEnergy(self, settings):
-        self.current_energy = int(settings["Energy"])
         if settings.get("EnergyInfinity") == "true":
             SystemEnergy.in_infinity_mode = True
-        self.end_refill_timestamp = None if settings["EnergyRefill"] == "None" else float(settings["EnergyRefill"])
-        self.cooldown_timestamp = None if settings["EnergyCooldown"] == "None" else float(settings["EnergyCooldown"])
-        if self.current_energy >= self.getMaxEnergy():
-            self.onCharged()
-        self.notifyUpdateBalance()
 
-    @balanceChanger("set")  # noqa
+        energy = int(settings["Energy"])
+        cooldown = self.__parseCooldown(settings["EnergyCooldown"])
+        timestamp = int(settings["EnergyLastSave"])
+        self.__applyProgress(energy, cooldown, timestamp, save=False)
+
     def setEnergy(self, energy):
         if energy == ENERGY_INFINITY_CODE:
             self.setInfinityMode(True)
             return False
-        self.current_energy = 0 if energy < 0 else energy
+
+        self.__changeEnergy(max(0, energy))
         return False
+
+    def __changeEnergy(self, energy):
+        if energy == self.current_energy:
+            return
+
+        self.__applyProgress(energy, self.cooldown_timestamp, self._getTimestamp())
 
     def consume(self, action_name, notify_not_enough_energy=True):
         """ Used for paid actions that depends on own system energy.
@@ -416,38 +423,6 @@ class SystemEnergy(System):
         Notification.notify(Notificator.onEnergyConsumed, action_name, amount)
         return True
 
-    # reactions on balance change, handle recharge timer:
-
-    def _cbBalanceChange(self, prev_balance, new_balance):
-        if prev_balance == new_balance:
-            return
-
-        self.notifyUpdateBalance()
-
-        max_energy = self.getMaxEnergy()
-
-        if self.current_energy < max_energy:
-            if prev_balance <= new_balance:
-                # energy increased
-                self.__saveProgress()
-                return
-
-            rest_energy = max_energy - self.current_energy
-            seconds_to_refill = rest_energy * self.s_settings["refill_time"]
-
-            if self.end_refill_timestamp is None:
-                time = self._getTimestamp()
-                end_refill_timestamp = time + seconds_to_refill
-                self.end_refill_timestamp = end_refill_timestamp
-                self.startRecharge(time)
-            else:
-                self.end_refill_timestamp += seconds_to_refill
-
-        else:  # current_energy >= max_energy
-            self.onCharged()
-
-        self.__saveProgress()
-
     def notifyUpdateBalance(self):
         if self.in_infinity_mode is True:
             Notification.notify(Notificator.onUpdateEnergyBalance, ENERGY_INFINITY_CODE)
@@ -456,149 +431,167 @@ class SystemEnergy(System):
 
     # === Refill =======================================================================================================
 
-    def refillEnergy(self, energy):
-        max_energy = self.getMaxEnergy()
-        if self.current_energy + energy > max_energy:
-            self.setEnergy(max_energy)
-        else:
-            Notification.notify(Notificator.onEnergyIncrease, energy)
+    def __getRechargeCooldown(self, energy, cooldown, timestamp):
+        if energy >= self.getMaxEnergy():
+            return None
+        if cooldown is None:
+            return timestamp + self.s_settings["refill_time"]
+        return cooldown
 
-    def startRecharge(self, start_time=None):
-        """ Starts recharge
-            (set end_refill_timestamp before call)
-        """
-        if self.end_refill_timestamp is None:
-            Trace.log("System", 0, "can't startRecharge: end_refill_timestamp is None (init it before call)")
+    def __getRefillEnd(self, energy, cooldown):
+        missing = self.getMaxEnergy() - energy
+        per_tick = self.s_settings["refill_per_time"]
+        ticks_to_full = (missing + per_tick - 1) // per_tick
+        return cooldown + (ticks_to_full - 1) * self.s_settings["refill_time"]
+
+    def getSecondsToFullEnergy(self):
+        energy = self.current_energy
+        if energy is None or self.in_infinity_mode is True or energy >= self.getMaxEnergy():
+            return 0
+
+        timestamp = self._getTimestamp()
+        cooldown = self.__getRechargeCooldown(energy, self.cooldown_timestamp, timestamp)
+        return max(0, self.__getRefillEnd(energy, cooldown) - timestamp)
+
+    def __getRechargeTicks(self, energy, cooldown, timestamp):
+        if cooldown is None or timestamp < cooldown:
+            return 0, cooldown
+
+        remaining = self.getMaxEnergy() - energy
+        if remaining <= 0:
+            return 0, None
+        if timestamp >= self.__getRefillEnd(energy, cooldown):
+            return remaining, None
+
+        interval = self.s_settings["refill_time"]
+        ticks = 1 + int((timestamp - cooldown) // interval)
+        gained = min(remaining, ticks * self.s_settings["refill_per_time"])
+        return gained, cooldown + ticks * interval
+
+    def __updateRecharge(self, timestamp, setting=None, value=None):
+        gained = 0
+        cooldown = self.cooldown_timestamp
+        if self.in_infinity_mode is False:
+            gained, cooldown = self.__getRechargeTicks(self.current_energy, cooldown, timestamp)
+
+        if setting is not None:
+            self.s_settings[setting] = value
+
+        energy = self.current_energy + gained
+        if gained > 0 and self.isRun() is True:
+            # addEnergy saves the balance with this deadline before the analytics observer runs.
+            self.cooldown_timestamp = self.__getRechargeCooldown(energy, cooldown, timestamp)
+            Notification.notify(Notificator.onEnergyIncrease, gained)
             return
 
-        time = start_time or self._getTimestamp()
+        self.__applyProgress(energy, cooldown, timestamp)
 
-        if self.cooldown_timestamp is None or (self.cooldown_timestamp - time) < 0:
-            # if no recharge or cooldown_timestamp is too old - reload it
-            self.reloadCooldown(start_time)
+    def __applyProgress(self, energy, cooldown, timestamp, save=True):
+        self.current_energy = energy
+        self.cooldown_timestamp = None if self.in_infinity_mode is True else self.__getRechargeCooldown(energy, cooldown, timestamp)
 
-        self.setTimer()
-        SystemEnergy.in_recharging = True
-        Notification.notify(Notificator.onEnergyRecharge)
+        was_recharging = self.timer is not None
+        recharging = self.cooldown_timestamp is not None
+        if recharging is False:
+            self.removeTimer()
+        elif was_recharging is False:
+            self.timer = Mengine.addChronometer(self._onTimer)
+        SystemEnergy.in_recharging = recharging
 
-        _Log("start recharge [{}] - end at {} ({} seconds left)".format(
-            start_time, self.end_refill_timestamp, self.end_refill_timestamp - start_time))
+        if save is True:
+            self.__saveProgress(timestamp)
 
-    def onCharged(self):
-        """ Called when energy is fully recharged """
+        if was_recharging != recharging:
+            event = Notificator.onEnergyRecharge if recharging is True else Notificator.onEnergyCharged
+            Notification.notify(event)
 
-        self.removeTimer()
-        SystemEnergy.in_recharging = False
-        Notification.notify(Notificator.onEnergyCharged)
-        self.end_refill_timestamp = None
-        self.cooldown_timestamp = None
-
-        _Log("charge done")
-
-    def setTimer(self):
-        if self.timer is not None:
-            Mengine.removeChronometer(self.timer)
-        self.timer = Mengine.addChronometer(self._onTimer)
+        self.notifyUpdateBalance()
 
     def _onTimer(self, time):
-        if self.cooldown_timestamp is None or self.end_refill_timestamp is None:
-            Trace.log("System", 0, "SystemEnergy start timer, but cooldown_timestamp [{}] or end_refill_timestamp [{}] is None".format(
-                self.cooldown_timestamp, self.end_refill_timestamp))
-            self.onCharged()
+        if self.timer is None:
             return
 
-        timestamp = Mengine.getTime()
+        timestamp = self._getTimestamp()
+        if timestamp >= self.cooldown_timestamp:
+            self.__updateRecharge(timestamp)
 
-        one_time_left = self.cooldown_timestamp - timestamp  # for 1 charge
-        self.__cooldown_left_seconds = one_time_left
+        if self.cooldown_timestamp is None:
+            return
 
-        _Log("    left: {}s  ({} - {})".format(one_time_left, self.cooldown_timestamp, timestamp), optional=True)
-
-        if one_time_left <= 0:
-            energy_per_time = self.s_settings["refill_per_time"]
-            self.refillEnergy(energy_per_time)
-            if self.end_refill_timestamp is not None:
-                self.reloadCooldown(timestamp)
-            self.__cooldown_left_seconds = None
-
-        _, hours, minutes, seconds = calcTime(one_time_left)
+        _, hours, minutes, seconds = calcTime(max(0, self.cooldown_timestamp - timestamp))
         EVENT_UPDATE_TIMER(hours, minutes, seconds)
 
     def removeTimer(self):
         if self.timer is None:
             return
+
         Mengine.removeChronometer(self.timer)
         self.timer = None
-
-    def getCooldownTimestamp(self, start_time=None):
-        if self.end_refill_timestamp is None:
-            return None
-
-        time = start_time or self._getTimestamp()
-        left_seconds = self.end_refill_timestamp - time
-
-        if left_seconds <= 0:
-            return None
-
-        device_time = Mengine.getTime()     # we use device time because timer works with it
-        if (left_seconds // self.s_settings["refill_time"]) == 0:
-            cooldown = device_time + left_seconds
-        else:
-            cooldown = device_time + self.s_settings["refill_time"]
-
-        return cooldown
-
-    def reloadCooldown(self, start_time=None):
-        self.cooldown_timestamp = self.getCooldownTimestamp(start_time)
-        if self.cooldown_timestamp is not None:
-            self.cooldown_timestamp += 1  # fix 1s lose
+        SystemEnergy.in_recharging = False
 
     # === Save\Load ====================================================================================================
 
-    def __saveProgress(self):
-        Mengine.changeCurrentAccountSetting("Energy", unicode(self.current_energy))
-        Mengine.changeCurrentAccountSetting("EnergyRefill", unicode(self.end_refill_timestamp))
-        Mengine.changeCurrentAccountSetting("EnergyCooldown", unicode(self.cooldown_timestamp))
-        Mengine.changeCurrentAccountSetting("EnergyLastSave", unicode(self._getTimestamp()))
+    @staticmethod
+    def __makeProgressSettings(energy, cooldown, timestamp):
+        return {
+            "Energy": energy,
+            "EnergyCooldown": cooldown,
+            "EnergyLastSave": timestamp,
+            "EnergyRechargeVersion": ENERGY_RECHARGE_VERSION,
+        }
+
+    @staticmethod
+    def __parseCooldown(value):
+        if value in (None, "", "None"):
+            return None
+
+        try:
+            cooldown = float(value)
+        except (TypeError, ValueError, OverflowError):
+            return None
+
+        if cooldown <= 0 or cooldown - cooldown != 0:
+            return None
+        return cooldown
+
+    def __saveProgress(self, timestamp):
+        settings = self.__makeProgressSettings(self.current_energy, self.cooldown_timestamp, timestamp)
+        for key, value in settings.iteritems():
+            Mengine.changeCurrentAccountSetting(key, unicode(value))
 
         Mengine.saveAccounts()
 
     def __loadProgress(self):
-        params = {
-            # key: [save_key, default_value, cast_type]
-            "current_energy": ["Energy", self.getMaxEnergy(), int],
-            "end_refill_timestamp": ["EnergyRefill", None, float],
-            "cooldown_timestamp": ["EnergyCooldown", None, float]
-        }
+        timestamp = self._getTimestamp()
+        try:
+            energy = int(Mengine.getCurrentAccountSetting("Energy"))
+        except (TypeError, ValueError, OverflowError):
+            energy = self.getMaxEnergy()
 
-        for atr, (save_key, default_value, cast) in params.iteritems():
-            save = Mengine.getCurrentAccountSetting(save_key)
-            if save == "":
-                self.__dict__[atr] = default_value
-            elif save == "None":
-                self.__dict__[atr] = None
-            else:
-                try:
-                    self.__dict__[atr] = cast(save)
-                except ValueError as e:
-                    if _DEVELOPMENT is True:
-                        Trace.log("System", 0, "Can't load save {}={}: {}. Set to default value".format(atr, save, e))
-                    self.__dict__[atr] = default_value
         try:
             save_time = int(Mengine.getCurrentAccountSetting("EnergyLastSave"))
-        except ValueError:
-            save_time = self._getTimestamp()
+        except (TypeError, ValueError, OverflowError):
+            save_time = timestamp
 
-        if isinstance(self.current_energy, int) is False:
-            Trace.log("System", 0, "SystemEnergy._onLoad current_energy is not integer: {} {}".format(self.current_energy, type(self.current_energy)))
-            self._setupInitialCurrentEnergy()
+        cooldown = self.__parseCooldown(Mengine.getCurrentAccountSetting("EnergyCooldown"))
+        if cooldown is not None and cooldown <= save_time:
+            version = Mengine.getCurrentAccountSetting("EnergyRechargeVersion")
+            if version != ENERGY_RECHARGE_VERSION:
+                # Old saves could still contain the tick they had already credited.
+                cooldown = None
 
         SystemEnergy.in_infinity_mode = SystemEnergy.isAccountEnergyInfinity() is True
-        if SystemEnergy.in_infinity_mode is True:
-            self.current_energy = max(self.current_energy, self.getMaxEnergy())
-        else:
-            self.chargeOnLoad(save_time)
+        if self.in_infinity_mode is True:
+            energy = max(energy, self.getMaxEnergy())
+        elif energy < self.getMaxEnergy():
+            cooldown = self.__getRechargeCooldown(energy, cooldown, save_time)
+            if timestamp < save_time:
+                cooldown = timestamp + max(0, cooldown - save_time)
+            else:
+                gained, cooldown = self.__getRechargeTicks(energy, cooldown, timestamp)
+                energy += gained
 
+        self.__applyProgress(energy, cooldown, timestamp, save=self.in_infinity_mode is False)
         self._loadPaidEnigmas()
 
     def __initSaveProgress(self):
@@ -607,9 +600,9 @@ class SystemEnergy(System):
                 return
             Mengine.addCurrentAccountSetting("EnergyPaidEnigmas", u'', None)
             Mengine.addCurrentAccountSetting("Energy", u'', None)
-            Mengine.addCurrentAccountSetting("EnergyRefill", u'', None)
             Mengine.addCurrentAccountSetting("EnergyCooldown", u'', None)
             Mengine.addCurrentAccountSetting("EnergyLastSave", u'', None)
+            Mengine.addCurrentAccountSetting("EnergyRechargeVersion", u'', None)
             Mengine.addCurrentAccountSetting("EnergyInfinity", u'', None)
 
         from Foundation.AccountManager import AccountManager
@@ -619,7 +612,7 @@ class SystemEnergy(System):
         if Mengine.hasTouchpad() is False or self.isEnable() is False:
             return {}
 
-        self.__saveProgress()
+        self.__saveProgress(self._getTimestamp())
         return {}
 
     def _onLoad(self, save_dict):
@@ -627,41 +620,6 @@ class SystemEnergy(System):
             return
 
         self.__loadProgress()
-
-    def chargeOnLoad(self, save_time):
-        time = self._getTimestamp()
-        time_passed = time - save_time
-        refill_time = self.s_settings["refill_time"]
-        energy_accumulated = int(time_passed // refill_time)
-        max_energy = self.getMaxEnergy()
-
-        if self.current_energy >= max_energy:
-            # User has enough energy, can't accumulate more
-            energy_accumulated = 0
-        elif (self.current_energy + energy_accumulated) > max_energy:
-            # User hasn't enough energy, adjust accumulated (energy bigger than maximum)
-            energy_accumulated = max_energy - self.current_energy
-
-        # CASE 1: no charging process
-        # CASE 2: full charge complete
-        if self.end_refill_timestamp is None or self.end_refill_timestamp - time <= 0:
-            if self.current_energy < max_energy:
-                self.setEnergy(max_energy)
-            self.onCharged()
-        # CASE 3: accumulate some energy, but charging in progress
-        else:
-            if time < save_time:
-                _Log("cheater cheater cheater cheater cheater", err=True)
-                self.setEnergy(0)
-            else:
-                self.addEnergy(energy_accumulated)
-            if self.end_refill_timestamp is not None:
-                # if we add some energy, but it is not enough
-                self.startRecharge(time)
-
-        self.__saveProgress()
-        _Log("{} seconds have passed since the last game: {} energy accumulated"
-             .format(time_passed, energy_accumulated), optional=True)
 
     def _getTimestamp(self):
         # returns local timestamp from device
@@ -713,8 +671,8 @@ class SystemEnergy(System):
             title += "\n* current energy: `{}`/`{}`".format(self.current_energy, self.getMaxEnergy())
             if self.in_recharging:
                 title += "\n* cooldown timestamp: `{}`".format(self.cooldown_timestamp)
-                title += "\n* left seconds to 1 refill: `{}`".format(self.__cooldown_left_seconds)
-                title += "\n* full refill timestamp: `{}`".format(self.end_refill_timestamp)
+                title += "\n* left seconds to 1 refill: `{}`".format(max(0, self.cooldown_timestamp - self._getTimestamp()))
+                title += "\n* full refill timestamp: `{}`".format(self.__getRefillEnd(self.current_energy, self.cooldown_timestamp))
             title += "\n* recharging mode = `{}`".format(self.in_recharging)
             title += "\n* free mode = `{}`".format(self.in_free_mode)
             return title
@@ -772,6 +730,10 @@ class SystemEnergy(System):
             setting = params[0]
             if setting not in self.s_settings:
                 Trace.msg_err("!!! [DevDebugger Energy] setting {!r} not found: {}".format(setting, self.s_settings.keys()))
+                return
+
+            if setting in RECHARGE_TIMING_KEYS:
+                self._cbGetRemoteConfig("energy_" + setting, params[1])
                 return
 
             value = int(params[1]) if params[1].isdigit() else params[1]
