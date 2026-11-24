@@ -7,9 +7,10 @@ from HOPA.StageManager import StageManager
 from Notification import Notification
 
 
-IGNORE_SAVE_SCENES = ["Advertising"]
+IGNORE_SAVE_SCENES = ["Advertising", "Dialog"]
 # Restarting Menu during a background save invalidates open modal groups.
-NO_RESTART_FORCE_SAVE_SCENES = ["Menu", "CutScene", "PreIntro", "Intro", "SplashScreen", "Store", "Advertising", "Credits"]
+# Restarting Dialog skips its story commands while the old scene is being removed.
+NO_RESTART_FORCE_SAVE_SCENES = ["Menu", "Dialog", "CutScene", "PreIntro", "Intro", "SplashScreen", "Store", "Advertising", "Credits"]
 ALWAYS_SAVE_SCENES = ["CutScene"]
 
 SCHEDULE_NOT_ACTIVE = 0
@@ -20,6 +21,7 @@ class SystemAutoSave(System):
     """
         saves game automatically:
             - AutoTransitionSave is True: after scene removed if ready (every AutoTransitionSaveDelaySeconds seconds)
+            - After a story dialogue transitions to another game scene
             - After game enters background on a mobile device
             - When onCheatAutoSave (use -cheats)
     """
@@ -42,6 +44,7 @@ class SystemAutoSave(System):
 
         if DefaultManager.getDefaultBool("AutoTransitionSave", False) is True:
             self.addObserver(Notificator.onSceneRemoved, self.__onSceneRemoved)
+            self.addObserver(Notificator.onTransitionEnd, self.__onTransitionEnd)
             self._schedule()
 
         self.__addDevToDebug()
@@ -117,6 +120,18 @@ class SystemAutoSave(System):
         self._schedule()
 
         return False
+
+    def __onTransitionEnd(self, scene_from, scene_to, zoom_name):
+        if scene_from != "Dialog":
+            return False
+        if scene_to == "Dialog":
+            return False
+        if SceneManager.getCurrentGameSceneName() != scene_to:
+            return False
+        if SceneManager.isSceneInit(scene_to) is False:
+            return False
+
+        return self.__cheatAutoSave()
 
     def _autoSave(self):
         currentStage = StageManager.getCurrentStage()
